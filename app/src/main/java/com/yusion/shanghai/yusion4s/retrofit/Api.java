@@ -4,7 +4,10 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
+import com.yusion.shanghai.yusion4s.retrofit.service.AuthService;
+import com.yusion.shanghai.yusion4s.retrofit.service.ConfigService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OcrService;
+import com.yusion.shanghai.yusion4s.retrofit.service.UploadService;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 
 import java.io.IOException;
@@ -58,12 +61,21 @@ public class Api {
 
     }
 
+    public static UploadService getUploadService() {
+        return retrofit.create(UploadService.class);
+    }
 
     public static OcrService getOcrService() {
         return retrofit.create(OcrService.class);
     }
 
+    public static AuthService getAuthService() {
+        return retrofit.create(AuthService.class);
+    }
 
+    public static ConfigService getConfigService() {
+        return retrofit.create(ConfigService.class);
+    }
     private static void logRequestInfo(Request request) {
         Log.e("API", "\n");
         Log.e("API", "\n******** log request start ******** ");

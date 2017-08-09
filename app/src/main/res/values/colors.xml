@@ -12,4 +12,6 @@
     <color name="bg_color">#f5f7f9</color>
     <color name="text_normal">#222A36</color>
     <color name="main_bg">#F5F7F9</color>
+    <color name="textHintColor">#b1b1b1</color>
+    <color name="main_driver">#ECECEC</color>
 </resources>

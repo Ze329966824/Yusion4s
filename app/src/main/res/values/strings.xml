@@ -12,4 +12,15 @@
     <string name="main_calculator">融资计算器</string>
     <string name="main_setting">设置</string>
     <string name="main_service">联系客服</string>
+    <!--设置模块-->
+    <string name="main_setting_title">设置</string>
+    <string name="main_setting_agreement">用户协议</string>
+    <string name="main_setting_version_name">版本信息</string>
+    <string name="main_setting_version_code">1.0.0</string>
+    <string name="main_setting_logout">退出登录</string>
+
+    <string name="mine_logout_dialog_title">提示</string>
+    <string name="mine_logout_dialog_msg">是否退出登录</string>
+    <string name="mine_logout_dialog_sure">确定</string>
+    <string name="mine_logout_dialog_cancle">取消</string>
 </resources>

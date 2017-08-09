@@ -13,14 +13,16 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 
 /**
  * A simple {@link Fragment} subclass.
  */
-public class MineFragment extends Fragment {
+public class MineFragment extends BaseFragment implements View.OnClickListener {
 
 //    private LinearLayout mFragmentCalculatorTvRelativeLayout;
-//    private LinearLayout mFragmentSettingTvRelativeLayout;
+    private LinearLayout mFragmentSettingTvRelativeLayout;
 //    private LinearLayout mFragmentEmployeeTvTextView;
 //    private TextView mName;
 //    private TextView mMobile;
@@ -50,21 +52,41 @@ public class MineFragment extends Fragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-//        initView(view);
+        initView(view);
     }
 
-//    private void initView(View view) {
+    private void initView(View view) {
 //        mFragmentEmployeeTvTextView = (LinearLayout) view.findViewById(R.id.mine_fragment_employee_tv);
 //        mFragmentEmployeeTvTextView.setOnClickListener(this);
 //        mFragmentCalculatorTvRelativeLayout = (LinearLayout) view.findViewById(R.id.mine_fragment_calculator_tv);
 //        mFragmentCalculatorTvRelativeLayout.setOnClickListener(this);
-//        mFragmentSettingTvRelativeLayout = (LinearLayout) view.findViewById(R.id.mine_fragment_setting_tv);
-//        mFragmentSettingTvRelativeLayout.setOnClickListener(this);
+        mFragmentSettingTvRelativeLayout = (LinearLayout) view.findViewById(R.id.mine_fragment_setting_tv);
+        mFragmentSettingTvRelativeLayout.setOnClickListener(this);
 //        mName = ((TextView) view.findViewById(R.id.mine_name_tv));
 //        mMobile = ((TextView) view.findViewById(R.id.mine_mobile_tv));
 //        mRole = ((ImageView) view.findViewById(R.id.mine_role_img));
-//    }
-//
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+//            case R.id.mine_fragment_employee_tv:
+//                Intent intent = new Intent(getActivity(), StaffManageActivity.class);
+//                startActivity(intent);
+//                break;
+//            case R.id.mine_fragment_calculator_tv:
+//                Intent intent2 = new Intent(getActivity(), WebViewActivity.class);
+//                intent2.putExtra("title", getResources().getString(R.string.main_calculator));
+//                intent2.putExtra("url", JsonUtils.getConfigValueFromKey("calc_url"));
+//                startActivity(intent2);
+//                break;
+            case R.id.mine_fragment_setting_tv:
+                Intent intent3 = new Intent(getActivity(), SettingsActivity.class);
+                startActivity(intent3);
+                break;
+        }
+    }
+
 //
 //    @Override
 //    public void onClick(View v) {
