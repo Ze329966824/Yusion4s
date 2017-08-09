@@ -1,3 +1,15 @@
 <resources>
     <string name="app_name">Yusion4s</string>
+    <string name="order_apply">申请融资</string>
+    <string name="order">申请管理</string>
+    <string name="mine">我的</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--我的模块-->
+    <string name="main_employee">员工管理</string>
+    <string name="main_calculator">融资计算器</string>
+    <string name="main_setting">设置</string>
+    <string name="main_service">联系客服</string>
 </resources>
