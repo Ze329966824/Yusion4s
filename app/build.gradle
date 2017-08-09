@@ -1,0 +1,72 @@
+import java.text.SimpleDateFormat
+
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+apply plugin: 'kotlin-android-extensions'
+apply plugin: 'me.tatarka.retrolambda'
+
+android {
+    compileSdkVersion 25
+    buildToolsVersion "26.0.0"
+    defaultConfig {
+        applicationId "com.yusion.shanghai.yusion4s"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "V1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+    signingConfigs {
+        debug {
+            storeFile file(RELEASE_STORE_FILE)
+            storePassword RELEASE_STORE_PASSWORD
+            keyAlias RELEASE_KEY_ALIAS
+            keyPassword RELEASE_KEY_PASSWORD
+        }
+    }
+    applicationVariants.all { variant ->
+        variant.outputs.each { output ->
+//projectDir是app目录
+            output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", "yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+}
+
+static def buildTime() {
+    def df = new SimpleDateFormat("MMdd")
+    df.setTimeZone(TimeZone.getDefault())
+    return df.format(new Date())
+}
+
+dependencies {
+    compile fileTree(dir: 'libs', include: ['*.jar'])
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    compile 'com.android.support:appcompat-v7:25.3.1'
+    compile 'com.android.support.constraint:constraint-layout:1.0.2'
+    compile 'com.github.bumptech.glide:glide:4.0.0'
+    compile 'com.pgyersdk:sdk:2.7.0'
+    compile 'com.android.support:recyclerview-v7:25.3.1'
+    compile 'org.greenrobot:eventbus:3.0.0'
+    compile 'com.github.hackware1993:MagicIndicator:1.5.0'
+    compile 'com.chanven.lib:cptr:1.1.0'
+    compile 'com.github.ybq:Android-SpinKit:1.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
+    testCompile 'junit:junit:4.12'
+    annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'
+}
+repositories {
+    mavenCentral()
+}
