@@ -18,8 +18,6 @@ import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import java.util.Date;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class LaunchActivity extends BaseActivity {
 
@@ -29,21 +27,6 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.activity_launch);
         Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
         getConfigJson();
-        getDelayed();
-    }
-
-    private void getDelayed() {
-        Timer timer = new Timer();
-        TimerTask task = new TimerTask() {
-            @Override
-            public void run() {
-                Intent intent = new Intent(LaunchActivity.this,LoginActivity.class);
-                startActivity(intent);
-                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
-            }
-        };
-        timer.schedule(task, 2500);
-
     }
 
 
