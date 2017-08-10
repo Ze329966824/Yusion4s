@@ -18,10 +18,12 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 
-public class SettingsActivity extends BaseActivity  implements View.OnClickListener{
+public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     private String desc;
     private String url;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,12 +38,14 @@ public class SettingsActivity extends BaseActivity  implements View.OnClickListe
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
-//            case R.id.main_setting_agreement_layout:
-//                Intent intent2 = new Intent(SettingsActivity.this, WebViewActivity.class);
-//                intent2.putExtra("title", getResources().getString(R.string.main_setting_agreement));
-//                intent2.putExtra("url", JsonUtils.getConfigValueFromKey("agreement_url"));
-//                startActivity(intent2);
-//                break;
+            case R.id.main_setting_agreement_layout:
+                Intent intent = new Intent(SettingsActivity.this, WebViewActivity.class);
+                intent.putExtra("type", "Agreement");
+
+
+                startActivity(intent);
+                break;
+
             case R.id.main_setting_logout_layout:
                 showLogoutDialog();
 
@@ -85,11 +89,12 @@ public class SettingsActivity extends BaseActivity  implements View.OnClickListe
         startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
         finish();
     }
+
     private void initUpdateListener() {
         PgyUpdateManager.register(SettingsActivity.this, null, new UpdateManagerListener() {
             @Override
             public void onNoUpdateAvailable() {
-                Toast.makeText(SettingsActivity.this,"已经是最新版本，不需要更新",Toast.LENGTH_SHORT).show();
+                Toast.makeText(SettingsActivity.this, "已经是最新版本，不需要更新", Toast.LENGTH_SHORT).show();
             }
 
             @Override

@@ -9,6 +9,7 @@ import android.util.Log;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
+import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.token.CheckTokenResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
@@ -17,8 +18,10 @@ import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
-public class LaunchActivity extends AppCompatActivity {
+public class LaunchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +29,21 @@ public class LaunchActivity extends AppCompatActivity {
         setContentView(R.layout.activity_launch);
         Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
         getConfigJson();
+        getDelayed();
+    }
+
+    private void getDelayed() {
+        Timer timer = new Timer();
+        TimerTask task = new TimerTask() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(LaunchActivity.this,LoginActivity.class);
+                startActivity(intent);
+                overridePendingTransition(android.R.anim.fade_in,android.R.anim.fade_out);
+            }
+        };
+        timer.schedule(task, 2500);
+
     }
 
 
