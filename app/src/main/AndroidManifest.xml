@@ -41,6 +41,8 @@
             android:screenOrientation="portrait"/>
         <activity android:name=".ui.main.SettingsActivity">
         </activity>
+        <activity android:name=".ui.entrance.WebViewActivity">
+        </activity>
     </application>
 
 </manifest>

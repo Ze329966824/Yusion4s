@@ -8,6 +8,7 @@ import java.util.List;
  */
 
 public class ConfigResp {
+    public String agreement_url = "";
     public List<String> loan_periods_key = new ArrayList<>();
     public List<String> loan_periods_value = new ArrayList<>();
     public List<String> label_list_key = new ArrayList<>();

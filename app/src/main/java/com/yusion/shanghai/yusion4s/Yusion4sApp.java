@@ -15,8 +15,8 @@ public class Yusion4sApp extends Application{
     private static Yusion4sApp myApplication = null;
     public static String TOKEN;
     public static String MOBILE;
-    public static ConfigResp mConfigResp;
-    public static UserInfoBean mUserInfoBean;
+    public static ConfigResp CONFIG_RESP;
+    public static UserInfoBean USERINFOBEAN;
     @Override
     public void onCreate() {
         super.onCreate();
@@ -26,7 +26,7 @@ public class Yusion4sApp extends Application{
     public void clearUserData() {
         TOKEN = "";
         MOBILE = "";
-        mUserInfoBean = null;
+        USERINFOBEAN = null;
 
         SharedPrefsUtil.getInstance(this).putValue("token", TOKEN);
         SharedPrefsUtil.getInstance(this).putValue("mobile", MOBILE);

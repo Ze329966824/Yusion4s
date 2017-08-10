@@ -30,7 +30,7 @@ public class ConfigApi {
      */
     public static void getConfigJson(final Context context, final OnDataCallBack<ConfigResp> onDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getConfigService().getConfigJson().enqueue(new CustomResponseBodyCallBack(context,dialog) {
+        Api.getConfigService().getConfigJson().enqueue(new CustomResponseBodyCallBack(context, dialog) {
             @Override
             public void onCustomResponse(String body) {
                 JSONObject data;
@@ -42,7 +42,7 @@ public class ConfigApi {
                         data = new JSONObject(body).getJSONObject("data");
                         SharedPrefsUtil.getInstance(context).putValue("config_json", data.toString());
                     }
-                    onDataCallBack.callBack(parseJsonObject2ConfigResp(context,data));
+                    onDataCallBack.callBack(parseJsonObject2ConfigResp(context, data));
                 } catch (JSONException e) {
                     //两种可能 一种是用户第一次使用APP时未能成功拉取服务器配置文件 一种是parseJsonObject2ConfigResp解析出错
                     Toast.makeText(context, "静态文件获取失败，请重新打开APP。", Toast.LENGTH_SHORT).show();
@@ -53,8 +53,7 @@ public class ConfigApi {
     }
 
 
-
-            private static ConfigResp parseJsonObject2ConfigResp(Context context, JSONObject jsonObject) throws JSONException {
+    private static ConfigResp parseJsonObject2ConfigResp(Context context, JSONObject jsonObject) throws JSONException {
         ConfigResp configResp = new ConfigResp();
 
 //        JSONArray employee_position_list = jsonObject.getJSONArray("employee_position");
@@ -69,6 +68,9 @@ public class ConfigApi {
 //        for (int i = 0; i < loan_periods_list.length(); i++) {
 //            configResp.loan_periods_list.add(loan_periods_list.getInt(i));
 //        }
+
+        String agreement_url = jsonObject.optString("agreement_url");
+        configResp.agreement_url = agreement_url;
 
         JSONArray loan_periods = jsonObject.optJSONArray("loan_periods");
         for (int i = 0; loan_periods != null && i < loan_periods.length(); i++) {
@@ -91,7 +93,7 @@ public class ConfigApi {
         JSONArray dealer_material = jsonObject.optJSONArray("dealer_material");
         configResp.dealer_material = dealer_material != null ? dealer_material.toString() : "";
 
-        Yusion4sApp.mConfigResp = configResp;
+        Yusion4sApp.CONFIG_RESP = configResp;
 
         return configResp;
     }
