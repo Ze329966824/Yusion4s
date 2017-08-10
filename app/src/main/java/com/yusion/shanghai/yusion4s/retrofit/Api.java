@@ -6,7 +6,9 @@ import android.util.Log;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.retrofit.service.AuthService;
 import com.yusion.shanghai.yusion4s.retrofit.service.ConfigService;
+import com.yusion.shanghai.yusion4s.retrofit.service.DlrService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OcrService;
+import com.yusion.shanghai.yusion4s.retrofit.service.OrderService;
 import com.yusion.shanghai.yusion4s.retrofit.service.UploadService;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 
@@ -76,6 +78,15 @@ public class Api {
     public static ConfigService getConfigService() {
         return retrofit.create(ConfigService.class);
     }
+
+    public static OrderService getOrderService() {
+        return retrofit.create(OrderService.class);
+    }
+
+    public static DlrService getDlrService() {
+        return retrofit.create(DlrService.class);
+    }
+
     private static void logRequestInfo(Request request) {
         Log.e("API", "\n");
         Log.e("API", "\n******** log request start ******** ");

@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+    <!--0.1的误差适配于乐视-->
+    <item
+        android:width="21dp"
+        android:height="21dp"
+        android:bottom="3dp"
+        android:left="3.1dp"
+        android:right="3dp"
+        android:top="3.1dp">
+        <shape android:shape="oval">
+            <solid android:color="@color/apply_step_style_1_color" />
+        </shape>
+    </item>
+    <item
+        android:width="27dp"
+        android:height="27dp">
+        <shape
+            android:innerRadius="11.5dp"
+            android:shape="ring"
+            android:thickness="0.5dp"
+            android:useLevel="false">
+            <solid android:color="@color/apply_step_style_1_color" />
+        </shape>
+    </item>
+</layer-list>
