@@ -17,10 +17,12 @@ import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.aliyun.common.httpfinal.QupaiHttpFinal;
 import com.pbq.pickerlib.R;
 import com.pbq.pickerlib.adapter.PhotoMediaAdapter;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.pbq.pickerlib.util.PhoneInfoUtil;
+import com.pbq.pickerlib.video.AlibabaStandardActivity;
 import com.pbq.pickerlib.view.ImageFolderPopWindow;
 
 import java.io.File;
@@ -32,6 +34,8 @@ import java.util.HashMap;
  * 图片选择和视频选择
  */
 public class PhotoMediaActivity extends AppCompatActivity {
+    //拍摄视频上传
+    public static final int REQUEST_TAKE_VIDEO = 0;
     /**
      * 在视频选择中录像的请求码
      */
@@ -92,6 +96,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
         setContentView(R.layout.photo_media_activity);
         initData();
         init();
+        QupaiHttpFinal.getInstance().initOkHttpFinal();
     }
 
     /**
@@ -400,10 +405,11 @@ public class PhotoMediaActivity extends AppCompatActivity {
      */
     public void takeVideo(PhotoVideoDir imageDir) {
         cameraFile = new File(imageDir.dirPath, System.currentTimeMillis() + ".mp4");
-        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
-        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
-        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+//        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+//        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
+//        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
+//        startActivityForResult(intent, REQUEST_CODE_CAMERA);
+        startActivityForResult(new Intent(this, AlibabaStandardActivity.class), REQUEST_TAKE_VIDEO);
     }
 
     @Override
@@ -414,6 +420,17 @@ public class PhotoMediaActivity extends AppCompatActivity {
         }
         //在相册选择中拍照返回事件
         if (requestCode == REQUEST_CODE_CAMERA) {
+            if (cameraFile != null && cameraFile.exists()) {
+                updateGalleray(cameraFile.getPath());
+                currentDir.selectedFiles.add(cameraFile.getPath());
+                currentDir.files.add(0, cameraFile.getPath());
+                loadImages(currentDir);
+                updateNext();
+            }
+        }
+        if (requestCode == REQUEST_TAKE_VIDEO) {
+            ArrayList<String> videos = (ArrayList<String>) data.getSerializableExtra("videos");
+            cameraFile = new File(videos.get(0));
             if (cameraFile != null && cameraFile.exists()) {
                 updateGalleray(cameraFile.getPath());
                 currentDir.selectedFiles.add(cameraFile.getPath());

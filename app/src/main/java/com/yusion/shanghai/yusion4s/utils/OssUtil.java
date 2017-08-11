@@ -43,7 +43,9 @@ import retrofit2.Response;
 public class OssUtil {
     public static void uploadOss(final Context context, boolean showDialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-
+        if (showDialog) {
+            dialog.show();
+        }
         Map<String, String> body = new LinkedHashMap<>();
         body.put("duration_second", "1800");
         body.put("method", "put");

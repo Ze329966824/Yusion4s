@@ -50,6 +50,9 @@ public class LoginActivity extends BaseActivity {
             }
         });
         findViewById(R.id.login_submit_btn).setOnClickListener(v -> {
+//            Intent i = new Intent(LoginActivity.this, PhotoMediaActivity.class);
+//            i.putExtra("loadType", PhotoVideoDir.Type.VIDEO.toString());
+//            startActivityForResult(i, 100);
             LoginReq req = new LoginReq();
             String account = mLoginAccountTV.getText().toString();
             String password = mLoginPasswordTV.getText().toString();
@@ -68,12 +71,10 @@ public class LoginActivity extends BaseActivity {
 
     private void loginSuccess(LoginResp resp) {
         if (resp != null) {
-
-
-        Yusion4sApp.TOKEN = resp.token;
-        SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
-        startActivity(new Intent(LoginActivity.this, MainActivity.class));
-        finish();
+            Yusion4sApp.TOKEN = resp.token;
+            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            finish();
         }
     }
 
