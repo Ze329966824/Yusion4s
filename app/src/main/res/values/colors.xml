@@ -10,11 +10,13 @@
     <color name="apply_step_style_1_color">#06B7A3</color>
     <color name="apply_step_style_2_color">#FFC723</color>
     <color name="apply_step_style_3_color">#DADBDD</color>
-
+    <color name="text_light_grey">#888888</color>
     <color name="white">#FFFFFF</color>
     <color name="bg_color">#f5f7f9</color>
     <color name="text_normal">#222A36</color>
     <color name="main_bg">#F5F7F9</color>
     <color name="textHintColor">#b1b1b1</color>
     <color name="main_driver">#ECECEC</color>
+    <color name="btn_blue">#007cc1</color>
+
 </resources>
