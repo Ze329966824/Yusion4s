@@ -1,4 +1,5 @@
 package com.pbq.pickerlib.video;
+
 import android.animation.Animator;
 import android.app.Activity;
 import android.content.ActivityNotFoundException;
@@ -235,7 +236,7 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
         });
         mClipManager = mRecorder.getClipManager();
         mClipManager.setMinDuration(minDuration);
-        mClipManager.setMaxDuration(5000);
+        mClipManager.setMaxDuration(60000 * 5);
         mRecordTimelineView.setMaxDuration(mClipManager.getMaxDuration());
         mRecordTimelineView.setMinDuration(mClipManager.getMinDuration());
         int[] resolution = getResolution();
