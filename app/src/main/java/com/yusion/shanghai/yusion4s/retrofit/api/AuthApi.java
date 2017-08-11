@@ -2,14 +2,12 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.bean.token.CheckTokenResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 

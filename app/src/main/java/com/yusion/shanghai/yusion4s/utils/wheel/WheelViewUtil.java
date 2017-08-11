@@ -63,8 +63,8 @@ public class WheelViewUtil {
             imm.hideSoftInputFromWindow(clickedView.getApplicationWindowToken(), 0);
         }
 
-        View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout, null);
-
+        //View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout, null);
+        View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout,null);
         TextView textTitle = (TextView) wheelViewLayout.findViewById(R.id.select_title);
         textTitle.setText(title);
 

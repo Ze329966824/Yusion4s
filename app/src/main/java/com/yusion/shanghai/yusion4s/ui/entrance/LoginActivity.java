@@ -3,7 +3,6 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -54,7 +53,6 @@ public class LoginActivity extends BaseActivity {
             LoginReq req = new LoginReq();
             String account = mLoginAccountTV.getText().toString();
             String password = mLoginPasswordTV.getText().toString();
-
             if (TextUtils.isEmpty(account)) {
                 Toast.makeText(myApp, "账号不能为空!", Toast.LENGTH_SHORT).show();
                 return;
@@ -64,21 +62,16 @@ public class LoginActivity extends BaseActivity {
             }
             req.username = account;
             req.password = password;
-
             AuthApi.login(this, req, this::loginSuccess);
         });
     }
 
     private void loginSuccess(LoginResp resp) {
-        if (resp != null) {
-            Yusion4sApp.TOKEN = resp.token;
 
-            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
-            startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            finish();
-
-        }
-
+        Yusion4sApp.TOKEN = resp.token;
+        SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
+        startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        finish();
     }
 
     @Override

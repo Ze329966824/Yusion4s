@@ -58,8 +58,8 @@ public class OssUtil {
 
                 OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossTokenBean.AccessKeyId, ossTokenBean.AccessKeySecret, ossTokenBean.SecurityToken);
                 OSS oss = new OSSClient(context, ossTokenBean.FidDetail.Region, credentialProvider);
-                SharedPrefsUtil.getInstance(context).putValue("region",ossTokenBean.FidDetail.Region);
-                SharedPrefsUtil.getInstance(context).putValue("bucket",ossTokenBean.FidDetail.Bucket);
+                SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
+                SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
 
                 oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
                     @Override

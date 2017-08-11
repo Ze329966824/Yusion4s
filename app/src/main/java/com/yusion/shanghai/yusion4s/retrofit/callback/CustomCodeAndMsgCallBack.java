@@ -46,6 +46,7 @@ public abstract class CustomCodeAndMsgCallBack implements Callback<BaseResult> {
             }
             if (body.code == -1) {
                 context.startActivity(new Intent(context, LoginActivity.class));
+                return;
             }
         }
         onCustomResponse(body.code,body.msg);

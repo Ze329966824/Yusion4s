@@ -51,6 +51,7 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
             }
             if (body.code == -1) {
                 context.startActivity(new Intent(context, LoginActivity.class));
+                return;
             }
         }
         onCustomResponse(body.data);

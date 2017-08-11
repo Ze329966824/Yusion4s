@@ -11,6 +11,11 @@ import android.view.ViewGroup;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
+import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
+import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -20,14 +25,16 @@ import org.greenrobot.eventbus.Subscribe;
  */
 public class ApplyFinancingFragment extends BaseFragment {
 
-//    private CarInfoFragment mCarInfoFragment;
-//    private CreditInfoFragment mCreditInfoFragment;
-//    private Fragment mCurrentFragment;
-//    public SubmitOrderReq req = new SubmitOrderReq();
+    private CarInfoFragment mCarInfoFragment;
+    private CreditInfoFragment mCreditInfoFragment;
+    private Fragment mCurrentFragment;
+    public SubmitOrderReq req = new SubmitOrderReq();
 
-
-    public ApplyFinancingFragment() {
-        // Required empty public constructor
+    public static ApplyFinancingFragment newInstance() {
+        Bundle args = new Bundle();
+        ApplyFinancingFragment fragment = new ApplyFinancingFragment();
+        fragment.setArguments(args);
+        return fragment;
     }
 
 
@@ -38,79 +45,75 @@ public class ApplyFinancingFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_apply_financing, container, false);
     }
 
-    public static ApplyFinancingFragment newInstance() {
-
-        Bundle args = new Bundle();
-        ApplyFinancingFragment fragment = new ApplyFinancingFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initTitleBar(view, "申请融资");
-//        setBackHide();
-//        mCarInfoFragment = CarInfoFragment.newInstance();
-//        mCreditInfoFragment = CreditInfoFragment.newInstance();
+
+        //setBackHide();
+
+        mCarInfoFragment = CarInfoFragment.newInstance();
+        mCreditInfoFragment = CreditInfoFragment.newInstance();
         /**
          * 测试时改变了显示的fragment  将mCreditInfoFragment显示，隐藏mCarInfoFragment
          *
          * 后续记得改回来
          */
-//        getChildFragmentManager()
-//                .beginTransaction()
-//                .add(R.id.apply_financing_container, mCarInfoFragment)
-//                .add(R.id.apply_financing_container, mCreditInfoFragment)
-//                .hide(mCreditInfoFragment)
-//                .commit();
-//        mCurrentFragment = mCarInfoFragment;
+        getChildFragmentManager()
+                .beginTransaction()
+                .add(R.id.apply_financing_container, mCarInfoFragment)
+                .add(R.id.apply_financing_container, mCreditInfoFragment)
+                .hide(mCarInfoFragment)
+                .commit();
+        mCurrentFragment = mCreditInfoFragment;
     }
-//    @Override
-//    public void onCreate(@Nullable Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        EventBus.getDefault().register(this);
-//    }
-//
-//    @Override
-//    public void onDestroy() {
-//        super.onDestroy();
-//        if (EventBus.getDefault().isRegistered(this)) {
-//            EventBus.getDefault().unregister(this);
-//        }
-//    }
-//
-//
-//    @Subscribe
-//    public void changeFragment(ApplyFinancingFragmentEvent event) {
-//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//        switch (event) {
-//            case showCarInfo:
-//                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
-//                mCurrentFragment = mCarInfoFragment;
-//                break;
-//            case showCreditInfo:
-//                transaction.hide(mCurrentFragment).show(mCreditInfoFragment);
-//                mCurrentFragment = mCreditInfoFragment;
-//                break;
-//            case reset:
-//                req = new SubmitOrderReq();
-//                getChildFragmentManager()
-//                        .beginTransaction()
-//                        .remove(mCarInfoFragment)
-//                        .remove(mCreditInfoFragment)
-//                        .commit();
-//                mCarInfoFragment = CarInfoFragment.newInstance();
-//                mCreditInfoFragment = CreditInfoFragment.newInstance();
-//                getChildFragmentManager()
-//                        .beginTransaction()
-//                        .add(R.id.apply_financing_container, mCarInfoFragment)
-//                        .add(R.id.apply_financing_container, mCreditInfoFragment)
-//                        .hide(mCreditInfoFragment)
-//                        .commit();
-//                mCurrentFragment = mCarInfoFragment;
-//                break;
-//        }
-//        transaction.commit();
-//    }
+
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+
+    @Subscribe
+    public void changeFragment(ApplyFinancingFragmentEvent event) {
+        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+        switch (event) {
+            case showCarInfo:
+                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
+                mCurrentFragment = mCarInfoFragment;
+                break;
+            case showCreditInfo:
+                transaction.hide(mCurrentFragment).show(mCreditInfoFragment);
+                mCurrentFragment = mCreditInfoFragment;
+                break;
+            case reset:
+                req = new SubmitOrderReq();
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .remove(mCarInfoFragment)
+                        .remove(mCreditInfoFragment)
+                        .commit();
+                mCarInfoFragment = CarInfoFragment.newInstance();
+                mCreditInfoFragment = CreditInfoFragment.newInstance();
+                getChildFragmentManager()
+                        .beginTransaction()
+                        .add(R.id.apply_financing_container, mCarInfoFragment)
+                        .add(R.id.apply_financing_container, mCreditInfoFragment)
+                        .hide(mCreditInfoFragment)
+                        .commit();
+                mCurrentFragment = mCarInfoFragment;
+                break;
+        }
+        transaction.commit();
+    }
 }
