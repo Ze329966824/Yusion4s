@@ -50,6 +50,9 @@ public class LoginActivity extends BaseActivity {
             }
         });
         findViewById(R.id.login_submit_btn).setOnClickListener(v -> {
+//            Intent i = new Intent(LoginActivity.this, PhotoMediaActivity.class);
+//            i.putExtra("loadType", PhotoVideoDir.Type.VIDEO.toString());
+//            startActivityForResult(i, 100);
             LoginReq req = new LoginReq();
             String account = mLoginAccountTV.getText().toString();
             String password = mLoginPasswordTV.getText().toString();

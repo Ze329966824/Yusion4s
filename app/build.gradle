@@ -10,7 +10,7 @@ android {
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.yusion.shanghai.yusion4s"
-        minSdkVersion 14
+        minSdkVersion 15
         targetSdkVersion 21
         versionCode 1
         versionName "V1.0"
@@ -40,6 +40,11 @@ android {
         sourceCompatibility JavaVersion.VERSION_1_8
         targetCompatibility JavaVersion.VERSION_1_8
     }
+    sourceSets.main {
+        assets.srcDirs = ['assets']
+        jniLibs.srcDirs = ['libs']//指定jniLibs文件夹路径
+        jni.srcDirs = []//不编译jni
+    }
 }
 
 static def buildTime() {
@@ -53,6 +58,7 @@ dependencies {
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
+    compile(name: 'AliyunSdk-RC', ext: 'aar')
     compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'

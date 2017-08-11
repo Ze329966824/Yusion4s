@@ -13,6 +13,7 @@ import android.view.View;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
 
 import org.json.JSONArray;
 import org.json.JSONException;
