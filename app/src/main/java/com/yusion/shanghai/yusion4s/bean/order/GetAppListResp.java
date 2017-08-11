@@ -50,6 +50,9 @@ public class GetAppListResp {
     public Object dlr_dfim_mobile;
     public String app_id;
 
+    public String status_code;
+    public int status_st;
+
     @Override
     public String toString() {
         return "GetAppListResp{" +
@@ -57,7 +60,7 @@ public class GetAppListResp {
                 ", loan_amt='" + loan_amt + '\'' +
                 ", vehicle_loan_amt='" + vehicle_loan_amt + '\'' +
                 ", vehicle_down_payment='" + vehicle_down_payment + '\'' +
-                ", nper=" + nper +
+                ", nper='" + nper + '\'' +
                 ", management_fee='" + management_fee + '\'' +
                 ", other_fee='" + other_fee + '\'' +
                 ", clt_nm='" + clt_nm + '\'' +
@@ -65,15 +68,17 @@ public class GetAppListResp {
                 ", dlr_nm='" + dlr_nm + '\'' +
                 ", brand='" + brand + '\'' +
                 ", trix='" + trix + '\'' +
-                ", status='" + status + '\'' +
                 ", model_name='" + model_name + '\'' +
                 ", msrp='" + msrp + '\'' +
+                ", status='" + status + '\'' +
                 ", app_ts='" + app_ts + '\'' +
-                ", app_id='" + app_id + '\'' +
                 ", dlr_sales_nm='" + dlr_sales_nm + '\'' +
                 ", dlr_sales_mobile='" + dlr_sales_mobile + '\'' +
                 ", dlr_dfim_nm=" + dlr_dfim_nm +
                 ", dlr_dfim_mobile=" + dlr_dfim_mobile +
+                ", app_id='" + app_id + '\'' +
+                ", status_code='" + status_code + '\'' +
+                ", status_st=" + status_st +
                 '}';
     }
 }

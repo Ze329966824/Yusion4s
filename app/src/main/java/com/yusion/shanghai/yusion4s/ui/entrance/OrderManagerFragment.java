@@ -60,8 +60,8 @@ public class OrderManagerFragment extends BaseFragment {
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         ArrayList<Fragment> mFragments = new ArrayList<>();
-        String[] mTabTitle = {"全部", "待审核", "审核失败", "待签约", "签约失败", "放款中", "放款成功", "放款失败"};
-        String[] mStCode = {"0", "2", "3", "4", "5", "6", "7", "8"};
+        String[] mTabTitle = {"全部", "待审核", "审核失败", "待确认金融方案", "放款中", "放款成功", "已取消"};
+        String[] mStCode = {"0", "2", "3", "4", "6", "7", "9"};
         for (int i = 0; i < mTabTitle.length; i++) {
             mFragments.add(OrderItemFragment.newInstance(mStCode[i]));
         }
