@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.yusion.shanghai.yusion4s">
+    package="com.yusion.shanghai.yusion4s">
 
     <!-- pgy -->
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/> <!-- 获取网络状态 -->
-    <uses-permission android:name="android.permission.INTERNET"/> <!-- 网络通信 -->
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/> <!-- 获取设备信息 -->
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/> <!-- 获取MAC地址 -->
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/> <!-- 读写sdcard，storage等等 -->
-    <uses-permission android:name="android.permission.RECORD_AUDIO"/> <!-- 允许程序录制音频 -->
-    <uses-permission android:name="android.permission.GET_TASKS"/>
-    <uses-permission android:name="android.permission.READ_LOGS"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" /> <!-- 获取网络状态 -->
+    <uses-permission android:name="android.permission.INTERNET" /> <!-- 网络通信 -->
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" /> <!-- 获取设备信息 -->
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" /> <!-- 获取MAC地址 -->
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" /> <!-- 读写sdcard，storage等等 -->
+    <uses-permission android:name="android.permission.RECORD_AUDIO" /> <!-- 允许程序录制音频 -->
+    <uses-permission android:name="android.permission.GET_TASKS" />
+    <uses-permission android:name="android.permission.READ_LOGS" />
 
     <application
         android:name=".Yusion4sApp"
@@ -23,25 +23,26 @@
         <!-- pgy -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="5875beef263c5a292094ccb04c1cd0c3"/>
+            android:value="5875beef263c5a292094ccb04c1cd0c3" />
 
         <activity android:name=".ui.entrance.LaunchActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
+                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".ui.MainActivity"
-            android:screenOrientation="portrait"/>
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.order.OrderDetailActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".ui.entrance.LoginActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".ui.main.SettingsActivity">
-        </activity>
-        <activity android:name=".ui.entrance.WebViewActivity">
-        </activity>
+            android:screenOrientation="portrait" />
+        <activity android:name=".ui.main.SettingsActivity"></activity>
+        <activity android:name=".ui.entrance.WebViewActivity"></activity>
     </application>
 
 </manifest>

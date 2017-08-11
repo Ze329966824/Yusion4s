@@ -8,7 +8,7 @@
         android:id="@+id/title_bar"
         layout="@layout/base_titlebar" />
 
-    <com.wangzi.wangziutils.widget.ElasticScrollView
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_above="@+id/order_detail_sign_layout"
@@ -1126,7 +1126,7 @@
             </LinearLayout>
 
         </LinearLayout>
-    </com.wangzi.wangziutils.widget.ElasticScrollView>
+    </ScrollView>
 
     <LinearLayout
         android:id="@+id/order_detail_sign_layout"
