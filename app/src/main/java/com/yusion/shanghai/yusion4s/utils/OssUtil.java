@@ -11,6 +11,7 @@ import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
+import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
@@ -63,6 +64,12 @@ public class OssUtil {
                 SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
                 SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
 
+                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+                    @Override
+                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+                    }
+                });
                 oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
                     @Override
                     public void onSuccess(PutObjectRequest request, PutObjectResult result) {
