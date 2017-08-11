@@ -288,66 +288,33 @@ public class CreditInfoFragment extends BaseFragment {
             if (requestCode == 1000) {
                 switch (currentClickedView) {
                     case R.id.credit_info_sqs1_img:
-                        if (Build.MANUFACTURER.toLowerCase().equals("samsung")) {
-                            //Picasso.with(mContext).load(new File(url)).rotate(90f).into(sqs1Img);
-                            Glide.with(mContext).load(sqsFile1).into(sqs1Img);
-                            //Picasso.with(mContext).load(new File(url)).rotate(0f).into(sqs1Img);
-                            Glide.with(mContext).load(sqsFile1).into(sqs1Img);
-                        }
-
+                        Glide.with(mContext).load(sqsFile1).into(sqs1Img);
                         OssUtil.uploadOss(mContext, true, sqsFile1.getAbsolutePath(), new OSSObjectKeyBean("lender", "auth_credit", ".png"), new OnItemDataCallBack<String>() {
                             @Override
                             public void onItemDataCallBack(String objectKey) {
                                 sqs1Url = objectKey;
                             }
-                        }, new OnItemDataCallBack<Throwable>() {
-                            @Override
-                            public void onItemDataCallBack(Throwable data) {
-
-                            }
-                        });
-
+                        }, null);
                         break;
-                    case R.id.credit_info_sqs2_img:
-                        if (Build.MANUFACTURER.toLowerCase().equals("samsung")) {
-                            //Picasso.with(mContext).load(new File(url)).rotate(90f).into(sqs2Img);
-                            Glide.with(mContext).load(sqsFile2).into(sqs2Img);
-                        } else {
-                            // Picasso.with(mContext).load(new File(url)).rotate(0f).into(sqs2Img);
-                            Glide.with(mContext).load(sqsFile2).into(sqs2Img);
-                        }
 
+                    case R.id.credit_info_sqs2_img:
+                        Glide.with(mContext).load(sqsFile2).into(sqs2Img);
                         OssUtil.uploadOss(mContext, true, sqsFile2.getAbsolutePath(), new OSSObjectKeyBean("lender_sp", "auth_credit", ".png"), new OnItemDataCallBack<String>() {
                             @Override
                             public void onItemDataCallBack(String objectKey) {
                                 sqs2Url = objectKey;
                             }
-                        }, new OnItemDataCallBack<Throwable>() {
-                            @Override
-                            public void onItemDataCallBack(Throwable data) {
-
-                            }
-                        });
+                        }, null);
                         break;
+
                     case R.id.credit_info_sqs3_img:
-                        if (Build.MANUFACTURER.toLowerCase().equals("samsung")) {
-                            // Picasso.with(mContext).load(new File(url)).rotate(90f).into(sqs3Img);
-                            Glide.with(mContext).load(sqsFile3).into(sqs3Img);
-                        } else {
-                            // Picasso.with(mContext).load(new File(url)).rotate(0f).into(sqs3Img);
-                            Glide.with(mContext).load(sqsFile3).into(sqs3Img);
-                        }
+                        Glide.with(mContext).load(sqsFile3).into(sqs3Img);
                         OssUtil.uploadOss(mContext, true, sqsFile3.getAbsolutePath(), new OSSObjectKeyBean("guarantor", "auth_credit", ".png"), new OnItemDataCallBack<String>() {
                             @Override
                             public void onItemDataCallBack(String objectKey) {
                                 sqs3Url = objectKey;
                             }
-                        }, new OnItemDataCallBack<Throwable>() {
-                            @Override
-                            public void onItemDataCallBack(Throwable data) {
-
-                            }
-                        });
+                        }, null);
                         break;
                 }
             }
