@@ -1,11 +1,10 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Typeface;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -13,7 +12,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,7 +21,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.CheckClientExistResp;
@@ -35,10 +32,11 @@ import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.service.OrderService;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
+import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -211,10 +209,6 @@ public class CreditInfoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
 
-                ProgressDialog dialog = new ProgressDialog(mContext);
-                dialog.setMessage("正在提交订单");
-                dialog.show();
-
                 ArrayList<UploadFilesUrlReq.FileUrlBean> files = new ArrayList<>();
                 if (!TextUtils.isEmpty(sqs1Url)) {
                     UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
@@ -237,9 +231,6 @@ public class CreditInfoFragment extends BaseFragment {
                     fileUrlBean.role = "guarantor";
                     files.add(fileUrlBean);
                 }
-                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                uploadFilesUrlReq.clt_id = clt_id;
-                uploadFilesUrlReq.files = files;
 
                 if (files.size() == 0) {
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
@@ -247,13 +238,18 @@ public class CreditInfoFragment extends BaseFragment {
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
-                            dialog.dismiss();
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
                             EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                         }
                     });
                 } else {
                     //未授权也可以 测试时用 后期去除
+                    UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+                    uploadFilesUrlReq.clt_id = clt_id;
+                    uploadFilesUrlReq.files = files;
+                    uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
+                    uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
+                    Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
                     UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
                         if (code == 0) {
                             SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
@@ -261,11 +257,9 @@ public class CreditInfoFragment extends BaseFragment {
                             OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                                 @Override
                                 public void onItemDataCallBack(SubmitOrderResp resp) {
-
-                                    dialog.dismiss();
                                     Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                                    dialog.dismiss();
                                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-
                                 }
                             });
                         }
