@@ -35,15 +35,20 @@ public class LaunchActivity extends BaseActivity {
         editText.setText(Settings.SERVER_URL);
         if (!Settings.isOnline){
             new AlertDialog.Builder(this).setTitle("服务器地址：")
-                    .setView(editText).setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                    .setView(editText)
+                    .setCancelable(false)
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     Settings.SERVER_URL = editText.getText().toString();
+                    getConfigJson();
                     dialog.dismiss();
                 }
             }).show();
+
+        }else {
+            getConfigJson();
         }
-        getConfigJson();
     }
 
 
