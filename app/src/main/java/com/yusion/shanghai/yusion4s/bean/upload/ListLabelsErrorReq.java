@@ -15,12 +15,14 @@ public class ListLabelsErrorReq {
      */
 
     public String clt_id;
+    public String app_id;
     public List<String> label_list;
 
     @Override
     public String toString() {
         return "ListLabelsErrorReq{" +
                 "clt_id='" + clt_id + '\'' +
+                "app_id='" + app_id + '\'' +
                 ", label_list=" + label_list +
                 '}';
     }

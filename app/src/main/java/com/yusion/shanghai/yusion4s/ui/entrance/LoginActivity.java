@@ -72,7 +72,9 @@ public class LoginActivity extends BaseActivity {
     private void loginSuccess(LoginResp resp) {
         if (resp != null) {
             Yusion4sApp.TOKEN = resp.token;
+            Yusion4sApp.ACCOUNT = mLoginAccountTV.getText().toString();
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
+            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             finish();
         }

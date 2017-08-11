@@ -121,7 +121,7 @@ public class OssUtil {
     }
 
     public static String getObjectKey(String role, String category, String suffix) {
-        return getObjectKey("CUSTOMER", Yusion4sApp.MOBILE, role, category, suffix);
+        return getObjectKey("CUSTOMER", Yusion4sApp.ACCOUNT, role, category, suffix);
     }
 
     public static String getSignature(Map<String, String> map) {

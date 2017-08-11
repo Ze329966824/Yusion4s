@@ -18,7 +18,7 @@ public class OSSObjectKeyBean {
     }
 
     public String client;
-    public String mobile = Yusion4sApp.MOBILE;
+    public String mobile = Yusion4sApp.ACCOUNT;
     public String role;
     public String category;
     public String suffix;

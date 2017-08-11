@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/upload_table_list_item_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:textColor="@color/text_normal"
+        android:textSize="16sp"
+        tools:showIn="@layout/upload_label_list"
+        tools:text="选项一" />
+
+    <TextView
+        android:id="@+id/upload_table_list_item_mark"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginTop="15dp"
+        android:layout_toRightOf="@+id/upload_table_list_item_name"
+        android:textColor="@color/text_light_grey"
+        android:textSize="16sp"
+        tools:text="mark1" />
+
+    <ImageView
+        android:id="@+id/upload_label_list_icon_img"
+        android:layout_width="17dp"
+        android:layout_height="17dp"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:layout_toLeftOf="@+id/upload_table_list_item_img"
+        android:src="@mipmap/error_img"
+        android:textColor="@color/text_light_grey" />
+
+    <ImageView
+        android:id="@+id/upload_table_list_item_img"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="15dp"
+        android:src="@mipmap/right_arrow" />
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.5dp"
+        android:layout_below="@id/upload_table_list_item_name"
+        android:layout_marginLeft="15dp"
+        android:background="@color/main_driver" />
+</RelativeLayout>

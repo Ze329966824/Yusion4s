@@ -23,7 +23,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -36,6 +35,7 @@ import com.yusion.shanghai.yusion4s.event.OrderItemFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
@@ -44,8 +44,6 @@ import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.yusion.shanghai.yusion4s.event.OrderItemFragmentEvent.refresh;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -232,8 +230,7 @@ public class OrderItemFragment extends BaseFragment {
                     popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                     View contentView = LayoutInflater.from(mContext).inflate(R.layout.btns_group, null);
                     ((Button) contentView.findViewById(R.id.btn1)).setOnClickListener(v1 -> {
-                        Toast.makeText(mContext, "进行资料上传", Toast.LENGTH_LONG).show();
-                        //UploadLabelListActivity.start(mContext, item.app_id);
+                        UploadLabelListActivity.start(mContext, item.app_id);
                         popupWindow.dismiss();
                     });
                     /**
