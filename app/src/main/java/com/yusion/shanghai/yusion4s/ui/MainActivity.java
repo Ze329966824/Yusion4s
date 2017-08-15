@@ -1,23 +1,17 @@
 package com.yusion.shanghai.yusion4s.ui;
 
-import android.Manifest;
-import android.content.Intent;
-import android.support.annotation.NonNull;
+import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
+import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -89,16 +83,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
         transaction.commit();
     }
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        AuthApi.checkUserInfo(this, "正在获取用户资料...", new OnDataCallBack<CheckUserInfoResp>() {
-//            @Override
-//            public void callBack(CheckUserInfoResp resp) {
-//                mMineFragment.refresh(resp);
-//            }
-//        });
-//    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        AuthApi.checkUserInfo(this, new OnItemDataCallBack<CheckUserInfoResp>() {
+            @Override
+            public void onItemDataCallBack(CheckUserInfoResp data) {
+                mMineFragment.refresh(data);
+            }
+        });
+    }
 //
 //    @NeedsPermission({Manifest.permission.READ_CALENDAR})
 //    void uploadUserData4Calendar() {

@@ -14,6 +14,7 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 
 /**
@@ -24,9 +25,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //    private LinearLayout mFragmentCalculatorTvRelativeLayout;
     private LinearLayout mFragmentSettingTvRelativeLayout;
 //    private LinearLayout mFragmentEmployeeTvTextView;
-//    private TextView mName;
-//    private TextView mMobile;
-//    private ImageView mRole;
+    private TextView mName;
+    private TextView mMobile;
+    private ImageView mRole;
 
 
     public MineFragment() {
@@ -62,9 +63,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //        mFragmentCalculatorTvRelativeLayout.setOnClickListener(this);
         mFragmentSettingTvRelativeLayout = (LinearLayout) view.findViewById(R.id.mine_fragment_setting_tv);
         mFragmentSettingTvRelativeLayout.setOnClickListener(this);
-//        mName = ((TextView) view.findViewById(R.id.mine_name_tv));
-//        mMobile = ((TextView) view.findViewById(R.id.mine_mobile_tv));
-//        mRole = ((ImageView) view.findViewById(R.id.mine_role_img));
+        mName = ((TextView) view.findViewById(R.id.mine_name_tv));
+        mMobile = ((TextView) view.findViewById(R.id.mine_mobile_tv));
+        mRole = ((ImageView) view.findViewById(R.id.mine_role_img));
     }
 
     @Override
@@ -108,15 +109,13 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //        }
 //    }
 //
-//    public void refresh(CheckUserInfoResp resp) {
-//        mName.setText(resp.name);
-//        mMobile.setText(resp.mobile);
-//        if (resp.role.equals("S")) {
-//            mRole.setImageResource(R.mipmap.mine_xs);
-//            mFragmentEmployeeTvTextView.setVisibility(View.GONE);
-//        } else if (resp.role.equals("D")) {
-//            mRole.setImageResource(R.mipmap.mine_jr);
-////            mFragmentEmployeeTvTextView.setVisibility(View.VISIBLE);
-//        }
-//    }
+    public void refresh(CheckUserInfoResp resp) {
+        mName.setText(resp.name);
+        mMobile.setText(resp.mobile);
+        if (resp.role.equals("S")) {
+            mRole.setImageResource(R.mipmap.mine_xs);
+        } else if (resp.role.equals("D")) {
+            mRole.setImageResource(R.mipmap.mine_jr);
+        }
+    }
 }

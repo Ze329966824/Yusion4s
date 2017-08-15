@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.bean.token.CheckTokenResp;
@@ -34,5 +35,15 @@ public class AuthApi {
             }
         });
     }
+    public static void checkUserInfo(Context context, final OnItemDataCallBack<CheckUserInfoResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getAuthService().checkUserInfo().enqueue(new CustomCallBack<CheckUserInfoResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(CheckUserInfoResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
 
 }
