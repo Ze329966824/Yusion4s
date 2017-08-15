@@ -121,25 +121,25 @@ public class OrderDetailActivity extends BaseActivity {
         OrderApi.getAppDetails(this, app_id, new OnItemDataCallBack<OrderDetailBean>() {
             @Override
             public void onItemDataCallBack(OrderDetailBean resp) {
-                if (resp.status.equals("待审核")) {
+                if (resp.status_st == 2) {//待审核
                     waitRel.setVisibility(View.VISIBLE);
                     passRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.VISIBLE);
                     replyLin.setVisibility(View.GONE);
-                } else if (resp.status.equals("待签约")) {
+                } else if (resp.status_st == 4) {//待确认金融方案
                     passRel.setVisibility(View.VISIBLE);
                     waitRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.VISIBLE);
                     replyLin.setVisibility(View.VISIBLE);
-                } else if (resp.status.equals("放款中")) {
+                } else if (resp.status_st == 6) {//放款中
                     passRel.setVisibility(View.VISIBLE);
                     waitRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.VISIBLE);
                     replyLin.setVisibility(View.VISIBLE);
-                } else if (resp.status.equals("审核失败")) {
+                } else if (resp.status_st == 3) {//审核失败
                     waitRel.setVisibility(View.GONE);
                     passRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.VISIBLE);

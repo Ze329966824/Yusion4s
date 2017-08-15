@@ -4,6 +4,7 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
@@ -213,7 +214,18 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
-            vh.st.setText(item.status);
+            if (item.status_st == 2) {//待审核
+                vh.st.setTextColor(Color.parseColor("#FFA400"));
+            } else if (item.status_st == 3) {//审核失败
+                vh.st.setTextColor(Color.parseColor("#FF3F00"));
+            } else if (item.status_st == 4) {//待确认金融方案
+                vh.st.setTextColor(Color.parseColor("#FFA400"));
+            } else if (item.status_st == 6) {//放款中
+                vh.st.setTextColor(Color.parseColor("#06B7A3"));
+            } else if (item.status_st == 9) {//已取消
+                vh.st.setTextColor(Color.parseColor("#666666"));
+            }
+            vh.st.setText(item.status_code);
             vh.periods.setText(item.nper);
             vh.loan.setText(item.loan_amt);
             vh.btns.setOnClickListener(new View.OnClickListener() {

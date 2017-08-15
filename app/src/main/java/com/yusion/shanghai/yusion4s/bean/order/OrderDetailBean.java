@@ -62,6 +62,10 @@ public class OrderDetailBean {
     public String product_type;
     public String id_no;
 
+    public String status_code;
+    public int status_st;
+
+
     public static class UwDetailBean {
         /**
          * vehicle_price : 8888.00
