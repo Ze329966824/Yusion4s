@@ -238,8 +238,10 @@ public class CreditInfoFragment extends BaseFragment {
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
-                            Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                            if (data != null) {
+                                Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                            }
                         }
                     });
                 } else {
@@ -257,9 +259,11 @@ public class CreditInfoFragment extends BaseFragment {
                             OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                                 @Override
                                 public void onItemDataCallBack(SubmitOrderResp resp) {
-                                    Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                                    dialog.dismiss();
-                                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                    if (resp != null) {
+                                        Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                                        dialog.dismiss();
+                                        EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                    }
                                 }
                             });
                         }
