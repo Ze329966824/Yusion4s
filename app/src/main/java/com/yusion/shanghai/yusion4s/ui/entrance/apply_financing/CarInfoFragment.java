@@ -85,6 +85,7 @@ public class CarInfoFragment extends BaseFragment {
                     if (Integer.valueOf(otherPriceTv.getText().toString()) > 3000) {
                         Toast.makeText(mContext, "其他费用最大金额为3000", Toast.LENGTH_LONG).show();
                         otherPriceTv.setText(String.valueOf(3000));
+                        otherPriceTv.setSelection(String.valueOf(3000).toString().length());
                     } else {
                         if (Integer.valueOf(otherPriceTv.getText().toString()) % 100 != 0) {
                             yu1 = Integer.valueOf(otherPriceTv.getText().toString()) % 100;
@@ -95,8 +96,10 @@ public class CarInfoFragment extends BaseFragment {
                                 sum1 = (shang1 + 1) * 100;
                             }
                             otherPriceTv.setText(sum1 + "");
+                            otherPriceTv.setSelection(String.valueOf(sum1).toString().length());
                         } else {
                             otherPriceTv.setText(otherPriceTv.getText());
+                            otherPriceTv.setSelection(otherPriceTv.getText().toString().length());
                         }
                     }
 //                    if (otherPriceTv.getText().equals("")) {
@@ -121,6 +124,7 @@ public class CarInfoFragment extends BaseFragment {
                         Toast.makeText(mContext, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
                         // changeFirstPriceByCode = false;
                         firstPriceTv.setText(getPrice(billPriceTv) + "");
+                        firstPriceTv.setSelection((getPrice(billPriceTv) + "").length());
                     } else {
                         if (Integer.valueOf(firstPriceTv.getText().toString()) % 100 != 0) {
                             yu = Integer.valueOf(firstPriceTv.getText().toString()) % 100;
@@ -131,8 +135,10 @@ public class CarInfoFragment extends BaseFragment {
                                 sum = (shang + 1) * 100;
                             }
                             firstPriceTv.setText(sum + "");
+                            firstPriceTv.setSelection(String.valueOf(sum).length());
                         } else {
                             firstPriceTv.setText(firstPriceTv.getText());
+                            firstPriceTv.setSelection(firstPriceTv.getText().toString().length());
                         }
                     }
                     break;
@@ -155,8 +161,11 @@ public class CarInfoFragment extends BaseFragment {
                                 sum3 = (shang3 + 1) * 100;
                             }
                             carLoanPriceTv.setText(sum3 + "");
+                            carLoanPriceTv.setSelection(String.valueOf(sum3).toString().length());
+
                         } else {
                             carLoanPriceTv.setText(carLoanPriceTv.getText());
+                            carLoanPriceTv.setSelection(carLoanPriceTv.getText().toString().length());
                         }
                     }
                     break;
@@ -179,8 +188,11 @@ public class CarInfoFragment extends BaseFragment {
                                 sum3 = (shang4 + 1) * 100;
                             }
                             billPriceTv.setText(sum3 + "");
+                            billPriceTv.setSelection(String.valueOf(sum3).length());
+
                         } else {
                             billPriceTv.setText(billPriceTv.getText());
+                            billPriceTv.setSelection(billPriceTv.getText().toString().length());
                         }
                     }
             }
@@ -198,10 +210,10 @@ public class CarInfoFragment extends BaseFragment {
     private TextView loanBankTv;
     private TextView productTypeTv;
     private EditText billPriceTv;
-    private TextView firstPriceTv;
-    private TextView carLoanPriceTv;
+    private EditText firstPriceTv;
+    private EditText carLoanPriceTv;
     private TextView totalLoanPriceTv;
-    private TextView otherPriceTv;
+    private EditText otherPriceTv;
     private TextView colorTv;
     private TextView plateRegAddrTv;
     private LinearLayout managementPriceLl;
@@ -233,7 +245,7 @@ public class CarInfoFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
-        otherPriceTv = (TextView) view.findViewById(R.id.car_info_other_price_tv);//其他费用
+        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
         colorTv = (TextView) view.findViewById(R.id.car_info_color_tv);//车辆颜色
         plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
         plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
@@ -252,8 +264,8 @@ public class CarInfoFragment extends BaseFragment {
         loanBankTv = (TextView) view.findViewById(R.id.car_info_loan_bank_tv);
         productTypeTv = (TextView) view.findViewById(R.id.car_info_product_type_tv);
         billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);
-        firstPriceTv = (TextView) view.findViewById(R.id.car_info_first_price_tv);
-        carLoanPriceTv = (TextView) view.findViewById(R.id.car_info_car_loan_price_tv);
+        firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);
+        carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);
         carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
         carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
         carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);

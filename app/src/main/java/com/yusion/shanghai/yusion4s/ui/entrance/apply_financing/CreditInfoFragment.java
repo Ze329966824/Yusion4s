@@ -340,8 +340,15 @@ public class CreditInfoFragment extends BaseFragment {
             }
         } else if (resultCode == 2000) {
             if (requestCode == 2000) {
+                sqs2Img.setImageResource(R.mipmap.sqs);
+                sqs1Img.setImageResource(R.mipmap.sqs);
+                sqs3Img.setImageResource(R.mipmap.sqs);
+                sqs1Url = "";
+                sqs2Url = "";
+                sqs3Url = "";
                 idNo.setText(data.getStringExtra("sfz"));
                 //data.getStringExtra("sfz");
+
                 if (data.getStringExtra("image1") != null) {
                     Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
                 }
