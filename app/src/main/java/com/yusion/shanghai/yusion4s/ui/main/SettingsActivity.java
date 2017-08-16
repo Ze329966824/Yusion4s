@@ -7,6 +7,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,6 +19,8 @@ import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.settings.Settings;
+import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 
@@ -32,6 +36,31 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         TextView versionCodeTv = (TextView) findViewById(R.id.settings_version_code_tv);
         versionCodeTv.setText(BuildConfig.VERSION_NAME);
         initTitleBar(this, getResources().getString(R.string.main_setting_title));
+
+
+
+
+        findViewById(R.id.main_setting_logout_layout).setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (!Settings.isOnline) {
+                    EditText editText = new EditText(SettingsActivity.this);
+                    editText.setText(Settings.SERVER_URL);
+                    new android.app.AlertDialog.Builder(SettingsActivity.this).setTitle("服务器地址：")
+                            .setView(editText)
+                            .setCancelable(false)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Settings.SERVER_URL = editText.getText().toString();
+                                    dialog.dismiss();
+                                }
+                            }).show();
+
+                }
+                return true;
+            }
+        });
 
     }
 
@@ -68,6 +97,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                     @Override
                     public void onClick(@NonNull DialogInterface dialog, int which) {
                         dialog.dismiss();
+
                         logout();
 
                     }

@@ -30,25 +30,9 @@ public class LaunchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
         Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
-        EditText editText = new EditText(LaunchActivity.this);
 
-        editText.setText(Settings.SERVER_URL);
-        if (!Settings.isOnline){
-            new AlertDialog.Builder(this).setTitle("服务器地址：")
-                    .setView(editText)
-                    .setCancelable(false)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    Settings.SERVER_URL = editText.getText().toString();
-                    getConfigJson();
-                    dialog.dismiss();
-                }
-            }).show();
+        getConfigJson();
 
-        }else {
-            getConfigJson();
-        }
     }
 
 
