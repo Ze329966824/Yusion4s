@@ -2,7 +2,6 @@ package com.pbq.pickerlib.video;
 
 import android.animation.Animator;
 import android.app.Activity;
-import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -48,6 +47,7 @@ import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.util.List;
 
+//toEditor(); 完成按钮
 public class AlibabaStandardActivity extends Activity implements View.OnClickListener, View.OnTouchListener, ScaleGestureDetector.OnScaleGestureListener, GestureDetector.OnGestureListener {
     private static final int RATIO_MODE_3_4 = 0;
     private static final int RATIO_MODE_1_1 = 1;
@@ -81,7 +81,12 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
     private boolean isBeautyOn = true;
     private boolean isSelected = false;
     private RecordTimelineView mRecordTimelineView;
-    private ImageView mSwitchLightBtn, mBackBtn, mRecordBtn, mDeleteBtn, mCompleteBtn, mIconDefault;
+    private ImageView mSwitchLightBtn;
+    private ImageView mBackBtn;
+    private ImageView mRecordBtn;
+    //    private ImageView mDeleteBtn;
+//    private ImageView mCompleteBtn;
+//    private ImageView mIconDefault;
     private TextView mRecordTimeTxt, filterTxt;
     private FrameLayout mToolBar, mRecorderBar;
     private FlashType mFlashType = FlashType.OFF;
@@ -98,6 +103,8 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
     private long downTime;
     private boolean isRecordError;
     private MediaScannerConnection mMediaScanner;
+    private FrameLayout mPreviewFrame;
+    private ImageView mPlaytBtn;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -125,10 +132,10 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
             case RATIO_MODE_1_1:
                 previewParams = new RelativeLayout.LayoutParams(screenWidth, screenWidth);
                 previewParams.addRule(RelativeLayout.BELOW, R.id.tools_bar);
-                timeLineParams = new RelativeLayout.LayoutParams(screenWidth, TIMELINE_HEIGHT);
-                timeLineParams.addRule(RelativeLayout.BELOW, R.id.preview);
-                durationTxtParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                durationTxtParams.addRule(RelativeLayout.ABOVE, R.id.record_timeline);
+//                timeLineParams = new RelativeLayout.LayoutParams(screenWidth, TIMELINE_HEIGHT);
+//                timeLineParams.addRule(RelativeLayout.BELOW, R.id.preview);
+//                durationTxtParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//                durationTxtParams.addRule(RelativeLayout.ABOVE, R.id.record_timeline);
                 mToolBar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 mRecorderBar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 mRecordTimelineView.setColor(Color.parseColor("#EF4B81"), Color.parseColor("#FF0000"), Color.parseColor("#FFFFFF"), Color.parseColor("#D8D8D8"));
@@ -143,10 +150,10 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
                     previewParams.addRule(RelativeLayout.BELOW, R.id.tools_bar);
                     mToolBar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 }
-                timeLineParams = new RelativeLayout.LayoutParams(screenWidth, TIMELINE_HEIGHT);
-                timeLineParams.addRule(RelativeLayout.BELOW, R.id.preview);
-                durationTxtParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                durationTxtParams.addRule(RelativeLayout.ABOVE, R.id.record_timeline);
+//                timeLineParams = new RelativeLayout.LayoutParams(screenWidth, TIMELINE_HEIGHT);
+//                timeLineParams.addRule(RelativeLayout.BELOW, R.id.preview);
+//                durationTxtParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//                durationTxtParams.addRule(RelativeLayout.ABOVE, R.id.record_timeline);
                 mRecorderBar.setBackgroundColor(getResources().getColor(android.R.color.transparent));
                 mRecordTimelineView.setColor(Color.parseColor("#EF4B81"), Color.parseColor("#FF0000"), Color.parseColor("#FFFFFF"), Color.parseColor("#D8D8D8"));
                 break;
@@ -155,17 +162,18 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
                 if (previewParams.height > screenHeight) {
                     previewParams.height = screenHeight;
                 }
-                timeLineParams = new RelativeLayout.LayoutParams(screenWidth, TIMELINE_HEIGHT);
-                timeLineParams.addRule(RelativeLayout.ABOVE, R.id.record_layout);
-                durationTxtParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-                durationTxtParams.addRule(RelativeLayout.ABOVE, R.id.record_timeline);
+//                timeLineParams = new RelativeLayout.LayoutParams(screenWidth, TIMELINE_HEIGHT);
+//                timeLineParams.addRule(RelativeLayout.ABOVE, R.id.record_layout);
+//                durationTxtParams = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.MATCH_PARENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+//                durationTxtParams.addRule(RelativeLayout.ABOVE, R.id.record_timeline);
                 mToolBar.setBackgroundColor(Color.parseColor("#881B2133"));
                 mRecorderBar.setBackgroundColor(Color.parseColor("#881B2133"));
                 mRecordTimelineView.setColor(Color.parseColor("#EF4B81"), Color.parseColor("#FF0000"), Color.parseColor("#FFFFFF"), Color.parseColor("#00ffffff"));
                 break;
         }
         if (previewParams != null) {
-            mGlSurfaceView.setLayoutParams(previewParams);
+//            mGlSurfaceView.setLayoutParams(previewParams);
+            mPreviewFrame.setLayoutParams(previewParams);
         }
         if (timeLineParams != null) {
             mRecordTimelineView.setLayoutParams(timeLineParams);
@@ -192,28 +200,94 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
         }
     }
 
+    private boolean hasStratRecord = false;
+
     private void initView() {
         mGlSurfaceView = (GLSurfaceView) findViewById(R.id.preview);
+        mPreviewFrame = (FrameLayout) findViewById(R.id.preview_frame);
         mGlSurfaceView.setOnTouchListener(this);
         mSwitchLightBtn = (ImageView) findViewById(R.id.switch_light);
+        mPlaytBtn = (ImageView) findViewById(R.id.play_btn);
+        mPlaytBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(AlibabaStandardActivity.this, "播放视频", Toast.LENGTH_SHORT).show();
+            }
+        });
         mSwitchLightBtn.setImageResource(R.mipmap.icon_light_dis);
         mSwitchLightBtn.setOnClickListener(this);
         mBackBtn = (ImageView) findViewById(R.id.back);
         mBackBtn.setOnClickListener(this);
         mRecordBtn = (ImageView) findViewById(R.id.record_btn);
-        mRecordBtn.setOnTouchListener(this);
-        mDeleteBtn = (ImageView) findViewById(R.id.delete_btn);
-        mDeleteBtn.setOnClickListener(this);
-        mCompleteBtn = (ImageView) findViewById(R.id.complete_btn);
-        mCompleteBtn.setOnClickListener(this);
+        mRecordBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isOpenFailed) {
+                    Toast.makeText(AlibabaStandardActivity.this, "请开启摄像头权限", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                if (!hasStratRecord) {
+                    hasStratRecord = true;
+                    startRecording();
+                    mRecordBtn.setImageResource(R.mipmap.stop_record);
+                } else {
+                    hasStratRecord = false;
+                    stopRecording();
+                }
+//            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                downTime = System.currentTimeMillis();
+//                if (!isRecording) {
+//                    if (!checkIfStartRecording()) {
+//                        return false;
+//                    }
+//                    mRecordBtn.setPressed(true);
+//                    startRecording();
+//                    mRecordBtn.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (mRecordBtn.isPressed()) {
+//                                mRecordBtn.setSelected(true);
+//                                mRecordBtn.setHovered(false);
+//                            }
+//                        }
+//                    }, 200);
+//                    isRecording = true;
+//                } else {
+//                    stopRecording();
+//                    isRecording = false;
+//                }
+//            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+//                long timeOffset = System.currentTimeMillis() - downTime;
+//                mRecordBtn.setPressed(false);
+//                if (timeOffset > 1000) {
+//                    if (isRecording) {
+//                        stopRecording();
+//                        isRecording = false;
+//                    }
+//                } else {
+//                    if (!isRecordError) {
+//                        mRecordBtn.setSelected(false);
+//                        mRecordBtn.setHovered(true);
+//                    } else {
+//                        isRecording = false;
+//                    }
+//                }
+//            }
+            }
+        });
+//        mRecordBtn.setOnTouchListener(this);
+//        mDeleteBtn = (ImageView) findViewById(R.id.delete_btn);
+//        mDeleteBtn.setOnClickListener(this);
+//        mCompleteBtn = (ImageView) findViewById(R.id.complete_btn);
+//        mCompleteBtn.setOnClickListener(this);
         mRecordTimelineView = (RecordTimelineView) findViewById(R.id.record_timeline);
         mRecordTimelineView.setColor(Color.parseColor("#EF4B81"), R.color.colorPrimary, Color.parseColor("#b3000000"), Color.parseColor("#D8D8D8"));
         mRecordTimeTxt = (TextView) findViewById(R.id.record_time);
         filterTxt = (TextView) findViewById(R.id.filter_txt);
-        mIconDefault = (ImageView) findViewById(R.id.icon_default);
+//        mIconDefault = (ImageView) findViewById(R.id.icon_default);
         mToolBar = (FrameLayout) findViewById(R.id.tools_bar);
         mRecorderBar = (FrameLayout) findViewById(R.id.record_layout);
-        mIconDefault.setOnClickListener(this);
+//        mIconDefault.setOnClickListener(this);
         scaleGestureDetector = new ScaleGestureDetector(this, this);
         gestureDetector = new GestureDetector(this, this);
     }
@@ -353,8 +427,8 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
 
     private void getData() {
         mResolutionMode = RESOLUTION_540P;
-        minDuration = 2000;
-        maxDuration = 30000;
+//        minDuration = 2000;
+//        maxDuration = 30000;
         videoQuality = VideoQuality.EPD;
     }
 
@@ -449,36 +523,39 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
             mRecorder.setLight(mFlashType);
         } else if (v == mBackBtn) {
             onBackPressed();
-        } else if (v == mCompleteBtn) {
-//            mRecorder.finishRecording();
-//            mClipManager.deleteAllPart();
-            if (mClipManager.getDuration() >= mClipManager.getMinDuration()) {
-                toEditor();
-            }
-        } else if (v == mDeleteBtn) {
-            if (!isSelected) {
-                mRecordTimelineView.selectLast();
-                mDeleteBtn.setActivated(true);
-                isSelected = true;
-            } else {
-                mRecordTimelineView.deleteLast();
-                mDeleteBtn.setActivated(false);
-                mClipManager.deletePart();
-                isSelected = false;
-                if (mClipManager.getDuration() == 0) {
-                    mIconDefault.setVisibility(View.VISIBLE);
-                    mCompleteBtn.setVisibility(View.GONE);
-                    mDeleteBtn.setVisibility(View.GONE);
-                }
-            }
-        } else if (v == mIconDefault) {
-            try {
-                Intent intent = new Intent("com.duanqu.qupai.action.import");
-                startActivity(intent);
-            } catch (ActivityNotFoundException e) {
-                Toast.makeText(this, "当前不包含导入模块", Toast.LENGTH_SHORT).show();
-            }
         }
+//        else if (v == mCompleteBtn) {
+////            mRecorder.finishRecording();
+////            mClipManager.deleteAllPart();
+//            if (mClipManager.getDuration() >= mClipManager.getMinDuration()) {
+//                toEditor();
+//            }
+//        }
+//        else if (v == mDeleteBtn) {
+//            if (!isSelected) {
+//                mRecordTimelineView.selectLast();
+//                mDeleteBtn.setActivated(true);
+//                isSelected = true;
+//            } else {
+//                mRecordTimelineView.deleteLast();
+//                mDeleteBtn.setActivated(false);
+//                mClipManager.deletePart();
+//                isSelected = false;
+//                if (mClipManager.getDuration() == 0) {
+//                    mIconDefault.setVisibility(View.VISIBLE);
+//                    mCompleteBtn.setVisibility(View.GONE);
+//                    mDeleteBtn.setVisibility(View.GONE);
+//                }
+//            }
+//        }
+//        else if (v == mIconDefault) {
+//            try {
+//                Intent intent = new Intent("com.duanqu.qupai.action.import");
+//                startActivity(intent);
+//            } catch (ActivityNotFoundException e) {
+//                Toast.makeText(this, "当前不包含导入模块", Toast.LENGTH_SHORT).show();
+//            }
+//        }
     }
 
     private int getPictureRotation() {
@@ -560,51 +637,52 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
 
     @Override
     public boolean onTouch(View v, MotionEvent event) {
-        if (v == mRecordBtn) {
-            if (isOpenFailed) {
-                Toast.makeText(this, "请开启摄像头权限", Toast.LENGTH_SHORT).show();
-                return true;
-            }
-            if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                downTime = System.currentTimeMillis();
-                if (!isRecording) {
-                    if (!checkIfStartRecording()) {
-                        return false;
-                    }
-                    mRecordBtn.setPressed(true);
-                    startRecording();
-                    mRecordBtn.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (mRecordBtn.isPressed()) {
-                                mRecordBtn.setSelected(true);
-                                mRecordBtn.setHovered(false);
-                            }
-                        }
-                    }, 200);
-                    isRecording = true;
-                } else {
-                    stopRecording();
-                    isRecording = false;
-                }
-            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
-                long timeOffset = System.currentTimeMillis() - downTime;
-                mRecordBtn.setPressed(false);
-                if (timeOffset > 1000) {
-                    if (isRecording) {
-                        stopRecording();
-                        isRecording = false;
-                    }
-                } else {
-                    if (!isRecordError) {
-                        mRecordBtn.setSelected(false);
-                        mRecordBtn.setHovered(true);
-                    } else {
-                        isRecording = false;
-                    }
-                }
-            }
-        } else if (v == mGlSurfaceView) {
+//        if (v == mRecordBtn) {
+//            if (isOpenFailed) {
+//                Toast.makeText(this, "请开启摄像头权限", Toast.LENGTH_SHORT).show();
+//                return true;
+//            }
+//            if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                downTime = System.currentTimeMillis();
+//                if (!isRecording) {
+//                    if (!checkIfStartRecording()) {
+//                        return false;
+//                    }
+//                    mRecordBtn.setPressed(true);
+//                    startRecording();
+//                    mRecordBtn.postDelayed(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            if (mRecordBtn.isPressed()) {
+//                                mRecordBtn.setSelected(true);
+//                                mRecordBtn.setHovered(false);
+//                            }
+//                        }
+//                    }, 200);
+//                    isRecording = true;
+//                } else {
+//                    stopRecording();
+//                    isRecording = false;
+//                }
+//            } else if (event.getAction() == MotionEvent.ACTION_UP || event.getAction() == MotionEvent.ACTION_CANCEL) {
+//                long timeOffset = System.currentTimeMillis() - downTime;
+//                mRecordBtn.setPressed(false);
+//                if (timeOffset > 1000) {
+//                    if (isRecording) {
+//                        stopRecording();
+//                        isRecording = false;
+//                    }
+//                } else {
+//                    if (!isRecordError) {
+//                        mRecordBtn.setSelected(false);
+//                        mRecordBtn.setHovered(true);
+//                    } else {
+//                        isRecording = false;
+//                    }
+//                }
+//            }
+//        } else
+        if (v == mGlSurfaceView) {
             if (event.getPointerCount() >= 2) {
                 scaleGestureDetector.onTouchEvent(event);
             } else if (event.getPointerCount() == 1) {
@@ -619,13 +697,13 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
     private void handleRecordStart() {
         isSelected = false;
         mRecordBtn.setActivated(true);
-        mIconDefault.setVisibility(View.GONE);
-        mCompleteBtn.setVisibility(View.VISIBLE);
-        mDeleteBtn.setVisibility(View.VISIBLE);
+//        mIconDefault.setVisibility(View.GONE);
+//        mCompleteBtn.setVisibility(View.VISIBLE);
+//        mDeleteBtn.setVisibility(View.VISIBLE);
         mSwitchLightBtn.setEnabled(false);
-        mCompleteBtn.setEnabled(false);
-        mDeleteBtn.setEnabled(false);
-        mDeleteBtn.setActivated(false);
+//        mCompleteBtn.setEnabled(false);
+//        mDeleteBtn.setEnabled(false);
+//        mDeleteBtn.setActivated(false);
     }
 
     private void handleRecordStop() {
@@ -638,19 +716,28 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mRecordBtn.setActivated(false);
-                mRecordBtn.setHovered(false);
-                mRecordBtn.setSelected(false);
+//                mRecordBtn.setActivated(false);
+//                mRecordBtn.setHovered(false);
+//                mRecordBtn.setSelected(false);
                 if (validClip) {
                     mRecordTimelineView.setDuration((int) clipDuration);
                     mRecordTimelineView.clipComplete();
+//                    mPlaytBtn.setVisibility(View.VISIBLE);
+                    mRecordBtn.setImageResource(R.mipmap.use_record);
+                    mRecordBtn.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            toEditor();
+                        }
+                    });
                 } else {
                     mRecordTimelineView.setDuration(0);
                 }
-                mRecordTimeTxt.setVisibility(View.GONE);
+//                mRecordTimeTxt.setVisibility(View.GONE);
                 mSwitchLightBtn.setEnabled(true);
-                mCompleteBtn.setEnabled(true);
-                mDeleteBtn.setEnabled(true);
+
+//                mCompleteBtn.setEnabled(true);
+//                mDeleteBtn.setEnabled(true);
 
             }
         });

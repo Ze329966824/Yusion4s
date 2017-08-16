@@ -1,31 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#232A42"
     android:orientation="vertical">
-
-    <com.pbq.pickerlib.video.MyGlSurfaceView
-        android:id="@+id/preview"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/tools_bar"
-        android:layout_gravity="center" />
-
-    <TextView
-        android:id="@+id/record_time"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/record_timeline"
-        android:gravity="center"
-        android:textColor="#ffffff"
-        android:textSize="15dp" />
-
-    <com.pbq.pickerlib.video.RecordTimelineView
-        android:id="@+id/record_timeline"
-        android:layout_width="match_parent"
-        android:layout_height="10dp"
-        android:layout_below="@id/preview" />
 
     <FrameLayout
         android:id="@+id/tools_bar"
@@ -51,6 +30,44 @@
     </FrameLayout>
 
     <FrameLayout
+        android:id="@+id/preview_frame"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/tools_bar">
+
+        <com.pbq.pickerlib.video.MyGlSurfaceView
+            android:id="@+id/preview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center" />
+
+        <ImageView
+            android:id="@+id/play_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            tools:visibility="visible"
+            android:visibility="gone"
+            android:src="@mipmap/replay_record" />
+    </FrameLayout>
+
+    <TextView
+        android:id="@+id/record_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/record_timeline"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="15dp" />
+
+    <com.pbq.pickerlib.video.RecordTimelineView
+        android:id="@+id/record_timeline"
+        android:layout_width="match_parent"
+        android:layout_height="10dp"
+        android:layout_above="@+id/record_layout" />
+
+
+    <FrameLayout
         android:id="@+id/record_layout"
         android:layout_width="match_parent"
         android:layout_height="100dp"
@@ -61,7 +78,7 @@
             android:layout_width="60dp"
             android:layout_height="60dp"
             android:layout_gravity="center"
-            android:background="@drawable/record_state_selector" />
+            android:background="@mipmap/start_record" />
 
         <ImageView
             android:id="@+id/delete_btn"
@@ -79,7 +96,8 @@
             android:layout_gravity="center_vertical|right"
             android:layout_marginRight="60dp"
             android:src="@drawable/icon_complete"
-            android:visibility="gone" />
+            android:visibility="gone"
+            tools:visibility="visible" />
 
         <ImageView
             android:id="@+id/icon_default"
@@ -88,7 +106,8 @@
             android:layout_gravity="center_vertical|left"
             android:layout_marginLeft="60dp"
             android:src="@drawable/icon_delete"
-            android:visibility="visible" />
+            android:visibility="gone"
+            tools:visibility="visible" />
     </FrameLayout>
 
     <TextView

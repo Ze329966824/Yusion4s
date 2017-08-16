@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.upload;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
@@ -25,6 +27,11 @@ public class ListLabelsErrorResp {
     public LenderBean lender;
     public CounterGuarantorSpBean counter_guarantor_sp;
 
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
+
     public static class LenderSpBean {
         /**
          * err_labels : []
@@ -33,6 +40,11 @@ public class ListLabelsErrorResp {
 
         public int err_num;
         public List<String> err_labels;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
     }
 
     public static class CounterGuarantorBean {
@@ -43,6 +55,11 @@ public class ListLabelsErrorResp {
 
         public int err_num;
         public List<String> err_labels;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
     }
 
     public static class GuarantorBean {
@@ -53,6 +70,11 @@ public class ListLabelsErrorResp {
 
         public int err_num;
         public List<String> err_labels;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
     }
 
     public static class GuarantorSpBean {
@@ -63,6 +85,11 @@ public class ListLabelsErrorResp {
 
         public int err_num;
         public List<String> err_labels;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
     }
 
     public static class LenderBean {
@@ -73,6 +100,11 @@ public class ListLabelsErrorResp {
 
         public int err_num;
         public List<String> err_labels;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
     }
 
     public static class CounterGuarantorSpBean {
@@ -83,5 +115,10 @@ public class ListLabelsErrorResp {
 
         public int err_num;
         public List<String> err_labels;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
     }
 }
