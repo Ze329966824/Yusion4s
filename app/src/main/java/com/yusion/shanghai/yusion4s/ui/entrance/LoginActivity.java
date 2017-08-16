@@ -15,6 +15,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
+import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
@@ -85,6 +86,9 @@ public class LoginActivity extends BaseActivity {
     protected void onResume() {
         super.onResume();
         myApp.clearUserData();
+
+        ConfigApi.getConfigJson(LoginActivity.this, resp -> {
+         });
     }
 
     @Override
