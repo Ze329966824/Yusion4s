@@ -116,7 +116,7 @@
                 android:layout_marginTop="20dp"
                 android:background="@drawable/textview_border"
                 android:drawableLeft="@mipmap/icon_find"
-                android:drawablePadding="5dp"
+                android:drawablePadding="7dp"
                 android:gravity="center_vertical"
                 android:paddingBottom="15dp"
                 android:paddingTop="15dp"
