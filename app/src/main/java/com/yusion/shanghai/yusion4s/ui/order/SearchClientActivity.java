@@ -106,6 +106,7 @@ public class SearchClientActivity extends BaseActivity {
                 @Override
                 public void onItemDataCallBack(List<SearchClientResp> data) {
                     if (data.size() != 0) {
+                        items.clear();
                         rv_client_info.setVisibility(View.VISIBLE);
 //                        tv_notice.setVisibility(View.GONE);
                         search_warn_lly.setVisibility(View.GONE);
@@ -151,6 +152,8 @@ public class SearchClientActivity extends BaseActivity {
                 public void onClick(View v) {
                     Intent intent = new Intent();
                     intent.putExtra("sfz", item.id_no);
+                    intent.putExtra("clt_id", item.clt_id);
+                    intent.putExtra("id_no_r", item.id_no_r);
                     intent.putExtra("image1", item.auth_credit.lender);
                     intent.putExtra("image2", item.auth_credit.lender_sp);
                     intent.putExtra("image3", item.auth_credit.guarantor);

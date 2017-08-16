@@ -16,7 +16,8 @@ public class SearchClientResp {
      * "mobile": "176****6549",
      * "id_no": "412***********6013"
      */
-    //public boolean exsits;
+    //public boolean exsits
+    public String id_no_r;
     public String clt_id;
     public String clt_nm;
     public String mobile;

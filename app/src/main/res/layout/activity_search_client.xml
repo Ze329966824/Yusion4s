@@ -35,7 +35,6 @@
             android:layout_marginLeft="2dp"
             android:background="@null"
             android:hint="请输入客户姓名/手机号/身份证号"
-            android:imeOptions="actionSearch"
             android:inputType="text"
             android:maxLines="1"
             android:textColor="#000000"
@@ -87,9 +86,9 @@
             android:layout_height="33dp"
             android:layout_gravity="center"
             android:layout_marginLeft="4dp"
+            android:maxLines="2"
             android:text="很抱歉！！没有找到您要搜索的客户，请核对客户姓名/手机
 号/身份证号。"
-            android:maxLines="2"
 
             android:textColor="#ffa400"
             android:textSize="11.5sp" />

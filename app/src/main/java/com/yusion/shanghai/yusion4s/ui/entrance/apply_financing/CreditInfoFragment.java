@@ -61,6 +61,7 @@ public class CreditInfoFragment extends BaseFragment {
     private ImageView sqs2expandImg;
     private ImageView sqs3expandImg;
     private String clt_id;
+    private String id_no_r;
     private EditText idNo;
 
     private File sqsFile1;
@@ -151,21 +152,21 @@ public class CreditInfoFragment extends BaseFragment {
             }
         });
         idNo = (EditText) view.findViewById(R.id.credit_info_id_tv);
-        idNo.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == 18) {
-                    //          OrderApi.searchClientExist(mContext, idNo.getText().toString(), new OnItemDataCallBack<SearchClientResp>() {
-                    //            @Override
-                    //          public void onItemDataCallBack(SearchClientResp resp) {
+//        idNo.addTextChangedListener(new TextWatcher() {
+//            @Override
+//            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+//            }
+//
+//            @Override
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//            }
+//
+//            @Override
+//            public void afterTextChanged(Editable s) {
+//                if (s.length() == 18) {
+        //          OrderApi.searchClientExist(mContext, idNo.getText().toString(), new OnItemDataCallBack<SearchClientResp>() {
+        //            @Override
+        //          public void onItemDataCallBack(SearchClientResp resp) {
 //                            if (resp.exsits) {
 //                                Toast.makeText(mContext, "用户存在", Toast.LENGTH_SHORT).show();
 //                                clt_id = resp.clt_id;
@@ -175,11 +176,11 @@ public class CreditInfoFragment extends BaseFragment {
 //                                submitBtn.setEnabled(false);
 //                                clt_id = "";
 //                            }
-                    //                      }
-                    //                });
-                }
-            }
-        });
+        //                      }
+        //                });
+//                }
+//            }
+//        });
 
         sqs1Img = (ImageView) view.findViewById(R.id.credit_info_sqs1_img);
         sqs1Img.setOnClickListener(new View.OnClickListener() {
@@ -248,7 +249,8 @@ public class CreditInfoFragment extends BaseFragment {
 
                 if (files.size() == 0) {
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
-                    req.id_no = idNo.getText().toString();
+                    //req.id_no = idNo.getText().toString();//*号导致这个位置会出问题
+                    req.id_no = id_no_r;
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
@@ -269,7 +271,8 @@ public class CreditInfoFragment extends BaseFragment {
                     UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
                         if (code == 0) {
                             SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
-                            req.id_no = idNo.getText().toString();
+                            // req.id_no = idNo.getText().toString();
+                            req.id_no = id_no_r;
                             OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                                 @Override
                                 public void onItemDataCallBack(SubmitOrderResp resp) {
@@ -339,9 +342,24 @@ public class CreditInfoFragment extends BaseFragment {
             if (requestCode == 2000) {
                 idNo.setText(data.getStringExtra("sfz"));
                 //data.getStringExtra("sfz");
-                Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
-                Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs2Img);
-                Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs3Img);
+                if (data.getStringExtra("image1") != null) {
+                    Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
+                }
+                if (data.getStringExtra("image2") != null) {
+                    Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs1Img);
+                }
+                if (data.getStringExtra("image3") != null) {
+                    Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs1Img);
+                }
+                if (data.getStringExtra("clt_id") != null) {
+                    clt_id = data.getStringExtra("clt_id");
+                }
+                if (data.getStringExtra("id_no_r") != null) {
+                    id_no_r = data.getStringExtra("id_no_r");
+                }
+//                Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
+//                Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs2Img);
+//                Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs3Img);
                 submitBtn.setEnabled(data.getBooleanExtra("enable", false));
 
             }
