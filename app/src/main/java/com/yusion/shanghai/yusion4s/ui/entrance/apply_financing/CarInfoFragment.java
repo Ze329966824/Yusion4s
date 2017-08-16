@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
+import android.content.BroadcastReceiver;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 import java.util.List;
 
+import rx.internal.schedulers.EventLoopsScheduler;
+
 /**
  * Created by aa on 2017/8/9.
  */
@@ -64,25 +67,122 @@ public class CarInfoFragment extends BaseFragment {
 
     private boolean changeFirstPriceByCode = false;
 
-    private boolean flag = true;
+    private boolean otherPriceChange = true;
+    private boolean firstPriceChange = true;
+    private boolean carLoanPriceChange = true;
+
+    private boolean billPriceChange = true;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
-                    flag = false;
-                    if (otherPriceTv.getText().equals("")) {
-                        return;
-                    } else if ((otherPriceTv.getText().toString().length() < 3) || Integer.valueOf(otherPriceTv.getText().toString()) % 100 != 0) {
-                        Toast.makeText(mContext, "请输入整百的数", Toast.LENGTH_SHORT).show();
-                        otherPriceTv.setText("");
-                    } else if (Integer.valueOf(otherPriceTv.getText().toString()) > 3000 && Integer.valueOf(otherPriceTv.getText().toString()) % 100 == 0) {
-                        otherPriceTv.setText("3000");
+                    otherPriceChange = false;
+                    int yu1 = 0;
+                    int sum1 = 0;
+                    int shang1 = 0;
+                    if (Integer.valueOf(otherPriceTv.getText().toString()) > 3000) {
                         Toast.makeText(mContext, "其他费用最大金额为3000", Toast.LENGTH_LONG).show();
+                        otherPriceTv.setText(String.valueOf(3000));
                     } else {
-                        otherPriceTv.setText(otherPriceTv.getText());
+                        if (Integer.valueOf(otherPriceTv.getText().toString()) % 100 != 0) {
+                            yu1 = Integer.valueOf(otherPriceTv.getText().toString()) % 100;
+                            shang1 = Integer.valueOf(otherPriceTv.getText().toString()) / 100;
+                            if (yu1 < 50) {
+                                sum1 = shang1 * 100;
+                            } else {
+                                sum1 = (shang1 + 1) * 100;
+                            }
+                            otherPriceTv.setText(sum1 + "");
+                        } else {
+                            otherPriceTv.setText(otherPriceTv.getText());
+                        }
+                    }
+//                    if (otherPriceTv.getText().equals("")) {
+//                        return;
+//                    } else if ((otherPriceTv.getText().toString().length() < 3) || Integer.valueOf(otherPriceTv.getText().toString()) % 100 != 0) {
+//                        Toast.makeText(mContext, "请输入整百的数", Toast.LENGTH_SHORT).show();
+//                        otherPriceTv.setText("");
+//                    } else if (Integer.valueOf(otherPriceTv.getText().toString()) > 3000 && Integer.valueOf(otherPriceTv.getText().toString()) % 100 == 0) {
+//                        otherPriceTv.setText(String.valueOf(3000));
+//                        Toast.makeText(mContext, "其他费用最大金额为3000", Toast.LENGTH_LONG).show();
+//                    } else {
+//                        otherPriceTv.setText(otherPriceTv.getText());
+//                    }
+                    break;
+                case 2:
+                    firstPriceChange = false;
+                    changeFirstPriceByCode = false;//jht
+                    int yu = 0;
+                    int sum = 0;
+                    int shang = 0;
+                    if (getPrice(firstPriceTv) > getPrice(billPriceTv)) {//大于开票价
+                        Toast.makeText(mContext, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
+                        // changeFirstPriceByCode = false;
+                        firstPriceTv.setText(getPrice(billPriceTv) + "");
+                    } else {
+                        if (Integer.valueOf(firstPriceTv.getText().toString()) % 100 != 0) {
+                            yu = Integer.valueOf(firstPriceTv.getText().toString()) % 100;
+                            shang = Integer.valueOf(firstPriceTv.getText().toString()) / 100;
+                            if (yu < 50) {
+                                sum = shang * 100;
+                            } else {
+                                sum = (shang + 1) * 100;
+                            }
+                            firstPriceTv.setText(sum + "");
+                        } else {
+                            firstPriceTv.setText(firstPriceTv.getText());
+                        }
                     }
                     break;
+                case 3:
+                    carLoanPriceChange = false;
+                    changeCarLoanByCode = false;
+                    int yu3 = 0;
+                    int sum3 = 0;
+                    int shang3 = 0;
+                    if (getPrice(carLoanPriceTv) > getPrice(billPriceTv)) {
+                        Toast.makeText(mContext, "贷款总额不能大于开票价", Toast.LENGTH_SHORT).show();
+                        carLoanPriceTv.setText(getPrice(billPriceTv) + "");
+                    } else {
+                        if (Integer.valueOf(carLoanPriceTv.getText().toString()) % 100 != 0) {
+                            yu3 = Integer.valueOf(carLoanPriceTv.getText().toString()) % 100;
+                            shang3 = Integer.valueOf(carLoanPriceTv.getText().toString()) / 100;
+                            if (yu3 < 50) {
+                                sum3 = shang3 * 100;
+                            } else {
+                                sum3 = (shang3 + 1) * 100;
+                            }
+                            carLoanPriceTv.setText(sum3 + "");
+                        } else {
+                            carLoanPriceTv.setText(carLoanPriceTv.getText());
+                        }
+                    }
+                    break;
+                case 4:
+                    billPriceChange = false;
+                    int yu4 = 0;
+                    int sum4 = 0;
+                    int shang4 = 0;
+                    if (Integer.valueOf(billPriceTv.getText().toString()) > mGuidePrice) {
+                        Toast.makeText(mContext, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
+                        billPriceTv.setText(mGuidePrice + "");//设置光标在右边
+                        billPriceTv.setSelection((mGuidePrice + "").length());
+                    } else {
+                        if (Integer.valueOf(billPriceTv.getText().toString()) % 100 != 0) {
+                            yu4 = Integer.valueOf(billPriceTv.getText().toString()) % 100;
+                            shang4 = Integer.valueOf(billPriceTv.getText().toString()) / 100;
+                            if (yu4 < 50) {
+                                sum3 = shang4 * 100;
+                            } else {
+                                sum3 = (shang4 + 1) * 100;
+                            }
+                            billPriceTv.setText(sum3 + "");
+                        } else {
+                            billPriceTv.setText(billPriceTv.getText());
+                        }
+                    }
             }
             super.handleMessage(msg);
         }
@@ -374,15 +474,31 @@ public class CarInfoFragment extends BaseFragment {
                 firstPriceTv.setText("");
                 carLoanPriceTv.setText("");
 
-                if (!TextUtils.isEmpty(s)) {
+                if (billPriceChange) {
+                    if (handler.hasMessages(4)) {
+                        handler.removeMessages(4);
+                    }
+                    handler.sendEmptyMessageDelayed(4, 500);
                     firstPriceTv.setEnabled(true);
                     carLoanPriceTv.setEnabled(true);
-                    if (Integer.valueOf(s.toString()) > mGuidePrice) {
-                        Toast.makeText(mContext, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
-                        billPriceTv.setText(mGuidePrice + "");//设置光标在右边
-                        billPriceTv.setSelection((mGuidePrice + "").length());
-                    }
+
+                } else {
+                    billPriceChange = true;
                 }
+                if (TextUtils.isEmpty(s)) {
+                    handler.removeMessages(4);
+                }
+
+//                if (!TextUtils.isEmpty(s)) {
+//                    firstPriceTv.setEnabled(true);
+//                    carLoanPriceTv.setEnabled(true);
+//
+//                    if (Integer.valueOf(s.toString()) > mGuidePrice) {
+//                        Toast.makeText(mContext, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
+//                        billPriceTv.setText(mGuidePrice + "");//设置光标在右边
+//                        billPriceTv.setSelection((mGuidePrice + "").length());
+//                    }
+//                }
             }
         });
 //        view.findViewById(R.id.car_info_loan_bank_lin)
@@ -434,6 +550,7 @@ public class CarInfoFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s)) {
+                    handler.removeMessages(3);
                     if (changeCarLoanByCode) {
                         //开票价改变导致
                         changeCarLoanByCode = false;
@@ -443,12 +560,22 @@ public class CarInfoFragment extends BaseFragment {
                         firstPriceTv.setText(getPrice(billPriceTv) + "");
                     }
                 } else {
-
                     if (changeCarLoanByCode) {
                         //首付款改变导致的
                         changeCarLoanByCode = false;
                     } else {
                         //用户输入的
+                        if (carLoanPriceChange) {
+                            if (handler.hasMessages(3)) {
+                                handler.removeMessages(3);
+                            }
+                            handler.sendEmptyMessageDelayed(3, 500);
+                        } else {
+                            carLoanPriceChange = true;
+                        }
+                        changeFirstPriceByCode = true;
+                        firstPriceTv.setText(getPrice(billPriceTv) - getPrice(carLoanPriceTv) + "");
+                        /*
                         if (getPrice(carLoanPriceTv) > getPrice(billPriceTv)) {
                             Toast.makeText(mContext, "贷款总额不能大于开票价", Toast.LENGTH_SHORT).show();
                             changeCarLoanByCode = false;
@@ -457,6 +584,7 @@ public class CarInfoFragment extends BaseFragment {
                             changeFirstPriceByCode = true;
                             firstPriceTv.setText(getPrice(billPriceTv) - getPrice(carLoanPriceTv) + "");
                         }
+                        */
 
                     }
                 }
@@ -476,6 +604,7 @@ public class CarInfoFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (TextUtils.isEmpty(s)) {
+                    handler.removeMessages(2);
                     if (changeFirstPriceByCode) {
                         //开票价改变导致
                         changeFirstPriceByCode = false;
@@ -491,6 +620,18 @@ public class CarInfoFragment extends BaseFragment {
                         changeFirstPriceByCode = false;
                     } else {
                         //用户输入的
+                        if (firstPriceChange) {
+                            if (handler.hasMessages(2)) {
+                                handler.removeMessages(2);
+                            }
+                            handler.sendEmptyMessageDelayed(2, 500);
+                        } else {
+                            firstPriceChange = true;
+                        }
+                        changeCarLoanByCode = true;
+                        carLoanPriceTv.setText(getPrice(billPriceTv) - getPrice(firstPriceTv) + "");
+
+                        /*
                         if (getPrice(firstPriceTv) > getPrice(billPriceTv)) {
                             Toast.makeText(mContext, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
                             changeFirstPriceByCode = false;
@@ -499,6 +640,8 @@ public class CarInfoFragment extends BaseFragment {
                             changeCarLoanByCode = true;
                             carLoanPriceTv.setText(getPrice(billPriceTv) - getPrice(firstPriceTv) + "");
                         }
+                        */
+
                     }
                 }
                 totalPrice();
@@ -516,7 +659,7 @@ public class CarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                if (flag) {
+                if (otherPriceChange) {
                     if (handler.hasMessages(1)) {
                         //每次edittext有变化的时候，移除上次发出的延迟线程
                         // handler.removeCallbacks(delayRun);
@@ -524,7 +667,7 @@ public class CarInfoFragment extends BaseFragment {
                     }
                     handler.sendEmptyMessageDelayed(1, 500);
                 } else {
-                    flag = true;
+                    otherPriceChange = true;
                 }
 
                 if (TextUtils.isEmpty(s)) {

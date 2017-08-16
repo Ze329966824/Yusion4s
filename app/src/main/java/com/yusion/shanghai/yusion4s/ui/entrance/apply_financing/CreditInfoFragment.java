@@ -12,9 +12,11 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.style.TtsSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -23,7 +25,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
-import com.yusion.shanghai.yusion4s.bean.order.CheckClientExistResp;
+import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
@@ -34,6 +36,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -58,10 +61,12 @@ public class CreditInfoFragment extends BaseFragment {
     private ImageView sqs2expandImg;
     private ImageView sqs3expandImg;
     private String clt_id;
+    private EditText idNo;
 
     private File sqsFile1;
     private File sqsFile2;
     private File sqsFile3;
+    private Button submitBtn;
 
     public static CreditInfoFragment newInstance() {
 
@@ -96,14 +101,23 @@ public class CreditInfoFragment extends BaseFragment {
         sqs3Lin = view.findViewById(R.id.credit_info_sqs3_lin);
         sqs2expandImg = ((ImageView) view.findViewById(R.id.credit_info_sqs2_expand_img));
         sqs3expandImg = ((ImageView) view.findViewById(R.id.credit_info_sqs3_expand_img));
-        TextView submitBtn = (TextView) view.findViewById(R.id.credit_info_submit_btn);
+        submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
         findTv = (TextView) view.findViewById(R.id.tv_find);
         findTv.setOnClickListener(new View.OnClickListener() {
+
+            //startActivity(intent);//暂且 进行跳转操作
+
             @Override
             public void onClick(View v) {
                 //点击跳转  到 检索页面 并 返回 数据 进行 展示。
-                //Intent intent = new Intent(mContext, FindActivity.class);
-                //startActivity(intent);//暂且 进行跳转操作
+                Intent intent = new Intent(mContext, SearchClientActivity.class);
+                startActivityForResult(intent, 2000);
+//                OrderApi.searchClientExist(mContext, "李拓", new OnItemDataCallBack<SearchClientResp>() {
+//                    @Override
+//                    public void onItemDataCallBack(SearchClientResp data) {
+//
+//                    }
+//                });
             }
         });
 
@@ -136,7 +150,7 @@ public class CreditInfoFragment extends BaseFragment {
                 }
             }
         });
-        EditText idNo = (EditText) view.findViewById(R.id.credit_info_id_tv);
+        idNo = (EditText) view.findViewById(R.id.credit_info_id_tv);
         idNo.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -149,20 +163,20 @@ public class CreditInfoFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 18) {
-                    OrderApi.checkClientExist(mContext, idNo.getText().toString(), new OnItemDataCallBack<CheckClientExistResp>() {
-                        @Override
-                        public void onItemDataCallBack(CheckClientExistResp resp) {
-                            if (resp.exsits) {
-                                Toast.makeText(mContext, "用户存在", Toast.LENGTH_SHORT).show();
-                                clt_id = resp.clt_id;
-                                submitBtn.setEnabled(true);
-                            } else {
-                                Toast.makeText(mContext, "用户不存在", Toast.LENGTH_SHORT).show();
-                                submitBtn.setEnabled(false);
-                                clt_id = "";
-                            }
-                        }
-                    });
+                    //          OrderApi.searchClientExist(mContext, idNo.getText().toString(), new OnItemDataCallBack<SearchClientResp>() {
+                    //            @Override
+                    //          public void onItemDataCallBack(SearchClientResp resp) {
+//                            if (resp.exsits) {
+//                                Toast.makeText(mContext, "用户存在", Toast.LENGTH_SHORT).show();
+//                                clt_id = resp.clt_id;
+//                                submitBtn.setEnabled(true);
+//                            } else {
+//                                Toast.makeText(mContext, "用户不存在", Toast.LENGTH_SHORT).show();
+//                                submitBtn.setEnabled(false);
+//                                clt_id = "";
+//                            }
+                    //                      }
+                    //                });
                 }
             }
         });
@@ -321,6 +335,17 @@ public class CreditInfoFragment extends BaseFragment {
             if (!TextUtils.isEmpty(url)) {
 
             }
+        } else if (resultCode == 2000) {
+            if (requestCode == 2000) {
+                idNo.setText(data.getStringExtra("sfz"));
+                //data.getStringExtra("sfz");
+                Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
+                Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs2Img);
+                Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs3Img);
+                submitBtn.setEnabled(data.getBooleanExtra("enable", false));
+
+            }
         }
     }
+
 }
