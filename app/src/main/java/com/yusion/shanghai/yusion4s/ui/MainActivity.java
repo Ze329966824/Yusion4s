@@ -26,6 +26,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        myApp.isLogin = true;
+
 //        WangDai4sApp.isBack2Home = false;
 //        setContentView(R.layout.activity_main);
 //

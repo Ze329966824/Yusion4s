@@ -7,6 +7,8 @@ import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
+import cn.jpush.android.api.JPushInterface;
+
 /**
  * Created by ice on 2017/8/9.
  */
@@ -18,10 +20,13 @@ public class Yusion4sApp extends Application {
     public static ConfigResp CONFIG_RESP;
     public static UserInfoBean USERINFOBEAN;
 
-    @Override
+    public static boolean isLogin;
+    public static String reg_id;
+
     public void onCreate() {
         super.onCreate();
         PgyCrashManager.register(this);
+        jpush();
     }
 
     public void clearUserData() {
@@ -35,5 +40,14 @@ public class Yusion4sApp extends Application {
 
     public static Yusion4sApp getInstance() {
         return myApplication;
+    }
+
+    private void jpush() {
+        JPushInterface.setDebugMode(true);
+        // 初始化 JPush
+        JPushInterface.init(this);
+        while (reg_id == null) {
+            reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
+        }
     }
 }

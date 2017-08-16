@@ -31,6 +31,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
+        Yusion4sApp.isLogin = false;
     }
 
     private void initView() {

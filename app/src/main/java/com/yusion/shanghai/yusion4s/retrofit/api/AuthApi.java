@@ -2,7 +2,9 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.util.Log;
 
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
@@ -19,6 +21,8 @@ import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 public class AuthApi {
     public static void login(final Context context, LoginReq req, final OnItemDataCallBack<LoginResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        req.reg_id = Yusion4sApp.reg_id;
+        Log.e("reg_id",req.reg_id);
         Api.getAuthService().login(req).enqueue(new CustomCallBack<LoginResp>(context,dialog) {
             @Override
             public void onCustomResponse(LoginResp data) {
