@@ -723,6 +723,11 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
                     mRecordTimelineView.setDuration((int) clipDuration);
                     mRecordTimelineView.clipComplete();
 //                    mPlaytBtn.setVisibility(View.VISIBLE);
+//                    mPlaytBtn.setOnClickListener(new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View v) {
+//                        }
+//                    });
                     mRecordBtn.setImageResource(R.mipmap.use_record);
                     mRecordBtn.setOnClickListener(new View.OnClickListener() {
                         @Override
