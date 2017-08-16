@@ -73,6 +73,8 @@ public class CarInfoFragment extends BaseFragment {
 
     private boolean billPriceChange = true;
 
+    private int sum = 0;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -719,6 +721,8 @@ public class CarInfoFragment extends BaseFragment {
         Integer carLoanPrice = getPrice(carLoanPriceTv.getText().toString());
         Integer managementPrice = getPrice(managementPriceTv.getText().toString());
         Integer otherPrice = getPrice(otherPriceTv.getText().toString());
+        //sum = carLoanPrice + managementPrice + otherPrice;
+        //totalLoanPriceTv.setText(sum+"");
         totalLoanPriceTv.setText(carLoanPrice + managementPrice + otherPrice + "");
     }
 
@@ -741,6 +745,8 @@ public class CarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "首付款必须大于开票价20%", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(carLoanPriceTv.getText())) {
             Toast.makeText(mContext, "车辆贷款额不能为空", Toast.LENGTH_SHORT).show();
+        } else if (Integer.valueOf(carLoanPriceTv.getText().toString()) == 0) {
+            Toast.makeText(mContext, "车辆贷款额不能为0", Toast.LENGTH_LONG).show();
         } else if (!checkCarLoanPriceValid()) {
             Toast.makeText(mContext, "车辆贷款额必须小于开票价80%", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
@@ -763,6 +769,10 @@ public class CarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "其他费用只能是整百", Toast.LENGTH_SHORT).show();
         } else if (getPrice(firstPriceTv) + getPrice(carLoanPriceTv) != getPrice(billPriceTv)) {
             Toast.makeText(mContext, "首付款加车辆贷款额必须等于开票价", Toast.LENGTH_SHORT).show();
+        } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) > 10000) {
+            Toast.makeText(mContext, "总贷款额需多于10000元", Toast.LENGTH_LONG).show();
+        } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(billPriceTv.getText().toString()) * 0.8) {
+            Toast.makeText(mContext, "总贷款额不能大于开票价", Toast.LENGTH_LONG).show();
         } else {
             return true;
         }
