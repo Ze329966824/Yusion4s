@@ -435,7 +435,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
                 updateGalleray(cameraFile.getPath());
                 currentDir.selectedFiles.add(cameraFile.getPath());
                 currentDir.files.add(0, cameraFile.getPath());
-                loadImages(currentDir);
+                loadVideoImages(currentDir);
                 updateNext();
             }
         }
