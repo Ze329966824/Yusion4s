@@ -54,6 +54,7 @@ public class UploadLabelListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_label_list);
+        uploadFileUrlBeanList.clear();
         initTitleBar(this, "基本资料上传").setRightText("提交").setRightClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
