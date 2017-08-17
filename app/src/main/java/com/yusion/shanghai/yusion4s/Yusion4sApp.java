@@ -5,6 +5,7 @@ import android.app.Application;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
+import com.yusion.shanghai.yusion4s.crash.CrashHandler;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -26,7 +27,13 @@ public class Yusion4sApp extends Application {
     public void onCreate() {
         super.onCreate();
         PgyCrashManager.register(this);
+//        initCrashReporter();
         jpush();
+    }
+
+    private void initCrashReporter() {
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.init(getApplicationContext());
     }
 
     public void clearUserData() {
