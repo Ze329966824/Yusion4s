@@ -65,19 +65,21 @@ public class JpushDialogActivity extends BaseActivity {
         switch (category) {
             case "login":
                 myApp.clearUserData();
-                new AlertDialog.Builder(JpushDialogActivity.this)
-                        .setCancelable(false)
-                        .setTitle("")
-                        .setMessage(content)
-                        .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
+                if (myApp.isLogin == true) {
+                    new AlertDialog.Builder(JpushDialogActivity.this)
+                            .setCancelable(false)
+                            .setTitle("")
+                            .setMessage(content)
+                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
 
-                                finish();
-                            }
-                        })
-                        .show();
+                                    finish();
+                                }
+                            })
+                            .show();
+                }
                 break;
 
 //            case "2":
