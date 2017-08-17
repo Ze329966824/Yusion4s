@@ -10,7 +10,9 @@
         android:layout_height="116dp"
         android:layout_gravity="center"
         android:background="@color/white"
-        android:orientation="vertical">
+        android:orientation="vertical"
+
+        >
 
         <RelativeLayout
             android:layout_width="match_parent"

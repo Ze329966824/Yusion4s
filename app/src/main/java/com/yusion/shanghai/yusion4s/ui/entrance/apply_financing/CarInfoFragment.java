@@ -769,10 +769,12 @@ public class CarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "其他费用只能是整百", Toast.LENGTH_SHORT).show();
         } else if (getPrice(firstPriceTv) + getPrice(carLoanPriceTv) != getPrice(billPriceTv)) {
             Toast.makeText(mContext, "首付款加车辆贷款额必须等于开票价", Toast.LENGTH_SHORT).show();
-        } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) > 10000) {
+        } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) < 10000) {
             Toast.makeText(mContext, "总贷款额需多于10000元", Toast.LENGTH_LONG).show();
         } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(billPriceTv.getText().toString()) * 0.8) {
-            Toast.makeText(mContext, "总贷款额不能大于开票价", Toast.LENGTH_LONG).show();
+            Toast.makeText(mContext, "总贷款额不能大于开票价的80%", Toast.LENGTH_LONG).show();
+        } else if (getPrice(billPriceTv) < getPrice(totalLoanPriceTv) + 1) {
+            Toast.makeText(mContext, "车辆开票价要大于总贷款额", Toast.LENGTH_LONG).show();
         } else {
             return true;
         }

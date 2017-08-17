@@ -107,23 +107,34 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:id="@+id/tv_find"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+            <LinearLayout
+                android:layout_width="332dp"
+                android:layout_height="42dp"
                 android:layout_marginLeft="15dp"
                 android:layout_marginRight="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/textview_border"
-                android:drawableLeft="@mipmap/icon_find"
-                android:drawablePadding="7dp"
-                android:gravity="center_vertical"
-                android:paddingBottom="15dp"
-                android:paddingTop="15dp"
-                android:text="请输入客户姓名/手机号/身份证号"
-                android:textColor="#D1D1D1"
-                android:textSize="15sp"
-                android:visibility="visible" />
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="9dp"
+                    android:src="@mipmap/icon_find" />
+
+                <TextView
+                    android:id="@+id/tv_find"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+
+                    android:gravity="center_vertical"
+                    android:text="请输入客户姓名/手机号/身份证号"
+                    android:textColor="#D1D1D1"
+                    android:textSize="14.5sp"
+                    android:visibility="visible" />
+            </LinearLayout>
+
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"
