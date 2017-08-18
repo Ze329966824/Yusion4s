@@ -80,8 +80,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
                 break;
             case R.id.main_setting_version_name_layout:
-//                PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
-//                PgyUpdateManager.register(this, null);
+                PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+                PgyUpdateManager.register(this, null);
 
 //                //带回调更新
 //                initUpdateListener();

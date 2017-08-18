@@ -58,7 +58,6 @@ public class JpushDialogActivity extends BaseActivity {
                 JpushDialog();
             }
         }
-
     }
 
     private void JpushDialog() {
