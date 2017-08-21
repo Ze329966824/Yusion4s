@@ -20,6 +20,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     private String desc;
@@ -49,6 +50,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Settings.SERVER_URL = editText.getText().toString();
+                                    SharedPrefsUtil.getInstance(SettingsActivity.this).putValue("SERVER_URL", editText.getText().toString());
                                     dialog.dismiss();
                                 }
                             }).show();
