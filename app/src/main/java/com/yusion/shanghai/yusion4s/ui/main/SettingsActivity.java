@@ -2,13 +2,11 @@ package com.yusion.shanghai.yusion4s.ui.main;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,7 +18,6 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.settings.Settings;
-import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 
@@ -34,10 +31,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         setContentView(R.layout.activity_settings);
 
         TextView versionCodeTv = (TextView) findViewById(R.id.settings_version_code_tv);
-        versionCodeTv.setText(BuildConfig.VERSION_NAME);
+        String versionCode = Settings.SERVER_URL.contains("alpha") ? "测试环境" : BuildConfig.VERSION_NAME;
+        versionCodeTv.setText(versionCode);
         initTitleBar(this, getResources().getString(R.string.main_setting_title));
-
-
 
 
         findViewById(R.id.main_setting_logout_layout).setOnLongClickListener(new View.OnLongClickListener() {

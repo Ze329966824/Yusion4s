@@ -35,7 +35,6 @@ import com.aliyun.recorder.supply.AliyunIRecorder;
 import com.aliyun.recorder.supply.RecordCallback;
 import com.aliyun.struct.common.VideoQuality;
 import com.aliyun.struct.effect.EffectFilter;
-import com.aliyun.struct.recorder.CameraParam;
 import com.aliyun.struct.recorder.CameraType;
 import com.aliyun.struct.recorder.FlashType;
 import com.aliyun.struct.recorder.MediaInfo;
@@ -44,6 +43,7 @@ import com.qu.preview.callback.OnFrameCallBack;
 
 import java.io.File;
 import java.io.Serializable;
+import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.List;
 
@@ -385,8 +385,7 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
 
             }
         });
-
-        mRecorder.setFocusMode(CameraParam.FOCUS_MODE_AUTO);
+//        mRecorder.setFocusMode(CameraParam.FOCUS_MODE_CONTINUE);
         mRecorder.setExposureCompensationRatio(exposureCompensationRatio);
     }
 
@@ -398,6 +397,61 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
          */
         mGlSurfaceView.setVisibility(View.VISIBLE);
         mRecorder.startPreview();
+        Field aliyunCameraField = null;
+        try {
+            aliyunCameraField = mRecorder.getClass().getDeclaredField("aliyunCamera");
+            aliyunCameraField.setAccessible(true);
+            Object aliyunCamera = aliyunCameraField.get(mRecorder);
+            Field cameraProxyField = aliyunCamera.getClass().getDeclaredField("cameraProxy");
+            cameraProxyField.setAccessible(true);
+            final Object cameraProxy = cameraProxyField.get(aliyunCamera);
+
+//            final Field currentParamsField = cameraProxy.getClass().getDeclaredField("currentParams");
+//            currentParamsField.setAccessible(true);
+//            final Camera.Parameters[] currentParams = {(Camera.Parameters) currentParamsField.get(cameraProxy)};
+
+            Field cameraField = cameraProxy.getClass().getDeclaredField("camera");
+            cameraField.setAccessible(true);
+            final Camera[] camera = {(Camera) cameraField.get(cameraProxy)};
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    while (camera[0] == null) {
+                        try {
+                            Thread.sleep(100);
+                            Field cameraField = cameraProxy.getClass().getDeclaredField("camera");
+                            cameraField.setAccessible(true);
+                            camera[0] = (Camera) cameraField.get(cameraProxy);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (NoSuchFieldException e) {
+                            e.printStackTrace();
+                        }
+                    }
+                    Log.e("TAG", "camera is not null");
+
+                    final Field currentParamsField;
+                    try {
+                        currentParamsField = cameraProxy.getClass().getDeclaredField("currentParams");
+                        currentParamsField.setAccessible(true);
+                        final Camera.Parameters currentParams = (Camera.Parameters) currentParamsField.get(cameraProxy);
+                        currentParams.setFocusMode(Camera.Parameters.FOCUS_MODE_CONTINUOUS_VIDEO);//设置focusMode
+                        camera[0].setParameters(currentParams);
+                        Log.e("TAG", "DONE: ");
+                    } catch (NoSuchFieldException e) {
+                        e.printStackTrace();
+                    } catch (IllegalAccessException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }).start();
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
         if (orientationDetector != null && orientationDetector.canDetectOrientation()) {
             orientationDetector.enable();
         }
