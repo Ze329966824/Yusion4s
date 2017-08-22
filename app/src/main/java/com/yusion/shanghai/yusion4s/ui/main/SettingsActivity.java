@@ -20,6 +20,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     private String desc;
@@ -49,6 +50,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
                                     Settings.SERVER_URL = editText.getText().toString();
+                                    SharedPrefsUtil.getInstance(SettingsActivity.this).putValue("SERVER_URL", editText.getText().toString());
                                     dialog.dismiss();
                                 }
                             }).show();
@@ -76,8 +78,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
                 break;
             case R.id.main_setting_version_name_layout:
-//                PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
-//                PgyUpdateManager.register(this, null);
+                PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+                PgyUpdateManager.register(this, null);
 
 //                //带回调更新
 //                initUpdateListener();

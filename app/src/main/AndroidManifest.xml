@@ -46,7 +46,7 @@
         <!-- pgy -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="5875beef263c5a292094ccb04c1cd0c3" />
+            android:value="a455421518edcbc4d3784f2b855b0691" />
 
         <activity
             android:name=".ui.entrance.LaunchActivity"

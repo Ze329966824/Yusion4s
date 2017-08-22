@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s;
 
 import android.app.Application;
+import android.text.TextUtils;
 
 import com.pgyersdk.crash.PgyCrashManager;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
@@ -22,7 +23,7 @@ public class Yusion4sApp extends Application {
     public static UserInfoBean USERINFOBEAN;
 
     public static boolean isLogin;
-    public static String reg_id;
+    private static String reg_id;
 
     public void onCreate() {
         super.onCreate();
@@ -53,8 +54,9 @@ public class Yusion4sApp extends Application {
         JPushInterface.setDebugMode(true);
         // 初始化 JPush
         JPushInterface.init(this);
-        while (reg_id == null) {
+        while (TextUtils.isEmpty(reg_id)) {
             reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
+            SharedPrefsUtil.getInstance(this).putValue("reg_id",reg_id);
         }
     }
 }
