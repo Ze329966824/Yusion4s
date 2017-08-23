@@ -32,7 +32,7 @@ public class LoginActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         initView();
-        Yusion4sApp.isLogin = false;
+
     }
 
     private void initView() {
@@ -72,6 +72,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void loginSuccess(LoginResp resp) {
+        Yusion4sApp.isLogin = true;
         if (resp != null) {
             Yusion4sApp.TOKEN = resp.token;
             Yusion4sApp.ACCOUNT = mLoginAccountTV.getText().toString();
@@ -85,6 +86,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
+        Yusion4sApp.isLogin = false;
         myApp.clearUserData();
 
         ConfigApi.getConfigJson(LoginActivity.this, resp -> {

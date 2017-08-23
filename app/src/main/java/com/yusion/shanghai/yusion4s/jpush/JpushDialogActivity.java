@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 
@@ -65,19 +66,21 @@ public class JpushDialogActivity extends BaseActivity {
             case "login":
                 myApp.clearUserData();
                 if (myApp.isLogin == true) {
-                    new AlertDialog.Builder(JpushDialogActivity.this)
-                            .setCancelable(false)
-                            .setTitle("")
-                            .setMessage(content)
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
+                    if (mobile != Yusion4sApp.ACCOUNT) {
+                        new AlertDialog.Builder(JpushDialogActivity.this)
+                                .setCancelable(false)
+                                .setTitle("")
+                                .setMessage(content)
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
 
-                                    finish();
-                                }
-                            })
-                            .show();
+                                        finish();
+                                    }
+                                })
+                                .show();
+                    }
                 }
                 break;
 
