@@ -353,10 +353,10 @@ public class CreditInfoFragment extends BaseFragment {
                     Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
                 }
                 if (data.getStringExtra("image2") != null) {
-                    Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs1Img);
+                    Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs2Img);
                 }
                 if (data.getStringExtra("image3") != null) {
-                    Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs1Img);
+                    Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs3Img);
                 }
                 if (data.getStringExtra("clt_id") != null) {
                     clt_id = data.getStringExtra("clt_id");

@@ -46,6 +46,7 @@ import rx.internal.schedulers.EventLoopsScheduler;
  */
 
 public class CarInfoFragment extends BaseFragment {
+    public static final int DELAY_MILLIS = 1000;
     private List<String> mLoanBankList = new ArrayList<>();
     private List<GetDlrListByTokenResp> mDlrList = new ArrayList<>();
     private List<GetModelResp> mModelList = new ArrayList<>();
@@ -74,6 +75,7 @@ public class CarInfoFragment extends BaseFragment {
     private boolean billPriceChange = true;
 
     private int sum = 0;
+
 
     Handler handler = new Handler() {
         @Override
@@ -492,7 +494,7 @@ public class CarInfoFragment extends BaseFragment {
                     if (handler.hasMessages(4)) {
                         handler.removeMessages(4);
                     }
-                    handler.sendEmptyMessageDelayed(4, 500);
+                    handler.sendEmptyMessageDelayed(4, DELAY_MILLIS);
                     firstPriceTv.setEnabled(true);
                     carLoanPriceTv.setEnabled(true);
 
@@ -583,7 +585,7 @@ public class CarInfoFragment extends BaseFragment {
                             if (handler.hasMessages(3)) {
                                 handler.removeMessages(3);
                             }
-                            handler.sendEmptyMessageDelayed(3, 500);
+                            handler.sendEmptyMessageDelayed(3, DELAY_MILLIS);
                         } else {
                             carLoanPriceChange = true;
                         }
@@ -638,7 +640,7 @@ public class CarInfoFragment extends BaseFragment {
                             if (handler.hasMessages(2)) {
                                 handler.removeMessages(2);
                             }
-                            handler.sendEmptyMessageDelayed(2, 500);
+                            handler.sendEmptyMessageDelayed(2, DELAY_MILLIS);
                         } else {
                             firstPriceChange = true;
                         }
@@ -679,7 +681,7 @@ public class CarInfoFragment extends BaseFragment {
                         // handler.removeCallbacks(delayRun);
                         handler.removeMessages(1);
                     }
-                    handler.sendEmptyMessageDelayed(1, 500);
+                    handler.sendEmptyMessageDelayed(1, DELAY_MILLIS);
                 } else {
                     otherPriceChange = true;
                 }
