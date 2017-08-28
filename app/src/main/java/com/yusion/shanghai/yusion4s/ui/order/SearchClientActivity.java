@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -151,12 +152,56 @@ public class SearchClientActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent();
+
+                    intent.putExtra("name", item.clt_nm);
                     intent.putExtra("sfz", item.id_no);
+                    intent.putExtra("mobile", item.mobile);
                     intent.putExtra("clt_id", item.clt_id);
-                    intent.putExtra("id_no_r", item.id_no_r);
-                    intent.putExtra("image1", item.auth_credit.lender);
-                    intent.putExtra("image2", item.auth_credit.lender_sp);
-                    intent.putExtra("image3", item.auth_credit.guarantor);
+
+                    if (item.auth_credit.lender != null) {//如果不等于空
+                        intent.putExtra("isHasLender", "1");
+                        intent.putExtra("lender", item.auth_credit.lender.auth_credit_img_count);
+                    } else {
+                        intent.putExtra("isHasLender", "2");
+                    }
+
+
+                    if (item.auth_credit.lender_sp != null) {//如果不等于空
+                        intent.putExtra("isHasLender_sp", "1");
+                        intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
+                    } else {
+                        intent.putExtra("isHasLender_sp", "2");
+                    }
+
+                    if (item.auth_credit.guarantor != null) {//如果不等于空
+                        intent.putExtra("isGuarantor", "1");
+                        intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
+                    } else {
+                        intent.putExtra("isGuarantor", "2");
+                    }
+
+                    if (item.auth_credit.guarantor_sp != null) {//如果不等于空
+                        intent.putExtra("isGuarantor_sp", "1");
+                        intent.putExtra("guarantor_sp", item.auth_credit.guarantor.auth_credit_img_count);
+                    } else {
+                        intent.putExtra("isGuarantor_sp", "2");
+                    }
+
+
+                    //intent.putExtra("isHasLender", (Parcelable) item.auth_credit.lender);
+
+//                    intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
+//                    intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
+//                    intent.putExtra("guarantor_sp", item.auth_credit.guarantor_sp.auth_credit_img_count);
+//
+//
+//                    intent.putExtra("isHaslender_sp", item.auth_credit.lender_sp.clt_id);
+
+
+                    //intent.putExtra("id_no_r", item.id_no_r);
+                    //intent.putExtra("image1", item.auth_credit.lender);
+                    //intent.putExtra("image2", item.auth_credit.lender_sp);
+                    // intent.putExtra("image3", item.auth_credit.guarantor);
                     intent.putExtra("enable", true);
                     SearchClientActivity.this.setResult(2000, intent);
                     SearchClientActivity.this.finish();

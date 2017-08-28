@@ -19,6 +19,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import java.util.Date;
@@ -86,6 +87,7 @@ public class LaunchActivity extends BaseActivity {
 
 
     private void onTokenValid() {
+
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

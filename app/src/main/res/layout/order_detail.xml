@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg">
@@ -8,67 +10,75 @@
         android:id="@+id/title_bar"
         layout="@layout/base_titlebar" />
 
-    <ScrollView
+
+    <LinearLayout
+        android:id="@+id/lln"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/title_bar"
+        android:orientation="vertical"
+        android:paddingBottom="10dp">
+
+        <!--审核中-->
+        <RelativeLayout
+            android:id="@+id/order_detail_status_wait_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:background="@color/white"
+            android:visibility="visible">
+
+            <TextView
+                android:id="@+id/order_detail_status_wait"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:text="征信审核中"
+                android:textColor="@color/text_normal"
+                android:textSize="14.5sp" />
+
+            <View
+                android:id="@+id/order_detail_status_wait_line"
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_below="@id/order_detail_status_wait"
+                android:background="@color/main_driver" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/order_detail_status_wait_line"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15dp"
+                    android:src="@mipmap/order_detail_audit" />
+
+                <TextView
+                    android:id="@+id/order_detail_status_wait_reason"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="征信审核中备注……"
+                    android:textColor="#FFA400"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
+        </RelativeLayout>
+    </LinearLayout>
+
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scrollView_four"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_above="@+id/order_detail_sign_layout"
-        android:layout_below="@+id/title_bar"
-        android:scrollbars="none">
+        android:layout_below="@+id/lln">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:paddingBottom="10dp">
-
-            <!--审核中-->
-            <RelativeLayout
-                android:id="@+id/order_detail_status_wait_layout"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:background="@color/white"
-                android:visibility="gone">
-
-                <TextView
-                    android:id="@+id/order_detail_status_wait"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="征信审核中"
-                    android:textColor="@color/text_normal"
-                    android:textSize="14.5sp" />
-
-                <View
-                    android:id="@+id/order_detail_status_wait_line"
-                    android:layout_width="match_parent"
-                    android:layout_height="0.5dp"
-                    android:layout_below="@id/order_detail_status_wait"
-                    android:background="@color/main_driver" />
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/order_detail_status_wait_line"
-                    android:orientation="horizontal">
-
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="15dp"
-                        android:src="@mipmap/order_detail_audit" />
-
-                    <TextView
-                        android:id="@+id/order_detail_status_wait_reason"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:padding="15dp"
-                        android:text="征信审核中备注……"
-                        android:textColor="#FFA400"
-                        android:textSize="13.5sp" />
-                </LinearLayout>
-            </RelativeLayout>
+            android:orientation="vertical">
             <!--审核通过-->
             <RelativeLayout
                 android:id="@+id/order_detail_status_pass_layout"
@@ -772,6 +782,469 @@
                 </LinearLayout>
             </LinearLayout>
 
+            <!--金融方案-->
+            <LinearLayout
+                android:id="@+id/order_detail_apply_lin5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@color/white"
+                android:orientation="vertical"
+                android:visibility="visible">
+
+                <TextView
+                    android:id="@+id/order_detail_plan_reply_info9"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:padding="15dp"
+                    android:text="金融方案"
+                    android:textColor="@color/text_normal"
+                    android:textSize="14.5sp" />
+
+                <View
+                    android:id="@+id/order_detail_plan_reply_info_line9"
+                    android:layout_width="match_parent"
+                    android:layout_height="0.5dp"
+                    android:background="@color/main_driver" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:id="@+id/eee"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:text="名称"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/textView3"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="申请信息"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="right|center_vertical"
+                        android:text="批复信息"
+                        android:textSize="14.5sp" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/ss"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="车辆开票价"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_bill_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_bill_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="车辆首付款"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_first_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_first_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:id="@+id/textView4"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="首付比例"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_first_percent_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_first_percent_tv"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="车辆贷款金额"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_loan_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_loan_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="档案管理费"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_management_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_management_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="其他费用"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_other_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_other_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="总贷款额"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_total_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_total_price_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="贷款银行"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_bank_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_bank_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp"
+                    android:visibility="visible">
+
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="产品类型"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_product_type_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_product_type_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginRight="15dp"
+                    android:background="@color/white"
+                    android:orientation="horizontal"
+                    android:paddingTop="5dp">
+
+                    <TextView
+
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:paddingBottom="10dp"
+                        android:paddingTop="10dp"
+                        android:text="还款期限"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/apply_repay_date_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="99999元"
+                        android:textSize="14.5sp" />
+
+                    <TextView
+                        android:id="@+id/reply_repay_data_tv2"
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="1"
+                        android:gravity="center|right"
+                        android:text="90000元"
+                        android:textColor="@color/text_grey"
+                        android:textSize="14.5sp" />
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+
             <!--车辆信息-->
             <LinearLayout
                 android:id="@+id/order_detail_car_info_layout"
@@ -1124,9 +1597,27 @@
                         android:textSize="14.5sp" />
                 </LinearLayout>
             </LinearLayout>
-
         </LinearLayout>
-    </ScrollView>
+    </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_marginBottom="60dp"
+        android:layout_marginRight="15dp"
+        android:scaleType="center"
+        android:src="@mipmap/to_top"
+        app:backgroundTint="@color/transparent"
+        app:borderWidth="0dp"
+        app:elevation="0dp"
+        app:layout_anchor="@id/scrollView_four"
+        app:layout_anchorGravity="bottom|right|end"
+        app:layout_behavior="com.yusion.shanghai.yusion.widget.behavior.CustomBehavior"
+        app:rippleColor="@color/transparent" />
+
 
     <LinearLayout
         android:id="@+id/order_detail_sign_layout"
@@ -1136,7 +1627,7 @@
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <Button
             android:id="@+id/order_detail_sign"
@@ -1148,9 +1639,9 @@
             android:layout_marginRight="15dp"
             android:layout_marginTop="10dp"
             android:layout_weight="1"
-            android:background="@drawable/btn_order_sign"
+            android:background="@drawable/submit_button"
             android:gravity="center"
-            android:text="立即签约"
+            android:text="提交资料"
             android:textColor="@color/white"
             android:textSize="16sp" />
 
@@ -1186,6 +1677,6 @@
             android:text="取消"
             android:textColor="@color/text_light_grey"
             android:textSize="16sp"
-            android:visibility="visible" />
+            android:visibility="gone" />
     </LinearLayout>
 </RelativeLayout>

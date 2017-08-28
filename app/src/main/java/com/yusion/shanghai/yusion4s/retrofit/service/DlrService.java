@@ -6,6 +6,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 
 import java.util.List;
 
@@ -18,6 +19,7 @@ import retrofit2.http.Query;
  */
 
 public interface DlrService {
+
     @GET("/api/crm/dealer/get_dealer_list/")
     Call<BaseResult<List<GetDlrListByTokenResp>>> getDlrListByToken();
 
@@ -29,12 +31,13 @@ public interface DlrService {
     @GET("/api/crm/dealer/get_vehicle_trix_list/")
     Call<BaseResult<List<GetTrixResp>>> getTrix(@Query("brand_id") String brand);
 
+    //贷款银行
     @GET("/api/crm/dealer/get_loan_bank_by_dlr_id/")
     Call<BaseResult<List<GetLoanBankResp>>> getLoanBank(@Query("dlr_id") String dlr_id);
 
     //获取产品类型
     @GET("/api/crm/dealer/get_product_type/")
-    Call<BaseResult<List<String>>> getProductType(@Query("bank_name") String bank_name);
+    Call<BaseResult<GetproductResp>> getProductType(@Query("bank_id") String bank_id, @Query("dlr_id") String dlr_id);//bank_name 改bank_id
 
     //获取车型
     @GET("/api/crm/dealer/get_vehicle_model_list/")

@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.ApplicantDetailActivity">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/base_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separate_line_height"
+                android:background="@color/separate_line_color" />
+
+            <LinearLayout style="@style/apply_info_item">
+
+                <TextView
+                    style="@style/apply_info_title"
+                    android:text="申请人基本信息"
+                    android:textColor="#666666" />
+
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separate_line_height"
+                android:background="@color/separate_line_color" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="128dp"
+                android:background="#FFF"
+                android:orientation="vertical">
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="姓名"
+                        android:textColor="#999999"
+                        android:textSize="13.5sp" />
+
+                    <TextView
+                        android:id="@+id/client_name"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center_vertical"
+                        android:text="张晓"
+                        android:textColor="#222a36"
+                        android:textSize="13.5sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="手机号"
+                        android:textColor="#999999"
+                        android:textSize="13.5sp" />
+
+                    <TextView
+                        android:id="@+id/client_mobile"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center_vertical"
+                        android:text="张晓"
+                        android:textColor="#222a36"
+                        android:textSize="13.5sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="身份证号"
+                        android:textColor="#999999"
+                        android:textSize="13.5sp" />
+
+                    <TextView
+                        android:id="@+id/client_sfz"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center_vertical"
+                        android:text="张晓"
+                        android:textColor="#222a36"
+                        android:textSize="13.5sp" />
+
+                </RelativeLayout>
+
+                <RelativeLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="15dp"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:gravity="center_vertical"
+                        android:text="性别"
+                        android:textColor="#999999"
+                        android:textSize="13.5sp" />
+
+                    <TextView
+                        android:id="@+id/client_sex"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:gravity="center_vertical"
+                        android:text="张晓"
+                        android:textColor="#222a36"
+                        android:textSize="13.5sp" />
+
+                </RelativeLayout>
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separate_line_height"
+                android:background="@color/separate_line_color" />
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="10dp" />
+
+            <LinearLayout
+                android:id="@+id/clent_spouse_lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <LinearLayout style="@style/apply_info_item">
+
+                    <TextView
+                        style="@style/apply_info_title"
+                        android:text="配偶基本信息"
+                        android:textColor="#666666" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp"
+                    android:background="#FFF"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="姓名"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/spouse_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="手机号"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/spouse_mobile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="身份证号"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/spouse_sfz"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="性别"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/spouse_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="15dp"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/guarantor_lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <LinearLayout style="@style/apply_info_item">
+
+                    <TextView
+                        android:id="@+id/textView5"
+                        style="@style/apply_info_title"
+                        android:text="担保人基本信息"
+                        android:textColor="#666666" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp"
+                    android:background="#FFF"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="姓名"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentEnd="true"
+                            android:layout_alignParentRight="true"
+                            android:layout_alignParentTop="true"
+                            android:layout_marginEnd="13dp"
+                            android:layout_marginRight="13dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="手机号"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_mobile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="身份证号"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_sfz"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="性别"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="10dp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/guarantor_spouse_lin"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <LinearLayout
+                    android:id="@+id/client_credit__book_lin"
+                    style="@style/apply_info_item">
+
+                    <TextView
+                        style="@style/apply_info_title"
+                        android:text="担保人配偶基本信息"
+                        android:textColor="#666666" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="128dp"
+                    android:background="#FFF"
+                    android:orientation="vertical">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="姓名"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_spouse_name"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="手机号"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_spouse_mobile"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="身份证号"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_spouse_sfz"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="32dp"
+                        android:layout_marginLeft="15dp"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="性别"
+                            android:textColor="#999999"
+                            android:textSize="13.5sp" />
+
+                        <TextView
+                            android:id="@+id/guarantor_spouse_sex"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_alignParentRight="true"
+                            android:layout_marginRight="15dp"
+                            android:gravity="center_vertical"
+                            android:text="张晓"
+                            android:textColor="#222a36"
+                            android:textSize="13.5sp" />
+
+                    </RelativeLayout>
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="20dp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>
+
+
