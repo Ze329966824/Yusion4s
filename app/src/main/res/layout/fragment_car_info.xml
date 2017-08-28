@@ -386,8 +386,9 @@
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
+                            android:id="@+id/textView6"
                             style="@style/apply_info_title"
-                            android:text="厂商指导价(元)" />
+                            android:text="市场指导价(元)" />
 
                         <TextView
                             android:id="@+id/car_info_guide_price_tv"
@@ -480,7 +481,7 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="档案管理费" />
+                            android:text="是否贷档案管理费" />
 
                         <TextView
                             android:id="@+id/car_info_management_price_tv"
@@ -517,9 +518,10 @@
                             android:id="@+id/car_info_other_price_tv"
                             style="@style/apply_info_content"
                             android:layout_marginRight="35dp"
-                            android:hint="请输入其他费用"
+                            android:hint="*金额取整到百位,如2300"
                             android:inputType="number"
-                            android:maxLength="4" />
+                            android:maxLength="4"
+                            android:textColorHint="#ED9121" />
 
                     </LinearLayout>
 
