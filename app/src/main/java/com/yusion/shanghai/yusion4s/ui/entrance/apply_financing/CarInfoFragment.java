@@ -234,6 +234,7 @@ public class CarInfoFragment extends BaseFragment {
     private LinearLayout carInfoLoanBankLin;
     private LinearLayout carInfoProductTypeLin;
     private LinearLayout carInfoLoanPeriodsLin;
+    private String cityJson;
 
     public static CarInfoFragment newInstance() {
         Bundle args = new Bundle();
@@ -333,12 +334,16 @@ public class CarInfoFragment extends BaseFragment {
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (TextUtils.isEmpty(productTypeTv.getText())) {
+                    Toast.makeText(mContext, "请选择上牌地", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
                     @Override
                     public void onCitySubmitCallBack(View clickedView, String city) {
 
                     }
-                });
+                }, cityJson);
             }
         });
         managementPriceLl.setOnClickListener(new View.OnClickListener() {
@@ -565,6 +570,12 @@ public class CarInfoFragment extends BaseFragment {
                 DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
                     @Override
                     public void onItemDataCallBack(GetproductResp resp) {
+                        if (resp == null) {
+                            return;
+                        }
+
+                        cityJson = resp.support_area.toString();
+                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
 
                         mProductList = resp.product_list;
 
