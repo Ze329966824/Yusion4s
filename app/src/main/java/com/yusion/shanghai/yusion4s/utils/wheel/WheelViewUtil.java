@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.utils.wheel;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.text.TextUtils;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,6 +12,7 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.utils.InputMethodUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.model.CityModel;
@@ -19,7 +21,12 @@ import com.yusion.shanghai.yusion4s.utils.wheel.model.ProvinceModel;
 import com.yusion.shanghai.yusion4s.utils.wheel.parser.XmlParserHandler;
 import com.yusion.shanghai.yusion4s.widget.WheelView;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -48,7 +55,7 @@ public class WheelViewUtil {
     }
 
     private static <T> void showWheelView(final List<T> list, int selectedIndex, final TextView showView,
-                                         final String title, final OnSubmitCallBack onSubmitCallBack) {
+                                          final String title, final OnSubmitCallBack onSubmitCallBack) {
         showWheelView(list, selectedIndex, showView, showView, title, onSubmitCallBack);
     }
 
@@ -64,7 +71,7 @@ public class WheelViewUtil {
         }
 
         //View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout, null);
-        View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout,null);
+        View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout, null);
         TextView textTitle = (TextView) wheelViewLayout.findViewById(R.id.select_title);
         textTitle.setText(title);
 
@@ -120,6 +127,10 @@ public class WheelViewUtil {
     }
 
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack) {
+        showCityWheelView(tag,clickedView,showView,title,onCitySubmitCallBack,null);
+    }
+
+    public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
         clickedView.setEnabled(false);
         if (mCityWheelViewUtil == null) {
             mCityWheelViewUtil = new CityWheelViewUtil();
@@ -144,9 +155,13 @@ public class WheelViewUtil {
         Button okBtn = (Button) wheelViewLayout.findViewById(R.id.select_ok);
         Button cancelBtn = (Button) wheelViewLayout.findViewById(R.id.select_cancel);
 
-        if (mProvinceList == null) {
-            mProvinceList = initProvinceData(context);
-        }
+//        if (mProvinceList == null) {
+            if (TextUtils.isEmpty(cityJson)) {
+                mProvinceList = initProvinceData(context);
+            }else {
+                mProvinceList = initProvinceData(cityJson);
+            }
+//        }
 
         wv_province.setOffset(DEFAULT_OFFSET);
         wv_city.setOffset(DEFAULT_OFFSET);
@@ -216,6 +231,22 @@ public class WheelViewUtil {
         mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mWheelViewDialog.show();
     }
+
+    private static List<ProvinceModel> initProvinceData(String cityJson) {
+        List<ProvinceModel> provinceModels = new ArrayList<>();
+        try {
+            JSONArray array = new JSONArray(cityJson);
+            for (int i = 0; i < array.length(); i++) {
+                JSONObject jsonObject = array.getJSONObject(i);
+                ProvinceModel model = new Gson().fromJson(jsonObject.toString(), ProvinceModel.class);
+                provinceModels.add(model);
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return provinceModels;
+    }
+
 
 
     private static List<ProvinceModel> initProvinceData(Context context) {

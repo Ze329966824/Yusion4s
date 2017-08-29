@@ -1,6 +1,5 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
-import android.content.BroadcastReceiver;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -29,17 +28,13 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
-import com.yusion.shanghai.yusion4s.widget.WheelView;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import rx.internal.schedulers.EventLoopsScheduler;
 
 /**
  * Created by aa on 2017/8/9.
@@ -324,6 +319,7 @@ public class CarInfoFragment extends BaseFragment {
 
             });
         }));
+
         //上牌地
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
             @Override
