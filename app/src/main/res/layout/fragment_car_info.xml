@@ -511,13 +511,18 @@
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
-                            style="@style/apply_info_title"
-                            android:text="其他费用(元)" />
+                            android:layout_width="110dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="其他费用(元)"
+                            android:textColor="#222A36"
+                            android:textSize="14.5sp" />
 
                         <EditText
                             android:id="@+id/car_info_other_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="25dp"
                             android:hint="*金额取整到百位,如2300"
                             android:inputType="number"
                             android:maxLength="4"
