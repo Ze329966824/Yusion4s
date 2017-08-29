@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.dlr;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
@@ -9,86 +11,69 @@ import java.util.List;
 
 public class GetproductResp {
 
-
     public List<SupportAreaBean> support_area;
     public List<ProductListBean> product_list;
 
-    public List<SupportAreaBean> getSupport_area() {
-        return support_area;
-    }
-
-    public void setSupport_area(List<SupportAreaBean> support_area) {
-        this.support_area = support_area;
-    }
-
-    public List<ProductListBean> getProduct_list() {
-        return product_list;
-    }
-
-    public void setProduct_list(List<ProductListBean> product_list) {
-        this.product_list = product_list;
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 
     public static class SupportAreaBean {
         /**
-         * province : 江苏
-         * city : 苏州
-         * district : 工业园区
+         * name : 江苏
+         * cityList : [{"name":"苏州","districtList":[{"name":"工业园区"},{"name":"吴中区"}]}]
          */
 
-        private String province;
-        private String city;
-        private String district;
+        public String name;
+        public List<CityListBean> cityList;
 
-        public String getProvince() {
-            return province;
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
         }
 
-        public void setProvince(String province) {
-            this.province = province;
-        }
+        public static class CityListBean {
+            /**
+             * name : 苏州
+             * districtList : [{"name":"工业园区"},{"name":"吴中区"}]
+             */
 
-        public String getCity() {
-            return city;
-        }
+            public String name;
+            public List<DistrictListBean> districtList;
 
-        public void setCity(String city) {
-            this.city = city;
-        }
+            @Override
+            public String toString() {
+                return new Gson().toJson(this);
+            }
 
-        public String getDistrict() {
-            return district;
-        }
+            public static class DistrictListBean {
+                /**
+                 * name : 工业园区
+                 */
 
-        public void setDistrict(String district) {
-            this.district = district;
+                public String name;
+
+                @Override
+                public String toString() {
+                    return new Gson().toJson(this);
+                }
+            }
         }
     }
 
-    public static class
-    ProductListBean {
+    public static class ProductListBean {
         /**
          * name : 测试
          * product_id : 1
          */
 
-        private String name;
-        private int product_id;
+        public String name;
+        public int product_id;
 
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public int getProduct_id() {
-            return product_id;
-        }
-
-        public void setProduct_id(int product_id) {
-            this.product_id = product_id;
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
         }
     }
 }

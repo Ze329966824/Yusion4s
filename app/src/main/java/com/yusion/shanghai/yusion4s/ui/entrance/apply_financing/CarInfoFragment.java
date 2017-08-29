@@ -571,7 +571,7 @@ public class CarInfoFragment extends BaseFragment {
                         List<String> items = new ArrayList<String>();
 
                         for (GetproductResp.ProductListBean product_list : resp.product_list) {
-                            items.add(product_list.getName());
+                            items.add(product_list.name);
                         }
 
                         WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
@@ -769,7 +769,7 @@ public class CarInfoFragment extends BaseFragment {
 
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                     //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
-                    req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
+                    req.product_id = mProductList.get(mProductTypeIndex).product_id;
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
 
                     //req.product_type = productTypeTv.getText().toString();
