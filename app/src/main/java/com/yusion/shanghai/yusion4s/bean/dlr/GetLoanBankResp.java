@@ -13,7 +13,9 @@ public class GetLoanBankResp {
      * rate_36 : 0.0900
      */
 
-    public String bank_name;
+    public String name;
+    public String bank_id;
+
     public String rate_12;
     public String rate_24;
     public String rate_36;

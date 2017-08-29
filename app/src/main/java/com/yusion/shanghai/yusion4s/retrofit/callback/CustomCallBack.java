@@ -43,6 +43,7 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
     public void onResponse(Call<BaseResult<T>> call, Response<BaseResult<T>> response) {
         BaseResult<T> body = response.body();
         Log.e("API", "onResponse: " + body);
+        //if (body == null) return;
         if (body.code < 0) {
             if (Settings.isOnline) {
                 Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show();

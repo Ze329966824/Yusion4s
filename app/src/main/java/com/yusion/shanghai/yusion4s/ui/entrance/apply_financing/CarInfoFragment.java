@@ -8,6 +8,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
@@ -42,7 +44,13 @@ import java.util.List;
 
 public class CarInfoFragment extends BaseFragment {
     public static final int DELAY_MILLIS = 1000;
-    private List<String> mLoanBankList = new ArrayList<>();
+
+    private List<GetLoanBankResp> mLoanBankList = new ArrayList<>();
+
+    //private List<GetproductResp> mProductList = new ArrayList<>();
+    //private GetproductResp.product_list mProductList = new GetproductResp.product_list();
+    private List<GetproductResp.ProductListBean> mProductList = new ArrayList<>();
+
     private List<GetDlrListByTokenResp> mDlrList = new ArrayList<>();
     private List<GetModelResp> mModelList = new ArrayList<>();
     private List<GetBrandResp> mBrandList = new ArrayList<>();
@@ -513,15 +521,29 @@ public class CarInfoFragment extends BaseFragment {
 //                }
             }
         });
+
 //        view.findViewById(R.id.car_info_loan_bank_lin)
-        carInfoLoanBankLin.setOnClickListener(v -> {
+        carInfoLoanBankLin.setOnClickListener(v -> {//选择银行列表
             if (!TextUtils.isEmpty(dlrTV.getText())) {
                 DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
-                    mLoanBankList.clear();
+
+//                    mModelList = resp;
+//                    List<String> items = new ArrayList<>();
+//                    for (GetModelResp modelResp : resp) {
+//                        items.add(modelResp.model_name);
+//                    }
+                    mLoanBankList = resp;//银行列表
+                    List<String> items = new ArrayList<String>();
                     for (GetLoanBankResp getLoanBankResp : resp) {
-                        mLoanBankList.add(getLoanBankResp.bank_name);
+                        items.add(getLoanBankResp.name);
                     }
-                    WheelViewUtil.showWheelView(mLoanBankList, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+                    // mLoanBankList.clear();
+
+//                    for (GetLoanBankResp getLoanBankResp : resp) {
+//                        mLoanBankList.add(getLoanBankResp.bank_name);
+//                    }
+                    WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+
                 });
             } else {
                 Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
@@ -532,12 +554,50 @@ public class CarInfoFragment extends BaseFragment {
 //        view.findViewById(R.id.car_info_product_type_lin)
         carInfoProductTypeLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
-                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex), resp -> WheelViewUtil.showWheelView(resp, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+//                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, resp -> WheelViewUtil.showWheelView(resp, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+//                    @Override
+//                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
+//                        mProductTypeIndex = selectedIndex;
+//                    }
+//                }));
+
+                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
                     @Override
-                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                        mProductTypeIndex = selectedIndex;
+                    public void onItemDataCallBack(GetproductResp resp) {
+
+                        mProductList = resp.product_list;
+
+                        List<String> items = new ArrayList<String>();
+
+                        for (GetproductResp.ProductListBean product_list : resp.product_list) {
+                            items.add(product_list.getName());
+                        }
+
+                        WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+                            @Override
+                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                                mProductTypeIndex = selectedIndex;
+                            }
+                        });
                     }
-                }));
+                });
+//                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<List<GetproductResp>>() {
+//                    @Override
+//                    public void onItemDataCallBack(List<GetproductResp> resp) {
+//                        mProductList = resp;
+//                        List<String> items = new ArrayList<String>();
+//                        for (GetproductResp getproductResp : resp) {//很多条中的其中一条
+//                            items.add(getproductResp.name);
+//                        }
+//                        WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+//                            @Override
+//                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
+//                                mProductTypeIndex = selectedIndex;
+//                            }
+//                        });
+//                    }
+//
+//                });
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
                 Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -692,9 +752,12 @@ public class CarInfoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (checkCanNextStep()) {
+
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+
                     req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                     req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+
                     req.vehicle_color = colorTv.getText().toString();
                     req.vehicle_price = billPriceTv.getText().toString();
                     req.vehicle_down_payment = firstPriceTv.getText().toString();
@@ -702,11 +765,18 @@ public class CarInfoFragment extends BaseFragment {
                     req.loan_amt = totalLoanPriceTv.getText().toString();
                     req.management_fee = managementPriceTv.getText().toString();
                     req.other_fee = otherPriceTv.getText().toString();
-                    req.loan_bank = loanBankTv.getText().toString();
+
+                    req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
+                    //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
+                    req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
-                    req.product_type = productTypeTv.getText().toString();
+
+                    //req.product_type = productTypeTv.getText().toString();
+
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+                    Log.e("SSSSSSS", req.toString());
+                    Log.e("s2", req.bank_id);
                 }
             }
         });
@@ -798,7 +868,6 @@ public class CarInfoFragment extends BaseFragment {
     }
 
     private int getPrice(TextView priceTv) {
-
         return getPrice(priceTv.getText().toString());
     }
 }

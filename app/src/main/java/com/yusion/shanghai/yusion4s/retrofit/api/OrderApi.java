@@ -3,9 +3,11 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
+import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
@@ -47,6 +49,17 @@ public class OrderApi {
         });
     }
 
+    public static void getApplicateDetail(final Context context, String clt_id, final OnItemDataCallBack<GetApplicateDetailResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getApplicateDetail(clt_id).enqueue(new CustomCallBack<GetApplicateDetailResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(GetApplicateDetailResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
+
     public static void getAppList(final Context context, String st, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getOrderService().getAppList(st).enqueue(new CustomCallBack<List<GetAppListResp>>(context, dialog) {
@@ -66,5 +79,16 @@ public class OrderApi {
             }
         });
     }
+
+    public static void getFinancePlanDetail(final Context context, String plan_id, final OnItemDataCallBack<GetFinancePlanDetailResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getFinancePlanDetail(plan_id).enqueue(new CustomCallBack<GetFinancePlanDetailResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(GetFinancePlanDetailResp resp) {
+                onItemDataCallBack.onItemDataCallBack(resp);
+            }
+        });
+    }
+
 
 }

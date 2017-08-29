@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.order.submit;
 
+import com.google.gson.Gson;
+
 /**
  * Created by ice on 17/4/13.
  * ice is a big cow?
@@ -21,10 +23,10 @@ public class SubmitOrderReq {
      * gps_fee : 500
      * plate_reg_addr : 上海
      * nper : 24
-     * loan_bank : 工商银行
-     * product_type : 予见I型
+     * loan_bank : 工商银行        bank_id 银行名字
+     * product_type : 予见I型     product_id 产品 名字
      */
-
+    public String clt_id;
     public String id_no;
     public String dlr_id;
     public int vehicle_model_id;
@@ -39,28 +41,16 @@ public class SubmitOrderReq {
     public String gps_fee = "0";
     public String plate_reg_addr;
     public int nper;
-    public String loan_bank;
-    public String product_type;
+    //public String loan_bank;
+
+    public String bank_id;
+    public int product_id;
+
+    //public String product_type;
 
     @Override
     public String toString() {
-        return "SubmitOrderReq{" +
-                "id_no='" + id_no + '\'' +
-                ", dlr_id='" + dlr_id + '\'' +
-                ", vehicle_model_id=" + vehicle_model_id +
-                ", vehicle_color='" + vehicle_color + '\'' +
-                ", vehicle_price='" + vehicle_price + '\'' +
-                ", vehicle_down_payment='" + vehicle_down_payment + '\'' +
-                ", vehicle_loan_amt='" + vehicle_loan_amt + '\'' +
-                ", vehicle_cond='" + vehicle_cond + '\'' +
-                ", management_fee='" + management_fee + '\'' +
-                ", loan_amt='" + loan_amt + '\'' +
-                ", other_fee='" + other_fee + '\'' +
-                ", gps_fee='" + gps_fee + '\'' +
-                ", plate_reg_addr='" + plate_reg_addr + '\'' +
-                ", nper=" + nper +
-                ", loan_bank='" + loan_bank + '\'' +
-                ", product_type='" + product_type + '\'' +
-                '}';
+
+        return new Gson().toJson(this);
     }
 }

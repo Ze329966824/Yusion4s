@@ -9,15 +9,31 @@ import org.json.JSONObject;
  */
 
 public class SearchClientResp {
-
-    /**
-     * "clt_id": "2ce3b4ee7be711e7a7560242ac110003",
-     * "clt_nm": "李拓",
-     * "mobile": "176****6549",
-     * "id_no": "412***********6013"
-     */
-    //public boolean exsits
-    public String id_no_r;
+    /*
+        {
+            "code": 0,
+                "msg": "查询成功",
+                "data": [
+            {
+                "clt_id": "ede5314687ad11e7b0c202f1f38b2f4a",
+                    "id_no": "341***********6136",
+                    "clt_nm": "叶磊",
+                    "mobile": "176****4799",
+                    "auth_credit": {
+                "lender": {
+                    "clt_id": "ede5314687ad11e7b0c202f1f38b2f4a",
+                            "auth_credit_img_count": 0
+                },
+                "guarantor": {
+                    "clt_id": "cbef40dc889711e7b05502f1f38b2f4a",
+                            "auth_credit_img_count": 0
+                }
+            }
+            }
+        ]
+        }
+        */
+    // public String id_no_r;
     public String clt_id;
     public String clt_nm;
     public String mobile;
@@ -25,25 +41,68 @@ public class SearchClientResp {
     public auth_credit auth_credit;
 
     public static class auth_credit {
-        public String lender_sp;
-        public String lender;
-        public String guarantor;
+
+        public lender lender;
+        public guarantor guarantor;
+        public lender_sp lender_sp;
+        public guarantor_sp guarantor_sp;
 
         @Override
         public String toString() {
+
+            return new Gson().toJson(this);
+        }
+
+    }
+
+    public class lender {
+        public String clt_id;
+        public String auth_credit_img_count;
+
+        @Override
+        public String toString() {
+
             return new Gson().toJson(this);
         }
     }
 
+    public class lender_sp {
+        public String clt_id;
+        public String auth_credit_img_count;
+
+        @Override
+        public String toString() {
+
+            return new Gson().toJson(this);
+        }
+    }
+
+    public class guarantor {
+        public String clt_id;
+        public String auth_credit_img_count;
+
+        @Override
+        public String toString() {
+
+            return new Gson().toJson(this);
+        }
+    }
+
+    public class guarantor_sp {
+        public String clt_id;
+        public String auth_credit_img_count;
+
+        @Override
+        public String toString() {
+
+            return new Gson().toJson(this);
+        }
+    }
+
+
     @Override
     public String toString() {
-//        return "SearchClientResp{" +
-//                "clt_id='" + clt_id + '\'' +
-//                ", clt_nm='" + clt_nm + '\'' +
-//                ", mobile=" + mobile +
-//                ", id_no=" + id_no +
-//                ", auth_credit=" + auth_credit +
-//                '}';
+
         return new Gson().toJson(this);
     }
 }

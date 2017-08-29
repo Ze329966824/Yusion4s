@@ -18,5 +18,7 @@
     <color name="textHintColor">#b1b1b1</color>
     <color name="main_driver">#ECECEC</color>
     <color name="btn_blue">#007cc1</color>
+    <color name="text_grey">#666666</color>
+    <color name="transparent">#0000</color>
 
 </resources>

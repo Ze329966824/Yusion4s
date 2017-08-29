@@ -1,19 +1,25 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.widget.NestedScrollView;
 import android.view.View;
+import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 
 
 /**
@@ -61,17 +67,63 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView passReason;
     private TextView rejectReason;
 
+    private Button orderDetailSignBtn;
+
+
+    //申请和批复的金融方案
+    private TextView applyFirstPercentTv2;
+    private TextView replyFirstPercentTv2;
+    private TextView applyBillPriceTv2;
+    private TextView replyBillPriceTv2;
+
+    private TextView applyFirstPriceTv2;
+    private TextView replyFirstPriceTv2;
+
+    private TextView applyLoanPriceTv2;
+    private TextView replyLoanPriceTv2;
+
+    private TextView applyManagementPriceTv2;
+    private TextView replyManagementPriceTv2;
+
+    private TextView applyOtherPriceTv2;
+    private TextView replyOtherPriceTv2;
+
+    private TextView applyTotalPriceTv2;
+    private TextView replyTotalPriceTv2;
+
+    private TextView applyBankTv2;
+    private TextView replyBankTv2;
+
+    private TextView applyReplyDateTv2;
+    private TextView ReplyRepayDateTv2;
+
+    private TextView applyProductTypeTv2;
+    private TextView replyProductTypeTv2;
+
+    private FloatingActionButton fab;
+    private NestedScrollView mScrollView;
+
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.order_detail);
         initView();
         initTitleBar(this, "申请详情");
 //        initView();
         initData();
+
     }
 
     private void initView() {
+        fab = (FloatingActionButton) findViewById(R.id.fab);
+        mScrollView = (NestedScrollView) findViewById(R.id.scrollView_four);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mScrollView.smoothScrollTo(0, 0);
+            }
+        });
         waitRel = (RelativeLayout) findViewById(R.id.order_detail_status_wait_layout);
         cancelRel = (RelativeLayout) findViewById(R.id.order_detail_status_cancel_layout);
         passRel = (RelativeLayout) findViewById(R.id.order_detail_status_pass_layout);
@@ -114,6 +166,38 @@ public class OrderDetailActivity extends BaseActivity {
         salesNameTv = (TextView) findViewById(R.id.order_detail_sales_name_tv);
         customerIdTv = (TextView) findViewById(R.id.order_detail_customer_id_tv);
         customerNameTv = (TextView) findViewById(R.id.order_detail_customer_name_tv);
+
+
+        applyFirstPercentTv2 = (TextView) findViewById(R.id.apply_first_percent_tv);
+        replyFirstPercentTv2 = (TextView) findViewById(R.id.reply_first_percent_tv);
+        applyBillPriceTv2 = (TextView) findViewById(R.id.apply_bill_price_tv2);
+        replyBillPriceTv2 = (TextView) findViewById(R.id.reply_bill_price_tv2);
+
+        applyFirstPriceTv2 = (TextView) findViewById(R.id.apply_first_price_tv2);
+        replyFirstPriceTv2 = (TextView) findViewById(R.id.reply_first_price_tv2);
+
+        applyLoanPriceTv2 = (TextView) findViewById(R.id.apply_loan_price_tv2);
+        replyLoanPriceTv2 = (TextView) findViewById(R.id.reply_loan_price_tv2);
+
+        applyManagementPriceTv2 = (TextView) findViewById(R.id.apply_management_price_tv2);
+        replyManagementPriceTv2 = (TextView) findViewById(R.id.reply_management_price_tv2);
+
+        applyOtherPriceTv2 = (TextView) findViewById(R.id.apply_other_price_tv2);
+        replyOtherPriceTv2 = (TextView) findViewById(R.id.reply_other_price_tv2);
+
+        applyBankTv2 = (TextView) findViewById(R.id.apply_bank_tv2);
+        replyBankTv2 = (TextView) findViewById(R.id.reply_bank_tv2);
+
+        applyReplyDateTv2 = (TextView) findViewById(R.id.apply_repay_date_tv2);
+        ReplyRepayDateTv2 = (TextView) findViewById(R.id.reply_repay_data_tv2);
+
+        applyTotalPriceTv2 = (TextView) findViewById(R.id.apply_total_price_tv2);
+        replyTotalPriceTv2 = (TextView) findViewById(R.id.reply_total_price_tv2);
+
+        applyProductTypeTv2 = (TextView) findViewById(R.id.apply_product_type_tv2);
+        replyProductTypeTv2 = (TextView) findViewById(R.id.reply_product_type_tv2);
+
+        orderDetailSignBtn = (Button) findViewById(R.id.order_detail_sign);
     }
 
     private void initData() {
@@ -193,6 +277,74 @@ public class OrderDetailActivity extends BaseActivity {
                 });
             }
         });
+        OrderApi.getFinancePlanDetail(this, app_id, new OnItemDataCallBack<GetFinancePlanDetailResp>() {
+            @Override
+            public void onItemDataCallBack(GetFinancePlanDetailResp resp) {
+                applyBillPriceTv2.setText(resp.getApp().getVehicle_price());
+                replyBillPriceTv2.setText(resp.getUw().getVehicle_price());
+                //compare(resp.getApp().getVehicle_price(),resp.getUw().getVehicle_price(),applyBillPriceTv,replyBillPriceTv);
+
+                applyFirstPriceTv2.setText(resp.getApp().getVehicle_down_payment());
+                replyFirstPriceTv2.setText(resp.getUw().getVehicle_down_payment());
+
+                applyLoanPriceTv2.setText(resp.getApp().getVehicle_loan_amt());
+                replyLoanPriceTv2.setText(resp.getUw().getVehicle_down_payment());
+
+                applyManagementPriceTv2.setText(resp.getApp().getManagement_fee());
+                replyManagementPriceTv2.setText(resp.getUw().getManagement_fee());
+
+                applyOtherPriceTv2.setText(resp.getApp().getOther_fee());
+                replyOtherPriceTv2.setText(resp.getUw().getOther_fee());
+
+                applyTotalPriceTv2.setText(resp.getApp().getLoan_amt());
+                replyTotalPriceTv2.setText(resp.getUw().getLoan_amt());
+
+                applyBankTv2.setText(resp.getApp().getLoan_bank());
+                replyBankTv2.setText(resp.getUw().getLoan_bank());
+
+                applyReplyDateTv2.setText(resp.getApp().getNper() + "期");
+                ReplyRepayDateTv2.setText(resp.getUw().getNper() + "期");
+
+                applyFirstPercentTv2.setText(resp.getApp().getVehicle_down_payment_percent() * 100 + "%");
+                replyFirstPercentTv2.setText(resp.getUw().getVehicle_down_payment_percent() * 100 + "%");
+
+                applyProductTypeTv2.setText(resp.getApp().getProduct_type());
+                replyProductTypeTv2.setText(resp.getUw().getProduct_type());
+
+            }
+        });
+
+        compare(applyFirstPercentTv2, replyFirstPercentTv2);
+        compare(applyBillPriceTv2, replyBillPriceTv2);
+        compare(applyFirstPriceTv2, replyFirstPriceTv2);
+        compare(applyLoanPriceTv2, replyLoanPriceTv2);
+        compare(applyManagementPriceTv2, replyManagementPriceTv2);
+        compare(applyOtherPriceTv2, replyOtherPriceTv2);
+        compare(applyTotalPriceTv2, replyTotalPriceTv2);
+        compare(applyBankTv2, replyBankTv2);
+        compare(applyReplyDateTv2, ReplyRepayDateTv2);
+        compare(applyProductTypeTv2, replyProductTypeTv2);
+
+        orderDetailSignBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                UploadLabelListActivity.start(OrderDetailActivity.this, app_id);
+            }
+        });
+
+
+    }
+
+    private void compare(TextView tv1, TextView tv2) {
+        if (tv1.getText().toString().compareTo(tv2.getText().toString()) == 0) {
+            tv1.setTextColor(Color.parseColor("#999999"));
+            tv2.setTextColor(Color.parseColor("#222a36"));
+        } else {
+            tv1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
+            tv1.setTextColor(Color.parseColor("#999999"));
+            tv2.setTextColor(Color.parseColor("#CBA053"));
+        }
     }
 
 }
