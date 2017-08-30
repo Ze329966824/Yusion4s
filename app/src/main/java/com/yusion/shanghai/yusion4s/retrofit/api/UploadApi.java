@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListLabelsErrorReq;
@@ -50,6 +51,16 @@ public class UploadApi {
             @Override
             public void onCustomResponse(ListLabelsErrorResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
+    public static void delImgs(final Context context, DelImgsReq req, OnCodeAndMsgCallBack onCodeAndMsgCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getUploadService().delImgs(req).enqueue(new CustomCodeAndMsgCallBack(context,dialog) {
+            @Override
+            public void onCustomResponse(int code, String msg) {
+                onCodeAndMsgCallBack.callBack(code,msg);
             }
         });
     }

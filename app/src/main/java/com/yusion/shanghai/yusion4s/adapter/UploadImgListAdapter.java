@@ -36,6 +36,7 @@ public class UploadImgListAdapter extends RecyclerView.Adapter<UploadImgListAdap
     private OnItemClick mOnItemClick;
     public static final int TYPE_ADD_IMG = 100;
     public static final int TYPE_IMG = 101;
+    private boolean isEditing = false;
 
     public UploadImgListAdapter(Context context, List<UploadImgItemBean> items) {
         mItems = items;
@@ -67,38 +68,25 @@ public class UploadImgListAdapter extends RecyclerView.Adapter<UploadImgListAdap
             } else {
                 Glide.with(mContext).load(item.s_url).listener(new GlideRequestListener(dialog)).into(holder.img);
             }
-            holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item));
+            holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, holder.cbImg));
+            if (isEditing) {
+                holder.cbImg.setVisibility(View.VISIBLE);
+                if (item.hasChoose) {
+                    holder.cbImg.setImageResource(R.mipmap.surechoose_icon);
+                    holder.cbImg.setTag(R.id.hasChoose, true);
+                } else {
+                    holder.cbImg.setImageResource(R.mipmap.choose_icon);
+                    holder.cbImg.setTag(R.id.hasChoose, false);
+                }
+
+            } else {
+                holder.cbImg.setVisibility(View.GONE);
+            }
         }
     }
 
-    @Override
-    public int getItemViewType(int position) {
-        return position == mItems.size() ? TYPE_ADD_IMG : TYPE_IMG;
-    }
-
-    //size+1是因为有 添加图片的item
-    @Override
-    public int getItemCount() {
-        return mItems == null ? 0 : mItems.size() + 1;
-    }
-
-    protected class VH extends RecyclerView.ViewHolder {
-        public ImageView img;
-
-        public VH(View itemView) {
-            super(itemView);
-            img = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_img));
-        }
-    }
-
-    public interface OnItemClick {
-        void onItemClick(View v, UploadImgItemBean item);
-
-        void onFooterClick(View v);
-    }
-
-    public void setOnItemClick(OnItemClick mOnItemClick) {
-        this.mOnItemClick = mOnItemClick;
+    public void setIsEditing(boolean isEditing) {
+        this.isEditing = isEditing;
     }
 
     private class GlideRequestListener implements RequestListener<Drawable> {
@@ -121,4 +109,38 @@ public class UploadImgListAdapter extends RecyclerView.Adapter<UploadImgListAdap
             return false;
         }
     }
+
+
+    @Override
+    public int getItemViewType(int position) {
+        return position == mItems.size() ? TYPE_ADD_IMG : TYPE_IMG;
+    }
+
+    //size+1是因为有 添加图片的item
+    @Override
+    public int getItemCount() {
+        return mItems == null ? 0 : mItems.size() + 1;
+    }
+
+    protected class VH extends RecyclerView.ViewHolder {
+        public ImageView img;
+        public ImageView cbImg;
+
+        public VH(View itemView) {
+            super(itemView);
+            img = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_img));
+            cbImg = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_cb_img));
+        }
+    }
+
+    public interface OnItemClick {
+        void onItemClick(View v, UploadImgItemBean item, ImageView cbImg);
+
+        void onFooterClick(View v);
+    }
+
+    public void setOnItemClick(OnItemClick mOnItemClick) {
+        this.mOnItemClick = mOnItemClick;
+    }
+
 }

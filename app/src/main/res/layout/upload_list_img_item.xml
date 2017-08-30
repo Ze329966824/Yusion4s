@@ -50,10 +50,14 @@
             </RelativeLayout>
         </RelativeLayout>
 
-        <CheckBox
-            android:id="@+id/image_file_item_upload_check_delete"
+        <ImageView
+            android:layout_margin="5dp"
+            android:id="@+id/upload_list_img_item_cb_img"
             android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:src="@mipmap/choose_icon"
             android:visibility="gone"
-            android:layout_height="wrap_content" />
+            tools:visibility="visible" />
     </RelativeLayout>
 </RelativeLayout>

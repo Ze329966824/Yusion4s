@@ -288,6 +288,10 @@ public class TitleBar extends ViewGroup {
         return this;
     }
 
+    public TextView getRightTextTv() {
+        return mRightTextTv;
+    }
+
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         int heightMode = MeasureSpec.getMode(heightMeasureSpec);
