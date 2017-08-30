@@ -522,7 +522,7 @@
                         <EditText
                             android:id="@+id/car_info_other_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="25dp"
+                            android:layout_marginRight="35dp"
                             android:hint="*金额取整到百位,如2300"
                             android:inputType="number"
                             android:maxLength="4"

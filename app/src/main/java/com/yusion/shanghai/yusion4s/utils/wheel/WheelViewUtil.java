@@ -127,7 +127,7 @@ public class WheelViewUtil {
     }
 
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack) {
-        showCityWheelView(tag,clickedView,showView,title,onCitySubmitCallBack,null);
+        showCityWheelView(tag, clickedView, showView, title, onCitySubmitCallBack, null);
     }
 
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
@@ -156,11 +156,11 @@ public class WheelViewUtil {
         Button cancelBtn = (Button) wheelViewLayout.findViewById(R.id.select_cancel);
 
 //        if (mProvinceList == null) {
-            if (TextUtils.isEmpty(cityJson)) {
-                mProvinceList = initProvinceData(context);
-            }else {
-                mProvinceList = initProvinceData(cityJson);
-            }
+        if (TextUtils.isEmpty(cityJson)) {
+            mProvinceList = initProvinceData(context);
+        } else {
+            mProvinceList = initProvinceData(cityJson);
+        }
 //        }
 
         wv_province.setOffset(DEFAULT_OFFSET);
@@ -246,7 +246,6 @@ public class WheelViewUtil {
         }
         return provinceModels;
     }
-
 
 
     private static List<ProvinceModel> initProvinceData(Context context) {

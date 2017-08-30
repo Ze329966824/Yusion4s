@@ -110,17 +110,6 @@ public class CarInfoFragment extends BaseFragment {
                             otherPriceTv.setSelection(otherPriceTv.getText().toString().length());
                         }
                     }
-//                    if (otherPriceTv.getText().equals("")) {
-//                        return;
-//                    } else if ((otherPriceTv.getText().toString().length() < 3) || Integer.valueOf(otherPriceTv.getText().toString()) % 100 != 0) {
-//                        Toast.makeText(mContext, "请输入整百的数", Toast.LENGTH_SHORT).show();
-//                        otherPriceTv.setText("");
-//                    } else if (Integer.valueOf(otherPriceTv.getText().toString()) > 3000 && Integer.valueOf(otherPriceTv.getText().toString()) % 100 == 0) {
-//                        otherPriceTv.setText(String.valueOf(3000));
-//                        Toast.makeText(mContext, "其他费用最大金额为3000", Toast.LENGTH_LONG).show();
-//                    } else {
-//                        otherPriceTv.setText(otherPriceTv.getText());
-//                    }
                     break;
                 case 2:
                     firstPriceChange = false;
@@ -335,9 +324,12 @@ public class CarInfoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(productTypeTv.getText())) {
-                    Toast.makeText(mContext, "请选择上牌地", Toast.LENGTH_SHORT).show();
+                    Toast toast = Toast.makeText(mContext, "请选择产品类型", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
                     return;
                 }
+
                 WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
                     @Override
                     public void onCitySubmitCallBack(View clickedView, String city) {
