@@ -222,6 +222,7 @@ public class CreditInfoFragment extends BaseFragment {
         client_spouse_credit__book_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(mContext, UploadListActivity.class);
                 intent.putExtra("sqs", "shouquanshu");
                 intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER_SP);
@@ -248,7 +249,7 @@ public class CreditInfoFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, UploadListActivity.class);
                 intent.putExtra("sqs", "shouquanshu");
-                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR_SP);
+                intent.putExtra("type", "auth_credit");
                 intent.putExtra("role", Constants.PersonType.GUARANTOR_SP);
                 intent.putExtra("imgList", (Serializable) guarantorSpList);
                 intent.putExtra("title", "担保人配偶征信授权书");

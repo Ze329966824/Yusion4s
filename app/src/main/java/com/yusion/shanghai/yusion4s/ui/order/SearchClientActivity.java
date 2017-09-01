@@ -174,12 +174,14 @@ public class SearchClientActivity extends BaseActivity {
                         intent.putExtra("isHasLender_sp", "2");
                     }
 
+
                     if (item.auth_credit.guarantor != null) {//如果不等于空
                         intent.putExtra("isGuarantor", "1");
                         intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
                     } else {
                         intent.putExtra("isGuarantor", "2");
                     }
+
 
                     if (item.auth_credit.guarantor_sp != null) {//如果不等于空
                         intent.putExtra("isGuarantor_sp", "1");
