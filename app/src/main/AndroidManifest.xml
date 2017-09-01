@@ -201,7 +201,13 @@
             android:name=".ui.entrance.apply_financing.ApplicantDetailActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden" />
-        <activity android:name=".ui.upload.SubmitInformationActivity"></activity>
+        <activity
+            android:name=".ui.upload.UploadSqsListActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".ui.upload.SubmitInformationActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 
 </manifest>
