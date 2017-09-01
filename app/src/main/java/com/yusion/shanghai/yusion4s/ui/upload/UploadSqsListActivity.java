@@ -29,7 +29,6 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
-import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;

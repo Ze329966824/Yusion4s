@@ -1,24 +1,11 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
-import android.app.Dialog;
-import android.app.backup.FileBackupHelper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.text.Editable;
-import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.style.TtsSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,14 +17,11 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
-import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
-import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
@@ -48,20 +32,14 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.UploadListActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
-import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
-import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
-import com.yusion.shanghai.yusion4s.utils.wheel.model.ProvinceModel;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
 import java.io.Serializable;
-import java.security.PrivateKey;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -450,7 +428,7 @@ public class CreditInfoFragment extends BaseFragment {
                         public void onItemDataCallBack(SubmitOrderResp data) {
                             if (data != null) {
                                 Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                                if (fileUrlBeanList.size()>0) {
+                                if (fileUrlBeanList.size() > 0) {
                                     UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
                                     uploadFilesUrlReq.files = fileUrlBeanList;
                                     uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
@@ -464,7 +442,7 @@ public class CreditInfoFragment extends BaseFragment {
                                             }
                                         }
                                     });
-                                }else {
+                                } else {
                                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                 }
                             } else {
@@ -589,7 +567,7 @@ public class CreditInfoFragment extends BaseFragment {
                     if (Integer.valueOf(data.getStringExtra("lender")) > 0) {
                         autonym_certify_id_back_tv.setText("已上传");
                         autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
-                    }else {
+                    } else {
                         autonym_certify_id_back_tv.setText("请上传");
                         autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
                     }
@@ -604,7 +582,7 @@ public class CreditInfoFragment extends BaseFragment {
                     if (Integer.valueOf(data.getStringExtra("lender_sp")) > 0) {
                         autonym_certify_id_back_tv1.setText("已上传");
                         autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
-                    }else {
+                    } else {
                         autonym_certify_id_back_tv1.setText("请上传");
                         autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
                     }
@@ -619,7 +597,7 @@ public class CreditInfoFragment extends BaseFragment {
                     if (Integer.valueOf(data.getStringExtra("guarantor")) > 0) {
                         autonym_certify_id_back_tv2.setText("已上传");
                         autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
-                    }else {
+                    } else {
                         autonym_certify_id_back_tv2.setText("请上传");
                         autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
                     }
@@ -633,7 +611,7 @@ public class CreditInfoFragment extends BaseFragment {
                     if (Integer.valueOf(data.getStringExtra("guarantor_sp")) > 0) {
                         autonym_certify_id_back_tv3.setText("已上传");
                         autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
-                    }else {
+                    } else {
                         autonym_certify_id_back_tv3.setText("请上传");
                         autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
                     }
@@ -663,6 +641,7 @@ public class CreditInfoFragment extends BaseFragment {
 
             } else if (requestCode == Constants.REQUEST_MULTI_DOCUMENT) {
                 Log.e("sssssssss", data.getStringExtra("role"));
+                upLoadList.addAll(((List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlBeanList")));
                 switch (data.getStringExtra("role")) {
                     case Constants.PersonType.LENDER:
                         lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("list");
