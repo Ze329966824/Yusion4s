@@ -101,7 +101,8 @@ public class SearchClientActivity extends BaseActivity {
     private void searchClient() {
         String key = et_search.getText().toString();
         if (key.equals("")) {
-            Toast.makeText(SearchClientActivity.this, "请输入用户信息", Toast.LENGTH_LONG).show();
+            Toast.makeText(SearchClientActivity.this, "" +
+                    "", Toast.LENGTH_LONG).show();
         } else {
             OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
                 @Override

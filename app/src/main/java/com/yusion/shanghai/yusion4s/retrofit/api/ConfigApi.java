@@ -81,6 +81,17 @@ public class ConfigApi {
             configResp.loan_periods_value.add(value);
         }
 
+        JSONArray owner_lender_relationship_list = jsonObject.optJSONArray("vehicle_owner_lender_relationship_list");
+        for (int i = 0; owner_lender_relationship_list != null && i < owner_lender_relationship_list.length(); i++) {
+            JSONObject item = owner_lender_relationship_list.getJSONObject(i);
+            String key = item.keys().next();
+            String value = item.getString(key);
+            configResp.owner_applicant_relation_key.add(key);
+            configResp.owner_applicant_relation_value.add(value);
+        }
+        //vehicle_owner_lender_relationship_list
+
+
         JSONArray label_list = jsonObject.optJSONArray("label_list");
         for (int i = 0; label_list != null && i < label_list.length(); i++) {
             JSONObject item = label_list.getJSONObject(i);
