@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.bean.upload;
 
 import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -10,12 +11,12 @@ import java.util.List;
  * 不可相信的创建时间：17/4/20 下午3:03
  */
 
-public class UploadFilesUrlReq {
+public class UploadFilesUrlReq implements Serializable{
     public List<FileUrlBean> files;
     public String bucket;
     public String region;
 
-    public static class FileUrlBean {
+    public static class FileUrlBean implements Serializable{
         public String clt_id;
         public String app_id;
         public String label;//身份证正面,身份证反面

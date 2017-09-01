@@ -64,6 +64,7 @@ public class ApplyFinancingFragment extends BaseFragment {
                 .beginTransaction()
                 .add(R.id.apply_financing_container, mCarInfoFragment)
                 .add(R.id.apply_financing_container, mCreditInfoFragment)
+//                .hide(mCarInfoFragment)
                 .hide(mCreditInfoFragment)
                 .commit();
         mCurrentFragment = mCarInfoFragment;
