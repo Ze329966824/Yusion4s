@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
+import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListLabelsErrorReq;
@@ -15,6 +16,8 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
+
+import java.util.List;
 
 
 /**
@@ -50,6 +53,16 @@ public class UploadApi {
         Api.getUploadService().listLabelsError(req).enqueue(new CustomCallBack<ListLabelsErrorResp>(context, dialog) {
             @Override
             public void onCustomResponse(ListLabelsErrorResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
+    public static void listDealerLabels(final Context context, String app_id, OnItemDataCallBack<List<ListDealerLabelsResp>> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getUploadService().listDealerLabels(app_id).enqueue(new CustomCallBack<List<ListDealerLabelsResp>>(context, dialog) {
+            @Override
+            public void onCustomResponse(List<ListDealerLabelsResp> data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
         });

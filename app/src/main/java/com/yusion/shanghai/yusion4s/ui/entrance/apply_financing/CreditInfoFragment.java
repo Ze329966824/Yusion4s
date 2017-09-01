@@ -1,23 +1,12 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
-import android.app.Activity;
 import android.app.Dialog;
-import android.app.backup.FileBackupHelper;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.Parcelable;
-import android.provider.MediaStore;
 import android.support.annotation.Nullable;
-import android.support.constraint.ConstraintLayout;
-import android.support.design.widget.CoordinatorLayout;
-import android.text.Editable;
 import android.text.TextUtils;
-import android.text.TextWatcher;
-import android.text.style.TtsSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,30 +18,23 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
-import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
-import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
-import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
-import com.yusion.shanghai.yusion4s.utils.wheel.model.ProvinceModel;
 
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.File;
-import java.security.PrivateKey;
 import java.util.ArrayList;
 
 /**
@@ -268,21 +250,21 @@ public class CreditInfoFragment extends BaseFragment {
                     UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
                     fileUrlBean.file_id = sqs1Url;
                     fileUrlBean.label = "auth_credit";
-                    fileUrlBean.role = "lender";
+//                    fileUrlBean.role = "lender";
                     files.add(fileUrlBean);
                 }
                 if (!TextUtils.isEmpty(sqs2Url)) {
                     UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
                     fileUrlBean.file_id = sqs2Url;
                     fileUrlBean.label = "auth_credit";
-                    fileUrlBean.role = "lender_sp";
+//                    fileUrlBean.role = "lender_sp";
                     files.add(fileUrlBean);
                 }
                 if (!TextUtils.isEmpty(sqs3Url)) {
                     UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
                     fileUrlBean.file_id = sqs3Url;
                     fileUrlBean.label = "auth_credit";
-                    fileUrlBean.role = "guarantor";
+//                    fileUrlBean.role = "guarantor";
                     files.add(fileUrlBean);
                 }
 
@@ -304,7 +286,7 @@ public class CreditInfoFragment extends BaseFragment {
                 } else {
                     //未授权也可以 测试时用 后期去除
                     UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                    uploadFilesUrlReq.clt_id = clt_id;
+//                    uploadFilesUrlReq.clt_id = clt_id;
                     uploadFilesUrlReq.files = files;
                     uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
                     uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");

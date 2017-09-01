@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.upload;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 
 /**
@@ -26,12 +28,6 @@ public class UploadImgItemBean implements Serializable {
 
     @Override
     public String toString() {
-        return "UploadImgItemBean{" +
-                "local_path='" + local_path + '\'' +
-                ", type='" + type + '\'' +
-                ", role='" + role + '\'' +
-                ", objectKey='" + objectKey + '\'' +
-                ", s_url='" + s_url + '\'' +
-                '}';
+        return new Gson().toJson(this);
     }
 }

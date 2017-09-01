@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.upload;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
@@ -9,24 +11,24 @@ import java.util.List;
  */
 
 public class UploadFilesUrlReq {
-    public String clt_id;
-    public String app_id;
     public List<FileUrlBean> files;
     public String bucket;
     public String region;
 
     public static class FileUrlBean {
+        public String clt_id;
+        public String app_id;
         public String label;//身份证正面,身份证反面
         public String file_id;
-        public String role;//主贷人,担保人
 
         @Override
         public String toString() {
-            return "FileUrlBean{" +
-                    "label='" + label + '\'' +
-                    ", file_id='" + file_id + '\'' +
-                    ", role='" + role + '\'' +
-                    '}';
+            return new Gson().toJson(this);
         }
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

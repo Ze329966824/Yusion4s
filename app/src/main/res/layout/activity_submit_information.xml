@@ -17,8 +17,9 @@
     <include layout="@layout/include_line" />
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/upload_label_list_rv"
+        android:id="@+id/submit_info_rv"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         tools:listitem="@layout/upload_label_list_item" />
+
 </LinearLayout>

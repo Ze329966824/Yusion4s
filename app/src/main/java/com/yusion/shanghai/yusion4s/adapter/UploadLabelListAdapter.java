@@ -74,9 +74,9 @@ public class UploadLabelListAdapter extends RecyclerView.Adapter<UploadLabelList
 
         public VH(View itemView) {
             super(itemView);
-            name = ((TextView) itemView.findViewById(R.id.upload_table_list_item_name));
+            name = ((TextView) itemView.findViewById(R.id.upload_label_list_item_name_tv));
             icon = ((ImageView) itemView.findViewById(R.id.upload_label_list_icon_img));
-            mark = ((TextView) itemView.findViewById(R.id.upload_table_list_item_mark));
+            mark = ((TextView) itemView.findViewById(R.id.upload_label_list_item_mark_tv));
         }
     }
 }

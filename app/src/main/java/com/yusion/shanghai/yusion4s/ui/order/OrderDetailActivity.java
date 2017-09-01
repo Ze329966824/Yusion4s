@@ -19,7 +19,7 @@ import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
 /**
@@ -328,8 +328,7 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailSignBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                UploadLabelListActivity.start(OrderDetailActivity.this, app_id);
+                startActivity(new Intent(OrderDetailActivity.this, SubmitInformationActivity.class));
             }
         });
 
