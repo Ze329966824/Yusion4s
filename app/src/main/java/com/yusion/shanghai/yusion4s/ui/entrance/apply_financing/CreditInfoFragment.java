@@ -212,7 +212,7 @@ public class CreditInfoFragment extends BaseFragment {
                 //Toast.makeText(mContext, "点击了本人授权书", Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(mContext, UploadListActivity.class);
                 intent.putExtra("sqs", "shouquanshu");
-                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER);
+//                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER);
                 intent.putExtra("role", Constants.PersonType.LENDER);
                 intent.putExtra("imgList", (Serializable) lenderList);
                 intent.putExtra("title", "申请人征信授权书");
@@ -222,10 +222,9 @@ public class CreditInfoFragment extends BaseFragment {
         client_spouse_credit__book_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Intent intent = new Intent(mContext, UploadListActivity.class);
                 intent.putExtra("sqs", "shouquanshu");
-                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER_SP);
+//                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER_SP);
                 intent.putExtra("role", Constants.PersonType.LENDER_SP);
                 intent.putExtra("imgList", (Serializable) lenderSpList);
                 intent.putExtra("title", "申请人配偶征信授权书");
@@ -237,7 +236,7 @@ public class CreditInfoFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, UploadListActivity.class);
                 intent.putExtra("sqs", "shouquanshu");
-                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR);
+//                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR);
                 intent.putExtra("role", Constants.PersonType.GUARANTOR);
                 intent.putExtra("imgList", (Serializable) guarantorList);
                 intent.putExtra("title", "担保人征信授权书");
@@ -249,7 +248,7 @@ public class CreditInfoFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, UploadListActivity.class);
                 intent.putExtra("sqs", "shouquanshu");
-                intent.putExtra("type", "auth_credit");
+//                intent.putExtra("type", Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR_SP);
                 intent.putExtra("role", Constants.PersonType.GUARANTOR_SP);
                 intent.putExtra("imgList", (Serializable) guarantorSpList);
                 intent.putExtra("title", "担保人配偶征信授权书");
@@ -445,7 +444,7 @@ public class CreditInfoFragment extends BaseFragment {
                 } else {
                     //未授权也可以 测试时用 后期去除
                     UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                    uploadFilesUrlReq.clt_id = clt_id;
+//                    uploadFilesUrlReq.clt_id = clt_id;
                     uploadFilesUrlReq.files = files;
                     uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
                     uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
@@ -644,48 +643,48 @@ public class CreditInfoFragment extends BaseFragment {
             }
         } else if (requestCode == Constants.REQUEST_MULTI_DOCUMENT) {
             switch (data.getStringExtra("type")) {
-                case Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER:
-                    lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                    if (lenderList.size() > 0) {
-                        autonym_certify_id_back_tv.setText("已上传");
-                        autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
-                    } else {
-                        autonym_certify_id_back_tv.setText("请上传");
-                        autonym_certify_id_back_tv.setTextColor(Color.parseColor("#d1d1d1"));
-                    }
-                    break;
-                case Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER_SP:
-                    lenderSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                    if (lenderSpList.size() > 0) {
-                        autonym_certify_id_back_tv1.setText("已上传");
-                        autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
-                    } else {
-                        autonym_certify_id_back_tv1.setText("请上传");
-                        autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#d1d1d1"));
-                    }
-
-                    break;
-                case Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR:
-                    guarantorList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                    if (guarantorList.size() > 0) {
-                        autonym_certify_id_back_tv2.setText("已上传");
-                        autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
-                    } else {
-                        autonym_certify_id_back_tv2.setText("请上传");
-                        autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#d1d1d1"));
-                    }
-
-                    break;
-                case Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR_SP:
-                    guarantorSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                    if (guarantorList.size() > 0) {
-                        autonym_certify_id_back_tv3.setText("已上传");
-                        autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
-                    } else {
-                        autonym_certify_id_back_tv3.setText("请上传");
-                        autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
-                    }
-                    break;
+//                case Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER:
+//                    lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+//                    if (lenderList.size() > 0) {
+//                        autonym_certify_id_back_tv.setText("已上传");
+//                        autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
+//                    } else {
+//                        autonym_certify_id_back_tv.setText("请上传");
+//                        autonym_certify_id_back_tv.setTextColor(Color.parseColor("#d1d1d1"));
+//                    }
+//                    break;
+//                case Constants.FileLabelType.POWER_OF_ATTORNEY_LENDER_SP:
+//                    lenderSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+//                    if (lenderSpList.size() > 0) {
+//                        autonym_certify_id_back_tv1.setText("已上传");
+//                        autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
+//                    } else {
+//                        autonym_certify_id_back_tv1.setText("请上传");
+//                        autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#d1d1d1"));
+//                    }
+//
+//                    break;
+//                case Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR:
+//                    guarantorList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+//                    if (guarantorList.size() > 0) {
+//                        autonym_certify_id_back_tv2.setText("已上传");
+//                        autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
+//                    } else {
+//                        autonym_certify_id_back_tv2.setText("请上传");
+//                        autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#d1d1d1"));
+//                    }
+//
+//                    break;
+//                case Constants.FileLabelType.POWER_OF_ATTORNEY_GUARANTOR_SP:
+//                    guarantorSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+//                    if (guarantorList.size() > 0) {
+//                        autonym_certify_id_back_tv3.setText("已上传");
+//                        autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
+//                    } else {
+//                        autonym_certify_id_back_tv3.setText("请上传");
+//                        autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
+//                    }
+//                    break;
             }
         }
 

@@ -38,6 +38,16 @@ public class UploadApi {
         });
     }
 
+    public static void uploadFileUrl(final Context context, UploadFilesUrlReq req, final OnItemDataCallBack<List<String>> onItemDataCallBack) {
+//        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getUploadService().uploadFileUrlWithIdsResp(req).enqueue(new CustomCallBack<List<String>>(context) {
+            @Override
+            public void onCustomResponse(List<String> data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
     public static void listImgs(final Context context, ListImgsReq req, OnItemDataCallBack<ListImgsResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getUploadService().listImgs(req).enqueue(new CustomCallBack<ListImgsResp>(context, dialog) {
@@ -70,10 +80,10 @@ public class UploadApi {
 
     public static void delImgs(final Context context, DelImgsReq req, OnCodeAndMsgCallBack onCodeAndMsgCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getUploadService().delImgs(req).enqueue(new CustomCodeAndMsgCallBack(context,dialog) {
+        Api.getUploadService().delImgs(req).enqueue(new CustomCodeAndMsgCallBack(context, dialog) {
             @Override
             public void onCustomResponse(int code, String msg) {
-                onCodeAndMsgCallBack.callBack(code,msg);
+                onCodeAndMsgCallBack.callBack(code, msg);
             }
         });
     }

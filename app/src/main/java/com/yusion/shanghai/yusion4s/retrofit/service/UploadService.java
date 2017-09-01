@@ -28,6 +28,9 @@ public interface UploadService {
     @POST("/api/material/upload_yc_client_material/")
     Call<BaseResult> uploadFileUrl(@Body UploadFilesUrlReq req);
 
+    @POST("/api/material/upload_yc_client_material/")
+    Call<BaseResult<List<String>>> uploadFileUrlWithIdsResp(@Body UploadFilesUrlReq req);
+
     //列举图片
     @POST("/api/material/list_yc_client_material/")
     Call<BaseResult<ListImgsResp>> listImgs(@Body ListImgsReq req);
