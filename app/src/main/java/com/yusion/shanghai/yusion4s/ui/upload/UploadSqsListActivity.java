@@ -45,7 +45,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
-public class UploadListActivity extends BaseActivity {
+public class UploadSqsListActivity extends BaseActivity {
     private ListDealerLabelsResp.LabelListBean topItem;
     private TextView errorTv;
     private LinearLayout errorLin;
@@ -222,7 +222,7 @@ public class UploadListActivity extends BaseActivity {
 
             @Override
             public void onFooterClick(View v) {
-                Intent i = new Intent(UploadListActivity.this, PhotoMediaActivity.class);
+                Intent i = new Intent(UploadSqsListActivity.this, PhotoMediaActivity.class);
                 i.putExtra("loadType", PhotoVideoDir.Type.IMAGE.toString());
                 startActivityForResult(i, 100);
             }

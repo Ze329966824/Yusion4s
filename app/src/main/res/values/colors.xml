@@ -20,5 +20,6 @@
     <color name="btn_blue">#007cc1</color>
     <color name="text_grey">#666666</color>
     <color name="transparent">#0000</color>
+    <color name="please_upload_color">#d1d1d1</color>
 
 </resources>

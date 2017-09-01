@@ -36,7 +36,6 @@ import com.yusion.shanghai.yusion4s.event.OrderItemFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
@@ -246,7 +245,7 @@ OrderItemFragment extends BaseFragment {
                     popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                     View contentView = LayoutInflater.from(mContext).inflate(R.layout.btns_group, null);
                     ((Button) contentView.findViewById(R.id.btn1)).setOnClickListener(v1 -> {
-                        UploadLabelListActivity.start(mContext, item.app_id);
+//                        UploadLabelListActivity.start(mContext, item.app_id);
                         popupWindow.dismiss();
                     });
                     /**

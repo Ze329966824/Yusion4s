@@ -9,11 +9,8 @@ public class Constants {
     public static final int REQUEST_IDCARD_2_CAPTURE = 202;
     public static final int REQUEST_CONTACTS = 203;
     public static final int REQUEST_ADDRESS = 204;
-
+    public static final int REQUEST_DOCUMENT = 205;
     public static final int REQUEST_MULTI_DOCUMENT = 206;
-
-    public static final String CONFIG_STRING = "configString";//配置文件信息
-
 
     public static class FileLabelType {
         public static final String ID_BACK = "id_card_back";
@@ -21,14 +18,7 @@ public class Constants {
         public static final String DRI_LIC = "driving_lic";
         public static final String DIVORCE = "divorce_proof";
         public static final String RES_BOOKLET = "res_booklet";
-
-
-        public static final String POWER_OF_ATTORNEY_LENDER = "power of attorney_lender";
-        public static final String POWER_OF_ATTORNEY_LENDER_SP = "power of attorney_lender_sp";
-        public static final String POWER_OF_ATTORNEY_GUARANTOR = "power of attorney_guarantor";
-        public static final String POWER_OF_ATTORNEY_GUARANTOR_SP = "power of attorney_guarantor_sp";
-
-
+        public static final String MARRIAGE_PROOF = "marriage_proof";
     }
 
     public static class PersonType {
@@ -39,3 +29,4 @@ public class Constants {
     }
 
 }
+
