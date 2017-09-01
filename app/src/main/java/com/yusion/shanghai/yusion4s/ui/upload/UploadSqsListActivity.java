@@ -34,6 +34,7 @@ import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
@@ -43,6 +44,7 @@ import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 public class UploadSqsListActivity extends BaseActivity {
@@ -141,25 +143,34 @@ public class UploadSqsListActivity extends BaseActivity {
         uploadTv2.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                List<String> delImgIdList = new ArrayList<>();
-//                List<Integer> integerList = new ArrayList<>();
-//                for (int i = 0; i < imgList.size(); i++) {
-//                    if (imgList.get(i).hasChoose) integerList.add(i);
-//                }
-//                Collections.sort(integerList);
-//                int pyl = 0;
-//                for (int i = 0; i < integerList.size(); i++) {
-//                    int delIndex = integerList.get(i) - pyl;
-//                    delImgIdList.add(imgList.get(delIndex).id);
-//                    imgList.remove(delIndex);
-//                    pyl++;
-//                }
-//                uploadTv2.setText("删除");
-//                uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
-//                adapter.notifyDataSetChanged();
+
+                //要删除的图片的id集合
+                List<String> delImgIdList = new ArrayList<>();
+
+                //要删除的索引集合
+                List<Integer> indexList = new ArrayList<>();
+                for (int i = 0; i < lists.size(); i++) {
+                    if (lists.get(i).hasChoose) indexList.add(i);
+                }
+                Collections.sort(indexList);
+
+                //没删除一个对象就该偏移+1
+                int offset = 0;
+                for (int i = 0; i < indexList.size(); i++) {
+                    int delIndex = indexList.get(i) - offset;
+                    delImgIdList.add(lists.get(delIndex).id);
+                    lists.remove(delIndex);
+                    offset++;
+                }
+
+                uploadTv2.setText("删除");
+                uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
+                adapter.notifyDataSetChanged();
+
                 DelImgsReq req = new DelImgsReq();
                 req.clt_id = clt_id;
                 req.app_id = app_id;
+                req.id.addAll(delImgIdList);
 //                //删除的图片中包括用户拍摄后没有上传到服务器的图片 这个时候没有id
 //                List<String> relDelImgIdList = new ArrayList<>();
 //                for (String s : delImgIdList) {
@@ -167,17 +178,16 @@ public class UploadSqsListActivity extends BaseActivity {
 //                        relDelImgIdList.add(s);
 //                    }
 //                }
-//                req.id.addAll(relDelImgIdList);
-//                if (relDelImgIdList.size() > 0) {
-//                    UploadApi.delImgs(UploadListActivity.this, req, new OnCodeAndMsgCallBack() {
-//                        @Override
-//                        public void callBack(int code, String msg) {
-//                            if (code == 0) {
-//                                Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-//                }
+                if (delImgIdList.size() > 0) {
+                    UploadApi.delImgs(UploadSqsListActivity.this, req, new OnCodeAndMsgCallBack() {
+                        @Override
+                        public void callBack(int code, String msg) {
+                            if (code == 0) {
+                                Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+                    });
+                }
             }
         });
 
@@ -359,9 +369,15 @@ public class UploadSqsListActivity extends BaseActivity {
         uploadFilesUrlReq.files = uploadFileUrlBeanList;
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(this).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(this).getValue("bucket", "");
-        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, (code, msg) -> {
-            mUploadFileDialog.dismiss();
-            Toast.makeText(this, "上传照片成功", Toast.LENGTH_SHORT).show();
+        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, new OnItemDataCallBack<List<String>>() {
+            @Override
+            public void onItemDataCallBack(List<String> data) {
+                for (int i = 0; i < lists.size(); i++) {
+                    lists.get(i).id = data.get(i);
+                }
+                mUploadFileDialog.dismiss();
+                Toast.makeText(UploadSqsListActivity.this, "上传照片成功", Toast.LENGTH_SHORT).show();
+            }
         });
     }
 
