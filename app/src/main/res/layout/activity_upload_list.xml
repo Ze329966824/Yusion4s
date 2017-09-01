@@ -71,5 +71,14 @@
                 android:text="删除"
                 android:textColor="#d1d1d1" />
         </LinearLayout>
+
+        <View
+            android:id="@+id/preview_anchor"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_centerInParent="true"
+            android:background="@null"
+            android:transitionName="shareNames"
+            android:visibility="invisible" />
     </RelativeLayout>
 </LinearLayout>

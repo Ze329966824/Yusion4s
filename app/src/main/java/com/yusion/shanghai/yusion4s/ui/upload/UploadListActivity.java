@@ -514,5 +514,81 @@ public class UploadListActivity extends BaseActivity {
         }
 
     }
+
+
+//    private class PreviewBottomDialogUtil {
+//
+//        private Dialog mBottomDialog;
+//        private Context mContext;
+//        private String imgUrl;
+//
+//        private PreviewBottomDialogUtil(Context context) {
+//            mContext = context;
+//        }
+//
+//        private PreviewBottomDialogUtil init(Context context) {
+//            return new PreviewBottomDialogUtil(context);
+//        }
+//
+//        private void setSource(String imgUrl){
+//            this.imgUrl = imgUrl;
+//        }
+//
+//        private void createBottomDialog() {
+//            View bottomLayout = LayoutInflater.from(mContext).inflate(R.layout.preview_bottom_dialog, null);
+//            TextView tv1 = ((TextView) bottomLayout.findViewById(R.id.tv1));
+//            TextView tv2 = ((TextView) bottomLayout.findViewById(R.id.tv2));
+//            TextView tv3 = ((TextView) bottomLayout.findViewById(R.id.tv3));
+//            tv1.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    Toast.makeText(myApp, "预览", Toast.LENGTH_SHORT).show();
+//                    Intent intent = new Intent(UploadListActivity.this, PreviewActivity.class);
+//                    intent.putExtra("PreviewImg", imgUrl);
+//                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(UploadListActivity.this, findViewById(R.id.preview_anchor), "shareNames");
+//                    ActivityCompat.startActivity(UploadListActivity.this, intent, compat.toBundle());
+//                    if (mBottomDialog.isShowing()) {
+//                        mBottomDialog.dismiss();
+//                    }
+//                }
+//            });
+//            tv2.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    takePhoto();
+//                    if (mBottomDialog.isShowing()) {
+//                        mBottomDialog.dismiss();
+//                    }
+//                }
+//            });
+//            tv3.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    if (mBottomDialog.isShowing()) {
+//                        mBottomDialog.dismiss();
+//                    }
+//                }
+//            });
+//            if (mBottomDialog == null) {
+//                mBottomDialog = new Dialog(mContext, R.style.MyDialogStyle);
+//                mBottomDialog.setContentView(bottomLayout);
+//                mBottomDialog.setCanceledOnTouchOutside(false);
+//                mBottomDialog.getWindow().setWindowAnimations(R.style.dialogAnimationStyle);
+//                mBottomDialog.getWindow().setGravity(Gravity.BOTTOM);
+//                mBottomDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+//
+//                Window dialogWindow = mBottomDialog.getWindow();
+//                dialogWindow.getDecorView().setBackgroundResource(android.R.color.transparent);
+//                dialogWindow.getDecorView().setPadding(0, 0, 0, 0);
+//                dialogWindow.setGravity(Gravity.BOTTOM);
+//                DisplayMetrics metrics = new DisplayMetrics();
+//                getWindowManager().getDefaultDisplay().getMetrics(metrics);
+//                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
+//                lp.width = (int) (metrics.widthPixels - DensityUtil.dip2px(this, 15) * 2);
+//                dialogWindow.setAttributes(lp);
+//            }
+//        }
+//
+//    }
 }
 
