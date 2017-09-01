@@ -34,9 +34,6 @@ public class SubmitInformationActivity extends BaseActivity {
         initTitleBar(this, "提交资料");
         app_id = getIntent().getStringExtra("app_id");
 
-        // TODO: 2017/9/1  删除
-        app_id = "11000009";
-
         RecyclerView rv = (RecyclerView) findViewById(R.id.submit_info_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvAdapter(this, lists);
