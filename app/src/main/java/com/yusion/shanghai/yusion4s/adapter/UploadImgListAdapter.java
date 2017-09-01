@@ -27,7 +27,6 @@ import java.util.List;
 /**
  * Created by ice on 2017/7/17.
  */
-
 public class UploadImgListAdapter extends RecyclerView.Adapter<UploadImgListAdapter.VH> {
 
     private LayoutInflater mLayoutInflater;
