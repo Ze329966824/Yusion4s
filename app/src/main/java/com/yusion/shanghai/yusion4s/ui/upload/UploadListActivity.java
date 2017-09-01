@@ -8,6 +8,8 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -96,6 +98,7 @@ public class UploadListActivity extends BaseActivity {
     }
 
     private void initView() {
+
         titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
         titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
@@ -172,13 +175,6 @@ public class UploadListActivity extends BaseActivity {
                 req.clt_id = clt_id;
                 req.app_id = app_id;
                 req.id.addAll(delImgIdList);
-//                //删除的图片中包括用户拍摄后没有上传到服务器的图片 这个时候没有id
-//                List<String> relDelImgIdList = new ArrayList<>();
-//                for (String s : delImgIdList) {
-//                    if (!TextUtils.isEmpty(s)) {
-//                        relDelImgIdList.add(s);
-//                    }
-//                }
                 if (delImgIdList.size() > 0) {
                     UploadApi.delImgs(UploadListActivity.this, req, new OnCodeAndMsgCallBack() {
                         @Override
@@ -202,7 +198,7 @@ public class UploadListActivity extends BaseActivity {
         rv.setAdapter(adapter);
         adapter.setOnItemClick(new RvAdapter.OnItemClick() {
             @Override
-            public void onItemClick(View v, UploadImgItemBean item, ImageView cbImg) {
+            public void onItemClick(View v, UploadImgItemBean item, int index) {
                 if (isEditing) {
                     if (item.hasChoose) {
                         item.hasChoose = false;
@@ -210,18 +206,6 @@ public class UploadListActivity extends BaseActivity {
                         item.hasChoose = true;
                     }
                     adapter.notifyDataSetChanged();
-//                    boolean hasChoose = (Boolean) cbImg.getTag(R.id.hasChoose);
-//                    if (hasChoose) {
-//                        cbImg.setTag(R.id.hasChoose, false);
-//                        cbImg.setImageResource(R.mipmap.choose_icon);
-//                        item.hasChoose = false;
-//                        currentChooseCount--;
-//                    } else {
-//                        cbImg.setTag(R.id.hasChoose, true);
-//                        cbImg.setImageResource(R.mipmap.surechoose_icon);
-//                        item.hasChoose = true;
-//                        currentChooseCount++;
-//                    }
                     if (getCurrentChooseItemCount() != 0) {
                         uploadTv2.setText(String.format("删除(%d)", getCurrentChooseItemCount()));
                         uploadTv2.setTextColor(Color.RED);
@@ -240,6 +224,14 @@ public class UploadListActivity extends BaseActivity {
                         }
                         it.setDataAndType(uri, "video/mp4");
                         startActivity(it);
+                    } else {
+                        String imgUrl;
+                        if (!TextUtils.isEmpty(item.local_path)) {
+                            imgUrl = item.local_path;
+                        } else {
+                            imgUrl = item.s_url;
+                        }
+                        previewImg(findViewById(R.id.preview_anchor), imgUrl);
                     }
                 }
             }
@@ -304,7 +296,12 @@ public class UploadListActivity extends BaseActivity {
         return totalCount;
     }
 
-    ;
+    private void previewImg(View previewAnchor, String imgUrl) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("PreviewImg", imgUrl);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
+        ActivityCompat.startActivity(this, intent, compat.toBundle());
+    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -320,9 +317,12 @@ public class UploadListActivity extends BaseActivity {
                 item.type = topItem.value;
                 toAddList.add(item);
             }
+
             lists.addAll(toAddList);
-            onImgCountChange(files.size() > 0);
             adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
+
+            onImgCountChange(files.size() > 0);
+
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
             int account = 0;
@@ -359,10 +359,7 @@ public class UploadListActivity extends BaseActivity {
                     }
                 });
             }
-
-
         }
-
     }
 
     private Dialog mUploadFileDialog;
@@ -451,7 +448,7 @@ public class UploadListActivity extends BaseActivity {
                 } else {
                     Glide.with(mContext).load(item.s_url).listener(new GlideRequestListener(dialog)).into(holder.img);
                 }
-                holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, holder.cbImg));
+                holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, position));
                 if (isEditing) {
                     holder.cbImg.setVisibility(View.VISIBLE);
                     if (item.hasChoose) {
@@ -522,7 +519,7 @@ public class UploadListActivity extends BaseActivity {
         }
 
         public interface OnItemClick {
-            void onItemClick(View v, UploadImgItemBean item, ImageView cbImg);
+            void onItemClick(View v, UploadImgItemBean item, int index);
 
             void onFooterClick(View v);
         }
@@ -530,83 +527,6 @@ public class UploadListActivity extends BaseActivity {
         public void setOnItemClick(OnItemClick mOnItemClick) {
             this.mOnItemClick = mOnItemClick;
         }
-
     }
-
-
-//    private class PreviewBottomDialogUtil {
-//
-//        private Dialog mBottomDialog;
-//        private Context mContext;
-//        private String imgUrl;
-//
-//        private PreviewBottomDialogUtil(Context context) {
-//            mContext = context;
-//        }
-//
-//        private PreviewBottomDialogUtil init(Context context) {
-//            return new PreviewBottomDialogUtil(context);
-//        }
-//
-//        private void setSource(String imgUrl){
-//            this.imgUrl = imgUrl;
-//        }
-//
-//        private void createBottomDialog() {
-//            View bottomLayout = LayoutInflater.from(mContext).inflate(R.layout.preview_bottom_dialog, null);
-//            TextView tv1 = ((TextView) bottomLayout.findViewById(R.id.tv1));
-//            TextView tv2 = ((TextView) bottomLayout.findViewById(R.id.tv2));
-//            TextView tv3 = ((TextView) bottomLayout.findViewById(R.id.tv3));
-//            tv1.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(myApp, "预览", Toast.LENGTH_SHORT).show();
-//                    Intent intent = new Intent(UploadListActivity.this, PreviewActivity.class);
-//                    intent.putExtra("PreviewImg", imgUrl);
-//                    ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(UploadListActivity.this, findViewById(R.id.preview_anchor), "shareNames");
-//                    ActivityCompat.startActivity(UploadListActivity.this, intent, compat.toBundle());
-//                    if (mBottomDialog.isShowing()) {
-//                        mBottomDialog.dismiss();
-//                    }
-//                }
-//            });
-//            tv2.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    takePhoto();
-//                    if (mBottomDialog.isShowing()) {
-//                        mBottomDialog.dismiss();
-//                    }
-//                }
-//            });
-//            tv3.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mBottomDialog.isShowing()) {
-//                        mBottomDialog.dismiss();
-//                    }
-//                }
-//            });
-//            if (mBottomDialog == null) {
-//                mBottomDialog = new Dialog(mContext, R.style.MyDialogStyle);
-//                mBottomDialog.setContentView(bottomLayout);
-//                mBottomDialog.setCanceledOnTouchOutside(false);
-//                mBottomDialog.getWindow().setWindowAnimations(R.style.dialogAnimationStyle);
-//                mBottomDialog.getWindow().setGravity(Gravity.BOTTOM);
-//                mBottomDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-//
-//                Window dialogWindow = mBottomDialog.getWindow();
-//                dialogWindow.getDecorView().setBackgroundResource(android.R.color.transparent);
-//                dialogWindow.getDecorView().setPadding(0, 0, 0, 0);
-//                dialogWindow.setGravity(Gravity.BOTTOM);
-//                DisplayMetrics metrics = new DisplayMetrics();
-//                getWindowManager().getDefaultDisplay().getMetrics(metrics);
-//                WindowManager.LayoutParams lp = dialogWindow.getAttributes();
-//                lp.width = (int) (metrics.widthPixels - DensityUtil.dip2px(this, 15) * 2);
-//                dialogWindow.setAttributes(lp);
-//            }
-//        }
-//
-//    }
 }
 

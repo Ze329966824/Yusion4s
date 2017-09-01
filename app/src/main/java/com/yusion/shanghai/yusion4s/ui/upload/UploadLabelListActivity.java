@@ -114,7 +114,7 @@ public class UploadLabelListActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100) {
             if (resultCode == Activity.RESULT_OK) {
-                ListDealerLabelsResp.LabelListBean item = (ListDealerLabelsResp.LabelListBean) data.getSerializableExtra("item");
+                ListDealerLabelsResp.LabelListBean item = (ListDealerLabelsResp.LabelListBean) data.getSerializableExtra("topItem");
                 topItem.label_list.set(data.getIntExtra("index", -1), item);
                 adapter.notifyDataSetChanged();
             }
