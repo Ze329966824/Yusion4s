@@ -43,24 +43,31 @@ import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.io.File;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 public class UploadSqsListActivity extends BaseActivity {
-    private ListDealerLabelsResp.LabelListBean topItem;
+    //private ListDealerLabelsResp.LabelListBean topItem;
     private TextView errorTv;
     private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
+    List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlBeanList = new ArrayList<>();
+    List<UploadImgItemBean> list = new ArrayList<>();
     private String app_id;
     private String clt_id;
+    private String title;
+    private String type;
+    private String role;
     private TitleBar titleBar;
     private TextView mEditTv;
     private LinearLayout uploadBottomLin;
     private TextView uploadTv1;
     private TextView uploadTv2;
     private boolean isEditing = false;
+    Intent mGetIntent;
 
 //    private UploadImgListAdapter adapter;
 //    private Intent mGetIntent;
@@ -85,9 +92,13 @@ public class UploadSqsListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
-        topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
-        app_id = getIntent().getStringExtra("app_id");
+        //topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
+
         clt_id = getIntent().getStringExtra("clt_id");
+        title = getIntent().getStringExtra("title");
+        type = getIntent().getStringExtra("type");
+        role = getIntent().getStringExtra("role");
+        mGetIntent = new Intent();
         initView();
         initData();
 //        hasImg = imgList.size() > 0;
@@ -95,7 +106,7 @@ public class UploadSqsListActivity extends BaseActivity {
     }
 
     private void initView() {
-        titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
+        titleBar = initTitleBar(this, title).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
         titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
             @Override
@@ -171,6 +182,12 @@ public class UploadSqsListActivity extends BaseActivity {
                 req.clt_id = clt_id;
                 req.app_id = app_id;
                 req.id.addAll(delImgIdList);
+
+
+//                ----------------
+                //删除
+
+
 //                //删除的图片中包括用户拍摄后没有上传到服务器的图片 这个时候没有id
 //                List<String> relDelImgIdList = new ArrayList<>();
 //                for (String s : delImgIdList) {
@@ -184,7 +201,6 @@ public class UploadSqsListActivity extends BaseActivity {
                         public void callBack(int code, String msg) {
                             if (code == 0) {
                                 Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
-                                onImgCountChange(lists.size() > 0);
                             }
                         }
                     });
@@ -241,8 +257,9 @@ public class UploadSqsListActivity extends BaseActivity {
     }
 
     private void initData() {
+        list = (List<UploadImgItemBean>) getIntent().getSerializableExtra("list");
         ListImgsReq req = new ListImgsReq();
-        req.label = topItem.value;
+        req.label = type;
         req.app_id = app_id;
         req.clt_id = clt_id;
         UploadApi.listImgs(this, req, resp -> {
@@ -257,6 +274,7 @@ public class UploadSqsListActivity extends BaseActivity {
 
             if (resp.list.size() != 0) {
                 lists.addAll(resp.list);
+                list.addAll(resp.list);
                 adapter.notifyDataSetChanged();
             }
         });
@@ -292,16 +310,21 @@ public class UploadSqsListActivity extends BaseActivity {
 
                 ArrayList<String> files = data.getStringArrayListExtra("files");
 
+//                if (files.size() > 0) {
+//                    hasImg = true;
+//                    onImgCountChange(hasImg);
+//                }
+
                 List<UploadImgItemBean> toAddList = new ArrayList<>();
                 for (String file : files) {
                     UploadImgItemBean item = new UploadImgItemBean();
                     item.local_path = file;
                     item.role = Constants.PersonType.LENDER;
-                    item.type = topItem.value;
+                    item.type = type;
                     toAddList.add(item);
                 }
                 lists.addAll(toAddList);
-                onImgCountChange(files.size() > 0);
+                list.addAll(toAddList);
                 adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
                 Dialog dialog = LoadingUtils.createLoadingDialog(this);
                 dialog.show();
@@ -309,7 +332,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 for (UploadImgItemBean imgItemBean : toAddList) {
                     account++;
                     int finalAccount = account;
-                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, ".png"), new OnItemDataCallBack<String>() {
+                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, type, ".png"), new OnItemDataCallBack<String>() {
                         @Override
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;
@@ -318,7 +341,7 @@ public class UploadSqsListActivity extends BaseActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        uploadImgs(app_id, clt_id, toAddList);
+                                        uploadImgs(clt_id, toAddList);
                                     }
                                 });
                             }
@@ -331,7 +354,7 @@ public class UploadSqsListActivity extends BaseActivity {
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
-                                        uploadImgs(app_id, clt_id, toAddList);
+                                        uploadImgs(clt_id, toAddList);
                                     }
                                 });
                             }
@@ -346,8 +369,8 @@ public class UploadSqsListActivity extends BaseActivity {
 
     private Dialog mUploadFileDialog;
 
-    public void uploadImgs(String app_id, String clt_id, List<UploadImgItemBean> lists) {
-        List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlBeanList = new ArrayList<>();
+    public void uploadImgs(String clt_id, List<UploadImgItemBean> lists) {
+        uploadFileUrlBeanList = new ArrayList<>();
         for (UploadImgItemBean imgItemBean : lists) {
             UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
             fileUrlBean.app_id = app_id;
@@ -355,8 +378,8 @@ public class UploadSqsListActivity extends BaseActivity {
             fileUrlBean.file_id = imgItemBean.objectKey;
             fileUrlBean.label = imgItemBean.type;
             uploadFileUrlBeanList.add(fileUrlBean);
-        }
 
+        }
         if (mUploadFileDialog == null) {
             mUploadFileDialog = LoadingUtils.createLoadingDialog(this);
             mUploadFileDialog.setCancelable(false);
@@ -384,8 +407,18 @@ public class UploadSqsListActivity extends BaseActivity {
     }
 
     private void onBack() {
-//        imgList = ((ArrayList<UploadImgItemBean>) mGetIntent.getSerializableExtra("imgList"));
-//        setResult(RESULT_OK, mGetIntent);
+        //imgList = ((ArrayList<UploadImgItemBean>) mGetIntent.getSerializableExtra("imgList"));
+        //setResult(RESULT_OK, mGetIntent);
+
+        // mGetIntent = new Intent();
+        mGetIntent.putExtra("role", role);
+//        mGetIntent.putExtra("imgList", (Serializable) lists);
+
+        mGetIntent.putExtra("uploadFileUrlBeanList", (Serializable) uploadFileUrlBeanList);
+        mGetIntent.putExtra("list", (Serializable) list);
+
+        setResult(RESULT_OK, mGetIntent);
+
         finish();
     }
 

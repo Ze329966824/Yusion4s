@@ -70,6 +70,7 @@ public class GetproductResp {
 
         public String name;
         public int product_id;
+        public List<Integer> nper_list;
 
         @Override
         public String toString() {

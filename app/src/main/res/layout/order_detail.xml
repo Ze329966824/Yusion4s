@@ -169,7 +169,7 @@
             android:layout_height="wrap_content"
 
             android:background="@color/white"
-            android:visibility="visible">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/order_detail_status_cancel"
