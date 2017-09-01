@@ -67,6 +67,9 @@ public class CarInfoFragment extends BaseFragment {
     private int mProductTypeIndex = 0;
     private int mManagementPriceIndex = 0;
     private int mGuidePrice = 0;
+
+    private int mNperIndex = 0;
+
     private int mChangeLoanAndFirstPriceCount = 0;
     private boolean ischangeBillPriceBySys = false;
 
@@ -260,7 +263,9 @@ public class CarInfoFragment extends BaseFragment {
         modelTv = (TextView) view.findViewById(R.id.car_info_model_tv);
         loanPeriodsTv = (TextView) view.findViewById(R.id.car_info_loan_periods_tv);
         carInfoLoanPeriodsLin = (LinearLayout) view.findViewById(R.id.car_info_loan_periods_lin);
-        carInfoLoanPeriodsLin.setOnClickListener(v -> WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.loan_periods_key, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", (clickedView, selectedIndex) -> mLoanPeriodsIndex = selectedIndex));
+
+        //carInfoLoanPeriodsLin.setOnClickListener(v -> WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.loan_periods_key, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", (clickedView, selectedIndex) -> mLoanPeriodsIndex = selectedIndex));
+
         managementPriceTv = (TextView) view.findViewById(R.id.car_info_management_price_tv);
         managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
         //view.findViewById(R.id.car_info_management_price_lin).setOnClickListener(v -> WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceTv, "请选择档案管理费", (clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex));
@@ -277,6 +282,23 @@ public class CarInfoFragment extends BaseFragment {
         carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
+
+        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(productTypeTv.getText())) {
+                    Toast.makeText(mContext, "请先选择产品类型", Toast.LENGTH_LONG).show();
+                } else {
+                    WheelViewUtil.showWheelView(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", new WheelViewUtil.OnSubmitCallBack() {
+                        @Override
+                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                            mLoanPeriodsIndex = selectedIndex;
+                        }
+                    });
+                }
+            }
+        });
+
         /**
          * 进行门店选择
          */
@@ -590,7 +612,11 @@ public class CarInfoFragment extends BaseFragment {
 
                         mProductList = resp.product_list;
 
+                        //mProductList.get()
+
                         List<String> items = new ArrayList<String>();
+
+                        //List<Integer> nper_list = new ArrayList<Integer>();
 
                         for (GetproductResp.ProductListBean product_list : resp.product_list) {
                             items.add(product_list.name);

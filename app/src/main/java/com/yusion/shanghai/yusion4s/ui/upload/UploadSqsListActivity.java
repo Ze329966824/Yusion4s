@@ -48,13 +48,15 @@ import java.util.Collections;
 import java.util.List;
 
 public class UploadSqsListActivity extends BaseActivity {
-    private ListDealerLabelsResp.LabelListBean topItem;
+    //private ListDealerLabelsResp.LabelListBean topItem;
     private TextView errorTv;
     private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
     private String app_id;
     private String clt_id;
+    private String title;
+    private String type;
     private TitleBar titleBar;
     private TextView mEditTv;
     private LinearLayout uploadBottomLin;
@@ -85,9 +87,11 @@ public class UploadSqsListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
-        topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
+        //topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
         app_id = getIntent().getStringExtra("app_id");
         clt_id = getIntent().getStringExtra("clt_id");
+        title = getIntent().getStringExtra("title");
+        type = getIntent().getStringExtra("type");
         initView();
         initData();
 //        hasImg = imgList.size() > 0;
@@ -95,7 +99,7 @@ public class UploadSqsListActivity extends BaseActivity {
     }
 
     private void initView() {
-        titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
+        titleBar = initTitleBar(this, title).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
         titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
             @Override
@@ -241,7 +245,7 @@ public class UploadSqsListActivity extends BaseActivity {
 
     private void initData() {
         ListImgsReq req = new ListImgsReq();
-        req.label = topItem.value;
+        req.label = type;
         req.app_id = app_id;
         req.clt_id = clt_id;
         UploadApi.listImgs(this, req, resp -> {
@@ -301,7 +305,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     UploadImgItemBean item = new UploadImgItemBean();
                     item.local_path = file;
                     item.role = Constants.PersonType.LENDER;
-                    item.type = topItem.value;
+                    item.type = type;
                     toAddList.add(item);
                 }
                 lists.addAll(toAddList);
@@ -312,7 +316,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 for (UploadImgItemBean imgItemBean : toAddList) {
                     account++;
                     int finalAccount = account;
-                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, ".png"), new OnItemDataCallBack<String>() {
+                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, type, ".png"), new OnItemDataCallBack<String>() {
                         @Override
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;
