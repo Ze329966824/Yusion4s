@@ -184,6 +184,7 @@ public class UploadSqsListActivity extends BaseActivity {
                         public void callBack(int code, String msg) {
                             if (code == 0) {
                                 Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
+                                onImgCountChange(lists.size() > 0);
                             }
                         }
                     });
@@ -291,11 +292,6 @@ public class UploadSqsListActivity extends BaseActivity {
 
                 ArrayList<String> files = data.getStringArrayListExtra("files");
 
-//                if (files.size() > 0) {
-//                    hasImg = true;
-//                    onImgCountChange(hasImg);
-//                }
-
                 List<UploadImgItemBean> toAddList = new ArrayList<>();
                 for (String file : files) {
                     UploadImgItemBean item = new UploadImgItemBean();
@@ -305,6 +301,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     toAddList.add(item);
                 }
                 lists.addAll(toAddList);
+                onImgCountChange(files.size() > 0);
                 adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
                 Dialog dialog = LoadingUtils.createLoadingDialog(this);
                 dialog.show();

@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.ui.upload;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -62,13 +63,14 @@ public class UploadLabelListActivity extends BaseActivity {
 //
         adapter.setOnItemClick(new RvAdapter.OnItemClick() {
             @Override
-            public void onItemClick(View v, ListDealerLabelsResp.LabelListBean item) {
+            public void onItemClick(View v, ListDealerLabelsResp.LabelListBean item, int index) {
                 Intent intent = new Intent();
                 intent.setClass(UploadLabelListActivity.this, UploadListActivity.class);
                 intent.putExtra("topItem", item);
+                intent.putExtra("index", index);
                 intent.putExtra("app_id", getIntent().getStringExtra("app_id"));
                 intent.putExtra("clt_id", item.clt_id);
-                startActivity(intent);
+                startActivityForResult(intent,100);
             }
         });
 
@@ -107,17 +109,17 @@ public class UploadLabelListActivity extends BaseActivity {
         finish();
     }
 
-//    @Override
-//    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if (requestCode == 100) {
-//            if (resultCode == Activity.RESULT_OK) {
-//                UploadLabelItemBean item = (UploadLabelItemBean) data.getSerializableExtra("item");
-//                mItems.set(data.getIntExtra("index", -1), item);
-//                adapter.notifyDataSetChanged();
-//            }
-//        }
-//    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100) {
+            if (resultCode == Activity.RESULT_OK) {
+                ListDealerLabelsResp.LabelListBean item = (ListDealerLabelsResp.LabelListBean) data.getSerializableExtra("item");
+                topItem.label_list.set(data.getIntExtra("index", -1), item);
+                adapter.notifyDataSetChanged();
+            }
+        }
+    }
 
 
     public static class RvAdapter extends RecyclerView.Adapter<RvAdapter.VH> {
@@ -159,7 +161,7 @@ public class UploadLabelListActivity extends BaseActivity {
             holder.itemView.setOnClickListener(mOnItemClick == null ? null : new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mOnItemClick.onItemClick(v, item);
+                    mOnItemClick.onItemClick(v, item, position);
                 }
             });
         }
@@ -170,7 +172,7 @@ public class UploadLabelListActivity extends BaseActivity {
         }
 
         public interface OnItemClick {
-            void onItemClick(View v, ListDealerLabelsResp.LabelListBean item);
+            void onItemClick(View v, ListDealerLabelsResp.LabelListBean item, int index);
         }
 
         public void setOnItemClick(OnItemClick mOnItemClick) {

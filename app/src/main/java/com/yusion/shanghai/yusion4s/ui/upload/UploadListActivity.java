@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
@@ -184,6 +185,7 @@ public class UploadListActivity extends BaseActivity {
                         public void callBack(int code, String msg) {
                             if (code == 0) {
                                 Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
+                                onImgCountChange(lists.size() > 0);
                             }
                         }
                     });
@@ -227,19 +229,40 @@ public class UploadListActivity extends BaseActivity {
                         uploadTv2.setText("删除");
                         uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
                     }
+                } else {
+                    if (isVideoPage) {
+                        Intent it = new Intent(Intent.ACTION_VIEW);
+                        Uri uri;
+                        if (TextUtils.isEmpty(item.s_url)) {
+                            uri = Uri.parse(item.local_path);
+                        } else {
+                            uri = Uri.parse(item.s_url);
+                        }
+                        it.setDataAndType(uri, "video/mp4");
+                        startActivity(it);
+                    }
                 }
             }
 
             @Override
             public void onFooterClick(View v) {
-                Intent i = new Intent(UploadListActivity.this, PhotoMediaActivity.class);
-                i.putExtra("loadType", PhotoVideoDir.Type.IMAGE.toString());
-                startActivityForResult(i, 100);
+                if (isVideoPage) {
+                    Intent i = new Intent(UploadListActivity.this, PhotoMediaActivity.class);
+                    i.putExtra("loadType", PhotoVideoDir.Type.VIDEO.toString());
+                    startActivityForResult(i, 99);
+                } else {
+                    Intent i = new Intent(UploadListActivity.this, PhotoMediaActivity.class);
+                    i.putExtra("loadType", PhotoVideoDir.Type.IMAGE.toString());
+                    startActivityForResult(i, 100);
+                }
             }
         });
     }
 
+    private boolean isVideoPage;
+
     private void initData() {
+        isVideoPage = topItem.name.contains("视频");
         ListImgsReq req = new ListImgsReq();
         req.label = topItem.value;
         req.app_id = app_id;
@@ -286,65 +309,60 @@ public class UploadListActivity extends BaseActivity {
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 100) {
-            if (resultCode == RESULT_OK) {
+        if (resultCode == RESULT_OK) {
+            ArrayList<String> files = data.getStringArrayListExtra("files");
 
-                ArrayList<String> files = data.getStringArrayListExtra("files");
-
-//                if (files.size() > 0) {
-//                    hasImg = true;
-//                    onImgCountChange(hasImg);
-//                }
-
-                List<UploadImgItemBean> toAddList = new ArrayList<>();
-                for (String file : files) {
-                    UploadImgItemBean item = new UploadImgItemBean();
-                    item.local_path = file;
-                    item.role = Constants.PersonType.LENDER;
-                    item.type = topItem.value;
-                    toAddList.add(item);
-                }
-                lists.addAll(toAddList);
-                adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
-                Dialog dialog = LoadingUtils.createLoadingDialog(this);
-                dialog.show();
-                int account = 0;
-                for (UploadImgItemBean imgItemBean : toAddList) {
-                    account++;
-                    int finalAccount = account;
-                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, ".png"), new OnItemDataCallBack<String>() {
-                        @Override
-                        public void onItemDataCallBack(String objectKey) {
-                            imgItemBean.objectKey = objectKey;
-                            if (finalAccount == files.size()) {
-                                dialog.dismiss();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        uploadImgs(app_id, clt_id, toAddList);
-                                    }
-                                });
-                            }
-                        }
-                    }, new OnItemDataCallBack<Throwable>() {
-                        @Override
-                        public void onItemDataCallBack(Throwable data) {
-                            if (finalAccount == files.size()) {
-                                dialog.dismiss();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        uploadImgs(app_id, clt_id, toAddList);
-                                    }
-                                });
-                            }
-                        }
-                    });
-                }
-
-
+            List<UploadImgItemBean> toAddList = new ArrayList<>();
+            for (String file : files) {
+                UploadImgItemBean item = new UploadImgItemBean();
+                item.local_path = file;
+                item.role = Constants.PersonType.LENDER;
+                item.type = topItem.value;
+                toAddList.add(item);
             }
+            lists.addAll(toAddList);
+            onImgCountChange(files.size() > 0);
+            adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
+            Dialog dialog = LoadingUtils.createLoadingDialog(this);
+            dialog.show();
+            int account = 0;
+            for (UploadImgItemBean imgItemBean : toAddList) {
+                account++;
+                int finalAccount = account;
+                String suffix = isVideoPage ? ".mp4" : ".png";
+                OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), new OnItemDataCallBack<String>() {
+                    @Override
+                    public void onItemDataCallBack(String objectKey) {
+                        imgItemBean.objectKey = objectKey;
+                        if (finalAccount == files.size()) {
+                            dialog.dismiss();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    uploadImgs(app_id, clt_id, toAddList);
+                                }
+                            });
+                        }
+                    }
+                }, new OnItemDataCallBack<Throwable>() {
+                    @Override
+                    public void onItemDataCallBack(Throwable data) {
+                        if (finalAccount == files.size()) {
+                            dialog.dismiss();
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    uploadImgs(app_id, clt_id, toAddList);
+                                }
+                            });
+                        }
+                    }
+                });
+            }
+
+
         }
+
     }
 
     private Dialog mUploadFileDialog;
@@ -376,7 +394,7 @@ public class UploadListActivity extends BaseActivity {
                     lists.get(i).id = data.get(i);
                 }
                 mUploadFileDialog.dismiss();
-                Toast.makeText(UploadListActivity.this, "上传照片成功", Toast.LENGTH_SHORT).show();
+                Toast.makeText(UploadListActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
             }
         });
     }
@@ -387,8 +405,8 @@ public class UploadListActivity extends BaseActivity {
     }
 
     private void onBack() {
-//        imgList = ((ArrayList<UploadImgItemBean>) mGetIntent.getSerializableExtra("imgList"));
-//        setResult(RESULT_OK, mGetIntent);
+        topItem.has_img = lists.size();
+        setResult(RESULT_OK, getIntent());
         finish();
     }
 
