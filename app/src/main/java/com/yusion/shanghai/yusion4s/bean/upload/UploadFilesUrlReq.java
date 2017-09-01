@@ -19,6 +19,7 @@ public class UploadFilesUrlReq {
         public String label;//身份证正面,身份证反面
         public String file_id;
         public String role;//主贷人,担保人
+        public String clt_id;
 
         @Override
         public String toString() {

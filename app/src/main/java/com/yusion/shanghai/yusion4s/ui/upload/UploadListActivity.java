@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -34,6 +35,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
 public class UploadListActivity extends BaseActivity {
 
     private UploadImgListAdapter adapter;
@@ -46,6 +48,8 @@ public class UploadListActivity extends BaseActivity {
     private String mRole;
     private String mType;
 
+    private String kind;
+
 
     private int currentChooseCount = 0;
     private boolean hasImg = false;
@@ -54,13 +58,25 @@ public class UploadListActivity extends BaseActivity {
     private LinearLayout uploadBottomLin;
     private TextView uploadTv2;
     private TextView uploadTv1;
+    private View view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_upload_list);
+
+        LayoutInflater inFlater = getLayoutInflater();
         mGetIntent = getIntent();
         mRole = mGetIntent.getStringExtra("role");
+        kind = mGetIntent.getStringExtra("sqs");
+        if (kind.equals("shouquanshu")) {
+            //view =  view = inFlater.inflate(R.layout.activity_authorize, null);
+            view = inFlater.inflate(R.layout.activi_upload_list_sqs, null);
+
+        } else {
+            view = inFlater.inflate(R.layout.activity_upload_list, null);
+        }
+        setContentView(view);
+
         mTopItem = (UploadLabelItemBean) mGetIntent.getSerializableExtra("topItem");
         if (mTopItem != null) {
             imgList = mTopItem.img_list;

@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
+import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,6 +14,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -79,6 +81,9 @@ public class CarInfoFragment extends BaseFragment {
     private boolean billPriceChange = true;
 
     private int sum = 0;
+
+    private String upNumberCity;
+    private Button carInfoNextBtn;
 
 
     Handler handler = new Handler() {
@@ -270,54 +275,58 @@ public class CarInfoFragment extends BaseFragment {
         carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
         carInfoLoanBankLin = (LinearLayout) view.findViewById(R.id.car_info_loan_bank_lin);
         carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
+
+        carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
         /**
          * 进行门店选择
          */
         //view.findViewById(R.id.car_info_dlr_lin)
         carInfoDlrLin.setOnClickListener(v -> DlrApi.getDlrListByToken(mContext, resp -> {
-            mDlrList = resp;
-            List<String> items = new ArrayList<>();
-            for (GetDlrListByTokenResp item : resp) {
-                items.add(item.dlr_nm);
-            }
+            if (resp != null && !resp.isEmpty()) {
+                mDlrList = resp;
+                List<String> items = new ArrayList<>();
+                for (GetDlrListByTokenResp item : resp) {
+                    items.add(item.dlr_nm);
+                }
+                //dlrTV  门店显示的textview
+                WheelViewUtil.showWheelView(items, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
+                    mDlrIndex = selectedIndex;
 
-            //dlrTV  门店显示的textview
-            WheelViewUtil.showWheelView(items, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
-                mDlrIndex = selectedIndex;
+                    mBrandList.clear();
+                    mBrandIndex = 0;
+                    brandTv.setText("");//厂商指导价
 
-                mBrandList.clear();
-                mBrandIndex = 0;
-                brandTv.setText("");//厂商指导价
+                    mTrixList.clear();
+                    mTrixIndex = 0;
+                    trixTv.setText("");//选择车型
 
-                mTrixList.clear();
-                mTrixIndex = 0;
-                trixTv.setText("");//选择车型
+                    mModelList.clear();
+                    mModelIndex = 0;
+                    modelTv.setText("");
 
-                mModelList.clear();
-                mModelIndex = 0;
-                modelTv.setText("");
+                    mGuidePrice = 0;
+                    guidePriceTv.setText("");
 
-                mGuidePrice = 0;
-                guidePriceTv.setText("");
+                    mLoanBankList.clear();
+                    mLoanBankIndex = 0;
+                    loanBankTv.setText(null);
 
-                mLoanBankList.clear();
-                mLoanBankIndex = 0;
-                loanBankTv.setText(null);
+                    mProductTypeIndex = 0;
+                    productTypeTv.setText(null);
 
-                mProductTypeIndex = 0;
-                productTypeTv.setText(null);
-
-                billPriceTv.setText("");
+                    billPriceTv.setText("");
 
 
-                mManagementPriceIndex = 0;
+                    mManagementPriceIndex = 0;
 //                mDlrList.clear();
-                managementPriceTv.setText("");
-                totalLoanPriceTv.setText("");
-                otherPriceTv.setText("");
+                    managementPriceTv.setText("");
+                    totalLoanPriceTv.setText("");
+                    otherPriceTv.setText("");
 
-            });
+                });
+            }
         }));
+
 
         //上牌地
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
@@ -329,13 +338,17 @@ public class CarInfoFragment extends BaseFragment {
                     toast.show();
                     return;
                 }
+                if (!TextUtils.isEmpty(cityJson)) {
+                    WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
+                        @Override
+                        public void onCitySubmitCallBack(View clickedView, String city) {
+                        }
+                    }, cityJson);
+                    carInfoNextBtn.setEnabled(true);
+                } else {
+                    return;
+                }
 
-                WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
-                    @Override
-                    public void onCitySubmitCallBack(View clickedView, String city) {
-
-                    }
-                }, cityJson);
             }
         });
         managementPriceLl.setOnClickListener(new View.OnClickListener() {
@@ -344,15 +357,19 @@ public class CarInfoFragment extends BaseFragment {
                 if (TextUtils.isEmpty(dlrTV.getText())) {
                     Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
                 } else {//(clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex)
                     WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
                         @Override
                         public void onSubmitCallBack(View clickedView, int selectedIndex) {
                             mManagementPriceIndex = selectedIndex;
+                            totalPrice();
+                            otherPriceTv.setHint("*金额取整到百位,如2300");
+                            otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
                         }
                     });
                 }
+//                String s = managementPriceTv.getText().toString();
+//                Log.e("s", s);
             }
         });
 
@@ -440,27 +457,30 @@ public class CarInfoFragment extends BaseFragment {
         carInfoModelLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(trixTv.getText())) {
                 DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
-                    mModelList = resp;
-                    List<String> items = new ArrayList<>();
-                    for (GetModelResp modelResp : resp) {
-                        items.add(modelResp.model_name);
+                    if (resp != null && !resp.isEmpty()) {
+                        mModelList = resp;
+                        List<String> items = new ArrayList<>();
+                        for (GetModelResp modelResp : resp) {
+                            items.add(modelResp.model_name);
+                        }
+                        WheelViewUtil.showWheelView(items, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
+                            mModelIndex = selectedIndex;
+                            mGuidePrice = (int) resp.get(mModelIndex).msrp;
+                            guidePriceTv.setText(mGuidePrice + "");
+                            billPriceTv.setEnabled(true);
+                            //otherPriceTv.setHint("整百且小于" + mDlrList.get(mDlrIndex).other_fee);
+
+                            mLoanBankList.clear();
+                            mLoanBankIndex = 0;
+                            loanBankTv.setText(null);
+                            mProductTypeIndex = 0;
+                            productTypeTv.setText(null);
+
+                            billPriceTv.setText("");
+                        });
                     }
-                    WheelViewUtil.showWheelView(items, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
-                        mModelIndex = selectedIndex;
-                        mGuidePrice = (int) resp.get(mModelIndex).msrp;
-                        guidePriceTv.setText(mGuidePrice + "");
-                        billPriceTv.setEnabled(true);
-                        otherPriceTv.setHint("整百且小于" + mDlrList.get(mDlrIndex).other_fee);
-
-                        mLoanBankList.clear();
-                        mLoanBankIndex = 0;
-                        loanBankTv.setText(null);
-                        mProductTypeIndex = 0;
-                        productTypeTv.setText(null);
-
-                        billPriceTv.setText("");
-                    });
                 });
+
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
                 Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
@@ -565,7 +585,6 @@ public class CarInfoFragment extends BaseFragment {
                         if (resp == null) {
                             return;
                         }
-
                         cityJson = resp.support_area.toString();
                         Log.e("TAG", "onItemDataCallBack: " + cityJson);
 
@@ -727,6 +746,7 @@ public class CarInfoFragment extends BaseFragment {
         otherPriceTv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
@@ -752,7 +772,7 @@ public class CarInfoFragment extends BaseFragment {
                 totalPrice();
             }
         });
-        view.findViewById(R.id.car_info_next_btn).setOnClickListener(new View.OnClickListener() {
+        carInfoNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkCanNextStep()) {
@@ -775,9 +795,11 @@ public class CarInfoFragment extends BaseFragment {
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
 
+
                     //req.product_type = productTypeTv.getText().toString();
 
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
+
                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                     Log.e("SSSSSSS", req.toString());
                     Log.e("s2", req.bank_id);
@@ -791,7 +813,8 @@ public class CarInfoFragment extends BaseFragment {
 
     private void totalPrice() {
         Integer carLoanPrice = getPrice(carLoanPriceTv.getText().toString());
-        Integer managementPrice = getPrice(managementPriceTv.getText().toString());
+        //Integer managementPrice = getPrice(managementPriceTv.getText().toString());
+        Integer managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
         Integer otherPrice = getPrice(otherPriceTv.getText().toString());
         //sum = carLoanPrice + managementPrice + otherPrice;
         //totalLoanPriceTv.setText(sum+"");

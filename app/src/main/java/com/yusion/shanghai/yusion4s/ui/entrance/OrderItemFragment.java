@@ -49,7 +49,9 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class OrderItemFragment extends BaseFragment {
+public class
+
+OrderItemFragment extends BaseFragment {
 
     private Handler handler = new Handler();
     private List<GetAppListResp> items;
@@ -143,10 +145,12 @@ public class OrderItemFragment extends BaseFragment {
                 OrderApi.getAppList(mContext, getArguments().getString("st"), new OnItemDataCallBack<List<GetAppListResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetAppListResp> resp) {
-                        ptr.setVisibility(View.VISIBLE);
-                        items.addAll(resp);
-                        adapter.notifyDataSetChanged();
-                        ptr.refreshComplete();
+                        if (resp != null && resp.size() > 0) {
+                            ptr.setVisibility(View.VISIBLE);
+                            items.addAll(resp);
+                            adapter.notifyDataSetChanged();
+                            ptr.refreshComplete();
+                        }
                     }
                 });
                 break;

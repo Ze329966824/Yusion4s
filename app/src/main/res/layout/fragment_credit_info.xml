@@ -282,10 +282,6 @@
                             android:background="@color/separate_line_color" />
                     </LinearLayout>
 
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"></LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/client_credit__book_lin1"
@@ -424,7 +420,7 @@
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
-                        android:id="@+id/client_relationship"
+                        android:id="@+id/client_relationship_lin"
                         style="@style/apply_info_item"
                         android:layout_marginTop="10dp"
                         android:visibility="visible">

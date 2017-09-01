@@ -24,13 +24,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="15dp"
+            android:maxLines="1"
             android:paddingBottom="5dp"
             android:paddingTop="5dp"
             android:text="付银海"
             android:textColor="@color/text_normal"
-            android:textSize="14.5sp"
-            android:maxLines="1"
-            />
+            android:textSize="14.5sp" />
 
         <ImageView
             android:id="@+id/order_item_next"
@@ -262,7 +261,11 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_marginLeft="10dp"
-            android:src="@mipmap/icon_item_phone" />
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:src="@mipmap/icon_item_phone"
+
+            />
 
         <Space
             android:layout_width="0dp"
@@ -275,7 +278,8 @@
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:padding="15dp"
-            android:src="@mipmap/icon_item_more" />
+            android:src="@mipmap/icon_item_more"
+            android:visibility="gone" />
     </LinearLayout>
 
 

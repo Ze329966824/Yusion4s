@@ -25,6 +25,10 @@ public interface OrderService {
     @POST("/api/application/submit_app/")
     Call<BaseResult<SubmitOrderResp>> submitOrder(@Body SubmitOrderReq req);
 
+//    @POST("/api/application/submit_app/")
+//    Call<BaseResult<SubmitOrderResp>> submitOrder(@Query("") SubmitOrderReq req);
+
+
     @GET("/api/client/search_client/")
     Call<BaseResult<List<SearchClientResp>>> searchClient(@Query("key") String clt_nm);
 
