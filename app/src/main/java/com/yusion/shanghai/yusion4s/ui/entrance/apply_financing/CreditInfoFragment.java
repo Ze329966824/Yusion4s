@@ -184,7 +184,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
                                     @Override
                                     public void callBack(int code, String msg) {
-                                        if (code > 0) {
+                                        if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
                                             EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
