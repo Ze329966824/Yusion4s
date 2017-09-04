@@ -343,11 +343,9 @@ public class OrderDetailActivity extends BaseActivity {
         compare(applyManagementPriceTv2, replyManagementPriceTv2);
         compare(applyOtherPriceTv2, replyOtherPriceTv2);
         compare(applyTotalPriceTv2, replyTotalPriceTv2);
-        // compare(applyBankTv2, replyBankTv2);
-        compareString(applyBankTv2, replyBankTv2);
+        compare(applyBankTv2, replyBankTv2);
         compare(applyReplyDateTv2, ReplyRepayDateTv2);
-        //compare(applyProductTypeTv2, replyProductTypeTv2);
-        compareString(applyProductTypeTv2, replyProductTypeTv2);
+        compare(applyProductTypeTv2, replyProductTypeTv2);
 
         orderDetailSignBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -368,19 +366,6 @@ public class OrderDetailActivity extends BaseActivity {
             tv1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tv1.setTextColor(Color.parseColor("#999999"));
             tv2.setTextColor(Color.parseColor("#CBA053"));
-        }
-    }
-
-    private void compareString(TextView tv1, TextView tv2) {
-
-        if (String.valueOf(tv1.getText()).equals(String.valueOf(tv2.getText()))) {
-            tv1.setTextColor(Color.parseColor("#999999"));
-            tv2.setTextColor(Color.parseColor("#222a36"));
-        } else {
-            tv1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
-            tv1.setTextColor(Color.parseColor("#999999"));
-            tv2.setTextColor(Color.parseColor("#CBA053"));
-
         }
     }
 

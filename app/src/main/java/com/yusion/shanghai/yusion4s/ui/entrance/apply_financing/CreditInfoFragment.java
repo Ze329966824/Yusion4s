@@ -174,7 +174,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             if (data == null) {
                                 return;
                             }
-
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
@@ -235,6 +234,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 lenderList.addAll(resp.list);
                             }
                         });
+
                     } else {
                         autonym_certify_id_back_tv.setText("请上传");
                         autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
@@ -317,6 +317,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
             } else if (requestCode == Constants.REQUEST_MULTI_DOCUMENT) {
                 uploadFileUrlList = (List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlList");
+
                 switch (data.getStringExtra("role")) {
                     case Constants.PersonType.LENDER:
                         lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");

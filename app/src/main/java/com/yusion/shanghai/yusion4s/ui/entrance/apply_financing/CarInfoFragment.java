@@ -231,12 +231,8 @@ public class CarInfoFragment extends BaseFragment {
         modelTv = (TextView) view.findViewById(R.id.car_info_model_tv);
         loanPeriodsTv = (TextView) view.findViewById(R.id.car_info_loan_periods_tv);
         carInfoLoanPeriodsLin = (LinearLayout) view.findViewById(R.id.car_info_loan_periods_lin);
-
-        //carInfoLoanPeriodsLin.setOnClickListener(v -> WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.loan_periods_key, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", (clickedView, selectedIndex) -> mLoanPeriodsIndex = selectedIndex));
-
         managementPriceTv = (TextView) view.findViewById(R.id.car_info_management_price_tv);
         managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
-        //view.findViewById(R.id.car_info_management_price_lin).setOnClickListener(v -> WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceTv, "请选择档案管理费", (clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex));
         loanBankTv = (TextView) view.findViewById(R.id.car_info_loan_bank_tv);
         productTypeTv = (TextView) view.findViewById(R.id.car_info_product_type_tv);
         billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);
@@ -278,6 +274,7 @@ public class CarInfoFragment extends BaseFragment {
                 for (GetDlrListByTokenResp item : resp) {
                     items.add(item.dlr_nm);
                 }
+
                 //dlrTV  门店显示的textview
                 WheelViewUtil.showWheelView(items, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
@@ -332,9 +329,12 @@ public class CarInfoFragment extends BaseFragment {
                     WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
+                            if (!TextUtils.isEmpty(plateRegAddrTv.getText())) {
+                                carInfoNextBtn.setEnabled(true);
+                            }
                         }
                     }, cityJson);
-                    carInfoNextBtn.setEnabled(true);
+
                 } else {
                     return;
                 }
@@ -353,8 +353,6 @@ public class CarInfoFragment extends BaseFragment {
                         public void onSubmitCallBack(View clickedView, int selectedIndex) {
                             mManagementPriceIndex = selectedIndex;
                             totalPrice();
-//                            otherPriceTv.setHint("*金额取整到百位,如2300");
-//                            otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
                         }
                     });
                 }
@@ -530,21 +528,12 @@ public class CarInfoFragment extends BaseFragment {
             if (!TextUtils.isEmpty(dlrTV.getText())) {
                 DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
 
-//                    mModelList = resp;
-//                    List<String> items = new ArrayList<>();
-//                    for (GetModelResp modelResp : resp) {
-//                        items.add(modelResp.model_name);
-//                    }
                     mLoanBankList = resp;//银行列表
                     List<String> items = new ArrayList<String>();
                     for (GetLoanBankResp getLoanBankResp : resp) {
                         items.add(getLoanBankResp.name);
                     }
-                    // mLoanBankList.clear();
 
-//                    for (GetLoanBankResp getLoanBankResp : resp) {
-//                        mLoanBankList.add(getLoanBankResp.bank_name);
-//                    }
                     WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
 
                 });
@@ -557,12 +546,6 @@ public class CarInfoFragment extends BaseFragment {
 //        view.findViewById(R.id.car_info_product_type_lin)
         carInfoProductTypeLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
-//                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, resp -> WheelViewUtil.showWheelView(resp, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
-//                    @Override
-//                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
-//                        mProductTypeIndex = selectedIndex;
-//                    }
-//                }));
 
                 DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
                     @Override
@@ -593,23 +576,7 @@ public class CarInfoFragment extends BaseFragment {
                         });
                     }
                 });
-//                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<List<GetproductResp>>() {
-//                    @Override
-//                    public void onItemDataCallBack(List<GetproductResp> resp) {
-//                        mProductList = resp;
-//                        List<String> items = new ArrayList<String>();
-//                        for (GetproductResp getproductResp : resp) {//很多条中的其中一条
-//                            items.add(getproductResp.name);
-//                        }
-//                        WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
-//                            @Override
-//                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
-//                                mProductTypeIndex = selectedIndex;
-//                            }
-//                        });
-//                    }
-//
-//                });
+
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
                 Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
