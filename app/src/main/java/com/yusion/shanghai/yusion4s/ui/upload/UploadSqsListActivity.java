@@ -29,7 +29,6 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
-import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
@@ -47,15 +46,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+
+//选完用户后获取授权书图片并传入该页面
+//如果删除这些图片需要用图片id并从集合删除
+
+//如果删除刚上传的图片需要从集合删除还需要在fileUrlList集合删除
 public class UploadSqsListActivity extends BaseActivity {
-    //private ListDealerLabelsResp.LabelListBean topItem;
-    private TextView errorTv;
-    private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
-    List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlBeanList = new ArrayList<>();
-    List<UploadImgItemBean> list = new ArrayList<>();
-    private String app_id;
+    private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
+    private List<UploadImgItemBean> list = new ArrayList<>();
     private String clt_id;
     private String title;
     private String type;
@@ -66,7 +66,7 @@ public class UploadSqsListActivity extends BaseActivity {
     private TextView uploadTv1;
     private TextView uploadTv2;
     private boolean isEditing = false;
-    Intent mGetIntent;
+    private Intent mGetIntent;
 
 //    private UploadImgListAdapter adapter;
 //    private Intent mGetIntent;
@@ -91,13 +91,14 @@ public class UploadSqsListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
-        //topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
 
-        clt_id = getIntent().getStringExtra("clt_id");
-        title = getIntent().getStringExtra("title");
-        type = getIntent().getStringExtra("type");
-        role = getIntent().getStringExtra("role");
         mGetIntent = new Intent();
+        clt_id = mGetIntent.getStringExtra("clt_id");
+        title = mGetIntent.getStringExtra("title");
+        type = mGetIntent.getStringExtra("type");
+        role = mGetIntent.getStringExtra("role");
+        uploadFileUrlList = (List<UploadFilesUrlReq.FileUrlBean>) mGetIntent.getSerializableExtra("uploadFileUrlList");
+
         initView();
         initData();
 //        hasImg = imgList.size() > 0;
@@ -179,7 +180,6 @@ public class UploadSqsListActivity extends BaseActivity {
 
                 DelImgsReq req = new DelImgsReq();
                 req.clt_id = clt_id;
-                req.app_id = app_id;
                 req.id.addAll(delImgIdList);
 
 
@@ -206,10 +206,6 @@ public class UploadSqsListActivity extends BaseActivity {
                 }
             }
         });
-
-        errorTv = (TextView) findViewById(R.id.upload_list_error_tv);
-        errorLin = (LinearLayout) findViewById(R.id.upload_list_error_lin);
-
         RecyclerView rv = (RecyclerView) findViewById(R.id.upload_list_rv);
         rv.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new RvAdapter(this, lists);
@@ -256,27 +252,19 @@ public class UploadSqsListActivity extends BaseActivity {
     }
 
     private void initData() {
-        list = (List<UploadImgItemBean>) getIntent().getSerializableExtra("list");
-        ListImgsReq req = new ListImgsReq();
-        req.label = type;
-        req.app_id = app_id;
-        req.clt_id = clt_id;
-        UploadApi.listImgs(this, req, resp -> {
-            if (resp.has_err) {
-                errorLin.setVisibility(View.VISIBLE);
-                errorTv.setText("您提交的资料有误：" + resp.error);
-            } else {
-                errorLin.setVisibility(View.GONE);
-            }
-
-            onImgCountChange(resp.list.size() > 0);
-
-            if (resp.list.size() != 0) {
-                lists.addAll(resp.list);
-                list.addAll(resp.list);
-                adapter.notifyDataSetChanged();
-            }
-        });
+//        list = (List<UploadImgItemBean>) getIntent().getSerializableExtra("list");
+//        ListImgsReq req = new ListImgsReq();
+//        req.label = type;
+//        req.app_id = app_id;
+//        req.clt_id = clt_id;
+//        UploadApi.listImgs(this, req, resp -> {
+//            onImgCountChange(resp.list.size() > 0);
+//            if (resp.list.size() != 0) {
+//                lists.addAll(resp.list);
+//                list.addAll(resp.list);
+//                adapter.notifyDataSetChanged();
+//            }
+//        });
     }
 
     private void onImgCountChange(boolean hasImg) {
@@ -369,14 +357,13 @@ public class UploadSqsListActivity extends BaseActivity {
     private Dialog mUploadFileDialog;
 
     public void uploadImgs(String clt_id, List<UploadImgItemBean> lists) {
-        uploadFileUrlBeanList = new ArrayList<>();
+        uploadFileUrlList = new ArrayList<>();
         for (UploadImgItemBean imgItemBean : lists) {
             UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-            fileUrlBean.app_id = app_id;
             fileUrlBean.clt_id = clt_id;
             fileUrlBean.file_id = imgItemBean.objectKey;
             fileUrlBean.label = imgItemBean.type;
-            uploadFileUrlBeanList.add(fileUrlBean);
+            uploadFileUrlList.add(fileUrlBean);
 
         }
         if (mUploadFileDialog == null) {
@@ -385,7 +372,7 @@ public class UploadSqsListActivity extends BaseActivity {
         }
         mUploadFileDialog.show();
         UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-        uploadFilesUrlReq.files = uploadFileUrlBeanList;
+        uploadFilesUrlReq.files = uploadFileUrlList;
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(this).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(this).getValue("bucket", "");
         UploadApi.uploadFileUrl(this, uploadFilesUrlReq, new OnItemDataCallBack<List<String>>() {
@@ -413,7 +400,7 @@ public class UploadSqsListActivity extends BaseActivity {
         mGetIntent.putExtra("role", role);
 //        mGetIntent.putExtra("imgList", (Serializable) lists);
 
-        mGetIntent.putExtra("uploadFileUrlBeanList", (Serializable) uploadFileUrlBeanList);
+        mGetIntent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
         mGetIntent.putExtra("list", (Serializable) list);
 
         setResult(RESULT_OK, mGetIntent);

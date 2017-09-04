@@ -95,7 +95,6 @@ public class CreditInfoFragment extends BaseFragment {
     private List<UploadImgItemBean> guarantorSpList = new ArrayList<>();
     private List<UploadFilesUrlReq.FileUrlBean> fileUrlBeanList = new ArrayList<>();
 
-    List<UploadFilesUrlReq.FileUrlBean> upLoadList;
 
     public String relation_name = "";
     private String lender_clt_id;
@@ -641,7 +640,7 @@ public class CreditInfoFragment extends BaseFragment {
 
             } else if (requestCode == Constants.REQUEST_MULTI_DOCUMENT) {
                 Log.e("sssssssss", data.getStringExtra("role"));
-                upLoadList.addAll(((List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlBeanList")));
+                fileUrlBeanList.addAll(((List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlBeanList")));
                 switch (data.getStringExtra("role")) {
                     case Constants.PersonType.LENDER:
                         lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("list");
