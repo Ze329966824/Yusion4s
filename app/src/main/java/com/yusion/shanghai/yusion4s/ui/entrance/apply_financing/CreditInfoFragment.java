@@ -47,18 +47,8 @@ import java.util.List;
  * Created by aa on 2017/8/9.
  */
 
-public class CreditInfoFragment extends BaseFragment {
+public class CreditInfoFragment extends BaseFragment implements View.OnClickListener {
     private TextView findTv;
-    private View sqs2Lin;
-    private View sqs3Lin;
-    private int currentClickedView;
-    private ImageView sqs1Img;
-    private ImageView sqs2Img;
-    private ImageView sqs3Img;
-    private ImageView sqs2expandImg;
-    private ImageView sqs3expandImg;
-    private String id_no_r;
-    private EditText idNo;
 
     private TextView client_info_name;
     private TextView client_phoneNumber;
@@ -83,7 +73,6 @@ public class CreditInfoFragment extends BaseFragment {
 
     private LinearLayout personal_info_group;
 
-
     private File sqsFile1;
     private File sqsFile2;
     private File sqsFile3;
@@ -93,15 +82,16 @@ public class CreditInfoFragment extends BaseFragment {
     private List<UploadImgItemBean> lenderSpList = new ArrayList<>();
     private List<UploadImgItemBean> guarantorList = new ArrayList<>();
     private List<UploadImgItemBean> guarantorSpList = new ArrayList<>();
+
     private List<UploadFilesUrlReq.FileUrlBean> fileUrlBeanList = new ArrayList<>();
 
+    List<UploadFilesUrlReq.FileUrlBean> upLoadList;
 
     public String relation_name = "";
     private String lender_clt_id;
     private String lender_sp_clt_id;
     private String guarantor_clt_id;
     private String guarantor_sp_clt_id;
-
 
     public static CreditInfoFragment newInstance() {
 
@@ -129,39 +119,37 @@ public class CreditInfoFragment extends BaseFragment {
         step1.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
         step1.setOnClickListener(v -> EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCarInfo));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
-        //     sqs2Lin = view.findViewById(R.id.credit_info_sqs2_lin);
-        //   sqs3Lin = view.findViewById(R.id.credit_info_sqs3_lin);
-        // sqs2expandImg = ((ImageView) view.findViewById(R.id.credit_info_sqs2_expand_img));
-        //sqs3expandImg = ((ImageView) view.findViewById(R.id.credit_info_sqs3_expand_img));
         submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
 
         client_info_name = (TextView) view.findViewById(R.id.client_info_name);
         client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
         client_ID_card = (TextView) view.findViewById(R.id.client_ID_card);
         findTv = (TextView) view.findViewById(R.id.tv_find);
-//        private LinearLayout client_credit__book_lin;  //申请人征信
+        //申请人征信
         client_credit__book_lin = (LinearLayout) view.findViewById(R.id.client_credit__book_lin1);
-//        private LinearLayout client_spouse_credit__book_lin;//申请人配偶
+        client_credit__book_lin.setOnClickListener(this);
+        //申请人配偶
         client_spouse_credit__book_lin = (LinearLayout) view.findViewById(R.id.client_spouse_credit__book_lin2);
-//        private LinearLayout credit_applicate_detail_lin;//用户详情
+        client_spouse_credit__book_lin.setOnClickListener(this);
+        //用户详情
         credit_applicate_detail_lin = (LinearLayout) view.findViewById(R.id.credit_applicate_detail_lin);
-//        private LinearLayout guarantor_credit_book_lin;//担保人授权
+        credit_applicate_detail_lin.setOnClickListener(this);
+        //担保人授权
         guarantor_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_credit_book_lin3);
-//        private LinearLayout guarantor_spouse_credit_book_lin;//担保人配偶
+        guarantor_credit_book_lin.setOnClickListener(this);
+        //担保人配偶
         guarantor_spouse_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_spouse_credit_book_lin4);
-//        private LinearLayout client_relationship_lin;//车主与申请人关系
+        guarantor_spouse_credit_book_lin.setOnClickListener(this);
+        //车主与申请人关系
         client_relationship_lin = (LinearLayout) view.findViewById(R.id.client_relationship_lin);
-
+        client_relationship_lin.setOnClickListener(this);
         chooseRelationTv = (TextView) view.findViewById(R.id.choose_relation);
-
         mobile_sfz_lin = (LinearLayout) view.findViewById(R.id.mobile_sfz_lin);
 
         autonym_certify_id_back_tv = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv);
         autonym_certify_id_back_tv1 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv1);
         autonym_certify_id_back_tv2 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv2);
         autonym_certify_id_back_tv3 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv3);
-
-        // credit_info = (ConstraintLayout) view.findViewById(R.id.credit_info);
 
         personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
 
@@ -173,248 +161,22 @@ public class CreditInfoFragment extends BaseFragment {
                 startActivity(intent);
             }
         });
-        client_relationship_lin.setOnClickListener(new View.OnClickListener() {//申请人与车主关系
-            @Override
-            public void onClick(View v) {
-                WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.owner_applicant_relation_key,
-                        CLIENT_RELATIONSHIP_POSITION_INDEX,
-                        client_relationship_lin,
-                        chooseRelationTv,
-                        "请选择",
-                        new WheelViewUtil.OnSubmitCallBack() {
-                            @Override
-                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                                CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
-                                chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
-                            }
-                        });
-            }
-        });
-
-
-        client_credit__book_lin.setOnClickListener(new View.OnClickListener() {//申请人授权书
-            @Override
-            public void onClick(View v) {
-                //Toast.makeText(mContext, "点击了本人授权书", Toast.LENGTH_LONG).show();
-                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-                intent.putExtra("clt_id", lender_clt_id);
-                intent.putExtra("type", "auth_credit");
-                intent.putExtra("role", Constants.PersonType.LENDER);
-                intent.putExtra("list", (Serializable) lenderList);
-                intent.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
-                intent.putExtra("title", "申请人征信授权书");
-                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
-            }
-        });
-        client_spouse_credit__book_lin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-                intent.putExtra("clt_id", lender_sp_clt_id);
-                intent.putExtra("type", "auth_credit");
-                intent.putExtra("role", Constants.PersonType.LENDER_SP);
-                intent.putExtra("list", (Serializable) lenderSpList);
-                intent.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
-                intent.putExtra("title", "申请人配偶征信授权书");
-                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
-            }
-        });
-        guarantor_credit_book_lin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-                intent.putExtra("clt_id", guarantor_clt_id);
-                intent.putExtra("type", "auth_credit");
-                intent.putExtra("role", Constants.PersonType.GUARANTOR);
-                intent.putExtra("list", (Serializable) guarantorList);
-                intent.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
-                intent.putExtra("title", "担保人征信授权书");
-                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
-            }
-        });
-        guarantor_spouse_credit_book_lin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-                intent.putExtra("clt_id", guarantor_sp_clt_id);
-                intent.putExtra("type", "auth_credit");
-                intent.putExtra("role", Constants.PersonType.GUARANTOR_SP);
-                intent.putExtra("list", (Serializable) guarantorSpList);
-                intent.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
-                intent.putExtra("title", "担保人配偶征信授权书");
-                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
-            }
-        });
-
 
         findTv.setOnClickListener(new View.OnClickListener() {
-
             @Override
             public void onClick(View v) {
                 //点击跳转  到 检索页面 并 返回 数据 进行 展示。
                 Intent intent = new Intent(mContext, SearchClientActivity.class);
                 startActivityForResult(intent, 2000);
-//                OrderApi.searchClientExist(mContext, "李拓", new OnItemDataCallBack<SearchClientResp>() {
-//                    @Override
-//                    public void onItemDataCallBack(SearchClientResp data) {
-//
-//                    }
-//                });
             }
         });
 
-
-//        view.findViewById(R.id.credit_info_sqs2_expand_lin).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isSqs2ExpandLinExpand) {
-//                    isSqs2ExpandLinExpand = false;
-//                    sqs2expandImg.setImageResource(R.mipmap.expand_plus);
-//                    sqs2Lin.setVisibility(View.GONE);
-//                } else {
-//                    isSqs2ExpandLinExpand = true;
-//                    sqs2expandImg.setImageResource(R.mipmap.expand_sub);
-//                    sqs2Lin.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-
-//        view.findViewById(R.id.credit_info_sqs3_expand_lin).setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                if (isSqs3ExpandLinExpand) {
-//                    isSqs3ExpandLinExpand = false;
-//                    sqs3expandImg.setImageResource(R.mipmap.expand_plus);
-//                    sqs3Lin.setVisibility(View.GONE);
-//                } else {
-//                    isSqs3ExpandLinExpand = true;
-//                    sqs3expandImg.setImageResource(R.mipmap.expand_sub);
-//                    sqs3Lin.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-
-//        idNo = (EditText) view.findViewById(R.id.credit_info_id_tv);
-//
-//        sqs1Img = (ImageView) view.findViewById(R.id.credit_info_sqs1_img);
-        /*
-        sqs1Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentClickedView = v.getId();
-                sqsFile1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg");
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(sqsFile1));
-                startActivityForResult(intent, 1000);
-
-            }
-        });
-        */
-        //sqs2Img = (ImageView) view.findViewById(R.id.credit_info_sqs2_img);
-        /*
-        sqs2Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentClickedView = v.getId();
-                //startActivityForResult(new Intent(mContext, CameraActivity.class), 1000);
-                sqsFile2 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg");
-                //File idBackFile = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis().)
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(sqsFile2));
-                startActivityForResult(intent, 1000);
-            }
-        });
-        */
-        //  sqs3Img = (ImageView) view.findViewById(R.id.credit_info_sqs3_img);
-/*
-        sqs3Img.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                currentClickedView = v.getId();
-                sqsFile3 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg");
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(sqsFile3));
-                startActivityForResult(intent, 1000);
-            }
-        });
-*/
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<UploadFilesUrlReq.FileUrlBean> files = new ArrayList<>();
-////                if (lenderList.size() > 0) {
-////                    files.addAll(lenderList);
-//////                    for (int i = 0; i < lenderList.size(); i++) {
-//////                        UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-//////                        UploadImgItemBean uploadImgItemBean = lenderList.get(i);
-//////                        fileUrlBean.file_id = uploadImgItemBean.objectKey;
-//////                        fileUrlBean.label = "auth_credit";
-//////                        fileUrlBean.clt_id = clt_id;
-//////                        files.add(fileUrlBean);
-//////                    }
-////                }
-////                if (lenderSpList.size() > 0) {
-////                    files.addAll(lenderSpList);
-//////                    for (int i = 0; i < lenderSpList.size(); i++) {
-//////                        UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-//////                        UploadImgItemBean uploadImgItemBean = lenderList.get(i);
-//////                        fileUrlBean.file_id = uploadImgItemBean.objectKey;
-//////                        fileUrlBean.label = "auth_credit";
-//////                        fileUrlBean.clt_id = clt_id;
-//////                        files.add(fileUrlBean);
-//////                    }
-////                }
-////                if (guarantorList.size() > 0) {
-////                    files.addAll(guarantorList);
-//////                    for (int i = 0; i < guarantorList.size(); i++) {
-//////                        UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-//////                        UploadImgItemBean uploadImgItemBean = lenderList.get(i);
-//////                        fileUrlBean.file_id = uploadImgItemBean.objectKey;
-//////                        fileUrlBean.label = "auth_credit";
-//////                        fileUrlBean.clt_id = clt_id;
-//////                        files.add(fileUrlBean);
-//////                    }
-////                }
-////                if (guarantorSpList.size() > 0) {
-////                    files.addAll(guarantorSpList);
-//////                    for (int i = 0; i < guarantorSpList.size(); i++) {
-//////                        UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-//////                        UploadImgItemBean uploadImgItemBean = lenderList.get(i);
-//////                        fileUrlBean.file_id = uploadImgItemBean.objectKey;
-//////                        fileUrlBean.label = "auth_credit";
-//////                        fileUrlBean.clt_id = clt_id;
-//////                        files.add(fileUrlBean);
-//////                    }
-////                }
-////                /*
-////                if (!TextUtils.isEmpty(sqs1Url)) {
-////                    UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-////                    fileUrlBean.file_id = sqs1Url;
-////                    fileUrlBean.label = "auth_credit";
-////                    fileUrlBean.role = "lender";
-////                    files.add(fileUrlBean);
-////                }
-////                if (!TextUtils.isEmpty(sqs2Url)) {
-////                    UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-////                    fileUrlBean.file_id = sqs2Url;
-////                    fileUrlBean.label = "auth_credit";
-////                    fileUrlBean.role = "lender_sp";
-////                    files.add(fileUrlBean);
-////                }
-////                if (!TextUtils.isEmpty(sqs3Url)) {
-////                    UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-////                    fileUrlBean.file_id = sqs3Url;
-////                    fileUrlBean.label = "auth_credit";
-////                    fileUrlBean.role = "guarantor";
-////                    files.add(fileUrlBean);
-////                }
-////                */
-//
-//                if (files.size() == 0) {
-                String s = chooseRelationTv.getText().toString();
-                //Toast.makeText(mContext, s, Toast.LENGTH_LONG).show();
+
                 SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
-                //req.id_no = idNo.getText().toString();//*号导致这个位置会出问题
                 // req.id_no = id_no_r;
                 req.clt_id = lender_clt_id;
                 req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
@@ -429,7 +191,7 @@ public class CreditInfoFragment extends BaseFragment {
                                 Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
                                 if (fileUrlBeanList.size() > 0) {
                                     UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                                    uploadFilesUrlReq.files = fileUrlBeanList;
+                                    uploadFilesUrlReq.files = fileUrlBeanList;//upLoadList 回传回来的应该是upLoadList
                                     uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
                                     uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
                                     UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
@@ -450,112 +212,18 @@ public class CreditInfoFragment extends BaseFragment {
                         }
                     });
                 }
-
-//                } else {
-//                    //未授权也可以 测试时用 后期去除
-//                    UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-////                  uploadFilesUrlReq.clt_id = clt_id;
-//                    uploadFilesUrlReq.files = files;
-//                    uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
-//                    uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-//                    Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
-//                    UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
-//                        if (code == 0) {
-//                            SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
-//                            // req.id_no = idNo.getText().toString();
-//                            req.id_no = id_no_r;
-//                            req.clt_id = clt_id;
-//                            req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
-//                            OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
-//                                @Override
-//                                public void onItemDataCallBack(SubmitOrderResp resp) {
-//                                    if (resp != null) {
-//                                        Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-//                                        dialog.dismiss();
-//                                        EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-//                                    } else {
-//                                        return;
-//                                    }
-//                                }
-//                            });
-//                        } else return;
-//                    });
-//                }
-
             }
         });
     }
 
-
-    private String sqs1Url;
-    private String sqs2Url;
-    private String sqs3Url;
-
-    //private var divorceImgsList = ArrayList<UploadImgItemBean>()
-
-    //client_credit__book_lin
-
-
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-//        if (resultCode == Activity.RESULT_OK) {
-//            if (requestCode == 1000) {
-//                switch (currentClickedView) {
-        // case R.id.credit_info_sqs1_img:
-//                        Glide.with(mContext).load(sqsFile1).into(sqs1Img);
-//                        OssUtil.uploadOss(mContext, true, sqsFile1.getAbsolutePath(), new OSSObjectKeyBean("lender", "auth_credit", ".png"), new OnItemDataCallBack<String>() {
-//                            @Override
-//                            public void onItemDataCallBack(String objectKey) {
-//                                sqs1Url = objectKey;
-//                            }
-//                        }, null);
-//                        break;
-
-        // case R.id.credit_info_sqs2_img:
-//                        Glide.with(mContext).load(sqsFile2).into(sqs2Img);
-//                        OssUtil.uploadOss(mContext, true, sqsFile2.getAbsolutePath(), new OSSObjectKeyBean("lender_sp", "auth_credit", ".png"), new OnItemDataCallBack<String>() {
-//                            @Override
-//                            public void onItemDataCallBack(String objectKey) {
-//                                sqs2Url = objectKey;
-//                            }
-//                        }, null);
-//                        break;
-
-        //    case R.id.credit_info_sqs3_img:
-//                        Glide.with(mContext).load(sqsFile3).into(sqs3Img);
-//                        OssUtil.uploadOss(mContext, true, sqsFile3.getAbsolutePath(), new OSSObjectKeyBean("guarantor", "auth_credit", ".png"), new OnItemDataCallBack<String>() {
-//                            @Override
-//                            public void onItemDataCallBack(String objectKey) {
-//                                sqs3Url = objectKey;
-//                            }
-//                        }, null);
-        //break;
-//                }
-//            }
-//        } else if (requestCode == Constants.REQUEST_IDCARD_1_CAPTURE) {
-//            String url = data.getStringExtra("url");// /storage/emulated/0/Pictures/loner_upload_image_1499744608501.jpg
-//            if (!TextUtils.isEmpty(url)) {
-//
-//            }
-//        }
-
-        // else if (resultCode == 2000) {
-        //if (resultCode == Activity.RESULT_OK) {
-
         if (resultCode == Activity.RESULT_OK) {
-            Log.e("requestcode", String.valueOf(requestCode));
-            if (requestCode == 2000) {
-//                sqs2Img.setImageResource(R.mipmap.sqs);
-//                sqs1Img.setImageResource(R.mipmap.sqs);
-//                sqs3Img.setImageResource(R.mipmap.sqs);
-//                sqs1Url = "";
-//                sqs2Url = "";
-//                sqs3Url = "";
 
+            if (requestCode == 2000) {
                 //idNo.setText(data.getStringExtra("sfz"));
                 personal_info_group.setVisibility(View.VISIBLE);
-
                 client_info_name.setText(data.getStringExtra("name"));
                 client_ID_card.setText(data.getStringExtra("sfz"));
                 client_phoneNumber.setText(data.getStringExtra("mobile"));
@@ -574,7 +242,6 @@ public class CreditInfoFragment extends BaseFragment {
                     client_credit__book_lin.setVisibility(View.GONE);
                 }
 
-
                 if (data.getStringExtra("isHasLender_sp").equals("1")) { //不等于空是1 等于空是2
                     client_spouse_credit__book_lin.setVisibility(View.VISIBLE);
                     lender_sp_clt_id = data.getStringExtra("lender_sp_clt_id");
@@ -588,7 +255,6 @@ public class CreditInfoFragment extends BaseFragment {
                 } else {
                     client_spouse_credit__book_lin.setVisibility(View.GONE);
                 }
-
 
                 if (data.getStringExtra("isGuarantor").equals("1")) { //不等于空是1 等于空是2
                     guarantor_credit_book_lin.setVisibility(View.VISIBLE);
@@ -617,30 +283,12 @@ public class CreditInfoFragment extends BaseFragment {
                 } else {
                     guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
                 }
-
-                //data.getStringExtra("sfz");
-
-//                if (data.getStringExtra("image1") != null) {
-//                    Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
-//                }
-//                if (data.getStringExtra("image2") != null) {
-//                    Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs2Img);
-//                }
-//                if (data.getStringExtra("image3") != null) {
-//                    Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs3Img);
-//                }
-//                if (data.getStringExtra("id_no_r") != null) {
-//                    id_no_r = data.getStringExtra("id_no_r");
-//                }
-
-//                Glide.with(mContext).load(data.getStringExtra("image1")).into(sqs1Img);
-//                Glide.with(mContext).load(data.getStringExtra("image2")).into(sqs2Img);
-//                Glide.with(mContext).load(data.getStringExtra("image3")).into(sqs3Img);
                 submitBtn.setEnabled(data.getBooleanExtra("enable", false));
 
             } else if (requestCode == Constants.REQUEST_MULTI_DOCUMENT) {
-                Log.e("sssssssss", data.getStringExtra("role"));
-                fileUrlBeanList.addAll(((List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlBeanList")));
+
+                upLoadList.addAll(((List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlBeanList")));
+
                 switch (data.getStringExtra("role")) {
                     case Constants.PersonType.LENDER:
                         lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("list");
@@ -688,4 +336,118 @@ public class CreditInfoFragment extends BaseFragment {
             }
         }
     }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.client_credit__book_lin1://申请人征信授权
+                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
+                intent.putExtra("clt_id", lender_clt_id);
+                intent.putExtra("type", "auth_credit");
+                intent.putExtra("role", Constants.PersonType.LENDER);
+                intent.putExtra("list", (Serializable) lenderList);
+                intent.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
+                intent.putExtra("title", "申请人征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
+
+                break;
+            case R.id.client_spouse_credit__book_lin2://申请人配偶
+                Intent intent1 = new Intent(mContext, UploadSqsListActivity.class);
+                intent1.putExtra("clt_id", lender_sp_clt_id);
+                intent1.putExtra("type", "auth_credit");
+                intent1.putExtra("role", Constants.PersonType.LENDER_SP);
+                intent1.putExtra("list", (Serializable) lenderSpList);
+                intent1.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
+                intent1.putExtra("title", "申请人配偶征信授权书");
+                startActivityForResult(intent1, Constants.REQUEST_MULTI_DOCUMENT);
+                break;
+            case R.id.guarantor_credit_book_lin3://担保人征信授权
+                Intent intent2 = new Intent(mContext, UploadSqsListActivity.class);
+                intent2.putExtra("clt_id", guarantor_clt_id);
+                intent2.putExtra("type", "auth_credit");
+                intent2.putExtra("role", Constants.PersonType.GUARANTOR);
+                intent2.putExtra("list", (Serializable) guarantorList);
+                intent2.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
+                intent2.putExtra("title", "担保人征信授权书");
+                startActivityForResult(intent2, Constants.REQUEST_MULTI_DOCUMENT);
+                break;
+
+            case R.id.guarantor_spouse_credit_book_lin4://担保人配偶征信授权
+                Intent intent3 = new Intent(mContext, UploadSqsListActivity.class);
+                intent3.putExtra("clt_id", guarantor_sp_clt_id);
+                intent3.putExtra("type", "auth_credit");
+                intent3.putExtra("role", Constants.PersonType.GUARANTOR_SP);
+                intent3.putExtra("list", (Serializable) guarantorSpList);
+                intent3.putExtra("uploadFileUrlBeanList", (Serializable) fileUrlBeanList);
+                intent3.putExtra("title", "担保人配偶征信授权书");
+                startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
+                break;
+
+            case R.id.client_relationship_lin://车主和申请人的关系
+                WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.owner_applicant_relation_key,
+                        CLIENT_RELATIONSHIP_POSITION_INDEX,
+                        client_relationship_lin,
+                        chooseRelationTv,
+                        "请选择",
+                        new WheelViewUtil.OnSubmitCallBack() {
+                            @Override
+                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                                CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
+                                chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
+                            }
+                        });
+                break;
+
+        }
+
+    }
 }
+
+
+//        view.findViewById(R.id.credit_info_sqs2_expand_lin).setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (isSqs2ExpandLinExpand) {
+//                    isSqs2ExpandLinExpand = false;
+//                    sqs2expandImg.setImageResource(R.mipmap.expand_plus);
+//                    sqs2Lin.setVisibility(View.GONE);
+//                } else {
+//                    isSqs2ExpandLinExpand = true;
+//                    sqs2expandImg.setImageResource(R.mipmap.expand_sub);
+//                    sqs2Lin.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
+        /*
+        sqs1Img.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                currentClickedView = v.getId();
+                sqsFile1 = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES), System.currentTimeMillis() + ".jpg");
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(sqsFile1));
+                startActivityForResult(intent, 1000);
+
+            }
+        });
+        */
+//                if (lenderList.size() > 0) {
+//                    files.addAll(lenderList);
+//                    for (int i = 0; i < lenderList.size(); i++) {
+//                        UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
+//                        UploadImgItemBean uploadImgItemBean = lenderList.get(i);
+//                        fileUrlBean.file_id = uploadImgItemBean.objectKey;
+//                        fileUrlBean.label = "auth_credit";
+//                        fileUrlBean.clt_id = clt_id;
+//                        files.add(fileUrlBean);
+//                    }
+//                }
+// case R.id.credit_info_sqs1_img:
+//                        Glide.with(mContext).load(sqsFile1).into(sqs1Img);
+//                        OssUtil.uploadOss(mContext, true, sqsFile1.getAbsolutePath(), new OSSObjectKeyBean("lender", "auth_credit", ".png"), new OnItemDataCallBack<String>() {
+//                            @Override
+//                            public void onItemDataCallBack(String objectKey) {
+//                                sqs1Url = objectKey;
+//                            }
+//                        }, null);
+//                        break;
