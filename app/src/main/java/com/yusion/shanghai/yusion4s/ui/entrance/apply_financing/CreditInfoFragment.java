@@ -177,6 +177,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
                             if (uploadFileUrlList.size() > 0) {
+                                for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
+                                    urlBean.app_id = data.app_id;
+                                }
                                 UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
                                 uploadFilesUrlReq.files = uploadFileUrlList;
                                 uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
