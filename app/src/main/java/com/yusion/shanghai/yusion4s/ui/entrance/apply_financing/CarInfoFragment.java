@@ -95,22 +95,14 @@ public class CarInfoFragment extends BaseFragment {
             switch (msg.what) {
                 case 1:
                     otherPriceChange = false;
-                    int yu1 = 0;
                     int sum1 = 0;
-                    int shang1 = 0;
                     if (Integer.valueOf(otherPriceTv.getText().toString()) > 3000) {
                         Toast.makeText(mContext, "其他费用最大金额为3000", Toast.LENGTH_LONG).show();
                         otherPriceTv.setText(String.valueOf(3000));
                         otherPriceTv.setSelection(String.valueOf(3000).toString().length());
                     } else {
                         if (Integer.valueOf(otherPriceTv.getText().toString()) % 100 != 0) {
-                            yu1 = Integer.valueOf(otherPriceTv.getText().toString()) % 100;
-                            shang1 = Integer.valueOf(otherPriceTv.getText().toString()) / 100;
-                            if (yu1 < 50) {
-                                sum1 = shang1 * 100;
-                            } else {
-                                sum1 = (shang1 + 1) * 100;
-                            }
+                            sum1 = getRounding(otherPriceTv);
                             otherPriceTv.setText(sum1 + "");
                             otherPriceTv.setSelection(String.valueOf(sum1).toString().length());
                         } else {
@@ -122,9 +114,7 @@ public class CarInfoFragment extends BaseFragment {
                 case 2:
                     firstPriceChange = false;
                     changeFirstPriceByCode = false;//jht
-                    int yu = 0;
                     int sum = 0;
-                    int shang = 0;
                     if (getPrice(firstPriceTv) > getPrice(billPriceTv)) {//大于开票价
                         Toast.makeText(mContext, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
                         // changeFirstPriceByCode = false;
@@ -132,13 +122,7 @@ public class CarInfoFragment extends BaseFragment {
                         firstPriceTv.setSelection((getPrice(billPriceTv) + "").length());
                     } else {
                         if (Integer.valueOf(firstPriceTv.getText().toString()) % 100 != 0) {
-                            yu = Integer.valueOf(firstPriceTv.getText().toString()) % 100;
-                            shang = Integer.valueOf(firstPriceTv.getText().toString()) / 100;
-                            if (yu < 50) {
-                                sum = shang * 100;
-                            } else {
-                                sum = (shang + 1) * 100;
-                            }
+                            sum = getRounding(firstPriceTv);
                             firstPriceTv.setText(sum + "");
                             firstPriceTv.setSelection(String.valueOf(sum).length());
                         } else {
@@ -150,21 +134,13 @@ public class CarInfoFragment extends BaseFragment {
                 case 3:
                     carLoanPriceChange = false;
                     changeCarLoanByCode = false;
-                    int yu3 = 0;
                     int sum3 = 0;
-                    int shang3 = 0;
                     if (getPrice(carLoanPriceTv) > getPrice(billPriceTv)) {
                         Toast.makeText(mContext, "贷款总额不能大于开票价", Toast.LENGTH_SHORT).show();
                         carLoanPriceTv.setText(getPrice(billPriceTv) + "");
                     } else {
                         if (Integer.valueOf(carLoanPriceTv.getText().toString()) % 100 != 0) {
-                            yu3 = Integer.valueOf(carLoanPriceTv.getText().toString()) % 100;
-                            shang3 = Integer.valueOf(carLoanPriceTv.getText().toString()) / 100;
-                            if (yu3 < 50) {
-                                sum3 = shang3 * 100;
-                            } else {
-                                sum3 = (shang3 + 1) * 100;
-                            }
+                            sum3 = getRounding(carLoanPriceTv);
                             carLoanPriceTv.setText(sum3 + "");
                             carLoanPriceTv.setSelection(String.valueOf(sum3).toString().length());
 
@@ -176,24 +152,16 @@ public class CarInfoFragment extends BaseFragment {
                     break;
                 case 4:
                     billPriceChange = false;
-                    int yu4 = 0;
                     int sum4 = 0;
-                    int shang4 = 0;
                     if (Integer.valueOf(billPriceTv.getText().toString()) > mGuidePrice) {
                         Toast.makeText(mContext, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
                         billPriceTv.setText(mGuidePrice + "");//设置光标在右边
                         billPriceTv.setSelection((mGuidePrice + "").length());
                     } else {
                         if (Integer.valueOf(billPriceTv.getText().toString()) % 100 != 0) {
-                            yu4 = Integer.valueOf(billPriceTv.getText().toString()) % 100;
-                            shang4 = Integer.valueOf(billPriceTv.getText().toString()) / 100;
-                            if (yu4 < 50) {
-                                sum3 = shang4 * 100;
-                            } else {
-                                sum3 = (shang4 + 1) * 100;
-                            }
-                            billPriceTv.setText(sum3 + "");
-                            billPriceTv.setSelection(String.valueOf(sum3).length());
+                            sum4 = getRounding(billPriceTv);
+                            billPriceTv.setText(sum4 + "");
+                            billPriceTv.setSelection(String.valueOf(sum4).length());
 
                         } else {
                             billPriceTv.setText(billPriceTv.getText());
@@ -385,17 +353,23 @@ public class CarInfoFragment extends BaseFragment {
                         public void onSubmitCallBack(View clickedView, int selectedIndex) {
                             mManagementPriceIndex = selectedIndex;
                             totalPrice();
-                            otherPriceTv.setHint("*金额取整到百位,如2300");
-                            otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
+//                            otherPriceTv.setHint("*金额取整到百位,如2300");
+//                            otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
                         }
                     });
                 }
-//                String s = managementPriceTv.getText().toString();
-//                Log.e("s", s);
+            }
+        });
+        otherPriceTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    otherPriceTv.setHint("*金额取整到百位,如2300");
+                    otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
+                }
             }
         });
 
-        // view.findViewById(R.id.car_info_brand_lin)
         carInfoBrandLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(dlrTV.getText())) {
                 DlrApi.getBrand(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
@@ -548,17 +522,6 @@ public class CarInfoFragment extends BaseFragment {
                 if (TextUtils.isEmpty(s)) {
                     handler.removeMessages(4);
                 }
-
-//                if (!TextUtils.isEmpty(s)) {
-//                    firstPriceTv.setEnabled(true);
-//                    carLoanPriceTv.setEnabled(true);
-//
-//                    if (Integer.valueOf(s.toString()) > mGuidePrice) {
-//                        Toast.makeText(mContext, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
-//                        billPriceTv.setText(mGuidePrice + "");//设置光标在右边
-//                        billPriceTv.setSelection((mGuidePrice + "").length());
-//                    }
-//                }
             }
         });
 
@@ -821,14 +784,11 @@ public class CarInfoFragment extends BaseFragment {
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
 
-
                     //req.product_type = productTypeTv.getText().toString();
 
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
-
                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
-                    Log.e("SSSSSSS", req.toString());
-                    Log.e("s2", req.bank_id);
+
                 }
             }
         });
@@ -842,8 +802,7 @@ public class CarInfoFragment extends BaseFragment {
         //Integer managementPrice = getPrice(managementPriceTv.getText().toString());
         Integer managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
         Integer otherPrice = getPrice(otherPriceTv.getText().toString());
-        //sum = carLoanPrice + managementPrice + otherPrice;
-        //totalLoanPriceTv.setText(sum+"");
+
         totalLoanPriceTv.setText(carLoanPrice + managementPrice + otherPrice + "");
     }
 
@@ -902,6 +861,7 @@ public class CarInfoFragment extends BaseFragment {
         return false;
     }
 
+
     private boolean checkFirstPriceValid() {
         return getPrice(firstPriceTv) * 100 >= getPrice(billPriceTv) * 20 && getPrice(firstPriceTv) <= getPrice(billPriceTv);
     }
@@ -922,5 +882,25 @@ public class CarInfoFragment extends BaseFragment {
 
     private int getPrice(TextView priceTv) {
         return getPrice(priceTv.getText().toString());
+    }
+
+    /**
+     * 四舍五入取整的方法
+     *
+     * @param textView
+     * @return
+     */
+    private int getRounding(TextView textView) {
+        int yu = 0;
+        int sum = 0;
+        int shang = 0;
+        yu = Integer.valueOf(textView.getText().toString()) % 100;
+        shang = Integer.valueOf(textView.getText().toString()) / 100;
+        if (yu < 50) {
+            sum = shang * 100;
+        } else {
+            sum = (shang + 1) * 100;
+        }
+        return sum;
     }
 }

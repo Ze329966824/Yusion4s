@@ -7,6 +7,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -120,7 +121,7 @@ public class OrderDetailActivity extends BaseActivity {
 
         initView();
         initTitleBar(this, "申请详情");
-//        initView();
+
         initData();
 
     }
@@ -334,49 +335,6 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
 
-
-//        OrderApi.getFinancePlanDetail(this, app_id, new OnItemDataCallBack<GetFinancePlanDetailResp>() {
-//            @Override
-//            public void onItemDataCallBack(GetFinancePlanDetailResp resp) {
-//                if (resp != null) {
-//                    applyBillPriceTv2.setText(resp.getApp().getVehicle_price());
-//                    replyBillPriceTv2.setText(resp.getUw().getVehicle_price());
-//                    //compare(resp.getApp().getVehicle_price(),resp.getUw().getVehicle_price(),applyBillPriceTv,replyBillPriceTv);
-//
-//                    applyFirstPriceTv2.setText(resp.getApp().getVehicle_down_payment());
-//                    replyFirstPriceTv2.setText(resp.getUw().getVehicle_down_payment());
-//
-//                    applyLoanPriceTv2.setText(resp.getApp().getVehicle_loan_amt());
-//                    replyLoanPriceTv2.setText(resp.getUw().getVehicle_down_payment());
-//
-//                    applyManagementPriceTv2.setText(resp.getApp().getManagement_fee());
-//                    replyManagementPriceTv2.setText(resp.getUw().getManagement_fee());
-//
-//                    applyOtherPriceTv2.setText(resp.getApp().getOther_fee());
-//                    replyOtherPriceTv2.setText(resp.getUw().getOther_fee());
-//
-//                    applyTotalPriceTv2.setText(resp.getApp().getLoan_amt());
-//                    replyTotalPriceTv2.setText(resp.getUw().getLoan_amt());
-//
-//                    applyBankTv2.setText(resp.getApp().getLoan_bank());
-//                    replyBankTv2.setText(resp.getUw().getLoan_bank());
-//
-//                    applyReplyDateTv2.setText(resp.getApp().getNper() + "期");
-//                    ReplyRepayDateTv2.setText(resp.getUw().getNper() + "期");
-//
-//                    applyFirstPercentTv2.setText(resp.getApp().getVehicle_down_payment_percent() * 100 + "%");
-//                    replyFirstPercentTv2.setText(resp.getUw().getVehicle_down_payment_percent() * 100 + "%");
-//
-//                    applyProductTypeTv2.setText(resp.getApp().getProduct_type());
-//                    replyProductTypeTv2.setText(resp.getUw().getProduct_type());
-//
-//                    applyMonthPriceTv.setText(resp.getApp().getMonthly_payment());
-//                    replyMonthPriceTv.setText(resp.getUw().getMonthly_payment());
-//                }
-//
-//            }
-//        });
-
         compare(applyMonthPriceTv, replyMonthPriceTv);
         compare(applyFirstPercentTv2, replyFirstPercentTv2);
         compare(applyBillPriceTv2, replyBillPriceTv2);
@@ -400,9 +358,7 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
 
-
     }
-    //  if (tv1.getText().toString().compareTo(tv2.getText().toString()) == 0) {
 
     private void compare(TextView tv1, TextView tv2) {
         if (tv1.getText().toString().equals(tv2.getText().toString())) {
@@ -424,7 +380,9 @@ public class OrderDetailActivity extends BaseActivity {
             tv1.getPaint().setFlags(Paint.STRIKE_THRU_TEXT_FLAG);
             tv1.setTextColor(Color.parseColor("#999999"));
             tv2.setTextColor(Color.parseColor("#CBA053"));
+
         }
     }
+
 
 }

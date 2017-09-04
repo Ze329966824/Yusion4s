@@ -57,7 +57,6 @@ public class SearchClientActivity extends BaseActivity {
         rv_client_info = (RecyclerView) findViewById(R.id.rv_client_info);
         rv_client_info.setLayoutManager(new LinearLayoutManager(SearchClientActivity.this));
         rv_client_info.addItemDecoration(new RecyclerViewDivider(SearchClientActivity.this, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(SearchClientActivity.this, 5), ContextCompat.getColor(SearchClientActivity.this, R.color.main_bg)));
-        //rv_client_info.addItemDecoration(new RecyclerViewDivider(SearchClientActivity.this,LinearLayoutManager.VERTICAL,DensityUtil.dip2px()));
         items = new ArrayList<>();
         SearchClientAdapter searchClientAdapter = new SearchClientAdapter(SearchClientActivity.this, items);
         adapter = new RecyclerAdapterWithHF(searchClientAdapter);
@@ -67,15 +66,6 @@ public class SearchClientActivity extends BaseActivity {
     }
 
     private void initEvent() {
-//        et_search.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-//            @Override
-//            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-//                if (actionId == KeyEvent.KEYCODE_SEARCH) {
-//                    searchClient();
-//                }
-//                return false;
-//            }
-//        });
 
         search_info.setOnClickListener(new View.OnClickListener() {//点击搜索按钮
             @Override
@@ -84,18 +74,6 @@ public class SearchClientActivity extends BaseActivity {
             }
 
         });
-//        et_search.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                OrderApi.searchClientExist(SearchClientActivity.this, "李拓", new OnItemDataCallBack<List<SearchClientResp>>() {
-//                    @Override
-//                    public void onItemDataCallBack(List<SearchClientResp> data) {
-//                        items.addAll(data);
-//                        adapter.notifyDataSetChanged();
-//                    }
-//                });
-//            }
-//        });
     }
 
     private void searchClient() {
@@ -110,12 +88,10 @@ public class SearchClientActivity extends BaseActivity {
                     if (data.size() != 0) {
                         items.clear();
                         rv_client_info.setVisibility(View.VISIBLE);
-//                        tv_notice.setVisibility(View.GONE);
                         search_warn_lly.setVisibility(View.GONE);
                         items.addAll(data);
                         adapter.notifyDataSetChanged();
                     } else {
-//                        tv_notice.setVisibility(View.VISIBLE);
                         search_warn_lly.setVisibility(View.VISIBLE);
                         rv_client_info.setVisibility(View.GONE);
                     }
@@ -123,7 +99,6 @@ public class SearchClientActivity extends BaseActivity {
             });
         }
     }
-
 
     public class SearchClientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private LayoutInflater mLayoutInflater;
@@ -158,68 +133,14 @@ public class SearchClientActivity extends BaseActivity {
                     intent.putExtra("sfz", item.id_no);
                     intent.putExtra("mobile", item.mobile);
 
-                    if (item.auth_credit.lender != null) {//如果不等于空
-                        intent.putExtra("isHasLender", "1");
-                        intent.putExtra("lender_clt_id", item.auth_credit.lender.clt_id);
-                        intent.putExtra("lender", item.auth_credit.lender.auth_credit_img_count);
-                    } else {
-                        intent.putExtra("isHasLender", "2");
-                    }
+                    checkAuthCreditExist(intent, item);
 
-
-                    if (item.auth_credit.lender_sp != null) {//如果不等于空
-                        intent.putExtra("isHasLender_sp", "1");
-                        intent.putExtra("lender_sp_clt_id", item.auth_credit.lender_sp.clt_id);
-                        intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
-                    } else {
-                        intent.putExtra("isHasLender_sp", "2");
-                    }
-
-
-                    if (item.auth_credit.guarantor != null) {//如果不等于空
-                        intent.putExtra("isGuarantor", "1");
-                        intent.putExtra("guarantor_clt_id", item.auth_credit.guarantor.clt_id);
-                        intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
-                    } else {
-                        intent.putExtra("isGuarantor", "2");
-                    }
-
-
-                    if (item.auth_credit.guarantor_sp != null) {//如果不等于空
-                        intent.putExtra("isGuarantor_sp", "1");
-                        intent.putExtra("guarantor_sp_clt_id", item.auth_credit.guarantor_sp.clt_id);
-                        intent.putExtra("guarantor_sp", item.auth_credit.guarantor.auth_credit_img_count);
-                    } else {
-                        intent.putExtra("isGuarantor_sp", "2");
-                    }
-
-
-                    //intent.putExtra("isHasLender", (Parcelable) item.auth_credit.lender);
-
-//                    intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
-//                    intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
-//                    intent.putExtra("guarantor_sp", item.auth_credit.guarantor_sp.auth_credit_img_count);
-//
-//
-//                    intent.putExtra("isHaslender_sp", item.auth_credit.lender_sp.clt_id);
-
-
-                    //intent.putExtra("id_no_r", item.id_no_r);
-                    //intent.putExtra("image1", item.auth_credit.lender);
-                    //intent.putExtra("image2", item.auth_credit.lender_sp);
-                    // intent.putExtra("image3", item.auth_credit.guarantor);
                     intent.putExtra("enable", true);
                     SearchClientActivity.this.setResult(RESULT_OK, intent);
                     SearchClientActivity.this.finish();
                 }
             });
 
-//            vh.itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    Toast.makeText(mContext, "点击了整个的item", Toast.LENGTH_LONG).show();
-//                }
-//            });
         }
 
         @Override
@@ -251,5 +172,39 @@ public class SearchClientActivity extends BaseActivity {
 //            this.mOnItemClick = mOnItemClick;
 //        }
     }
+
+    private void checkAuthCreditExist(Intent intent, SearchClientResp item) {
+        if (item.auth_credit.lender != null) {//如果不等于空
+            intent.putExtra("isHasLender", "1");
+            intent.putExtra("lender_clt_id", item.auth_credit.lender.clt_id);
+            intent.putExtra("lender", item.auth_credit.lender.auth_credit_img_count);
+        } else {
+            intent.putExtra("isHasLender", "2");
+        }
+        if (item.auth_credit.lender_sp != null) {//如果不等于空
+            intent.putExtra("isHasLender_sp", "1");
+            intent.putExtra("lender_sp_clt_id", item.auth_credit.lender_sp.clt_id);
+            intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
+        } else {
+            intent.putExtra("isHasLender_sp", "2");
+        }
+        if (item.auth_credit.guarantor != null) {//如果不等于空
+            intent.putExtra("isGuarantor", "1");
+            intent.putExtra("guarantor_clt_id", item.auth_credit.guarantor.clt_id);
+            intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
+        } else {
+            intent.putExtra("isGuarantor", "2");
+        }
+
+        if (item.auth_credit.guarantor_sp != null) {//如果不等于空
+            intent.putExtra("isGuarantor_sp", "1");
+            intent.putExtra("guarantor_sp_clt_id", item.auth_credit.guarantor_sp.clt_id);
+            intent.putExtra("guarantor_sp", item.auth_credit.guarantor.auth_credit_img_count);
+        } else {
+            intent.putExtra("isGuarantor_sp", "2");
+        }
+
+    }
+
 }
 
