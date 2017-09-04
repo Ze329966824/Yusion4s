@@ -348,8 +348,6 @@ public class UploadSqsListActivity extends BaseActivity {
                         }
                     });
                 }
-
-
             }
         }
     }
