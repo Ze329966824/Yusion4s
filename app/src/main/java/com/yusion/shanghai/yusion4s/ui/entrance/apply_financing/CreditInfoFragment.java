@@ -162,7 +162,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<UploadFilesUrlReq.FileUrlBean> files = new ArrayList<>();
                 if (chooseRelationTv.getText().toString().equals("请选择")) {
                     Toast.makeText(mContext, "请选择车主与申请人关系", Toast.LENGTH_LONG).show();
                 } else {
