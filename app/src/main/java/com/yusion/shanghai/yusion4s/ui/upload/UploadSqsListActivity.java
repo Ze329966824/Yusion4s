@@ -158,6 +158,7 @@ public class UploadSqsListActivity extends BaseActivity {
 
                 uploadTv2.setText("删除");
                 uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
+                onImgCountChange(imgList.size() > 0);
                 adapter.notifyDataSetChanged();
 
 
@@ -233,6 +234,8 @@ public class UploadSqsListActivity extends BaseActivity {
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
+            mEditTv.setText("编辑");
+            uploadBottomLin.setVisibility(View.GONE);
         }
     }
 
@@ -245,8 +248,6 @@ public class UploadSqsListActivity extends BaseActivity {
         }
         return totalCount;
     }
-
-    ;
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -264,6 +265,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 }
                 imgList.addAll(toAddList);
                 adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
+                onImgCountChange(imgList.size() > 0);
 
                 Dialog dialog = LoadingUtils.createLoadingDialog(this);
                 dialog.show();

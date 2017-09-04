@@ -205,6 +205,13 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 2000) {
+                //清空数据
+                lenderList.clear();
+                lenderSpList.clear();
+                guarantorList.clear();
+                guarantorSpList.clear();
+                uploadFileUrlList.clear();
+
                 personal_info_group.setVisibility(View.VISIBLE);
                 client_info_name.setText(data.getStringExtra("name"));
                 client_ID_card.setText(data.getStringExtra("sfz"));
