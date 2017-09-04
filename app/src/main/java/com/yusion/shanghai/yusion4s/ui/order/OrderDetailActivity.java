@@ -394,8 +394,8 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailSignBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OrderDetailActivity.this,SubmitInformationActivity.class);
-                intent.putExtra("app_id",app_id);
+                Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                intent.putExtra("app_id", app_id);
                 startActivity(intent);
             }
         });

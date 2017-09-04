@@ -597,6 +597,48 @@
                         android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color" />
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_product_type_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="产品类型" />
+
+                        <TextView
+                            android:id="@+id/car_info_product_type_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择产品类型" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"
                         style="@style/apply_info_item">
@@ -628,42 +670,6 @@
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/bg_color" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
-
-                    <LinearLayout
-                        android:id="@+id/car_info_product_type_lin"
-                        style="@style/apply_info_item">
-
-                        <TextView
-                            style="@style/apply_info_title"
-                            android:text="产品类型" />
-
-                        <TextView
-                            android:id="@+id/car_info_product_type_tv"
-                            style="@style/apply_info_content"
-                            android:hint="请选择产品类型" />
-
-                        <FrameLayout
-                            android:layout_width="20dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
-                        </FrameLayout>
-
-                    </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
