@@ -10,7 +10,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.text.style.ForegroundColorSpan;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -48,14 +47,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+//选完用户后获取授权书图片并传入该页面
+//如果删除这些图片需要用图片id并从集合删除
+
+//如果删除刚上传的图片需要从集合删除还需要在fileUrlList集合删除
 public class UploadSqsListActivity extends BaseActivity {
-    private TextView errorTv;
-    private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
-    List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlBeanList = new ArrayList<>();
-    List<UploadImgItemBean> roleList = new ArrayList<>();
-    private String app_id;
+    private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlBeanList = new ArrayList<>();
+    private List<UploadImgItemBean> roleList = new ArrayList<>();
     private String clt_id;
     private String title;
     private String type;
@@ -66,18 +66,19 @@ public class UploadSqsListActivity extends BaseActivity {
     private TextView uploadTv1;
     private TextView uploadTv2;
     private boolean isEditing = false;
-    Intent mGetIntent;
+    private Intent mGetIntent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
 
-        clt_id = getIntent().getStringExtra("clt_id");
-        title = getIntent().getStringExtra("title");
-        type = getIntent().getStringExtra("type");
-        role = getIntent().getStringExtra("role");
         mGetIntent = new Intent();
+        clt_id = mGetIntent.getStringExtra("clt_id");
+        title = mGetIntent.getStringExtra("title");
+        type = mGetIntent.getStringExtra("type");
+        role = mGetIntent.getStringExtra("role");
+
         initView();
         initData();
 //        hasImg = imgList.size() > 0;
@@ -159,7 +160,6 @@ public class UploadSqsListActivity extends BaseActivity {
 
                 DelImgsReq req = new DelImgsReq();
                 req.clt_id = clt_id;
-                req.app_id = app_id;
                 req.id.addAll(delImgIdList);
 
 //                ----------------
@@ -185,8 +185,6 @@ public class UploadSqsListActivity extends BaseActivity {
             }
         });
 
-        errorTv = (TextView) findViewById(R.id.upload_list_error_tv);
-        errorLin = (LinearLayout) findViewById(R.id.upload_list_error_lin);
         RecyclerView rv = (RecyclerView) findViewById(R.id.upload_list_rv);
         rv.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new RvAdapter(this, lists);
@@ -236,15 +234,8 @@ public class UploadSqsListActivity extends BaseActivity {
         roleList = (List<UploadImgItemBean>) getIntent().getSerializableExtra("roleList");
         ListImgsReq req = new ListImgsReq();
         req.label = type;
-        req.app_id = app_id;
         req.clt_id = clt_id;
         UploadApi.listImgs(this, req, resp -> {
-            if (resp.has_err) {
-                errorLin.setVisibility(View.VISIBLE);
-                errorTv.setText("您提交的资料有误：" + resp.error);
-            } else {
-                errorLin.setVisibility(View.GONE);
-            }
 
             onImgCountChange(resp.list.size() > 0);
 
@@ -347,7 +338,6 @@ public class UploadSqsListActivity extends BaseActivity {
         uploadFileUrlBeanList = new ArrayList<>();
         for (UploadImgItemBean imgItemBean : lists) {
             UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-            fileUrlBean.app_id = app_id;
             fileUrlBean.clt_id = clt_id;
             fileUrlBean.file_id = imgItemBean.objectKey;
             fileUrlBean.label = imgItemBean.type;
