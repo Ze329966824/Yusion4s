@@ -15,7 +15,6 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
-import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -64,8 +63,8 @@ public class ApplyFinancingFragment extends BaseFragment {
                 .beginTransaction()
                 .add(R.id.apply_financing_container, mCarInfoFragment)
                 .add(R.id.apply_financing_container, mCreditInfoFragment)
-//                .hide(mCarInfoFragment)
-                .hide(mCreditInfoFragment)
+                .hide(mCarInfoFragment)
+//                .hide(mCreditInfoFragment)
                 .commit();
         mCurrentFragment = mCarInfoFragment;
     }
@@ -110,7 +109,8 @@ public class ApplyFinancingFragment extends BaseFragment {
                         .beginTransaction()
                         .add(R.id.apply_financing_container, mCarInfoFragment)
                         .add(R.id.apply_financing_container, mCreditInfoFragment)
-                        .hide(mCreditInfoFragment)
+//                        .hide(mCreditInfoFragment)
+                        .hide(mCarInfoFragment)
                         .commit();
                 mCurrentFragment = mCarInfoFragment;
                 break;

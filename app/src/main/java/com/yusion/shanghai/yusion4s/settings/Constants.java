@@ -19,6 +19,7 @@ public class Constants {
         public static final String DIVORCE = "divorce_proof";
         public static final String RES_BOOKLET = "res_booklet";
         public static final String MARRIAGE_PROOF = "marriage_proof";
+        public static final String AUTH_CREDIT = "auth_credit";
     }
 
     public static class PersonType {
