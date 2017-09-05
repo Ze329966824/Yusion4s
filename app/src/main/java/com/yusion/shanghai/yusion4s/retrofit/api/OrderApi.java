@@ -35,12 +35,6 @@ public class OrderApi {
 
     public static void searchClientExist(final Context context, String key, final OnItemDataCallBack<List<SearchClientResp>> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-//        Api.getOrderService().searchClient(clt_nm).enqueue(new CustomCallBack<List<SearchClientResp>>()(context, dialog) {
-//            @Override
-//            public void onCustomResponse(SearchClientResp data) {
-//                onItemDataCallBack.onItemDataCallBack(data);
-//            }
-//        });
         Api.getOrderService().searchClient(key).enqueue(new CustomCallBack<List<SearchClientResp>>(context, dialog) {
             @Override
             public void onCustomResponse(List<SearchClientResp> resp) {

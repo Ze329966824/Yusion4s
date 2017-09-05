@@ -73,8 +73,8 @@ OrderItemFragment extends BaseFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-
+        //Inflate the layout for this fragment
+        //initData(OrderItemFragmentEvent.refresh);
         return inflater.inflate(R.layout.fragment_order_item, container, false);
 
     }
@@ -95,6 +95,7 @@ OrderItemFragment extends BaseFragment {
         rv.setAdapter(adapter);
 
         ptr = (PtrClassicFrameLayout) view.findViewById(R.id.my_order_ptr);
+
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -102,7 +103,7 @@ OrderItemFragment extends BaseFragment {
                 initData(OrderItemFragmentEvent.refresh);
             }
         });
-        // st=getArguments().getString("st");
+
         initData(OrderItemFragmentEvent.refresh);
 
 //        ptr.setLoadMoreEnable(true);
@@ -125,22 +126,6 @@ OrderItemFragment extends BaseFragment {
     public void initData(OrderItemFragmentEvent event) {
         switch (event) {
             case refresh:
-//                OrderApi.getAppList(mContext,  getArguments().getString("st"), new OnDataCallBack<List<GetAppListResp>>() {
-//                    @Override
-//                    public void callBack(List<GetAppListResp> resp) {
-//                        //if (resp.size() != 0) {
-//                        ptr.setVisibility(View.VISIBLE);
-//                        //llyt.setVisibility(View.GONE);
-//                        items.addAll(resp);
-//                        adapter.notifyDataSetChanged();
-//                        ptr.refreshComplete();
-//                        //   }
-////                        else {//添加空的view
-////                            // llyt.setVisibility(View.VISIBLE);
-////                            //ptr.setVisibility(View.GONE);
-////                        }
-//                    }
-//                });
                 OrderApi.getAppList(mContext, getArguments().getString("st"), new OnItemDataCallBack<List<GetAppListResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetAppListResp> resp) {
@@ -150,25 +135,14 @@ OrderItemFragment extends BaseFragment {
                             adapter.notifyDataSetChanged();
                             ptr.refreshComplete();
                         }
+                        //       else {//添加空的view
+////                            // llyt.setVisibility(View.VISIBLE);
+////                            //ptr.setVisibility(View.GONE);
+////                        }
                     }
                 });
                 break;
         }
-        /*OrderApi.getAppList(mContext, "正在获取订单列表", getArguments().getString("st"), new OnDataCallBack<List<GetAppListResp>>() {
-            @Override
-            public void callBack(List<GetAppListResp> resp) {
-                if (resp.size() == 0) {
-                    // llyt.setVisibility(View.VISIBLE);
-                    // ptr.setVisibility(View.GONE);
-                } else {
-                    ptr.setVisibility(View.VISIBLE);
-                    // llyt.setVisibility(View.GONE);
-                    items.addAll(resp);
-                    adapter.notifyDataSetChanged();
-                    ptr.refreshComplete();
-                }
-            }
-        });*/
     }
 
     static class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
@@ -253,14 +227,6 @@ OrderItemFragment extends BaseFragment {
                      */
                     contentView.findViewById(R.id.btn2).setOnClickListener(v2 -> {
                         //popupWindow.dismiss();
-//                        OrderApi.getCancelInfo(mContext, "取消订单", new CancelOrderReq(item.app_id), new OnDataCallBack<CancleInfo>() {
-//                            @Override
-//                            public void callBack(CancleInfo resp) {
-//                                Log.e("----msg---",resp.toString());
-//                                //String msg = resp.getMsg();
-//                                //Log.e("---msg---", msg);
-//                            }
-//                        });
 //                        OrderApi.getCancelInfo(mContext, "取消订单", new CancelOrderReq(item.app_id), new OnDataCallBack() {
 //                            @Override
 //                            public void callBack(Object resp) {
