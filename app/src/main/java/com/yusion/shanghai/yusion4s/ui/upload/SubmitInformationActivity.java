@@ -38,13 +38,6 @@ public class SubmitInformationActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvAdapter(this, lists);
         rv.setAdapter(mAdapter);
-        UploadApi.listDealerLabels(this, app_id, new OnItemDataCallBack<List<ListDealerLabelsResp>>() {
-            @Override
-            public void onItemDataCallBack(List<ListDealerLabelsResp> data) {
-                lists.addAll(data);
-                mAdapter.notifyDataSetChanged();
-            }
-        });
 
         mAdapter.setOnItemClick(new RvAdapter.OnItemClick() {
             @Override
@@ -57,6 +50,19 @@ public class SubmitInformationActivity extends BaseActivity {
 //                intent.putExtra("clt_id", ((UpdateUserInfoActivity) getActivity()).getUserInfoBean().clt_id);
 //                intent.putExtra("index", index);
                 startActivity(intent);
+            }
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        UploadApi.listDealerLabels(this, app_id, new OnItemDataCallBack<List<ListDealerLabelsResp>>() {
+            @Override
+            public void onItemDataCallBack(List<ListDealerLabelsResp> data) {
+                lists.clear();
+                lists.addAll(data);
+                mAdapter.notifyDataSetChanged();
             }
         });
     }

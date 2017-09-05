@@ -13,6 +13,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -222,6 +223,7 @@ public class UploadListActivity extends BaseActivity {
                         } else {
                             uri = Uri.parse(item.s_url);
                         }
+                        Log.e("TAG", "onItemClick: " + uri.toString());
                         it.setDataAndType(uri, "video/mp4");
                         startActivity(it);
                     } else {
