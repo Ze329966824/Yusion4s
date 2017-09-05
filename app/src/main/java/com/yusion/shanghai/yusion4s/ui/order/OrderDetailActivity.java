@@ -225,7 +225,7 @@ public class OrderDetailActivity extends BaseActivity {
                     waitRel.setVisibility(View.VISIBLE);
                     passRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.GONE);
-                    applyLin.setVisibility(View.GONE);//visiable
+                    applyLin.setVisibility(View.VISIBLE);//visiable
                     replyLin.setVisibility(View.GONE);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 4) {//待确认金融方案 //有批复的

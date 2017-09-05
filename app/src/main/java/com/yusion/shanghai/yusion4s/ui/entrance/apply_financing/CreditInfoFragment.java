@@ -73,6 +73,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     //存放最后提交订单时需要上传的授权书url
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
+
     //用于和 UploadSqsListActivity 类间交互
     private List<UploadImgItemBean> lenderList = new ArrayList<>();
     private List<UploadImgItemBean> lenderSpList = new ArrayList<>();
@@ -206,7 +207,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 2000) {
+            if (requestCode == 2000) {//搜索用户所返回的数据
                 //清空数据
                 lenderList.clear();
                 lenderSpList.clear();
