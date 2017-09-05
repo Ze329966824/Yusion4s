@@ -73,6 +73,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     //存放最后提交订单时需要上传的授权书url
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
+
     //用于和 UploadSqsListActivity 类间交互
     private List<UploadImgItemBean> lenderList = new ArrayList<>();
     private List<UploadImgItemBean> lenderSpList = new ArrayList<>();
@@ -206,7 +207,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == 2000) {
+            if (requestCode == 2000) {//搜索用户所返回的数据
                 //清空数据
                 lenderList.clear();
                 lenderSpList.clear();
@@ -222,23 +223,23 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
                     client_credit__book_lin.setVisibility(View.VISIBLE);
                     lender_clt_id = data.getStringExtra("lender_clt_id");
-                    if (Integer.valueOf(data.getStringExtra("lender")) > 0) {
-                        autonym_certify_id_back_tv.setText("已上传");
-                        autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
-
-                        ListImgsReq req = new ListImgsReq();
-                        req.label = Constants.FileLabelType.AUTH_CREDIT;
-                        req.clt_id = lender_clt_id;
-                        UploadApi.listImgs(mContext, req, resp -> {
-                            if (resp.list.size() != 0) {
-                                lenderList.addAll(resp.list);
-                            }
-                        });
-
-                    } else {
-                        autonym_certify_id_back_tv.setText("请上传");
-                        autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
-                    }
+//                    if (Integer.valueOf(data.getStringExtra("lender")) > 0) {
+//                        autonym_certify_id_back_tv.setText("已上传");
+//                        autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
+//
+//                        ListImgsReq req = new ListImgsReq();
+//                        req.label = Constants.FileLabelType.AUTH_CREDIT;
+//                        req.clt_id = lender_clt_id;
+//                        req.app_id = " ";
+//                        UploadApi.listImgs(mContext, req, resp -> {
+//                            if (resp.list.size() != 0) {
+//                                lenderList.addAll(resp.list);
+//                            }
+//                        });
+//                    } else {
+                    autonym_certify_id_back_tv.setText("请上传");
+                    autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
+//                    }
                 } else {
                     client_credit__book_lin.setVisibility(View.GONE);
                 }
@@ -246,22 +247,23 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 if (data.getStringExtra("isHasLender_sp").equals("1")) { //不等于空是1 等于空是2
                     client_spouse_credit__book_lin.setVisibility(View.VISIBLE);
                     lender_sp_clt_id = data.getStringExtra("lender_sp_clt_id");
-                    if (Integer.valueOf(data.getStringExtra("lender_sp")) > 0) {
-                        autonym_certify_id_back_tv1.setText("已上传");
-                        autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
-
-                        ListImgsReq req = new ListImgsReq();
-                        req.label = Constants.FileLabelType.AUTH_CREDIT;
-                        req.clt_id = lender_sp_clt_id;
-                        UploadApi.listImgs(mContext, req, resp -> {
-                            if (resp.list.size() != 0) {
-                                lenderSpList.addAll(resp.list);
-                            }
-                        });
-                    } else {
-                        autonym_certify_id_back_tv1.setText("请上传");
-                        autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
-                    }
+//                    if (Integer.valueOf(data.getStringExtra("lender_sp")) > 0) {
+//                        autonym_certify_id_back_tv1.setText("已上传");
+//                        autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
+//
+//                        ListImgsReq req = new ListImgsReq();
+//                        req.label = Constants.FileLabelType.AUTH_CREDIT;
+//                        req.clt_id = lender_sp_clt_id;
+//                        req.app_id = " ";
+//                        UploadApi.listImgs(mContext, req, resp -> {
+//                            if (resp.list.size() != 0) {
+//                                lenderSpList.addAll(resp.list);
+//                            }
+//                        });
+//                    } else {
+                    autonym_certify_id_back_tv1.setText("请上传");
+                    autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
+                    //                }
                 } else {
                     client_spouse_credit__book_lin.setVisibility(View.GONE);
                 }
@@ -269,23 +271,24 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 if (data.getStringExtra("isGuarantor").equals("1")) { //不等于空是1 等于空是2
                     guarantor_credit_book_lin.setVisibility(View.VISIBLE);
                     guarantor_clt_id = data.getStringExtra("guarantor_clt_id");
-                    if (Integer.valueOf(data.getStringExtra("guarantor")) > 0) {
-                        autonym_certify_id_back_tv2.setText("已上传");
-                        autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
-
-
-                        ListImgsReq req = new ListImgsReq();
-                        req.label = Constants.FileLabelType.AUTH_CREDIT;
-                        req.clt_id = guarantor_clt_id;
-                        UploadApi.listImgs(mContext, req, resp -> {
-                            if (resp.list.size() != 0) {
-                                guarantorList.addAll(resp.list);
-                            }
-                        });
-                    } else {
-                        autonym_certify_id_back_tv2.setText("请上传");
-                        autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
-                    }
+//                    if (Integer.valueOf(data.getStringExtra("guarantor")) > 0) {
+//                        autonym_certify_id_back_tv2.setText("已上传");
+//                        autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
+//
+//
+//                        ListImgsReq req = new ListImgsReq();
+//                        req.label = Constants.FileLabelType.AUTH_CREDIT;
+//                        req.clt_id = guarantor_clt_id;
+//                        req.app_id = " ";
+//                        UploadApi.listImgs(mContext, req, resp -> {
+//                            if (resp.list.size() != 0) {
+//                                guarantorList.addAll(resp.list);
+//                            }
+//                        });
+//                    } else {
+                    autonym_certify_id_back_tv2.setText("请上传");
+                    autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
+                    //      }
                 } else {
                     guarantor_credit_book_lin.setVisibility(View.GONE);
                 }
@@ -293,22 +296,23 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 if (data.getStringExtra("isGuarantor_sp").equals("1")) { //不等于空是1 等于空是2
                     guarantor_spouse_credit_book_lin.setVisibility(View.VISIBLE);
                     guarantor_sp_clt_id = data.getStringExtra("guarantor_sp_clt_id");
-                    if (Integer.valueOf(data.getStringExtra("guarantor_sp")) > 0) {
-                        autonym_certify_id_back_tv3.setText("已上传");
-                        autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
-
-                        ListImgsReq req = new ListImgsReq();
-                        req.label = Constants.FileLabelType.AUTH_CREDIT;
-                        req.clt_id = guarantor_sp_clt_id;
-                        UploadApi.listImgs(mContext, req, resp -> {
-                            if (resp.list.size() != 0) {
-                                guarantorSpList.addAll(resp.list);
-                            }
-                        });
-                    } else {
-                        autonym_certify_id_back_tv3.setText("请上传");
-                        autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
-                    }
+//                    if (Integer.valueOf(data.getStringExtra("guarantor_sp")) > 0) {
+//                        autonym_certify_id_back_tv3.setText("已上传");
+//                        autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
+//
+//                        ListImgsReq req = new ListImgsReq();
+//                        req.label = Constants.FileLabelType.AUTH_CREDIT;
+//                        req.clt_id = guarantor_sp_clt_id;
+//                        req.app_id = " ";
+//                        UploadApi.listImgs(mContext, req, resp -> {
+//                            if (resp.list.size() != 0) {
+//                                guarantorSpList.addAll(resp.list);
+//                            }
+//                        });
+//                    } else {
+                    autonym_certify_id_back_tv3.setText("请上传");
+                    autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
+                    //  }
                 } else {
                     guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
                 }

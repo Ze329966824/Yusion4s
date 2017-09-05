@@ -42,11 +42,13 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.function.Predicate;
 
 //选完用户后获取授权书图片并传入该页面
 //如果删除这些图片需要用图片id并从集合删除
 
 //如果删除刚上传的图片需要从集合删除还需要在fileUrlList集合删除
+
 public class UploadSqsListActivity extends BaseActivity {
     private RvAdapter adapter;
     private List<UploadImgItemBean> imgList = new ArrayList<>();
@@ -102,8 +104,8 @@ public class UploadSqsListActivity extends BaseActivity {
             }
         });
         uploadBottomLin = (LinearLayout) findViewById(R.id.upload_bottom_lin);
-        uploadTv1 = (TextView) findViewById(R.id.upload_bottom_tv1);
-        uploadTv2 = (TextView) findViewById(R.id.upload_bottom_tv2);
+        uploadTv1 = (TextView) findViewById(R.id.upload_bottom_tv1);//全选
+        uploadTv2 = (TextView) findViewById(R.id.upload_bottom_tv2);//删除
         uploadTv1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,7 +128,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 }
             }
         });
-        uploadTv2.setOnClickListener(new View.OnClickListener() {
+        uploadTv2.setOnClickListener(new View.OnClickListener() {//删除
             @Override
             public void onClick(View v) {
 
@@ -148,7 +150,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     int delIndex = indexList.get(i) - offset;
                     UploadImgItemBean willDelImg = imgList.get(delIndex);
                     if (!TextUtils.isEmpty(willDelImg.id)) {
-                        delImgIdList.add(willDelImg.id);
+                        delImgIdList.add(willDelImg.id);//从服务器拿下来的有id，现拍的是 objectkey
                     } else {
                         delImgObjectKeyList.add(willDelImg.objectKey);
                     }
@@ -171,10 +173,11 @@ public class UploadSqsListActivity extends BaseActivity {
                         }
                     }
                 }
+
                 //2.删除服务器拉取的图片
                 DelImgsReq req = new DelImgsReq();
                 req.clt_id = clt_id;
-                req.id.addAll(delImgIdList);
+                req.id.addAll(delImgIdList);//delImgIdList 删除id的集合
                 if (delImgIdList.size() > 0) {
                     UploadApi.delImgs(UploadSqsListActivity.this, req, new OnCodeAndMsgCallBack() {
                         @Override

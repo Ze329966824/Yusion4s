@@ -410,7 +410,7 @@ public class CarInfoFragment extends BaseFragment {
                         }
                     }
                 } else {
-                    otherPriceTv.setHint("请输入其他费用");
+                    otherPriceTv.setHint("请输入");
                     otherPriceTv.setHintTextColor(Color.parseColor("#d1d1d1"));
                 }
             }
