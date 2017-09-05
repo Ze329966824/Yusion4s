@@ -73,7 +73,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     //存放最后提交订单时需要上传的授权书url
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
-    //用于和 UploadSqsListActivity 类家交互
+    //用于和 UploadSqsListActivity 类间交互
     private List<UploadImgItemBean> lenderList = new ArrayList<>();
     private List<UploadImgItemBean> lenderSpList = new ArrayList<>();
     private List<UploadImgItemBean> guarantorList = new ArrayList<>();
