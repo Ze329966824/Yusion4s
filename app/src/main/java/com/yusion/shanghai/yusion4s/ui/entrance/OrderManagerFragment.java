@@ -73,7 +73,7 @@ public class OrderManagerFragment extends BaseFragment {
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-                return mTabTitle == null ? 0 : mTabTitle.length;
+                return mTabTitle.length;
             }
 
             @Override

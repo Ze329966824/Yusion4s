@@ -10,6 +10,8 @@ import com.yusion.shanghai.yusion4s.crash.CrashHandler;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import cn.jpush.android.api.JPushInterface;
+import io.sentry.Sentry;
+import io.sentry.android.AndroidSentryClientFactory;
 
 /**
  * Created by ice on 2017/8/9.
@@ -27,6 +29,8 @@ public class Yusion4sApp extends Application {
 
     public void onCreate() {
         super.onCreate();
+        Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
+        Sentry.capture("xxx");
         PgyCrashManager.register(this);
 //        initCrashReporter();
         jpush();
@@ -56,7 +60,7 @@ public class Yusion4sApp extends Application {
         JPushInterface.init(this);
         while (TextUtils.isEmpty(reg_id)) {
             reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
-            SharedPrefsUtil.getInstance(this).putValue("reg_id",reg_id);
+            SharedPrefsUtil.getInstance(this).putValue("reg_id", reg_id);
         }
     }
 }

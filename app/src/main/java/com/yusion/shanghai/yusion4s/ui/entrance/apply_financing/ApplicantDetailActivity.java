@@ -1,6 +1,5 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -82,12 +81,12 @@ public class ApplicantDetailActivity extends BaseActivity {
         OrderApi.getApplicateDetail(this, clt_id, new OnItemDataCallBack<GetApplicateDetailResp>() {
             @Override
             public void onItemDataCallBack(GetApplicateDetailResp data) {
+                if (data == null) return;
 //                if (TextUtils.isEmpty(data.lender.clt_nm)) {
 //                    client_name.setText("");
 //                } else {
 //                    client_name.setText(data.lender.clt_nm);
 //                }
-
 
                 setText(client_name, data.lender.clt_nm);
                 setText(client_mobile, data.lender.mobile);

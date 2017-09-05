@@ -48,9 +48,7 @@ import java.util.List;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class
-
-OrderItemFragment extends BaseFragment {
+public class OrderItemFragment extends BaseFragment {
 
     private Handler handler = new Handler();
     private List<GetAppListResp> items;
