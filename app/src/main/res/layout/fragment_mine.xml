@@ -1,9 +1,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/main_bg"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/main_bg"
+    android:orientation="vertical">
 
     <RelativeLayout
         android:id="@+id/mine_fragment_info_lin"
@@ -20,6 +20,7 @@
             android:layout_above="@+id/mine_name_tv"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8.5dp"
+            android:alpha="0.6"
             android:src="@mipmap/mine_head_pic" />
 
         <TextView
@@ -96,7 +97,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/icon_employee"/>
+                android:src="@mipmap/icon_employee" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -104,24 +105,23 @@
                 android:layout_marginLeft="20dp"
                 android:text="@string/main_employee"
                 android:textColor="@color/text_normal"
-                android:textSize="16sp"/>
+                android:textSize="16sp" />
 
             <Space
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_weight="1"/>
+                android:layout_weight="1" />
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:background="@android:color/transparent"
-                android:src="@mipmap/right_arrow"/>
+                android:src="@mipmap/right_arrow" />
         </LinearLayout>
 
         <include layout="@layout/include_line" />
 
         <LinearLayout
-            android:visibility="gone"
             android:id="@+id/mine_fragment_calculator_tv"
             android:layout_width="match_parent"
             android:layout_height="55dp"
@@ -129,7 +129,8 @@
             android:gravity="center_vertical"
             android:orientation="horizontal"
             android:paddingLeft="15dp"
-            android:paddingRight="15dp">
+            android:paddingRight="15dp"
+            android:visibility="gone">
 
             <ImageView
                 android:layout_width="wrap_content"

@@ -7,7 +7,7 @@
 
     <View
         android:layout_width="368dp"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:background="@color/separate_line_color"
         app:layout_constraintBottom_toTopOf="@+id/flow_diagram"
         app:layout_constraintLeft_toLeftOf="parent" />
@@ -85,10 +85,11 @@
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:layout_width="368dp"
+        android:layout_width="0dp"
         android:layout_height="1dp"
         android:background="@color/separate_line_color"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/flow_diagram" />
 
     <ScrollView
@@ -144,7 +145,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/separate_line_height"
-                    android:layout_marginLeft="15dp"
                     android:background="@color/separate_line_color" />
 
                 <LinearLayout
@@ -178,7 +178,6 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separate_line_height"
-                android:layout_marginLeft="15dp"
                 android:background="@color/separate_line_color" />
 
             <android.support.constraint.ConstraintLayout
@@ -192,7 +191,6 @@
                     android:layout_height="11dp"
                     android:layout_marginBottom="2dp"
                     android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
                     android:background="@drawable/fill_vertical_line"
                     app:layout_constraintBottom_toBottomOf="@+id/personal_info1"
                     app:layout_constraintLeft_toLeftOf="parent" />
@@ -257,6 +255,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
@@ -289,6 +288,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
@@ -321,6 +321,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout style="@style/apply_info_item">
@@ -339,8 +340,9 @@
 
                     <View
                         android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_height="0.5dp"
                         android:background="@color/separate_line_color" />
+
 
                     <View
                         android:layout_width="match_parent"
@@ -473,6 +475,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
@@ -486,6 +489,7 @@
                         <TextView
                             android:id="@+id/car_info_management_price_tv"
                             style="@style/apply_info_content"
+                            android:layout_marginRight="3dp"
                             android:hint="请选择" />
 
                         <FrameLayout
@@ -598,10 +602,6 @@
                         android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/bg_color" />
 
                     <LinearLayout
                         android:id="@+id/car_info_product_type_lin"
@@ -633,12 +633,9 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/bg_color" />
 
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"
