@@ -2,9 +2,8 @@ package com.yusion.shanghai.yusion4s.jpush;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AlertDialog;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -64,9 +63,8 @@ public class JpushDialogActivity extends BaseActivity {
     private void JpushDialog() {
         switch (category) {
             case "login":
-                myApp.clearUserData();
-                if (myApp.isLogin == true) {
-                    if (mobile != Yusion4sApp.ACCOUNT) {
+                if (Yusion4sApp.isLogin) {
+                    if (mobile.equals(Yusion4sApp.ACCOUNT)) {
                         new AlertDialog.Builder(JpushDialogActivity.this)
                                 .setCancelable(false)
                                 .setTitle("")
@@ -75,12 +73,15 @@ public class JpushDialogActivity extends BaseActivity {
                                     @Override
                                     public void onClick(DialogInterface dialog, int which) {
                                         startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
-
+                                        myApp.clearUserData();
                                         finish();
                                     }
                                 })
                                 .show();
                     }
+                }
+                else {
+                    finish();
                 }
                 break;
 
