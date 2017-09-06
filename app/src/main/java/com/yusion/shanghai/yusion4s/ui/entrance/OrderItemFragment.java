@@ -32,15 +32,11 @@ import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
-import com.yusion.shanghai.yusion4s.event.OrderItemFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
-
-import org.greenrobot.eventbus.EventBus;
-import org.greenrobot.eventbus.Subscribe;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -80,29 +76,25 @@ public class OrderItemFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        if (!EventBus.getDefault().isRegistered(this)) {
-            EventBus.getDefault().register(this);
-        }
+//        if (!EventBus.getDefault().isRegistered(this)) {
+//            EventBus.getDefault().register(this);
+//        }
+        st = getArguments().getString("st");
         llyt = (LinearLayout) view.findViewById(R.id.my_order_llyt);
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.my_order_rv);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.addItemDecoration(new RecyclerViewDivider(mContext, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(getActivity(), 10), ContextCompat.getColor(getActivity(), R.color.main_bg)));
         items = new ArrayList<>();
-        MyOrderListAdapter myOrderListAdapter = new MyOrderListAdapter(mContext, items, getArguments().getString("st"));
+        MyOrderListAdapter myOrderListAdapter = new MyOrderListAdapter(mContext, items);
         adapter = new RecyclerAdapterWithHF(myOrderListAdapter);
         rv.setAdapter(adapter);
-
         ptr = (PtrClassicFrameLayout) view.findViewById(R.id.my_order_ptr);
-
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                items.clear();
-                initData(OrderItemFragmentEvent.refresh);
+                refresh();
             }
         });
-
-        initData(OrderItemFragmentEvent.refresh);
 
 //        ptr.setLoadMoreEnable(true);
 //        ptr.setOnLoadMoreListener(new OnLoadMoreListener() {
@@ -120,23 +112,14 @@ public class OrderItemFragment extends BaseFragment {
 //        });
     }
 
-    @Subscribe
-    public void initData(OrderItemFragmentEvent event) {
-        switch (event) {
-            case refresh:
-                refresh();
-                break;
-        }
-    }
-
     @Override
     public void onResume() {
         super.onResume();
-        refresh();
+//        refresh();
     }
 
-    private void refresh() {
-        OrderApi.getAppList(mContext, getArguments().getString("st"), new OnItemDataCallBack<List<GetAppListResp>>() {
+    public void refresh() {
+        OrderApi.getAppList(mContext, st, new OnItemDataCallBack<List<GetAppListResp>>() {
             @Override
             public void onItemDataCallBack(List<GetAppListResp> resp) {
                 if (resp != null && resp.size() > 0) {
@@ -160,13 +143,11 @@ public class OrderItemFragment extends BaseFragment {
         private Context mContext;
         private OnItemClick mOnItemClick;
         private List<GetAppListResp> mItems;
-        private String st;
 
-        public MyOrderListAdapter(Context context, List<GetAppListResp> items, String st1) {
+        public MyOrderListAdapter(Context context, List<GetAppListResp> items) {
             mContext = context;
             mLayoutInflater = LayoutInflater.from(mContext);
             mItems = items;
-            st = st1;
         }
 
         @Override
@@ -309,7 +290,7 @@ public class OrderItemFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        EventBus.getDefault().unregister(this);
+//        EventBus.getDefault().unregister(this);
     }
 
 }

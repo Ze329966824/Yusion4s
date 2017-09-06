@@ -5,8 +5,10 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.RadioButton;
 
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
@@ -24,13 +26,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager mFragmentManager;
     private ApplyFinancingFragment mApplyFinancingFragment;//申请融资
     private OrderManagerFragment mOrderManagerFragment;//申请
+    private RadioButton applyOrderRb;
+    private RadioButton orderListRb;
+    private RadioButton mineRb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myApp.isLogin = true;
+        Yusion4sApp.isLogin = true;
+        applyOrderRb = (RadioButton) findViewById(R.id.main_tab_order_apply);
+        orderListRb = (RadioButton) findViewById(R.id.main_tab_order);
+        mineRb = (RadioButton) findViewById(R.id.main_tab_mine);
 
 //        WangDai4sApp.isBack2Home = false;
 //        setContentView(R.layout.activity_main);
@@ -108,14 +116,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Subscribe
     public void changeFragment(MainActivityEvent event) {
-        FragmentTransaction transaction = mFragmentManager.beginTransaction();
         switch (event) {
             case showOrderManager:
-                transaction.hide(mCurrentFragment).show(mOrderManagerFragment);
-                mCurrentFragment = mOrderManagerFragment;
+                orderListRb.performClick();
                 break;
         }
-        transaction.commit();
     }
 //
 //    @NeedsPermission({Manifest.permission.READ_CALENDAR})
