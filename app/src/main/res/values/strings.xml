@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">Yusion4s</string>
-    <string name="order_apply">申请融资</string>
-    <string name="order">申请管理</string>
+    <string name="order_apply">申请贷款</string>
+    <string name="order">申请列表</string>
     <string name="mine">我的</string>
     <string name="number_1">&#xe901;</string>
     <string name="number_2">&#xe902;</string>

@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/white"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:orientation="vertical">
 
     <FrameLayout
         android:layout_width="match_parent"
@@ -38,7 +38,7 @@
                 style="@style/tab"
                 android:checked="true"
                 android:drawableTop="@drawable/tab_order_apply_selector"
-                android:text="@string/order_apply"/>
+                android:text="@string/order_apply" />
 
             <RadioButton
                 android:id="@+id/main_tab_order"
@@ -46,13 +46,13 @@
                 android:drawablePadding="1dp"
                 android:drawableTop="@drawable/tab_order_selector"
                 android:paddingTop="9dp"
-                android:text="@string/order"/>
+                android:text="@string/order" />
 
             <RadioButton
                 android:id="@+id/main_tab_mine"
                 style="@style/tab"
                 android:drawableTop="@drawable/tab_mine_selector"
-                android:text="@string/mine"/>
+                android:text="@string/mine" />
 
         </RadioGroup>
     </LinearLayout>
