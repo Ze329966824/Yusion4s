@@ -72,7 +72,6 @@ public class OrderItemFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         //Inflate the layout for this fragment
-        //initData(OrderItemFragmentEvent.refresh);
         return inflater.inflate(R.layout.fragment_order_item, container, false);
 
     }

@@ -315,6 +315,18 @@ public class OrderDetailActivity extends BaseActivity {
                 applyMonthPriceTv.setText(resp.monthly_payment);
                 replyMonthPriceTv.setText(resp.uw_detail.monthly_payment);
 
+                compare(applyMonthPriceTv, replyMonthPriceTv);
+                compare(applyFirstPercentTv2, replyFirstPercentTv2);
+                compare(applyBillPriceTv2, replyBillPriceTv2);
+                compare(applyFirstPriceTv2, replyFirstPriceTv2);
+                compare(applyLoanPriceTv2, replyLoanPriceTv2);
+                compare(applyManagementPriceTv2, replyManagementPriceTv2);
+                compare(applyOtherPriceTv2, replyOtherPriceTv2);
+                compare(applyTotalPriceTv2, replyTotalPriceTv2);
+                compare(applyBankTv2, replyBankTv2);
+                compare(applyReplyDateTv2, ReplyRepayDateTv2);
+                compare(applyProductTypeTv2, replyProductTypeTv2);
+
 
                 findViewById(R.id.order_detail_customer_mobile_img).setOnClickListener(new View.OnClickListener() {
                     @Override
@@ -332,20 +344,10 @@ public class OrderDetailActivity extends BaseActivity {
                         startActivity(intent);
                     }
                 });
+
             }
         });
 
-        compare(applyMonthPriceTv, replyMonthPriceTv);
-        compare(applyFirstPercentTv2, replyFirstPercentTv2);
-        compare(applyBillPriceTv2, replyBillPriceTv2);
-        compare(applyFirstPriceTv2, replyFirstPriceTv2);
-        compare(applyLoanPriceTv2, replyLoanPriceTv2);
-        compare(applyManagementPriceTv2, replyManagementPriceTv2);
-        compare(applyOtherPriceTv2, replyOtherPriceTv2);
-        compare(applyTotalPriceTv2, replyTotalPriceTv2);
-        compare(applyBankTv2, replyBankTv2);
-        compare(applyReplyDateTv2, ReplyRepayDateTv2);
-        compare(applyProductTypeTv2, replyProductTypeTv2);
 
         orderDetailSignBtn.setOnClickListener(new View.OnClickListener() {
             @Override
