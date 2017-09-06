@@ -812,9 +812,11 @@
 
                     <LinearLayout
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="30dp"
                         android:layout_marginLeft="15dp"
                         android:layout_marginRight="15dp"
+                        android:layout_marginTop="9dp"
+                        android:background="#F7F7F7"
                         android:orientation="horizontal">
 
                         <TextView
@@ -824,7 +826,7 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="名称"
-                            android:textSize="14.5sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:id="@+id/textView3"
@@ -833,7 +835,7 @@
                             android:layout_weight="1"
                             android:gravity="center"
                             android:text="申请信息"
-                            android:textSize="14.5sp" />
+                            android:textSize="14sp" />
 
                         <TextView
                             android:layout_width="0dp"
@@ -841,7 +843,7 @@
                             android:layout_weight="1"
                             android:gravity="right|center_vertical"
                             android:text="批复信息"
-                            android:textSize="14.5sp" />
+                            android:textSize="14sp" />
 
                     </LinearLayout>
 
