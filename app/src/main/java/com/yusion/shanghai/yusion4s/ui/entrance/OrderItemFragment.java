@@ -124,23 +124,34 @@ public class OrderItemFragment extends BaseFragment {
     public void initData(OrderItemFragmentEvent event) {
         switch (event) {
             case refresh:
-                OrderApi.getAppList(mContext, getArguments().getString("st"), new OnItemDataCallBack<List<GetAppListResp>>() {
-                    @Override
-                    public void onItemDataCallBack(List<GetAppListResp> resp) {
-                        if (resp != null && resp.size() > 0) {
-                            ptr.setVisibility(View.VISIBLE);
-                            items.addAll(resp);
-                            adapter.notifyDataSetChanged();
-                            ptr.refreshComplete();
-                        }
-                        //       else {//添加空的view
+                refresh();
+                break;
+        }
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    private void refresh() {
+        OrderApi.getAppList(mContext, getArguments().getString("st"), new OnItemDataCallBack<List<GetAppListResp>>() {
+            @Override
+            public void onItemDataCallBack(List<GetAppListResp> resp) {
+                if (resp != null && resp.size() > 0) {
+                    ptr.setVisibility(View.VISIBLE);
+                    items.clear();
+                    items.addAll(resp);
+                    adapter.notifyDataSetChanged();
+                    ptr.refreshComplete();
+                }
+                //       else {//添加空的view
 ////                            // llyt.setVisibility(View.VISIBLE);
 ////                            //ptr.setVisibility(View.GONE);
 ////                        }
-                    }
-                });
-                break;
-        }
+            }
+        });
     }
 
     static class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
