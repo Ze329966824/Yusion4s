@@ -5,13 +5,19 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.RadioButton;
 
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
+import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -20,13 +26,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private FragmentManager mFragmentManager;
     private ApplyFinancingFragment mApplyFinancingFragment;//申请融资
     private OrderManagerFragment mOrderManagerFragment;//申请
+    private RadioButton applyOrderRb;
+    private RadioButton orderListRb;
+    private RadioButton mineRb;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        myApp.isLogin = true;
+        Yusion4sApp.isLogin = true;
+        applyOrderRb = (RadioButton) findViewById(R.id.main_tab_order_apply);
+        orderListRb = (RadioButton) findViewById(R.id.main_tab_order);
+        mineRb = (RadioButton) findViewById(R.id.main_tab_mine);
 
 //        WangDai4sApp.isBack2Home = false;
 //        setContentView(R.layout.activity_main);
@@ -53,13 +65,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .hide(mOrderManagerFragment)
                 .commit();
         mCurrentFragment = mApplyFinancingFragment;
+        EventBus.getDefault().register(this);
 
     }
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        WangDai4sApp.isBack2Home = true;
-//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 
 
     @Override
@@ -96,6 +112,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mMineFragment.refresh(data);
             }
         });
+    }
+
+    @Subscribe
+    public void changeFragment(MainActivityEvent event) {
+        switch (event) {
+            case showOrderManager:
+                orderListRb.performClick();
+                break;
+        }
     }
 //
 //    @NeedsPermission({Manifest.permission.READ_CALENDAR})

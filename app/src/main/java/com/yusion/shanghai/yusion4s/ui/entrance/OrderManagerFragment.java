@@ -65,8 +65,23 @@ public class OrderManagerFragment extends BaseFragment {
         for (int i = 0; i < mTabTitle.length; i++) {
             mFragments.add(OrderItemFragment.newInstance(mStCode[i]));
         }
-        viewPager.setOffscreenPageLimit(3);
         viewPager.setAdapter(new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments));
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                ((OrderItemFragment) mFragments.get(position)).refresh();
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         MagicIndicator mMagicIndicator = (MagicIndicator) view.findViewById(R.id.tab_layout);
         CommonNavigator commonNavigator = new CommonNavigator(mContext);
         commonNavigator.setAdjustMode(false);

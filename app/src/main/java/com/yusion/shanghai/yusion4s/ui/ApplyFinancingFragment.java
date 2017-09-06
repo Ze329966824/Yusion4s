@@ -13,6 +13,7 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
+import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 
@@ -113,6 +114,7 @@ public class ApplyFinancingFragment extends BaseFragment {
 //                        .hide(mCarInfoFragment)
                         .commit();
                 mCurrentFragment = mCarInfoFragment;
+                EventBus.getDefault().post(MainActivityEvent.showOrderManager);
                 break;
         }
         transaction.commit();
