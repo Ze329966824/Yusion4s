@@ -29,6 +29,8 @@ public class Yusion4sApp extends Application {
 
     public void onCreate() {
         super.onCreate();
+        TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
+        ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
         Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
         PgyCrashManager.register(this);
 //        initCrashReporter();
@@ -44,7 +46,6 @@ public class Yusion4sApp extends Application {
         TOKEN = "";
         ACCOUNT = "";
         USERINFOBEAN = null;
-
         SharedPrefsUtil.getInstance(this).putValue("token", TOKEN);
         SharedPrefsUtil.getInstance(this).putValue("account", ACCOUNT);
     }
