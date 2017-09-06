@@ -1,14 +1,10 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.app.AlertDialog;
-import android.app.LauncherActivity;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.EditText;
-import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -19,7 +15,6 @@ import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
-import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import java.util.Date;
@@ -32,7 +27,6 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.activity_launch);
         Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
         String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
-
         EditText editText = new EditText(this);
         editText.setText(str);
         if (!str.isEmpty()) {

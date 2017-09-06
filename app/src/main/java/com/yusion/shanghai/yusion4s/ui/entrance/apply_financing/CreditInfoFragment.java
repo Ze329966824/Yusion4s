@@ -19,7 +19,6 @@ import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
-import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
@@ -209,6 +208,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         if (resultCode == Activity.RESULT_OK) {
             if (requestCode == 2000) {//搜索用户所返回的数据
                 //清空数据
+                client_credit__book_lin.setVisibility(View.GONE);
+                client_spouse_credit__book_lin.setVisibility(View.GONE);
+                guarantor_credit_book_lin.setVisibility(View.GONE);
+                guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
                 lenderList.clear();
                 lenderSpList.clear();
                 guarantorList.clear();

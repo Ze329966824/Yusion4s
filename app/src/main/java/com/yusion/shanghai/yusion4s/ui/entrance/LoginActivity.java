@@ -17,7 +17,6 @@ import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 
