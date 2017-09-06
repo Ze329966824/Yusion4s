@@ -9,9 +9,13 @@ import android.view.View;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
+import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
+
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
@@ -53,13 +57,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .hide(mOrderManagerFragment)
                 .commit();
         mCurrentFragment = mApplyFinancingFragment;
+        EventBus.getDefault().register(this);
 
     }
-//    @Override
-//    protected void onDestroy() {
-//        super.onDestroy();
-//        WangDai4sApp.isBack2Home = true;
-//    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if (EventBus.getDefault().isRegistered(this)) {
+            EventBus.getDefault().unregister(this);
+        }
+    }
 
 
     @Override
@@ -96,6 +104,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mMineFragment.refresh(data);
             }
         });
+    }
+
+    @Subscribe
+    public void changeFragment(MainActivityEvent event) {
+        FragmentTransaction transaction = mFragmentManager.beginTransaction();
+        switch (event) {
+            case showOrderManager:
+                transaction.hide(mCurrentFragment).show(mOrderManagerFragment);
+                mCurrentFragment = mOrderManagerFragment;
+                break;
+        }
+        transaction.commit();
     }
 //
 //    @NeedsPermission({Manifest.permission.READ_CALENDAR})
