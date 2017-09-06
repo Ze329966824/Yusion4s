@@ -15,6 +15,7 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 
+import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -61,7 +62,9 @@ public class OrderApi {
             public void onCustomResponse(List<GetAppListResp> data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
+
         });
+
     }
 
     public static void getAppDetails(final Context context, String app_id, final OnItemDataCallBack<OrderDetailBean> onItemDataCallBack) {
