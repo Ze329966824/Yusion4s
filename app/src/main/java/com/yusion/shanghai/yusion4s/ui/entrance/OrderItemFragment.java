@@ -114,7 +114,7 @@ public class OrderItemFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-//        refresh();
+        refresh();
     }
 
     public void refresh() {
