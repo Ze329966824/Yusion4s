@@ -123,8 +123,8 @@ public class OssUtil {
      * @param suffix   eg: .png .mp4
      * @return
      */
-    public static String getObjectKey(String client, String mobile, String role, String category, String suffix) {
-        return client + "/" + mobile + "/" + role + "/" + category + "/" + System.currentTimeMillis() + suffix;
+    public static String getObjectKey(String client, String account, String role, String category, String suffix) {
+        return client + "/" + account + "/" + role + "/" + category + "/" + System.currentTimeMillis() + suffix;
     }
 
     public static String getObjectKey(String role, String category, String suffix) {

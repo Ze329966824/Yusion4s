@@ -40,6 +40,7 @@ import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
@@ -322,10 +323,10 @@ public class UploadListActivity extends BaseActivity {
                 toAddList.add(item);
             }
 
-            lists.addAll(toAddList);
-            adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
-
-            onImgCountChange(files.size() > 0);
+//            lists.addAll(toAddList);
+//            adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
+//
+//            onImgCountChange(files.size() > 0);
 
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
@@ -343,7 +344,20 @@ public class UploadListActivity extends BaseActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    uploadImgs(app_id, clt_id, toAddList);
+                                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
+                                        @Override
+                                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
+                                            uploadImgs(app_id, clt_id, relToAddList, new OnVoidCallBack() {
+                                                @Override
+                                                public void callBack() {
+                                                    lists.addAll(relToAddList);
+                                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), relToAddList.size());
+                                                    onImgCountChange(lists.size() > 0);
+                                                }
+                                            });
+                                        }
+                                    });
+//                                    uploadImgs(app_id, clt_id, toAddList);
                                 }
                             });
                         }
@@ -356,7 +370,20 @@ public class UploadListActivity extends BaseActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    uploadImgs(app_id, clt_id, toAddList);
+                                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
+                                        @Override
+                                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
+                                            uploadImgs(app_id, clt_id, relToAddList, new OnVoidCallBack() {
+                                                @Override
+                                                public void callBack() {
+                                                    lists.addAll(relToAddList);
+                                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), relToAddList.size());
+                                                    onImgCountChange(lists.size() > 0);
+                                                }
+                                            });
+                                        }
+                                    });
+//                                    uploadImgs(app_id, clt_id, toAddList);
                                 }
                             });
                         }
@@ -366,9 +393,21 @@ public class UploadListActivity extends BaseActivity {
         }
     }
 
+    private void calculateRelToAddList(List<UploadImgItemBean> toAddList, OnItemDataCallBack<List<UploadImgItemBean>> onRelToAddListCallBack) {
+        List<UploadImgItemBean> relToAddList = new ArrayList<>();
+        for (UploadImgItemBean itemBean : toAddList) {
+            if (!TextUtils.isEmpty(itemBean.objectKey)) {
+                relToAddList.add(itemBean);
+            }
+        }
+        onRelToAddListCallBack.onItemDataCallBack(relToAddList);
+    }
+
+    ;
+
     private Dialog mUploadFileDialog;
 
-    public void uploadImgs(String app_id, String clt_id, List<UploadImgItemBean> lists) {
+    public void uploadImgs(String app_id, String clt_id, List<UploadImgItemBean> lists, OnVoidCallBack onSuccessCallBack) {
         List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlBeanList = new ArrayList<>();
         for (UploadImgItemBean imgItemBean : lists) {
             UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
@@ -395,6 +434,7 @@ public class UploadListActivity extends BaseActivity {
                     lists.get(i).id = data.get(i);
                 }
                 mUploadFileDialog.dismiss();
+                onSuccessCallBack.callBack();
                 Toast.makeText(UploadListActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
             }
         });
