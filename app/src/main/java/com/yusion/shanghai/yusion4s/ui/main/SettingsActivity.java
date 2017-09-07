@@ -22,6 +22,8 @@ import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
+import static com.yusion.shanghai.yusion4s.settings.Settings.isOnline;
+
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     private String desc;
     private String url;
@@ -40,7 +42,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         findViewById(R.id.main_setting_logout_layout).setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                if (!Settings.isOnline) {
+                if (!isOnline) {
                     EditText editText = new EditText(SettingsActivity.this);
                     editText.setText(Settings.SERVER_URL);
                     new android.app.AlertDialog.Builder(SettingsActivity.this).setTitle("服务器地址：")
@@ -52,6 +54,16 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                                     Settings.SERVER_URL = editText.getText().toString();
                                     SharedPrefsUtil.getInstance(SettingsActivity.this).putValue("SERVER_URL", editText.getText().toString());
                                     dialog.dismiss();
+
+                                    new AlertDialog.Builder(SettingsActivity.this)
+                                            .setMessage("请自行重启app")
+                                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialog, int which) {
+                                                    dialog.dismiss();
+                                                }
+                                            })
+                                            .show();
                                 }
                             }).show();
 

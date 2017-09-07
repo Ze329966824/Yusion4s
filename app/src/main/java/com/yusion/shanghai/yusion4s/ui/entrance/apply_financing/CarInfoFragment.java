@@ -48,7 +48,7 @@ import java.util.List;
  */
 
 public class CarInfoFragment extends BaseFragment {
-    public static final int DELAY_MILLIS = 1000;
+    public static final int DELAY_MILLIS = 2000;
 
     private List<GetLoanBankResp> mLoanBankList = new ArrayList<>();
 

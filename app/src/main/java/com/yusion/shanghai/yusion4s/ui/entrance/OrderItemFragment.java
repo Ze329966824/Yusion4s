@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -127,7 +128,7 @@ public class OrderItemFragment extends BaseFragment {
                     items.addAll(resp);
                     adapter.notifyDataSetChanged();
                     ptr.refreshComplete();
-                }
+                } else ptr.refreshComplete();
                 //       else {//添加空的view
 ////                            // llyt.setVisibility(View.VISIBLE);
 ////                            //ptr.setVisibility(View.GONE);

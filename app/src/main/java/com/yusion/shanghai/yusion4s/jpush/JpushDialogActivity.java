@@ -14,6 +14,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JpushDialogActivity extends BaseActivity {
+    private String username = null;
     private String mobile = null;
     private String title = null;
     private String content = null;
@@ -49,6 +50,7 @@ public class JpushDialogActivity extends BaseActivity {
             stringExtra = intent.getStringExtra("jsonObject");
             JSONObject jo = new JSONObject(stringExtra);
             if (jo != null) {
+                username = jo.optString("username");
                 mobile = jo.optString("mobile");
                 title = jo.optString("title");
                 content = jo.optString("content");
@@ -56,6 +58,8 @@ public class JpushDialogActivity extends BaseActivity {
                 app_id = jo.optString("app_id");
                 category = jo.optString("category");
                 JpushDialog();
+            }else {
+                finish();
             }
         }
     }
@@ -63,8 +67,8 @@ public class JpushDialogActivity extends BaseActivity {
     private void JpushDialog() {
         switch (category) {
             case "login":
-                if (Yusion4sApp.isLogin) {
-                    if (mobile.equals(Yusion4sApp.ACCOUNT)) {
+               if (Yusion4sApp.isLogin) {
+                    if (username.equals(Yusion4sApp.ACCOUNT)) {
                         new AlertDialog.Builder(JpushDialogActivity.this)
                                 .setCancelable(false)
                                 .setTitle("")
