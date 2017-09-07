@@ -45,7 +45,7 @@ import java.util.List;
 import java.util.function.Predicate;
 
 //选完用户后获取授权书图片并传入该页面
-//如果删除这些图片需要用图片id并从集合删除
+//如果删除这些图片需要用图片id并从集合删除main
 
 //如果删除刚上传的图片需要从集合删除还需要在fileUrlList集合删除
 

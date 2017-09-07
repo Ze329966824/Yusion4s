@@ -100,7 +100,7 @@ public class CarInfoFragment extends BaseFragment {
                 case 1:
                     otherPriceChange = false;
                     int sum1 = 0;
-                    if (Integer.valueOf(carLoanPriceTv.getText().toString()) < 89000) {
+                    if (Integer.valueOf(carLoanPriceTv.getText().toString()) < 50000) {
                         if (Integer.valueOf(otherPriceTv.getText().toString()) > 3000) {
                             Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为3000", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -399,7 +399,7 @@ public class CarInfoFragment extends BaseFragment {
                         otherPriceTv.setEnabled(false);
                     } else {
 
-                        if (Integer.valueOf(carLoanPriceTv.getText().toString()) < 89000) {
+                        if (Integer.valueOf(carLoanPriceTv.getText().toString()) < 50000) {
                             Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为3000", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
