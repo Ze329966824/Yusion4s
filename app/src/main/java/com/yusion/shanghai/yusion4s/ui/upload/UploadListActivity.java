@@ -60,31 +60,11 @@ public class UploadListActivity extends BaseActivity {
     private List<UploadImgItemBean> lists = new ArrayList<>();
     private String app_id;
     private String clt_id;
-    private TitleBar titleBar;
     private TextView mEditTv;
     private LinearLayout uploadBottomLin;
     private TextView uploadTv1;
     private TextView uploadTv2;
     private boolean isEditing = false;
-
-//    private UploadImgListAdapter adapter;
-//    private Intent mGetIntent;
-//    private UploadLabelItemBean mTopItem;//上级页面传过来的bean
-//    private TextView errorTv;
-//    private LinearLayout errorLin;
-//    private List<UploadImgItemBean> imgList;
-//    private TitleBar titleBar;
-//    private String mRole;
-//    private String mType;
-//
-//
-//    private int currentChooseCount = 0;
-//    private boolean hasImg = false;
-//    private boolean isEditing = false;
-//    private TextView mEditTv;
-//    private LinearLayout uploadBottomLin;
-//    private TextView uploadTv2;
-//    private TextView uploadTv1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,13 +75,11 @@ public class UploadListActivity extends BaseActivity {
         clt_id = getIntent().getStringExtra("clt_id");
         initView();
         initData();
-//        hasImg = imgList.size() > 0;
-//        onImgCountChange(hasImg);
     }
 
     private void initView() {
 
-        titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
+        TitleBar titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
         titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
             @Override
@@ -323,11 +301,6 @@ public class UploadListActivity extends BaseActivity {
                 toAddList.add(item);
             }
 
-//            lists.addAll(toAddList);
-//            adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
-//
-//            onImgCountChange(files.size() > 0);
-
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
             int account = 0;
@@ -339,57 +312,39 @@ public class UploadListActivity extends BaseActivity {
                     @Override
                     public void onItemDataCallBack(String objectKey) {
                         imgItemBean.objectKey = objectKey;
-                        if (finalAccount == files.size()) {
-                            dialog.dismiss();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
-                                        @Override
-                                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
-                                            uploadImgs(app_id, clt_id, relToAddList, new OnVoidCallBack() {
-                                                @Override
-                                                public void callBack() {
-                                                    lists.addAll(relToAddList);
-                                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), relToAddList.size());
-                                                    onImgCountChange(lists.size() > 0);
-                                                }
-                                            });
-                                        }
-                                    });
-//                                    uploadImgs(app_id, clt_id, toAddList);
-                                }
-                            });
-                        }
+                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
                     }
                 }, new OnItemDataCallBack<Throwable>() {
                     @Override
                     public void onItemDataCallBack(Throwable data) {
-                        if (finalAccount == files.size()) {
-                            dialog.dismiss();
-                            runOnUiThread(new Runnable() {
-                                @Override
-                                public void run() {
-                                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
-                                        @Override
-                                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
-                                            uploadImgs(app_id, clt_id, relToAddList, new OnVoidCallBack() {
-                                                @Override
-                                                public void callBack() {
-                                                    lists.addAll(relToAddList);
-                                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), relToAddList.size());
-                                                    onImgCountChange(lists.size() > 0);
-                                                }
-                                            });
-                                        }
-                                    });
-//                                    uploadImgs(app_id, clt_id, toAddList);
-                                }
-                            });
-                        }
+                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
                     }
                 });
             }
+        }
+    }
+
+    private void onUploadOssFinish(int finalAccount, ArrayList<String> files, Dialog dialog, final List<UploadImgItemBean> toAddList) {
+        if (finalAccount == files.size()) {
+            dialog.dismiss();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
+                        @Override
+                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
+                            uploadImgs(app_id, clt_id, relToAddList, new OnVoidCallBack() {
+                                @Override
+                                public void callBack() {
+                                    lists.addAll(relToAddList);
+                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), relToAddList.size());
+                                    onImgCountChange(lists.size() > 0);
+                                }
+                            });
+                        }
+                    });
+                }
+            });
         }
     }
 
@@ -402,8 +357,6 @@ public class UploadListActivity extends BaseActivity {
         }
         onRelToAddListCallBack.onItemDataCallBack(relToAddList);
     }
-
-    ;
 
     private Dialog mUploadFileDialog;
 
@@ -497,10 +450,8 @@ public class UploadListActivity extends BaseActivity {
                     holder.cbImg.setVisibility(View.VISIBLE);
                     if (item.hasChoose) {
                         holder.cbImg.setImageResource(R.mipmap.surechoose_icon);
-//                        holder.cbImg.setTag(R.id.hasChoose, true);
                     } else {
                         holder.cbImg.setImageResource(R.mipmap.choose_icon);
-//                        holder.cbImg.setTag(R.id.hasChoose, false);
                     }
                 } else {
                     holder.cbImg.setVisibility(View.GONE);
