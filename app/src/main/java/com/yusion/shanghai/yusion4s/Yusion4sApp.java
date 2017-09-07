@@ -6,7 +6,6 @@ import android.text.TextUtils;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
-import com.yusion.shanghai.yusion4s.crash.CrashHandler;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -33,13 +32,7 @@ public class Yusion4sApp extends Application {
         ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
         Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
         PgyCrashManager.register(this);
-//        initCrashReporter();
         jpush();
-    }
-
-    private void initCrashReporter() {
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
     }
 
     public void clearUserData() {

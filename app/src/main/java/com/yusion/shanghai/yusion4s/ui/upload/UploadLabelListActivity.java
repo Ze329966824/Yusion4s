@@ -23,24 +23,10 @@ public class UploadLabelListActivity extends BaseActivity {
     private ListDealerLabelsResp topItem;
     private RvAdapter adapter;
 
-//    public static List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlBeanList = new ArrayList<>();
-//    private List<UploadLabelItemBean> mItems = new ArrayList<>();
-//    private UploadLabelListAdapter adapter;
-//
-//
-//    public static void start(Context context, String app_id) {
-//        Intent intent = new Intent(context, UploadLabelListActivity.class);
-//        intent.putExtra("app_id", app_id);
-//        context.startActivity(intent);
-//    }
-//
-//    private Dialog mUploadFileDialog;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.upload_label_list);
-//        uploadFileUrlBeanList.clear();
 
         topItem = ((ListDealerLabelsResp) getIntent().getSerializableExtra("topItem"));
         initTitleBar(this, topItem.name).setRightText("提交").setRightClickListener(v -> onBack()).setRightTextColor(Color.WHITE).setLeftClickListener(v -> onBack());
@@ -73,31 +59,6 @@ public class UploadLabelListActivity extends BaseActivity {
                 startActivityForResult(intent,100);
             }
         });
-
-//        initData();
-    }
-
-    private void initData() {
-//        ListLabelsErrorReq req = new ListLabelsErrorReq();
-//        req.app_id = getIntent().getStringExtra("app_id");
-//        ArrayList<String> labelsList = new ArrayList<>();
-//        for (UploadLabelItemBean itemBean : mItems) {
-//            labelsList.add(itemBean.value);
-//        }
-//        req.label_list = labelsList;
-//        UploadApi.listLabelsError(this, req, new OnItemDataCallBack<ListLabelsErrorResp>() {
-//            @Override
-//            public void onItemDataCallBack(ListLabelsErrorResp resp) {
-//                for (UploadLabelItemBean item : mItems) {
-//                    for (String errLabel : resp.lender.err_labels) {
-//                        if (item.value.equals(errLabel)) {
-//                            item.hasError = true;
-//                        }
-//                    }
-//                }
-//                adapter.notifyDataSetChanged();
-//            }
-//        });
     }
 
     @Override
