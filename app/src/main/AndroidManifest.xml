@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yusion.shanghai.yusion4s"
-    android:versionCode="303"
-    android:versionName="3.0.3">
-
-    <uses-sdk
-        android:minSdkVersion="9"
-        android:targetSdkVersion="23" />
+    package="com.yusion.shanghai.yusion4s">
 
     <!-- Jpush -->
     <permission
@@ -38,7 +32,7 @@
     <application
         android:name=".Yusion4sApp"
         android:allowBackup="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="${APP_ICON}"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
@@ -46,7 +40,7 @@
         <!-- pgy -->
         <meta-data
             android:name="PGYER_APPID"
-            android:value="a455421518edcbc4d3784f2b855b0691" />
+            android:value="${PGYER_APPID}" />
 
         <activity
             android:name=".ui.entrance.LaunchActivity"
@@ -54,7 +48,6 @@
             android:windowSoftInputMode="stateHidden">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

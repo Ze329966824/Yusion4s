@@ -2,8 +2,11 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.app.AlertDialog;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -26,6 +29,20 @@ public class LaunchActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            String pgyer_appid = applicationInfo.metaData.getString("PGYER_APPID");
+            Log.e("TAG", "onCreate: pgyer_appid = " + pgyer_appid);
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("TAG", "onCreate: " + e);
+            e.printStackTrace();
+        }
+        Log.e("TAG", "onCreate: Settings.isOnline = " + Settings.isOnline);
+        Log.e("TAG", "onCreate: Settings.SERVER_URL = " + Settings.SERVER_URL);
+        Log.e("TAG", "onCreate: Settings.OSS_SERVER_URL = " + Settings.OSS_SERVER_URL);
+
         Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
 
         if (!isOnline) {
