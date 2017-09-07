@@ -398,8 +398,8 @@ public class CarInfoFragment extends BaseFragment {
                         toast.show();
                         otherPriceTv.setEnabled(false);
                     } else {
-
                         if (Integer.valueOf(carLoanPriceTv.getText().toString()) < 50000) {
+
                             Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为3000", Toast.LENGTH_LONG);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
@@ -648,6 +648,7 @@ public class CarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                otherPriceTv.setText("");
                 if (TextUtils.isEmpty(s)) {
                     handler.removeMessages(3);
                     if (changeCarLoanByCode) {
