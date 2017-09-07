@@ -1,10 +1,12 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.ApplicationInfo;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
-import android.widget.EditText;
+import android.text.TextUtils;
+import android.util.Log;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -19,35 +21,49 @@ import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import java.util.Date;
 
+import static com.yusion.shanghai.yusion4s.settings.Settings.isOnline;
+
 public class LaunchActivity extends BaseActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
+
+        ApplicationInfo applicationInfo = null;
+        try {
+            applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+            String pgyer_appid = applicationInfo.metaData.getString("PGYER_APPID");
+            Log.e("TAG", "onCreate: pgyer_appid = " + pgyer_appid);
+        } catch (PackageManager.NameNotFoundException e) {
+            Log.e("TAG", "onCreate: " + e);
+            e.printStackTrace();
+        }
+        Log.e("TAG", "onCreate: Settings.isOnline = " + Settings.isOnline);
+        Log.e("TAG", "onCreate: Settings.SERVER_URL = " + Settings.SERVER_URL);
+        Log.e("TAG", "onCreate: Settings.OSS_SERVER_URL = " + Settings.OSS_SERVER_URL);
+
         Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
-        String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
-        EditText editText = new EditText(this);
-        editText.setText(str);
-        if (!str.isEmpty()) {
-            new AlertDialog.Builder(this)
-                    .setTitle("请再次确认服务器地址！")
-                    .setView(editText)
-                    .setCancelable(false)
-                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Settings.SERVER_URL = editText.getText().toString();
+
+        if (!isOnline) {
+            String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
+            if (!TextUtils.isEmpty(str)) {
+                new AlertDialog.Builder(this)
+                        .setTitle("请确认服务器地址：")
+                        .setMessage(str)
+                        .setPositiveButton("是", (dialog, which) -> {
+                            Settings.SERVER_URL = str;
                             getConfigJson();
                             dialog.dismiss();
-                        }
-                    })
-                    .setNegativeButton("还原", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                        })
+                        .setNegativeButton("否", (dialog, which) -> {
                             getConfigJson();
-                        }
-                    }).show();
+                            dialog.dismiss();
+                        }).show();
+            }
+            else {
+                getConfigJson();
+            }
         } else {
             getConfigJson();
         }

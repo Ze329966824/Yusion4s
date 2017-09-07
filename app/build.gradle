@@ -6,18 +6,29 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
+    def isOnline = false
+
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
     defaultConfig {
         applicationId "com.yusion.shanghai.yusion4s"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 3
-        versionName "V1.0.2"
+        versionCode 6
+        versionName "V1.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi"
         }
+
+        buildConfigField("boolean", "isOnline", isOnline.toString())
+        def pgyer_appid = "2234913a0c85f5dc0e60faefe41c96e0"
+        def app_icon = "@mipmap/test_ic_launcher"
+        if (isOnline) {
+            pgyer_appid = "a455421518edcbc4d3784f2b855b0691"
+            app_icon = "@mipmap/ic_launcher"
+        }
+        manifestPlaceholders = ["PGYER_APPID": pgyer_appid, APP_ICON: app_icon]
     }
     buildTypes {
         release {
@@ -35,8 +46,10 @@ android {
     }
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
-//projectDir是app目录
-            output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", "yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
+            String environment = "alpha"
+            if (isOnline) environment = "product"
+            //projectDir是app目录
+            output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", environment + "-yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
         }
     }
     compileOptions {
