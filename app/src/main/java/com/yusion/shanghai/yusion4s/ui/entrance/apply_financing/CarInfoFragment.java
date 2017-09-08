@@ -20,9 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.aliyun.common.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
@@ -39,7 +37,6 @@ import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-import java.security.KeyStore;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -620,6 +617,8 @@ public class CarInfoFragment extends BaseFragment {
                             @Override
                             public void onSubmitCallBack(View clickedView, int selectedIndex) {
                                 mProductTypeIndex = selectedIndex;
+                                loanPeriodsTv.setText(null);
+                                mLoanPeriodsIndex = 0;
                             }
                         });
                     }
