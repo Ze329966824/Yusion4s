@@ -66,6 +66,7 @@ public class UploadListActivity extends BaseActivity {
     private TextView uploadTv2;
     private boolean isEditing = false;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

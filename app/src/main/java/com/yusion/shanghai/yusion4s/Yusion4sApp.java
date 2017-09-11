@@ -7,7 +7,6 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
-import com.yusion.shanghai.yusion4s.crash.CrashHandler;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -32,9 +31,12 @@ public class Yusion4sApp extends Application {
         super.onCreate();
         TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
         ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
-        Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
+        if (BuildConfig.isOnline) {
+            Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
+        }else {
+            Sentry.init("http://a38b78ed9d104631998185e97f1465ff:d7046f67331d4f8d860d922b0e02bc55@116.62.161.180:9002/8", new AndroidSentryClientFactory(this));
+        }
         PgyCrashManager.register(this);
-//        initCrashReporter();
         jpush();
         umeng();
     }
@@ -44,11 +46,6 @@ public class Yusion4sApp extends Application {
         MobclickAgent.openActivityDurationTrack(false);
         //捕获程序崩溃日志
         MobclickAgent.setCatchUncaughtExceptions(true);
-    }
-
-    private void initCrashReporter() {
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.init(getApplicationContext());
     }
 
     public void clearUserData() {
