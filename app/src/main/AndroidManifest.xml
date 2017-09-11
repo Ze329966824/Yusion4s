@@ -2,6 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.yusion.shanghai.yusion4s">
 
+    <!--umeng-->
+    <uses-sdk android:minSdkVersion="8"></uses-sdk>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+
     <!-- Jpush -->
     <permission
         android:name="com.yusion.shanghai.yusion4s.permission.JPUSH_MESSAGE"
@@ -206,6 +213,9 @@
             android:name=".ui.upload.PreviewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+
+        <meta-data android:value="YOUR_APP_KEY" android:name="59b677d4aed179296b001125"/>
+        <meta-data android:value="Channel ID" android:name="Yusion4s"/>
     </application>
 
 </manifest>

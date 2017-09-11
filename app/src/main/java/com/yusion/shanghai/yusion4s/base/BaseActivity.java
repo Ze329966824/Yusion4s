@@ -8,6 +8,7 @@ import android.view.View;
 
 import com.pgyersdk.crash.PgyCrashManager;
 import com.pgyersdk.feedback.PgyFeedbackShakeManager;
+import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
@@ -17,6 +18,12 @@ import com.yusion.shanghai.yusion4s.widget.TitleBar;
  */
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);//友盟统计
+    }
 
     protected Yusion4sApp myApp;
 
@@ -59,7 +66,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
         PgyFeedbackShakeManager.unregister();
-
+        MobclickAgent.onPause(this);
     }
 
     @Override
