@@ -4,6 +4,7 @@ import android.app.Application;
 import android.text.TextUtils;
 
 import com.pgyersdk.crash.PgyCrashManager;
+import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -37,6 +38,14 @@ public class Yusion4sApp extends Application {
         }
         PgyCrashManager.register(this);
         jpush();
+        umeng();
+    }
+
+    private void umeng() {
+        //禁止默认的页面统计方式
+        MobclickAgent.openActivityDurationTrack(false);
+        //捕获程序崩溃日志
+        MobclickAgent.setCatchUncaughtExceptions(true);
     }
 
     public void clearUserData() {

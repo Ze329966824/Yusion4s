@@ -6,6 +6,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.view.View;
 
+import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
@@ -28,5 +29,17 @@ public abstract class BaseFragment extends Fragment {
         titleBar.setTitleColor(view.getResources().getColor(R.color.title_bar_text_color));
         titleBar.setDividerColor(view.getResources().getColor(R.color.system_color));
         return titleBar;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        MobclickAgent.onPageStart(this.getClass().getSimpleName());
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
 }
