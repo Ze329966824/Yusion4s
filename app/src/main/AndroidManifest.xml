@@ -214,8 +214,8 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
-        <meta-data android:value="YOUR_APP_KEY" android:name="59b677d4aed179296b001125"/>
-        <meta-data android:value="Channel ID" android:name="Yusion4s"/>
+        <meta-data android:value="59b677d4aed179296b001125" android:name="UMENG_APPKEY"/>
+        <meta-data android:value="Yusion4s" android:name="UMENG_CHANNEL"/>
     </application>
 
 </manifest>
