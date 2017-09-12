@@ -4,9 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -18,11 +16,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
@@ -38,11 +31,9 @@ import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
-import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import java.util.function.Predicate;
 
 //选完用户后获取授权书图片并传入该页面
 //如果删除这些图片需要用图片id并从集合删除main
@@ -401,11 +392,11 @@ public class UploadSqsListActivity extends BaseActivity {
                 UploadImgItemBean item = mItems.get(position);
                 Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
                 dialog.show();
-                if (!TextUtils.isEmpty(item.local_path)) {
-                    Glide.with(mContext).load(new File(item.local_path)).listener(new GlideRequestListener(dialog)).into(holder.img);
-                } else {
-                    Glide.with(mContext).load(item.s_url).listener(new GlideRequestListener(dialog)).into(holder.img);
-                }
+//                if (!TextUtils.isEmpty(item.local_path)) {
+//                    Glide.with(mContext).load(new File(item.local_path)).listener(new GlideRequestListener(dialog)).into(holder.img);
+//                } else {
+//                    Glide.with(mContext).load(item.s_url).listener(new GlideRequestListener(dialog)).into(holder.img);
+//                }
                 holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, holder.cbImg));
                 if (isEditing) {
                     holder.cbImg.setVisibility(View.VISIBLE);
@@ -430,26 +421,26 @@ public class UploadSqsListActivity extends BaseActivity {
             notifyDataSetChanged();
         }
 
-        private class GlideRequestListener implements RequestListener<Drawable> {
-            private Dialog dialog;
-
-            public GlideRequestListener(Dialog dialog) {
-                this.dialog = dialog;
-            }
-
-            @Override
-            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-                Toast.makeText(mContext, "图片加载失败", Toast.LENGTH_SHORT).show();
-                dialog.dismiss();
-                return false;
-            }
-
-            @Override
-            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-                dialog.dismiss();
-                return false;
-            }
-        }
+//        private class GlideRequestListener implements RequestListener<Drawable> {
+//            private Dialog dialog;
+//
+//            public GlideRequestListener(Dialog dialog) {
+//                this.dialog = dialog;
+//            }
+//
+//            @Override
+//            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+//                Toast.makeText(mContext, "图片加载失败", Toast.LENGTH_SHORT).show();
+//                dialog.dismiss();
+//                return false;
+//            }
+//
+//            @Override
+//            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+//                dialog.dismiss();
+//                return false;
+//            }
+//        }
 
 
         @Override

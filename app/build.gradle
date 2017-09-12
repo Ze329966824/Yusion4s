@@ -81,7 +81,7 @@ dependencies {
     compile files('libs/jpush-android-3.0.8.jar')
     compile 'com.android.support:appcompat-v7:25.3.1'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
-    compile 'com.github.bumptech.glide:glide:4.0.0'
+    compile 'com.github.bumptech.glide:glide:3.7.0'
     compile 'com.pgyersdk:sdk:2.7.0'
     compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'org.greenrobot:eventbus:3.0.0'
@@ -92,6 +92,7 @@ dependencies {
     compile 'com.android.support:support-v4:25.3.1'
     compile 'com.android.support:design:26.0.0-alpha1'
     compile 'io.sentry:sentry-android:1.5.2'
+    compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'com.umeng.analytics:analytics:latest.integration'
     testCompile 'junit:junit:4.12'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.0.0'

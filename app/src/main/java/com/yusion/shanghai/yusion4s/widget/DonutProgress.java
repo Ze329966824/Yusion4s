@@ -18,6 +18,7 @@ import android.view.View;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 
+
 /**
  * Created by ice on 2017/8/11.
  */
