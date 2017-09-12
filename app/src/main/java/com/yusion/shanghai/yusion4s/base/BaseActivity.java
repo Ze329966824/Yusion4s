@@ -19,12 +19,6 @@ import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        MobclickAgent.onResume(this);//友盟统计
-    }
-
     protected Yusion4sApp myApp;
 
     @Override
@@ -51,6 +45,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        MobclickAgent.onResume(this);//友盟统计
     }
 
     @Override
