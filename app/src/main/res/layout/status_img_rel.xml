@@ -6,7 +6,7 @@
     android:layout_height="150dp"
     android:orientation="vertical">
 
-    <ImageView
+    <com.yusion.shanghai.yusion4s.glide.GlideImageView
         android:id="@+id/status_img_source_img"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

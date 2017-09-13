@@ -110,4 +110,16 @@
         <attr name="donut_show_text" format="boolean" />
         <attr name="donut_inner_drawable" format="reference" />
     </declare-styleable>
+    <declare-styleable name="ShapeImageViewStyle">
+        <attr name="siv_border_width" format="dimension" />
+        <attr name="siv_border_color" format="color" />
+        <attr name="siv_radius" format="dimension" />
+        <attr name="siv_pressed_alpha" format="float" />
+        <attr name="siv_pressed_color" format="color" />
+        <attr name="siv_shape_type" format="enum">
+            <enum name="none" value="0" />
+            <enum name="rectangle" value="1" />
+            <enum name="circle" value="2" />
+        </attr>
+    </declare-styleable>
 </resources>
