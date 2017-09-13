@@ -17,7 +17,7 @@ import com.yusion.shanghai.yusion4s.widget.DonutProgress;
 
 public class StatusImageRel extends RelativeLayout {
     public DonutProgress progressPro;
-    public ImageView sourceImg;
+    public GlideImageView sourceImg;
     public ImageView cbImg;
 
     public StatusImageRel(Context context) {
@@ -37,14 +37,14 @@ public class StatusImageRel extends RelativeLayout {
         View contentView = LayoutInflater.from(context).inflate(R.layout.status_img_rel, this, true);
         progressPro = ((DonutProgress) contentView.findViewById(R.id.status_img_loading_progress));
         cbImg = ((ImageView) contentView.findViewById(R.id.status_img_cb_img));
-        sourceImg = ((ImageView) contentView.findViewById(R.id.status_img_source_img));
+        sourceImg = ((GlideImageView) contentView.findViewById(R.id.status_img_source_img));
     }
 
     public DonutProgress getProgressPro() {
         return progressPro;
     }
 
-    public ImageView getSourceImg() {
+    public GlideImageView getSourceImg() {
         return sourceImg;
     }
 }
