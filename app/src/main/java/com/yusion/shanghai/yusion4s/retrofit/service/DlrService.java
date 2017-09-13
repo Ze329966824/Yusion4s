@@ -42,4 +42,11 @@ public interface DlrService {
     //获取车型
     @GET("/api/crm/dealer/get_vehicle_model_list/")
     Call<BaseResult<List<GetModelResp>>> getModel(@Query("trix_id") String trix);
+
+    //http://api.alpha.yusiontech.com:8000/api/crm/dealer/other_fee_limit/?vehicle_loan_amt=233300
+
+    //其他费用的限制
+    @GET("/api/crm/dealer/other_fee_limit/")
+    Call<BaseResult<String>> getOtherFeeLimit(@Query("vehicle_loan_amt") String vehicle_loan_amt);
+
 }

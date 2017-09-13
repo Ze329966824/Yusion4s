@@ -6,6 +6,7 @@ import android.icu.lang.UCharacter;
 import android.widget.Toast;
 
 import com.google.gson.internal.bind.SqlDateTypeAdapter;
+import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
@@ -105,6 +106,16 @@ public class DlrApi {
             @Override
             public void onCustomResponse(GetproductResp resp) {
                 onItemDataCallBack.onItemDataCallBack(resp);
+            }
+        });
+    }
+
+    public static void getOtherFeeLimit(final Context context, String vehicle_loan_amt, final OnItemDataCallBack<String> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getDlrService().getOtherFeeLimit(vehicle_loan_amt).enqueue(new CustomCallBack<String>(context, dialog) {
+            @Override
+            public void onCustomResponse(String data) {
+                onItemDataCallBack.onItemDataCallBack(data);
             }
         });
     }

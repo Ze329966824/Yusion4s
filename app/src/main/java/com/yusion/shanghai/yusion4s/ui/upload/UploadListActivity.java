@@ -54,6 +54,8 @@ public class UploadListActivity extends BaseActivity {
     private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
+    private List<UploadImgItemBean> hasUploadLists = new ArrayList<>();
+
     private String app_id;
     private String clt_id;
     private TextView mEditTv;
@@ -261,9 +263,12 @@ public class UploadListActivity extends BaseActivity {
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
-            mEditTv.setText("编辑");
-            uploadBottomLin.setVisibility(View.GONE);
+
         }
+        isEditing = false;
+        adapter.setIsEditing(false);
+        mEditTv.setText("编辑");
+        uploadBottomLin.setVisibility(View.GONE);
     }
 
     private int getCurrentChooseItemCount() {
@@ -300,21 +305,23 @@ public class UploadListActivity extends BaseActivity {
 
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
-            int account = 0;
+            //int account = 0;
+            hasUploadLists.clear();
             for (UploadImgItemBean imgItemBean : toAddList) {
-                account++;
-                int finalAccount = account;
+//                account++;
+//                int finalAccount = account;
                 String suffix = isVideoPage ? ".mp4" : ".png";
                 OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), new OnItemDataCallBack<String>() {
                     @Override
                     public void onItemDataCallBack(String objectKey) {
                         imgItemBean.objectKey = objectKey;
-                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
+                        hasUploadLists.add(imgItemBean);
+                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
                     }
                 }, new OnItemDataCallBack<Throwable>() {
                     @Override
                     public void onItemDataCallBack(Throwable data) {
-                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
+                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
                     }
                 });
             }
@@ -444,7 +451,7 @@ public class UploadListActivity extends BaseActivity {
                     } else {
                         Glide.with(mContext).load(item.s_url).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
                     }
-                }else {
+                } else {
                     if (!TextUtils.isEmpty(item.local_path)) {
                         GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
                     } else {

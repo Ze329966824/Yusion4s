@@ -24,13 +24,16 @@ import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
+import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -42,8 +45,10 @@ import java.util.List;
 
 public class UploadSqsListActivity extends BaseActivity {
     private RvAdapter adapter;
+
     private List<UploadImgItemBean> imgList = new ArrayList<>();
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
+    private List<UploadImgItemBean> hasUploadLists = new ArrayList<>();
     private String clt_id;
     private String title;
     private String type;
@@ -158,9 +163,11 @@ public class UploadSqsListActivity extends BaseActivity {
                 //1.删除本地上传的图片
                 for (String objectKey : delImgObjectKeyList) {
                     for (UploadFilesUrlReq.FileUrlBean fileUrlBean : uploadFileUrlList) {
-                        if (fileUrlBean.file_id.equals(objectKey)) {
-                            uploadFileUrlList.remove(fileUrlBean);
-                            break;
+                        if (!TextUtils.isEmpty(objectKey) && TextUtils.isEmpty(fileUrlBean.file_id)) {
+                            if (fileUrlBean.file_id.equals(objectKey)) {
+                                uploadFileUrlList.remove(fileUrlBean);
+                                break;
+                            }
                         }
                     }
                 }
@@ -175,6 +182,7 @@ public class UploadSqsListActivity extends BaseActivity {
                         public void callBack(int code, String msg) {
                             if (code == 0) {
                                 Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
+                                onImgCountChange(imgList.size() > 0);
                             }
                         }
                     });
@@ -228,9 +236,11 @@ public class UploadSqsListActivity extends BaseActivity {
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
-            mEditTv.setText("编辑");
-            uploadBottomLin.setVisibility(View.GONE);
         }
+        isEditing = false;
+        adapter.setIsEditing(false);
+        mEditTv.setText("编辑");
+        uploadBottomLin.setVisibility(View.GONE);
     }
 
     private int getCurrentChooseItemCount() {
@@ -260,18 +270,20 @@ public class UploadSqsListActivity extends BaseActivity {
                 imgList.addAll(toAddList);
                 adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
                 onImgCountChange(imgList.size() > 0);
+                hasUploadLists.clear();
 
                 Dialog dialog = LoadingUtils.createLoadingDialog(this);
                 dialog.show();
-                int account = 0;
+                //int account = 0;
                 for (UploadImgItemBean imgItemBean : toAddList) {
-                    account++;
-                    int finalAccount = account;
+                    //account++;
+                    //int finalAccount = account;
                     OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
                         @Override
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;
-                            if (finalAccount == files.size()) {
+                            hasUploadLists.add(imgItemBean);
+                            if (hasUploadLists.size() == files.size()) {
                                 dialog.dismiss();
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -290,7 +302,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     }, new OnItemDataCallBack<Throwable>() {
                         @Override
                         public void onItemDataCallBack(Throwable data) {
-                            if (finalAccount == files.size()) {
+                            if (hasUploadLists.size() == files.size()) {
                                 dialog.dismiss();
                                 runOnUiThread(new Runnable() {
                                     @Override
@@ -379,7 +391,8 @@ public class UploadSqsListActivity extends BaseActivity {
             if (viewType == TYPE_ADD_IMG) {
                 view = mLayoutInflater.inflate(R.layout.upload_list_add_img_item, parent, false);
             } else if (viewType == TYPE_IMG) {
-                view = mLayoutInflater.inflate(R.layout.upload_list_img_item, parent, false);
+                //view = mLayoutInflater.inflate(R.layout.upload_list_img_item, parent, false);
+                view = new StatusImageRel(mContext);
             }
             return new VH(view);
         }
@@ -390,23 +403,24 @@ public class UploadSqsListActivity extends BaseActivity {
                 holder.itemView.setOnClickListener(v -> mOnItemClick.onFooterClick(v));
             } else {
                 UploadImgItemBean item = mItems.get(position);
-                Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
-                dialog.show();
-//                if (!TextUtils.isEmpty(item.local_path)) {
-//                    Glide.with(mContext).load(new File(item.local_path)).listener(new GlideRequestListener(dialog)).into(holder.img);
-//                } else {
-//                    Glide.with(mContext).load(item.s_url).listener(new GlideRequestListener(dialog)).into(holder.img);
-//                }
+                StatusImageRel statusImageRel = (StatusImageRel) holder.itemView;
+                //Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
+                //dialog.show();
+                if (!TextUtils.isEmpty(item.local_path)) {
+                    GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
+                } else {
+                    GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
+                }
                 holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, holder.cbImg));
                 if (isEditing) {
-                    holder.cbImg.setVisibility(View.VISIBLE);
+                    statusImageRel.cbImg.setVisibility(View.VISIBLE);
                     if (item.hasChoose) {
-                        holder.cbImg.setImageResource(R.mipmap.surechoose_icon);
+                        statusImageRel.cbImg.setImageResource(R.mipmap.surechoose_icon);
                     } else {
-                        holder.cbImg.setImageResource(R.mipmap.choose_icon);
+                        statusImageRel.cbImg.setImageResource(R.mipmap.choose_icon);
                     }
                 } else {
-                    holder.cbImg.setVisibility(View.GONE);
+                    statusImageRel.cbImg.setVisibility(View.GONE);
                 }
             }
         }
