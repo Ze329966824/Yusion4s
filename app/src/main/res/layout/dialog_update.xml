@@ -1,0 +1,100 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="420dp"
+        android:layout_centerInParent="true"
+        android:background="@mipmap/dialog_update_bg">
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:layout_above="@+id/update_btn_group"
+            android:padding="40dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <TextView
+                    android:id="@+id/update_content"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    tools:text="1.本次更新添加xxx\r\n2.本次更新添加yyy\r\n3.本次更新添加xxx\r\n4.本次更新添加yyy\r\n5.本次更新添加xxx\r\n6.本次更新添加yyy\r\n7.本次更新添加xxx\r\n8.本次更新添加yyy" />
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/update_btn_group"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="70dp"
+                android:orientation="horizontal">
+
+                <RelativeLayout
+                    android:id="@+id/update_close"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:gravity="center"
+                        android:orientation="horizontal">
+
+                        <ImageView
+                            android:layout_width="18dp"
+                            android:layout_height="18dp"
+                            android:layout_marginRight="10dp"
+                            android:src="@mipmap/dialog_update_close" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:gravity="center"
+                            android:text="残忍拒绝"
+                            android:textColor="#999999"
+                            android:textSize="15sp" />
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="1px"
+                        android:layout_height="match_parent"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="1px"
+                        android:background="#ECECEC" />
+                </RelativeLayout>
+
+                <LinearLayout
+                    android:id="@+id/update_ok"
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center">
+
+                    <TextView
+                        android:layout_width="110dp"
+                        android:layout_height="40dp"
+                        android:background="@mipmap/dialog_update_ok"
+                        android:gravity="center"
+                        android:paddingBottom="4dp"
+                        android:text="立即升级"
+                        android:textColor="#FFFFFF"
+                        android:textSize="15sp" />
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </RelativeLayout>
+</RelativeLayout>
+
