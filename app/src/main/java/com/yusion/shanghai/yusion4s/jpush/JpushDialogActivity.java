@@ -14,6 +14,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class JpushDialogActivity extends BaseActivity {
+
+
     private String username = null;
     private String mobile = null;
     private String title = null;
