@@ -440,20 +440,28 @@ public class UploadListActivity extends BaseActivity {
             } else {
                 UploadImgItemBean item = mItems.get(position);
                 StatusImageRel statusImageRel = (StatusImageRel) holder.itemView;
-                if (isVideoPage) {
-                    if (!TextUtils.isEmpty(item.local_path)) {
-                        Glide.with(mContext).load(new File(item.local_path)).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
-                    } else {
-                        Glide.with(mContext).load(item.s_url).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
-                    }
+
+                if (!TextUtils.isEmpty(item.local_path)) {
+                    GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
                 } else {
-                    if (!TextUtils.isEmpty(item.local_path)) {
-                        GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
-                    } else {
-                        //加载缩略图也会读取流 会存在bug 所以禁止加载缩略图
-                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
-                    }
+                    GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
                 }
+//                if (isVideoPage) {
+//                    if (!TextUtils.isEmpty(item.local_path)) {
+//                        Glide.with(mContext).load(new File(item.local_path)).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
+//
+//                    } else {
+//                        Glide.with(mContext).load(item.s_url).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
+//                    }
+//                } else {
+//                    if (!TextUtils.isEmpty(item.local_path)) {
+//                        GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
+//                        GlideUtil.
+//                    } else {
+//                        //加载缩略图也会读取流 会存在bug 所以禁止加载缩略图
+//                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
+//                    }
+//                }
                 holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, position));
                 if (isEditing) {
                     statusImageRel.cbImg.setVisibility(View.VISIBLE);

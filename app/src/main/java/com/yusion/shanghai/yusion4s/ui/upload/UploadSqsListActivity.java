@@ -407,7 +407,8 @@ public class UploadSqsListActivity extends BaseActivity {
                 //Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
                 //dialog.show();
                 if (!TextUtils.isEmpty(item.local_path)) {
-                    GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
+                    GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
+
                 } else {
                     GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
                 }
