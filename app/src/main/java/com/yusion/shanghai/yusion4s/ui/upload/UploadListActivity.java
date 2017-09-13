@@ -263,12 +263,9 @@ public class UploadListActivity extends BaseActivity {
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
-
+            mEditTv.setText("编辑");
+            uploadBottomLin.setVisibility(View.GONE);
         }
-        isEditing = false;
-        adapter.setIsEditing(false);
-        mEditTv.setText("编辑");
-        uploadBottomLin.setVisibility(View.GONE);
     }
 
     private int getCurrentChooseItemCount() {
@@ -305,23 +302,21 @@ public class UploadListActivity extends BaseActivity {
 
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
-            //int account = 0;
-            hasUploadLists.clear();
+            int account = 0;
             for (UploadImgItemBean imgItemBean : toAddList) {
-//                account++;
-//                int finalAccount = account;
+                account++;
+                int finalAccount = account;
                 String suffix = isVideoPage ? ".mp4" : ".png";
                 OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), new OnItemDataCallBack<String>() {
                     @Override
                     public void onItemDataCallBack(String objectKey) {
                         imgItemBean.objectKey = objectKey;
-                        hasUploadLists.add(imgItemBean);
-                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
+                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
                     }
                 }, new OnItemDataCallBack<Throwable>() {
                     @Override
                     public void onItemDataCallBack(Throwable data) {
-                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
+                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
                     }
                 });
             }

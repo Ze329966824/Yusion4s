@@ -40,7 +40,7 @@ dependencies {
     compile files('libs/sardar.jar')
     compile(name: 'AliyunSdk-RC', ext: 'aar')
     compile 'com.android.support:appcompat-v7:25.3.1'
-    compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.github.bumptech.glide:glide:4.0.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     testCompile 'junit:junit:4.12'
 }
