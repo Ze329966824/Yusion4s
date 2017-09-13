@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
@@ -53,6 +54,8 @@ public class UploadListActivity extends BaseActivity {
     private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
+    private List<UploadImgItemBean> hasUploadLists = new ArrayList<>();
+
     private String app_id;
     private String clt_id;
     private TextView mEditTv;
@@ -437,26 +440,28 @@ public class UploadListActivity extends BaseActivity {
             } else {
                 UploadImgItemBean item = mItems.get(position);
                 StatusImageRel statusImageRel = (StatusImageRel) holder.itemView;
-//                if (isVideoPage) {
-//                    if (!TextUtils.isEmpty(item.local_path)) {
-//                        GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
-//                    } else {
-//                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
-//                    }
-//                }else {
-//                    if (!TextUtils.isEmpty(item.local_path)) {
-//                        GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
-//                    } else {
-//                        //加载缩略图也会读取流 会存在bug 所以禁止加载缩略图
-//                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
-//                    }
-//                }
+
                 if (!TextUtils.isEmpty(item.local_path)) {
                     GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
                 } else {
                     GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
                 }
-
+//                if (isVideoPage) {
+//                    if (!TextUtils.isEmpty(item.local_path)) {
+//                        Glide.with(mContext).load(new File(item.local_path)).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
+//
+//                    } else {
+//                        Glide.with(mContext).load(item.s_url).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
+//                    }
+//                } else {
+//                    if (!TextUtils.isEmpty(item.local_path)) {
+//                        GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
+//                        GlideUtil.
+//                    } else {
+//                        //加载缩略图也会读取流 会存在bug 所以禁止加载缩略图
+//                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
+//                    }
+//                }
                 holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, position));
                 if (isEditing) {
                     statusImageRel.cbImg.setVisibility(View.VISIBLE);

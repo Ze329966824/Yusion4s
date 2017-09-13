@@ -70,6 +70,9 @@ public class ConfigApi {
 //        }
 
         String agreement_url = jsonObject.optString("agreement_url");
+
+        int delayTime = jsonObject.optInt("lost_focus_delay");
+        configResp.DELAY_MILLIS = delayTime;
         configResp.agreement_url = agreement_url;
 
         JSONArray loan_periods = jsonObject.optJSONArray("loan_periods");

@@ -54,6 +54,7 @@ public class OrderItemFragment extends BaseFragment {
     private PtrClassicFrameLayout ptr;
     private LinearLayout llyt;
     private String st;
+    private RecyclerView rv;
 
     public static OrderItemFragment newInstance(String s) {
 
@@ -81,7 +82,7 @@ public class OrderItemFragment extends BaseFragment {
 //        }
         st = getArguments().getString("st");
         llyt = (LinearLayout) view.findViewById(R.id.my_order_llyt);
-        RecyclerView rv = (RecyclerView) view.findViewById(R.id.my_order_rv);
+        rv = (RecyclerView) view.findViewById(R.id.my_order_rv);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.addItemDecoration(new RecyclerViewDivider(mContext, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(getActivity(), 10), ContextCompat.getColor(getActivity(), R.color.main_bg)));
         items = new ArrayList<>();
@@ -124,15 +125,25 @@ public class OrderItemFragment extends BaseFragment {
             public void onItemDataCallBack(List<GetAppListResp> resp) {
                 if (resp != null && resp.size() > 0) {
                     ptr.setVisibility(View.VISIBLE);
+                    rv.setVisibility(View.VISIBLE);
+                    llyt.setVisibility(View.GONE);
                     items.clear();
                     items.addAll(resp);
                     adapter.notifyDataSetChanged();
                     ptr.refreshComplete();
-                } else ptr.refreshComplete();
-                //       else {//添加空的view
-////                            // llyt.setVisibility(View.VISIBLE);
-////                            //ptr.setVisibility(View.GONE);
-////                        }
+                } else {
+                    ptr.refreshComplete();
+                    rv.setVisibility(View.GONE);
+                    llyt.setVisibility(View.VISIBLE);
+                    ptr.setVisibility(View.VISIBLE);
+                    //ptr.setVisibility(View.GONE);
+
+                }
+// else ptr.refreshComplete();
+//                //       else {//添加空的view
+//////                            // llyt.setVisibility(View.VISIBLE);
+//////                            //ptr.setVisibility(View.GONE);
+//////                        }
             }
         });
     }
