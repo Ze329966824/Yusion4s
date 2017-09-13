@@ -17,10 +17,14 @@ import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.auth.UpdateResp;
+import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.UpdateUtil;
 
 import static com.yusion.shanghai.yusion4s.settings.Settings.isOnline;
 
@@ -81,7 +85,6 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 Intent intent = new Intent(SettingsActivity.this, WebViewActivity.class);
                 intent.putExtra("type", "Agreement");
 
-
                 startActivity(intent);
                 break;
 
@@ -90,11 +93,23 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 
                 break;
             case R.id.main_setting_version_name_layout:
-                PgyUpdateManager.setIsForced(true); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
-                PgyUpdateManager.register(this, null);
 
+                if (true) {
+                    //product：调用oss接口更新
+                    AuthApi.update(this, "yusion4s", new OnItemDataCallBack<UpdateResp>() {
+                        @Override
+                        public void onItemDataCallBack(UpdateResp data) {
+//                            Log.e("versionnnnn:", data.version);
+                            UpdateUtil.showUpdateDialog(SettingsActivity.this, data.change_log, false, data.download_url);
+                        }
+                    });
+                } else {
+                    //alpha：蒲公英更新
+                    PgyUpdateManager.setIsForced(false); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+                    PgyUpdateManager.register(this, null);
 //                //带回调更新
 //                initUpdateListener();
+                }
                 break;
         }
     }
