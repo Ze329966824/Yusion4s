@@ -17,9 +17,7 @@ import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.auth.UpdateResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
@@ -31,14 +29,14 @@ import static com.yusion.shanghai.yusion4s.settings.Settings.isOnline;
 public class SettingsActivity extends BaseActivity implements View.OnClickListener {
     private String desc;
     private String url;
+    private String versionCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
-
         TextView versionCodeTv = (TextView) findViewById(R.id.settings_version_code_tv);
-        String versionCode = Settings.SERVER_URL.contains("alpha") ? "测试环境" : BuildConfig.VERSION_NAME;
+        versionCode = Settings.SERVER_URL.contains("alpha") ? "测试环境" : BuildConfig.VERSION_NAME;
         versionCodeTv.setText(versionCode);
         initTitleBar(this, getResources().getString(R.string.main_setting_title));
 
@@ -84,23 +82,19 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             case R.id.main_setting_agreement_layout:
                 Intent intent = new Intent(SettingsActivity.this, WebViewActivity.class);
                 intent.putExtra("type", "Agreement");
-
                 startActivity(intent);
                 break;
-
             case R.id.main_setting_logout_layout:
                 showLogoutDialog();
-
                 break;
             case R.id.main_setting_version_name_layout:
-
                 if (true) {
                     //product：调用oss接口更新
-                    AuthApi.update(this, "yusion4s", new OnItemDataCallBack<UpdateResp>() {
-                        @Override
-                        public void onItemDataCallBack(UpdateResp data) {
-//                            Log.e("versionnnnn:", data.version);
+                    AuthApi.update(this, "yusion4s", data -> {
+                        if (!versionCode.contains(data.version)) {
                             UpdateUtil.showUpdateDialog(SettingsActivity.this, data.change_log, false, data.download_url);
+                        } else {
+                            Toast.makeText(this, "已经是最新的版本啦！", Toast.LENGTH_SHORT).show();
                         }
                     });
                 } else {

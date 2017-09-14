@@ -3,6 +3,8 @@ package com.yusion.shanghai.yusion4s;
 import android.app.Application;
 import android.text.TextUtils;
 
+import com.instabug.library.Instabug;
+import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
@@ -39,8 +41,13 @@ public class Yusion4sApp extends Application {
         PgyCrashManager.register(this);
         jpush();
         umeng();
+        instabug();
     }
-
+    private void instabug() {
+        new Instabug.Builder(this, "fac6ff642eec6bf5599d893a0a1224e3")
+                .setInvocationEvent(InstabugInvocationEvent.SHAKE)
+                .build();
+    }
     private void umeng() {
         //禁止默认的页面统计方式
         MobclickAgent.openActivityDurationTrack(false);
