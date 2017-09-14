@@ -302,21 +302,22 @@ public class UploadListActivity extends BaseActivity {
 
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
-            int account = 0;
+            //int account = 0;
             for (UploadImgItemBean imgItemBean : toAddList) {
-                account++;
-                int finalAccount = account;
+                // account++;
+                //int finalAccount = account;
                 String suffix = isVideoPage ? ".mp4" : ".png";
                 OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), new OnItemDataCallBack<String>() {
                     @Override
                     public void onItemDataCallBack(String objectKey) {
                         imgItemBean.objectKey = objectKey;
-                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
+                        hasUploadLists.add(imgItemBean);
+                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
                     }
                 }, new OnItemDataCallBack<Throwable>() {
                     @Override
                     public void onItemDataCallBack(Throwable data) {
-                        onUploadOssFinish(finalAccount, files, dialog, toAddList);
+                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
                     }
                 });
             }
