@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -18,6 +19,7 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.UpdateUtil;
 
 import java.util.Date;
 
@@ -45,6 +47,14 @@ public class LaunchActivity extends BaseActivity {
 
         Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
 
+        if (Settings.isOnline) {
+            checkVersion();
+        } else {
+            checkServerUrl();
+        }
+    }
+
+    private void checkServerUrl() {
         if (!isOnline) {
             String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
             if (!TextUtils.isEmpty(str)) {
@@ -67,7 +77,17 @@ public class LaunchActivity extends BaseActivity {
         } else {
             getConfigJson();
         }
+    }
 
+    private void checkVersion() {
+        String versionCode =  BuildConfig.VERSION_NAME;
+        AuthApi.update(this, "yusion4s", data -> {
+            if (!versionCode.contains(data.version)) {
+                UpdateUtil.showUpdateDialog(LaunchActivity.this, data.change_log, true, data.download_url);
+            }else {
+                getConfigJson();
+            }
+        });
     }
 
 
