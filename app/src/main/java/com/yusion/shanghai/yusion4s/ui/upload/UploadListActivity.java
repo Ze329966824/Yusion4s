@@ -263,9 +263,12 @@ public class UploadListActivity extends BaseActivity {
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
-            mEditTv.setText("编辑");
-            uploadBottomLin.setVisibility(View.GONE);
+
         }
+        isEditing = false;
+        adapter.setIsEditing(false);
+        mEditTv.setText("编辑");
+        uploadBottomLin.setVisibility(View.GONE);
     }
 
     private int getCurrentChooseItemCount() {
