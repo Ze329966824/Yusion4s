@@ -100,18 +100,18 @@
                     android:layout_marginTop="25dp"
                     android:gravity="center_horizontal"
                     android:text="还没有申请"
-                    android:textColor="#3A3631"
+                    android:textColor="#999999"
                     android:textSize="17.5sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"
-                    android:text="马上去创建申请吧"
-                    android:textColor="#999999"
-                    android:textSize="13.5sp"
-                    android:visibility="visible" />
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:text="马上去创建申请吧"-->
+                <!--android:textColor="#999999"-->
+                <!--android:textSize="13.5sp"-->
+                <!--android:visibility="visible" />-->
 
                 <!--<Button-->
                 <!--android:id="@+id/my_order_apply"-->

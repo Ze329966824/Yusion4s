@@ -9,6 +9,7 @@ import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListLabelsErrorReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListLabelsErrorResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
+import com.yusion.shanghai.yusion4s.bean.upload.UploadLogReq;
 
 import java.util.List;
 
@@ -43,4 +44,7 @@ public interface UploadService {
 
     @POST("/api/material/del_yc_client_material/")
     Call<BaseResult> delImgs(@Body DelImgsReq req);
+
+    @POST("/api/material/upload_yc_client_material_log/")
+    Call<BaseResult> uploadLog(@Body UploadLogReq req);
 }

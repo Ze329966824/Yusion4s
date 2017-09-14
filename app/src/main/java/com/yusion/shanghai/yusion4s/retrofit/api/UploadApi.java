@@ -2,7 +2,9 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.webkit.WebView;
 
+import com.instabug.library.model.State;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
@@ -10,6 +12,7 @@ import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListLabelsErrorReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListLabelsErrorResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
+import com.yusion.shanghai.yusion4s.bean.upload.UploadLogReq;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCodeAndMsgCallBack;
@@ -87,4 +90,14 @@ public class UploadApi {
             }
         });
     }
+
+    public static void uploadLog(final Context context, UploadLogReq req, OnCodeAndMsgCallBack onCodeAndMsgCallBack) {
+        Api.getUploadService().uploadLog(req).enqueue(new CustomCodeAndMsgCallBack(context) {
+            @Override
+            public void onCustomResponse(int code, String msg) {
+                onCodeAndMsgCallBack.callBack(code, msg);
+            }
+        });
+    }
+
 }
