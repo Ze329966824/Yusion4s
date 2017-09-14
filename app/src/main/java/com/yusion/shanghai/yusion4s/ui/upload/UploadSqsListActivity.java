@@ -93,6 +93,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     mEditTv.setText("取消");
                     uploadBottomLin.setVisibility(View.VISIBLE);
 
+                    uploadTv1.setText("全选");
                     uploadTv2.setText("删除");
                     uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
                 }

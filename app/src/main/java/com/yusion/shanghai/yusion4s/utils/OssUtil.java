@@ -64,12 +64,12 @@ public class OssUtil {
                 SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
                 SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
 
-                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-                    @Override
-                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
-                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
-                    }
-                });
+//                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+//                    @Override
+//                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+//                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+//                    }
+//                });
                 oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
                     @Override
                     public void onSuccess(PutObjectRequest request, PutObjectResult result) {
