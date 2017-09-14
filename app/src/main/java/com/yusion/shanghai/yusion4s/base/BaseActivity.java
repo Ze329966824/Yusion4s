@@ -7,7 +7,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
 import com.pgyersdk.crash.PgyCrashManager;
-import com.pgyersdk.feedback.PgyFeedbackShakeManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -57,15 +56,15 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPostResume() {
         super.onPostResume();
         // 自定义摇一摇的灵敏度，默认为950，数值越小灵敏度越高。
-        PgyFeedbackShakeManager.setShakingThreshold(1000);
+//        PgyFeedbackShakeManager.setShakingThreshold(1000);
         // 以对话框的形式弹出
-        PgyFeedbackShakeManager.register(this);
+//        PgyFeedbackShakeManager.register(this);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        PgyFeedbackShakeManager.unregister();
+//        PgyFeedbackShakeManager.unregister();
         MobclickAgent.onPause(this);
     }
 
