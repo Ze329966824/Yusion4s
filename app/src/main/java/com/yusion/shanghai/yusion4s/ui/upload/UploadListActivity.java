@@ -208,7 +208,7 @@ public class UploadListActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(item.local_path)) {
                             imgUrl = item.local_path;
                         } else {
-                            imgUrl = item.s_url;
+                            imgUrl = item.raw_url;
                         }
                         previewImg(findViewById(R.id.preview_anchor), imgUrl);
                     }
