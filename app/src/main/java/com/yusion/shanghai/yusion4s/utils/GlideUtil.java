@@ -2,7 +2,6 @@ package com.yusion.shanghai.yusion4s.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -36,7 +35,6 @@ public class GlideUtil {
                     progressPro.setVisibility(View.GONE);
                 }
                 progressPro.setProgress(percent);
-                Log.e("TAG", "onProgress() called with: percent = [" + percent + "], isDone = [" + isDone + "], exception = [" + exception + "]");
             }
         });
     }
@@ -52,7 +50,6 @@ public class GlideUtil {
                 if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
                     Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                Log.e("TAG", "onProgress() called with: percent = [" + percent + "], isDone = [" + isDone + "], exception = [" + exception + "]");
             }
         });
     }
