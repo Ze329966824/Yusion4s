@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
@@ -213,6 +215,14 @@ public class UploadSqsListActivity extends BaseActivity {
                         uploadTv2.setText("删除");
                         uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
                     }
+                } else {
+                    String imgUrl;
+                    if (!TextUtils.isEmpty(item.local_path)) {
+                        imgUrl = item.local_path;
+                    } else {
+                        imgUrl = item.raw_url;
+                    }
+                    previewImg(findViewById(R.id.preview_anchor), imgUrl);
                 }
             }
 
@@ -223,6 +233,13 @@ public class UploadSqsListActivity extends BaseActivity {
                 startActivityForResult(i, 100);
             }
         });
+    }
+
+    private void previewImg(View previewAnchor, String imgUrl) {
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("PreviewImg", imgUrl);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
+        ActivityCompat.startActivity(this, intent, compat.toBundle());
     }
 
     private void initData() {

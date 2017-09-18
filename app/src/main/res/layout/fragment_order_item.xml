@@ -1,58 +1,58 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/bg_color"
     android:orientation="vertical">
 
-    <LinearLayout
-        android:id="@+id/my_order_llyt1"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginTop="80dp"
-        android:orientation="vertical"
-        android:visibility="gone">
+    <!--<LinearLayout-->
+    <!--android:id="@+id/my_order_llyt1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="match_parent"-->
+    <!--android:layout_marginTop="80dp"-->
+    <!--android:orientation="vertical"-->
+    <!--android:visibility="gone">-->
 
-        <ImageView
-            android:id="@+id/imageView1"
-            android:layout_width="match_parent"
-            android:layout_height="82dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="20dp"
-            android:src="@mipmap/icon_noapply" />
+    <!--<ImageView-->
+    <!--android:id="@+id/imageView1"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="82dp"-->
+    <!--android:layout_gravity="center_vertical"-->
+    <!--android:layout_marginLeft="20dp"-->
+    <!--android:src="@mipmap/icon_noapply" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="25dp"
-            android:gravity="center_horizontal"
-            android:text="还没有申请"
-            android:textColor="#3A3631"
-            android:textSize="17.5sp" />
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="25dp"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:text="还没有申请"-->
+    <!--android:textColor="#3A3631"-->
+    <!--android:textSize="17.5sp" />-->
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="5dp"
-            android:gravity="center_horizontal"
-            android:text="马上去创建申请吧"
-            android:textColor="#999999"
-            android:textSize="13.5sp"
-            android:visibility="visible" />
+    <!--<TextView-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginTop="5dp"-->
+    <!--android:gravity="center_horizontal"-->
+    <!--android:text="马上去创建申请吧"-->
+    <!--android:textColor="#999999"-->
+    <!--android:textSize="13.5sp"-->
+    <!--android:visibility="visible" />-->
 
-        <!--<Button-->
-        <!--android:id="@+id/my_order_apply"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_gravity="center_horizontal"-->
-        <!--android:layout_marginTop="18dp"-->
-        <!--android:background="@drawable/btn_style"-->
-        <!--android:paddingLeft="52dp"-->
-        <!--android:paddingRight="52dp"-->
-        <!--android:text="去申请"-->
-        <!--android:textColor="#06B7A3"-->
-        <!--android:textSize="17.5sp"-->
-        <!--android:visibility="gone" />-->
-    </LinearLayout>
+    <!--&lt;!&ndash;<Button&ndash;&gt;-->
+    <!--&lt;!&ndash;android:id="@+id/my_order_apply"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_width="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_height="wrap_content"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_gravity="center_horizontal"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:layout_marginTop="18dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:background="@drawable/btn_style"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:paddingLeft="52dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:paddingRight="52dp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:text="去申请"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:textColor="#06B7A3"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:textSize="17.5sp"&ndash;&gt;-->
+    <!--&lt;!&ndash;android:visibility="gone" />&ndash;&gt;-->
+    <!--</LinearLayout>-->
 
     <com.chanven.lib.cptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/my_order_ptr"
@@ -100,18 +100,18 @@
                     android:layout_marginTop="25dp"
                     android:gravity="center_horizontal"
                     android:text="还没有申请"
-                    android:textColor="#3A3631"
+                    android:textColor="#999999"
                     android:textSize="17.5sp" />
 
-                <TextView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:gravity="center_horizontal"
-                    android:text="马上去创建申请吧"
-                    android:textColor="#999999"
-                    android:textSize="13.5sp"
-                    android:visibility="visible" />
+                <!--<TextView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="5dp"-->
+                <!--android:gravity="center_horizontal"-->
+                <!--android:text="马上去创建申请吧"-->
+                <!--android:textColor="#999999"-->
+                <!--android:textSize="13.5sp"-->
+                <!--android:visibility="visible" />-->
 
                 <!--<Button-->
                 <!--android:id="@+id/my_order_apply"-->
@@ -130,5 +130,4 @@
         </LinearLayout>
     </com.chanven.lib.cptr.PtrClassicFrameLayout>
 
-
-</FrameLayout>
+</LinearLayout>

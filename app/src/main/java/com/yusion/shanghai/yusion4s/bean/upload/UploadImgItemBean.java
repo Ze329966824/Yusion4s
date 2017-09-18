@@ -25,6 +25,7 @@ public class UploadImgItemBean implements Serializable {
     public String s_url;
     public boolean hasChoose;
     public String id;
+    public String raw_url;
 
     @Override
     public String toString() {

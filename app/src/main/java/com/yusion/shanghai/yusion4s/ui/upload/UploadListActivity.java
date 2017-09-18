@@ -208,7 +208,7 @@ public class UploadListActivity extends BaseActivity {
                         if (!TextUtils.isEmpty(item.local_path)) {
                             imgUrl = item.local_path;
                         } else {
-                            imgUrl = item.s_url;
+                            imgUrl = item.raw_url;
                         }
                         previewImg(findViewById(R.id.preview_anchor), imgUrl);
                     }
@@ -262,9 +262,12 @@ public class UploadListActivity extends BaseActivity {
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
-            mEditTv.setText("编辑");
-            uploadBottomLin.setVisibility(View.GONE);
+
         }
+        isEditing = false;
+        adapter.setIsEditing(false);
+        mEditTv.setText("编辑");
+        uploadBottomLin.setVisibility(View.GONE);
     }
 
     private int getCurrentChooseItemCount() {

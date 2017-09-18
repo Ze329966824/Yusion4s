@@ -95,6 +95,12 @@ public class OrderItemFragment extends BaseFragment {
             public void onRefreshBegin(PtrFrameLayout frame) {
                 refresh();
             }
+
+            //改掉RecyclerView 吃 item 问题。
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return PtrDefaultHandler.checkContentCanBePulledDown(frame, rv, header);
+            }
         });
 
 //        ptr.setLoadMoreEnable(true);
@@ -124,6 +130,7 @@ public class OrderItemFragment extends BaseFragment {
             @Override
             public void onItemDataCallBack(List<GetAppListResp> resp) {
                 if (resp != null && resp.size() > 0) {
+
                     ptr.setVisibility(View.VISIBLE);
                     rv.setVisibility(View.VISIBLE);
                     llyt.setVisibility(View.GONE);
