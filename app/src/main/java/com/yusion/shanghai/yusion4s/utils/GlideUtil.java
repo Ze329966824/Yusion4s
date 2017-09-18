@@ -30,13 +30,12 @@ public class GlideUtil {
                     Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 DonutProgress progressPro = statusImageRel.getProgressPro();
-                if (percent == 0) {
+                if (!isDone) {
                     progressPro.setVisibility(View.VISIBLE);
-                }
-                progressPro.setProgress(percent);
-                if (percent == 100) {
+                }else {
                     progressPro.setVisibility(View.GONE);
                 }
+                progressPro.setProgress(percent);
                 Log.e("TAG", "onProgress() called with: percent = [" + percent + "], isDone = [" + isDone + "], exception = [" + exception + "]");
             }
         });
