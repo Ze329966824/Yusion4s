@@ -36,7 +36,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_settings);
         TextView versionCodeTv = (TextView) findViewById(R.id.settings_version_code_tv);
-        versionCode = Settings.SERVER_URL.contains("alpha") ? "测试环境" : BuildConfig.VERSION_NAME;
+        versionCode = Settings.isOnline == false ? "测试环境" : BuildConfig.VERSION_NAME;
         versionCodeTv.setText(versionCode);
         initTitleBar(this, getResources().getString(R.string.main_setting_title));
 
@@ -88,12 +88,16 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 showLogoutDialog();
                 break;
             case R.id.main_setting_version_name_layout:
-                if (true) {
+                if (Settings.isOnline) {
                     //product：调用oss接口更新
                     AuthApi.update(this, "yusion4s", data -> {
-                        if (!versionCode.contains(data.version)) {
-                            UpdateUtil.showUpdateDialog(SettingsActivity.this, data.change_log, false, data.download_url);
-                        } else {
+                        if (data != null) {
+                            if (!versionCode.contains(data.version)) {
+                                UpdateUtil.showUpdateDialog(SettingsActivity.this, data.change_log, false, data.download_url);
+                            } else {
+                                Toast.makeText(this, "已经是最新的版本啦！", Toast.LENGTH_SHORT).show();
+                            }
+                        }else {
                             Toast.makeText(this, "已经是最新的版本啦！", Toast.LENGTH_SHORT).show();
                         }
                     });
