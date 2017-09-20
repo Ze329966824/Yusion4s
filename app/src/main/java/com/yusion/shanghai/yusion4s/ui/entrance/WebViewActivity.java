@@ -41,6 +41,14 @@ public class WebViewActivity extends BaseActivity {
             initTitleBar(this, "用户协议");
             webView.loadUrl(Yusion4sApp.CONFIG_RESP.agreement_url);
         }
+        if (type.equals("homepage")){
+            initTitleBar(this,"关于予见汽车");
+            webView.loadUrl("http://www.yusiontech.com/");
+        }
+        if (type.equals("contract")){
+            initTitleBar(this,"合同规范模板");
+            webView.loadUrl(Yusion4sApp.CONFIG_RESP.contract_list_url);
+        }
 
 
     }

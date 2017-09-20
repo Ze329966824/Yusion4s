@@ -173,7 +173,7 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@mipmap/helper"/>
+                android:src="@mipmap/helper" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -198,6 +198,7 @@
         <include layout="@layout/include_line" />
 
         <LinearLayout
+
             android:id="@+id/mine_fragment_about_tv"
             android:layout_width="match_parent"
             android:layout_height="55dp"
