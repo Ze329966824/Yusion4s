@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -431,7 +430,8 @@ public class UploadListActivity extends BaseActivity {
             if (viewType == TYPE_ADD_IMG) {
                 view = mLayoutInflater.inflate(R.layout.upload_list_add_img_item, parent, false);
             } else if (viewType == TYPE_IMG) {
-                view = new StatusImageRel(mContext);
+//                view = new StatusImageRel(mContext);
+                view = mLayoutInflater.inflate(R.layout.upload_list_img_item, parent, false);
             }
             return new VH(view);
         }
@@ -490,13 +490,8 @@ public class UploadListActivity extends BaseActivity {
         }
 
         protected class VH extends RecyclerView.ViewHolder {
-            public ImageView img;
-            public ImageView cbImg;
-
             public VH(View itemView) {
                 super(itemView);
-                img = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_img));
-                cbImg = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_cb_img));
             }
         }
 

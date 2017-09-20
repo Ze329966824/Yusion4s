@@ -13,7 +13,6 @@ import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -199,7 +198,7 @@ public class UploadSqsListActivity extends BaseActivity {
         rv.setAdapter(adapter);
         adapter.setOnItemClick(new RvAdapter.OnItemClick() {
             @Override
-            public void onItemClick(View v, UploadImgItemBean item, ImageView cbImg) {
+            public void onItemClick(View v, UploadImgItemBean item) {
                 if (isEditing) {
                     if (item.hasChoose) {
                         item.hasChoose = false;
@@ -344,38 +343,6 @@ public class UploadSqsListActivity extends BaseActivity {
         }
     }
 
-//    private Dialog mUploadFileDialog;
-//    public void uploadImgs(String clt_id, List<UploadImgItemBean> imgList) {
-//        uploadFileUrlList = new ArrayList<>();
-//        for (UploadImgItemBean imgItemBean : imgList) {
-//            UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-//            fileUrlBean.clt_id = clt_id;
-//            fileUrlBean.file_id = imgItemBean.objectKey;
-//            fileUrlBean.label = imgItemBean.type;
-//            uploadFileUrlList.add(fileUrlBean);
-//
-//        }
-//        if (mUploadFileDialog == null) {
-//            mUploadFileDialog = LoadingUtils.createLoadingDialog(this);
-//            mUploadFileDialog.setCancelable(false);
-//        }
-//        mUploadFileDialog.show();
-//        UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-//        uploadFilesUrlReq.files = uploadFileUrlList;
-//        uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(this).getValue("region", "");
-//        uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(this).getValue("bucket", "");
-//        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, new OnItemDataCallBack<List<String>>() {
-//            @Override
-//            public void onItemDataCallBack(List<String> data) {
-//                for (int i = 0; i < imgList.size(); i++) {
-//                    imgList.get(i).id = data.get(i);
-//                }
-//                mUploadFileDialog.dismiss();
-//                Toast.makeText(UploadSqsListActivity.this, "上传照片成功", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//    }
-
     @Override
     public void onBackPressed() {
         onBack();
@@ -409,8 +376,8 @@ public class UploadSqsListActivity extends BaseActivity {
             if (viewType == TYPE_ADD_IMG) {
                 view = mLayoutInflater.inflate(R.layout.upload_list_add_img_item, parent, false);
             } else if (viewType == TYPE_IMG) {
-                //view = mLayoutInflater.inflate(R.layout.upload_list_img_item, parent, false);
-                view = new StatusImageRel(mContext);
+                view = mLayoutInflater.inflate(R.layout.upload_list_img_item, parent, false);
+//                view = new StatusImageRel(mContext);
             }
             return new VH(view);
         }
@@ -422,15 +389,13 @@ public class UploadSqsListActivity extends BaseActivity {
             } else {
                 UploadImgItemBean item = mItems.get(position);
                 StatusImageRel statusImageRel = (StatusImageRel) holder.itemView;
-                //Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
-                //dialog.show();
                 if (!TextUtils.isEmpty(item.local_path)) {
                     GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
 
                 } else {
                     GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
                 }
-                holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, holder.cbImg));
+                holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item));
                 if (isEditing) {
                     statusImageRel.cbImg.setVisibility(View.VISIBLE);
                     if (item.hasChoose) {
@@ -454,28 +419,6 @@ public class UploadSqsListActivity extends BaseActivity {
             notifyDataSetChanged();
         }
 
-//        private class GlideRequestListener implements RequestListener<Drawable> {
-//            private Dialog dialog;
-//
-//            public GlideRequestListener(Dialog dialog) {
-//                this.dialog = dialog;
-//            }
-//
-//            @Override
-//            public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
-//                Toast.makeText(mContext, "图片加载失败", Toast.LENGTH_SHORT).show();
-//                dialog.dismiss();
-//                return false;
-//            }
-//
-//            @Override
-//            public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
-//                dialog.dismiss();
-//                return false;
-//            }
-//        }
-
-
         @Override
         public int getItemViewType(int position) {
             return position == mItems.size() ? TYPE_ADD_IMG : TYPE_IMG;
@@ -488,18 +431,14 @@ public class UploadSqsListActivity extends BaseActivity {
         }
 
         protected class VH extends RecyclerView.ViewHolder {
-            public ImageView img;
-            public ImageView cbImg;
 
             public VH(View itemView) {
                 super(itemView);
-                img = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_img));
-                cbImg = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_cb_img));
             }
         }
 
         public interface OnItemClick {
-            void onItemClick(View v, UploadImgItemBean item, ImageView cbImg);
+            void onItemClick(View v, UploadImgItemBean item);
 
             void onFooterClick(View v);
         }

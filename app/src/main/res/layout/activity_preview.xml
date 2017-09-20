@@ -7,9 +7,9 @@
     android:orientation="vertical"
     android:transitionName="shareNames">
 
-    <ImageView
+
+    <com.yusion.shanghai.yusion4s.glide.StatusImageRel
         android:id="@+id/image_preview"
-        style="Transparent"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -21,7 +21,7 @@ import java.io.File;
 public class GlideUtil {
 
     public static void loadImg(Context context, StatusImageRel statusImageRel, String url) {
-        RequestOptions requestOptions = statusImageRel.getSourceImg().requestOptions(R.mipmap.place_holder_img).centerCrop();
+        RequestOptions requestOptions = statusImageRel.getSourceImg().requestOptions(R.mipmap.place_holder_img);
         statusImageRel.getSourceImg().load(url, requestOptions).listener(new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
