@@ -70,8 +70,7 @@ public class LaunchActivity extends BaseActivity {
                             getConfigJson();
                             dialog.dismiss();
                         }).show();
-            }
-            else {
+            } else {
                 getConfigJson();
             }
         } else {
@@ -80,11 +79,15 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void checkVersion() {
-        String versionCode =  BuildConfig.VERSION_NAME;
+        String versionCode = BuildConfig.VERSION_NAME;
         AuthApi.update(this, "yusion4s", data -> {
-            if (!versionCode.contains(data.version)) {
-                UpdateUtil.showUpdateDialog(LaunchActivity.this, data.change_log, true, data.download_url);
-            }else {
+            if (data != null) {
+                if (!versionCode.contains(data.version)) {
+                    UpdateUtil.showUpdateDialog(LaunchActivity.this, data.change_log, true, data.download_url);
+                } else {
+                    getConfigJson();
+                }
+            } else {
                 getConfigJson();
             }
         });
