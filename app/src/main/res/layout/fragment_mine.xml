@@ -161,6 +161,81 @@
         <include layout="@layout/include_line" />
 
         <LinearLayout
+            android:id="@+id/mine_fragment_helper_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#fff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@mipmap/helper"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="小助手"
+                android:textColor="@color/text_normal"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/right_arrow" />
+        </LinearLayout>
+
+        <include layout="@layout/include_line" />
+
+        <LinearLayout
+            android:id="@+id/mine_fragment_about_tv"
+            android:layout_width="match_parent"
+            android:layout_height="55dp"
+            android:background="#fff"
+            android:gravity="center_vertical"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/about" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:text="关于予见汽车"
+                android:textColor="@color/text_normal"
+                android:textSize="16sp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@android:color/transparent"
+                android:src="@mipmap/right_arrow" />
+        </LinearLayout>
+
+        <include layout="@layout/include_line" />
+
+        <LinearLayout
             android:id="@+id/mine_fragment_setting_tv"
             android:layout_width="match_parent"
             android:layout_height="55dp"

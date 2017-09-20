@@ -9,6 +9,7 @@ import java.util.List;
 
 public class ConfigResp {
     public String agreement_url = "";
+    public String contract_list_url = "";
     public int DELAY_MILLIS = 0;
     public List<String> loan_periods_key = new ArrayList<>();
     public List<String> loan_periods_value = new ArrayList<>();
