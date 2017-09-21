@@ -24,6 +24,10 @@ public class YusionReceiver extends BroadcastReceiver {
             String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
             if (TextUtils.isEmpty(string)) {
                 return;
+            }else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
+                int notificationID = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
+                String content = bundle.getString(JPushInterface.EXTRA_ALERT);
+                JPushInterface.clearNotificationById(context, notificationID);
             }
             Log.e("EXTRA_EXTRA",string);
             Sentry.capture(string);

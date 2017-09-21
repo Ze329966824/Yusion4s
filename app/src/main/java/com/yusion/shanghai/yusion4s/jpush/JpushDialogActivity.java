@@ -67,19 +67,23 @@ public class JpushDialogActivity extends BaseActivity {
     private void JpushDialog() {
         switch (category) {
             case "login":
-                if (Yusion4sApp.isLogin || username.equals(Yusion4sApp.ACCOUNT)) {
-                    new AlertDialog.Builder(JpushDialogActivity.this)
-                            .setCancelable(false)
-                            .setMessage(content)
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
-                                    myApp.clearUserData();
-                                    finish();
-                                }
-                            })
-                            .show();
+                if (Yusion4sApp.isLogin) {
+                    if (username.equals(Yusion4sApp.ACCOUNT)) {
+                        new AlertDialog.Builder(JpushDialogActivity.this)
+                                .setCancelable(false)
+                                .setMessage(content)
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
+                                        myApp.clearUserData();
+                                        finish();
+                                    }
+                                })
+                                .show();
+                    } else {
+                        finish();
+                    }
                 } else {
                     finish();
                 }
