@@ -85,13 +85,20 @@ public class JpushDialogActivity extends BaseActivity {
                 }
                 break;
 
-//            case "2":
-//
-//                break;
-//
-//            case "3":
-//
-//                break;
+            case "application":
+
+                new AlertDialog.Builder(JpushDialogActivity.this)
+                        .setCancelable(false)
+                        .setTitle(title)
+                        .setMessage("app_st=" + app_st + "\n" + content)
+                        .setNeutralButton("知道啦", (dialog, which) -> {
+                            dialog.dismiss();
+                            finish();
+                        })
+                        .show();
+                break;
+
+
             default:
                 new AlertDialog.Builder(JpushDialogActivity.this)
                         .setTitle(title)
@@ -100,7 +107,8 @@ public class JpushDialogActivity extends BaseActivity {
                         .setPositiveButton("知道啦", (dialog, which) -> {
                             dialog.dismiss();
                             finish();
-                        });
+                        })
+                        .show();
                 break;
         }
 
