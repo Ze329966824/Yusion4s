@@ -92,16 +92,16 @@ public class JpushDialogActivity extends BaseActivity {
 //            case "3":
 //
 //                break;
-//            default:
-//                new AlertDialog.Builder(JpushDialogActivity.this)
-//                        .setTitle(title)
-//                        .setMessage(content)
-//                        .setCancelable(false)
-//                        .setPositiveButton("知道啦", (dialog, which) -> {
-//                            dialog.dismiss();
-//                            finish();
-//                        });
-//                break;
+            default:
+                new AlertDialog.Builder(JpushDialogActivity.this)
+                        .setTitle(title)
+                        .setMessage(content)
+                        .setCancelable(false)
+                        .setPositiveButton("知道啦", (dialog, which) -> {
+                            dialog.dismiss();
+                            finish();
+                        });
+                break;
         }
 
 //        Toast.makeText(myApp, stringExtra, Toast.LENGTH_SHORT).show();
