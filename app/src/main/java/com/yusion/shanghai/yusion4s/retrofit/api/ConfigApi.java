@@ -10,7 +10,6 @@ import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomResponseBodyCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnDataCallBack;
-import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
@@ -55,25 +54,12 @@ public class ConfigApi {
 
     private static ConfigResp parseJsonObject2ConfigResp(Context context, JSONObject jsonObject) throws JSONException {
         ConfigResp configResp = new ConfigResp();
-
-//        JSONArray employee_position_list = jsonObject.getJSONArray("employee_position");
-//        for (int i = 0; i < employee_position_list.length(); i++) {
-//            JSONObject o = employee_position_list.getJSONObject(i);
-//            String next = o.keys().next();
-//            configResp.regist_job_list_key.add(next);
-//            configResp.regist_job_list_value.add(o.getString(next));
-//        }
-//
-//        JSONArray loan_periods_list = jsonObject.getJSONArray("loan_periods");
-//        for (int i = 0; i < loan_periods_list.length(); i++) {
-//            configResp.loan_periods_list.add(loan_periods_list.getInt(i));
-//        }
-
         String agreement_url = jsonObject.optString("agreement_url");
-
+        String contract_list_url = jsonObject.optString("contract_list_url");
         int delayTime = jsonObject.optInt("lost_focus_delay");
         configResp.DELAY_MILLIS = delayTime;
         configResp.agreement_url = agreement_url;
+        configResp.contract_list_url = contract_list_url;
 
         JSONArray loan_periods = jsonObject.optJSONArray("loan_periods");
         for (int i = 0; loan_periods != null && i < loan_periods.length(); i++) {

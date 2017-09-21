@@ -1,6 +1,6 @@
 package com.yusion.shanghai.yusion4s;
 
-import android.app.Application;
+import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
 
 import com.instabug.library.Instabug;
@@ -19,7 +19,7 @@ import io.sentry.android.AndroidSentryClientFactory;
  * Created by ice on 2017/8/9.
  */
 
-public class Yusion4sApp extends Application {
+public class Yusion4sApp extends MultiDexApplication {
     private static Yusion4sApp myApplication = null;
     public static String TOKEN;
     public static String ACCOUNT;

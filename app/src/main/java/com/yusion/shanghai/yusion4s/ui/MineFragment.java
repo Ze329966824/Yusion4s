@@ -15,6 +15,8 @@ import android.widget.TextView;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
+import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.HelperActivity;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 
 /**
@@ -22,9 +24,11 @@ import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
  */
 public class MineFragment extends BaseFragment implements View.OnClickListener {
 
-//    private LinearLayout mFragmentCalculatorTvRelativeLayout;
+    //    private LinearLayout mFragmentCalculatorTvRelativeLayout;
     private LinearLayout mFragmentSettingTvRelativeLayout;
-//    private LinearLayout mFragmentEmployeeTvTextView;
+    private LinearLayout mine_fragment_helper_tv;
+    private LinearLayout mine_fragment_about_tv;
+    //    private LinearLayout mFragmentEmployeeTvTextView;
     private TextView mName;
     private TextView mMobile;
     private ImageView mRole;
@@ -41,6 +45,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_mine, container, false);
     }
+
     public static MineFragment newInstance() {
 
         Bundle args = new Bundle();
@@ -66,6 +71,12 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         mName = ((TextView) view.findViewById(R.id.mine_name_tv));
         mMobile = ((TextView) view.findViewById(R.id.mine_mobile_tv));
         mRole = ((ImageView) view.findViewById(R.id.mine_role_img));
+        mine_fragment_about_tv = ((LinearLayout) view.findViewById(R.id.mine_fragment_about_tv));
+        mine_fragment_about_tv.setOnClickListener(this);
+
+        mine_fragment_helper_tv = (LinearLayout) view.findViewById(R.id.mine_fragment_helper_tv);
+        mine_fragment_helper_tv.setOnClickListener(this);
+
     }
 
     @Override
@@ -85,10 +96,20 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
                 Intent intent3 = new Intent(getActivity(), SettingsActivity.class);
                 startActivity(intent3);
                 break;
+            case R.id.mine_fragment_helper_tv:
+                Intent intent1 = new Intent(getActivity(), HelperActivity.class);
+                startActivity(intent1);
+                break;
+
+            case R.id.mine_fragment_about_tv:
+                Intent intent2 = new Intent(getActivity(), WebViewActivity.class);
+                intent2.putExtra("type", "homepage");
+                startActivity(intent2);
+                break;
         }
     }
 
-//
+    //
 //    @Override
 //    public void onClick(View v) {
 //        switch (v.getId()) {

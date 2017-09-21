@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -198,7 +197,7 @@ public class UploadListActivity extends BaseActivity {
                         if (TextUtils.isEmpty(item.s_url)) {
                             uri = Uri.parse(item.local_path);
                         } else {
-                            uri = Uri.parse(item.s_url);
+                            uri = Uri.parse(item.raw_url);
                         }
                         Log.e("TAG", "onItemClick: " + uri.toString());
                         it.setDataAndType(uri, "video/mp4");
@@ -431,7 +430,8 @@ public class UploadListActivity extends BaseActivity {
             if (viewType == TYPE_ADD_IMG) {
                 view = mLayoutInflater.inflate(R.layout.upload_list_add_img_item, parent, false);
             } else if (viewType == TYPE_IMG) {
-                view = new StatusImageRel(mContext);
+//                view = new StatusImageRel(mContext);
+                view = mLayoutInflater.inflate(R.layout.upload_list_img_item, parent, false);
             }
             return new VH(view);
         }
@@ -447,24 +447,12 @@ public class UploadListActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(item.local_path)) {
                     GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
                 } else {
-                    GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
+                    if (isVideoPage) {
+                        GlideUtil.loadImg(mContext, statusImageRel, item.raw_url);
+                    }else {
+                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
+                    }
                 }
-//                if (isVideoPage) {
-//                    if (!TextUtils.isEmpty(item.local_path)) {
-//                        Glide.with(mContext).load(new File(item.local_path)).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
-//
-//                    } else {
-//                        Glide.with(mContext).load(item.s_url).placeholder(R.mipmap.place_holder_img).into(statusImageRel.sourceImg);
-//                    }
-//                } else {
-//                    if (!TextUtils.isEmpty(item.local_path)) {
-//                        GlideUtil.loadImg(mContext, statusImageRel, new File(item.local_path));
-//                        GlideUtil.
-//                    } else {
-//                        //加载缩略图也会读取流 会存在bug 所以禁止加载缩略图
-//                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
-//                    }
-//                }
                 holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, position));
                 if (isEditing) {
                     statusImageRel.cbImg.setVisibility(View.VISIBLE);
@@ -502,13 +490,8 @@ public class UploadListActivity extends BaseActivity {
         }
 
         protected class VH extends RecyclerView.ViewHolder {
-            public ImageView img;
-            public ImageView cbImg;
-
             public VH(View itemView) {
                 super(itemView);
-                img = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_img));
-                cbImg = ((ImageView) itemView.findViewById(R.id.upload_list_img_item_cb_img));
             }
         }
 

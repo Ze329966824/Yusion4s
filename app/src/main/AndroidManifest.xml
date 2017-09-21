@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yusion.shanghai.yusion4s">
+    package="com.yusion.shanghai.yusion4s"> <!-- umeng -->
+    <uses-sdk android:minSdkVersion="8" />
 
-    <!--umeng-->
-    <uses-sdk android:minSdkVersion="8"></uses-sdk>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
 
     <!-- Jpush -->
     <permission
@@ -55,6 +54,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
@@ -214,8 +214,17 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
-        <meta-data android:value="59b677d4aed179296b001125" android:name="UMENG_APPKEY"/>
-        <meta-data android:value="Yusion4s" android:name="UMENG_CHANNEL"/>
+        <meta-data
+            android:name="UMENG_APPKEY"
+            android:value="59b677d4aed179296b001125" />
+        <meta-data
+            android:name="UMENG_CHANNEL"
+            android:value="Yusion4s" />
+
+        <activity
+            android:name=".ui.entrance.apply_financing.HelperActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
 
 </manifest>

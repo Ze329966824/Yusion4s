@@ -2,7 +2,6 @@ package com.yusion.shanghai.yusion4s.utils;
 
 import android.content.Context;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.widget.Toast;
 
@@ -22,7 +21,7 @@ import java.io.File;
 public class GlideUtil {
 
     public static void loadImg(Context context, StatusImageRel statusImageRel, String url) {
-        RequestOptions requestOptions = statusImageRel.getSourceImg().requestOptions(R.mipmap.place_holder_img).centerCrop();
+        RequestOptions requestOptions = statusImageRel.getSourceImg().requestOptions(R.mipmap.place_holder_img);
         statusImageRel.getSourceImg().load(url, requestOptions).listener(new OnGlideImageViewListener() {
             @Override
             public void onProgress(int percent, boolean isDone, GlideException exception) {
@@ -30,14 +29,12 @@ public class GlideUtil {
                     Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
                 }
                 DonutProgress progressPro = statusImageRel.getProgressPro();
-                if (percent == 0) {
+                if (!isDone) {
                     progressPro.setVisibility(View.VISIBLE);
-                }
-                progressPro.setProgress(percent);
-                if (percent == 100) {
+                }else {
                     progressPro.setVisibility(View.GONE);
                 }
-                Log.e("TAG", "onProgress() called with: percent = [" + percent + "], isDone = [" + isDone + "], exception = [" + exception + "]");
+                progressPro.setProgress(percent);
             }
         });
     }
@@ -53,7 +50,6 @@ public class GlideUtil {
                 if (exception != null && !TextUtils.isEmpty(exception.getMessage())) {
                     Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
                 }
-                Log.e("TAG", "onProgress() called with: percent = [" + percent + "], isDone = [" + isDone + "], exception = [" + exception + "]");
             }
         });
     }
