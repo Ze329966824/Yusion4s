@@ -8,6 +8,7 @@ import android.text.TextUtils;
 import android.util.Log;
 
 import cn.jpush.android.api.JPushInterface;
+import io.sentry.Sentry;
 
 /**
  * Created by LX on 2017/8/14.
@@ -25,6 +26,7 @@ public class YusionReceiver extends BroadcastReceiver {
                 return;
             }
             Log.e("EXTRA_EXTRA",string);
+            Sentry.capture(string);
             i.putExtra("jsonObject", string);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
             context.startActivity(i);
