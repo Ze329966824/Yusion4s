@@ -90,8 +90,8 @@ public class JpushDialogActivity extends BaseActivity {
                 new AlertDialog.Builder(JpushDialogActivity.this)
                         .setCancelable(false)
                         .setTitle(title)
-                        .setMessage("app_st=" + app_st + "\n" + content)
-                        .setNeutralButton("知道啦", (dialog, which) -> {
+                        .setMessage(content)
+                        .setPositiveButton("知道啦", (dialog, which) -> {
                             dialog.dismiss();
                             finish();
                         })
