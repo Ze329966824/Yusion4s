@@ -352,6 +352,8 @@ public class CarInfoFragment extends BaseFragment {
                     managementPriceTv.setText("");
                     totalLoanPriceTv.setText("");
                     otherPriceTv.setText("");
+                    plateRegAddrTv.setText("");//上牌地选择
+                    loanPeriodsTv.setText("");//还款期限
 
                 });
             }
