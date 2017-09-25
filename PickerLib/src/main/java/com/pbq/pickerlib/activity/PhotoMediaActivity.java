@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -197,6 +198,9 @@ public class PhotoMediaActivity extends AppCompatActivity {
                     public void run() {
                         //加载图片列表
                         if (currentDir == null) {
+                            currentDir = new PhotoVideoDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES).getAbsolutePath());
+                            currentDir.dirName = "Pictures";
+                            loadImages(currentDir);
                             Toast.makeText(PhotoMediaActivity.this, "图片列表为空", Toast.LENGTH_SHORT).show();
                         } else {
                             loadImages(currentDir);
