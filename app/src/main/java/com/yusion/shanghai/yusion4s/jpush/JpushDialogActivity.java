@@ -65,10 +65,10 @@ public class JpushDialogActivity extends BaseActivity {
     }
 
     private void JpushDialog() {
-        switch (category) {
-            case "login":
-                if (Yusion4sApp.isLogin) {
-                    if (username.equals(Yusion4sApp.ACCOUNT)) {
+        if (Yusion4sApp.isLogin) {
+            if (username.equals(Yusion4sApp.ACCOUNT)) {
+                switch (category) {
+                    case "login":
                         new AlertDialog.Builder(JpushDialogActivity.this)
                                 .setCancelable(false)
                                 .setMessage(content)
@@ -81,51 +81,38 @@ public class JpushDialogActivity extends BaseActivity {
                                     }
                                 })
                                 .show();
-                    } else {
-                        finish();
-                    }
-                } else {
-                    finish();
+                        break;
+
+                    case "application":
+                        new AlertDialog.Builder(JpushDialogActivity.this)
+                                .setCancelable(false)
+                                .setTitle(title)
+                                .setMessage(content)
+                                .setPositiveButton("知道啦", (dialog, which) -> {
+                                    dialog.dismiss();
+                                    finish();
+                                })
+                                .show();
+                        break;
+
+                    default:
+                        new AlertDialog.Builder(JpushDialogActivity.this)
+                                .setTitle(title)
+                                .setMessage(content)
+                                .setCancelable(false)
+                                .setPositiveButton("这不是一个推送", (dialog, which) -> {
+                                    dialog.dismiss();
+                                    finish();
+                                })
+                                .show();
+                        break;
                 }
-                break;
-
-            case "application":
-
-                new AlertDialog.Builder(JpushDialogActivity.this)
-                        .setCancelable(false)
-                        .setTitle(title)
-                        .setMessage(content)
-                        .setPositiveButton("知道啦", (dialog, which) -> {
-                            dialog.dismiss();
-                            finish();
-                        })
-                        .show();
-                break;
-
-
-            default:
-                new AlertDialog.Builder(JpushDialogActivity.this)
-                        .setTitle(title)
-                        .setMessage(content)
-                        .setCancelable(false)
-                        .setPositiveButton("知道啦", (dialog, which) -> {
-                            dialog.dismiss();
-                            finish();
-                        })
-                        .show();
-                break;
+            } else {
+                finish();
+            }
+        } else {
+            finish();
         }
-
-//        Toast.makeText(myApp, stringExtra, Toast.LENGTH_SHORT).show();
-//        new AlertDialog.Builder(JpushDialogActivity.this)
-//                .setTitle("asdasdasadsad")
-//                .setMessage("syz")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                }).show();
 
     }
 }
