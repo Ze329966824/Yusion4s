@@ -33,7 +33,9 @@ public class YusionReceiver extends BroadcastReceiver {
             Sentry.capture(string);
             i.putExtra("jsonObject", string);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
+            if (TextUtils.isEmpty(string)) {
+                context.startActivity(i);
+            }
 
         }
     }
