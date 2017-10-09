@@ -49,18 +49,16 @@ public class JpushDialogActivity extends BaseActivity {
         if (intent != null) {
             stringExtra = intent.getStringExtra("jsonObject");
             JSONObject jo = new JSONObject(stringExtra);
-            if (jo != null) {
-                username = jo.optString("username");
-                mobile = jo.optString("mobile");
-                title = jo.optString("title");
-                content = jo.optString("content");
-                app_st = jo.optString("app_st");
-                app_id = jo.optString("app_id");
-                category = jo.optString("category");
-                JpushDialog();
-            } else {
-                finish();
-            }
+            username = jo.optString("username");
+            mobile = jo.optString("mobile");
+            title = jo.optString("title");
+            content = jo.optString("content");
+            app_st = jo.optString("app_st");
+            app_id = jo.optString("app_id");
+            category = jo.optString("category");
+            JpushDialog();
+        }else {
+            finish();
         }
     }
 

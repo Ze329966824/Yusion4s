@@ -114,11 +114,19 @@ public class UpdateUtil {
             dismiss();
             int i = v.getId();
             if (i == R.id.update_ok) {
-                update();
+                //                toLocalUpdate();
+                toWebUpdate();
             }
         }
 
-        private void update() {
+        private void toWebUpdate() {
+            Intent intent =new Intent();
+            intent.setAction(Intent.ACTION_VIEW);
+            intent.setData(Uri.parse(mUrl));
+            mContext.startActivity(intent);
+        }
+
+        private void toLocalUpdate() {
             if (Environment.getExternalStorageState().equals(Environment.MEDIA_MOUNTED)) {
                 final ProgressDialog progressDialog = new ProgressDialog(mContext);    //进度条，在下载的时候实时更新进度，提高用户友好度
                 progressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
