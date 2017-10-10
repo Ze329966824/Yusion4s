@@ -153,7 +153,7 @@ public class CarInfoFragment extends BaseFragment {
 //                        }
 //                    }
                     break;
-                case 2:
+                case 2://车辆首付款
                     firstPriceChange = false;
                     changeFirstPriceByCode = false;//jht
                     int sum = 0;
@@ -164,7 +164,8 @@ public class CarInfoFragment extends BaseFragment {
                         firstPriceTv.setSelection((getPrice(billPriceTv) + "").length());
                     } else {
                         if (Integer.valueOf(firstPriceTv.getText().toString()) % 100 != 0) {
-                            sum = getRounding(firstPriceTv);
+                            //sum = getRounding(firstPriceTv);
+                            sum = Integer.valueOf(firstPriceTv.getText().toString());
                             firstPriceTv.setText(sum + "");
                             firstPriceTv.setSelection(String.valueOf(sum).length());
                         } else {
@@ -173,7 +174,7 @@ public class CarInfoFragment extends BaseFragment {
                         }
                     }
                     break;
-                case 3:
+                case 3://贷款额
                     carLoanPriceChange = false;
                     changeCarLoanByCode = false;
                     int sum3 = 0;
@@ -182,7 +183,8 @@ public class CarInfoFragment extends BaseFragment {
                         carLoanPriceTv.setText(getPrice(billPriceTv) + "");
                     } else {
                         if (Integer.valueOf(carLoanPriceTv.getText().toString()) % 100 != 0) {
-                            sum3 = getRounding(carLoanPriceTv);
+                            //sum3 = getRounding(carLoanPriceTv);
+                            sum3 = Integer.valueOf(carLoanPriceTv.getText().toString());
                             carLoanPriceTv.setText(sum3 + "");
                             carLoanPriceTv.setSelection(String.valueOf(sum3).toString().length());
 
@@ -192,7 +194,7 @@ public class CarInfoFragment extends BaseFragment {
                         }
                     }
                     break;
-                case 4:
+                case 4://车辆开票价
                     billPriceChange = false;
                     int sum4 = 0;
                     if (Integer.valueOf(billPriceTv.getText().toString()) > mGuidePrice) {
@@ -201,7 +203,8 @@ public class CarInfoFragment extends BaseFragment {
                         billPriceTv.setSelection((mGuidePrice + "").length());
                     } else {
                         if (Integer.valueOf(billPriceTv.getText().toString()) % 100 != 0) {
-                            sum4 = getRounding(billPriceTv);
+                            //sum4 = getRounding(billPriceTv);
+                            sum4 = Integer.valueOf(billPriceTv.getText().toString());
                             billPriceTv.setText(sum4 + "");
                             billPriceTv.setSelection(String.valueOf(sum4).length());
 
@@ -279,9 +282,9 @@ public class CarInfoFragment extends BaseFragment {
         managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
         loanBankTv = (TextView) view.findViewById(R.id.car_info_loan_bank_tv);
         productTypeTv = (TextView) view.findViewById(R.id.car_info_product_type_tv);
-        billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);
-        firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);
-        carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);
+        billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);//开票价
+        firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);//首付款
+        carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
         carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
         carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
         carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);

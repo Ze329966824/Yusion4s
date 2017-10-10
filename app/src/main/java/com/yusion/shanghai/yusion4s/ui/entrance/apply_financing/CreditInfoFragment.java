@@ -162,9 +162,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (chooseRelationTv.getText().toString().equals("请选择")) {
-                    Toast.makeText(mContext, "请选择车主与申请人关系", Toast.LENGTH_LONG).show();
-                } else {
+                if (checkCanSubmit()) {
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
@@ -198,6 +196,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                         }
                     });
                 }
+
             }
         });
     }
@@ -429,5 +428,22 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                         });
                 break;
         }
+    }
+
+    private boolean checkCanSubmit() {
+        if (chooseRelationTv.getText().toString().equals("请选择")) {
+            Toast.makeText(mContext, "请选择车主与申请人关系", Toast.LENGTH_LONG).show();
+        } else if (client_credit__book_lin.getVisibility() == View.VISIBLE && autonym_certify_id_back_tv.getText().toString().equals("请上传")) {//显示且是未上传的状态
+            Toast.makeText(mContext, "请上传申请人征信授权书", Toast.LENGTH_LONG).show();//申请人征信
+        } else if (client_spouse_credit__book_lin.getVisibility() == View.VISIBLE && autonym_certify_id_back_tv1.getText().toString().equals("请上传")) {//显示且是未上传的状态
+            Toast.makeText(mContext, "请上传申请人配偶征信授权书", Toast.LENGTH_LONG).show();
+        } else if (guarantor_credit_book_lin.getVisibility() == View.VISIBLE && autonym_certify_id_back_tv2.getText().toString().equals("请上传")) {//显示且是未上传的状态
+            Toast.makeText(mContext, "请上传担保人征信授权书", Toast.LENGTH_LONG).show();
+        } else if (guarantor_spouse_credit_book_lin.getVisibility() == View.VISIBLE && autonym_certify_id_back_tv3.getText().toString().equals("请上传")) {//显示且是未上传的状态
+            Toast.makeText(mContext, "请上传担保人配偶征信授权书", Toast.LENGTH_LONG).show();
+        } else {
+            return true;
+        }
+        return false;
     }
 }
