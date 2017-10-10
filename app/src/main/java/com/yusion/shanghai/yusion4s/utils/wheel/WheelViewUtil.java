@@ -130,6 +130,8 @@ public class WheelViewUtil {
         showCityWheelView(tag, clickedView, showView, title, onCitySubmitCallBack, null);
     }
 
+
+    public static String currentCityJson = "";
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
         clickedView.setEnabled(false);
         if (mCityWheelViewUtil == null) {
@@ -159,6 +161,10 @@ public class WheelViewUtil {
         if (TextUtils.isEmpty(cityJson)) {
             mProvinceList = initProvinceData(context);
         } else {
+            if (!currentCityJson.equals(cityJson)) {
+                cityObj.reset();
+            }
+            currentCityJson = cityJson;
             mProvinceList = initProvinceData(cityJson);
         }
 //        }
@@ -278,6 +284,12 @@ public class WheelViewUtil {
             public int mProvinceIndex = 0;
             public int mCityIndex = 0;
             public int mDistrictIndex = 0;
+
+            public void reset() {
+                mProvinceIndex = 0;
+                mCityIndex = 0;
+                mDistrictIndex = 0;
+            }
         }
 
         public CityObj getCityObjByTag(String tag) {

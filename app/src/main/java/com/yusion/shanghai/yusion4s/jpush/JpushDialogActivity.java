@@ -49,71 +49,68 @@ public class JpushDialogActivity extends BaseActivity {
         if (intent != null) {
             stringExtra = intent.getStringExtra("jsonObject");
             JSONObject jo = new JSONObject(stringExtra);
-            if (jo != null) {
-                username = jo.optString("username");
-                mobile = jo.optString("mobile");
-                title = jo.optString("title");
-                content = jo.optString("content");
-                app_st = jo.optString("app_st");
-                app_id = jo.optString("app_id");
-                category = jo.optString("category");
-                JpushDialog();
-            } else {
-                finish();
-            }
+            username = jo.optString("username");
+            mobile = jo.optString("mobile");
+            title = jo.optString("title");
+            content = jo.optString("content");
+            app_st = jo.optString("app_st");
+            app_id = jo.optString("app_id");
+            category = jo.optString("category");
+            JpushDialog();
+        }else {
+            finish();
         }
     }
 
     private void JpushDialog() {
-        switch (category) {
-            case "login":
-                if (Yusion4sApp.isLogin || username.equals(Yusion4sApp.ACCOUNT)) {
-                    new AlertDialog.Builder(JpushDialogActivity.this)
-                            .setCancelable(false)
-                            .setMessage(content)
-                            .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
-                                    myApp.clearUserData();
+        if (Yusion4sApp.isLogin) {
+            if (username.equals(Yusion4sApp.ACCOUNT)) {
+                switch (category) {
+                    case "login":
+                        new AlertDialog.Builder(JpushDialogActivity.this)
+                                .setCancelable(false)
+                                .setMessage(content)
+                                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
+                                        myApp.clearUserData();
+                                        finish();
+                                    }
+                                })
+                                .show();
+                        break;
+
+                    case "application":
+                        new AlertDialog.Builder(JpushDialogActivity.this)
+                                .setCancelable(false)
+                                .setTitle(title)
+                                .setMessage(content)
+                                .setPositiveButton("知道啦", (dialog, which) -> {
+                                    dialog.dismiss();
                                     finish();
-                                }
-                            })
-                            .show();
-                } else {
-                    finish();
+                                })
+                                .show();
+                        break;
+
+                    default:
+                        new AlertDialog.Builder(JpushDialogActivity.this)
+                                .setTitle(title)
+                                .setMessage(content)
+                                .setCancelable(false)
+                                .setPositiveButton("这不是一个推送", (dialog, which) -> {
+                                    dialog.dismiss();
+                                    finish();
+                                })
+                                .show();
+                        break;
                 }
-                break;
-
-//            case "2":
-//
-//                break;
-//
-//            case "3":
-//
-//                break;
-            default:
-                new AlertDialog.Builder(JpushDialogActivity.this)
-                        .setTitle(title)
-                        .setMessage(content)
-                        .setCancelable(false)
-                        .setPositiveButton("知道啦", (dialog, which) -> {
-                            dialog.dismiss();
-                            finish();
-                        });
-                break;
+            } else {
+                finish();
+            }
+        } else {
+            finish();
         }
-
-//        Toast.makeText(myApp, stringExtra, Toast.LENGTH_SHORT).show();
-//        new AlertDialog.Builder(JpushDialogActivity.this)
-//                .setTitle("asdasdasadsad")
-//                .setMessage("syz")
-//                .setPositiveButton("确定", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//
-//                    }
-//                }).show();
 
     }
 }
