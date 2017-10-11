@@ -182,8 +182,8 @@ public class CarInfoFragment extends BaseFragment {
                         carLoanPriceTv.setText(getPrice(billPriceTv) + "");
                     } else {
                         if (Integer.valueOf(carLoanPriceTv.getText().toString()) % 100 != 0) {
-                            //sum3 = getRounding(carLoanPriceTv);
-                            sum3 = Integer.valueOf(carLoanPriceTv.getText().toString());
+                            sum3 = getRounding(carLoanPriceTv);
+                            //sum3 = Integer.valueOf(carLoanPriceTv.getText().toString());
                             carLoanPriceTv.setText(sum3 + "");
                             carLoanPriceTv.setSelection(String.valueOf(sum3).toString().length());
 
@@ -596,7 +596,7 @@ public class CarInfoFragment extends BaseFragment {
                         handler.removeMessages(4);
                     }
                     handler.sendEmptyMessageDelayed(4, DELAY_MILLIS);
-                    firstPriceTv.setEnabled(true);
+                    firstPriceTv.setEnabled(false);
                     carLoanPriceTv.setEnabled(true);
 
                 } else {
@@ -731,7 +731,10 @@ public class CarInfoFragment extends BaseFragment {
                 totalPrice();
             }
         });
+
+        firstPriceTv.setEnabled(false);
         //车辆首付款
+        /*
         firstPriceTv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -771,22 +774,25 @@ public class CarInfoFragment extends BaseFragment {
                         changeCarLoanByCode = true;
                         carLoanPriceTv.setText(getPrice(billPriceTv) - getPrice(firstPriceTv) + "");
 
-                        /*
-                        if (getPrice(firstPriceTv) > getPrice(billPriceTv)) {
-                            Toast.makeText(mContext, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
-                            changeFirstPriceByCode = false;
-                            firstPriceTv.setText(getPrice(billPriceTv) + "");
-                        } else {
-                            changeCarLoanByCode = true;
-                            carLoanPriceTv.setText(getPrice(billPriceTv) - getPrice(firstPriceTv) + "");
-                        }
-                        */
+//
+//                        if (getPrice(firstPriceTv) > getPrice(billPriceTv)) {
+//                            Toast.makeText(mContext, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
+//                            changeFirstPriceByCode = false;
+//                            firstPriceTv.setText(getPrice(billPriceTv) + "");
+//                        } else {
+//                            changeCarLoanByCode = true;
+//                            carLoanPriceTv.setText(getPrice(billPriceTv) - getPrice(firstPriceTv) + "");
+//                        }
+//
 
                     }
                 }
                 totalPrice();
             }
         });
+        */
+
+
         //otherPriceTv 其他费用
         otherPriceTv.addTextChangedListener(new TextWatcher() {
             @Override
