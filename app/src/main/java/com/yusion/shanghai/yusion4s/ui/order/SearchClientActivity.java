@@ -181,6 +181,7 @@ public class SearchClientActivity extends BaseActivity {
         } else {
             intent.putExtra("isHasLender_sp", "2");
         }
+
         if (item.auth_credit.guarantor != null) {//如果不等于空
             intent.putExtra("isGuarantor", "1");
             intent.putExtra("guarantor_clt_id", item.auth_credit.guarantor.clt_id);
@@ -192,10 +193,12 @@ public class SearchClientActivity extends BaseActivity {
         if (item.auth_credit.guarantor_sp != null) {//如果不等于空
             intent.putExtra("isGuarantor_sp", "1");
             intent.putExtra("guarantor_sp_clt_id", item.auth_credit.guarantor_sp.clt_id);
-            intent.putExtra("guarantor_sp", item.auth_credit.guarantor.auth_credit_img_count);
+            intent.putExtra("guarantor_sp", item.auth_credit.guarantor_sp.auth_credit_img_count);
+
         } else {
             intent.putExtra("isGuarantor_sp", "2");
         }
+
 
     }
 

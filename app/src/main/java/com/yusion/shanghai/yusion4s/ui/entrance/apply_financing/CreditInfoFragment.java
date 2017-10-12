@@ -357,7 +357,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                         break;
                     case Constants.PersonType.GUARANTOR_SP:
                         guarantorSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                        if (guarantorList.size() > 0) {
+                        if (guarantorSpList.size() > 0) {
                             autonym_certify_id_back_tv3.setText("已上传");
                             autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
                         } else {
