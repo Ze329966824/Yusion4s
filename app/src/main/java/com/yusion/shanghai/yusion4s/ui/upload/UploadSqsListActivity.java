@@ -301,7 +301,6 @@ public class UploadSqsListActivity extends BaseActivity {
                                     @Override
                                     public void run() {
                                         Log.e("TAG", "4444");
-
                                         imgList.addAll(toAddList);
                                         adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
                                         onImgCountChange(imgList.size() > 0);
