@@ -6,6 +6,7 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +28,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
@@ -162,7 +164,56 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkCanSubmit()) {
+                if (Settings.isShameData) {
+                    SubmitOrderReq req = new SubmitOrderReq();
+                    req.bank_id = "1";
+                    req.clt_id = "d90be890acd411e79f4a0242ac110002";
+                    req.dlr_id = "YJCS0001";
+                    req.gps_fee = "0";
+                    req.loan_amt = "152000";
+                    req.management_fee = "0";
+                    req.other_fee = "2000";
+                    req.plate_reg_addr = "北京/北京市/东城区";
+                    req.vehicle_color = "ujj";
+                    req.vehicle_cond = "新车";
+                    req.vehicle_down_payment = "50000";
+                    req.vehicle_loan_amt = "150000";
+                    req.vehicle_owner_lender_relation = "本人";
+                    req.vehicle_price = "200000";
+                    req.nper = 24;
+                    req.product_id = 1;
+                    req.vehicle_model_id = 1128954;
+                    OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
+                        @Override
+                        public void onItemDataCallBack(SubmitOrderResp data) {
+                            if (data == null) {
+                                return;
+                            }
+                            Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                            Log.e("TAG", "uploadFileUrlList: " + uploadFileUrlList);
+                            if (uploadFileUrlList.size() > 0) {
+                                for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
+                                    urlBean.app_id = data.app_id;
+                                }
+                                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+                                uploadFilesUrlReq.files = uploadFileUrlList;
+                                uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
+                                uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
+                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
+                                    @Override
+                                    public void callBack(int code, String msg) {
+                                        if (code > -1) {
+                                            Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                        }
+                                    }
+                                });
+                            } else {
+                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                            }
+                        }
+                    });
+                } else if (checkCanSubmit()) {
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
@@ -414,7 +465,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_relationship_lin://车主和申请人的关系
-                WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.owner_applicant_relation_key,
+                WheelViewUtil.showWheelView(Yusion4sApp.getConfigResp().owner_applicant_relation_key,
                         CLIENT_RELATIONSHIP_POSITION_INDEX,
                         client_relationship_lin,
                         chooseRelationTv,

@@ -396,7 +396,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
             Toast.makeText(this, "拍照前被选中照片张数不能大于" + maxCount, Toast.LENGTH_LONG).show();
             return;
         }
-        cameraFile = new File(imageDir.dirPath, System.currentTimeMillis() + ".jpg");
+        cameraFile = new File(imageDir.dirPath, "yusion4s-" + System.currentTimeMillis() + ".jpg");
         Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
         startActivityForResult(intent, REQUEST_CODE_CAMERA);
@@ -408,7 +408,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
      * @param imageDir
      */
     public void takeVideo(PhotoVideoDir imageDir) {
-        cameraFile = new File(imageDir.dirPath, System.currentTimeMillis() + ".mp4");
+        cameraFile = new File(imageDir.dirPath, "yusion4s-" + System.currentTimeMillis() + ".mp4");
 //        Intent intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
 //        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
 //        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);

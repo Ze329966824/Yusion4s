@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -46,7 +47,7 @@ import java.util.List;
 
 public class UploadSqsListActivity extends BaseActivity {
     private RvAdapter adapter;
-
+    private boolean canBack = true;
     private List<UploadImgItemBean> imgList = new ArrayList<>();
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
     private List<UploadImgItemBean> hasUploadLists = new ArrayList<>();
@@ -66,7 +67,6 @@ public class UploadSqsListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
-
         mGetIntent = getIntent();
         clt_id = mGetIntent.getStringExtra("clt_id");
         title = mGetIntent.getStringExtra("title");
@@ -284,33 +284,36 @@ public class UploadSqsListActivity extends BaseActivity {
                     item.type = type;
                     toAddList.add(item);
                 }
-                imgList.addAll(toAddList);
-                adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
-                onImgCountChange(imgList.size() > 0);
-                hasUploadLists.clear();
-
                 Dialog dialog = LoadingUtils.createLoadingDialog(this);
                 dialog.show();
-                //int account = 0;
+                Log.e("TAG", "1111");
                 for (UploadImgItemBean imgItemBean : toAddList) {
-                    //account++;
-                    //int finalAccount = account;
-                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
+                    OssUtil.uploadOss(this, dialog, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
                         @Override
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;
+                            Log.e("TAG", "2222");
                             hasUploadLists.add(imgItemBean);
                             if (hasUploadLists.size() == files.size()) {
+                                Log.e("TAG", "3333");
                                 dialog.dismiss();
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Log.e("TAG", "4444");
+
+                                        imgList.addAll(toAddList);
+                                        adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
+                                        onImgCountChange(imgList.size() > 0);
+                                        hasUploadLists.clear();
+
                                         for (UploadImgItemBean imgItemBean : toAddList) {
                                             UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
                                             fileUrlBean.clt_id = clt_id;
                                             fileUrlBean.file_id = imgItemBean.objectKey;
                                             fileUrlBean.label = imgItemBean.type;
                                             uploadFileUrlList.add(fileUrlBean);
+                                            Log.e("TAG", uploadFileUrlList.toString());
                                         }
                                     }
                                 });
@@ -319,6 +322,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     }, new OnItemDataCallBack<Throwable>() {
                         @Override
                         public void onItemDataCallBack(Throwable data) {
+                            Log.e("TAG", "6666");
                             if (hasUploadLists.size() == files.size()) {
                                 dialog.dismiss();
                                 runOnUiThread(new Runnable() {

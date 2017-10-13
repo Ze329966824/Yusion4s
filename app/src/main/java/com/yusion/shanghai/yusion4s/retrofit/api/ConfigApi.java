@@ -61,14 +61,14 @@ public class ConfigApi {
         configResp.agreement_url = agreement_url;
         configResp.contract_list_url = contract_list_url;
 
-        JSONArray loan_periods = jsonObject.optJSONArray("loan_periods");
-        for (int i = 0; loan_periods != null && i < loan_periods.length(); i++) {
-            JSONObject item = loan_periods.getJSONObject(i);
-            String key = item.keys().next();
-            String value = item.getString(key);
-            configResp.loan_periods_key.add(key);
-            configResp.loan_periods_value.add(value);
-        }
+//        JSONArray loan_periods = jsonObject.optJSONArray("loan_periods");
+//        for (int i = 0; loan_periods != null && i < loan_periods.length(); i++) {
+//            JSONObject item = loan_periods.getJSONObject(i);
+//            String key = item.keys().next();
+//            String value = item.getString(key);
+//            configResp.loan_periods_key.add(key);
+//            configResp.loan_periods_value.add(value);
+//        }
 
         JSONArray owner_lender_relationship_list = jsonObject.optJSONArray("vehicle_owner_lender_relationship_list");
         for (int i = 0; owner_lender_relationship_list != null && i < owner_lender_relationship_list.length(); i++) {
@@ -93,8 +93,7 @@ public class ConfigApi {
         JSONArray dealer_material = jsonObject.optJSONArray("dealer_material");
         configResp.dealer_material = dealer_material != null ? dealer_material.toString() : "";
 
-        Yusion4sApp.CONFIG_RESP = configResp;
-
+        Yusion4sApp.setConfigResp(configResp);
         return configResp;
     }
 }

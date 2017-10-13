@@ -22,6 +22,11 @@ import java.io.InputStreamReader;
 import java.io.LineNumberReader;
 import java.io.Reader;
 import java.lang.reflect.Field;
+import java.net.URI;
+import java.util.List;
+
+/**
+ * Created by aa on 2017/10/13.
 import java.util.List;
 
 /**
@@ -255,5 +260,6 @@ public class MobileDataUtil {
 //        }
 //        return result;
 //    }
+
 
 }

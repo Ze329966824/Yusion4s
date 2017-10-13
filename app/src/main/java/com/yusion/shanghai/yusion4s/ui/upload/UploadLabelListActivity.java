@@ -48,7 +48,7 @@ public class UploadLabelListActivity extends BaseActivity {
         adapter = new UploadLabelListActivity.RvAdapter(this, topItem.label_list);
         rv.setAdapter(adapter);
 //        try {
-//            JSONArray jsonArray = new JSONArray(Yusion4sApp.CONFIG_RESP.dealer_material);
+//            JSONArray jsonArray = new JSONArray(Yusion4sApp.getConfigResp().dealer_material);
 //            mItems.clear();
 //            for (int i = 0; i < jsonArray.length(); i++) {
 //                JSONObject jsonObject = jsonArray.getJSONObject(i);

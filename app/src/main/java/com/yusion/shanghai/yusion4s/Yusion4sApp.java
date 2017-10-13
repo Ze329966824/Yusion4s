@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s;
 
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationEvent;
@@ -78,5 +79,21 @@ public class Yusion4sApp extends MultiDexApplication {
             reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
             SharedPrefsUtil.getInstance(this).putValue("reg_id", reg_id);
         }
+    }
+
+    public static ConfigResp getConfigResp() {
+        if (CONFIG_RESP == null) {
+            Log.e("TAG", "getConfigResp: is null");
+            Sentry.capture("getConfigResp: is nul");
+        }else {
+
+            Log.e("TAG", "getConfigResp: not null");
+            Sentry.capture("getConfigResp: not nul");
+        }
+        return CONFIG_RESP;
+    }
+
+    public static void setConfigResp(ConfigResp configResp) {
+        CONFIG_RESP = configResp;
     }
 }
