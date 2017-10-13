@@ -42,12 +42,7 @@
             android:textColor="#000000"
             android:textSize="14.5dp" />
 
-        <View
-            android:layout_toLeftOf="@+id/search_info"
-            android:layout_width="1dp"
-            android:layout_height="17dp"
-            android:layout_centerVertical="true"
-            android:background="@color/separate_line_color" />
+
 
         <TextView
             android:id="@+id/search_info"
@@ -60,6 +55,13 @@
             android:text="搜索"
             android:textColor="#06b7a3"
             android:textSize="14.5dp" />
+
+        <View
+            android:layout_toLeftOf="@id/search_info"
+            android:layout_width="1dp"
+            android:layout_height="17dp"
+            android:layout_centerVertical="true"
+            android:background="@color/separate_line_color" />
 
     </RelativeLayout>
 

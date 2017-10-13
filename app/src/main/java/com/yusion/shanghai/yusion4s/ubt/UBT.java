@@ -210,6 +210,7 @@ public class UBT {
                         ubtEvent.object = query.getString(query.getColumnIndex("object"));
                         ubtEvent.action = query.getString(query.getColumnIndex("action"));
                         ubtEvent.page = query.getString(query.getColumnIndex("page"));
+                        ubtEvent.action_value = query.getString(query.getColumnIndex("action_value"));
                         ubtEvent.page_cn = query.getString(query.getColumnIndex("page_cn"));
                         ubtEvent.ts = query.getLong(query.getColumnIndex("ts"));
                         data.add(ubtEvent);
@@ -356,6 +357,7 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
+                Log.e("tag", "afterTextChanged: " +s  );
                 addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });
