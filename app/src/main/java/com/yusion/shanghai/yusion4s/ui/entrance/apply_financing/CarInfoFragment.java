@@ -33,6 +33,7 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -825,7 +826,9 @@ public class CarInfoFragment extends BaseFragment {
         carInfoNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkCanNextStep()) {
+                if (Settings.isShameData) {
+                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+                } else if (checkCanNextStep()) {
 
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
 

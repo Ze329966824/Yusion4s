@@ -67,7 +67,6 @@ public class UploadSqsListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
-
         mGetIntent = getIntent();
         clt_id = mGetIntent.getStringExtra("clt_id");
         title = mGetIntent.getStringExtra("title");
