@@ -297,23 +297,21 @@ public class UploadSqsListActivity extends BaseActivity {
                             if (hasUploadLists.size() == files.size()) {
                                 Log.e("TAG", "3333");
                                 dialog.dismiss();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        Log.e("TAG", "4444");
-                                        imgList.addAll(toAddList);
-                                        adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
-                                        onImgCountChange(imgList.size() > 0);
-                                        hasUploadLists.clear();
+                                runOnUiThread(() -> {
+                                    Log.e("TAG", "4444");
 
-                                        for (UploadImgItemBean imgItemBean : toAddList) {
-                                            UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-                                            fileUrlBean.clt_id = clt_id;
-                                            fileUrlBean.file_id = imgItemBean.objectKey;
-                                            fileUrlBean.label = imgItemBean.type;
-                                            uploadFileUrlList.add(fileUrlBean);
-                                            Log.e("TAG", uploadFileUrlList.toString());
-                                        }
+                                    imgList.addAll(toAddList);
+                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
+                                    onImgCountChange(imgList.size() > 0);
+                                    hasUploadLists.clear();
+
+                                    for (UploadImgItemBean imgItemBean1 : toAddList) {
+                                        UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
+                                        fileUrlBean.clt_id = clt_id;
+                                        fileUrlBean.file_id = imgItemBean1.objectKey;
+                                        fileUrlBean.label = imgItemBean1.type;
+                                        uploadFileUrlList.add(fileUrlBean);
+                                        Log.e("TAG", uploadFileUrlList.toString());
                                     }
                                 });
                             }
