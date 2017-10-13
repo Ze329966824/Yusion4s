@@ -56,6 +56,7 @@ public class AddEventThread implements Runnable {
         }
 
         values.put("action", action);
+        values.put("action_value", action_value);
 
         if (isAppEvent) {
             values.put("page", "");

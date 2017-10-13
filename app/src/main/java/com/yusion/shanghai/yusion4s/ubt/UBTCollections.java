@@ -9,6 +9,7 @@ import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
+import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadListActivity;
@@ -37,6 +38,8 @@ public class UBTCollections {
 
 //        pageNameMaps.put(FinancePlanActivity.class.getSimpleName(), new Pair<>("finance_plan", "金融方案页面"));
         pageNameMaps.put(OrderDetailActivity.class.getSimpleName(), new Pair<>("order_detail", "订单详情页面"));
+
+        pageNameMaps.put(SearchClientActivity.class.getSimpleName(), new Pair<>("search_client", "搜索客户页面"));
 //
 //        pageNameMaps.put(CommitActivity.class.getSimpleName(), new Pair<>("commit_apply_success", "提交申请成功页面"));
 //        pageNameMaps.put(ImgsListFragment.class.getSimpleName(), new Pair<>("info_img", "资料列表-影像件页面"));

@@ -20,6 +20,8 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ubt.UBT;
+import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
@@ -27,27 +29,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SearchClientActivity extends BaseActivity {
+
+    @BindView(id = R.id.et_search, objectName = "输入搜索内容")
     private EditText et_search;
+
     private RecyclerView rv_client_info;
     private List<SearchClientResp> items;
     private RecyclerAdapterWithHF adapter;
+
+    @BindView(id = R.id.search_info, objectName = "点击搜索客户按钮", onClick = "searchClient")
     private TextView search_info;
+
     private TextView tv_notice;
+
     private LinearLayout search_warn_lly;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_client);
+        UBT.bind(this);
         initTitleBar(this, "搜索客户");
         initView();
-        initEvent();
+
+        //initEvent();
     }
 
     private void initView() {
         tv_notice = (TextView) findViewById(R.id.tv_notice);
-        search_info = (TextView) findViewById(R.id.search_info);
-        et_search = (EditText) findViewById(R.id.et_search);
+       // search_info = (TextView) findViewById(R.id.search_info);
+       // et_search = (EditText) findViewById(R.id.et_search);
         rv_client_info = (RecyclerView) findViewById(R.id.rv_client_info);
         rv_client_info.setLayoutManager(new LinearLayoutManager(SearchClientActivity.this));
         rv_client_info.addItemDecoration(new RecyclerViewDivider(SearchClientActivity.this, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(SearchClientActivity.this, 5), ContextCompat.getColor(SearchClientActivity.this, R.color.main_bg)));
@@ -59,18 +71,18 @@ public class SearchClientActivity extends BaseActivity {
 
     }
 
-    private void initEvent() {
+//    private void initEvent() {
+//
+//        search_info.setOnClickListener(new View.OnClickListener() {//点击搜索按钮
+//            @Override
+//            public void onClick(View v) {
+//                searchClient();
+//            }
+//
+//        });
+//    }
 
-        search_info.setOnClickListener(new View.OnClickListener() {//点击搜索按钮
-            @Override
-            public void onClick(View v) {
-                searchClient();
-            }
-
-        });
-    }
-
-    private void searchClient() {
+    private void searchClient(View view) {
         String key = et_search.getText().toString();
         if (key.equals("")) {
             Toast.makeText(SearchClientActivity.this, "", Toast.LENGTH_LONG).show();
