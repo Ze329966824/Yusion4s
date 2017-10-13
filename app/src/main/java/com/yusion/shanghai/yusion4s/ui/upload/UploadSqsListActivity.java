@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -300,17 +301,20 @@ public class UploadSqsListActivity extends BaseActivity {
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;
                             hasUploadLists.add(imgItemBean);
+                            Log.e("TAG", "onItemDataCallBack: ");
                             if (hasUploadLists.size() == files.size()) {
                                 dialog.dismiss();
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Log.e("TAG", "run: ");
                                         for (UploadImgItemBean imgItemBean : toAddList) {
                                             UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
                                             fileUrlBean.clt_id = clt_id;
                                             fileUrlBean.file_id = imgItemBean.objectKey;
                                             fileUrlBean.label = imgItemBean.type;
                                             uploadFileUrlList.add(fileUrlBean);
+                                            Log.e("TAG", "run: ");
                                         }
                                     }
                                 });

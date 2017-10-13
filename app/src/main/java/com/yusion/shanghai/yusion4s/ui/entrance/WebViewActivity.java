@@ -48,7 +48,7 @@ public class WebViewActivity extends BaseActivity {
             return;
         if (type.equals("Agreement")) {
             titleBar = initTitleBar(this, "用户协议");
-            webView.loadUrl(Yusion4sApp.CONFIG_RESP.agreement_url);
+            webView.loadUrl(Yusion4sApp.getConfigResp().agreement_url);
         }
         if (type.equals("homepage")) {
             titleBar = initTitleBar(this, "关于予见汽车");
@@ -56,7 +56,7 @@ public class WebViewActivity extends BaseActivity {
         }
         if (type.equals("contract")) {
             titleBar = initTitleBar(this, "合同规范模板");
-            webView.loadUrl(Yusion4sApp.CONFIG_RESP.contract_list_url);
+            webView.loadUrl(Yusion4sApp.getConfigResp().contract_list_url);
         }
         titleBar.setLeftClickListener(new View.OnClickListener() {
             @Override

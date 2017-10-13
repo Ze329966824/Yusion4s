@@ -259,7 +259,7 @@ public class CarInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DELAY_MILLIS = Yusion4sApp.CONFIG_RESP.DELAY_MILLIS;
+        DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
 
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
         otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
