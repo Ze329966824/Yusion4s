@@ -11,7 +11,6 @@ import com.alibaba.sdk.android.oss.OSS;
 import com.alibaba.sdk.android.oss.OSSClient;
 import com.alibaba.sdk.android.oss.ServiceException;
 import com.alibaba.sdk.android.oss.callback.OSSCompletedCallback;
-import com.alibaba.sdk.android.oss.callback.OSSProgressCallback;
 import com.alibaba.sdk.android.oss.common.auth.OSSCredentialProvider;
 import com.alibaba.sdk.android.oss.common.auth.OSSStsTokenCredentialProvider;
 import com.alibaba.sdk.android.oss.model.PutObjectRequest;
@@ -42,6 +41,77 @@ import retrofit2.Response;
  */
 
 public class OssUtil {
+    public static void uploadOss(final Context context, Dialog dialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("duration_second", "1800");
+        body.put("method", "put");
+        body.put("timestamp", new Date().getTime() + "");
+        body.put("signature", getSignature(body));
+        Call<GetOssTokenBean> call = OssApi.retrofit.create(OssService.class).getOSSToken(body);
+        dialog.setOnCancelListener(it -> call.cancel());
+        call.enqueue(new Callback<GetOssTokenBean>() {
+            @Override
+            public void onResponse(Call<GetOssTokenBean> call, Response<GetOssTokenBean> response) {
+                GetOssTokenBean ossTokenBean = response.body();
+                final String objectKey = getObjectKey(objectKeyBean.role, objectKeyBean.category, objectKeyBean.suffix);
+                PutObjectRequest request = new PutObjectRequest(ossTokenBean.FidDetail.Bucket, objectKey, localPath);
+
+                OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossTokenBean.AccessKeyId, ossTokenBean.AccessKeySecret, ossTokenBean.SecurityToken);
+                OSS oss = new OSSClient(context, ossTokenBean.FidDetail.Region, credentialProvider);
+                SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
+                SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
+
+//                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+//                    @Override
+//                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+//                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+//                    }
+//                });
+                oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+                    @Override
+                    public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
+                        onSuccessCallBack.onItemDataCallBack(request.getObjectKey());
+                    }
+
+                    @Override
+                    public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+                        if (dialog.isShowing()) {
+                            dialog.dismiss();
+                        }
+                        if (clientExcepion != null) {
+                            // 本地异常如网络异常等
+                            clientExcepion.printStackTrace();
+                            if (onFailureCallBack != null) {
+                                onFailureCallBack.onItemDataCallBack(clientExcepion);
+                            }
+                        }
+                        if (serviceException != null) {
+                            // 服务异常
+                            serviceException.printStackTrace();
+                            if (onFailureCallBack != null) {
+                                onFailureCallBack.onItemDataCallBack(serviceException);
+                            }
+                        }
+                    }
+                });
+            }
+
+            @Override
+            public void onFailure(Call<GetOssTokenBean> call, Throwable t) {
+                if (dialog.isShowing()) {
+                    dialog.dismiss();
+                }
+                t.printStackTrace();
+                if (onFailureCallBack != null) {
+                    onFailureCallBack.onItemDataCallBack(t);
+                }
+            }
+        });
+    }
+
     public static void uploadOss(final Context context, boolean showDialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
         if (showDialog) {
@@ -117,7 +187,6 @@ public class OssUtil {
 
     /**
      * @param client
-     * @param mobile
      * @param role
      * @param category
      * @param suffix   eg: .png .mp4
