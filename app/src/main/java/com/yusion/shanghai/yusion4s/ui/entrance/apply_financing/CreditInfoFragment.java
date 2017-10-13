@@ -414,7 +414,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_relationship_lin://车主和申请人的关系
-                WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.owner_applicant_relation_key,
+                WheelViewUtil.showWheelView(Yusion4sApp.getConfigResp().owner_applicant_relation_key,
                         CLIENT_RELATIONSHIP_POSITION_INDEX,
                         client_relationship_lin,
                         chooseRelationTv,
