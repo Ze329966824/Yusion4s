@@ -27,6 +27,10 @@ import java.util.List;
 
 /**
  * Created by aa on 2017/10/13.
+import java.util.List;
+
+/**
+ * Created by aa on 2017/9/20.
  */
 
 public class MobileDataUtil {
@@ -41,6 +45,8 @@ public class MobileDataUtil {
     }
 
     /**
+     * 获取用户手机数据
+     *
      * @param context
      * @param dataType sms 获取短信数据 --- contact获取联系人(不包括sim卡) --- sim获取sim卡联系人(只能获取第一张)
      * @return

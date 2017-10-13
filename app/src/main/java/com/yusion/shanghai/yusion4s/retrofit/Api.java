@@ -3,6 +3,14 @@ package com.yusion.shanghai.yusion4s.retrofit;
 import android.text.TextUtils;
 import android.util.Log;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.TypeAdapter;
+import com.google.gson.TypeAdapterFactory;
+import com.google.gson.reflect.TypeToken;
+import com.google.gson.stream.JsonReader;
+import com.google.gson.stream.JsonToken;
+import com.google.gson.stream.JsonWriter;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.retrofit.service.AuthService;
 import com.yusion.shanghai.yusion4s.retrofit.service.ConfigService;
@@ -34,6 +42,20 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
     private static Retrofit retrofit;
     private static OkHttpClient okHttpClient;
+    /**
+     * 每个模块需要的retrofit对象不尽相同,通过传入serverUrl可以创建一个新实例
+     */
+    public static Retrofit createRetrofit(String serverUrl) {
+        return new Retrofit.Builder()
+                .baseUrl(serverUrl)
+                .client(okHttpClient)
+                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                        .serializeNulls()//null值也进行序列化并上传至服务器
+                        .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())//null值序列化为""
+                        .create()))
+                .build();
+    }
+
 
     static {
         okHttpClient = new OkHttpClient.Builder()
@@ -123,6 +145,33 @@ public class Api {
 //        } catch (IOException e) {
 //            e.printStackTrace();
 //        }
+    }
+
+    private static class NullStringToEmptyAdapterFactory<T> implements TypeAdapterFactory {
+        public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
+            Class<T> rawType = (Class<T>) type.getRawType();
+            if (rawType != String.class) {
+                return null;
+            }
+            return (TypeAdapter<T>) new StringAdapter();
+        }
+    }
+    private static class StringAdapter extends TypeAdapter<String> {
+        public String read(JsonReader reader) throws IOException {
+            if (reader.peek() == JsonToken.NULL) {
+                reader.nextNull();
+                return "";
+            }
+            return reader.nextString();
+        }
+
+        public void write(JsonWriter writer, String value) throws IOException {
+            if (value == null) {
+                writer.nullValue();
+                return;
+            }
+            writer.value(value);
+        }
     }
 
 }

