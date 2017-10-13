@@ -235,23 +235,273 @@ public class CarInfoFragment extends BaseFragment {
     private EditText otherPriceTv;
     private TextView colorTv;
     private TextView plateRegAddrTv;
-    private LinearLayout managementPriceLl;
-    private LinearLayout plateRegAddrLin;
-    @BindView(id = R.id.car_info_dlr_lin, objectName = "门店选择",onClick = "selectDlr")
-    private LinearLayout carInfoDlrLin;
-    //car_info_dlr_lin
-    private LinearLayout carInfoBrandLin;
-    private LinearLayout carInfoTrixLin;
-    private LinearLayout carInfoModelLin;
-    private LinearLayout carInfoLoanBankLin;
-    private LinearLayout carInfoProductTypeLin;
-    private LinearLayout carInfoLoanPeriodsLin;
     private String cityJson;
 
 
-    private void selectDlr(View view){
+    @BindView(id = R.id.car_info_plate_reg_addr_lin, objectName = "上牌地选择", onClick = "selectplateRegAddr")
+    private LinearLayout plateRegAddrLin;
+    //上牌地选择
+    private void selectplateRegAddr(View view) {
+        if (TextUtils.isEmpty(productTypeTv.getText())) {
+            Toast toast = Toast.makeText(mContext, "请选择产品类型", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+        if (!TextUtils.isEmpty(cityJson)) {
+            WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
+                @Override
+                public void onCitySubmitCallBack(View clickedView, String city) {
+                    if (!TextUtils.isEmpty(plateRegAddrTv.getText())) {
+                        carInfoNextBtn.setEnabled(true);
+                    }
+                }
+            }, cityJson);
+
+        } else {
+            return;
+        }
+    }
+
+    @BindView(id = R.id.car_info_loan_periods_lin, objectName = "还款期限选择", onClick = "selectLoanPeriods")
+    private LinearLayout carInfoLoanPeriodsLin;
+    //还款期限选择
+    private void selectLoanPeriods(View view) {
+        if (TextUtils.isEmpty(productTypeTv.getText())) {
+            Toast.makeText(mContext, "请先选择产品类型", Toast.LENGTH_LONG).show();
+        } else {
+            WheelViewUtil.showWheelView(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", new WheelViewUtil.OnSubmitCallBack() {
+                @Override
+                public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                    mLoanPeriodsIndex = selectedIndex;
+                }
+            });
+        }
+    }
+
+    @BindView(id = R.id.car_info_product_type_lin, objectName = "产品类型选择", onClick = "selectProductType")
+    private LinearLayout carInfoProductTypeLin;
+    //产品类型选择
+    private void selectProductType(View view) {
+        if (!TextUtils.isEmpty(loanBankTv.getText())) {
+
+            DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
+                @Override
+                public void onItemDataCallBack(GetproductResp resp) {
+                    if (resp == null) {
+                        return;
+                    }
+                    cityJson = resp.support_area.toString();
+//                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
+
+                    mProductList = resp.product_list;
+
+                    //mProductList.get()
+
+                    List<String> items = new ArrayList<String>();
+
+                    //List<Integer> nper_list = new ArrayList<Integer>();
+
+                    for (GetproductResp.ProductListBean product_list : resp.product_list) {
+                        items.add(product_list.name);
+                    }
+
+                    WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+                        @Override
+                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                            mProductTypeIndex = selectedIndex;
+                            loanPeriodsTv.setText(null);
+                            mLoanPeriodsIndex = 0;
+                        }
+                    });
+                }
+            });
+
+        } else if (TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else if (TextUtils.isEmpty(loanBankTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成贷款银行选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
+
+    @BindView(id = R.id.car_info_loan_bank_lin, objectName = "贷款银行选择", onClick = "selectLoanBank")
+    private LinearLayout carInfoLoanBankLin;
+    //贷款银行选择
+    private void selectLoanBank(View view) {
+        if (!TextUtils.isEmpty(dlrTV.getText())) {
+            DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+
+                mLoanBankList = resp;//银行列表
+                List<String> items = new ArrayList<String>();
+                for (GetLoanBankResp getLoanBankResp : resp) {
+                    items.add(getLoanBankResp.name);
+                }
+
+                WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+
+            });
+        } else {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
+
+    @BindView(id = R.id.car_info_management_price_lin, objectName = "是否管贷档案管理费选择", onClick = "selectManagementPrice")
+    private LinearLayout managementPriceLl;
+    //是否管贷档案管理费选择
+    private void selectManagementPrice(View view) {
+        if (TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        } else {//(clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex)
+            WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+                @Override
+                public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                    mManagementPriceIndex = selectedIndex;
+                    isChoose = true;
+                    totalPrice();
+                }
+            });
+        }
+
+    }
+
+    @BindView(id = R.id.car_info_model_lin, objectName = "车型选择", onClick = "selectModel")
+    private LinearLayout carInfoModelLin;
+    //车型选择
+    private void selectModel(View view) {
+        if (!TextUtils.isEmpty(trixTv.getText())) {
+            DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
+                if (resp != null && !resp.isEmpty()) {
+                    mModelList = resp;
+                    List<String> items = new ArrayList<>();
+                    for (GetModelResp modelResp : resp) {
+                        items.add(modelResp.model_name);
+                    }
+                    WheelViewUtil.showWheelView(items, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
+                        mModelIndex = selectedIndex;
+                        mGuidePrice = (int) resp.get(mModelIndex).msrp;
+                        guidePriceTv.setText(mGuidePrice + "");
+                        billPriceTv.setEnabled(true);
+                        //otherPriceTv.setHint("整百且小于" + mDlrList.get(mDlrIndex).other_fee);
+
+                        mLoanBankList.clear();
+                        mLoanBankIndex = 0;
+                        loanBankTv.setText(null);
+                        mProductTypeIndex = 0;
+                        productTypeTv.setText(null);
+
+                        billPriceTv.setText("");
+                    });
+                }
+            });
+
+        } else if (TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else if (TextUtils.isEmpty(trixTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成车系选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
+
+    @BindView(id = R.id.car_info_trix_lin, objectName = "车系选择", onClick = "selectTrix")
+    private LinearLayout carInfoTrixLin;
+    //车系选择
+    private void selectTrix(View view) {
+        if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+            DlrApi.getTrix(mContext, mBrandList.get(mBrandIndex).brand_id, resp -> {
+                mTrixList = resp;
+                List<String> items = new ArrayList<>();
+                for (GetTrixResp trixResp : resp) {
+                    items.add(trixResp.trix_name);
+                }
+                WheelViewUtil.showWheelView(items, mTrixIndex, carInfoBrandLin, trixTv, "请选择车系", (clickedView, selectedIndex) -> {
+                    mTrixIndex = selectedIndex;
+
+                    mModelList.clear();
+                    mModelIndex = 0;
+                    modelTv.setText("");
+
+                    mGuidePrice = 0;
+                    guidePriceTv.setText("");
+
+                    mLoanBankList.clear();
+                    mLoanBankIndex = 0;
+                    loanBankTv.setText(null);
+
+                    mProductTypeIndex = 0;
+                    productTypeTv.setText(null);
+
+                    billPriceTv.setText("");
+                });
+            });
+        } else if (TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else if (TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成品牌选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
+
+    @BindView(id = R.id.car_info_brand_lin, objectName = "品牌选择", onClick = "selectBrand")
+    private LinearLayout carInfoBrandLin;
+    //品牌选择
+    private void selectBrand(View view) {
+        if (!TextUtils.isEmpty(dlrTV.getText())) {
+            DlrApi.getBrand(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+                mBrandList = resp;
+                List<String> items = new ArrayList<>();
+                for (GetBrandResp item : resp) {
+                    items.add(item.brand_name);
+                }
+                WheelViewUtil.showWheelView(items, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
+                    mBrandIndex = selectedIndex;
+
+                    mTrixList.clear();
+                    mTrixIndex = 0;
+                    trixTv.setText("");
+
+                    mModelList.clear();
+                    mModelIndex = 0;
+                    modelTv.setText("");
+
+                    mGuidePrice = 0;
+                    guidePriceTv.setText("");
+
+                    mLoanBankList.clear();
+                    mLoanBankIndex = 0;
+                    loanBankTv.setText(null);
+
+                    mProductTypeIndex = 0;
+                    productTypeTv.setText(null);
+
+                    billPriceTv.setText("");
+                });
+            });
+        } else {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        }
+    }
+
+    @BindView(id = R.id.car_info_dlr_lin, objectName = "门店选择", onClick = "selectDlr")
+    private LinearLayout carInfoDlrLin;
+    //门店选择
+    private void selectDlr(View view) {
         DlrApi.getDlrListByToken(mContext, resp -> {
-        if (resp != null && !resp.isEmpty()) {
+            if (resp != null && !resp.isEmpty()) {
                 mDlrList = resp;
                 List<String> items = new ArrayList<>();
                 for (GetDlrListByTokenResp item : resp) {
@@ -317,13 +567,13 @@ public class CarInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        UBT.bind(this,view,"车辆信息");
+        UBT.bind(this, view, "车辆信息");
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
 
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
         otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
         colorTv = (TextView) view.findViewById(R.id.car_info_color_tv);//车辆颜色
-        plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
+//        plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
         plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
 
         dlrTV = (TextView) view.findViewById(R.id.car_info_dlr_tv);
@@ -332,38 +582,38 @@ public class CarInfoFragment extends BaseFragment {
         guidePriceTv = (TextView) view.findViewById(R.id.car_info_guide_price_tv);
         modelTv = (TextView) view.findViewById(R.id.car_info_model_tv);
         loanPeriodsTv = (TextView) view.findViewById(R.id.car_info_loan_periods_tv);
-        carInfoLoanPeriodsLin = (LinearLayout) view.findViewById(R.id.car_info_loan_periods_lin);
+//        carInfoLoanPeriodsLin = (LinearLayout) view.findViewById(R.id.car_info_loan_periods_lin);
         managementPriceTv = (TextView) view.findViewById(R.id.car_info_management_price_tv);
-        managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
+//        managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
         loanBankTv = (TextView) view.findViewById(R.id.car_info_loan_bank_tv);
         productTypeTv = (TextView) view.findViewById(R.id.car_info_product_type_tv);
         billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);//开票价
         firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);//首付款
         carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
 //        carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
-        carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
-        carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);
-        carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
-        carInfoLoanBankLin = (LinearLayout) view.findViewById(R.id.car_info_loan_bank_lin);
-        carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
+//        carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
+//        carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);
+//        carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
+//        carInfoLoanBankLin = (LinearLayout) view.findViewById(R.id.car_info_loan_bank_lin);
+//        carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
 
-        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(productTypeTv.getText())) {
-                    Toast.makeText(mContext, "请先选择产品类型", Toast.LENGTH_LONG).show();
-                } else {
-                    WheelViewUtil.showWheelView(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", new WheelViewUtil.OnSubmitCallBack() {
-                        @Override
-                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                            mLoanPeriodsIndex = selectedIndex;
-                        }
-                    });
-                }
-            }
-        });
+//        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (TextUtils.isEmpty(productTypeTv.getText())) {
+//                    Toast.makeText(mContext, "请先选择产品类型", Toast.LENGTH_LONG).show();
+//                } else {
+//                    WheelViewUtil.showWheelView(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", new WheelViewUtil.OnSubmitCallBack() {
+//                        @Override
+//                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
+//                            mLoanPeriodsIndex = selectedIndex;
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
         /**
          * 进行门店选择
@@ -419,50 +669,50 @@ public class CarInfoFragment extends BaseFragment {
 //        }));
 
 
-        //上牌地
-        plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(productTypeTv.getText())) {
-                    Toast toast = Toast.makeText(mContext, "请选择产品类型", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    return;
-                }
-                if (!TextUtils.isEmpty(cityJson)) {
-                    WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
-                        @Override
-                        public void onCitySubmitCallBack(View clickedView, String city) {
-                            if (!TextUtils.isEmpty(plateRegAddrTv.getText())) {
-                                carInfoNextBtn.setEnabled(true);
-                            }
-                        }
-                    }, cityJson);
-
-                } else {
-                    return;
-                }
-
-            }
-        });
-        managementPriceLl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(dlrTV.getText())) {
-                    Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                } else {//(clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex)
-                    WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
-                        @Override
-                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                            mManagementPriceIndex = selectedIndex;
-                            isChoose = true;
-                            totalPrice();
-                        }
-                    });
-                }
-            }
-        });
+//        //上牌地
+//        plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (TextUtils.isEmpty(productTypeTv.getText())) {
+//                    Toast toast = Toast.makeText(mContext, "请选择产品类型", Toast.LENGTH_LONG);
+//                    toast.setGravity(Gravity.CENTER, 0, 0);
+//                    toast.show();
+//                    return;
+//                }
+//                if (!TextUtils.isEmpty(cityJson)) {
+//                    WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
+//                        @Override
+//                        public void onCitySubmitCallBack(View clickedView, String city) {
+//                            if (!TextUtils.isEmpty(plateRegAddrTv.getText())) {
+//                                carInfoNextBtn.setEnabled(true);
+//                            }
+//                        }
+//                    }, cityJson);
+//
+//                } else {
+//                    return;
+//                }
+//
+//            }
+//        });
+//        managementPriceLl.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (TextUtils.isEmpty(dlrTV.getText())) {
+//                    Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+//                    toast.setGravity(Gravity.CENTER, 0, 0);
+//                } else {//(clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex)
+//                    WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+//                        @Override
+//                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
+//                            mManagementPriceIndex = selectedIndex;
+//                            isChoose = true;
+//                            totalPrice();
+//                        }
+//                    });
+//                }
+//            }
+//        });
 
         otherPriceTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
@@ -509,123 +759,123 @@ public class CarInfoFragment extends BaseFragment {
             }
         });
 
-        carInfoBrandLin.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(dlrTV.getText())) {
-                DlrApi.getBrand(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
-                    mBrandList = resp;
-                    List<String> items = new ArrayList<>();
-                    for (GetBrandResp item : resp) {
-                        items.add(item.brand_name);
-                    }
-                    WheelViewUtil.showWheelView(items, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
-                        mBrandIndex = selectedIndex;
-
-                        mTrixList.clear();
-                        mTrixIndex = 0;
-                        trixTv.setText("");
-
-                        mModelList.clear();
-                        mModelIndex = 0;
-                        modelTv.setText("");
-
-                        mGuidePrice = 0;
-                        guidePriceTv.setText("");
-
-                        mLoanBankList.clear();
-                        mLoanBankIndex = 0;
-                        loanBankTv.setText(null);
-
-                        mProductTypeIndex = 0;
-                        productTypeTv.setText(null);
-
-                        billPriceTv.setText("");
-                    });
-                });
-            } else {
-                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });
+//        carInfoBrandLin.setOnClickListener(v -> {
+//            if (!TextUtils.isEmpty(dlrTV.getText())) {
+//                DlrApi.getBrand(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+//                    mBrandList = resp;
+//                    List<String> items = new ArrayList<>();
+//                    for (GetBrandResp item : resp) {
+//                        items.add(item.brand_name);
+//                    }
+//                    WheelViewUtil.showWheelView(items, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
+//                        mBrandIndex = selectedIndex;
+//
+//                        mTrixList.clear();
+//                        mTrixIndex = 0;
+//                        trixTv.setText("");
+//
+//                        mModelList.clear();
+//                        mModelIndex = 0;
+//                        modelTv.setText("");
+//
+//                        mGuidePrice = 0;
+//                        guidePriceTv.setText("");
+//
+//                        mLoanBankList.clear();
+//                        mLoanBankIndex = 0;
+//                        loanBankTv.setText(null);
+//
+//                        mProductTypeIndex = 0;
+//                        productTypeTv.setText(null);
+//
+//                        billPriceTv.setText("");
+//                    });
+//                });
+//            } else {
+//                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            }
+//        });
 
 //        view.findViewById(R.id.car_info_trix_lin)
-        carInfoTrixLin.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                DlrApi.getTrix(mContext, mBrandList.get(mBrandIndex).brand_id, resp -> {
-                    mTrixList = resp;
-                    List<String> items = new ArrayList<>();
-                    for (GetTrixResp trixResp : resp) {
-                        items.add(trixResp.trix_name);
-                    }
-                    WheelViewUtil.showWheelView(items, mTrixIndex, carInfoBrandLin, trixTv, "请选择车系", (clickedView, selectedIndex) -> {
-                        mTrixIndex = selectedIndex;
-
-                        mModelList.clear();
-                        mModelIndex = 0;
-                        modelTv.setText("");
-
-                        mGuidePrice = 0;
-                        guidePriceTv.setText("");
-
-                        mLoanBankList.clear();
-                        mLoanBankIndex = 0;
-                        loanBankTv.setText(null);
-
-                        mProductTypeIndex = 0;
-                        productTypeTv.setText(null);
-
-                        billPriceTv.setText("");
-                    });
-                });
-            } else if (TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            } else if (TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(mContext, "请您先完成品牌选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-
-        });
+//        carInfoTrixLin.setOnClickListener(v -> {
+//            if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+//                DlrApi.getTrix(mContext, mBrandList.get(mBrandIndex).brand_id, resp -> {
+//                    mTrixList = resp;
+//                    List<String> items = new ArrayList<>();
+//                    for (GetTrixResp trixResp : resp) {
+//                        items.add(trixResp.trix_name);
+//                    }
+//                    WheelViewUtil.showWheelView(items, mTrixIndex, carInfoBrandLin, trixTv, "请选择车系", (clickedView, selectedIndex) -> {
+//                        mTrixIndex = selectedIndex;
+//
+//                        mModelList.clear();
+//                        mModelIndex = 0;
+//                        modelTv.setText("");
+//
+//                        mGuidePrice = 0;
+//                        guidePriceTv.setText("");
+//
+//                        mLoanBankList.clear();
+//                        mLoanBankIndex = 0;
+//                        loanBankTv.setText(null);
+//
+//                        mProductTypeIndex = 0;
+//                        productTypeTv.setText(null);
+//
+//                        billPriceTv.setText("");
+//                    });
+//                });
+//            } else if (TextUtils.isEmpty(dlrTV.getText())) {
+//                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            } else if (TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+//                Toast toast = Toast.makeText(mContext, "请您先完成品牌选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            }
+//
+//        });
         // view.findViewById(R.id.car_info_model_lin)
-        carInfoModelLin.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(trixTv.getText())) {
-                DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
-                    if (resp != null && !resp.isEmpty()) {
-                        mModelList = resp;
-                        List<String> items = new ArrayList<>();
-                        for (GetModelResp modelResp : resp) {
-                            items.add(modelResp.model_name);
-                        }
-                        WheelViewUtil.showWheelView(items, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
-                            mModelIndex = selectedIndex;
-                            mGuidePrice = (int) resp.get(mModelIndex).msrp;
-                            guidePriceTv.setText(mGuidePrice + "");
-                            billPriceTv.setEnabled(true);
-                            //otherPriceTv.setHint("整百且小于" + mDlrList.get(mDlrIndex).other_fee);
-
-                            mLoanBankList.clear();
-                            mLoanBankIndex = 0;
-                            loanBankTv.setText(null);
-                            mProductTypeIndex = 0;
-                            productTypeTv.setText(null);
-
-                            billPriceTv.setText("");
-                        });
-                    }
-                });
-
-            } else if (TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            } else if (TextUtils.isEmpty(trixTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(mContext, "请您先完成车系选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });
+//        carInfoModelLin.setOnClickListener(v -> {
+//            if (!TextUtils.isEmpty(trixTv.getText())) {
+//                DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
+//                    if (resp != null && !resp.isEmpty()) {
+//                        mModelList = resp;
+//                        List<String> items = new ArrayList<>();
+//                        for (GetModelResp modelResp : resp) {
+//                            items.add(modelResp.model_name);
+//                        }
+//                        WheelViewUtil.showWheelView(items, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
+//                            mModelIndex = selectedIndex;
+//                            mGuidePrice = (int) resp.get(mModelIndex).msrp;
+//                            guidePriceTv.setText(mGuidePrice + "");
+//                            billPriceTv.setEnabled(true);
+//                            //otherPriceTv.setHint("整百且小于" + mDlrList.get(mDlrIndex).other_fee);
+//
+//                            mLoanBankList.clear();
+//                            mLoanBankIndex = 0;
+//                            loanBankTv.setText(null);
+//                            mProductTypeIndex = 0;
+//                            productTypeTv.setText(null);
+//
+//                            billPriceTv.setText("");
+//                        });
+//                    }
+//                });
+//
+//            } else if (TextUtils.isEmpty(dlrTV.getText())) {
+//                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            } else if (TextUtils.isEmpty(trixTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+//                Toast toast = Toast.makeText(mContext, "请您先完成车系选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            }
+//        });
 
         //billPriceTv 车辆开票价
         billPriceTv.addTextChangedListener(new TextWatcher() {
@@ -665,71 +915,71 @@ public class CarInfoFragment extends BaseFragment {
         });
 
 //        view.findViewById(R.id.car_info_loan_bank_lin)
-        carInfoLoanBankLin.setOnClickListener(v -> {//选择银行列表
-            if (!TextUtils.isEmpty(dlrTV.getText())) {
-                DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
-
-                    mLoanBankList = resp;//银行列表
-                    List<String> items = new ArrayList<String>();
-                    for (GetLoanBankResp getLoanBankResp : resp) {
-                        items.add(getLoanBankResp.name);
-                    }
-
-                    WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
-
-                });
-            } else {
-                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });
+//        carInfoLoanBankLin.setOnClickListener(v -> {//选择银行列表
+//            if (!TextUtils.isEmpty(dlrTV.getText())) {
+//                DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+//
+//                    mLoanBankList = resp;//银行列表
+//                    List<String> items = new ArrayList<String>();
+//                    for (GetLoanBankResp getLoanBankResp : resp) {
+//                        items.add(getLoanBankResp.name);
+//                    }
+//
+//                    WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+//
+//                });
+//            } else {
+//                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            }
+//        });
 //        view.findViewById(R.id.car_info_product_type_lin)
-        carInfoProductTypeLin.setOnClickListener(v -> {
-            if (!TextUtils.isEmpty(loanBankTv.getText())) {
-
-                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
-                    @Override
-                    public void onItemDataCallBack(GetproductResp resp) {
-                        if (resp == null) {
-                            return;
-                        }
-                        cityJson = resp.support_area.toString();
-//                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
-
-                        mProductList = resp.product_list;
-
-                        //mProductList.get()
-
-                        List<String> items = new ArrayList<String>();
-
-                        //List<Integer> nper_list = new ArrayList<Integer>();
-
-                        for (GetproductResp.ProductListBean product_list : resp.product_list) {
-                            items.add(product_list.name);
-                        }
-
-                        WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
-                            @Override
-                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                                mProductTypeIndex = selectedIndex;
-                                loanPeriodsTv.setText(null);
-                                mLoanPeriodsIndex = 0;
-                            }
-                        });
-                    }
-                });
-
-            } else if (TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            } else if (TextUtils.isEmpty(loanBankTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(mContext, "请您先完成贷款银行选择", Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER, 0, 0);
-                toast.show();
-            }
-        });
+//        carInfoProductTypeLin.setOnClickListener(v -> {
+//            if (!TextUtils.isEmpty(loanBankTv.getText())) {
+//
+//                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
+//                    @Override
+//                    public void onItemDataCallBack(GetproductResp resp) {
+//                        if (resp == null) {
+//                            return;
+//                        }
+//                        cityJson = resp.support_area.toString();
+////                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
+//
+//                        mProductList = resp.product_list;
+//
+//                        //mProductList.get()
+//
+//                        List<String> items = new ArrayList<String>();
+//
+//                        //List<Integer> nper_list = new ArrayList<Integer>();
+//
+//                        for (GetproductResp.ProductListBean product_list : resp.product_list) {
+//                            items.add(product_list.name);
+//                        }
+//
+//                        WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+//                            @Override
+//                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
+//                                mProductTypeIndex = selectedIndex;
+//                                loanPeriodsTv.setText(null);
+//                                mLoanPeriodsIndex = 0;
+//                            }
+//                        });
+//                    }
+//                });
+//
+//            } else if (TextUtils.isEmpty(dlrTV.getText())) {
+//                Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            } else if (TextUtils.isEmpty(loanBankTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
+//                Toast toast = Toast.makeText(mContext, "请您先完成贷款银行选择", Toast.LENGTH_LONG);
+//                toast.setGravity(Gravity.CENTER, 0, 0);
+//                toast.show();
+//            }
+//        });
 
         //贷款额度
         carLoanPriceTv.addTextChangedListener(new TextWatcher() {//车辆贷款
