@@ -235,7 +235,7 @@ public class CarInfoFragment extends BaseFragment {
     private EditText otherPriceTv;
 
     @BindView(id = R.id.car_info_color_tv,objectName = "颜色输入")
-    private EditText colorTv;
+    private TextView colorTv;
 
     private TextView plateRegAddrTv;
     private String cityJson;
