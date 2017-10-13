@@ -30,7 +30,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         ActivityManager.addActivity(this);
         myApp = ((Yusion4sApp) getApplication());
         PgyCrashManager.register(this);
-
+        //UBT.bind(BaseActivity.this);
+        UBT.bind(this);
     }
 
     public TitleBar initTitleBar(final Activity activity, String title) {
