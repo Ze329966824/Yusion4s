@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui;
 
 
+import android.animation.FloatArrayEvaluator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -54,6 +55,7 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
