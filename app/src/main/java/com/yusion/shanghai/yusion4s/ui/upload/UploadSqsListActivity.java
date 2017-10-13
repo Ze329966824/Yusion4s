@@ -10,6 +10,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -292,6 +293,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 Dialog dialog = LoadingUtils.createLoadingDialog(this);
                 dialog.show();
                 //int account = 0;
+                Log.e("TAG", "1111");
                 for (UploadImgItemBean imgItemBean : toAddList) {
                     //account++;
                     //int finalAccount = account;
@@ -299,18 +301,22 @@ public class UploadSqsListActivity extends BaseActivity {
                         @Override
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;
+                            Log.e("TAG", "2222");
                             hasUploadLists.add(imgItemBean);
                             if (hasUploadLists.size() == files.size()) {
+                                Log.e("TAG", "3333");
                                 dialog.dismiss();
                                 runOnUiThread(new Runnable() {
                                     @Override
                                     public void run() {
+                                        Log.e("TAG", "4444");
                                         for (UploadImgItemBean imgItemBean : toAddList) {
                                             UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
                                             fileUrlBean.clt_id = clt_id;
                                             fileUrlBean.file_id = imgItemBean.objectKey;
                                             fileUrlBean.label = imgItemBean.type;
                                             uploadFileUrlList.add(fileUrlBean);
+                                            Log.e("TAG", uploadFileUrlList.toString());
                                         }
                                     }
                                 });
@@ -319,6 +325,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     }, new OnItemDataCallBack<Throwable>() {
                         @Override
                         public void onItemDataCallBack(Throwable data) {
+                            Log.e("TAG", "6666");
                             if (hasUploadLists.size() == files.size()) {
                                 dialog.dismiss();
                                 runOnUiThread(new Runnable() {
