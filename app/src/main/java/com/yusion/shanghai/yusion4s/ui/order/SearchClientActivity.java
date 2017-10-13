@@ -58,8 +58,8 @@ public class SearchClientActivity extends BaseActivity {
 
     private void initView() {
         tv_notice = (TextView) findViewById(R.id.tv_notice);
-       // search_info = (TextView) findViewById(R.id.search_info);
-       // et_search = (EditText) findViewById(R.id.et_search);
+        // search_info = (TextView) findViewById(R.id.search_info);
+        // et_search = (EditText) findViewById(R.id.et_search);
         rv_client_info = (RecyclerView) findViewById(R.id.rv_client_info);
         rv_client_info.setLayoutManager(new LinearLayoutManager(SearchClientActivity.this));
         rv_client_info.addItemDecoration(new RecyclerViewDivider(SearchClientActivity.this, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(SearchClientActivity.this, 5), ContextCompat.getColor(SearchClientActivity.this, R.color.main_bg)));
