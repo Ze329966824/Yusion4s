@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +32,7 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -262,7 +262,7 @@ public class CarInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        DELAY_MILLIS = Yusion4sApp.CONFIG_RESP.DELAY_MILLIS;
+        DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
 
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
         otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
@@ -639,7 +639,7 @@ public class CarInfoFragment extends BaseFragment {
                             return;
                         }
                         cityJson = resp.support_area.toString();
-                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
+//                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
 
                         mProductList = resp.product_list;
 
@@ -825,7 +825,9 @@ public class CarInfoFragment extends BaseFragment {
         carInfoNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (checkCanNextStep()) {
+                if (Settings.isShameData) {
+                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+                } else if (checkCanNextStep()) {
 
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
 
@@ -855,6 +857,11 @@ public class CarInfoFragment extends BaseFragment {
         });
         ((TextView) view.findViewById(R.id.step1)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
+
+
+        if (Settings.isShameData) {
+            carInfoNextBtn.setEnabled(true);
+        }
 
     }
 
