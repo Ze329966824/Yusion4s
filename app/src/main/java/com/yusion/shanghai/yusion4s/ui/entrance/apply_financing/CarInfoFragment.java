@@ -33,6 +33,7 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -238,6 +239,7 @@ public class CarInfoFragment extends BaseFragment {
     private LinearLayout carInfoDlrLin;
     //car_info_dlr_lin
     private LinearLayout carInfoBrandLin;
+    @BindView(id = R.id.car_info_brand_lin,objectName = "门店选择",onClick = "selectDlr")
     private LinearLayout carInfoTrixLin;
     private LinearLayout carInfoModelLin;
     private LinearLayout carInfoLoanBankLin;
@@ -245,75 +247,8 @@ public class CarInfoFragment extends BaseFragment {
     private LinearLayout carInfoLoanPeriodsLin;
     private String cityJson;
 
-    public static CarInfoFragment newInstance() {
-        Bundle args = new Bundle();
-
-        CarInfoFragment fragment = new CarInfoFragment();
-        fragment.setArguments(args);
-        return fragment;
-    }
-
-    @Nullable
-    @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_car_info, container, false);
-    }
-
-    @Override
-    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        DELAY_MILLIS = Yusion4sApp.CONFIG_RESP.DELAY_MILLIS;
-
-        totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
-        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
-        colorTv = (TextView) view.findViewById(R.id.car_info_color_tv);//车辆颜色
-        plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
-        plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
-
-        dlrTV = (TextView) view.findViewById(R.id.car_info_dlr_tv);
-        brandTv = (TextView) view.findViewById(R.id.car_info_brand_tv);
-        trixTv = (TextView) view.findViewById(R.id.car_info_trix_tv);
-        guidePriceTv = (TextView) view.findViewById(R.id.car_info_guide_price_tv);
-        modelTv = (TextView) view.findViewById(R.id.car_info_model_tv);
-        loanPeriodsTv = (TextView) view.findViewById(R.id.car_info_loan_periods_tv);
-        carInfoLoanPeriodsLin = (LinearLayout) view.findViewById(R.id.car_info_loan_periods_lin);
-        managementPriceTv = (TextView) view.findViewById(R.id.car_info_management_price_tv);
-        managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
-        loanBankTv = (TextView) view.findViewById(R.id.car_info_loan_bank_tv);
-        productTypeTv = (TextView) view.findViewById(R.id.car_info_product_type_tv);
-        billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);//开票价
-        firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);//首付款
-        carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
-        carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
-        carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
-        carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);
-        carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
-        carInfoLoanBankLin = (LinearLayout) view.findViewById(R.id.car_info_loan_bank_lin);
-        carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
-
-        carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
-
-        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (TextUtils.isEmpty(productTypeTv.getText())) {
-                    Toast.makeText(mContext, "请先选择产品类型", Toast.LENGTH_LONG).show();
-                } else {
-                    WheelViewUtil.showWheelView(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", new WheelViewUtil.OnSubmitCallBack() {
-                        @Override
-                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                            mLoanPeriodsIndex = selectedIndex;
-                        }
-                    });
-                }
-            }
-        });
-
-        /**
-         * 进行门店选择
-         */
-        //view.findViewById(R.id.car_info_dlr_lin)
-        carInfoDlrLin.setOnClickListener(v -> DlrApi.getDlrListByToken(mContext, resp -> {
+    private void selectDlr(){
+        DlrApi.getDlrListByToken(mContext, resp -> {
             if (resp != null && !resp.isEmpty()) {
                 mDlrList = resp;
                 List<String> items = new ArrayList<>();
@@ -360,7 +295,129 @@ public class CarInfoFragment extends BaseFragment {
 
                 });
             }
-        }));
+        });
+    }
+
+    public static CarInfoFragment newInstance() {
+        Bundle args = new Bundle();
+
+        CarInfoFragment fragment = new CarInfoFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    @Nullable
+    @Override
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+        return inflater.inflate(R.layout.fragment_car_info, container, false);
+    }
+
+
+
+    @Override
+    public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        DELAY_MILLIS = Yusion4sApp.CONFIG_RESP.DELAY_MILLIS;
+
+        totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
+        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
+        colorTv = (TextView) view.findViewById(R.id.car_info_color_tv);//车辆颜色
+        plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
+        plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
+
+        dlrTV = (TextView) view.findViewById(R.id.car_info_dlr_tv);
+        brandTv = (TextView) view.findViewById(R.id.car_info_brand_tv);
+        trixTv = (TextView) view.findViewById(R.id.car_info_trix_tv);
+        guidePriceTv = (TextView) view.findViewById(R.id.car_info_guide_price_tv);
+        modelTv = (TextView) view.findViewById(R.id.car_info_model_tv);
+        loanPeriodsTv = (TextView) view.findViewById(R.id.car_info_loan_periods_tv);
+        carInfoLoanPeriodsLin = (LinearLayout) view.findViewById(R.id.car_info_loan_periods_lin);
+        managementPriceTv = (TextView) view.findViewById(R.id.car_info_management_price_tv);
+        managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
+        loanBankTv = (TextView) view.findViewById(R.id.car_info_loan_bank_tv);
+        productTypeTv = (TextView) view.findViewById(R.id.car_info_product_type_tv);
+        billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);//开票价
+        firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);//首付款
+        carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
+
+//        carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
+
+        carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
+        carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);
+        carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
+        carInfoLoanBankLin = (LinearLayout) view.findViewById(R.id.car_info_loan_bank_lin);
+        carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
+
+        carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
+
+        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(productTypeTv.getText())) {
+                    Toast.makeText(mContext, "请先选择产品类型", Toast.LENGTH_LONG).show();
+                } else {
+                    WheelViewUtil.showWheelView(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", new WheelViewUtil.OnSubmitCallBack() {
+                        @Override
+                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                            mLoanPeriodsIndex = selectedIndex;
+                        }
+                    });
+                }
+            }
+        });
+
+        /**
+         * 进行门店选择
+         */
+        //view.findViewById(R.id.car_info_dlr_lin)
+//        carInfoDlrLin.setOnClickListener(v -> DlrApi.getDlrListByToken(mContext, resp -> {
+//            if (resp != null && !resp.isEmpty()) {
+//                mDlrList = resp;
+//                List<String> items = new ArrayList<>();
+//                for (GetDlrListByTokenResp item : resp) {
+//                    items.add(item.dlr_nm);
+//                }
+//
+//                //dlrTV  门店显示的textview
+//                WheelViewUtil.showWheelView(items, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
+//                    mDlrIndex = selectedIndex;
+//
+//                    mBrandList.clear();
+//                    mBrandIndex = 0;
+//                    brandTv.setText("");//厂商指导价
+//
+//                    mTrixList.clear();
+//                    mTrixIndex = 0;
+//                    trixTv.setText("");//选择车型
+//
+//                    mModelList.clear();
+//                    mModelIndex = 0;
+//                    modelTv.setText("");
+//
+//                    mGuidePrice = 0;
+//                    guidePriceTv.setText("");
+//
+//                    mLoanBankList.clear();
+//                    mLoanBankIndex = 0;
+//                    loanBankTv.setText(null);
+//
+//                    mProductTypeIndex = 0;
+//                    productTypeTv.setText(null);
+//
+//                    billPriceTv.setText("");
+//
+//
+//                    mManagementPriceIndex = 0;
+////                mDlrList.clear();
+//                    managementPriceTv.setText("");
+//                    totalLoanPriceTv.setText("");
+//                    otherPriceTv.setText("");
+//                    plateRegAddrTv.setText("");//上牌地选择
+//                    loanPeriodsTv.setText("");//还款期限
+//
+//                });
+//            }
+//        }));
 
 
         //上牌地

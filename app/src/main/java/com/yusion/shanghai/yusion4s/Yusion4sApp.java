@@ -9,6 +9,7 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
+import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import cn.jpush.android.api.JPushInterface;
@@ -25,6 +26,7 @@ public class Yusion4sApp extends MultiDexApplication {
     public static String ACCOUNT;
     public static ConfigResp CONFIG_RESP;
     public static UserInfoBean USERINFOBEAN;
+    public static boolean isForeground;
 
     public static boolean isLogin;
     private static String reg_id;
@@ -42,6 +44,7 @@ public class Yusion4sApp extends MultiDexApplication {
         jpush();
         umeng();
         instabug();
+        SqlLiteUtil.init(this);
     }
     private void instabug() {
         new Instabug.Builder(this, "fac6ff642eec6bf5599d893a0a1224e3")
