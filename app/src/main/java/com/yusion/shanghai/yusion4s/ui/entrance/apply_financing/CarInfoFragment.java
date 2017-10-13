@@ -9,7 +9,6 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -640,7 +639,7 @@ public class CarInfoFragment extends BaseFragment {
                             return;
                         }
                         cityJson = resp.support_area.toString();
-                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
+//                        Log.e("TAG", "onItemDataCallBack: " + cityJson);
 
                         mProductList = resp.product_list;
 
@@ -858,6 +857,11 @@ public class CarInfoFragment extends BaseFragment {
         });
         ((TextView) view.findViewById(R.id.step1)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
+
+
+        if (Settings.isShameData) {
+            carInfoNextBtn.setEnabled(true);
+        }
 
     }
 

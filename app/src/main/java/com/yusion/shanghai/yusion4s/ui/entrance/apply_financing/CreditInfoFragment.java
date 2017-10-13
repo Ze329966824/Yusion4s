@@ -190,7 +190,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 return;
                             }
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                            Log.e("TAG", "onItemDataCallBack: " + uploadFileUrlList);
+                            Log.e("TAG", "uploadFileUrlList: " + uploadFileUrlList);
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;
