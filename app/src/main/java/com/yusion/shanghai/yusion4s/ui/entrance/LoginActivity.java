@@ -126,7 +126,7 @@ public class LoginActivity extends BaseActivity {
         String imsi = telephonyManager.getSubscriberId();
         req.imei = imei;
         req.imsi = imsi;
-        req.app = "Yusion";
+        req.app = "Yusion4s";
         req.token = SharedPrefsUtil.getInstance(this).getValue("token", null);
         req.mobile = SharedPrefsUtil.getInstance(this).getValue("mobile", null);
 

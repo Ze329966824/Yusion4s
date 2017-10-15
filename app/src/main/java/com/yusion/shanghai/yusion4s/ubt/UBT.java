@@ -12,6 +12,7 @@ import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
@@ -66,7 +67,7 @@ public class UBT {
         String imsi = telephonyManager.getSubscriberId();
         req.imei = imei;
         req.imsi = imsi;
-        req.app = "Yusion";
+        req.app = "Yusion4s";
         req.token = SharedPrefsUtil.getInstance(context).getValue("token", null);
         req.mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
 
@@ -190,6 +191,12 @@ public class UBT {
             @Override
             public void run() {
                 String TAG = "UBT";
+                //没有token和account的数据暂不发送
+                if (TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("token", ""))
+                        || TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("account", ""))) {
+                    Log.e(TAG, "run: account或token为空 禁止发送");
+                    return;
+                }
                 Cursor cursor = SqlLiteUtil.query(null, null, null, null);
                 int count = cursor.getCount();
                 if (count > limit) {
