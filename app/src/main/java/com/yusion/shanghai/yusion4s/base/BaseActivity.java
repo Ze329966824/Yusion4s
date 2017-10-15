@@ -7,7 +7,6 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -31,7 +30,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         ActivityManager.addActivity(this);
         myApp = ((Yusion4sApp) getApplication());
-        PgyCrashManager.register(this);
+//        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
 //        UBT.bind(this);
     }
