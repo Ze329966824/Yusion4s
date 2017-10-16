@@ -90,6 +90,18 @@ public class UBTCollections {
         widgetNameMaps.put("car_info_first_price_tv", "车辆首付款输入");
         widgetNameMaps.put("car_info_other_price_tv", "其他费用输入");
         widgetNameMaps.put("car_info_color_tv", "颜色输入");
+
+        widgetNameMaps.put("tv_find", "搜索客户");
+        widgetNameMaps.put("choose_relation", "选择车主与申请人关系");
+        widgetNameMaps.put("autonym_certify_id_back_tv10", "详情");
+        widgetNameMaps.put("autonym_certify_id_back_tv", "上传申请人征信授权书");
+        widgetNameMaps.put("autonym_certify_id_back_tv1", "上传申请人配偶征信授权书");
+        widgetNameMaps.put("autonym_certify_id_back_tv2", "上传担保人征信授权书");
+        widgetNameMaps.put("autonym_certify_id_back_tv3", "上传担保人配偶征信授权书");
+
+        widgetNameMaps.put("et_search", "输入搜索内容");
+        widgetNameMaps.put("search_info", "点击搜索客户按钮");
+
     }
 
     public static String getPageNm(String key) {
