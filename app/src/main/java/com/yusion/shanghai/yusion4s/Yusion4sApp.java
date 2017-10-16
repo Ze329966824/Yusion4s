@@ -25,6 +25,7 @@ public class Yusion4sApp extends MultiDexApplication {
     private static Yusion4sApp myApplication = null;
     public static String TOKEN;
     public static String ACCOUNT;
+    //    public static String MOBILE;
     public static ConfigResp CONFIG_RESP;
     public static UserInfoBean USERINFOBEAN;
     public static boolean isForeground;
@@ -38,7 +39,7 @@ public class Yusion4sApp extends MultiDexApplication {
         ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
         if (BuildConfig.isOnline) {
             Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
-        }else {
+        } else {
             Sentry.init("http://a38b78ed9d104631998185e97f1465ff:d7046f67331d4f8d860d922b0e02bc55@116.62.161.180:9002/8", new AndroidSentryClientFactory(this));
         }
         PgyCrashManager.register(this);
@@ -47,11 +48,11 @@ public class Yusion4sApp extends MultiDexApplication {
         instabug();
         SqlLiteUtil.init(this);
     }
+
     private void instabug() {
-        new Instabug.Builder(this, "fac6ff642eec6bf5599d893a0a1224e3")
-                .setInvocationEvent(InstabugInvocationEvent.SHAKE)
-                .build();
+        new Instabug.Builder(this, "fac6ff642eec6bf5599d893a0a1224e3").setInvocationEvent(InstabugInvocationEvent.SHAKE).build();
     }
+
     private void umeng() {
         //禁止默认的页面统计方式
         MobclickAgent.openActivityDurationTrack(false);
@@ -85,7 +86,7 @@ public class Yusion4sApp extends MultiDexApplication {
         if (CONFIG_RESP == null) {
             Log.e("TAG", "getConfigResp: is null");
             Sentry.capture("getConfigResp: is nul");
-        }else {
+        } else {
 
             Log.e("TAG", "getConfigResp: not null");
             Sentry.capture("getConfigResp: not nul");

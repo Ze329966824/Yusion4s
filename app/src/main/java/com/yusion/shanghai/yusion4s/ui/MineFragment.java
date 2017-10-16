@@ -1,17 +1,18 @@
 package com.yusion.shanghai.yusion4s.ui;
 
 
-import android.animation.FloatArrayEvaluator;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
@@ -133,6 +134,9 @@ public class MineFragment extends BaseFragment implements View.OnClickListener {
 //    }
 //
     public void refresh(CheckUserInfoResp resp) {
+        if (TextUtils.isEmpty(resp.mobile)) {
+            Toast.makeText(mContext, "错误:手机号为空！！！(UBT)", Toast.LENGTH_SHORT).show();
+        }
         mName.setText(resp.name);
         mMobile.setText(resp.mobile);
         if (resp.role.equals("S")) {

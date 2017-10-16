@@ -18,6 +18,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
@@ -56,7 +57,38 @@ import retrofit2.Response;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 
-
+/**
+ * 1.在application中调用SqlLiteUtil.init(this);
+ * 2.页面
+ * *UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
+ * *UBT.addPageEvent(this, "page_show", "activity", getClass().getSimpleName());
+ * *UBT.addAppEvent(this, "app_start");
+ * *UBT.addAppEvent(this, "app_awake");
+ * 3.控件
+ * *UBT.bind(this, view, "车辆信息页面");
+ * *UBT.bind(this);
+ * *焦点改变事件
+ * -   顶层布局添加
+ * -   android:focusableInTouchMode="true"
+ * -   android:orientation="vertical"
+ * btn.setOnClickListener(new View.OnClickListener() {
+ *
+ * @Override public void onClick(View v) {
+ * v.setFocusable(true);
+ * v.setFocusableInTouchMode(true);
+ * v.requestFocus();
+ * v.requestFocusFromTouch();
+ * }
+ * });
+ * btn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+ * @Override public void onFocusChange(View v, boolean hasFocus) {
+ * if (hasFocus) {
+ * v.clearFocus();
+ * //doSomething
+ * }
+ * }
+ * });
+ */
 public class UBT {
 
     public static void uploadPersonAndDeviceInfo(Context context) {
@@ -312,7 +344,12 @@ public class UBT {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
-                    addEvent(view.getContext(), "onFocusChange", view, pageName, hasFocus ? "onFocus" : "onBlur");
+                    if (!(view instanceof EditText)) {
+                        return;
+                    }
+                    String action = hasFocus ? "focus_in" : "focus_out";
+                    addEvent(view.getContext(), action, view, pageName, ((EditText) view).getText().toString());
+//                    addEvent(view.getContext(), "onFocusChange", view, pageName, hasFocus ? "onFocus" : "onBlur");
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
                         method.setAccessible(true);
@@ -364,8 +401,8 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.e("tag", "afterTextChanged: " +s  );
-                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
+//                Log.e("tag", "afterTextChanged: " + s);
+//                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });
     }

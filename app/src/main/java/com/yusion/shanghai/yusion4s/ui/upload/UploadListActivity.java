@@ -372,6 +372,9 @@ public class UploadListActivity extends BaseActivity {
             uploadFileUrlBeanList.add(fileUrlBean);
         }
 
+        if (isFinishing()) {
+            return;
+        }
         if (mUploadFileDialog == null) {
             mUploadFileDialog = LoadingUtils.createLoadingDialog(this);
             mUploadFileDialog.setCancelable(false);

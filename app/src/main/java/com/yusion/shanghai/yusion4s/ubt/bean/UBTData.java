@@ -70,6 +70,7 @@ public class UBTData {
         app = "Yusion4s";
         token = SharedPrefsUtil.getInstance(context).getValue("token", null);
         account = SharedPrefsUtil.getInstance(context).getValue("account", null);
+        mobile = SharedPrefsUtil.getInstance(context).getValue("account", null);
     }
 
     public static class Gps {
