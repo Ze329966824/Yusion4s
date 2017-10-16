@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -100,6 +101,10 @@ public class CarInfoFragment extends BaseFragment {
         public void handleMessage(Message msg) {
             switch (msg.what) {
                 case 1:
+                    if (TextUtils.isEmpty(otherLimit)) {
+                        Log.e("TAG", "handleMessage: otherLimit错误");
+                        return;
+                    }
                     otherPriceChange = false;
                     int sum1 = 0;
                     if (Integer.valueOf(otherPriceTv.getText().toString()) > Integer.valueOf(otherLimit)) {
@@ -254,9 +259,11 @@ public class CarInfoFragment extends BaseFragment {
     @BindView(id = R.id.car_info_first_price_tv, widgetName = "car_info_first_price_tv")
     private EditText firstPriceTv;
 
-    @BindView(id = R.id.car_info_other_price_tv, widgetName = "car_info_other_price_tv",onFocusChange = "writeOtherPrice")
+    @BindView(id = R.id.car_info_other_price_tv, widgetName = "car_info_other_price_tv", onFocusChange = "writeOtherPrice")
     private EditText otherPriceTv;
-    private void writeOtherPrice(View view,boolean hasFocus){
+
+    private void writeOtherPrice(View view, boolean hasFocus) {
+        Log.e("TAG", "writeOtherPrice() called with: view = [" + view + "], hasFocus = [" + hasFocus + "]");
         if (hasFocus) {
             otherPriceTv.setHint("*金额取整到百位,如2300");
             otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
@@ -269,9 +276,11 @@ public class CarInfoFragment extends BaseFragment {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
+                Log.e("TAG", "writeOtherPrice: 1");
                 DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
                     @Override
                     public void onItemDataCallBack(String data) {
+                        Log.e("TAG", "onItemDataCallBack: 2 " + data);
                         if (!TextUtils.isEmpty(data)) {
                             otherLimit = data;
                             Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
@@ -295,7 +304,7 @@ public class CarInfoFragment extends BaseFragment {
     private String cityJson;
 
 
-//    @BindView(id = R.id.car_info_plate_reg_addr_lin, widgetName = "上牌地选择", onClick = "selectplateRegAddr")
+    //    @BindView(id = R.id.car_info_plate_reg_addr_lin, widgetName = "上牌地选择", onClick = "selectplateRegAddr")
     private LinearLayout plateRegAddrLin;
 
     //上牌地选择
@@ -1047,6 +1056,7 @@ public class CarInfoFragment extends BaseFragment {
             }
         });
 
+
         //贷款额度
         carLoanPriceTv.addTextChangedListener(new TextWatcher() {//车辆贷款
             @Override
@@ -1184,7 +1194,9 @@ public class CarInfoFragment extends BaseFragment {
                         // handler.removeCallbacks(delayRun);
                         handler.removeMessages(1);
                     }
-                    handler.sendEmptyMessageDelayed(1, DELAY_MILLIS);
+                    if (!TextUtils.isEmpty(s)) {
+                        handler.sendEmptyMessageDelayed(1, DELAY_MILLIS);
+                    }
                 } else {
                     otherPriceChange = true;
                 }
