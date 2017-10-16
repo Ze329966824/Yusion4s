@@ -244,16 +244,24 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_plate_reg_addr_tv, widgetName = "上牌地选择")
     private TextView plateRegAddrTv;
-    private TextView guidePriceTv;
-    private EditText billPriceTv;
-    private EditText firstPriceTv;
-    private EditText carLoanPriceTv;
-    private TextView totalLoanPriceTv;
 
+    @BindView(id = R.id.car_info_bill_price_tv, objectName = "车辆开票价输入")
+    private EditText billPriceTv;
+
+    @BindView(id = R.id.car_info_car_loan_price_tv, objectName = "车辆贷款额输入")
+    private EditText carLoanPriceTv;
+
+    @BindView(id = R.id.car_info_first_price_tv, objectName = "车辆首付款输入")
+    private EditText firstPriceTv;
+
+    @BindView(id = R.id.car_info_other_price_tv, objectName = "其他费用输入")
     private EditText otherPriceTv;
 
     @BindView(id = R.id.car_info_color_tv, widgetName = "颜色输入")
     private EditText colorTv;
+
+    private TextView guidePriceTv;
+    private TextView totalLoanPriceTv;
     private String cityJson;
 
 
