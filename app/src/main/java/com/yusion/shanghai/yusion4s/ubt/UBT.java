@@ -64,7 +64,7 @@ import static android.content.Context.TELEPHONY_SERVICE;
  * *UBT.addAppEvent(this, "app_start");
  * *UBT.addAppEvent(this, "app_awake");
  * 3.控件
- * *UBT.bind(this, view, "车辆信息页面");
+ * *UBT.bind(this, view, getClass().getSimpleName()
  * *UBT.bind(this);
  * *焦点改变事件
  * -   顶层布局添加
@@ -403,6 +403,9 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    return;
+                }
                 addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });

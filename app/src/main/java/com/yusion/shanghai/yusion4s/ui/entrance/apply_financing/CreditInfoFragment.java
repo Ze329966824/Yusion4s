@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.util.Log;
@@ -41,7 +40,6 @@ import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 import org.greenrobot.eventbus.EventBus;
 
 import java.io.Serializable;
-import java.security.PrivilegedAction;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -193,7 +191,7 @@ public class CreditInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        UBT.bind(this, view, "征信信息");
+        UBT.bind(this, view, getClass().getSimpleName());
         TextView step1 = (TextView) view.findViewById(R.id.step1);
         step1.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
         step1.setOnClickListener(v -> EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCarInfo));
