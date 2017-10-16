@@ -108,7 +108,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         AuthApi.checkUserInfo(this, new OnItemDataCallBack<CheckUserInfoResp>() {
             @Override
             public void onItemDataCallBack(CheckUserInfoResp data) {
-                if (data == null) return;
+                if (data == null) {
+                    return;
+                }
                 mMineFragment.refresh(data);
             }
         });

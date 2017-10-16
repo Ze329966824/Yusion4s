@@ -33,6 +33,7 @@ public class Yusion4sApp extends MultiDexApplication {
     public static boolean isLogin;
     private static String reg_id;
 
+    @Override
     public void onCreate() {
         super.onCreate();
         TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
