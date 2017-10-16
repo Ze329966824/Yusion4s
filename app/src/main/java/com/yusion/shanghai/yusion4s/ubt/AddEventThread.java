@@ -5,7 +5,6 @@ import android.content.Context;
 import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 
 import java.util.Date;
@@ -25,9 +24,9 @@ public class AddEventThread implements Runnable {
     public AddEventThread(Context context, String action, View view, String pageName, String action_value) {
         this.context = context;
         this.action = action;
-        this.view = view;
         this.pageName = pageName;
         this.action_value = action_value;
+        this.view = view;
     }
 
     public AddEventThread(Context context, String action, String object, String pageName) {
@@ -67,7 +66,8 @@ public class AddEventThread implements Runnable {
         }
         values.put("ts", new Date().getTime());
         SqlLiteUtil.insert(values);
-        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
+//        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
+        Log.e(TAG, "run: 插入成功 ----- " + AddEventThread.this.toString());
 
 
         //....................
@@ -79,6 +79,16 @@ public class AddEventThread implements Runnable {
 
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        return "AddEventThread{" +
+                "action='" + action + '\'' +
+                ", view=" + view +
+                ", pageName='" + pageName + '\'' +
+                ", action_value='" + action_value + '\'' +
+                ", isPageEvent=" + isPageEvent +
+                ", isAppEvent=" + isAppEvent +
+                ", object='" + object + '\'' +
+                ", context=" + context +
+                ", TAG='" + TAG + '\'' +
+                '}';
     }
 }
