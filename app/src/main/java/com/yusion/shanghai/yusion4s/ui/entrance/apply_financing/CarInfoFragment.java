@@ -221,43 +221,73 @@ public class CarInfoFragment extends BaseFragment {
     @BindView(id = R.id.car_info_dlr_tv, widgetName = "car_info_dlr_tv")
     private TextView dlrTV;
 
-    @BindView(id = R.id.car_info_brand_tv, widgetName = "品牌选择")
+    @BindView(id = R.id.car_info_brand_tv, widgetName = "car_info_brand_tv")
     private TextView brandTv;
 
-    @BindView(id = R.id.car_info_trix_tv, widgetName = "车系选择")
+    @BindView(id = R.id.car_info_trix_tv, widgetName = "car_info_trix_tv")
     private TextView trixTv;
 
-    @BindView(id = R.id.car_info_model_tv, widgetName = "车型选择")
+    @BindView(id = R.id.car_info_model_tv, widgetName = "car_info_model_tv")
     private TextView modelTv;
 
-    @BindView(id = R.id.car_info_management_price_tv, widgetName = "是否管贷档案管理费选择")
+    @BindView(id = R.id.car_info_management_price_tv, widgetName = "car_info_management_price_tv")
     private TextView managementPriceTv;
 
-    @BindView(id = R.id.car_info_loan_bank_tv, widgetName = "贷款银行选择")
+    @BindView(id = R.id.car_info_loan_bank_tv, widgetName = "car_info_loan_bank_tv")
     private TextView loanBankTv;
 
-    @BindView(id = R.id.car_info_product_type_tv, widgetName = "产品类型选择")
+    @BindView(id = R.id.car_info_product_type_tv, widgetName = "car_info_product_type_tv")
     private TextView productTypeTv;
 
-    @BindView(id = R.id.car_info_loan_periods_tv, widgetName = "还款期限选择")
+    @BindView(id = R.id.car_info_loan_periods_tv, widgetName = "car_info_loan_periods_tv")
     private TextView loanPeriodsTv;
 
-    @BindView(id = R.id.car_info_plate_reg_addr_tv, widgetName = "上牌地选择")
+    @BindView(id = R.id.car_info_plate_reg_addr_tv, widgetName = "car_info_plate_reg_addr_tv")
     private TextView plateRegAddrTv;
 
-    @BindView(id = R.id.car_info_bill_price_tv, objectName = "车辆开票价输入")
+    @BindView(id = R.id.car_info_bill_price_tv, widgetName = "car_info_bill_price_tv")
     private EditText billPriceTv;
 
-    @BindView(id = R.id.car_info_car_loan_price_tv, objectName = "车辆贷款额输入")
+    @BindView(id = R.id.car_info_car_loan_price_tv, widgetName = "car_info_car_loan_price_tv")
     private EditText carLoanPriceTv;
 
-    @BindView(id = R.id.car_info_first_price_tv, objectName = "车辆首付款输入")
+    @BindView(id = R.id.car_info_first_price_tv, widgetName = "car_info_first_price_tv")
     private EditText firstPriceTv;
 
-    @BindView(id = R.id.car_info_other_price_tv, objectName = "其他费用输入")
+    @BindView(id = R.id.car_info_other_price_tv, widgetName = "car_info_other_price_tv",onFocusChange = "writeOtherPrice")
     private EditText otherPriceTv;
+    private void writeOtherPrice(View view,boolean hasFocus){
+        if (hasFocus) {
+            otherPriceTv.setHint("*金额取整到百位,如2300");
+            otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
+            if (TextUtils.isEmpty(carLoanPriceTv.getText())) {
+                Toast toast = Toast.makeText(mContext, "请输入车辆贷款额", Toast.LENGTH_SHORT);
+                toast.setGravity(Gravity.CENTER, 0, 0);
+                toast.show();
+                otherPriceTv.setHint("请输入");
+                otherPriceTv.setHintTextColor(Color.parseColor("#d1d1d1"));
+                otherPriceTv.setEnabled(false);
+            } else {
+                otherLimit = "";
+                DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
+                    @Override
+                    public void onItemDataCallBack(String data) {
+                        if (!TextUtils.isEmpty(data)) {
+                            otherLimit = data;
+                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        }
+                    }
+                });
+            }
+        } else {
+            otherPriceTv.setHint("请输入");
+            otherPriceTv.setHintTextColor(Color.parseColor("#d1d1d1"));
+        }
+    }
 
-    @BindView(id = R.id.car_info_color_tv, widgetName = "颜色输入")
+    @BindView(id = R.id.car_info_color_tv, widgetName = "car_info_color_tv")
     private EditText colorTv;
 
     private TextView guidePriceTv;
@@ -607,7 +637,7 @@ public class CarInfoFragment extends BaseFragment {
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
 
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
-        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
+//        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
         colorTv = (EditText) view.findViewById(R.id.car_info_color_tv);//车辆颜色
         plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
         plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
@@ -750,50 +780,50 @@ public class CarInfoFragment extends BaseFragment {
             }
         });
 
-        otherPriceTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (hasFocus) {
-                    otherPriceTv.setHint("*金额取整到百位,如2300");
-                    otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
-                    if (TextUtils.isEmpty(carLoanPriceTv.getText())) {
-                        Toast toast = Toast.makeText(mContext, "请输入车辆贷款额", Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
-                        otherPriceTv.setHint("请输入");
-                        otherPriceTv.setHintTextColor(Color.parseColor("#d1d1d1"));
-                        otherPriceTv.setEnabled(false);
-                    } else {
-                        otherLimit = "";
-                        DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
-                            @Override
-                            public void onItemDataCallBack(String data) {
-                                if (!TextUtils.isEmpty(data)) {
-                                    otherLimit = data;
-                                    Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
-                                    toast.setGravity(Gravity.CENTER, 0, 0);
-                                    toast.show();
-                                }
-                            }
-                        });
-
-//                        if (Integer.valueOf(carLoanPriceTv.getText().toString()) < 50000) {
+//        otherPriceTv.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+//            @Override
+//            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    otherPriceTv.setHint("*金额取整到百位,如2300");
+//                    otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
+//                    if (TextUtils.isEmpty(carLoanPriceTv.getText())) {
+//                        Toast toast = Toast.makeText(mContext, "请输入车辆贷款额", Toast.LENGTH_SHORT);
+//                        toast.setGravity(Gravity.CENTER, 0, 0);
+//                        toast.show();
+//                        otherPriceTv.setHint("请输入");
+//                        otherPriceTv.setHintTextColor(Color.parseColor("#d1d1d1"));
+//                        otherPriceTv.setEnabled(false);
+//                    } else {
+//                        otherLimit = "";
+//                        DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
+//                            @Override
+//                            public void onItemDataCallBack(String data) {
+//                                if (!TextUtils.isEmpty(data)) {
+//                                    otherLimit = data;
+//                                    Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+//                                    toast.setGravity(Gravity.CENTER, 0, 0);
+//                                    toast.show();
+//                                }
+//                            }
+//                        });
 //
-//                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为3000", Toast.LENGTH_LONG);
-//                            toast.setGravity(Gravity.CENTER, 0, 0);
-//                            toast.show();
-//                        } else {
-//                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为5000", Toast.LENGTH_LONG);
-//                            toast.setGravity(Gravity.CENTER, 0, 0);
-//                            toast.show();
-//                        }
-                    }
-                } else {
-                    otherPriceTv.setHint("请输入");
-                    otherPriceTv.setHintTextColor(Color.parseColor("#d1d1d1"));
-                }
-            }
-        });
+////                        if (Integer.valueOf(carLoanPriceTv.getText().toString()) < 50000) {
+////
+////                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为3000", Toast.LENGTH_LONG);
+////                            toast.setGravity(Gravity.CENTER, 0, 0);
+////                            toast.show();
+////                        } else {
+////                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为5000", Toast.LENGTH_LONG);
+////                            toast.setGravity(Gravity.CENTER, 0, 0);
+////                            toast.show();
+////                        }
+//                    }
+//                } else {
+//                    otherPriceTv.setHint("请输入");
+//                    otherPriceTv.setHintTextColor(Color.parseColor("#d1d1d1"));
+//                }
+//            }
+//        });
 
         carInfoBrandLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(dlrTV.getText())) {
