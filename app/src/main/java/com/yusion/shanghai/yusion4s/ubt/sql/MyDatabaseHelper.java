@@ -17,12 +17,14 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + "action text, "
             + "ts text, "
             + "page_cn text, "
+            + "widget text, "
+            + "widget_cn text, "
             + "action_value text, "
             + "page text)";
 
     // 通过构造方法创建数据库，其中name为数据库名称
     public MyDatabaseHelper(Context context, String name) {
-        super(context, name, null, 3);
+        super(context, name, null, 4);
     }
 
     @Override
@@ -40,6 +42,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
                     break;
                 case 2:
                     db.execSQL("ALTER TABLE " + TABLE + " ADD COLUMN action_value TEXT");
+                    break;
+                case 3:
+                    db.execSQL("ALTER TABLE " + TABLE + " ADD COLUMN widget TEXT");
+                    db.execSQL("ALTER TABLE " + TABLE + " ADD COLUMN widget_cn TEXT");
                     break;
             }
         }

@@ -13,6 +13,8 @@ public class UBTEvent {
     public long ts;
     public String page; //eg:LoginActivity
     public String page_cn;
+    public String widget;
+    public String widget_cn;
     public String action_value;
 
     @Override

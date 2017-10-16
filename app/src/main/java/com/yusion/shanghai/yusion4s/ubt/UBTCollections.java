@@ -24,6 +24,7 @@ import java.util.HashMap;
 
 public class UBTCollections {
     public static HashMap<String, Pair<String, String>> pageNameMaps = new HashMap<>();
+    public static HashMap<String, String> widgetNameMaps = new HashMap<>();
 
     static {
         pageNameMaps.put(LaunchActivity.class.getSimpleName(), new Pair<>("launch", "启动页面"));
@@ -74,6 +75,10 @@ public class UBTCollections {
         pageNameMaps.put(UploadListActivity.class.getSimpleName(), new Pair<>("upload_img_list", "上传影像件列表页面"));
     }
 
+    static {
+        widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+    }
+
     public static String getPageNm(String key) {
         Pair<String, String> pair = pageNameMaps.get(key);
         if (pair == null) {
@@ -90,5 +95,9 @@ public class UBTCollections {
         } else {
             return pair.second;
         }
+    }
+
+    public static String getWidgetNmCn(String widget) {
+        return widgetNameMaps.get(widget);
     }
 }

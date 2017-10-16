@@ -218,31 +218,31 @@ public class CarInfoFragment extends BaseFragment {
             super.handleMessage(msg);
         }
     };
-    @BindView(id = R.id.car_info_dlr_tv, objectName = "门店选择")
+    @BindView(id = R.id.car_info_dlr_tv, widgetName = "car_info_dlr_tv")
     private TextView dlrTV;
 
-    @BindView(id = R.id.car_info_brand_tv, objectName = "品牌选择")
+    @BindView(id = R.id.car_info_brand_tv, widgetName = "品牌选择")
     private TextView brandTv;
 
-    @BindView(id = R.id.car_info_trix_tv, objectName = "车系选择")
+    @BindView(id = R.id.car_info_trix_tv, widgetName = "车系选择")
     private TextView trixTv;
 
-    @BindView(id = R.id.car_info_model_tv, objectName = "车型选择")
+    @BindView(id = R.id.car_info_model_tv, widgetName = "车型选择")
     private TextView modelTv;
 
-    @BindView(id = R.id.car_info_management_price_tv, objectName = "是否管贷档案管理费选择")
+    @BindView(id = R.id.car_info_management_price_tv, widgetName = "是否管贷档案管理费选择")
     private TextView managementPriceTv;
 
-    @BindView(id = R.id.car_info_loan_bank_tv, objectName = "贷款银行选择")
+    @BindView(id = R.id.car_info_loan_bank_tv, widgetName = "贷款银行选择")
     private TextView loanBankTv;
 
-    @BindView(id = R.id.car_info_product_type_tv, objectName = "产品类型选择")
+    @BindView(id = R.id.car_info_product_type_tv, widgetName = "产品类型选择")
     private TextView productTypeTv;
 
-    @BindView(id = R.id.car_info_loan_periods_tv, objectName = "还款期限选择")
+    @BindView(id = R.id.car_info_loan_periods_tv, widgetName = "还款期限选择")
     private TextView loanPeriodsTv;
 
-    @BindView(id = R.id.car_info_plate_reg_addr_tv, objectName = "上牌地选择")
+    @BindView(id = R.id.car_info_plate_reg_addr_tv, widgetName = "上牌地选择")
     private TextView plateRegAddrTv;
     private TextView guidePriceTv;
     private EditText billPriceTv;
@@ -252,12 +252,12 @@ public class CarInfoFragment extends BaseFragment {
 
     private EditText otherPriceTv;
 
-    @BindView(id = R.id.car_info_color_tv, objectName = "颜色输入")
+    @BindView(id = R.id.car_info_color_tv, widgetName = "颜色输入")
     private EditText colorTv;
     private String cityJson;
 
 
-//    @BindView(id = R.id.car_info_plate_reg_addr_lin, objectName = "上牌地选择", onClick = "selectplateRegAddr")
+//    @BindView(id = R.id.car_info_plate_reg_addr_lin, widgetName = "上牌地选择", onClick = "selectplateRegAddr")
     private LinearLayout plateRegAddrLin;
 
     //上牌地选择
@@ -283,7 +283,7 @@ public class CarInfoFragment extends BaseFragment {
 //        }
 //    }
 
-    //    @BindView(id = R.id.car_info_loan_periods_lin, objectName = "还款期限选择", onClick = "selectLoanPeriods")
+    //    @BindView(id = R.id.car_info_loan_periods_lin, widgetName = "还款期限选择", onClick = "selectLoanPeriods")
     private LinearLayout carInfoLoanPeriodsLin;
 
     //还款期限选择
@@ -300,7 +300,7 @@ public class CarInfoFragment extends BaseFragment {
 //        }
 //    }
 
-    //    @BindView(id = R.id.car_info_product_type_lin, objectName = "产品类型选择", onClick = "selectProductType")
+    //    @BindView(id = R.id.car_info_product_type_lin, widgetName = "产品类型选择", onClick = "selectProductType")
     private LinearLayout carInfoProductTypeLin;
 
     //产品类型选择
@@ -351,7 +351,7 @@ public class CarInfoFragment extends BaseFragment {
 //    }
 
     //贷款银行选择
-//    @BindView(id = R.id.car_info_loan_bank_lin, objectName = "贷款银行选择", onClick = "selectLoanBank")
+//    @BindView(id = R.id.car_info_loan_bank_lin, widgetName = "贷款银行选择", onClick = "selectLoanBank")
     private LinearLayout carInfoLoanBankLin;
 
 //    private void selectLoanBank(View view) {
@@ -374,7 +374,7 @@ public class CarInfoFragment extends BaseFragment {
 //        }
 //    }
 
-    //    @BindView(id = R.id.car_info_management_price_lin, objectName = "是否管贷档案管理费选择", onClick = "selectManagementPrice")
+    //    @BindView(id = R.id.car_info_management_price_lin, widgetName = "是否管贷档案管理费选择", onClick = "selectManagementPrice")
     private LinearLayout managementPriceLl;
 
     //是否管贷档案管理费选择
@@ -395,7 +395,7 @@ public class CarInfoFragment extends BaseFragment {
 //
 //    }
 
-    //    @BindView(id = R.id.car_info_model_lin, objectName = "车型选择", onClick = "selectModel")
+    //    @BindView(id = R.id.car_info_model_lin, widgetName = "车型选择", onClick = "selectModel")
     private LinearLayout carInfoModelLin;
 
     //车型选择
@@ -437,7 +437,7 @@ public class CarInfoFragment extends BaseFragment {
 //        }
 //    }
 
-    //    @BindView(id = R.id.car_info_trix_lin, objectName = "车系选择", onClick = "selectTrix")
+    //    @BindView(id = R.id.car_info_trix_lin, widgetName = "车系选择", onClick = "selectTrix")
     private LinearLayout carInfoTrixLin;
 
     //车系选择
@@ -480,7 +480,7 @@ public class CarInfoFragment extends BaseFragment {
 //        }
 //    }
 
-    //    @BindView(id = R.id.car_info_brand_lin, objectName = "品牌选择", onClick = "selectBrand")
+    //    @BindView(id = R.id.car_info_brand_lin, widgetName = "品牌选择", onClick = "selectBrand")
     private LinearLayout carInfoBrandLin;
 
     //品牌选择
@@ -523,7 +523,7 @@ public class CarInfoFragment extends BaseFragment {
 //        }
 //    }
 
-    //    @BindView(id = R.id.car_info_dlr_lin, objectName = "门店选择", onClick = "selectDlr")
+    //    @BindView(id = R.id.car_info_dlr_lin, widgetName = "门店选择", onClick = "selectDlr")
     private LinearLayout carInfoDlrLin;
 
     //门店选择
@@ -1172,9 +1172,6 @@ public class CarInfoFragment extends BaseFragment {
             public void onFocusChange(View v, boolean hasFocus) {
                 if (hasFocus) {
                     v.clearFocus();
-
-                    UBT.sendAllUBTEvents(mContext);
-
                     if (Settings.isShameData) {
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                     } else if (checkCanNextStep()) {
@@ -1201,7 +1198,6 @@ public class CarInfoFragment extends BaseFragment {
 
                         req.plate_reg_addr = plateRegAddrTv.getText().toString();
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
-
                     }
                 }
             }

@@ -250,6 +250,8 @@ public class UBT {
                         ubtEvent.page = query.getString(query.getColumnIndex("page"));
                         ubtEvent.action_value = query.getString(query.getColumnIndex("action_value"));
                         ubtEvent.page_cn = query.getString(query.getColumnIndex("page_cn"));
+                        ubtEvent.widget = query.getString(query.getColumnIndex("widget"));
+                        ubtEvent.widget_cn = query.getString(query.getColumnIndex("widget_cn"));
                         ubtEvent.ts = query.getLong(query.getColumnIndex("ts"));
                         data.add(ubtEvent);
                     }
@@ -292,7 +294,7 @@ public class UBT {
                 if (annotation instanceof BindView) {
                     BindView viewAnnotation = (BindView) annotation;
                     View view = sourceView.findViewById(viewAnnotation.id());
-                    view.setTag(R.id.UBT_OBJ_NAME, ((BindView) annotation).objectName());
+                    view.setTag(R.id.UBT_WIDGET, ((BindView) annotation).widgetName());
                     try {
                         field.setAccessible(true);
                         field.set(object, view);
@@ -452,7 +454,7 @@ public class UBT {
     }
 
     private static void addEvent(Context context, String action, View view, final String pageName, String action_value) {
-        singleThreadPool.execute(new AddEventThread(context, action, view, pageName, action_value));
+        singleThreadPool.execute(new AddEventThread(context, action, view, pageName, action_value, ((String) view.getTag(R.id.UBT_WIDGET))));
     }
 
     private static void addEvent(Context context, String action, View view, final String pageName) {

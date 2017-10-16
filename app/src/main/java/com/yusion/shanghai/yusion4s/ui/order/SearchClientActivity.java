@@ -30,14 +30,14 @@ import java.util.List;
 
 public class SearchClientActivity extends BaseActivity {
 
-    @BindView(id = R.id.et_search, objectName = "输入搜索内容")
+    @BindView(id = R.id.et_search, widgetName = "输入搜索内容")
     private EditText et_search;
 
     private RecyclerView rv_client_info;
     private List<SearchClientResp> items;
     private RecyclerAdapterWithHF adapter;
 
-    @BindView(id = R.id.search_info, objectName = "点击搜索客户按钮", onClick = "searchClient")
+    @BindView(id = R.id.search_info, widgetName = "点击搜索客户按钮", onClick = "searchClient")
     private TextView search_info;
 
     private TextView tv_notice;

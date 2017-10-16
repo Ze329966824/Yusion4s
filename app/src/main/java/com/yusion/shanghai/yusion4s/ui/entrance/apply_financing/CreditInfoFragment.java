@@ -49,29 +49,29 @@ import java.util.List;
 
 public class CreditInfoFragment extends BaseFragment {
 
-    @BindView(id = R.id.tv_find, objectName = "搜索客户", onClick = "searchClient")
+    @BindView(id = R.id.tv_find, widgetName = "搜索客户", onClick = "searchClient")
     private TextView findTv;
 
     private TextView client_info_name;
     private TextView client_phoneNumber;
     private TextView client_ID_card;
 
-    @BindView(id = R.id.client_credit__book_lin1, objectName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
+    @BindView(id = R.id.client_credit__book_lin1, widgetName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
     private LinearLayout client_credit__book_lin;  //申请人征信
 
-    @BindView(id = R.id.client_spouse_credit__book_lin2, objectName = "上传申请人配偶征信授权书", onClick = "uploadClientSpouseCreditBook")
+    @BindView(id = R.id.client_spouse_credit__book_lin2, widgetName = "上传申请人配偶征信授权书", onClick = "uploadClientSpouseCreditBook")
     private LinearLayout client_spouse_credit__book_lin;//申请人配偶
 
-    @BindView(id = R.id.credit_applicate_detail_lin, objectName = "查看用户详情", onClick = "lookClientDetail")
+    @BindView(id = R.id.credit_applicate_detail_lin, widgetName = "查看用户详情", onClick = "lookClientDetail")
     private LinearLayout credit_applicate_detail_lin;//用户详情
 
-    @BindView(id = R.id.guarantor_credit_book_lin3, objectName = "上传担保人征信授权书", onClick = "uploadGuarantorCreditBook")
+    @BindView(id = R.id.guarantor_credit_book_lin3, widgetName = "上传担保人征信授权书", onClick = "uploadGuarantorCreditBook")
     private LinearLayout guarantor_credit_book_lin;//担保人授权
 
-    @BindView(id = R.id.guarantor_spouse_credit_book_lin4, objectName = "上传担保人配偶征信授权书", onClick = "uploadGuarantorSpouseCreditBook")
+    @BindView(id = R.id.guarantor_spouse_credit_book_lin4, widgetName = "上传担保人配偶征信授权书", onClick = "uploadGuarantorSpouseCreditBook")
     private LinearLayout guarantor_spouse_credit_book_lin;//担保人配偶
 
-    @BindView(id = R.id.client_relationship_lin, objectName = "选择车主与申请人关系", onClick = "chooseRelationship")
+    @BindView(id = R.id.client_relationship_lin, widgetName = "选择车主与申请人关系", onClick = "chooseRelationship")
     private LinearLayout client_relationship_lin;//车主与申请人关系
 
     private TextView chooseRelationTv;

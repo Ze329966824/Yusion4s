@@ -13,7 +13,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 public @interface BindView {
     @IdRes int id();
 
-    String objectName();
+    String widgetName();
 
     String onClick() default "onClick";
 
