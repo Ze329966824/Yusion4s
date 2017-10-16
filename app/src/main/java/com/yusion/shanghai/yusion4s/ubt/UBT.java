@@ -353,7 +353,7 @@ public class UBT {
                         return;
                     }
                     try {
-                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
+                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class, boolean.class);
                         method.setAccessible(true);
                         method.invoke(object, view, hasFocus);
                     } catch (NoSuchMethodException e) {
@@ -381,7 +381,7 @@ public class UBT {
                 try {
                     addEvent(view.getContext(), "onCheckedChange", view, pageName, isChecked ? "checked" : "unchecked");
                     try {
-                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
+                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class, Boolean.class);
                         method.setAccessible(true);
                         method.invoke(object, view, isChecked);
                     } catch (NoSuchMethodException e) {
