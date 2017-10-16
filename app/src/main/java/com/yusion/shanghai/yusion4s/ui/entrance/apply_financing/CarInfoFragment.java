@@ -253,7 +253,7 @@ public class CarInfoFragment extends BaseFragment {
     private EditText otherPriceTv;
 
     @BindView(id = R.id.car_info_color_tv, objectName = "颜色输入")
-    private TextView colorTv;
+    private EditText colorTv;
     private String cityJson;
 
 
@@ -600,7 +600,7 @@ public class CarInfoFragment extends BaseFragment {
 
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
         otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
-        colorTv = (TextView) view.findViewById(R.id.car_info_color_tv);//车辆颜色
+        colorTv = (EditText) view.findViewById(R.id.car_info_color_tv);//车辆颜色
         plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
         plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
 

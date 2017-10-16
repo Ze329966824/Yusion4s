@@ -192,9 +192,9 @@ public class UBT {
 
     static {
         if (Settings.isOnline) {
-            LIMIT = 50;
+            LIMIT = 500;
         } else {
-            LIMIT = 10;
+            LIMIT = 100;
         }
     }
 
@@ -303,7 +303,7 @@ public class UBT {
                     processorOnFocusChange(object, viewAnnotation.onFocusChange(), view, pageName);
                     if (view instanceof CompoundButton) {
                         processorOnCheckedChange(object, viewAnnotation.onCheckedChanged(), (CompoundButton) view, pageName);
-                    } else if (view instanceof TextView) {
+                    } else if (view instanceof TextView && !(view instanceof EditText)) {
                         processorOnTextChange((TextView) view, pageName);
                     }
                     processorOnTouch(object, viewAnnotation.onTouch(), view, pageName);
@@ -317,6 +317,9 @@ public class UBT {
     }
 
     private static void processorOnClick(final Object object, final String methodName, final View view, final String pageName) {
+        if (view instanceof TextView) {  //textview不应该有点击事件
+            return;
+        }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -400,7 +403,7 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
+                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });
     }
