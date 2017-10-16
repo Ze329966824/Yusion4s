@@ -74,6 +74,10 @@ public class AddEventThread implements Runnable {
             values.put("widget_cn", UBTCollections.getWidgetNmCn(widget));
         }
 
+        for (String s : values.keySet()) {
+            Log.e("VALUES", "run: " + values.get(s));
+        }
+
         SqlLiteUtil.insert(values);
 //        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
         Log.e(TAG, "run: 插入成功 ----- " + AddEventThread.this.toString());
