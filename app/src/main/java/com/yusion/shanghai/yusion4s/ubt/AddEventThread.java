@@ -67,7 +67,8 @@ public class AddEventThread implements Runnable {
         }
         values.put("ts", new Date().getTime());
         SqlLiteUtil.insert(values);
-        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
+//        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
+        Log.e(TAG, "run: 插入成功 ----- " + this);
 
 
         //....................
