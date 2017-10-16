@@ -77,6 +77,19 @@ public class UBTCollections {
 
     static {
         widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+        widgetNameMaps.put("car_info_brand_tv", "品牌选择");
+        widgetNameMaps.put("car_info_trix_tv", "车系选择");
+        widgetNameMaps.put("car_info_model_tv", "车型选择");
+        widgetNameMaps.put("car_info_management_price_tv", "是否管贷档案管理费选择");
+        widgetNameMaps.put("car_info_loan_bank_tv", "贷款银行选择");
+        widgetNameMaps.put("car_info_product_type_tv", "产品类型选择");
+        widgetNameMaps.put("car_info_loan_periods_tv", "还款期限选择");
+        widgetNameMaps.put("car_info_plate_reg_addr_tv", "上牌地选择");
+        widgetNameMaps.put("car_info_bill_price_tv", "车辆开票价输入");
+        widgetNameMaps.put("car_info_car_loan_price_tv", "车辆贷款额输入");
+        widgetNameMaps.put("car_info_first_price_tv", "车辆首付款输入");
+        widgetNameMaps.put("car_info_other_price_tv", "其他费用输入");
+        widgetNameMaps.put("car_info_color_tv", "颜色输入");
     }
 
     public static String getPageNm(String key) {
