@@ -595,7 +595,7 @@ public class CarInfoFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        UBT.bind(this, view, "车辆信息");
+        UBT.bind(mContext, view, getClass().getSimpleName());
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
 
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
@@ -1198,6 +1198,8 @@ public class CarInfoFragment extends BaseFragment {
 
                         req.plate_reg_addr = plateRegAddrTv.getText().toString();
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+
+//                        UBT.sendAllUBTEvents(mContext);
 
                     }
                 }
