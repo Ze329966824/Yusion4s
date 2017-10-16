@@ -66,7 +66,7 @@ public class UBT {
         String imsi = telephonyManager.getSubscriberId();
         req.imei = imei;
         req.imsi = imsi;
-        req.app = "Yusion";
+        req.app = "Yusion4s";
         req.token = SharedPrefsUtil.getInstance(context).getValue("token", null);
         req.mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
 
@@ -357,7 +357,7 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
-                Log.e("tag", "afterTextChanged: " +s  );
+                Log.e("tag", "afterTextChanged: " + s);
                 addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });

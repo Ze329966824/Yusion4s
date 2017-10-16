@@ -44,6 +44,7 @@ public class LoginActivity extends BaseActivity {
     private ImageView mLoginPasswordEyeImg;
     private boolean isShowPassword = false;
     private TelephonyManager telephonyManager;
+    private Yusion4sApp yusion4sApp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +55,8 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        yusion4sApp = (Yusion4sApp) getApplication();
+        yusion4sApp.requestLocation(null);
         telephonyManager = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
         mLoginAccountTV = (EditText) findViewById(R.id.login_account_edt);
         mLoginPasswordTV = (EditText) findViewById(R.id.login_password_edt);
@@ -99,9 +102,15 @@ public class LoginActivity extends BaseActivity {
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-            finish();
+            // finish();
             //上传设备信息
-//            uploadPersonAndDeviceInfo();
+
+            new Thread(new Runnable() {
+                @Override
+                public void run() {
+                    uploadPersonAndDeviceInfo();
+                }
+            }).start();
         }
     }
 
@@ -120,19 +129,20 @@ public class LoginActivity extends BaseActivity {
         super.onBackPressed();
         ActivityManager.finishOtherActivityEx(LoginActivity.class);
     }
+
     private void uploadPersonAndDeviceInfo() {
         UBTData req = new UBTData(this);
         String imei = telephonyManager.getDeviceId();
         String imsi = telephonyManager.getSubscriberId();
         req.imei = imei;
         req.imsi = imsi;
-        req.app = "Yusion";
+        req.app = "Yusion4s";
         req.token = SharedPrefsUtil.getInstance(this).getValue("token", null);
-        req.mobile = SharedPrefsUtil.getInstance(this).getValue("mobile", null);
+        req.mobile = SharedPrefsUtil.getInstance(this).getValue("account", null);
 
         JSONArray contactJsonArray = MobileDataUtil.getUserData(this, "contact");
         List<UBTData.DataBean.ContactBean> contactBeenList = new ArrayList<>();
-        //List<String> raw_list = new ArrayList<>();
+
         for (int i = 0; i < contactJsonArray.length(); i++) {
             JSONObject jsonObject = null;
             try {
@@ -202,8 +212,7 @@ public class LoginActivity extends BaseActivity {
                 PersonApi.uploadPersonAndDeviceInfo(req, new Callback() {
                     @Override
                     public void onResponse(Call call, Response response) {
-                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-                        startActivity(intent);
+
                         finish();
                     }
 
