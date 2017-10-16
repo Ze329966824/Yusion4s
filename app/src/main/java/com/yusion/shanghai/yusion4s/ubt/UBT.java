@@ -47,7 +47,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -401,8 +400,7 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
-//                Log.e("tag", "afterTextChanged: " + s);
-//                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
+                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });
     }
@@ -411,37 +409,37 @@ public class UBT {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                String operation;
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    operation = "down";
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    operation = "up";
-                } else {
-                    try {
-                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
-                        method.setAccessible(true);
-                        return (boolean) method.invoke(object, view);
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    return false;
-                }
-                addEvent(view.getContext(), "onTouch", view, pageName, String.format(Locale.CHINA, "{\"operation\":\"%s\",\"x\":\"%s\",\"y\":\"%s\"}", operation, event.getX(), event.getY()));
-                try {
-                    final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
-                    method.setAccessible(true);
-                    return (boolean) method.invoke(object, view);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+//                String operation;
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    operation = "down";
+//                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    operation = "up";
+//                } else {
+//                    try {
+//                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
+//                        method.setAccessible(true);
+//                        return (boolean) method.invoke(object, view);
+//                    } catch (NoSuchMethodException e) {
+//                        e.printStackTrace();
+//                    } catch (InvocationTargetException e) {
+//                        e.printStackTrace();
+//                    } catch (IllegalAccessException e) {
+//                        e.printStackTrace();
+//                    }
+//                    return false;
+//                }
+//                addEvent(view.getContext(), "onTouch", view, pageName, String.format(Locale.CHINA, "{\"operation\":\"%s\",\"x\":\"%s\",\"y\":\"%s\"}", operation, event.getX(), event.getY()));
+//                try {
+//                    final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
+//                    method.setAccessible(true);
+//                    return (boolean) method.invoke(object, view);
+//                } catch (NoSuchMethodException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                }
                 return false;
             }
         });
