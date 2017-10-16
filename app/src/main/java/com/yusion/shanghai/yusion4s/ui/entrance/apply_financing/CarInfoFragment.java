@@ -219,6 +219,7 @@ public class CarInfoFragment extends BaseFragment {
         }
     };
 
+    @BindView(id = R.id.car_info_dlr_tv,objectName = "门店选择")
     private TextView dlrTV;
     private TextView brandTv;
     private TextView trixTv;

@@ -400,7 +400,7 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
-                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
+//                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });
     }

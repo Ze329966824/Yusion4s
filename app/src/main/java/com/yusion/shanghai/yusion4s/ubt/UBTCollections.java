@@ -7,6 +7,8 @@ import com.yusion.shanghai.yusion4s.ui.MineFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
@@ -25,6 +27,8 @@ public class UBTCollections {
 
     static {
         pageNameMaps.put(LaunchActivity.class.getSimpleName(), new Pair<>("launch", "启动页面"));
+        pageNameMaps.put(CarInfoFragment.class.getSimpleName(), new Pair<>("carinfo", "提交订单-车辆信息页面"));
+        pageNameMaps.put(CreditInfoFragment.class.getSimpleName(), new Pair<>("creditinfo", "提交订单-征信信息页面"));
         pageNameMaps.put(LoginActivity.class.getSimpleName(), new Pair<>("login", "登陆页面"));
         pageNameMaps.put(WebViewActivity.class.getSimpleName(), new Pair<>("webview", "H5页面"));
 //        pageNameMaps.put(AgreeMentActivity.class.getSimpleName(), new Pair<>("agreement", "协议页面"));
