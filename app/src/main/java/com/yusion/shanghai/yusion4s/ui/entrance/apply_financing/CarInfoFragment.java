@@ -234,7 +234,7 @@ public class CarInfoFragment extends BaseFragment {
     private TextView totalLoanPriceTv;
     private EditText otherPriceTv;
 
-    @BindView(id = R.id.car_info_color_tv,objectName = "颜色输入")
+    @BindView(id = R.id.car_info_color_tv, objectName = "颜色输入")
     private TextView colorTv;
 
     private TextView plateRegAddrTv;
@@ -243,6 +243,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_plate_reg_addr_lin, objectName = "上牌地选择", onClick = "selectplateRegAddr")
     private LinearLayout plateRegAddrLin;
+
     //上牌地选择
     private void selectplateRegAddr(View view) {
         if (TextUtils.isEmpty(productTypeTv.getText())) {
@@ -268,6 +269,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_loan_periods_lin, objectName = "还款期限选择", onClick = "selectLoanPeriods")
     private LinearLayout carInfoLoanPeriodsLin;
+
     //还款期限选择
     private void selectLoanPeriods(View view) {
         if (TextUtils.isEmpty(productTypeTv.getText())) {
@@ -284,6 +286,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_product_type_lin, objectName = "产品类型选择", onClick = "selectProductType")
     private LinearLayout carInfoProductTypeLin;
+
     //产品类型选择
     private void selectProductType(View view) {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
@@ -333,6 +336,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_loan_bank_lin, objectName = "贷款银行选择", onClick = "selectLoanBank")
     private LinearLayout carInfoLoanBankLin;
+
     //贷款银行选择
     private void selectLoanBank(View view) {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
@@ -356,6 +360,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_management_price_lin, objectName = "是否管贷档案管理费选择", onClick = "selectManagementPrice")
     private LinearLayout managementPriceLl;
+
     //是否管贷档案管理费选择
     private void selectManagementPrice(View view) {
         if (TextUtils.isEmpty(dlrTV.getText())) {
@@ -376,6 +381,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_model_lin, objectName = "车型选择", onClick = "selectModel")
     private LinearLayout carInfoModelLin;
+
     //车型选择
     private void selectModel(View view) {
         if (!TextUtils.isEmpty(trixTv.getText())) {
@@ -417,6 +423,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_trix_lin, objectName = "车系选择", onClick = "selectTrix")
     private LinearLayout carInfoTrixLin;
+
     //车系选择
     private void selectTrix(View view) {
         if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
@@ -459,6 +466,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_brand_lin, objectName = "品牌选择", onClick = "selectBrand")
     private LinearLayout carInfoBrandLin;
+
     //品牌选择
     private void selectBrand(View view) {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
@@ -501,6 +509,7 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_dlr_lin, objectName = "门店选择", onClick = "selectDlr")
     private LinearLayout carInfoDlrLin;
+
     //门店选择
     private void selectDlr(View view) {
         DlrApi.getDlrListByToken(mContext, resp -> {
@@ -1131,39 +1140,87 @@ public class CarInfoFragment extends BaseFragment {
                 totalPrice();
             }
         });
+
         carInfoNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (Settings.isShameData) {
-                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
-                } else if (checkCanNextStep()) {
+                carInfoNextBtn.setFocusable(true);
+                carInfoNextBtn.setFocusableInTouchMode(true);
+                carInfoNextBtn.requestFocus();
+                carInfoNextBtn.requestFocusFromTouch();
+            }
+        });
 
-                    SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        carInfoNextBtn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    v.clearFocus();
+                    if (Settings.isShameData) {
+                        EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+                    } else if (checkCanNextStep()) {
 
-                    req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
-                    req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+                        SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
 
-                    req.vehicle_color = colorTv.getText().toString();
-                    req.vehicle_price = billPriceTv.getText().toString();
-                    req.vehicle_down_payment = firstPriceTv.getText().toString();
-                    req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
-                    req.loan_amt = totalLoanPriceTv.getText().toString();
-                    req.management_fee = managementPriceTv.getText().toString();
-                    req.other_fee = otherPriceTv.getText().toString();
+                        req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                        req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
 
-                    req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
-                    //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
-                    req.product_id = mProductList.get(mProductTypeIndex).product_id;
-                    req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                        req.vehicle_color = colorTv.getText().toString();
+                        req.vehicle_price = billPriceTv.getText().toString();
+                        req.vehicle_down_payment = firstPriceTv.getText().toString();
+                        req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
+                        req.loan_amt = totalLoanPriceTv.getText().toString();
+                        req.management_fee = managementPriceTv.getText().toString();
+                        req.other_fee = otherPriceTv.getText().toString();
 
-                    //req.product_type = productTypeTv.getText().toString();
+                        req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
+                        //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
+                        req.product_id = mProductList.get(mProductTypeIndex).product_id;
+                        req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
 
-                    req.plate_reg_addr = plateRegAddrTv.getText().toString();
-                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+                        //req.product_type = productTypeTv.getText().toString();
 
+                        req.plate_reg_addr = plateRegAddrTv.getText().toString();
+                        EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+
+                    }
                 }
             }
         });
+
+//        carInfoNextBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                if (Settings.isShameData) {
+//                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+//                } else if (checkCanNextStep()) {
+//
+//                    SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+//
+//                    req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+//                    req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+//
+//                    req.vehicle_color = colorTv.getText().toString();
+//                    req.vehicle_price = billPriceTv.getText().toString();
+//                    req.vehicle_down_payment = firstPriceTv.getText().toString();
+//                    req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
+//                    req.loan_amt = totalLoanPriceTv.getText().toString();
+//                    req.management_fee = managementPriceTv.getText().toString();
+//                    req.other_fee = otherPriceTv.getText().toString();
+//
+//                    req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
+//                    //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
+//                    req.product_id = mProductList.get(mProductTypeIndex).product_id;
+//                    req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+//
+//                    //req.product_type = productTypeTv.getText().toString();
+//
+//                    req.plate_reg_addr = plateRegAddrTv.getText().toString();
+//                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+//
+//                }
+//            }
+//        });
         ((TextView) view.findViewById(R.id.step1)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
