@@ -352,16 +352,18 @@ public class UBT {
                     if (!(view instanceof EditText)) {
                         return;
                     }
-                    String action = hasFocus ? "focus_in" : "focus_out";
-                    addEvent(view.getContext(), action, view, pageName, ((EditText) view).getText().toString());
-//                    addEvent(view.getContext(), "onFocusChange", view, pageName, hasFocus ? "onFocus" : "onBlur");
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
                         method.setAccessible(true);
-                        method.invoke(object, view);
+                        method.invoke(object, view, hasFocus);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
                     }
+
+                    String action = hasFocus ? "focus_in" : "focus_out";
+                    addEvent(view.getContext(), action, view, pageName, ((EditText) view).getText().toString());
+//                    addEvent(view.getContext(), "onFocusChange", view, pageName, hasFocus ? "onFocus" : "onBlur");
+
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
@@ -381,7 +383,7 @@ public class UBT {
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
                         method.setAccessible(true);
-                        method.invoke(object, view);
+                        method.invoke(object, view, isChecked);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
                     }
@@ -409,6 +411,7 @@ public class UBT {
                 if (TextUtils.isEmpty(s)) {
                     return;
                 }
+                Log.e("tag", "afterTextChanged: " + s);
                 addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });
@@ -427,7 +430,7 @@ public class UBT {
 //                    try {
 //                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
 //                        method.setAccessible(true);
-//                        return (boolean) method.invoke(object, view);
+//                        return (boolean) method.invoke(object, view, event);
 //                    } catch (NoSuchMethodException e) {
 //                        e.printStackTrace();
 //                    } catch (InvocationTargetException e) {
@@ -441,7 +444,7 @@ public class UBT {
 //                try {
 //                    final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
 //                    method.setAccessible(true);
-//                    return (boolean) method.invoke(object, view);
+//                    return (boolean) method.invoke(object, view, event);
 //                } catch (NoSuchMethodException e) {
 //                    e.printStackTrace();
 //                } catch (InvocationTargetException e) {
