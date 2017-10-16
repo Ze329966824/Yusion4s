@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 public class LoginResp {
     public String token;
+//    public String mobile;
 
     @Override
     public String toString() {

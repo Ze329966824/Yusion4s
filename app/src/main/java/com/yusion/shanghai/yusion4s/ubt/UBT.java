@@ -12,11 +12,13 @@ import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
 import android.telephony.TelephonyManager;
 import android.text.Editable;
+import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
@@ -45,7 +47,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -55,7 +56,38 @@ import retrofit2.Response;
 
 import static android.content.Context.TELEPHONY_SERVICE;
 
-
+/**
+ * 1.在application中调用SqlLiteUtil.init(this);
+ * 2.页面
+ * *UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
+ * *UBT.addPageEvent(this, "page_show", "activity", getClass().getSimpleName());
+ * *UBT.addAppEvent(this, "app_start");
+ * *UBT.addAppEvent(this, "app_awake");
+ * 3.控件
+ * *UBT.bind(this, view, getClass().getSimpleName()
+ * *UBT.bind(this);
+ * *焦点改变事件
+ * -   顶层布局添加
+ * -   android:focusableInTouchMode="true"
+ * -   android:orientation="vertical"
+ * btn.setOnClickListener(new View.OnClickListener() {
+ *
+ * @Override public void onClick(View v) {
+ * v.setFocusable(true);
+ * v.setFocusableInTouchMode(true);
+ * v.requestFocus();
+ * v.requestFocusFromTouch();
+ * }
+ * });
+ * btn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+ * @Override public void onFocusChange(View v, boolean hasFocus) {
+ * if (hasFocus) {
+ * v.clearFocus();
+ * //doSomething
+ * }
+ * }
+ * });
+ */
 public class UBT {
 
     public static void uploadPersonAndDeviceInfo(Context context) {
@@ -160,9 +192,9 @@ public class UBT {
 
     static {
         if (Settings.isOnline) {
-            LIMIT = 50;
+            LIMIT = 500;
         } else {
-            LIMIT = 10;
+            LIMIT = 100;
         }
     }
 
@@ -190,6 +222,12 @@ public class UBT {
             @Override
             public void run() {
                 String TAG = "UBT";
+                //没有token和account的数据暂不发送
+                if (TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("token", ""))
+                        || TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("account", ""))) {
+                    Log.e(TAG, "run: account或token为空 禁止发送");
+                    return;
+                }
                 Cursor cursor = SqlLiteUtil.query(null, null, null, null);
                 int count = cursor.getCount();
                 if (count > limit) {
@@ -212,6 +250,8 @@ public class UBT {
                         ubtEvent.page = query.getString(query.getColumnIndex("page"));
                         ubtEvent.action_value = query.getString(query.getColumnIndex("action_value"));
                         ubtEvent.page_cn = query.getString(query.getColumnIndex("page_cn"));
+                        ubtEvent.widget = query.getString(query.getColumnIndex("widget"));
+                        ubtEvent.widget_cn = query.getString(query.getColumnIndex("widget_cn"));
                         ubtEvent.ts = query.getLong(query.getColumnIndex("ts"));
                         data.add(ubtEvent);
                     }
@@ -254,7 +294,7 @@ public class UBT {
                 if (annotation instanceof BindView) {
                     BindView viewAnnotation = (BindView) annotation;
                     View view = sourceView.findViewById(viewAnnotation.id());
-                    view.setTag(R.id.UBT_OBJ_NAME, ((BindView) annotation).objectName());
+                    view.setTag(R.id.UBT_WIDGET, ((BindView) annotation).widgetName());
                     try {
                         field.setAccessible(true);
                         field.set(object, view);
@@ -265,7 +305,7 @@ public class UBT {
                     processorOnFocusChange(object, viewAnnotation.onFocusChange(), view, pageName);
                     if (view instanceof CompoundButton) {
                         processorOnCheckedChange(object, viewAnnotation.onCheckedChanged(), (CompoundButton) view, pageName);
-                    } else if (view instanceof TextView) {
+                    } else if (view instanceof TextView && !(view instanceof EditText)) {
                         processorOnTextChange((TextView) view, pageName);
                     }
                     processorOnTouch(object, viewAnnotation.onTouch(), view, pageName);
@@ -279,6 +319,9 @@ public class UBT {
     }
 
     private static void processorOnClick(final Object object, final String methodName, final View view, final String pageName) {
+        if (view instanceof TextView) {  //textview不应该有点击事件
+            return;
+        }
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -305,14 +348,21 @@ public class UBT {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
                 try {
-                    addEvent(view.getContext(), "onFocusChange", view, pageName, hasFocus ? "onFocus" : "onBlur");
+                    if (!(view instanceof EditText)) {
+                        return;
+                    }
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
                         method.setAccessible(true);
-                        method.invoke(object, view);
+                        method.invoke(object, view, hasFocus);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
                     }
+
+                    String action = hasFocus ? "focus_in" : "focus_out";
+                    addEvent(view.getContext(), action, view, pageName, ((EditText) view).getText().toString());
+//                    addEvent(view.getContext(), "onFocusChange", view, pageName, hasFocus ? "onFocus" : "onBlur");
+
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
@@ -332,7 +382,7 @@ public class UBT {
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
                         method.setAccessible(true);
-                        method.invoke(object, view);
+                        method.invoke(object, view, isChecked);
                     } catch (NoSuchMethodException e) {
                         e.printStackTrace();
                     }
@@ -357,6 +407,9 @@ public class UBT {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    return;
+                }
                 Log.e("tag", "afterTextChanged: " + s);
                 addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
@@ -367,44 +420,44 @@ public class UBT {
         view.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                String operation;
-                if (event.getAction() == MotionEvent.ACTION_DOWN) {
-                    operation = "down";
-                } else if (event.getAction() == MotionEvent.ACTION_UP) {
-                    operation = "up";
-                } else {
-                    try {
-                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
-                        method.setAccessible(true);
-                        return (boolean) method.invoke(object, view);
-                    } catch (NoSuchMethodException e) {
-                        e.printStackTrace();
-                    } catch (InvocationTargetException e) {
-                        e.printStackTrace();
-                    } catch (IllegalAccessException e) {
-                        e.printStackTrace();
-                    }
-                    return false;
-                }
-                addEvent(view.getContext(), "onTouch", view, pageName, String.format(Locale.CHINA, "{\"operation\":\"%s\",\"x\":\"%s\",\"y\":\"%s\"}", operation, event.getX(), event.getY()));
-                try {
-                    final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
-                    method.setAccessible(true);
-                    return (boolean) method.invoke(object, view);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                } catch (InvocationTargetException e) {
-                    e.printStackTrace();
-                } catch (IllegalAccessException e) {
-                    e.printStackTrace();
-                }
+//                String operation;
+//                if (event.getAction() == MotionEvent.ACTION_DOWN) {
+//                    operation = "down";
+//                } else if (event.getAction() == MotionEvent.ACTION_UP) {
+//                    operation = "up";
+//                } else {
+//                    try {
+//                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
+//                        method.setAccessible(true);
+//                        return (boolean) method.invoke(object, view, event);
+//                    } catch (NoSuchMethodException e) {
+//                        e.printStackTrace();
+//                    } catch (InvocationTargetException e) {
+//                        e.printStackTrace();
+//                    } catch (IllegalAccessException e) {
+//                        e.printStackTrace();
+//                    }
+//                    return false;
+//                }
+//                addEvent(view.getContext(), "onTouch", view, pageName, String.format(Locale.CHINA, "{\"operation\":\"%s\",\"x\":\"%s\",\"y\":\"%s\"}", operation, event.getX(), event.getY()));
+//                try {
+//                    final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
+//                    method.setAccessible(true);
+//                    return (boolean) method.invoke(object, view, event);
+//                } catch (NoSuchMethodException e) {
+//                    e.printStackTrace();
+//                } catch (InvocationTargetException e) {
+//                    e.printStackTrace();
+//                } catch (IllegalAccessException e) {
+//                    e.printStackTrace();
+//                }
                 return false;
             }
         });
     }
 
     private static void addEvent(Context context, String action, View view, final String pageName, String action_value) {
-        singleThreadPool.execute(new AddEventThread(context, action, view, pageName, action_value));
+        singleThreadPool.execute(new AddEventThread(context, action, view, pageName, action_value, ((String) view.getTag(R.id.UBT_WIDGET))));
     }
 
     private static void addEvent(Context context, String action, View view, final String pageName) {

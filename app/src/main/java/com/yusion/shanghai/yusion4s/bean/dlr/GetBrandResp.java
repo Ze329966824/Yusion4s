@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.dlr;
 
+import com.google.gson.Gson;
+
 /**
  * Created by ice on 2017/7/28.
  */
@@ -20,4 +22,8 @@ public class GetBrandResp {
     public String level;
     public String brand_id;
 
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 }

@@ -42,6 +42,7 @@ public class UBTData {
     public String app;
     public String token;
     public String mobile;
+    public String account;
     public String fingerprint;
     public String system;
     public String factory;
@@ -66,9 +67,10 @@ public class UBTData {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
         imei = telephonyManager.getDeviceId();
         imsi = telephonyManager.getSubscriberId();
-        app = "Yusion";
+        app = "Yusion4s";
         token = SharedPrefsUtil.getInstance(context).getValue("token", null);
-        mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
+        account = SharedPrefsUtil.getInstance(context).getValue("account", null);
+        mobile = SharedPrefsUtil.getInstance(context).getValue("account", null);
     }
 
     public static class Gps {

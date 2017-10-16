@@ -31,6 +31,7 @@ public class Yusion4sApp extends MultiDexApplication {
     private static Yusion4sApp myApplication = null;
     public static String TOKEN;
     public static String ACCOUNT;
+    //    public static String MOBILE;
     public static ConfigResp CONFIG_RESP;
     public static UserInfoBean USERINFOBEAN;
     public static boolean isForeground;
@@ -43,6 +44,7 @@ public class Yusion4sApp extends MultiDexApplication {
     //定位参数设置
     public AMapLocationClientOption aMapLocationClientOption;
 
+    @Override
     public void onCreate() {
         super.onCreate();
         TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");

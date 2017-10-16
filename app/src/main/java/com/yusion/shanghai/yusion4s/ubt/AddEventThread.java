@@ -2,10 +2,10 @@ package com.yusion.shanghai.yusion4s.ubt;
 
 import android.content.ContentValues;
 import android.content.Context;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
-import com.google.gson.Gson;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 
 import java.util.Date;
@@ -13,7 +13,8 @@ import java.util.Date;
 public class AddEventThread implements Runnable {
     private String action;
     private View view;
-    private String pageName;
+    private String pageName;//MainActivity
+    private String widget;
     private String action_value;
 
     private boolean isPageEvent;
@@ -22,12 +23,13 @@ public class AddEventThread implements Runnable {
     private Context context;
     private String TAG = "UBT";
 
-    public AddEventThread(Context context, String action, View view, String pageName, String action_value) {
+    public AddEventThread(Context context, String action, View view, String pageName, String action_value, String widget) {
         this.context = context;
         this.action = action;
-        this.view = view;
         this.pageName = pageName;
         this.action_value = action_value;
+        this.view = view;
+        this.widget = widget;
     }
 
     public AddEventThread(Context context, String action, String object, String pageName) {
@@ -66,8 +68,19 @@ public class AddEventThread implements Runnable {
             values.put("page_cn", UBTCollections.getPageNmCn(pageName));
         }
         values.put("ts", new Date().getTime());
+
+        if (!TextUtils.isEmpty(widget)) {
+            values.put("widget", widget);
+            values.put("widget_cn", UBTCollections.getWidgetNmCn(widget));
+        }
+
+        for (String s : values.keySet()) {
+            Log.e("VALUES", "run: " + values.get(s));
+        }
+
         SqlLiteUtil.insert(values);
-        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
+//        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
+        Log.e(TAG, "run: 插入成功 ----- " + AddEventThread.this.toString());
 
 
         //....................
@@ -79,6 +92,16 @@ public class AddEventThread implements Runnable {
 
     @Override
     public String toString() {
-        return new Gson().toJson(this);
+        return "AddEventThread{" +
+                "action='" + action + '\'' +
+                ", view=" + view +
+                ", pageName='" + pageName + '\'' +
+                ", action_value='" + action_value + '\'' +
+                ", isPageEvent=" + isPageEvent +
+                ", isAppEvent=" + isAppEvent +
+                ", object='" + object + '\'' +
+                ", context=" + context +
+                ", TAG='" + TAG + '\'' +
+                '}';
     }
 }

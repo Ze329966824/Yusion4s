@@ -19,7 +19,7 @@ public class SqlLiteUtil {
 
     public static MyDatabaseHelper getMyDatabaseHelper(Context context) {
         if (myDatabaseHelper == null) {
-            myDatabaseHelper = new MyDatabaseHelper(context, "yusion");
+            myDatabaseHelper = new MyDatabaseHelper(context, "yusion4s");
         }
         return myDatabaseHelper;
     }

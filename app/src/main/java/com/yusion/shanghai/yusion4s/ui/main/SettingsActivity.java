@@ -15,10 +15,10 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.pgyersdk.update.UpdateManagerListener;
 import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
+import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -30,6 +30,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     private String desc;
     private String url;
     private String versionCode;
+    public boolean finishByLoginOut;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -138,9 +139,15 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void logout() {
-        ((Yusion4sApp) getApplication()).clearUserData();
-        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-        finish();
+        Toast.makeText(myApp, "正在退出,请稍等...", Toast.LENGTH_SHORT).show();
+        UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
+        UBT.sendAllUBTEvents(this, () -> {
+            finishByLoginOut = true;
+            myApp.clearUserData();
+            startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+            finish();
+        });
+
     }
 
     private void initUpdateListener() {

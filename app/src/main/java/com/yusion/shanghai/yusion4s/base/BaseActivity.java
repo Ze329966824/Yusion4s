@@ -1,20 +1,21 @@
 package com.yusion.shanghai.yusion4s.base;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
-import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
+import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
-import static com.instabug.library.Instabug.isAppOnForeground;
+import java.util.List;
 
 /**
  * Created by ice on 2017/8/3.
@@ -29,7 +30,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         ActivityManager.addActivity(this);
         myApp = ((Yusion4sApp) getApplication());
-        PgyCrashManager.register(this);
+//        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
 //        UBT.bind(this);
     }
@@ -78,8 +79,16 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onPause() {
         super.onPause();
 //        PgyFeedbackShakeManager.unregister();
-        UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
         MobclickAgent.onPause(this);
+        MobclickAgent.onPause(this);
+        if (getClass().getSimpleName().equals(SettingsActivity.class.getSimpleName())) {
+            SettingsActivity settingsActivity = (SettingsActivity) this;
+            if (settingsActivity.finishByLoginOut) {
+                return;
+            }
+        }
+
+        UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
     }
 
     @Override
@@ -101,5 +110,25 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onUserLeaveHint() {
         super.onUserLeaveHint();
         UBT.addAppEvent(this, "app_pause");
+    }
+
+    private boolean isAppOnForeground() {
+        android.app.ActivityManager activityManager = (android.app.ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
+        String packageName = getApplicationContext().getPackageName();
+
+        List<android.app.ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
+                .getRunningAppProcesses();
+        if (appProcesses == null)
+            return false;
+
+        for (android.app.ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
+            // The name of the process that this object is associated with.
+            if (appProcess.processName.equals(packageName)
+                    && appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

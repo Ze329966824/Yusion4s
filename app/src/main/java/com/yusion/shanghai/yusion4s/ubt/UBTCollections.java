@@ -7,6 +7,8 @@ import com.yusion.shanghai.yusion4s.ui.MineFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
@@ -22,9 +24,12 @@ import java.util.HashMap;
 
 public class UBTCollections {
     public static HashMap<String, Pair<String, String>> pageNameMaps = new HashMap<>();
+    public static HashMap<String, String> widgetNameMaps = new HashMap<>();
 
     static {
         pageNameMaps.put(LaunchActivity.class.getSimpleName(), new Pair<>("launch", "启动页面"));
+        pageNameMaps.put(CarInfoFragment.class.getSimpleName(), new Pair<>("carinfo", "提交订单-车辆信息页面"));
+        pageNameMaps.put(CreditInfoFragment.class.getSimpleName(), new Pair<>("creditinfo", "提交订单-征信信息页面"));
         pageNameMaps.put(LoginActivity.class.getSimpleName(), new Pair<>("login", "登陆页面"));
         pageNameMaps.put(WebViewActivity.class.getSimpleName(), new Pair<>("webview", "H5页面"));
 //        pageNameMaps.put(AgreeMentActivity.class.getSimpleName(), new Pair<>("agreement", "协议页面"));
@@ -70,6 +75,23 @@ public class UBTCollections {
         pageNameMaps.put(UploadListActivity.class.getSimpleName(), new Pair<>("upload_img_list", "上传影像件列表页面"));
     }
 
+    static {
+        widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+        widgetNameMaps.put("car_info_brand_tv", "品牌选择");
+        widgetNameMaps.put("car_info_trix_tv", "车系选择");
+        widgetNameMaps.put("car_info_model_tv", "车型选择");
+        widgetNameMaps.put("car_info_management_price_tv", "是否管贷档案管理费选择");
+        widgetNameMaps.put("car_info_loan_bank_tv", "贷款银行选择");
+        widgetNameMaps.put("car_info_product_type_tv", "产品类型选择");
+        widgetNameMaps.put("car_info_loan_periods_tv", "还款期限选择");
+        widgetNameMaps.put("car_info_plate_reg_addr_tv", "上牌地选择");
+        widgetNameMaps.put("car_info_bill_price_tv", "车辆开票价输入");
+        widgetNameMaps.put("car_info_car_loan_price_tv", "车辆贷款额输入");
+        widgetNameMaps.put("car_info_first_price_tv", "车辆首付款输入");
+        widgetNameMaps.put("car_info_other_price_tv", "其他费用输入");
+        widgetNameMaps.put("car_info_color_tv", "颜色输入");
+    }
+
     public static String getPageNm(String key) {
         Pair<String, String> pair = pageNameMaps.get(key);
         if (pair == null) {
@@ -86,5 +108,9 @@ public class UBTCollections {
         } else {
             return pair.second;
         }
+    }
+
+    public static String getWidgetNmCn(String widget) {
+        return widgetNameMaps.get(widget);
     }
 }
