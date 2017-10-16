@@ -410,6 +410,7 @@ public class UBT {
                 if (TextUtils.isEmpty(s)) {
                     return;
                 }
+                Log.e("tag", "afterTextChanged: " + s);
                 addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });

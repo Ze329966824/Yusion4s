@@ -40,8 +40,8 @@ public class AuthApi {
         });
     }
     public static void checkUserInfo(Context context, final OnItemDataCallBack<CheckUserInfoResp> onItemDataCallBack) {
-        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getAuthService().checkUserInfo().enqueue(new CustomCallBack<CheckUserInfoResp>(context, dialog) {
+        //Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getAuthService().checkUserInfo().enqueue(new CustomCallBack<CheckUserInfoResp>(context) {
             @Override
             public void onCustomResponse(CheckUserInfoResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
