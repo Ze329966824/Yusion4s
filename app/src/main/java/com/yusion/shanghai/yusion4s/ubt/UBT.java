@@ -17,6 +17,7 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -319,7 +320,7 @@ public class UBT {
     }
 
     private static void processorOnClick(final Object object, final String methodName, final View view, final String pageName) {
-        if (view instanceof TextView) {  //textview不应该有点击事件
+        if (!(view instanceof Button) && (view instanceof TextView)) {  //textview不应该有点击事件
             return;
         }
         view.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <include
@@ -44,14 +45,14 @@
 
 
 
-        <TextView
+        <Button
+            android:background="@null"
             android:id="@+id/search_info"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="15dp"
-            android:gravity="center_vertical|right"
             android:text="搜索"
             android:textColor="#06b7a3"
             android:textSize="14.5dp" />

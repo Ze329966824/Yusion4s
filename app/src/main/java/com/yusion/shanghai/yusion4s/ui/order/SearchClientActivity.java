@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -30,15 +31,15 @@ import java.util.List;
 
 public class SearchClientActivity extends BaseActivity {
 
-    @BindView(id = R.id.et_search, widgetName = "输入搜索内容")
+    @BindView(id = R.id.et_search, widgetName = "et_search")
     private EditText et_search;
 
     private RecyclerView rv_client_info;
     private List<SearchClientResp> items;
     private RecyclerAdapterWithHF adapter;
 
-    @BindView(id = R.id.search_info, widgetName = "点击搜索客户按钮", onClick = "searchClient")
-    private TextView search_info;
+    @BindView(id = R.id.search_info, widgetName = "search_info",onClick = "searchClient")
+    private Button search_info;
 
     private TextView tv_notice;
 
@@ -53,7 +54,7 @@ public class SearchClientActivity extends BaseActivity {
         initTitleBar(this, "搜索客户");
         initView();
 
-        //initEvent();
+//        initEvent();
     }
 
     private void initView() {
@@ -85,7 +86,7 @@ public class SearchClientActivity extends BaseActivity {
     private void searchClient(View view) {
         String key = et_search.getText().toString();
         if (key.equals("")) {
-            Toast.makeText(SearchClientActivity.this, "", Toast.LENGTH_LONG).show();
+            Toast.makeText(SearchClientActivity.this, "搜索内容不能为空", Toast.LENGTH_LONG).show();
         } else {
             OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
                 @Override

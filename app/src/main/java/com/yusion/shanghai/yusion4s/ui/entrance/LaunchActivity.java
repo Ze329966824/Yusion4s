@@ -82,7 +82,9 @@ public class LaunchActivity extends BaseActivity {
         String versionCode = BuildConfig.VERSION_NAME;
         AuthApi.update(this, "yusion4s", data -> {
             if (data != null) {
-                if (!versionCode.contains(data.version)) {
+//                Toast.makeText(this, splitVersion(versionCode.substring(1)), Toast.LENGTH_SHORT).show();
+                int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(data.version));
+                if (result < 0) {
                     UpdateUtil.showUpdateDialog(LaunchActivity.this, data.change_log, true, data.download_url);
                 } else {
                     getConfigJson();
@@ -146,4 +148,12 @@ public class LaunchActivity extends BaseActivity {
             }
         }
     }
+
+    private String splitVersion(String s) {
+        String ss = null;
+        char[] str = s.toCharArray();
+        ss = String.valueOf(str[0]) + String.valueOf(str[2]) + String.valueOf(str[4]);
+        return ss;
+    }
+
 }
