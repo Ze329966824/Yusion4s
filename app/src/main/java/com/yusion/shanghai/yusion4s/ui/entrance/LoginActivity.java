@@ -100,7 +100,7 @@ public class LoginActivity extends BaseActivity {
 //            Yusion4sApp.MOBILE = resp.mobile;
             Yusion4sApp.ACCOUNT = mLoginAccountTV.getText().toString();
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
-//            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.MOBILE);
+            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.ACCOUNT);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();

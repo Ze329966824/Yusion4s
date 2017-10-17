@@ -261,7 +261,7 @@ public class UBT {
                     UBTData req = new UBTData(context);
                     UBTData.DataBean dataBean = new UBTData.DataBean();
                     dataBean.category = "ubt";
-                    dataBean.mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
+                    dataBean.mobile = SharedPrefsUtil.getInstance(context).getValue("account", null);
                     dataBean.ubt_list = data;
                     req.data.add(dataBean);
                     Log.e(TAG, "run: 正在发送");
@@ -378,7 +378,7 @@ public class UBT {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try {
-                    addEvent(view.getContext(), "onCheckedChange", view, pageName, isChecked ? "checked" : "unchecked");
+                    addEvent(view.getContext(), "text_change", view, pageName, isChecked ? "checked" : "unchecked");
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class, boolean.class);
                         method.setAccessible(true);
