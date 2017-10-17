@@ -82,6 +82,8 @@ public class UploadSqsListActivity extends BaseActivity {
     private void initView() {
         titleBar = initTitleBar(this, title).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
+        mEditTv.setEnabled(false);
+        mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
         titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

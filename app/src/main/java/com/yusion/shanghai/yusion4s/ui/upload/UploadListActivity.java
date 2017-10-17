@@ -78,6 +78,8 @@ public class UploadListActivity extends BaseActivity {
 
         TitleBar titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
+        mEditTv.setEnabled(false);
+        mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
         titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

@@ -193,9 +193,9 @@ public class UBT {
 
     static {
         if (Settings.isOnline) {
-            LIMIT = 500;
+            LIMIT = 20;
         } else {
-            LIMIT = 100;
+            LIMIT = 10;
         }
     }
 
