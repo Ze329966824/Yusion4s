@@ -69,8 +69,6 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView passReason;
     private TextView rejectReason;
 
-//    @BindView(id = R.id.order_detail_sign, widgetName = "search_info",onClick = "searchClient")
-//    private Button orderDetailSignBtn;
 
     @BindView(id = R.id.order_detail_sign, widgetName = "order_detail_sign", onClick = "submitMaterial")
     private Button orderDetailSignBtn;

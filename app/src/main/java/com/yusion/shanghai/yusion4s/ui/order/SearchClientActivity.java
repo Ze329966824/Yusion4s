@@ -38,7 +38,7 @@ public class SearchClientActivity extends BaseActivity {
     private List<SearchClientResp> items;
     private RecyclerAdapterWithHF adapter;
 
-    @BindView(id = R.id.search_info, widgetName = "search_info",onClick = "searchClient")
+    @BindView(id = R.id.search_info, widgetName = "search_info", onClick = "searchClient")
     private Button search_info;
 
     private TextView tv_notice;
@@ -51,6 +51,37 @@ public class SearchClientActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_search_client);
         UBT.bind(this);
+
+        search_info.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+//                if (hasFocus) {
+//                    search_info.clearFocus();
+//                    searchClient(v);
+//                }
+                String key = et_search.getText().toString();
+                if (key.equals("")) {
+                    Toast.makeText(SearchClientActivity.this, "搜索内容不能为空", Toast.LENGTH_LONG).show();
+                } else {
+                    OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
+                        @Override
+                        public void onItemDataCallBack(List<SearchClientResp> data) {
+                            if (data.size() != 0) {
+                                items.clear();
+                                rv_client_info.setVisibility(View.VISIBLE);
+                                search_warn_lly.setVisibility(View.GONE);
+                                items.addAll(data);
+                                adapter.notifyDataSetChanged();
+                            } else {
+                                search_warn_lly.setVisibility(View.VISIBLE);
+                                rv_client_info.setVisibility(View.GONE);
+                            }
+                        }
+                    });
+                }
+            }
+        });
+
         initTitleBar(this, "搜索客户");
         initView();
 
@@ -84,26 +115,32 @@ public class SearchClientActivity extends BaseActivity {
 //    }
 
     private void searchClient(View view) {
-        String key = et_search.getText().toString();
-        if (key.equals("")) {
-            Toast.makeText(SearchClientActivity.this, "搜索内容不能为空", Toast.LENGTH_LONG).show();
-        } else {
-            OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
-                @Override
-                public void onItemDataCallBack(List<SearchClientResp> data) {
-                    if (data.size() != 0) {
-                        items.clear();
-                        rv_client_info.setVisibility(View.VISIBLE);
-                        search_warn_lly.setVisibility(View.GONE);
-                        items.addAll(data);
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        search_warn_lly.setVisibility(View.VISIBLE);
-                        rv_client_info.setVisibility(View.GONE);
-                    }
-                }
-            });
-        }
+        search_info.setFocusable(true);
+        search_info.setFocusableInTouchMode(true);
+        search_info.requestFocus();
+        search_info.requestFocusFromTouch();
+
+
+//        String key = et_search.getText().toString();
+//        if (key.equals("")) {
+//            Toast.makeText(SearchClientActivity.this, "搜索内容不能为空", Toast.LENGTH_LONG).show();
+//        } else {
+//            OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
+//                @Override
+//                public void onItemDataCallBack(List<SearchClientResp> data) {
+//                    if (data.size() != 0) {
+//                        items.clear();
+//                        rv_client_info.setVisibility(View.VISIBLE);
+//                        search_warn_lly.setVisibility(View.GONE);
+//                        items.addAll(data);
+//                        adapter.notifyDataSetChanged();
+//                    } else {
+//                        search_warn_lly.setVisibility(View.VISIBLE);
+//                        rv_client_info.setVisibility(View.GONE);
+//                    }
+//                }
+//            });
+//        }
     }
 
     public class SearchClientAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
