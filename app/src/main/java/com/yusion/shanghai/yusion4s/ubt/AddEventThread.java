@@ -5,6 +5,9 @@ import android.content.Context;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 
@@ -54,7 +57,17 @@ public class AddEventThread implements Runnable {
         } else if (isAppEvent) {
             values.put("object", "");
         } else {
-            values.put("object", view.getClass().getSimpleName());
+            String object = "";
+            if (view instanceof EditText) {
+                object = "edit_text";
+            } else if (view instanceof Button) {
+                object = "button";
+            }else if (view instanceof TextView) {
+                object = "text_view";
+            }else {
+                object = view.getClass().getSimpleName();
+            }
+            values.put("object", object);
         }
 
         values.put("action", action);
