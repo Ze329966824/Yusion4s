@@ -18,6 +18,8 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ubt.UBT;
+import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
@@ -28,6 +30,7 @@ import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
  */
 
 public class OrderDetailActivity extends BaseActivity {
+
 
     private RelativeLayout waitRel;
     private RelativeLayout cancelRel;
@@ -66,7 +69,13 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView passReason;
     private TextView rejectReason;
 
+//    @BindView(id = R.id.order_detail_sign, widgetName = "search_info",onClick = "searchClient")
+//    private Button orderDetailSignBtn;
+
+    @BindView(id = R.id.order_detail_sign, widgetName = "order_detail_sign", onClick = "submitMaterial")
     private Button orderDetailSignBtn;
+
+
     private String app_id;
     //申请和批复的金融方案
     private TextView applyFirstPercentTv2;
@@ -110,10 +119,9 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.order_detail);
+        UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
-
         initView();
         initTitleBar(this, "申请详情");
 
@@ -349,15 +357,21 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
 
-        orderDetailSignBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
-                intent.putExtra("app_id", app_id);
-                startActivity(intent);
-            }
-        });
+//        orderDetailSignBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+//                intent.putExtra("app_id", app_id);
+//                startActivity(intent);
+//            }
+//        });
 
+    }
+
+    private void submitMaterial(View view) {
+        Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+        intent.putExtra("app_id", app_id);
+        startActivity(intent);
     }
 
     private void compare(TextView tv1, TextView tv2) {

@@ -842,9 +842,10 @@ public class CarInfoFragment extends BaseFragment {
                     for (GetBrandResp item : resp) {
                         items.add(item.brand_name);
                     }
+                    //Log.e("ssss", items.toString());
                     WheelViewUtil.showWheelView(items, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
                         mBrandIndex = selectedIndex;
-
+                       // Log.e("sss", String.valueOf(mBrandIndex));
                         mTrixList.clear();
                         mTrixIndex = 0;
                         trixTv.setText("");
