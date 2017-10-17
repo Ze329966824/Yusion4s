@@ -10,6 +10,7 @@ import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomResponseBodyCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
+import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
@@ -61,6 +62,10 @@ public class ConfigApi {
         configResp.DELAY_MILLIS = jsonObject.optInt("lost_focus_delay");
         configResp.agreement_url = jsonObject.optString("agreement_url");
         configResp.contract_list_url = jsonObject.optString("contract_list_url");
+        String ubt_limit = jsonObject.optString("ubt_limit");
+        if (!TextUtils.isEmpty(ubt_limit)) {
+            UBT.LIMIT = Integer.valueOf(ubt_limit);
+        }
 
         fullConfigResp(jsonObject, "vehicle_owner_lender_relationship_list", configResp.owner_applicant_relation_key, configResp.owner_applicant_relation_value);
         fullConfigResp(jsonObject, "label_list", configResp.label_list_key, configResp.label_list_value);

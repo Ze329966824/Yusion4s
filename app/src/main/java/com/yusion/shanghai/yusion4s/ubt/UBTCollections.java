@@ -15,6 +15,7 @@ import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadListActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
 
 import java.util.HashMap;
 
@@ -34,6 +35,7 @@ public class UBTCollections {
         pageNameMaps.put(WebViewActivity.class.getSimpleName(), new Pair<>("webview", "H5页面"));
 //        pageNameMaps.put(AgreeMentActivity.class.getSimpleName(), new Pair<>("agreement", "协议页面"));
         pageNameMaps.put(MainActivity.class.getSimpleName(), new Pair<>("home_order_mine", "首页-订单-我的页面"));
+        pageNameMaps.put(UploadSqsListActivity.class.getSimpleName(), new Pair<>("upload_sqs", "上传授权书页面"));
 
 //        pageNameMaps.put(HomeFragment.class.getSimpleName(), new Pair<>("home", "首页"));
 //        pageNameMaps.put(MyOrderFragment.class.getSimpleName(), new Pair<>("order_list", "订单列表页面"));
