@@ -380,7 +380,7 @@ public class UBT {
                 try {
                     addEvent(view.getContext(), "onCheckedChange", view, pageName, isChecked ? "checked" : "unchecked");
                     try {
-                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class, Boolean.class);
+                        final Method method = object.getClass().getDeclaredMethod(methodName, View.class, boolean.class);
                         method.setAccessible(true);
                         method.invoke(object, view, isChecked);
                     } catch (NoSuchMethodException e) {
@@ -410,7 +410,6 @@ public class UBT {
                 if (TextUtils.isEmpty(s)) {
                     return;
                 }
-                Log.e("tag", "afterTextChanged: " + s);
                 addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
             }
         });
