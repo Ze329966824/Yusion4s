@@ -5,11 +5,12 @@ import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.pgyersdk.crash.PgyCrashManager;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 
 import java.io.IOException;
 
+import io.sentry.Sentry;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -33,29 +34,29 @@ public abstract class CustomResponseBodyCallBack implements Callback<ResponseBod
 
     @Override
     public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
         try {
             String body = response.body().string();
-            Log.e("API", "onResponse: " + body);
+            Log.e(Api.getTag(call.request()), "onResponse: " + body);
             onCustomResponse(body);
         } catch (IOException e) {
             e.printStackTrace();
-        }
-        if (dialog != null) {
-            dialog.dismiss();
         }
     }
 
     @Override
     public void onFailure(Call<ResponseBody> call, Throwable t) {
-        if (Settings.isOnline) {
-            Toast.makeText(context, "请求失败", Toast.LENGTH_SHORT).show();
-            PgyCrashManager.reportCaughtException(context, ((Exception) t));
-        } else {
-            Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
-        }
         if (dialog != null) {
             dialog.dismiss();
         }
+        if (Settings.isOnline) {
+            Toast.makeText(context, "接口调用失败,请稍后再试...", Toast.LENGTH_LONG).show();
+        } else {
+            Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
+        }
+        Sentry.capture(t);
     }
 
     public abstract void onCustomResponse(String body);

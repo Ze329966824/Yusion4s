@@ -97,9 +97,7 @@ public class LaunchActivity extends BaseActivity {
 
 
     private void getConfigJson() {
-        ConfigApi.getConfigJson(LaunchActivity.this, resp -> {
-            goNextActivity();
-        });
+        ConfigApi.getConfigJson(LaunchActivity.this, () -> goNextActivity());
     }
 
     private void goNextActivity() {

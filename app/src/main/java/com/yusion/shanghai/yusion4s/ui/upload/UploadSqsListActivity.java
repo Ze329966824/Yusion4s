@@ -288,7 +288,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 dialog.show();
                 Log.e("TAG", "1111");
                 for (UploadImgItemBean imgItemBean : toAddList) {
-                    OssUtil.uploadOss(this, dialog, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
+                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
                         @Override
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;

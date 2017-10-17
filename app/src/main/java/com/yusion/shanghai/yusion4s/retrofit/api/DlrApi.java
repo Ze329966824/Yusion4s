@@ -2,18 +2,14 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.icu.lang.UCharacter;
 import android.widget.Toast;
 
-import com.google.gson.internal.bind.SqlDateTypeAdapter;
-import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
-import com.yusion.shanghai.yusion4s.bean.oss.GetOssTokenBean;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -81,25 +77,6 @@ public class DlrApi {
         });
     }
 
-//    public static void getProductType(final Context context, String bank_id, String dlr_id, final OnItemDataCallBack<List<GetproductResp>> onItemDataCallBack) {
-//        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-//        Api.getDlrService().getProductType(bank_id, dlr_id).enqueue(new CustomCallBack<List<GetproductResp>>(context, dialog) {
-//            @Override
-//            public void onCustomResponse(List<GetproductResp> data) {
-//                onItemDataCallBack.onItemDataCallBack(data);
-//            }
-//        });
-//    }
-
-    //    public static void getProductType(final Context context, String bank_id, String dlr_id, final OnItemDataCallBack<List<GetproductResp>> onItemDataCallBack) {
-//        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-//        Api.getDlrService().getProductType(bank_id, dlr_id).enqueue(new CustomCallBack<List<GetproductResp>>(context, dialog) {
-//            @Override
-//            public void onCustomResponse(List<GetproductResp> data) {
-//                onItemDataCallBack.onItemDataCallBack(data);
-//            }
-//        });
-//    }
     public static void getProductType(final Context context, String bank_id, String dlr_id, final OnItemDataCallBack<GetproductResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getDlrService().getProductType(bank_id, dlr_id).enqueue(new CustomCallBack<GetproductResp>(context, dialog) {

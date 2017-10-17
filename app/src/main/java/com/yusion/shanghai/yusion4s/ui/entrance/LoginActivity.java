@@ -89,6 +89,7 @@ public class LoginActivity extends BaseActivity {
             }
             req.username = account;
             req.password = password;
+            req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id","");
             AuthApi.login(this, req, this::loginSuccess);
         });
     }
@@ -122,8 +123,7 @@ public class LoginActivity extends BaseActivity {
         Yusion4sApp.isLogin = false;
         myApp.clearUserData();
 
-        ConfigApi.getConfigJson(LoginActivity.this, resp -> {
-        });
+        ConfigApi.getConfigJson(LoginActivity.this, null);
     }
 
     @Override

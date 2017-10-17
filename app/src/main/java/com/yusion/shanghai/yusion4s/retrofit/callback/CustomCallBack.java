@@ -6,13 +6,14 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
-import com.pgyersdk.crash.PgyCrashManager;
 import com.yusion.shanghai.yusion4s.base.BaseResult;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 
 import java.util.Locale;
 
+import io.sentry.Sentry;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,39 +42,45 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
 
     @Override
     public void onResponse(Call<BaseResult<T>> call, Response<BaseResult<T>> response) {
+        if (dialog != null) {
+            dialog.dismiss();
+        }
+
         BaseResult<T> body = response.body();
+
         if (body == null) {
-            Toast.makeText(context, "调用接口返回数据为空,请稍后再试", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "服务器出现错误,请稍后再试...", Toast.LENGTH_LONG).show();
             return;
         }
-        Log.e("API", "onResponse: " + body);
+
+        Log.e(Api.getTag(call.request()), "onResponse: " + body);
+
         if (body.code < 0) {
             if (Settings.isOnline) {
-                Toast.makeText(context, body.msg, Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, body.msg, Toast.LENGTH_LONG).show();
             } else {
-                Toast.makeText(context, String.format(Locale.CHINA, "code = %d and msg = %s", body.code, body.msg), Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, String.format(Locale.CHINA, "code = %d and msg = %s", body.code, body.msg), Toast.LENGTH_LONG).show();
             }
             if (body.code == -1) {
+                //token过期
                 context.startActivity(new Intent(context, LoginActivity.class));
                 return;
             }
         }
+        //body.data()可能为空
         onCustomResponse(body.data);
-        if (dialog != null) {
-            dialog.dismiss();
-        }
     }
 
     @Override
     public void onFailure(Call<BaseResult<T>> call, Throwable t) {
-        if (Settings.isOnline) {
-            Toast.makeText(context, "请求失败", Toast.LENGTH_SHORT).show();
-            PgyCrashManager.reportCaughtException(context, ((Exception) t));
-        } else {
-            Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
-        }
         if (dialog != null) {
             dialog.dismiss();
         }
+        if (Settings.isOnline) {
+            Toast.makeText(context, "接口调用失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
+        }
+        Sentry.capture(t);
     }
 }
