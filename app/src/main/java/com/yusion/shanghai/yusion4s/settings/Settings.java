@@ -1,5 +1,8 @@
 package com.yusion.shanghai.yusion4s.settings;
 
+import android.util.Log;
+
+import com.pbq.pickerlib.view.ImageFolderPopWindow;
 import com.yusion.shanghai.yusion4s.BuildConfig;
 
 /**
@@ -8,7 +11,15 @@ import com.yusion.shanghai.yusion4s.BuildConfig;
 
 public class Settings {
     public static boolean isOnline = BuildConfig.isOnline;
-   public static boolean isShameData = false;
+    public static boolean isShameData = false;
+
+    static {
+        if (isOnline && isShameData) {
+            isShameData = false;
+            Log.e("TAG", "如果是线上，记得改isShameData为false");
+        }
+    }
+
     private static String ALPHA_SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
     //    private static String ALPHA_SERVER_URL = "http://192.168.0.214:8000/";
     public static String PERSON_SERVER_URL = "http://ubt.yusiontech.com:5141/";

@@ -42,7 +42,7 @@ public class UBTCollections {
         pageNameMaps.put(SettingsActivity.class.getSimpleName(), new Pair<>("settings", "设置页面"));
 
 //        pageNameMaps.put(FinancePlanActivity.class.getSimpleName(), new Pair<>("finance_plan", "金融方案页面"));
-        pageNameMaps.put(OrderDetailActivity.class.getSimpleName(), new Pair<>("order_detail", "订单详情页面"));
+        pageNameMaps.put(OrderDetailActivity.class.getSimpleName(), new Pair<>("order_detail", "申请详情页面"));
 
         pageNameMaps.put(SearchClientActivity.class.getSimpleName(), new Pair<>("search_client", "搜索客户页面"));
 //
@@ -101,6 +101,8 @@ public class UBTCollections {
 
         widgetNameMaps.put("et_search", "输入搜索内容");
         widgetNameMaps.put("search_info", "点击搜索客户按钮");
+
+        widgetNameMaps.put("order_detail_sign", "提交用户资料");
 
     }
 
