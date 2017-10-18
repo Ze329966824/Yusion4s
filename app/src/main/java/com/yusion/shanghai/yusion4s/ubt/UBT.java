@@ -193,9 +193,9 @@ public class UBT {
 
     static {
         if (Settings.isOnline) {
-            LIMIT = 500;
+            LIMIT = 20;
         } else {
-            LIMIT = 100;
+            LIMIT = 10;
         }
     }
 
@@ -327,7 +327,7 @@ public class UBT {
             @Override
             public void onClick(View v) {
                 try {
-                    addEvent(view.getContext(), "onClick", view, pageName);
+                    addEvent(view.getContext(), "click", view, pageName);
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class);
                         method.setAccessible(true);
@@ -379,7 +379,7 @@ public class UBT {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 try {
-                    addEvent(view.getContext(), "text_change", view, pageName, isChecked ? "checked" : "unchecked");
+                    addEvent(view.getContext(), "checked_change", view, pageName, isChecked ? "checked" : "unchecked");
                     try {
                         final Method method = object.getClass().getDeclaredMethod(methodName, View.class, boolean.class);
                         method.setAccessible(true);
@@ -411,7 +411,7 @@ public class UBT {
                 if (TextUtils.isEmpty(s)) {
                     return;
                 }
-                addEvent(view.getContext(), "onTextChanged", view, pageName, s.toString());
+                addEvent(view.getContext(), "text_change", view, pageName, s.toString());
             }
         });
     }

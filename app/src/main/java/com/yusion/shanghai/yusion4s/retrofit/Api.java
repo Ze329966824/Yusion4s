@@ -26,7 +26,6 @@ import java.util.Locale;
 import java.util.concurrent.TimeUnit;
 
 import okhttp3.Headers;
-import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.RequestBody;
@@ -41,14 +40,12 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class Api {
     private static Retrofit retrofit;
-    private static OkHttpClient okHttpClient;
-    /**
-     * 每个模块需要的retrofit对象不尽相同,通过传入serverUrl可以创建一个新实例
-     */
+    private static OkHttpClient logClient;
+
     public static Retrofit createRetrofit(String serverUrl) {
         return new Retrofit.Builder()
                 .baseUrl(serverUrl)
-                .client(okHttpClient)
+                .client(logClient)
                 .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
                         .serializeNulls()//null值也进行序列化并上传至服务器
                         .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())//null值序列化为""
@@ -58,30 +55,22 @@ public class Api {
 
 
     static {
-        okHttpClient = new OkHttpClient.Builder()
+        logClient = new OkHttpClient.Builder()
                 .connectTimeout(1, TimeUnit.MINUTES)
                 .writeTimeout(1, TimeUnit.MINUTES)
                 .readTimeout(1, TimeUnit.MINUTES)
-                .addInterceptor(new Interceptor() {
-                    @Override
-                    public Response intercept(Chain chain) throws IOException {
-                        Request request = chain.request();
-                        Request realRequest = request.newBuilder()
-                                .method(request.method(), request.body())
-                                .addHeader("authentication", String.format(Locale.CHINA, "token %s", TextUtils.isEmpty(Yusion4sApp.TOKEN) ? Settings.TEST_TOKEN : Yusion4sApp.TOKEN))
-                                .build();
-//                        logRequestInfo(realRequest);
-                        Response response = chain.proceed(realRequest);
-                        logResponseInfo(response);
-                        return response;
-                    }
+                .addInterceptor(chain -> {
+                    Request request = chain.request();
+                    Request realRequest = request.newBuilder()
+                            .method(request.method(), request.body())
+                            .addHeader("authentication", String.format(Locale.CHINA, "token %s", TextUtils.isEmpty(Yusion4sApp.TOKEN) ? Settings.TEST_TOKEN : Yusion4sApp.TOKEN))
+                            .build();
+                    Response response = chain.proceed(realRequest);
+                    logRequestInfo(response.request());
+                    return response;
                 })
                 .build();
-        retrofit = new Retrofit.Builder()
-                .baseUrl(Settings.SERVER_URL)
-                .client(okHttpClient)
-                .addConverterFactory(GsonConverterFactory.create())
-                .build();
+        retrofit = createRetrofit(Settings.SERVER_URL);
 
     }
 
@@ -109,14 +98,40 @@ public class Api {
         return retrofit.create(DlrService.class);
     }
 
+
+    public static String getTag(Request request) {
+        StringBuilder tagBuilder = new StringBuilder("API");
+        if (request.url().toString().contains("application")) {
+            tagBuilder.append("-APPLICATION");
+        } else if (request.url().toString().contains("client")) {
+            tagBuilder.append("-CLIENT");
+        } else if (request.url().toString().contains("auth")) {
+            tagBuilder.append("-AUTH");
+        } else if (request.url().toString().contains("material")) {
+            tagBuilder.append("-MATERIAL");
+        } else if (request.url().toString().contains("ubt")) {
+            tagBuilder.append("-UBT");
+        } else if (request.url().toString().contains("ocr")) {
+            tagBuilder.append("-OCR");
+        } else if (request.url().toString().contains("oss")) {
+            tagBuilder.append("-OSS");
+        } else {
+            tagBuilder.append("-OTHER");
+        }
+        tagBuilder.append("-").append(request.method().toUpperCase());
+        return tagBuilder.toString();
+    }
+
     private static void logRequestInfo(Request request) {
-        Log.e("API", "\n");
-        Log.e("API", "\n******** log request start ******** ");
-        Log.e("API", "url: " + request.url());
-        Log.e("API", "method: " + request.method());
+        String tag = getTag(request);
+
+        Log.e(tag, "\n");
+        Log.e(tag, "\n******** log request start ******** ");
+        Log.e(tag, "url: " + request.url());
+        Log.e(tag, "method: " + request.method());
         Headers headers = request.headers();
         for (int i = 0; i < headers.size(); i++) {
-            Log.e("API", headers.name(i) + " : " + headers.value(i));
+            Log.e(tag, headers.name(i) + " : " + headers.value(i));
         }
 
         //如果是post请求还需打印参数
@@ -130,21 +145,11 @@ public class Api {
                 e.printStackTrace();
             }
             String paramsStr = buffer.readString(Charset.forName("UTF-8")).replaceAll("\"", "\\\"");
-            Log.e("API", "requestParameters: " + paramsStr);
+            Log.e(tag, "requestParameters: " + paramsStr);
         }
 
-        Log.e("API", "******** log request end ********\n");
-        Log.e("API", "\n");
-    }
-
-    private static void logResponseInfo(Response response) {
-        logRequestInfo(response.request());
-//        try {
-//            // TODO: 2017/8/3 需要解决
-//            Log.e("API", "responseBody: " + response.body().string());//流文件只能取一次
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
+        Log.e(tag, "******** log request end ********\n");
+        Log.e(tag, "\n");
     }
 
     private static class NullStringToEmptyAdapterFactory<T> implements TypeAdapterFactory {
@@ -156,6 +161,7 @@ public class Api {
             return (TypeAdapter<T>) new StringAdapter();
         }
     }
+
     private static class StringAdapter extends TypeAdapter<String> {
         public String read(JsonReader reader) throws IOException {
             if (reader.peek() == JsonToken.NULL) {

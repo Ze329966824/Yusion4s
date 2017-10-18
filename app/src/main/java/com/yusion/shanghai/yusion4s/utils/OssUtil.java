@@ -18,9 +18,9 @@ import com.alibaba.sdk.android.oss.model.PutObjectResult;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.bean.oss.GetOssTokenBean;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.OssApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.service.OssService;
 
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
@@ -32,6 +32,7 @@ import java.util.Map;
 import javax.crypto.Mac;
 import javax.crypto.spec.SecretKeySpec;
 
+import io.sentry.Sentry;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -41,90 +42,22 @@ import retrofit2.Response;
  */
 
 public class OssUtil {
-    public static void uploadOss(final Context context, Dialog dialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
-        Map<String, String> body = new LinkedHashMap<>();
-        body.put("duration_second", "1800");
-        body.put("method", "put");
-        body.put("timestamp", new Date().getTime() + "");
-        body.put("signature", getSignature(body));
-        Call<GetOssTokenBean> call = OssApi.retrofit.create(OssService.class).getOSSToken(body);
-        dialog.setOnCancelListener(it -> call.cancel());
-        call.enqueue(new Callback<GetOssTokenBean>() {
-            @Override
-            public void onResponse(Call<GetOssTokenBean> call, Response<GetOssTokenBean> response) {
-                GetOssTokenBean ossTokenBean = response.body();
-                final String objectKey = getObjectKey(objectKeyBean.role, objectKeyBean.category, objectKeyBean.suffix);
-                PutObjectRequest request = new PutObjectRequest(ossTokenBean.FidDetail.Bucket, objectKey, localPath);
 
-                OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossTokenBean.AccessKeyId, ossTokenBean.AccessKeySecret, ossTokenBean.SecurityToken);
-                OSS oss = new OSSClient(context, ossTokenBean.FidDetail.Region, credentialProvider);
-                SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
-                SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
-
-//                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-//                    @Override
-//                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
-//                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
-//                    }
-//                });
-                oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
-                    @Override
-                    public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                        if (dialog.isShowing()) {
-                            dialog.dismiss();
-                        }
-                        onSuccessCallBack.onItemDataCallBack(request.getObjectKey());
-                    }
-
-                    @Override
-                    public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                        if (dialog.isShowing()) {
-                            dialog.dismiss();
-                        }
-                        if (clientExcepion != null) {
-                            // 本地异常如网络异常等
-                            clientExcepion.printStackTrace();
-                            if (onFailureCallBack != null) {
-                                onFailureCallBack.onItemDataCallBack(clientExcepion);
-                            }
-                        }
-                        if (serviceException != null) {
-                            // 服务异常
-                            serviceException.printStackTrace();
-                            if (onFailureCallBack != null) {
-                                onFailureCallBack.onItemDataCallBack(serviceException);
-                            }
-                        }
-                    }
-                });
-            }
-
-            @Override
-            public void onFailure(Call<GetOssTokenBean> call, Throwable t) {
-                if (dialog.isShowing()) {
-                    dialog.dismiss();
-                }
-                t.printStackTrace();
-                if (onFailureCallBack != null) {
-                    onFailureCallBack.onItemDataCallBack(t);
-                }
-            }
-        });
-    }
-
-    public static void uploadOss(final Context context, boolean showDialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
+    public static void uploadOss(final Context context, boolean showDialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onOssSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
         if (showDialog) {
             dialog.show();
         }
+
         Map<String, String> body = new LinkedHashMap<>();
         body.put("duration_second", "1800");
         body.put("method", "put");
         body.put("timestamp", new Date().getTime() + "");
         body.put("signature", getSignature(body));
-        OssApi.retrofit.create(OssService.class).getOSSToken(body).enqueue(new Callback<GetOssTokenBean>() {
+        OssApi.ossService.getOSSToken(body).enqueue(new Callback<GetOssTokenBean>() {
             @Override
             public void onResponse(Call<GetOssTokenBean> call, Response<GetOssTokenBean> response) {
+                Log.e(Api.getTag(call.request()), "onResponse: " + response.body());
                 GetOssTokenBean ossTokenBean = response.body();
                 final String objectKey = getObjectKey(objectKeyBean.role, objectKeyBean.category, objectKeyBean.suffix);
                 PutObjectRequest request = new PutObjectRequest(ossTokenBean.FidDetail.Bucket, objectKey, localPath);
@@ -134,19 +67,13 @@ public class OssUtil {
                 SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
                 SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
 
-//                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
-//                    @Override
-//                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
-//                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
-//                    }
-//                });
                 oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
                     @Override
                     public void onSuccess(PutObjectRequest request, PutObjectResult result) {
                         if (showDialog) {
                             dialog.dismiss();
                         }
-                        onSuccessCallBack.onItemDataCallBack(request.getObjectKey());
+                        onOssSuccessCallBack.onItemDataCallBack(request.getObjectKey());
                     }
 
                     @Override
@@ -168,6 +95,9 @@ public class OssUtil {
                                 onFailureCallBack.onItemDataCallBack(serviceException);
                             }
                         }
+                        String errorInfo = "onFailure() called with: request = [" + request + "], clientExcepion = [" + clientExcepion + "], serviceException = [" + serviceException + "]";
+                        Sentry.capture(errorInfo);
+                        Log.e("TAG", errorInfo);
                     }
                 });
             }
@@ -177,13 +107,159 @@ public class OssUtil {
                 if (showDialog) {
                     dialog.dismiss();
                 }
-                t.printStackTrace();
                 if (onFailureCallBack != null) {
                     onFailureCallBack.onItemDataCallBack(t);
                 }
+                String errorInfo = "onFailure() called with: call = [" + call + "], t = [" + t + "]";
+                Sentry.capture(errorInfo);
+                Log.e("TAG", errorInfo);
             }
         });
     }
+
+//    public static void uploadOss(final Context context, Dialog dialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
+//        Map<String, String> body = new LinkedHashMap<>();
+//        body.put("duration_second", "1800");
+//        body.put("method", "put");
+//        body.put("timestamp", new Date().getTime() + "");
+//        body.put("signature", getSignature(body));
+//        Call<GetOssTokenBean> call = OssApi.retrofit.create(OssService.class).getOSSToken(body);
+//        dialog.setOnCancelListener(it -> call.cancel());
+//        call.enqueue(new Callback<GetOssTokenBean>() {
+//            @Override
+//            public void onResponse(Call<GetOssTokenBean> call, Response<GetOssTokenBean> response) {
+//                GetOssTokenBean ossTokenBean = response.body();
+//                final String objectKey = getObjectKey(objectKeyBean.role, objectKeyBean.category, objectKeyBean.suffix);
+//                PutObjectRequest request = new PutObjectRequest(ossTokenBean.FidDetail.Bucket, objectKey, localPath);
+//
+//                OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossTokenBean.AccessKeyId, ossTokenBean.AccessKeySecret, ossTokenBean.SecurityToken);
+//                OSS oss = new OSSClient(context, ossTokenBean.FidDetail.Region, credentialProvider);
+//                SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
+//                SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
+//
+////                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+////                    @Override
+////                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+////                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+////                    }
+////                });
+//                oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+//                    @Override
+//                    public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+//                        if (dialog.isShowing()) {
+//                            dialog.dismiss();
+//                        }
+//                        onSuccessCallBack.onItemDataCallBack(request.getObjectKey());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+//                        if (dialog.isShowing()) {
+//                            dialog.dismiss();
+//                        }
+//                        if (clientExcepion != null) {
+//                            // 本地异常如网络异常等
+//                            clientExcepion.printStackTrace();
+//                            if (onFailureCallBack != null) {
+//                                onFailureCallBack.onItemDataCallBack(clientExcepion);
+//                            }
+//                        }
+//                        if (serviceException != null) {
+//                            // 服务异常
+//                            serviceException.printStackTrace();
+//                            if (onFailureCallBack != null) {
+//                                onFailureCallBack.onItemDataCallBack(serviceException);
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GetOssTokenBean> call, Throwable t) {
+//                if (dialog.isShowing()) {
+//                    dialog.dismiss();
+//                }
+//                t.printStackTrace();
+//                if (onFailureCallBack != null) {
+//                    onFailureCallBack.onItemDataCallBack(t);
+//                }
+//            }
+//        });
+//    }
+//
+//    public static void uploadOss(final Context context, boolean showDialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
+//        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+//        if (showDialog) {
+//            dialog.show();
+//        }
+//        Map<String, String> body = new LinkedHashMap<>();
+//        body.put("duration_second", "1800");
+//        body.put("method", "put");
+//        body.put("timestamp", new Date().getTime() + "");
+//        body.put("signature", getSignature(body));
+//        OssApi.retrofit.create(OssService.class).getOSSToken(body).enqueue(new Callback<GetOssTokenBean>() {
+//            @Override
+//            public void onResponse(Call<GetOssTokenBean> call, Response<GetOssTokenBean> response) {
+//                GetOssTokenBean ossTokenBean = response.body();
+//                final String objectKey = getObjectKey(objectKeyBean.role, objectKeyBean.category, objectKeyBean.suffix);
+//                PutObjectRequest request = new PutObjectRequest(ossTokenBean.FidDetail.Bucket, objectKey, localPath);
+//
+//                OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossTokenBean.AccessKeyId, ossTokenBean.AccessKeySecret, ossTokenBean.SecurityToken);
+//                OSS oss = new OSSClient(context, ossTokenBean.FidDetail.Region, credentialProvider);
+//                SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
+//                SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
+//
+////                request.setProgressCallback(new OSSProgressCallback<PutObjectRequest>() {
+////                    @Override
+////                    public void onProgress(PutObjectRequest putObjectRequest, long currentSize, long totalSize) {
+////                        Log.d("PutObject", "currentSize: " + currentSize + " totalSize: " + totalSize);
+////                    }
+////                });
+//                oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
+//                    @Override
+//                    public void onSuccess(PutObjectRequest request, PutObjectResult result) {
+//                        if (showDialog) {
+//                            dialog.dismiss();
+//                        }
+//                        onSuccessCallBack.onItemDataCallBack(request.getObjectKey());
+//                    }
+//
+//                    @Override
+//                    public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
+//                        if (showDialog) {
+//                            dialog.dismiss();
+//                        }
+//                        if (clientExcepion != null) {
+//                            // 本地异常如网络异常等
+//                            clientExcepion.printStackTrace();
+//                            if (onFailureCallBack != null) {
+//                                onFailureCallBack.onItemDataCallBack(clientExcepion);
+//                            }
+//                        }
+//                        if (serviceException != null) {
+//                            // 服务异常
+//                            serviceException.printStackTrace();
+//                            if (onFailureCallBack != null) {
+//                                onFailureCallBack.onItemDataCallBack(serviceException);
+//                            }
+//                        }
+//                    }
+//                });
+//            }
+//
+//            @Override
+//            public void onFailure(Call<GetOssTokenBean> call, Throwable t) {
+//                if (showDialog) {
+//                    dialog.dismiss();
+//                }
+//                t.printStackTrace();
+//                if (onFailureCallBack != null) {
+//                    onFailureCallBack.onItemDataCallBack(t);
+//                }
+//            }
+//        });
+//    }
 
     /**
      * @param client

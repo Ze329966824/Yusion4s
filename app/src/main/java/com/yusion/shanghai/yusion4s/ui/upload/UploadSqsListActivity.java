@@ -82,6 +82,8 @@ public class UploadSqsListActivity extends BaseActivity {
     private void initView() {
         titleBar = initTitleBar(this, title).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
+        mEditTv.setEnabled(false);
+        mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
         titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -288,7 +290,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 dialog.show();
                 Log.e("TAG", "1111");
                 for (UploadImgItemBean imgItemBean : toAddList) {
-                    OssUtil.uploadOss(this, dialog, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
+                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
                         @Override
                         public void onItemDataCallBack(String objectKey) {
                             imgItemBean.objectKey = objectKey;
