@@ -109,6 +109,7 @@ public class AddEventThread implements Runnable {
                 "action='" + action + '\'' +
                 ", view=" + view +
                 ", pageName='" + pageName + '\'' +
+                ", widget='" + widget + '\'' +
                 ", action_value='" + action_value + '\'' +
                 ", isPageEvent=" + isPageEvent +
                 ", isAppEvent=" + isAppEvent +

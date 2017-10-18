@@ -16,10 +16,10 @@ public class MyDatabaseHelper extends SQLiteOpenHelper {
             + "object text, "
             + "action text, "
             + "ts text, "
-            + "page_cn text, "
             + "widget text, "
             + "widget_cn text, "
             + "action_value text, "
+            + "page_cn text, "
             + "page text)";
 
     // 通过构造方法创建数据库，其中name为数据库名称

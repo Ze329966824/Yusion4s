@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.yusion.shanghai.yusion4s.R;
@@ -173,6 +174,11 @@ public class WheelViewUtil {
             }
             currentCityJson = cityJson;
             mProvinceList = initProvinceData(cityJson);
+            if (mProvinceList.size() == 0) {
+                Toast.makeText(context, "上牌地为空。", Toast.LENGTH_SHORT).show();
+                clickedView.setEnabled(true);
+                return;
+            }
         }
 //        }
 
