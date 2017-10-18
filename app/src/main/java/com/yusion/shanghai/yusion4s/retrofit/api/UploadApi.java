@@ -100,4 +100,13 @@ public class UploadApi {
         });
     }
 
+    public static void getLog(final Context context, OnCodeAndMsgCallBack onCodeAndMsgCallBack) {
+        Api.getUploadService().getLog().enqueue(new CustomCodeAndMsgCallBack(context) {
+            @Override
+            public void onCustomResponse(int code, String msg) {
+                onCodeAndMsgCallBack.callBack(code, msg);
+            }
+        });
+    }
+
 }

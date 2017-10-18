@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.retrofit.service;
 
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
+import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
@@ -47,4 +48,8 @@ public interface UploadService {
 
     @POST("/api/material/upload_yc_client_material_log/")
     Call<BaseResult> uploadLog(@Body UploadLogReq req);
+
+
+    @GET("/api/material/upload_yc_client_material_log/")
+    Call<BaseResult> getLog();
 }
