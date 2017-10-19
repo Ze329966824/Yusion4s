@@ -92,8 +92,10 @@ public class WheelViewUtil {
                     onSubmitCallBack.onSubmitCallBack(clickedView, wv.getSelectedIndex());
                 }
                 showView.setText(wv.getSelectedItem().toString());
-                mWheelViewDialog.dismiss();
-                mWheelViewDialog = null;
+                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                    mWheelViewDialog.dismiss();
+                    mWheelViewDialog = null;
+                }
                 clickedView.setEnabled(true);
             }
         });
@@ -101,8 +103,10 @@ public class WheelViewUtil {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mWheelViewDialog.dismiss();
-                mWheelViewDialog = null;
+                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                    mWheelViewDialog.dismiss();
+                    mWheelViewDialog = null;
+                }
                 clickedView.setEnabled(true);
             }
         });
@@ -227,8 +231,10 @@ public class WheelViewUtil {
                 if (onCitySubmitCallBack != null) {
                     onCitySubmitCallBack.onCitySubmitCallBack(clickedView, result);
                 }
-                mWheelViewDialog.dismiss();
-                mWheelViewDialog = null;
+                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                    mWheelViewDialog.dismiss();
+                    mWheelViewDialog = null;
+                }
                 clickedView.setEnabled(true);
             }
         });
@@ -236,8 +242,10 @@ public class WheelViewUtil {
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mWheelViewDialog.dismiss();
-                mWheelViewDialog = null;
+                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                    mWheelViewDialog.dismiss();
+                    mWheelViewDialog = null;
+                }
                 clickedView.setEnabled(true);
             }
         });
