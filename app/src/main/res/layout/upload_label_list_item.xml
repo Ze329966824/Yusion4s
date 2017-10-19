@@ -8,14 +8,14 @@
 
     <TextView
         android:id="@+id/upload_label_list_item_name_tv"
-        android:layout_width="wrap_content"
+        android:layout_width="250dp"
         android:layout_height="wrap_content"
         android:layout_centerVertical="true"
         android:layout_marginLeft="15dp"
         android:textColor="@color/text_normal"
         android:textSize="16sp"
         tools:showIn="@layout/upload_label_list"
-        tools:text="选项1" />
+        tools:text="工银信用卡申请表签字照(哈尔滨工行需要)" />
 
     <TextView
         android:id="@+id/upload_label_list_item_mark_tv"

@@ -7,7 +7,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,18 +15,12 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadLogReq;
-import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class UploadLabelListActivity extends BaseActivity {
     private ListDealerLabelsResp topItem;
@@ -152,6 +145,7 @@ public class UploadLabelListActivity extends BaseActivity {
             ListDealerLabelsResp.LabelListBean item = mItems.get(position);
             holder.name.setText(item.name);
 
+            holder.status.setVisibility(View.VISIBLE);
             if (item.has_img > 0) {
                 holder.status.setText("已上传");
                 holder.status.setTextColor(mContext.getResources().getColor(R.color.system_color));
