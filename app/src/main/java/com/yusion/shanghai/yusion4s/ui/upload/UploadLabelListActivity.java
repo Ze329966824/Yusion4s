@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -79,17 +80,31 @@ public class UploadLabelListActivity extends BaseActivity {
     }
 
     private void onBack() {
+
+//        UploadApi.getLog(UploadLabelListActivity.this, new OnCodeAndMsgCallBack() {
+//            @Override
+//            public void callBack(int code, String msg) {
+//                Log.e("ssss",msg);
+//                ///征信授权书
+//                //
+//                //
+//                //
+//            }
+//        });
+
         req = new UploadLogReq();
         req.app_id = app_id;
-        if (topItem.name.equals("征信授权书上传")) {
-            req.file_label = "FILE_CREDIT_CHOICE";
-        } else if (topItem.name.equals("基本资料上传")) {
-            req.file_label = "FILE_BASE_LABEL";
-        } else if (topItem.name.equals("提车资料上传")) {
-            req.file_label = "FILE_PICKUP_CAR_CHOICE";
-        } else if (topItem.name.equals("抵押资料上传")) {
-            req.file_label = "FILE_MORTGAGE_CHOICE";
-        }
+        req.file_label = topItem.name;
+
+//        if (topItem.name.equals("征信授权书上传")) {
+//            req.file_label = "征信授权书上传";
+//        } else if (topItem.name.equals("基本资料上传")) {
+//            req.file_label = "基本资料上传";
+//        } else if (topItem.name.equals("提车资料上传")) {
+//            req.file_label = "提车资料上传";
+//        } else if (topItem.name.equals("抵押资料上传")) {
+//            req.file_label = "FILE_MORTGAGE_CHOICE";
+//        }
         UploadApi.uploadLog(this, req, new OnCodeAndMsgCallBack() {
             @Override
             public void callBack(int code, String msg) {

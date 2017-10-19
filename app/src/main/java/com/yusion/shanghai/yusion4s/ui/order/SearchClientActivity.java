@@ -55,29 +55,29 @@ public class SearchClientActivity extends BaseActivity {
         search_info.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
-//                if (hasFocus) {
-//                    search_info.clearFocus();
-//                    searchClient(v);
-//                }
-                String key = et_search.getText().toString();
-                if (key.equals("")) {
-                    Toast.makeText(SearchClientActivity.this, "搜索内容不能为空", Toast.LENGTH_LONG).show();
-                } else {
-                    OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
-                        @Override
-                        public void onItemDataCallBack(List<SearchClientResp> data) {
-                            if (data.size() != 0) {
-                                items.clear();
-                                rv_client_info.setVisibility(View.VISIBLE);
-                                search_warn_lly.setVisibility(View.GONE);
-                                items.addAll(data);
-                                adapter.notifyDataSetChanged();
-                            } else {
-                                search_warn_lly.setVisibility(View.VISIBLE);
-                                rv_client_info.setVisibility(View.GONE);
+                if (hasFocus) {
+                    v.clearFocus();
+
+                    String key = et_search.getText().toString();
+                    if (key.equals("")) {
+                        Toast.makeText(SearchClientActivity.this, "搜索内容不能为空", Toast.LENGTH_LONG).show();
+                    } else {
+                        OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
+                            @Override
+                            public void onItemDataCallBack(List<SearchClientResp> data) {
+                                if (data.size() != 0) {
+                                    items.clear();
+                                    rv_client_info.setVisibility(View.VISIBLE);
+                                    search_warn_lly.setVisibility(View.GONE);
+                                    items.addAll(data);
+                                    adapter.notifyDataSetChanged();
+                                } else {
+                                    search_warn_lly.setVisibility(View.VISIBLE);
+                                    rv_client_info.setVisibility(View.GONE);
+                                }
                             }
-                        }
-                    });
+                        });
+                    }
                 }
             }
         });

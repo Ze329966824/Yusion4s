@@ -20,6 +20,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
@@ -89,7 +90,7 @@ public class LoginActivity extends BaseActivity {
             }
             req.username = account;
             req.password = password;
-            req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id","");
+            req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
             AuthApi.login(this, req, this::loginSuccess);
         });
     }
@@ -111,6 +112,7 @@ public class LoginActivity extends BaseActivity {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
+                    //UBT.uploadPersonAndDeviceInfo(LoginActivity.this);
                     uploadPersonAndDeviceInfo();
                 }
             }).start();
