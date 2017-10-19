@@ -175,7 +175,7 @@ public class WheelViewUtil {
             currentCityJson = cityJson;
             mProvinceList = initProvinceData(cityJson);
             if (mProvinceList.size() == 0) {
-                Toast.makeText(context, "上牌地为空。", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "上牌地列表为空，请联系相关人员添加数据。", Toast.LENGTH_SHORT).show();
                 clickedView.setEnabled(true);
                 return;
             }
