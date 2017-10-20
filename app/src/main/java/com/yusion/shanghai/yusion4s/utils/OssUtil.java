@@ -22,6 +22,7 @@ import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.OssApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
@@ -115,6 +116,28 @@ public class OssUtil {
                 Log.e("TAG", errorInfo);
             }
         });
+    }
+
+    public static void synchronizationUploadOss(final Context context, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onOssSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
+
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("duration_second", "1800");
+        body.put("method", "put");
+        body.put("timestamp", new Date().getTime() + "");
+        body.put("signature", getSignature(body));
+        try {
+            GetOssTokenBean ossTokenBean = OssApi.ossService.getOSSToken(body).execute().body();
+            final String objectKey = getObjectKey(objectKeyBean.role, objectKeyBean.category, objectKeyBean.suffix);
+            PutObjectRequest request = new PutObjectRequest(ossTokenBean.FidDetail.Bucket, objectKey, localPath);
+            OSSCredentialProvider credentialProvider = new OSSStsTokenCredentialProvider(ossTokenBean.AccessKeyId, ossTokenBean.AccessKeySecret, ossTokenBean.SecurityToken);
+            OSS oss = new OSSClient(context, ossTokenBean.FidDetail.Region, credentialProvider);
+            SharedPrefsUtil.getInstance(context).putValue("region", ossTokenBean.FidDetail.Region);
+            SharedPrefsUtil.getInstance(context).putValue("bucket", ossTokenBean.FidDetail.Bucket);
+            oss.putObject(request);
+            onOssSuccessCallBack.onItemDataCallBack(objectKey);
+        } catch (IOException | ServiceException | ClientException e) {
+            Sentry.capture(e);
+        }
     }
 
 //    public static void uploadOss(final Context context, Dialog dialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {

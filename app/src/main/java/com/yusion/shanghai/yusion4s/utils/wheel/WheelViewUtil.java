@@ -2,7 +2,6 @@ package com.yusion.shanghai.yusion4s.utils.wheel;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
 import android.view.Gravity;
@@ -72,7 +71,6 @@ public class WheelViewUtil {
             imm.hideSoftInputFromWindow(clickedView.getApplicationWindowToken(), 0);
         }
 
-        //View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout, null);
         View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.wheel_view_layout, null);
         TextView textTitle = (TextView) wheelViewLayout.findViewById(R.id.select_title);
         textTitle.setText(title);
@@ -114,12 +112,7 @@ public class WheelViewUtil {
         mWheelViewDialog = new Dialog(context, R.style.MyDialogStyle);
         mWheelViewDialog.setContentView(wheelViewLayout);
         mWheelViewDialog.setCanceledOnTouchOutside(false);
-        mWheelViewDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                clickedView.setEnabled(true);
-            }
-        });
+        mWheelViewDialog.setOnCancelListener(dialog -> clickedView.setEnabled(true));
 //        mWheelViewDialog.setCanceledOnTouchOutside(true);
 //        mWheelViewDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
 //            @Override
@@ -144,6 +137,7 @@ public class WheelViewUtil {
 
 
     public static String currentCityJson = "";
+
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
         clickedView.setEnabled(false);
         if (mCityWheelViewUtil == null) {
@@ -256,6 +250,7 @@ public class WheelViewUtil {
         mWheelViewDialog.getWindow().setWindowAnimations(R.style.dialogAnimationStyle);
         mWheelViewDialog.getWindow().setGravity(Gravity.BOTTOM);
         mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mWheelViewDialog.setOnCancelListener(dialog -> clickedView.setEnabled(true));
         mWheelViewDialog.show();
     }
 

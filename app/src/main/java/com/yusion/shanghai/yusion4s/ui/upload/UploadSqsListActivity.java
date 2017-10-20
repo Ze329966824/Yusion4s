@@ -50,7 +50,7 @@ public class UploadSqsListActivity extends BaseActivity {
     private boolean canBack = true;
     private List<UploadImgItemBean> imgList = new ArrayList<>();
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
-    private List<UploadImgItemBean> hasUploadLists = new ArrayList<>();
+    private List<UploadImgItemBean> hasUploadOssLists = new ArrayList<>();
     private String clt_id;
     private String title;
     private String type;
@@ -288,61 +288,58 @@ public class UploadSqsListActivity extends BaseActivity {
                 }
                 Dialog dialog = LoadingUtils.createLoadingDialog(this);
                 dialog.show();
-                Log.e("TAG", "1111");
-                for (UploadImgItemBean imgItemBean : toAddList) {
-                    OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), new OnItemDataCallBack<String>() {
-                        @Override
-                        public void onItemDataCallBack(String objectKey) {
-                            imgItemBean.objectKey = objectKey;
-                            Log.e("TAG", "2222");
-                            hasUploadLists.add(imgItemBean);
-                            if (hasUploadLists.size() == files.size()) {
-                                Log.e("TAG", "3333");
-                                dialog.dismiss();
-                                runOnUiThread(() -> {
-                                    Log.e("TAG", "4444");
+                new Thread(() -> {
+                    for (UploadImgItemBean uploadImgItemBean : toAddList) {
+                        OssUtil.synchronizationUploadOss(UploadSqsListActivity.this, uploadImgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), objectKey -> {
+                            hasUploadOssLists.add(uploadImgItemBean);
+                            uploadImgItemBean.objectKey = objectKey;
+                        }, data1 -> {
+                            hasUploadOssLists.add(uploadImgItemBean);
+                        });
+                        onUploadOssFinish(hasUploadOssLists.size(), files, dialog, toAddList);
+                    }
+                }).start();
+            }
+        }
+    }
 
-                                    imgList.addAll(toAddList);
-                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), toAddList.size());
-                                    onImgCountChange(imgList.size() > 0);
-                                    hasUploadLists.clear();
+    private void calculateRelToAddList(List<UploadImgItemBean> toAddList, OnItemDataCallBack<List<UploadImgItemBean>> onRelToAddListCallBack) {
+        List<UploadImgItemBean> relToAddList = new ArrayList<>();
+        for (UploadImgItemBean itemBean : toAddList) {
+            if (!TextUtils.isEmpty(itemBean.objectKey)) {
+                relToAddList.add(itemBean);
+            }
+        }
+        onRelToAddListCallBack.onItemDataCallBack(relToAddList);
+    }
 
-                                    for (UploadImgItemBean imgItemBean1 : toAddList) {
-                                        UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-                                        fileUrlBean.clt_id = clt_id;
-                                        fileUrlBean.file_id = imgItemBean1.objectKey;
-                                        fileUrlBean.label = imgItemBean1.type;
-                                        uploadFileUrlList.add(fileUrlBean);
-                                        Log.e("TAG", uploadFileUrlList.toString());
-                                    }
-                                });
-                            }
-                        }
-                    }, new OnItemDataCallBack<Throwable>() {
+    private void onUploadOssFinish(int finalAccount, ArrayList<String> files, Dialog dialog, final List<UploadImgItemBean> toAddList) {
+        Log.e("TAG", "finalAccount: " + finalAccount);
+        Log.e("TAG", "files.size(): " + files.size());
+        if (finalAccount == files.size()) {
+            dialog.dismiss();
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
                         @Override
-                        public void onItemDataCallBack(Throwable data) {
-                            Log.e("TAG", "6666");
-                            if (hasUploadLists.size() == files.size()) {
-                                dialog.dismiss();
-                                runOnUiThread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        for (UploadImgItemBean imgItemBean : toAddList) {
-                                            UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
-                                            fileUrlBean.clt_id = clt_id;
-                                            fileUrlBean.file_id = imgItemBean.objectKey;
-                                            fileUrlBean.label = imgItemBean.type;
-                                            uploadFileUrlList.add(fileUrlBean);
-                                        }
-                                    }
-                                });
+                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
+                            imgList.addAll(relToAddList);
+                            onImgCountChange(imgList.size() > 0);
+                            hasUploadOssLists.clear();
+                            for (UploadImgItemBean imgItemBean1 : relToAddList) {
+                                UploadFilesUrlReq.FileUrlBean fileUrlBean = new UploadFilesUrlReq.FileUrlBean();
+                                fileUrlBean.clt_id = clt_id;
+                                fileUrlBean.file_id = imgItemBean1.objectKey;
+                                fileUrlBean.label = imgItemBean1.type;
+                                uploadFileUrlList.add(fileUrlBean);
+                                Log.e("TAG", uploadFileUrlList.toString());
                             }
+
                         }
                     });
                 }
-
-
-            }
+            });
         }
     }
 

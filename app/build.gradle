@@ -6,7 +6,7 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    def isOnline = false
+    def isOnline = true
 
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
@@ -26,6 +26,7 @@ android {
         buildConfigField("boolean", "isOnline", isOnline.toString())
         def pgyer_appid = "2234913a0c85f5dc0e60faefe41c96e0"
         def app_icon = "@mipmap/test_ic_launcher"
+//        def app_icon = "@mipmap/ic_launcher"
         if (isOnline) {
             pgyer_appid = "a455421518edcbc4d3784f2b855b0691"
             app_icon = "@mipmap/ic_launcher"

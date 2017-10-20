@@ -52,7 +52,7 @@ public class UploadListActivity extends BaseActivity {
     private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
-    private List<UploadImgItemBean> hasUploadLists = new ArrayList<>();
+    private List<UploadImgItemBean> hasUploadOSSLists = new ArrayList<>();
 
     private String app_id;
     private String clt_id;
@@ -92,6 +92,7 @@ public class UploadListActivity extends BaseActivity {
                     mEditTv.setText("取消");
                     uploadBottomLin.setVisibility(View.VISIBLE);
 
+                    uploadTv1.setText("全选");
                     uploadTv2.setText("删除");
                     uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
                 }
@@ -303,31 +304,29 @@ public class UploadListActivity extends BaseActivity {
                 toAddList.add(item);
             }
 
-            hasUploadLists.clear();
+            hasUploadOSSLists.clear();
 
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
-            for (UploadImgItemBean imgItemBean : toAddList) {
-                String suffix = isVideoPage ? ".mp4" : ".png";
-                OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), new OnItemDataCallBack<String>() {
-                    @Override
-                    public void onItemDataCallBack(String objectKey) {
-                        imgItemBean.objectKey = objectKey;
-                        hasUploadLists.add(imgItemBean);
-                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
-                    }
-                }, new OnItemDataCallBack<Throwable>() {
-                    @Override
-                    public void onItemDataCallBack(Throwable data) {
-                        hasUploadLists.add(imgItemBean);
-                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
-                    }
-                });
-            }
+            new Thread(() -> {
+                for (UploadImgItemBean uploadImgItemBean : toAddList) {
+                    String suffix = isVideoPage ? ".mp4" : ".png";
+                    OssUtil.synchronizationUploadOss(UploadListActivity.this, uploadImgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), objectKey -> {
+                        hasUploadOSSLists.add(uploadImgItemBean);
+                        uploadImgItemBean.objectKey = objectKey;
+                    }, throwable -> {
+                        hasUploadOSSLists.add(uploadImgItemBean);
+                        onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
+                    });
+                    onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
+                }
+            }).start();
         }
     }
 
     private void onUploadOssFinish(int finalAccount, ArrayList<String> files, Dialog dialog, final List<UploadImgItemBean> toAddList) {
+        Log.e("TAG", "finalAccount: " + finalAccount);
+        Log.e("TAG", "files.size(): " + files.size());
         if (finalAccount == files.size()) {
             dialog.dismiss();
             runOnUiThread(new Runnable() {
