@@ -120,7 +120,7 @@ public class WheelViewUtil {
 //                mWheelViewDialog.dismiss();
 //                mWheelViewDialog = null;
 //            }
-//        });
+//     }
         mWheelViewDialog.getWindow().setWindowAnimations(R.style.dialogAnimationStyle);
         mWheelViewDialog.getWindow().setGravity(Gravity.BOTTOM);
         mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
