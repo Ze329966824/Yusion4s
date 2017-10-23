@@ -836,16 +836,17 @@ public class CarInfoFragment extends BaseFragment {
 
         carInfoBrandLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(dlrTV.getText())) {
+                Log.e("!!!--门店-----", dlrTV.getText().toString());
                 DlrApi.getBrand(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                     mBrandList = resp;
                     List<String> items = new ArrayList<>();
                     for (GetBrandResp item : resp) {
                         items.add(item.brand_name);
                     }
-                    //Log.e("ssss", items.toString());
+                    Log.e("!!!----品牌---", items.toString());
                     WheelViewUtil.showWheelView(items, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
                         mBrandIndex = selectedIndex;
-                       // Log.e("sss", String.valueOf(mBrandIndex));
+                        // Log.e("sss", String.valueOf(mBrandIndex));
                         mTrixList.clear();
                         mTrixIndex = 0;
                         trixTv.setText("");

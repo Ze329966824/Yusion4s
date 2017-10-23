@@ -123,7 +123,7 @@ public class WheelViewUtil {
 //                mWheelViewDialog.dismiss();
 //                mWheelViewDialog = null;
 //            }
-//        });
+//     }
         mWheelViewDialog.getWindow().setWindowAnimations(R.style.dialogAnimationStyle);
         mWheelViewDialog.getWindow().setGravity(Gravity.BOTTOM);
         mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -140,6 +140,7 @@ public class WheelViewUtil {
 
 
     public static String currentCityJson = "";
+
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
         clickedView.setEnabled(false);
         if (mCityWheelViewUtil == null) {
