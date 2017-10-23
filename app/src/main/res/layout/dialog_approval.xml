@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="260dp"
+    android:layout_height="250dp"
+    android:layout_gravity="center"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/btn_cancel"
+        android:layout_margin="10dp"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/dialog_approve_close"
+        />
+    <ImageView
+        android:layout_marginTop="20dp"
+        android:layout_centerHorizontal="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@mipmap/dialog_approve_pass"
+        />
+
+</RelativeLayout>
+
+    <TextView
+        android:id="@+id/dialog_approve_pass_title"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:textSize="18dp"
+        android:textColor="#FF222A36"
+        android:layout_marginTop="20dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="恭喜您，您的金融方案审批结果已出"
+        />
+
+    <TextView
+        android:id="@+id/dialog_approve_pass_message"
+        android:layout_marginTop="10dp"
+        android:textColor="#FF999999"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="请仔细核对，并确认您的方案" />
+
+    <TextView
+        android:layout_marginBottom="0dp"
+        android:textColor="#FFFFFFFF"
+        android:background="#FF06B7A3"
+        android:gravity="center"
+        android:id="@+id/btn_ok"
+        android:layout_marginTop="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:text="查看金融方案"
+        />
+</LinearLayout>

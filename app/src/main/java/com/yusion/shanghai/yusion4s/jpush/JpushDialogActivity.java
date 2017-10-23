@@ -1,8 +1,14 @@
 package com.yusion.shanghai.yusion4s.jpush;
 
+import android.app.Dialog;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -74,16 +80,20 @@ public class JpushDialogActivity extends BaseActivity {
                             .show();
                     break;
                 case "application":
-                    new AlertDialog.Builder(JpushDialogActivity.this)
-                            .setCancelable(false)
-                            .setTitle(title)
-                            .setMessage(content)
-                            .setPositiveButton("知道啦", (dialog, which) -> {
-                                dialog.dismiss();
-                                finish();
-                            })
-                            .show();
+//                    new AlertDialog.Builder(JpushDialogActivity.this)
+//                            .setCancelable(false)
+//                            .setTitle(title)
+//                            .setMessage(content)
+//                            .setPositiveButton("知道啦", (dialog, which) -> {
+//                                dialog.dismiss();
+//                                finish();
+//                            })
+//                            .show();
+
+                    showJpushDialog(JpushDialogActivity.this,title,content);
+
                     break;
+
                 default:
                     new AlertDialog.Builder(JpushDialogActivity.this)
                             .setTitle(title)
@@ -100,5 +110,67 @@ public class JpushDialogActivity extends BaseActivity {
             finish();
         }
 
+    }
+
+
+    private static JpushDialog mJpushDialog;
+
+    public static void showJpushDialog(Context context, String title, String message){
+        if (mJpushDialog == null) {
+            mJpushDialog = new JpushDialog(context, title, message);
+        }
+        mJpushDialog.show();
+
+    }
+    private static class JpushDialog implements View.OnClickListener {
+        private Context mContext;
+        private Dialog mDialog;
+        private View mView;
+        private TextView mMessage;
+        private TextView mTitle;
+
+        JpushDialog(Context context,String title,String message){
+            mContext = context;
+            mView = LayoutInflater.from(mContext).inflate(R.layout.dialog_approval,null);
+
+            mTitle = (TextView) mView.findViewById(R.id.dialog_approve_pass_title);
+            mTitle.setText(title);
+            mMessage = (TextView) mView.findViewById(R.id.dialog_approve_pass_message);
+            mMessage.setText(message);
+
+            mView.findViewById(R.id.btn_cancel).setOnClickListener(this);
+            mView.findViewById(R.id.btn_ok).setOnClickListener(this);
+
+            mDialog = new Dialog(mContext,R.style.MyDialogStyle);
+            mDialog.setContentView(mView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            mDialog.setCancelable(false);
+            mDialog.setCanceledOnTouchOutside(false);
+            mDialog.show();
+        }
+        void show() {
+            if (mDialog != null) {
+                mDialog.show();
+            }
+        }
+
+        void dismiss() {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()){
+                case R.id.btn_cancel:
+                    dismiss();
+                    break;
+                case R.id.btn_ok:
+                    dismiss();
+                    break;
+                default:
+                    dismiss();
+                    break;
+            }
+        }
     }
 }
