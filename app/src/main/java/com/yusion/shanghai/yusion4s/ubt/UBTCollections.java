@@ -108,6 +108,10 @@ public class UBTCollections {
 
     }
 
+    static {
+        widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+    }
+
     public static String getPageNm(String key) {
         Pair<String, String> pair = pageNameMaps.get(key);
         if (pair == null) {
