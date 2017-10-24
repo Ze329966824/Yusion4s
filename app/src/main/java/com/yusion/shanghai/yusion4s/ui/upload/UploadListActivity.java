@@ -274,6 +274,7 @@ public class UploadListActivity extends BaseActivity {
                 expandTemplate();
             }
         });
+        templateLin.setOnClickListener(v -> {});
         templateImg.setOnClickListener(img -> previewImg(anchor, detail_url, true));
         templateImgLook.setOnClickListener(v -> previewImg(anchor, detail_url, true));
     }

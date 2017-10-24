@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 
-    <com.yusion.shanghai.yusion4s.preview.IntensifyImageView
+    <com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView
         android:id="@+id/image_preview_breviary"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
