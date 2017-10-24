@@ -2,8 +2,8 @@ package com.yusion.shanghai.yusion4s.retrofit.service;
 
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
-import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
+import com.yusion.shanghai.yusion4s.bean.upload.GetTemplateResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
@@ -18,6 +18,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -52,4 +53,8 @@ public interface UploadService {
 
     @GET("/api/material/upload_yc_client_material_log/")
     Call<BaseResult> getLog();
+
+//    http://api.alpha.yusiontech.com:8000/api/m/rest/image_checker_config/1/
+    @GET("/api/m/rest/image_checker_config/{id}/")
+    Call<BaseResult<GetTemplateResp>> getTemplate(@Path("id") String id);
 }
