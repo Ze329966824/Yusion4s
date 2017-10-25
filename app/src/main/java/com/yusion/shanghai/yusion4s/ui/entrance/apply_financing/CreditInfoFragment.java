@@ -319,6 +319,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                         }
                     });
                 } else if (checkCanSubmit()) {
+                    ((Yusion4sApp) getActivity().getApplication()).requestLocation(null);
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();

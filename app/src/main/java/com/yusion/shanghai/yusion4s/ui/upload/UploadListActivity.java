@@ -359,7 +359,9 @@ public class UploadListActivity extends BaseActivity {
                     templateContent.setText(Html.fromHtml(data.checker_item.description));
                     sample_url = data.checker_item.sample_url;
                     detail_url = data.checker_item.detail_url;
-                    Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
+                    if (!isFinishing()) {
+                        Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
+                    }
                 }
             }
         });
