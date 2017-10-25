@@ -102,7 +102,7 @@ dependencies {
     compile 'com.instabug.library:instabug:4.2.10'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.amap.api:location:latest.integration'
-    compile 'com.davemorrissey.labs:subsampling-scale-image-view:3.7.0'
+    compile 'com.shizhefei:LargeImageView:1.0.9'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }

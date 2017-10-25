@@ -274,7 +274,8 @@ public class UploadListActivity extends BaseActivity {
                 expandTemplate();
             }
         });
-        templateLin.setOnClickListener(v -> {});
+        templateLin.setOnClickListener(v -> {
+        });
         templateImg.setOnClickListener(img -> previewImg(anchor, detail_url, true));
         templateImgLook.setOnClickListener(v -> previewImg(anchor, detail_url, true));
     }
@@ -347,7 +348,9 @@ public class UploadListActivity extends BaseActivity {
         });
 
 
-        UploadApi.getTemplate(this, "1", new OnItemDataCallBack<GetTemplateResp>() {
+        String id = topItem.id;
+        Log.e("TAG", "initData: " + id);
+        UploadApi.getTemplate(this, id, new OnItemDataCallBack<GetTemplateResp>() {
 
             @Override
             public void onItemDataCallBack(GetTemplateResp data) {
@@ -388,6 +391,10 @@ public class UploadListActivity extends BaseActivity {
     }
 
     private void previewImg(View previewAnchor, String imgUrl, boolean isBreviary) {
+        if (TextUtils.isEmpty(imgUrl)) {
+            Toast.makeText(myApp, "没有找到图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, PreviewActivity.class);
         intent.putExtra("PreviewImg", imgUrl);
         intent.putExtra("breviary", isBreviary);

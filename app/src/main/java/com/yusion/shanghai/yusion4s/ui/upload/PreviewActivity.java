@@ -4,12 +4,11 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Environment;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.davemorrissey.labs.subscaleview.ImageSource;
-import com.davemorrissey.labs.subscaleview.SubsamplingScaleImageView;
+import com.shizhefei.view.largeimage.LargeImageView;
+import com.shizhefei.view.largeimage.factory.FileBitmapDecoderFactory;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
@@ -29,7 +28,7 @@ public class PreviewActivity extends BaseActivity {
     private String imageUrl;
     private StatusImageRel imageView;
     private boolean isbBreviary;
-    private SubsamplingScaleImageView imageBreviaryView;
+    private LargeImageView imageBreviaryView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,15 +40,7 @@ public class PreviewActivity extends BaseActivity {
 
 
         imageView = (StatusImageRel) findViewById(R.id.image_preview);
-        imageBreviaryView = (SubsamplingScaleImageView) findViewById(R.id.image_preview_breviary);
-        imageBreviaryView.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                return false;
-            }
-        });
-//        imageBreviaryView.setScaleType(IntensifyImage.ScaleType.CENTER);
-//        imageBreviaryView.setImage("/storage/emulated/0/Pictures/%E9%95%BF%E5%9B%BE.png");
+        imageBreviaryView = (LargeImageView) findViewById(R.id.image_preview_breviary);
         if (isbBreviary) {
             imageView.setVisibility(View.GONE);
             imageBreviaryView.setVisibility(View.VISIBLE);
@@ -74,9 +65,7 @@ public class PreviewActivity extends BaseActivity {
                 if (exist) {
                     runOnUiThread(() -> {
                         dialog.dismiss();
-                        String path = imgFile.getPath();
-                        imageBreviaryView.setImage(ImageSource.uri(path));
-//                        imageBreviaryView.setImage(path);
+                        imageBreviaryView.setImage(new FileBitmapDecoderFactory(imgFile.getPath()));
                     });
                 } else {
                     URL url = null;
@@ -87,8 +76,7 @@ public class PreviewActivity extends BaseActivity {
                         InputStream inputStream = conn.getInputStream();
                         FileUtil.saveImg(inputStream, Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES) + "/" + fileName, () -> runOnUiThread(() -> {
                             dialog.dismiss();
-//                            imageBreviaryView.setImage(imgFile.getPath());
-                            imageBreviaryView.setImage(ImageSource.uri(imgFile.getPath()));
+                            imageBreviaryView.setImage(new FileBitmapDecoderFactory(imgFile.getPath()));
                         }));
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
