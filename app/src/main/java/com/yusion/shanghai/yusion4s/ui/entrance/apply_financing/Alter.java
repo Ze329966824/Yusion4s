@@ -48,6 +48,8 @@ import retrofit2.Response;
 public class Alter extends BaseActivity {
     public static int DELAY_MILLIS;
     private String otherLimit;
+    private String clt_id;
+    private String id_no;
 
     private List<GetLoanBankResp> mLoanBankList = new ArrayList<>();
     private List<GetproductResp.ProductListBean> mProductList = new ArrayList<>();
@@ -56,7 +58,6 @@ public class Alter extends BaseActivity {
     private List<GetModelResp> mModelList = new ArrayList<>();
     private List<GetBrandResp> mBrandList = new ArrayList<>();
     private List<GetTrixResp> mTrixList = new ArrayList<>();
-
     private String dlr_id;
     private String brand_id;
     private int mDlrIndex = 0;
@@ -295,14 +296,14 @@ public class Alter extends BaseActivity {
         initTitleBar(this, "修改订单").setLeftText("返回");
 
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
-
+        app_id = getIntent().getStringExtra("app_id");
         initView();
 
         initData();
     }
 
     private void initView() {
-        app_id = getIntent().getStringExtra("app_id");
+        //app_id = getIntent().getStringExtra("app_id");
         totalLoanPriceTv = (TextView) findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
         otherPriceTv = (EditText) findViewById(R.id.car_info_other_price_tv);//其他费用
         colorTv = (EditText) findViewById(R.id.car_info_color_tv);//车辆颜色
@@ -339,7 +340,9 @@ public class Alter extends BaseActivity {
         OrderApi.getRawCarInfo(Alter.this, "11000005", new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
+                clt_id = resp.clt_id;
                 brand_id = resp.brand_id;
+                id_no = resp.id_no;
                 dlr_id = resp.dlr_id;
                 dlrTV.setText(resp.dlr_nm);
                 brandTv.setText(resp.brand);
@@ -355,7 +358,8 @@ public class Alter extends BaseActivity {
                 totalLoanPriceTv.setText(resp.loan_amt);//总贷款额
                 loanBankTv.setText(resp.loan_bank);//贷款银行
                 productTypeTv.setText(resp.product_name);//产品类型
-                loanPeriodsTv.setText(resp.nper);//还款期限
+                loanPeriodsTv.setText(resp.nper + "");//还款期限
+                loanPeriodsTv.setText(String.valueOf(resp.nper));
                 plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
                 mGuidePrice = Integer.valueOf(resp.msrp);
                 isChangeCarInfoChange = true;
@@ -398,6 +402,17 @@ public class Alter extends BaseActivity {
                             trixItems.add(item.trix_name);
                         }
                         mTrixIndex = selectIndex(trixItems, mTrixIndex, trixTv.getText().toString());
+                    }
+                });
+                DlrApi.getModel(Alter.this, resp.trix_id, new OnItemDataCallBack<List<GetModelResp>>() {
+                    @Override
+                    public void onItemDataCallBack(List<GetModelResp> resp) {
+                        mModelList = resp;
+                        modelItems = new ArrayList<String>();
+                        for (GetModelResp item : resp) {
+                            modelItems.add(item.model_name);
+                        }
+                        mModelIndex = selectIndex(modelItems, mModelIndex, modelTv.getText().toString());
                     }
                 });
 
@@ -882,11 +897,23 @@ public class Alter extends BaseActivity {
             public void onClick(View v) {
                 if (checkCanNextStep()) {
                     GetRawCarInfoResp req = new GetRawCarInfoResp();
+                    req.vehicle_owner_lender_relation = "";
+                    req.vehicle_cond = "新车";
+                    req.gps_fee = "0";
+                    req.id_no = id_no;
+                    req.clt_id = clt_id;
                     req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                     req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
-
+                    req.brand_id = mBrandList.get(mBrandIndex).brand_id;
+                    req.dlr_nm = dlrTV.getText().toString();
+                    req.guide_price = guidePriceTv.getText().toString();
+                    req.trix_id = mTrixList.get(mTrixIndex).trix_id;
+                    req.loan_bank = loanBankTv.getText().toString();
+                    req.app_id = "11000005";
+                    req.product_name = productTypeTv.getText().toString();
                     req.dlr = dlrTV.getText().toString();
                     req.brand = brandTv.getText().toString();
                     req.trix = trixTv.getText().toString();
@@ -898,14 +925,16 @@ public class Alter extends BaseActivity {
                     req.loan_amt = totalLoanPriceTv.getText().toString();
                     req.management_fee = managementPriceTv.getText().toString();
                     req.other_fee = otherPriceTv.getText().toString();
+                    //req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                    //req.nper = loanPeriodsTv.getText().toString();
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
                     req.msrp = guidePriceTv.getText().toString();
-
+                    req.reason = carInfoAlterTv.getText().toString();
                     OrderApi.submitAlterInfo(Alter.this, req, new OnCodeAndMsgCallBack() {
                         @Override
                         public void callBack(int code, String msg) {
-                            if (code > 0) {
+                            if (code > -1) {
                                 finish();
                             }
                         }
@@ -968,6 +997,7 @@ public class Alter extends BaseActivity {
                 index = i;
             }
         }
+        Log.e("sss", "sss");
         return index;
     }
 
@@ -986,9 +1016,9 @@ public class Alter extends BaseActivity {
                 return true;
             }
         }
+        Toast.makeText(Alter.this,"S",Toast.LENGTH_LONG).show();
         return false;
     }
-
 
     public boolean isCanSelectIndex(List<Integer> list, int index, Integer s) {
         for (int i = 0; i < list.size(); i++) {

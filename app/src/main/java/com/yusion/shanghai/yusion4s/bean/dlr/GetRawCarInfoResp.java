@@ -22,6 +22,12 @@ public class GetRawCarInfoResp {
 //            * loan_bank : 工商银行        bank_id 银行名字
 //     * product_type : 予见I型     product_id 产品 名字
 //     */
+    public String id_no;
+    public String vehicle_owner_lender_relation;
+    public String gps_fee = "0";
+    public String vehicle_cond;
+    public String clt_id;
+    public String client_id;
     public String app_id;
     public String msrp;
     public String dlr_id;
@@ -46,6 +52,8 @@ public class GetRawCarInfoResp {
     public String bank_id;
     public int product_id;
     public int vehicle_model_id;
+    public String reason;
+    public String trix_id;
 
     @Override
     public String toString() {
