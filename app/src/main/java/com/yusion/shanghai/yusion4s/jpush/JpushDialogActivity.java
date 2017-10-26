@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
@@ -90,7 +89,7 @@ public class JpushDialogActivity extends BaseActivity {
 //                            })
 //                            .show();
 
-                    showJpushDialog(JpushDialogActivity.this,title,content);
+                    new JpushDialogPass(this,title,content).show();
 
                     break;
 
@@ -113,25 +112,25 @@ public class JpushDialogActivity extends BaseActivity {
     }
 
 
-    private static JpushDialog mJpushDialog;
+//    private static JpushDialog mJpushDialog;
 
-    public static void showJpushDialog(Context context, String title, String message){
-        if (mJpushDialog == null) {
-            mJpushDialog = new JpushDialog(context, title, message);
-        }
-        mJpushDialog.show();
-
-    }
-    private static class JpushDialog implements View.OnClickListener {
+//    public static void showJpushDialog(Context context, String title, String message){
+//        if (mJpushDialog == null) {
+//            mJpushDialog = new JpushDialog(context, title, message);
+//        }
+//        mJpushDialog.show();
+//
+//    }
+    private static class JpushDialogPass implements View.OnClickListener {
         private Context mContext;
         private Dialog mDialog;
         private View mView;
         private TextView mMessage;
         private TextView mTitle;
 
-        JpushDialog(Context context,String title,String message){
+        JpushDialogPass(Context context, String title, String message) {
             mContext = context;
-            mView = LayoutInflater.from(mContext).inflate(R.layout.dialog_approval,null);
+            mView = LayoutInflater.from(mContext).inflate(R.layout.dialog_approval_pass, null);
 
             mTitle = (TextView) mView.findViewById(R.id.dialog_approve_pass_title);
             mTitle.setText(title);
@@ -141,12 +140,73 @@ public class JpushDialogActivity extends BaseActivity {
             mView.findViewById(R.id.btn_cancel).setOnClickListener(this);
             mView.findViewById(R.id.btn_ok).setOnClickListener(this);
 
-            mDialog = new Dialog(mContext,R.style.MyDialogStyle);
-            mDialog.setContentView(mView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
+            mDialog = new Dialog(mContext, R.style.MyDialogStyle);
+//            mDialog.setContentView(mView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             mDialog.setCancelable(false);
+//            mDialog.getWindow().getAttributes().width = 900;
+//            mDialog.getWindow().getAttributes().height = 1200;
+            mDialog.setContentView(mView);
             mDialog.setCanceledOnTouchOutside(false);
             mDialog.show();
         }
+
+        void show() {
+            if (mDialog != null) {
+                mDialog.show();
+            }
+        }
+
+        void dismiss() {
+            if (mDialog != null) {
+                mDialog.dismiss();
+            }
+        }
+
+        @Override
+        public void onClick(View v) {
+            switch (v.getId()) {
+                case R.id.btn_cancel:
+                    dismiss();
+                    break;
+                case R.id.btn_ok:
+                    dismiss();
+                    break;
+                default:
+                    dismiss();
+                    break;
+            }
+        }
+    }
+
+    private class JpushDialogRefuse implements View.OnClickListener {
+        private Context mContext;
+        private Dialog mDialog;
+        private View mView;
+        private TextView mMessage;
+        private TextView mTitle;
+
+        JpushDialogRefuse(Context context, String title, String message) {
+            mContext = context;
+            mView = LayoutInflater.from(mContext).inflate(R.layout.dialog_approval_refuse, null);
+
+            mTitle = (TextView) mView.findViewById(R.id.dialog_approve_refuse_title);
+            mTitle.setText(title);
+            mMessage = (TextView) mView.findViewById(R.id.dialog_approve_refuse_message);
+            mMessage.setText(message);
+
+            mView.findViewById(R.id.btn_cancel).setOnClickListener(this);
+            mView.findViewById(R.id.btn_ok).setOnClickListener(this);
+
+            mDialog = new Dialog(mContext, R.style.MyDialogStyle);
+//            mDialog.setContentView(mView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
+            mDialog.setCancelable(false);
+//            mDialog.getWindow().getAttributes().width = 900;
+//            mDialog.getWindow().getAttributes().height = 1200;
+            mDialog.setContentView(mView);
+            mDialog.setCanceledOnTouchOutside(false);
+            mDialog.show();
+        }
+
         void show() {
             if (mDialog != null) {
                 mDialog.show();
@@ -160,17 +220,28 @@ public class JpushDialogActivity extends BaseActivity {
         }
         @Override
         public void onClick(View v) {
-            switch (v.getId()){
+            switch (v.getId()) {
                 case R.id.btn_cancel:
                     dismiss();
                     break;
                 case R.id.btn_ok:
                     dismiss();
                     break;
+//                case R.id.btn_calltocustomer:
+//
+//                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + "13888888888"));
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+//                    startActivity(intent);
+//                    dismiss();
+//
+//                    break;
                 default:
                     dismiss();
                     break;
             }
         }
     }
+
+
+
 }

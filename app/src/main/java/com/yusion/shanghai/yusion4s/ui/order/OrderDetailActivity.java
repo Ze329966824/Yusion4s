@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -68,13 +69,19 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView cancelReason;
     private TextView passReason;
     private TextView rejectReason;
+    private LinearLayout order_detail_sign_layout;
+    private LinearLayout order_detail_change_layout;
 
 
     @BindView(id = R.id.order_detail_sign, widgetName = "order_detail_sign", onClick = "submitMaterial")
     private Button orderDetailSignBtn;
 
+    private TextView orderDetailChangeBtn;
+    private TextView orderDetailUploadBtn;
+
 
     private String app_id;
+    private int status_st;
     //申请和批复的金融方案
     private TextView applyFirstPercentTv2;
     private TextView replyFirstPercentTv2;
@@ -120,6 +127,10 @@ public class OrderDetailActivity extends BaseActivity {
         setContentView(R.layout.order_detail);
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
+        status_st = getIntent().getIntExtra("status_st", 0);
+
+
+
         initView();
         initTitleBar(this, "申请详情");
 
@@ -212,9 +223,21 @@ public class OrderDetailActivity extends BaseActivity {
         applyMonthPriceTv = (TextView) findViewById(R.id.apply_month_price_tv);
         replyMonthPriceTv = (TextView) findViewById(R.id.reply_month_price_tv);
 
+        order_detail_sign_layout = (LinearLayout) findViewById(R.id.order_detail_sign_layout);
+        order_detail_change_layout = (LinearLayout) findViewById(R.id.order_detail_change_layout);
+
         orderDetailSignBtn = (Button) findViewById(R.id.order_detail_sign);
+        orderDetailChangeBtn = (TextView) findViewById(R.id.order_detail_change_tv);
+        orderDetailUploadBtn = (TextView) findViewById(R.id.order_detail_upload_tv);
 
         orderDetailFinanceProgramLin = (LinearLayout) findViewById(R.id.order_detail_finance_program_lin);
+
+
+//        order_detail_sign_layout.setVisibility(View.VISIBLE);
+//        order_detail_change_layout.setVisibility(View.GONE);
+
+            order_detail_sign_layout.setVisibility(View.GONE);
+            order_detail_change_layout.setVisibility(View.VISIBLE);
     }
 
     private void initData() {
@@ -347,6 +370,20 @@ public class OrderDetailActivity extends BaseActivity {
                     public void onClick(View v) {
                         Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + resp.dlr_sales_mobile));
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                        startActivity(intent);
+                    }
+                });
+                orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Toast.makeText(OrderDetailActivity.this, "修改资料", Toast.LENGTH_SHORT).show();
+                    }
+                });
+                orderDetailUploadBtn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                        intent.putExtra("app_id", app_id);
                         startActivity(intent);
                     }
                 });
