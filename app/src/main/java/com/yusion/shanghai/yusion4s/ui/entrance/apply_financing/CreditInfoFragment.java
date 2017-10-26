@@ -47,7 +47,7 @@ import java.util.List;
  * Created by aa on 2017/8/9.
  */
 
-public class CreditInfoFragment extends BaseFragment implements View.OnClickListener{
+public class CreditInfoFragment extends BaseFragment implements View.OnClickListener {
 
     @BindView(id = R.id.tv_find, widgetName = "tv_find")
     private TextView findTv;
@@ -56,22 +56,22 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private TextView client_phoneNumber;
     private TextView client_ID_card;
 
-//    @BindView(id = R.id.client_credit__book_lin1, widgetName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
+    //    @BindView(id = R.id.client_credit__book_lin1, widgetName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
     private LinearLayout client_credit__book_lin;  //申请人征信
 
-//    @BindView(id = R.id.client_spouse_credit__book_lin2, widgetName = "上传申请人配偶征信授权书", onClick = "uploadClientSpouseCreditBook")
+    //    @BindView(id = R.id.client_spouse_credit__book_lin2, widgetName = "上传申请人配偶征信授权书", onClick = "uploadClientSpouseCreditBook")
     private LinearLayout client_spouse_credit__book_lin;//申请人配偶
 
-//    @BindView(id = R.id.credit_applicate_detail_lin, widgetName = "查看用户详情", onClick = "lookClientDetail")
+    //    @BindView(id = R.id.credit_applicate_detail_lin, widgetName = "查看用户详情", onClick = "lookClientDetail")
     private LinearLayout credit_applicate_detail_lin;//用户详情
 
-//    @BindView(id = R.id.guarantor_credit_book_lin3, widgetName = "上传担保人征信授权书", onClick = "uploadGuarantorCreditBook")
+    //    @BindView(id = R.id.guarantor_credit_book_lin3, widgetName = "上传担保人征信授权书", onClick = "uploadGuarantorCreditBook")
     private LinearLayout guarantor_credit_book_lin;//担保人授权
 
-//    @BindView(id = R.id.guarantor_spouse_credit_book_lin4, widgetName = "上传担保人配偶征信授权书", onClick = "uploadGuarantorSpouseCreditBook")
+    //    @BindView(id = R.id.guarantor_spouse_credit_book_lin4, widgetName = "上传担保人配偶征信授权书", onClick = "uploadGuarantorSpouseCreditBook")
     private LinearLayout guarantor_spouse_credit_book_lin;//担保人配偶
 
-//    @BindView(id = R.id.client_relationship_lin, widgetName = "选择车主与申请人关系", onClick = "chooseRelationship")
+    //    @BindView(id = R.id.client_relationship_lin, widgetName = "选择车主与申请人关系", onClick = "chooseRelationship")
     private LinearLayout client_relationship_lin;//车主与申请人关系
 
     @BindView(id = R.id.choose_relation, widgetName = "choose_relation")
@@ -90,9 +90,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     @BindView(id = R.id.autonym_certify_id_back_tv3, widgetName = "autonym_certify_id_back_tv3")
     private TextView autonym_certify_id_back_tv3;
 
-    @BindView(id = R.id.autonym_certify_id_back_tv10, widgetName = "autonym_certify_id_back_tv10",onClick = "toApplicantDetailActivity")
+    @BindView(id = R.id.autonym_certify_id_back_tv10, widgetName = "autonym_certify_id_back_tv10", onClick = "toApplicantDetailActivity")
     private Button autonym_certify_id_back_tv10;
-    private void toApplicantDetailActivity(View view){
+
+    private void toApplicantDetailActivity(View view) {
         Intent intent = new Intent(mContext, ApplicantDetailActivity.class);
         intent.putExtra("clt_id", lender_clt_id);
         startActivity(intent);
@@ -213,8 +214,13 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         step1.setOnClickListener(v -> EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCarInfo));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
-        submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
+// TODO: 2017/10/23 测试订单用 可删除以下四行及布局
+        Button button = (Button) view.findViewById(R.id.changeCarInfo);
+        button.setOnClickListener(v -> {
+            EventBus.getDefault().post(ApplyFinancingFragmentEvent.changeCarInfo);
+        });
 
+        submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
         client_info_name = (TextView) view.findViewById(R.id.client_info_name);
         client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
         client_ID_card = (TextView) view.findViewById(R.id.client_ID_card);
@@ -227,7 +233,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         client_spouse_credit__book_lin = (LinearLayout) view.findViewById(R.id.client_spouse_credit__book_lin2);
         client_spouse_credit__book_lin.setOnClickListener(this);
         //用户详情
-         credit_applicate_detail_lin = (LinearLayout) view.findViewById(R.id.credit_applicate_detail_lin);
+        credit_applicate_detail_lin = (LinearLayout) view.findViewById(R.id.credit_applicate_detail_lin);
         credit_applicate_detail_lin.setOnClickListener(this);
         //担保人授权
         guarantor_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_credit_book_lin3);
@@ -527,65 +533,65 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     }
 
 
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case R.id.client_credit__book_lin1://申请人征信授权
-                    Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-                    intent.putExtra("clt_id", lender_clt_id);
-                    intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                    intent.putExtra("role", Constants.PersonType.LENDER);
-                    intent.putExtra("imgList", (Serializable) lenderList);
-                    intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                    intent.putExtra("title", "申请人征信授权书");
-                    startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
-                    break;
-                case R.id.client_spouse_credit__book_lin2://申请人配偶
-                    Intent intent1 = new Intent(mContext, UploadSqsListActivity.class);
-                    intent1.putExtra("clt_id", lender_sp_clt_id);
-                    intent1.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                    intent1.putExtra("role", Constants.PersonType.LENDER_SP);
-                    intent1.putExtra("imgList", (Serializable) lenderSpList);
-                    intent1.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                    intent1.putExtra("title", "申请人配偶征信授权书");
-                    startActivityForResult(intent1, Constants.REQUEST_MULTI_DOCUMENT);
-                    break;
-                case R.id.guarantor_credit_book_lin3://担保人征信授权
-                    Intent intent2 = new Intent(mContext, UploadSqsListActivity.class);
-                    intent2.putExtra("clt_id", guarantor_clt_id);
-                    intent2.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                    intent2.putExtra("role", Constants.PersonType.GUARANTOR);
-                    intent2.putExtra("imgList", (Serializable) guarantorList);
-                    intent2.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                    intent2.putExtra("title", "担保人征信授权书");
-                    startActivityForResult(intent2, Constants.REQUEST_MULTI_DOCUMENT);
-                    break;
-                case R.id.guarantor_spouse_credit_book_lin4://担保人配偶征信授权
-                    Intent intent3 = new Intent(mContext, UploadSqsListActivity.class);
-                    intent3.putExtra("clt_id", guarantor_sp_clt_id);
-                    intent3.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                    intent3.putExtra("role", Constants.PersonType.GUARANTOR_SP);
-                    intent3.putExtra("imgList", (Serializable) guarantorSpList);
-                    intent3.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                    intent3.putExtra("title", "担保人配偶征信授权书");
-                    startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
-                    break;
-                case R.id.client_relationship_lin://车主和申请人的关系
-                    WheelViewUtil.showWheelView(Yusion4sApp.getConfigResp().owner_applicant_relation_key,
-                            CLIENT_RELATIONSHIP_POSITION_INDEX,
-                            client_relationship_lin,
-                            chooseRelationTv,
-                            "请选择",
-                            new WheelViewUtil.OnSubmitCallBack() {
-                                @Override
-                                public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                                    CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
-                                    chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
-                                }
-                            });
-                    break;
-            }
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.client_credit__book_lin1://申请人征信授权
+                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
+                intent.putExtra("clt_id", lender_clt_id);
+                intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent.putExtra("role", Constants.PersonType.LENDER);
+                intent.putExtra("imgList", (Serializable) lenderList);
+                intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent.putExtra("title", "申请人征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
+                break;
+            case R.id.client_spouse_credit__book_lin2://申请人配偶
+                Intent intent1 = new Intent(mContext, UploadSqsListActivity.class);
+                intent1.putExtra("clt_id", lender_sp_clt_id);
+                intent1.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent1.putExtra("role", Constants.PersonType.LENDER_SP);
+                intent1.putExtra("imgList", (Serializable) lenderSpList);
+                intent1.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent1.putExtra("title", "申请人配偶征信授权书");
+                startActivityForResult(intent1, Constants.REQUEST_MULTI_DOCUMENT);
+                break;
+            case R.id.guarantor_credit_book_lin3://担保人征信授权
+                Intent intent2 = new Intent(mContext, UploadSqsListActivity.class);
+                intent2.putExtra("clt_id", guarantor_clt_id);
+                intent2.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent2.putExtra("role", Constants.PersonType.GUARANTOR);
+                intent2.putExtra("imgList", (Serializable) guarantorList);
+                intent2.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent2.putExtra("title", "担保人征信授权书");
+                startActivityForResult(intent2, Constants.REQUEST_MULTI_DOCUMENT);
+                break;
+            case R.id.guarantor_spouse_credit_book_lin4://担保人配偶征信授权
+                Intent intent3 = new Intent(mContext, UploadSqsListActivity.class);
+                intent3.putExtra("clt_id", guarantor_sp_clt_id);
+                intent3.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent3.putExtra("role", Constants.PersonType.GUARANTOR_SP);
+                intent3.putExtra("imgList", (Serializable) guarantorSpList);
+                intent3.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent3.putExtra("title", "担保人配偶征信授权书");
+                startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
+                break;
+            case R.id.client_relationship_lin://车主和申请人的关系
+                WheelViewUtil.showWheelView(Yusion4sApp.getConfigResp().owner_applicant_relation_key,
+                        CLIENT_RELATIONSHIP_POSITION_INDEX,
+                        client_relationship_lin,
+                        chooseRelationTv,
+                        "请选择",
+                        new WheelViewUtil.OnSubmitCallBack() {
+                            @Override
+                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                                CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
+                                chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
+                            }
+                        });
+                break;
         }
+    }
 
     private boolean checkCanSubmit() {
         if (chooseRelationTv.getText().toString().equals("请选择")) {

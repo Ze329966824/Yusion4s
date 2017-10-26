@@ -5,5 +5,5 @@ package com.yusion.shanghai.yusion4s.event;
  */
 
 public enum ApplyFinancingFragmentEvent {
-    showCarInfo,showCreditInfo,reset
+    showCarInfo, showCreditInfo, reset, changeCarInfo,
 }
