@@ -95,6 +95,9 @@ public class Alter extends BaseActivity {
     private Button carInfoNextBtn;
 
     private boolean isChoose = false;
+
+    private String app_id;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -299,6 +302,7 @@ public class Alter extends BaseActivity {
     }
 
     private void initView() {
+        app_id = getIntent().getStringExtra("app_id");
         totalLoanPriceTv = (TextView) findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
         otherPriceTv = (EditText) findViewById(R.id.car_info_other_price_tv);//其他费用
         colorTv = (EditText) findViewById(R.id.car_info_color_tv);//车辆颜色
@@ -331,7 +335,7 @@ public class Alter extends BaseActivity {
     }
 
     private void initData() {
-        //wangluo请求
+        //网络请求
         OrderApi.getRawCarInfo(Alter.this, "11000005", new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
@@ -359,21 +363,7 @@ public class Alter extends BaseActivity {
                 if (!TextUtils.isEmpty(guidePriceTv.getText())) {
                     billPriceTv.setEnabled(true);
                 }
-
-                //mDlrList.get(mDlrIndex).management_fee;
                 isChoose = true;
-
-//                DlrApi.getDlrListByToken(Alter.this, resp -> {
-//                    mDlrList = resp;
-//                    dlrItems = new ArrayList<String>();
-//                    for (GetDlrListByTokenResp item : resp) {
-//                        dlrItems.add(item.dlr_nm);
-//                    }
-//                    mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
-//
-//                    mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
-//
-//                });
                 DlrApi.getDlrListByToken(Alter.this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetDlrListByTokenResp> resp) {
@@ -386,7 +376,6 @@ public class Alter extends BaseActivity {
                         mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
                     }
                 });
-
 
                 DlrApi.getBrand(Alter.this, resp.dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
                     @Override
@@ -442,15 +431,6 @@ public class Alter extends BaseActivity {
 
                     }
                 });
-//                DlrApi.getTrix(Alter.this, resp.brand_id, resp -> {
-//                    mTrixList = resp;
-//                    trixItems = new ArrayList<String>();
-//                    for (GetTrixResp item : resp) {
-//                        trixItems.add(item.trix_name);
-//                    }
-//                    mTrixIndex = selectIndex(trixItems, mTrixIndex, trixTv.getText().toString());
-//                });
-
             }
         });
 
@@ -466,36 +446,6 @@ public class Alter extends BaseActivity {
 //
 //        });
 //
-
-//        DlrApi.getBrand(Alter.this, dlr_id, resp -> {
-//            mBrandList = resp;
-//            brandItems = new ArrayList<String>();
-//            for (GetBrandResp item : resp) {
-//                brandItems.add(item.brand_name);
-//            }
-//            mBrandIndex = selectIndex(brandItems, mBrandIndex, brandTv.getText().toString());
-//        });
-
-//
-//        DlrApi.getTrix(Alter.this, brand_id, resp -> {
-//            mTrixList = resp;
-//            trixItems = new ArrayList<String>();
-//            for (GetTrixResp item : resp) {
-//                trixItems.add(item.trix_name);
-//            }
-//            mTrixIndex = selectIndex(trixItems, mTrixIndex, trixTv.getText().toString());
-//        });
-
-
-        //进行网络请求，把所有数据都展示到上面 获取到dlr_id;
-//        DlrApi.getBrand(Alter.this, "YJCS0001", resp -> {
-//            mBrandList = resp;
-//            brandItems = new ArrayList<String>();
-//            for (GetBrandResp item : resp) {
-//                brandItems.add(item.brand_name);
-//            }
-//        });
-
         carInfoDlrLin.setOnClickListener(v -> DlrApi.getDlrListByToken(Alter.this, resp -> {
             if (resp != null && !resp.isEmpty()) {
                 mDlrList = resp;
@@ -950,6 +900,7 @@ public class Alter extends BaseActivity {
                     req.other_fee = otherPriceTv.getText().toString();
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
+                    req.msrp = guidePriceTv.getText().toString();
 
                     OrderApi.submitAlterInfo(Alter.this, req, new OnCodeAndMsgCallBack() {
                         @Override
@@ -968,7 +919,6 @@ public class Alter extends BaseActivity {
     private void totalPrice() {
         Integer managementPrice = 0;
         Integer carLoanPrice = getPrice(carLoanPriceTv.getText().toString());
-        //Integer managementPrice = getPrice(managementPriceTv.getText().toString());
         if (isChoose) {
             managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
         } else {
