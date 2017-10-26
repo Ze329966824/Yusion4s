@@ -319,6 +319,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                         }
                     });
                 } else if (checkCanSubmit()) {
+                    ((Yusion4sApp) getActivity().getApplication()).requestLocation(null);
                     SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
@@ -571,7 +572,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
                     break;
                 case R.id.client_relationship_lin://车主和申请人的关系
-                    WheelViewUtil.showWheelView(Yusion4sApp.getConfigResp().owner_applicant_relation_key,
+                    WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
                             CLIENT_RELATIONSHIP_POSITION_INDEX,
                             client_relationship_lin,
                             chooseRelationTv,

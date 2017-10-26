@@ -8,23 +8,30 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
+import com.yusion.shanghai.yusion4s.bean.upload.GetTemplateResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
@@ -35,6 +42,7 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
@@ -52,7 +60,7 @@ public class UploadListActivity extends BaseActivity {
     private LinearLayout errorLin;
     private RvAdapter adapter;
     private List<UploadImgItemBean> lists = new ArrayList<>();
-    private List<UploadImgItemBean> hasUploadLists = new ArrayList<>();
+    private List<UploadImgItemBean> hasUploadOSSLists = new ArrayList<>();
 
     private String app_id;
     private String clt_id;
@@ -61,7 +69,20 @@ public class UploadListActivity extends BaseActivity {
     private TextView uploadTv1;
     private TextView uploadTv2;
     private boolean isEditing = false;
+    private ImageView expandImg;
 
+
+    private boolean isTemplateExpand = true;
+    private LinearLayout templateLin;
+    private LinearLayout templateTitleLin;
+    private TextView templateTitle;
+    private TextView templateSl;
+    private TextView templateContent;
+    private Button templateImgLook;
+    private ImageView templateImg;
+    private String detail_url;
+    private String sample_url;
+    private View anchor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +96,7 @@ public class UploadListActivity extends BaseActivity {
     }
 
     private void initView() {
-
+        anchor = findViewById(R.id.preview_anchor);
         TitleBar titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
         mEditTv.setEnabled(false);
@@ -88,10 +109,15 @@ public class UploadListActivity extends BaseActivity {
                     mEditTv.setText("编辑");
                     uploadBottomLin.setVisibility(View.GONE);
                 } else {
+                    if (isTemplateExpand) {
+                        foldTemplate();
+                    }
+
                     isEditing = true;
                     mEditTv.setText("取消");
                     uploadBottomLin.setVisibility(View.VISIBLE);
 
+                    uploadTv1.setText("全选");
                     uploadTv2.setText("删除");
                     uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
                 }
@@ -211,7 +237,7 @@ public class UploadListActivity extends BaseActivity {
                         } else {
                             imgUrl = item.raw_url;
                         }
-                        previewImg(findViewById(R.id.preview_anchor), imgUrl);
+                        previewImg(anchor, imgUrl);
                     }
                 }
             }
@@ -229,6 +255,72 @@ public class UploadListActivity extends BaseActivity {
                 }
             }
         });
+
+
+        expandImg = (ImageView) findViewById(R.id.upload_list_expand_img);
+        templateImg = (ImageView) findViewById(R.id.upload_list_template_img);
+        templateImgLook = (Button) findViewById(R.id.upload_list_template_img_look);
+        templateLin = (LinearLayout) findViewById(R.id.upload_list_template);
+        templateTitle = (TextView) findViewById(R.id.upload_list_template_title);
+        templateSl = (TextView) findViewById(R.id.upload_list_template_sl);
+        templateContent = (TextView) findViewById(R.id.upload_list_template_content);
+        templateTitleLin = (LinearLayout) findViewById(R.id.upload_list_template_title_lin);
+        templateTitle.setText(topItem.name + "要求");
+        templateSl.setText(topItem.name + "示例");
+        templateTitleLin.setOnClickListener(v -> {
+            if (isTemplateExpand) {
+                foldTemplate();
+            } else {
+                expandTemplate();
+            }
+        });
+        templateLin.setOnClickListener(v -> {
+        });
+        templateImg.setOnClickListener(img -> previewImg(anchor, detail_url, true));
+        templateImgLook.setOnClickListener(v -> previewImg(anchor, detail_url, true));
+    }
+
+    private void expandTemplate() {
+        ViewCompat.animate(templateLin).translationY(0).setDuration(200).setListener(new ViewPropertyAnimatorListener() {
+            @Override
+            public void onAnimationStart(View view) {
+                expandImg.setEnabled(false);
+            }
+
+            @Override
+            public void onAnimationEnd(View view) {
+                isTemplateExpand = true;
+                expandImg.setImageResource(R.mipmap.arrow_down);
+                expandImg.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationCancel(View view) {
+                expandImg.setEnabled(true);
+            }
+        }).start();
+    }
+
+    private void foldTemplate() {
+        ViewCompat.animate(templateLin).translationY(DensityUtil.dip2px(this, 350)).setDuration(200).setListener(new ViewPropertyAnimatorListener() {
+            @Override
+            public void onAnimationStart(View view) {
+                expandImg.setEnabled(false);
+            }
+
+            @Override
+            public void onAnimationEnd(View view) {
+                isTemplateExpand = false;
+                expandImg.setImageResource(R.mipmap.arrow_up);
+                expandImg.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationCancel(View view) {
+                expandImg.setEnabled(true);
+            }
+        }).start();
+
     }
 
     private boolean isVideoPage;
@@ -252,6 +344,25 @@ public class UploadListActivity extends BaseActivity {
             if (resp.list.size() != 0) {
                 lists.addAll(resp.list);
                 adapter.notifyDataSetChanged();
+            }
+        });
+
+
+        String id = topItem.id;
+        Log.e("TAG", "initData: " + id);
+        UploadApi.getTemplate(this, id, new OnItemDataCallBack<GetTemplateResp>() {
+
+            @Override
+            public void onItemDataCallBack(GetTemplateResp data) {
+                if (data != null) {
+                    templateLin.setVisibility(View.VISIBLE);
+                    templateContent.setText(Html.fromHtml(data.checker_item.description));
+                    sample_url = data.checker_item.sample_url;
+                    detail_url = data.checker_item.detail_url;
+                    if (!isFinishing()) {
+                        Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
+                    }
+                }
             }
         });
     }
@@ -281,11 +392,24 @@ public class UploadListActivity extends BaseActivity {
         return totalCount;
     }
 
-    private void previewImg(View previewAnchor, String imgUrl) {
+    private void previewImg(View previewAnchor, String imgUrl, boolean isBreviary) {
+        if (TextUtils.isEmpty(imgUrl)) {
+            Toast.makeText(myApp, "没有找到图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, PreviewActivity.class);
         intent.putExtra("PreviewImg", imgUrl);
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
-        ActivityCompat.startActivity(this, intent, compat.toBundle());
+        intent.putExtra("breviary", isBreviary);
+        if (isBreviary) {
+            startActivity(intent);
+        } else {
+            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
+            ActivityCompat.startActivity(this, intent, compat.toBundle());
+        }
+    }
+
+    private void previewImg(View previewAnchor, String imgUrl) {
+        previewImg(previewAnchor, imgUrl, false);
     }
 
     @Override
@@ -303,31 +427,29 @@ public class UploadListActivity extends BaseActivity {
                 toAddList.add(item);
             }
 
-            hasUploadLists.clear();
+            hasUploadOSSLists.clear();
 
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
-            for (UploadImgItemBean imgItemBean : toAddList) {
-                String suffix = isVideoPage ? ".mp4" : ".png";
-                OssUtil.uploadOss(this, false, imgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), new OnItemDataCallBack<String>() {
-                    @Override
-                    public void onItemDataCallBack(String objectKey) {
-                        imgItemBean.objectKey = objectKey;
-                        hasUploadLists.add(imgItemBean);
-                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
-                    }
-                }, new OnItemDataCallBack<Throwable>() {
-                    @Override
-                    public void onItemDataCallBack(Throwable data) {
-                        hasUploadLists.add(imgItemBean);
-                        onUploadOssFinish(hasUploadLists.size(), files, dialog, toAddList);
-                    }
-                });
-            }
+            new Thread(() -> {
+                for (UploadImgItemBean uploadImgItemBean : toAddList) {
+                    String suffix = isVideoPage ? ".mp4" : ".png";
+                    OssUtil.synchronizationUploadOss(UploadListActivity.this, uploadImgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), objectKey -> {
+                        hasUploadOSSLists.add(uploadImgItemBean);
+                        uploadImgItemBean.objectKey = objectKey;
+                    }, throwable -> {
+                        hasUploadOSSLists.add(uploadImgItemBean);
+                        onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
+                    });
+                    onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
+                }
+            }).start();
         }
     }
 
     private void onUploadOssFinish(int finalAccount, ArrayList<String> files, Dialog dialog, final List<UploadImgItemBean> toAddList) {
+        Log.e("TAG", "finalAccount: " + finalAccount);
+        Log.e("TAG", "files.size(): " + files.size());
         if (finalAccount == files.size()) {
             dialog.dismiss();
             runOnUiThread(new Runnable() {
@@ -454,7 +576,7 @@ public class UploadListActivity extends BaseActivity {
                 } else {
                     if (isVideoPage) {
                         GlideUtil.loadImg(mContext, statusImageRel, item.raw_url);
-                    }else {
+                    } else {
                         GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
                     }
                 }

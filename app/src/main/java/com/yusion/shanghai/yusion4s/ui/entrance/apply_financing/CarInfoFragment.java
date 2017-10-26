@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.test.mock.MockApplication;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -643,7 +644,7 @@ public class CarInfoFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         UBT.bind(this, view, getClass().getSimpleName());
-        DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
+        DELAY_MILLIS = ((Yusion4sApp) getActivity().getApplication()).getConfigResp().DELAY_MILLIS;
 
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
 //        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用

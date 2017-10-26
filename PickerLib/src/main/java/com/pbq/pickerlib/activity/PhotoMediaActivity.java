@@ -30,6 +30,8 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import static android.R.attr.x;
+
 /**
  * Created by pengbangqin on 16-08-21.
  * 图片选择和视频选择
@@ -242,6 +244,9 @@ public class PhotoMediaActivity extends AppCompatActivity {
                     @Override
                     public void run() {
                         if (currentDir == null) {
+                            currentDir = new PhotoVideoDir(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_MOVIES).getAbsolutePath());
+                            currentDir.dirName = "Movies";
+                            loadVideoImages(currentDir);
                             Toast.makeText(PhotoMediaActivity.this, "视频列表为空", Toast.LENGTH_SHORT).show();
                         } else {
                             loadVideoImages(currentDir);
@@ -427,7 +432,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
             if (cameraFile != null && cameraFile.exists()) {
                 updateGalleray(cameraFile.getPath());
                 currentDir.selectedFiles.add(cameraFile.getPath());
-                currentDir.files.add(0, cameraFile.getPath());
+               currentDir.files.add(0, cameraFile.getPath());
                 loadImages(currentDir);
                 updateNext();
             }
@@ -435,7 +440,18 @@ public class PhotoMediaActivity extends AppCompatActivity {
         if (requestCode == REQUEST_TAKE_VIDEO) {
             ArrayList<String> videos = (ArrayList<String>) data.getSerializableExtra("videos");
             cameraFile = new File(videos.get(0));
-            if (cameraFile != null && cameraFile.exists()) {
+
+            if (!dirMap.containsKey(cameraFile.getParentFile().getPath())) {
+                File parentDirFile = cameraFile.getParentFile();
+                PhotoVideoDir imageDir = new PhotoVideoDir(parentDirFile.getPath());
+                imageDir.dirName = parentDirFile.getName();
+                dirMap.put(parentDirFile.getPath(), imageDir);
+                currentDir = imageDir;
+                imageDir.firstPath = cameraFile.getPath();
+//                imageDir.addFile(cameraFile.toString());
+            }
+
+            if (cameraFile.exists()) {
                 updateGalleray(cameraFile.getPath());
                 currentDir.selectedFiles.add(cameraFile.getPath());
                 currentDir.files.add(0, cameraFile.getPath());

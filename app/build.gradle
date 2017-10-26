@@ -15,7 +15,7 @@ android {
         minSdkVersion 15
         targetSdkVersion 21
         versionCode 24
-        versionName "V1.4.4"
+        versionName "V1.4.5"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi"
@@ -24,8 +24,9 @@ android {
         multiDexEnabled true
 
         buildConfigField("boolean", "isOnline", isOnline.toString())
-        def pgyer_appid = "2234913a0c85f5dc0e60faefe41c96e0"
+        def pgyer_appid = "2234913a0c85f5dc0e60faefe41c96e0"//红米手机图标不变
         def app_icon = "@mipmap/test_ic_launcher"
+//        def app_icon = "@mipmap/ic_launcher"
         if (isOnline) {
             pgyer_appid = "a455421518edcbc4d3784f2b855b0691"
             app_icon = "@mipmap/ic_launcher"
@@ -101,6 +102,7 @@ dependencies {
     compile 'com.instabug.library:instabug:4.2.10'
     compile 'com.android.support:multidex:1.0.1'
     compile 'com.amap.api:location:latest.integration'
+    compile 'com.shizhefei:LargeImageView:1.0.9'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 }

@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.settings;
 
 import android.util.Log;
 
+import com.pbq.pickerlib.view.ImageFolderPopWindow;
 import com.yusion.shanghai.yusion4s.BuildConfig;
 
 /**
