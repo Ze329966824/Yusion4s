@@ -67,7 +67,9 @@ public class ConfigApi {
             UBT.LIMIT = Integer.valueOf(ubt_limit);
         }
 
+        fullConfigResp(jsonObject, "", configResp.carInfo_alter_key, configResp.carInfo_alter_value);
         fullConfigResp(jsonObject, "vehicle_owner_lender_relationship_list", configResp.owner_applicant_relation_key, configResp.owner_applicant_relation_value);
+        fullConfigResp(jsonObject, "application_modify_reason_list", configResp.carInfo_alter_key, configResp.carInfo_alter_value);
         fullConfigResp(jsonObject, "label_list", configResp.label_list_key, configResp.label_list_value);
 
         JSONArray dealer_material = jsonObject.optJSONArray("dealer_material");

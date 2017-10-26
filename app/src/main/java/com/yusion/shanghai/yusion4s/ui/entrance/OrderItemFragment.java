@@ -97,7 +97,6 @@ public class OrderItemFragment extends BaseFragment {
             public void onRefreshBegin(PtrFrameLayout frame) {
                 refresh();
             }
-
             //改掉RecyclerView 吃 item 问题。
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {

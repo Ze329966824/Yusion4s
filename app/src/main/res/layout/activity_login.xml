@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="#FFF"
-              android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#FFF"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="65dp"
         android:layout_height="65dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="65dp"
-        android:src="@mipmap/login_logo"/>
+        android:src="@mipmap/login_logo" />
 
     <TextView
         android:layout_width="wrap_content"
@@ -19,7 +19,7 @@
         android:layout_marginTop="10dp"
         android:text="予见汽车"
         android:textColor="#222a36"
-        android:textSize="23dp"/>
+        android:textSize="23dp" />
 
     <RelativeLayout
         android:id="@+id/login_close_btn"
@@ -32,7 +32,7 @@
         <ImageView
             android:layout_width="16dp"
             android:layout_height="16dp"
-            android:src="@mipmap/close_icon"/>
+            android:src="@mipmap/close_icon" />
     </RelativeLayout>
 
     <EditText
@@ -45,9 +45,9 @@
         android:hint="请输入账号"
         android:textColor="#222a36"
         android:textColorHint="@color/textHintColor"
-        android:textSize="15sp"/>
+        android:textSize="15sp" />
 
-    <include layout="@layout/include_line_both"/>
+    <include layout="@layout/include_line_both" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -71,17 +71,17 @@
             android:paddingTop="15dp"
             android:textColor="#222a36"
             android:textColorHint="@color/textHintColor"
-            android:textSize="15sp"/>
+            android:textSize="15sp" />
 
         <ImageView
             android:id="@+id/login_password_eye_img"
             android:layout_width="30dp"
             android:layout_height="40dp"
             android:scaleType="center"
-            android:src="@mipmap/password_hide"/>
+            android:src="@mipmap/password_hide" />
     </LinearLayout>
 
-    <include layout="@layout/include_line_both"/>
+    <include layout="@layout/include_line_both" />
 
     <Button
         android:id="@+id/login_submit_btn"
@@ -95,7 +95,7 @@
         android:onClick="onClick"
         android:text="登录"
         android:textColor="#FFF"
-        android:textSize="19sp"/>
+        android:textSize="19sp" />
 
 
 </LinearLayout>

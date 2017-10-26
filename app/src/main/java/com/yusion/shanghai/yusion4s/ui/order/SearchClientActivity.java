@@ -249,7 +249,6 @@ public class SearchClientActivity extends BaseActivity {
             intent.putExtra("isGuarantor_sp", "2");
         }
 
-
     }
 
 }
