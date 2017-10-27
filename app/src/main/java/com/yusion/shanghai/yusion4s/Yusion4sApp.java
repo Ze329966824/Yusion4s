@@ -15,6 +15,7 @@ import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
+import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
@@ -64,6 +65,10 @@ public class Yusion4sApp extends MultiDexApplication {
         instabug();
         initAMap();
         SqlLiteUtil.init(this);
+        String cacheUrl = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
+        if (!TextUtils.isEmpty(cacheUrl)) {
+            Settings.SERVER_URL = cacheUrl;
+        }
     }
 
     private void instabug() {
