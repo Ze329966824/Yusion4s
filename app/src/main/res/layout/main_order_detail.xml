@@ -1,0 +1,1984 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <!--金融方案批复信息-->
+    <LinearLayout
+        android:id="@+id/order_detail_reply_lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:visibility="gone"
+        tools:visibility="gone">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="金融方案批复信息"
+            android:textColor="@color/text_normal"
+            android:textSize="13.5sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_driver" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆开票价"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_bill_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆首付款"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_first_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆贷款金额"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_loan_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="档案管理费"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_management_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="其他费用"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_other_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="总贷款额"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_total_loan_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="贷款银行"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_loan_bank_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="产品类型"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_product_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="还款期限"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_replay_periods_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--金融方案申请信息-->
+    <LinearLayout
+        android:id="@+id/order_detail_apply_lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:visibility="visible"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/order_detail_plan_reply_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="金融方案申请信息"
+            android:textColor="@color/text_normal"
+            android:textSize="13.5sp" />
+
+        <View
+            android:id="@+id/order_detail_plan_reply_info_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_driver" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆开票价"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_bill_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆首付款"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_first_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆贷款金额"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_loan_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="档案管理费"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_management_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="其他费用"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_other_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="总贷款额"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_total_loan_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="贷款银行"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_loan_bank_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="产品类型"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_product_type_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="还款期限"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_apply_periods_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+    </LinearLayout>
+
+    <!--金融方案-->
+    <LinearLayout
+        android:id="@+id/order_detail_finance_program_lin"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible"
+        tools:visibility="gone">
+
+        <TextView
+            android:id="@+id/order_detail_plan_reply_info9"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="金融方案"
+            android:textColor="@color/text_normal"
+            android:textSize="13.5sp" />
+
+        <View
+            android:id="@+id/order_detail_plan_reply_info_line9"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_driver" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="9dp"
+            android:background="#F7F7F7"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/eee"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="名称"
+                android:textSize="11.5sp" />
+
+            <TextView
+                android:id="@+id/textView3"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="申请信息"
+                android:textSize="11.5sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:text="批复信息"
+                android:textSize="11.5sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:id="@+id/ss"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="车辆开票价"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_bill_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_bill_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="车辆首付款"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_first_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_first_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:visibility="gone">
+
+            <TextView
+                android:id="@+id/textView4"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="首付比例"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_first_percent_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_first_percent_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="车辆贷款金额"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_loan_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_loan_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="档案管理费"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_management_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_management_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="其他费用"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_other_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_other_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="总贷款额"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_total_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_total_price_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="贷款银行"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_bank_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_bank_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp"
+            android:visibility="visible">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="产品类型"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_product_type_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_product_type_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="月供"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_month_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_month_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="还款期限"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/apply_repay_date_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/reply_repay_data_tv2"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+
+    </LinearLayout>
+
+    <!--订单信息-->
+    <LinearLayout
+        android:id="@+id/order_detail_order_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:paddingBottom="20dp"
+        android:visibility="visible">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="订单信息"
+            android:textColor="@color/text_normal"
+            android:textSize="13.5sp" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_driver" />
+
+        <LinearLayout
+            android:id="@+id/order_detail_order_info_title"
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_marginTop="9dp"
+            android:background="#F7F7F7"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="名称"
+                android:textSize="11.5sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:text="修改前"
+                android:textSize="11.5sp" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="right|center_vertical"
+                android:text="修改后"
+                android:textSize="11.5sp" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="门店"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_dlr_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp"
+                tools:text="上海予见信息科技有限公司" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_dlr_name_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp"
+                tools:text="上海予见信息科技有限公司" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="品牌"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_brand_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_brand_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车系"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_trix_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_trix_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车型"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_model_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_model_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="颜色"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_color_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_color_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="业务类型"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_vehicle_cond_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_vehicle_cond_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="厂商指导价"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_guide_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_guide_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆开票价"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_vehicle_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_vehicle_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆贷款额"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_vehicle_loan_amt_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_vehicle_loan_amt_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆首付款"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_vehicle_down_payment_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_vehicle_down_payment_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="档案管理费"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_management_fee_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_management_fee_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="其他费用"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_other_fee_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_other_fee_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="总贷款额"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_loan_amt_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_loan_amt_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="贷款银行"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_loan_bank_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_loan_bank_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="产品类型"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_product_type_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_product_type_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="还款期限"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_nper_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_nper_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="上牌地/预计上牌地"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_before_plate_reg_addr_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                tools:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+            <Space
+                android:layout_width="10dp"
+                android:layout_height="match_parent" />
+
+            <TextView
+                android:id="@+id/order_detail_plate_reg_addr_tv"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <!--报单人员信息-->
+    <LinearLayout
+        android:id="@+id/order_detail_sale_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible">
+
+        <TextView
+            android:id="@+id/order_detail_sale_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="报单人员信息"
+            android:textColor="@color/text_normal"
+            android:textSize="13.5sp" />
+
+        <View
+            android:id="@+id/order_detail_sale_info_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_driver" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:text="姓名"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <ImageView
+                android:id="@+id/order_detail_sales_mobile_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_item_phone" />
+
+            <TextView
+                android:id="@+id/order_detail_sales_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/order_detail_sales_mobile_img"
+                android:text="@string/order_detail_sale_name"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+        </RelativeLayout>
+
+
+    </LinearLayout>
+
+    <!--客户信息-->
+    <LinearLayout
+        android:id="@+id/order_detail_customer_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="80dp"
+        android:layout_marginTop="10dp"
+        android:background="@color/white"
+        android:orientation="vertical"
+        android:visibility="visible"
+
+        >
+
+        <TextView
+            android:id="@+id/order_detail_customer_info"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="15dp"
+            android:text="客户信息"
+            android:textColor="@color/text_normal"
+            android:textSize="13.5sp" />
+
+        <View
+            android:id="@+id/order_detail_customer_info_line"
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:background="@color/main_driver" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginBottom="15dp"
+                android:layout_marginTop="15dp"
+                android:text="姓名"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <ImageView
+                android:id="@+id/order_detail_customer_mobile_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/icon_item_phone" />
+
+            <TextView
+                android:id="@+id/order_detail_customer_name_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerVertical="true"
+                android:layout_marginRight="10dp"
+                android:layout_toLeftOf="@id/order_detail_customer_mobile_img"
+                android:text="@string/order_detail_customer_name"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+
+        </RelativeLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingBottom="15dp"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="身份证号"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_customer_id_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_customer_card"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+    </LinearLayout>
+</LinearLayout>

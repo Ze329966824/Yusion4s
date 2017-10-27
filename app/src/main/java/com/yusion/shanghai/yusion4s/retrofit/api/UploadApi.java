@@ -2,10 +2,9 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.webkit.WebView;
 
-import com.instabug.library.model.State;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
+import com.yusion.shanghai.yusion4s.bean.upload.GetTemplateResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
@@ -107,6 +106,16 @@ public class UploadApi {
                 onCodeAndMsgCallBack.callBack(code, msg);
             }
         });
+    }
+
+    public static void getTemplate(final Context context, String id, OnItemDataCallBack<GetTemplateResp> onItemDataCallBack) {
+        Api.getUploadService().getTemplate(id).enqueue(new CustomCallBack<GetTemplateResp>(context) {
+            @Override
+            public void onCustomResponse(GetTemplateResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+
     }
 
 }

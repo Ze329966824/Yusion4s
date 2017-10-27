@@ -157,4 +157,5 @@ public class Yusion4sApp extends MultiDexApplication {
     public static void setConfigResp(ConfigResp configResp) {
         CONFIG_RESP = configResp;
     }
+
 }

@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -284,13 +286,45 @@ public class Alter extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alter_car_info);
-        initTitleBar(this, "修改订单").setLeftText("返回");
+        initTitleBar(this, "修改订单").setLeftText(" 返回").setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });
+
 
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         initView();
 
         initData();
+    }
+
+    private void back() {
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setMessage("是否放弃此次编辑？")
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("放弃", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        back();
+
     }
 
     private void initView() {
@@ -327,8 +361,8 @@ public class Alter extends BaseActivity {
     }
 
     private void initData() {
-        //网络请求
-        OrderApi.getRawCarInfo(Alter.this, "11000005", new OnItemDataCallBack<GetRawCarInfoResp>() {
+        //网络请求11000005
+        OrderApi.getRawCarInfo(Alter.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
                 clt_id = resp.clt_id;
@@ -903,7 +937,7 @@ public class Alter extends BaseActivity {
                     req.guide_price = guidePriceTv.getText().toString();
                     req.trix_id = mTrixList.get(mTrixIndex).trix_id;
                     req.loan_bank = loanBankTv.getText().toString();
-                    req.app_id = "11000005";
+                    req.app_id = app_id;
                     req.product_name = productTypeTv.getText().toString();
                     req.dlr = dlrTV.getText().toString();
                     req.brand = brandTv.getText().toString();
@@ -1007,7 +1041,7 @@ public class Alter extends BaseActivity {
                 return true;
             }
         }
-        Toast.makeText(Alter.this, "S", Toast.LENGTH_LONG).show();
+        Toast.makeText(Alter.this,"S",Toast.LENGTH_LONG).show();
         return false;
     }
 

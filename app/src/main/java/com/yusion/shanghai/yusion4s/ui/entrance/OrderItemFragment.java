@@ -2,7 +2,6 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -35,7 +34,9 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
@@ -55,6 +56,7 @@ public class OrderItemFragment extends BaseFragment {
     private LinearLayout llyt;
     private String st;
     private RecyclerView rv;
+    private TextView order_list_item_update_tv;
 
     public static OrderItemFragment newInstance(String s) {
 
@@ -181,6 +183,7 @@ public class OrderItemFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
+                    intent.putExtra("status_st",item.status_st);
                     mContext.startActivity(intent);
                 }
             });
@@ -200,14 +203,19 @@ public class OrderItemFragment extends BaseFragment {
             });
             if (item.status_st == 2) {//待审核
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
+                vh.change.setVisibility(View.VISIBLE);
             } else if (item.status_st == 3) {//审核失败
+                vh.change.setVisibility(View.VISIBLE);
                 vh.st.setTextColor(Color.parseColor("#FF3F00"));
             } else if (item.status_st == 4) {//待确认金融方案
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
+                vh.change.setVisibility(View.VISIBLE);
             } else if (item.status_st == 6) {//放款中
                 vh.st.setTextColor(Color.parseColor("#06B7A3"));
+                vh.change.setVisibility(View.VISIBLE);
             } else if (item.status_st == 9) {//已取消
                 vh.st.setTextColor(Color.parseColor("#666666"));
+                vh.change.setVisibility(View.VISIBLE);
             }
             vh.st.setText(item.status_code);
             vh.periods.setText(item.nper);
@@ -258,6 +266,25 @@ public class OrderItemFragment extends BaseFragment {
                     popupWindow.showAsDropDown(v);
                 }
             });
+
+            vh.change.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i1 = new Intent(mContext,   Alter.class);
+                    i1.putExtra("app_id", item.app_id);
+                    mContext.startActivity(i1);
+//                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
+                }
+            });
+            vh.upload.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent i2 = new Intent(mContext, SubmitInformationActivity.class);
+                    i2.putExtra("app_id", item.app_id);
+                    mContext.startActivity(i2);
+                }
+            });
+
         }
 
         @Override
@@ -278,6 +305,8 @@ public class OrderItemFragment extends BaseFragment {
             public TextView loan;
             public TextView periods;
             public ImageView phone;
+            public TextView change;
+            public TextView upload;
 
             public VH(View itemView) {
                 super(itemView);
@@ -292,6 +321,8 @@ public class OrderItemFragment extends BaseFragment {
                 loan = ((TextView) itemView.findViewById(R.id.order_list_item_total_loan_tv));
                 periods = ((TextView) itemView.findViewById(R.id.order_list_item_periods_tv));
                 phone = ((ImageView) itemView.findViewById(R.id.order_list_item_phone_img));
+                change = (TextView) itemView.findViewById(R.id.order_list_item_change_tv);
+                upload = (TextView) itemView.findViewById(R.id.order_list_item_upload_tv);
             }
         }
 
