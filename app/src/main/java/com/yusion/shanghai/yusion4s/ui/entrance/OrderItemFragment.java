@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -35,6 +34,7 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
@@ -270,18 +270,18 @@ public class OrderItemFragment extends BaseFragment {
             vh.change.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent i1 = new Intent(mContext,   .class);
-//                    i1.putExtra("app_id", item.app_id);
-//                    mContext.startActivity(i1);
-                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
+                    Intent i1 = new Intent(mContext,   Alter.class);
+                    i1.putExtra("app_id", item.app_id);
+                    mContext.startActivity(i1);
+//                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
                 }
             });
             vh.upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, SubmitInformationActivity.class);
-                    intent.putExtra("app_id", item.app_id);
-                    mContext.startActivity(intent);
+                    Intent i2 = new Intent(mContext, SubmitInformationActivity.class);
+                    i2.putExtra("app_id", item.app_id);
+                    mContext.startActivity(i2);
                 }
             });
 

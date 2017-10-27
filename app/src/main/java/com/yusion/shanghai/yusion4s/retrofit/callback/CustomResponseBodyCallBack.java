@@ -38,9 +38,11 @@ public abstract class CustomResponseBodyCallBack implements Callback<ResponseBod
             dialog.dismiss();
         }
         try {
-            String body = response.body().string();
-            Log.e(Api.getTag(call.request()), "onResponse: " + body);
-            onCustomResponse(body);
+            if (response != null) {
+                String body = response.body().string();
+                Log.e(Api.getTag(call.request()), "onResponse: " + body);
+                onCustomResponse(body);
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

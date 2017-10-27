@@ -14,12 +14,8 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
-import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Locale;
 
@@ -146,15 +142,20 @@ public class Yusion4sApp extends MultiDexApplication {
         aMapLocationClient.startLocation();
     }
 
-    public ConfigResp getConfigResp() {
+    public static ConfigResp getConfigResp() {
         if (CONFIG_RESP == null) {
-            try {
-                CONFIG_RESP = ConfigApi.parseJsonObject2ConfigResp(new JSONObject(SharedPrefsUtil.getInstance(this).getValue("config_json", "")));
-            } catch (JSONException e) {
-                Sentry.capture(e);
-            }
+            Log.e("TAG", "getConfigResp: is null");
+            Sentry.capture("getConfigResp: is nul");
+        } else {
+
+            Log.e("TAG", "getConfigResp: not null");
+            Sentry.capture("getConfigResp: not nul");
         }
         return CONFIG_RESP;
+    }
+
+    public static void setConfigResp(ConfigResp configResp) {
+        CONFIG_RESP = configResp;
     }
 
 }

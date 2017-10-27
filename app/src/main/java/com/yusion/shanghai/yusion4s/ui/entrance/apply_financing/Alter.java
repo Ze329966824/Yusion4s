@@ -1,15 +1,14 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
-import android.app.Dialog;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.graphics.Color;
+import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
@@ -30,7 +28,6 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
-import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
@@ -40,10 +37,6 @@ import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Alter extends BaseActivity {
     public static int DELAY_MILLIS;
@@ -293,13 +286,45 @@ public class Alter extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alter_car_info);
-        initTitleBar(this, "修改订单").setLeftText("返回");
+        initTitleBar(this, "修改订单").setLeftText(" 返回").setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                back();
+            }
+        });
+
 
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         initView();
 
         initData();
+    }
+
+    private void back() {
+        new AlertDialog.Builder(this)
+                .setCancelable(false)
+                .setMessage("是否放弃此次编辑？")
+                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                })
+                .setNegativeButton("放弃", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        finish();
+                    }
+                }).show();
+    }
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+        back();
+
     }
 
     private void initView() {
@@ -336,8 +361,8 @@ public class Alter extends BaseActivity {
     }
 
     private void initData() {
-        //网络请求
-        OrderApi.getRawCarInfo(Alter.this, "11000005", new OnItemDataCallBack<GetRawCarInfoResp>() {
+        //网络请求11000005
+        OrderApi.getRawCarInfo(Alter.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
                 clt_id = resp.clt_id;
@@ -1016,7 +1041,7 @@ public class Alter extends BaseActivity {
                 return true;
             }
         }
-        Toast.makeText(Alter.this,"S",Toast.LENGTH_LONG).show();
+//        Toast.makeText(Alter.this,"S",Toast.LENGTH_LONG).show();
         return false;
     }
 

@@ -12,7 +12,6 @@ import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -21,6 +20,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
@@ -241,18 +241,17 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(OrderDetailActivity.this, .class);
-//                intent.putExtra("app_id", app_id);
-//                startActivity(intent);
+                Intent intent = new Intent(OrderDetailActivity.this, Alter.class);
+                intent.putExtra("app_id", app_id);
+                startActivity(intent);
             }
         });
         orderDetailUploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(OrderD
-//                        etailActivity.this, SubmitInformationActivity.class);
-//                intent.putExtra("app_id", app_id);
-//                startActivity(intent);
+                Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                intent.putExtra("app_id", app_id);
+                startActivity(intent);
             }
         });
 
@@ -394,15 +393,18 @@ public class OrderDetailActivity extends BaseActivity {
                 orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Toast.makeText(OrderDetailActivity.this, "修改资料", Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(OrderDetailActivity.this, "修改资料", Toast.LENGTH_SHORT).show();
+                        Intent i1 = new Intent(OrderDetailActivity.this,   Alter.class);
+                        i1.putExtra("app_id", app_id);
+                        startActivity(i1);
                     }
                 });
                 orderDetailUploadBtn.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
-                        intent.putExtra("app_id", app_id);
-                        startActivity(intent);
+                        Intent i2 = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                        i2.putExtra("app_id", app_id);
+                        startActivity(i2);
                     }
                 });
 
