@@ -201,7 +201,6 @@ public class OrderDetailActivity extends BaseActivity {
         replayPeriodsTv = (TextView) findViewById(R.id.order_detail_replay_periods_tv);
 
 
-
         orderInfoTitleLin = (LinearLayout) findViewById(R.id.order_detail_order_info_title);
         dlrNameTv = (TextView) findViewById(R.id.order_detail_dlr_name_tv);
         beforeDlrNameTv = (TextView) findViewById(R.id.order_detail_before_dlr_name_tv);
@@ -402,12 +401,11 @@ public class OrderDetailActivity extends BaseActivity {
                 compare(applyProductTypeTv2, replyProductTypeTv2);
 
 
-
                 boolean hasChange = false;
                 if (hasChange) {
                     orderInfoTitleLin.setVisibility(View.VISIBLE);
 
-                }else {
+                } else {
                     orderInfoTitleLin.setVisibility(View.GONE);
 
                 }
