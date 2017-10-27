@@ -57,7 +57,7 @@ public class ConfigApi {
     }
 
 
-    private static ConfigResp parseJsonObject2ConfigResp(JSONObject jsonObject) throws JSONException {
+    public static ConfigResp parseJsonObject2ConfigResp(JSONObject jsonObject) throws JSONException {
         ConfigResp configResp = new ConfigResp();
         configResp.DELAY_MILLIS = jsonObject.optInt("lost_focus_delay");
         configResp.agreement_url = jsonObject.optString("agreement_url");
