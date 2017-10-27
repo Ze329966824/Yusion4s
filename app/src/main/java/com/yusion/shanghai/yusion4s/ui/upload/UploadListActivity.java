@@ -220,16 +220,7 @@ public class UploadListActivity extends BaseActivity {
                     }
                 } else {
                     if (isVideoPage) {
-                        Intent it = new Intent(Intent.ACTION_VIEW);
-                        Uri uri;
-                        if (TextUtils.isEmpty(item.s_url)) {
-                            uri = Uri.parse(item.local_path);
-                        } else {
-                            uri = Uri.parse(item.raw_url);
-                        }
-                        Log.e("TAG", "onItemClick: " + uri.toString());
-                        it.setDataAndType(uri, "video/mp4");
-                        startActivity(it);
+                        playVideo(item);
                     } else {
                         String imgUrl;
                         if (!TextUtils.isEmpty(item.local_path)) {
@@ -276,8 +267,48 @@ public class UploadListActivity extends BaseActivity {
         });
         templateLin.setOnClickListener(v -> {
         });
-        templateImg.setOnClickListener(img -> previewImg(anchor, detail_url, true));
-        templateImgLook.setOnClickListener(v -> previewImg(anchor, detail_url, true));
+        templateImg.setOnClickListener(img ->
+        {
+            if (isVideoPage) {
+                playVideo(detail_url);
+            } else {
+                previewImg(anchor, detail_url, true);
+            }
+        });
+        templateImgLook.setOnClickListener(v -> {
+            if (isVideoPage) {
+                playVideo(detail_url);
+            } else {
+                previewImg(anchor, detail_url, true);
+            }
+        });
+    }
+
+    private void playVideo(UploadImgItemBean item) {
+//        Intent it = new Intent(Intent.ACTION_VIEW);
+//        Uri uri;
+//        if (TextUtils.isEmpty(item.s_url)) {
+//            uri = Uri.parse(item.local_path);
+//        } else {
+//            uri = Uri.parse(item.raw_url);
+//        }
+//        Log.e("TAG", "onItemClick: " + uri.toString());
+//        it.setDataAndType(uri, "video/mp4");
+//        startActivity(it);
+        String url;
+        if (TextUtils.isEmpty(item.s_url)) {
+            url = item.local_path;
+        } else {
+            url = item.raw_url;
+        }
+        playVideo(url);
+    }
+
+    private void playVideo(String url) {
+        Intent it = new Intent(Intent.ACTION_VIEW);
+        Uri uri = Uri.parse(url);
+        it.setDataAndType(uri, "video/mp4");
+        startActivity(it);
     }
 
     private void expandTemplate() {
