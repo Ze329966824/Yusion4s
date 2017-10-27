@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.test.mock.MockApplication;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -628,7 +629,6 @@ public class CarInfoFragment extends BaseFragment {
         });
 
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
-
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
 //        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
         colorTv = (EditText) view.findViewById(R.id.car_info_color_tv);//车辆颜色

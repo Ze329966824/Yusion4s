@@ -20,7 +20,6 @@ import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
@@ -69,19 +68,13 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView cancelReason;
     private TextView passReason;
     private TextView rejectReason;
-    private LinearLayout order_detail_sign_layout;
-    private LinearLayout order_detail_change_layout;
 
 
     @BindView(id = R.id.order_detail_sign, widgetName = "order_detail_sign", onClick = "submitMaterial")
     private Button orderDetailSignBtn;
 
-    private TextView orderDetailChangeBtn;
-    private TextView orderDetailUploadBtn;
-
 
     private String app_id;
-    private int status_st;
     //申请和批复的金融方案
     private TextView applyFirstPercentTv2;
     private TextView replyFirstPercentTv2;
@@ -119,6 +112,38 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView replyMonthPriceTv;
 
     private LinearLayout orderDetailFinanceProgramLin;
+    private TextView beforeDlrNameTv;
+    private TextView beforeBrandTv;
+    private TextView beforeTrixTv;
+    private TextView beforeModelTv;
+    private TextView beforeColorTv;
+    private TextView colorTv;
+    private TextView beforeCondTv;
+    private TextView condTv;
+    private TextView beforeGuidePriceTv;
+    private TextView beforeBillPriceTv;
+    private TextView billPriceTv;
+    private TextView beforeLoanAmtTv;
+    private TextView beforeTotalLoanAmtPriceTv;
+    private TextView totalLoanAmtPriceTv;
+    private TextView loanAmtTv;
+    private TextView downPaymentTv;
+    private TextView beforeDownPaymentTv;
+    private TextView managementFeeTv;
+    private TextView beforeManagementFeeTv;
+    private TextView beforeOtherFeeTv;
+    private TextView otherFeeTv;
+    private TextView totalLoanAmtTv;
+    private TextView beforeTotalLoanAmtTv;
+    private TextView loanBankTv;
+    private TextView beforeLoanBanckTv;
+    private TextView productTypeTv;
+    private TextView beforeProductTypeTv;
+    private TextView nperTv;
+    private TextView beforeNperTv;
+    private TextView regAddrTv;
+    private TextView beforeRegAddrTv;
+    private LinearLayout orderInfoTitleLin;
 
 
     @Override
@@ -179,13 +204,46 @@ public class OrderDetailActivity extends BaseActivity {
         replayProductTypeTv = (TextView) findViewById(R.id.order_detail_replay_product_type_tv);
         replayPeriodsTv = (TextView) findViewById(R.id.order_detail_replay_periods_tv);
 
-        brandTv = (TextView) findViewById(R.id.order_detail_brand_tv);
-        trixTv = (TextView) findViewById(R.id.order_detail_trix_tv);
-        modelTv = (TextView) findViewById(R.id.order_detail_model_tv);
-        guidePriceTv = (TextView) findViewById(R.id.order_detail_guide_price_tv);
 
-
+        orderInfoTitleLin = (LinearLayout) findViewById(R.id.order_detail_order_info_title);
         dlrNameTv = (TextView) findViewById(R.id.order_detail_dlr_name_tv);
+        beforeDlrNameTv = (TextView) findViewById(R.id.order_detail_before_dlr_name_tv);
+        brandTv = (TextView) findViewById(R.id.order_detail_brand_tv);
+        beforeBrandTv = (TextView) findViewById(R.id.order_detail_before_brand_tv);
+        trixTv = (TextView) findViewById(R.id.order_detail_trix_tv);
+        beforeTrixTv = (TextView) findViewById(R.id.order_detail_before_trix_tv);
+        modelTv = (TextView) findViewById(R.id.order_detail_model_tv);
+        beforeModelTv = (TextView) findViewById(R.id.order_detail_before_model_tv);
+        colorTv = (TextView) findViewById(R.id.order_detail_color_tv);
+        beforeColorTv = (TextView) findViewById(R.id.order_detail_before_color_tv);
+        condTv = (TextView) findViewById(R.id.order_detail_vehicle_cond_tv);
+        beforeCondTv = (TextView) findViewById(R.id.order_detail_before_vehicle_cond_tv);
+        guidePriceTv = (TextView) findViewById(R.id.order_detail_guide_price_tv);
+        beforeGuidePriceTv = (TextView) findViewById(R.id.order_detail_before_guide_price_tv);
+        billPriceTv = (TextView) findViewById(R.id.order_detail_vehicle_price_tv);
+        beforeBillPriceTv = (TextView) findViewById(R.id.order_detail_before_vehicle_price_tv);
+        //贷款额
+        loanAmtTv = (TextView) findViewById(R.id.order_detail_vehicle_loan_amt_tv);
+        beforeLoanAmtTv = (TextView) findViewById(R.id.order_detail_before_vehicle_loan_amt_tv);
+        downPaymentTv = (TextView) findViewById(R.id.order_detail_vehicle_down_payment_tv);
+        beforeDownPaymentTv = (TextView) findViewById(R.id.order_detail_before_vehicle_down_payment_tv);
+        managementFeeTv = (TextView) findViewById(R.id.order_detail_management_fee_tv);
+        beforeManagementFeeTv = (TextView) findViewById(R.id.order_detail_before_management_fee_tv);
+        otherFeeTv = (TextView) findViewById(R.id.order_detail_other_fee_tv);
+        beforeOtherFeeTv = (TextView) findViewById(R.id.order_detail_before_other_fee_tv);
+        //总贷款额
+        totalLoanAmtTv = (TextView) findViewById(R.id.order_detail_loan_amt_tv);
+        beforeTotalLoanAmtTv = (TextView) findViewById(R.id.order_detail_before_loan_amt_tv);
+        loanBankTv = (TextView) findViewById(R.id.order_detail_loan_bank_tv);
+        beforeLoanBanckTv = (TextView) findViewById(R.id.order_detail_before_loan_bank_tv);
+        productTypeTv = (TextView) findViewById(R.id.order_detail_product_type_tv);
+        beforeProductTypeTv = (TextView) findViewById(R.id.order_detail_before_product_type_tv);
+        nperTv = (TextView) findViewById(R.id.order_detail_nper_tv);
+        beforeNperTv = (TextView) findViewById(R.id.order_detail_before_nper_tv);
+        regAddrTv = (TextView) findViewById(R.id.order_detail_plate_reg_addr_tv);
+        beforeRegAddrTv = (TextView) findViewById(R.id.order_detail_before_plate_reg_addr_tv);
+
+
         salesNameTv = (TextView) findViewById(R.id.order_detail_sales_name_tv);
         customerIdTv = (TextView) findViewById(R.id.order_detail_customer_id_tv);
         customerNameTv = (TextView) findViewById(R.id.order_detail_customer_name_tv);
@@ -231,6 +289,8 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailUploadBtn = (TextView) findViewById(R.id.order_detail_upload_tv);
 
         orderDetailFinanceProgramLin = (LinearLayout) findViewById(R.id.order_detail_finance_program_lin);
+
+
 
 
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
@@ -372,6 +432,16 @@ public class OrderDetailActivity extends BaseActivity {
                 compare(applyBankTv2, replyBankTv2);
                 compare(applyReplyDateTv2, ReplyRepayDateTv2);
                 compare(applyProductTypeTv2, replyProductTypeTv2);
+
+
+                boolean hasChange = false;
+                if (hasChange) {
+                    orderInfoTitleLin.setVisibility(View.VISIBLE);
+
+                } else {
+                    orderInfoTitleLin.setVisibility(View.GONE);
+
+                }
 
 
                 findViewById(R.id.order_detail_customer_mobile_img).setOnClickListener(new View.OnClickListener() {
