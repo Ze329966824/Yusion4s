@@ -241,8 +241,6 @@ public class OrderDetailActivity extends BaseActivity {
         beforeRegAddrTv = (TextView) findViewById(R.id.order_detail_before_plate_reg_addr_tv);
 
 
-
-
         salesNameTv = (TextView) findViewById(R.id.order_detail_sales_name_tv);
         customerIdTv = (TextView) findViewById(R.id.order_detail_customer_id_tv);
         customerNameTv = (TextView) findViewById(R.id.order_detail_customer_name_tv);
@@ -402,6 +400,17 @@ public class OrderDetailActivity extends BaseActivity {
                 compare(applyBankTv2, replyBankTv2);
                 compare(applyReplyDateTv2, ReplyRepayDateTv2);
                 compare(applyProductTypeTv2, replyProductTypeTv2);
+
+
+
+                boolean hasChange = false;
+                if (hasChange) {
+                    orderInfoTitleLin.setVisibility(View.VISIBLE);
+
+                }else {
+                    orderInfoTitleLin.setVisibility(View.GONE);
+
+                }
 
 
                 findViewById(R.id.order_detail_customer_mobile_img).setOnClickListener(new View.OnClickListener() {
