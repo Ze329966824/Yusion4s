@@ -91,6 +91,7 @@ public class PreviewActivity extends BaseActivity {
                 }
 
             }).start();
+            imageBreviaryView.setOnClickListener(v -> finish());
 
         } else {
             imageBreviaryView.setVisibility(View.GONE);
