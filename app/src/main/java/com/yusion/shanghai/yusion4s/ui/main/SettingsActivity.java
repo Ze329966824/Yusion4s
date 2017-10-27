@@ -1,9 +1,9 @@
 package com.yusion.shanghai.yusion4s.ui.main;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v7.app.AlertDialog;
 import android.view.View;
 import android.widget.EditText;
@@ -21,6 +21,7 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.UpdateUtil;
 
@@ -86,7 +87,9 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 startActivity(intent);
                 break;
             case R.id.main_setting_logout_layout:
-                showLogoutDialog();
+                if(!isFinishing()) {
+                    showLogoutDialog();
+                }
                 break;
             case R.id.main_setting_version_name_layout:
                 if (Settings.isOnline) {
@@ -115,28 +118,35 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void showLogoutDialog() {
-        new AlertDialog.Builder(SettingsActivity.this)
-                .setCancelable(true)
-                .setTitle(getResources().getString(R.string.mine_logout_dialog_title))
-                .setPositiveButton(getResources().getString(R.string.mine_logout_dialog_sure), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(@NonNull DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-                        logout();
-
-                    }
-                })
-                .setNegativeButton(getResources().getString(R.string.mine_logout_dialog_cancle), new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(@NonNull DialogInterface dialog, int which) {
-                        dialog.dismiss();
-
-
-                    }
-                })
-                .setMessage(getResources().getString(R.string.mine_logout_dialog_msg))
-                .show();
+        PopupDialogUtil.showTwoButtonsDialog(SettingsActivity.this, new PopupDialogUtil.OnOkClickListener() {
+            @Override
+            public void onOkClick(Dialog dialog) {
+                dialog.dismiss();
+                logout();
+            }
+        });
+//        new AlertDialog.Builder(SettingsActivity.this)
+//                .setCancelable(true)
+//                .setTitle(getResources().getString(R.string.mine_logout_dialog_title))
+//                .setPositiveButton(getResources().getString(R.string.mine_logout_dialog_sure), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(@NonNull DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//                        logout();
+//
+//                    }
+//                })
+//                .setNegativeButton(getResources().getString(R.string.mine_logout_dialog_cancle), new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(@NonNull DialogInterface dialog, int which) {
+//                        dialog.dismiss();
+//
+//
+//                    }
+//                })
+//                .setMessage(getResources().getString(R.string.mine_logout_dialog_msg))
+//                .show();
     }
 
     private void logout() {
