@@ -155,8 +155,9 @@ public class PopupDialogUtil {
         dialog.setContentView(view);
         dialog.setCancelable(false);
 
-        dialog.getWindow().getAttributes().width = 530;
-        dialog.getWindow().getAttributes().height = 220;
+        dialog.getWindow().getAttributes().width = 1000;
+        dialog.getWindow().getAttributes().height = 400;
+
         show();
     }
 
