@@ -53,6 +53,8 @@ public class GetAppListResp {
     public String status_code;
     public int status_st;
 
+    public Boolean modify_permission;
+
     @Override
     public String toString() {
         return "GetAppListResp{" +
