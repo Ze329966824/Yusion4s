@@ -19,8 +19,8 @@ public class Settings {
         }
     }
 
-    private static String ALPHA_SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
-//    private static String ALPHA_SERVER_URL = "http://192.168.0.213:9000/";
+//    private static String ALPHA_SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
+    private static String ALPHA_SERVER_URL = "http://192.168.0.213:9000/";
 //         private static String ALPHA_SERVER_URL = "http://192.168.0.213:9000/";
     public static String PERSON_SERVER_URL = "http://ubt.yusiontech.com:5141/";
     private static String ALPHA_OSS_SERVER_URL = "http://oss.alpha.yusiontech.com:9100";

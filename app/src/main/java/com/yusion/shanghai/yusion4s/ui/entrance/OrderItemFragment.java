@@ -34,7 +34,7 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
@@ -97,6 +97,7 @@ public class OrderItemFragment extends BaseFragment {
             public void onRefreshBegin(PtrFrameLayout frame) {
                 refresh();
             }
+
             //改掉RecyclerView 吃 item 问题。
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -131,7 +132,6 @@ public class OrderItemFragment extends BaseFragment {
             @Override
             public void onItemDataCallBack(List<GetAppListResp> resp) {
                 if (resp != null && resp.size() > 0) {
-
                     ptr.setVisibility(View.VISIBLE);
                     rv.setVisibility(View.VISIBLE);
                     llyt.setVisibility(View.GONE);
@@ -183,7 +183,7 @@ public class OrderItemFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
-                    intent.putExtra("status_st",item.status_st);
+                    intent.putExtra("status_st", item.status_st);
                     mContext.startActivity(intent);
                 }
             });
@@ -270,7 +270,7 @@ public class OrderItemFragment extends BaseFragment {
             vh.change.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i1 = new Intent(mContext,   Alter.class);
+                    Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
                     i1.putExtra("app_id", item.app_id);
                     mContext.startActivity(i1);
 //                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();

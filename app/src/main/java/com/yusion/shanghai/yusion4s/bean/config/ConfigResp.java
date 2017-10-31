@@ -21,5 +21,8 @@ public class ConfigResp {
     public List<String> carInfo_alter_key = new ArrayList<>();
     public List<String> carInfo_alter_value = new ArrayList<>();
 
+    public List<String> order_type_key = new ArrayList<>();
+    public List<String> order_type_value = new ArrayList<>();
+
     public String dealer_material = "";
 }

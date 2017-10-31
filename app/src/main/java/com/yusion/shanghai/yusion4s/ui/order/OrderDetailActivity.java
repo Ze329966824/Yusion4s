@@ -20,7 +20,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
@@ -161,9 +161,6 @@ public class OrderDetailActivity extends BaseActivity {
 
         initView();
         initTitleBar(this, "申请详情");
-
-//        initData();
-
     }
 
     @Override
@@ -308,7 +305,7 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(OrderDetailActivity.this, Alter.class);
+                Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
                 intent.putExtra("app_id", app_id);
                 startActivity(intent);
             }
@@ -325,7 +322,6 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void initData() {
-        //String app_id = getIntent().getStringExtra("app_id");
         OrderApi.getAppDetails(this, app_id, new OnItemDataCallBack<OrderDetailBean>() {
             @Override
             public void onItemDataCallBack(OrderDetailBean resp) {
@@ -359,6 +355,7 @@ public class OrderDetailActivity extends BaseActivity {
                     rejectRel.setVisibility(View.VISIBLE);
                     //  orderDetailFinanceProgramLin.setVisibility(View.GONE);
                 }
+                //金融方案申请和批复
                 if (resp.uw && resp.uw_detail != null) {
                     orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                     replayBillPriceTv.setText(resp.uw_detail.vehicle_price);
@@ -420,6 +417,7 @@ public class OrderDetailActivity extends BaseActivity {
                 compare(applyProductTypeTv2, replyProductTypeTv2);
 
                 //----------------------------------------------------------------------------------------------------
+//车辆原订单信息
                 dlrNameTv.setText(resp.dlr_nm);
                 brandTv.setText(resp.brand);
                 trixTv.setText(resp.trix);
@@ -439,11 +437,10 @@ public class OrderDetailActivity extends BaseActivity {
                 regAddrTv.setText(resp.plate_reg_addr);
                 //----------------------------------------------------------------------------------------------------
 
-
                 salesNameTv.setText(resp.dlr_sales_name);
                 customerIdTv.setText(resp.id_no);
                 customerNameTv.setText(resp.clt_nm);
-
+// 车辆原信息和修改信息
                 if (resp.is_modify && resp.old_app != null) {
                     orderInfoTitleLin.setVisibility(View.VISIBLE);
 
@@ -503,7 +500,6 @@ public class OrderDetailActivity extends BaseActivity {
 
                 } else {
                     orderInfoTitleLin.setVisibility(View.GONE);
-
                 }
 
 
@@ -527,7 +523,7 @@ public class OrderDetailActivity extends BaseActivity {
                     @Override
                     public void onClick(View v) {
 //                        Toast.makeText(OrderDetailActivity.this, "修改资料", Toast.LENGTH_SHORT).show();
-                        Intent i1 = new Intent(OrderDetailActivity.this, Alter.class);
+                        Intent i1 = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
                         i1.putExtra("app_id", app_id);
                         startActivity(i1);
                     }
