@@ -7,7 +7,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.test.mock.MockApplication;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -34,7 +33,6 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
-import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
@@ -42,8 +40,6 @@ import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
-
-import junit.framework.Test;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -625,7 +621,7 @@ public class CarInfoFragment extends BaseFragment {
         // TODO: 2017/10/24 记得删除
         Button button = (Button) view.findViewById(R.id.change);
         button.setOnClickListener(v -> {
-            startActivity(new Intent(mContext, Alter.class));
+            startActivity(new Intent(mContext, AlterCarInfoActivity.class));
         });
 
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;

@@ -257,7 +257,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
-        <activity android:name=".ui.entrance.apply_financing.Alter"></activity>
+        <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity"></activity>
     </application>
 
 </manifest>

@@ -1,11 +1,11 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
+import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
-import android.support.v7.app.AlertDialog;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -38,7 +38,7 @@ import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Alter extends BaseActivity {
+public class AlterCarInfoActivity extends BaseActivity {
     public static int DELAY_MILLIS;
     private String otherLimit;
     private String clt_id;
@@ -104,7 +104,7 @@ public class Alter extends BaseActivity {
                     otherPriceChange = false;
                     int sum1 = 0;
                     if (Integer.valueOf(otherPriceTv.getText().toString()) > Integer.valueOf(otherLimit)) {
-                        Toast toast = Toast.makeText(Alter.this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_LONG);
+                        Toast toast = Toast.makeText(AlterCarInfoActivity.this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_LONG);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                         otherPriceTv.setText(String.valueOf(otherLimit));
@@ -125,7 +125,7 @@ public class Alter extends BaseActivity {
                     changeFirstPriceByCode = false;//jht
                     int sum = 0;
                     if (getPrice(firstPriceTv) > getPrice(billPriceTv)) {//大于开票价
-                        Toast.makeText(Alter.this, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AlterCarInfoActivity.this, "首付款不能大于开票价", Toast.LENGTH_SHORT).show();
                         // changeFirstPriceByCode = false;
                         firstPriceTv.setText(getPrice(billPriceTv) + "");
                         firstPriceTv.setSelection((getPrice(billPriceTv) + "").length());
@@ -146,7 +146,7 @@ public class Alter extends BaseActivity {
                     changeCarLoanByCode = false;
                     int sum3 = 0;
                     if (getPrice(carLoanPriceTv) > getPrice(billPriceTv)) {
-                        Toast.makeText(Alter.this, "贷款总额不能大于开票价", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AlterCarInfoActivity.this, "贷款总额不能大于开票价", Toast.LENGTH_SHORT).show();
                         carLoanPriceTv.setText(getPrice(billPriceTv) + "");
                     } else {
                         if (Integer.valueOf(carLoanPriceTv.getText().toString()) % 100 != 0) {
@@ -165,7 +165,7 @@ public class Alter extends BaseActivity {
                     billPriceChange = false;
                     int sum4 = 0;
                     if (Integer.valueOf(billPriceTv.getText().toString()) > mGuidePrice) {
-                        Toast.makeText(Alter.this, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AlterCarInfoActivity.this, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
                         billPriceTv.setText(mGuidePrice + "");//设置光标在右边
                         billPriceTv.setSelection((mGuidePrice + "").length());
                     } else {
@@ -235,7 +235,7 @@ public class Alter extends BaseActivity {
             otherPriceTv.setHint("*金额取整到百位,如2300");
             otherPriceTv.setHintTextColor(Color.parseColor("#ed9121"));
             if (TextUtils.isEmpty(carLoanPriceTv.getText())) {
-                Toast toast = Toast.makeText(Alter.this, "请输入车辆贷款额", Toast.LENGTH_SHORT);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请输入车辆贷款额", Toast.LENGTH_SHORT);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 otherPriceTv.setHint("请输入");
@@ -244,13 +244,13 @@ public class Alter extends BaseActivity {
             } else {
                 otherLimit = "";
                 Log.e("TAG", "writeOtherPrice: 1");
-                DlrApi.getOtherFeeLimit(Alter.this, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
+                DlrApi.getOtherFeeLimit(AlterCarInfoActivity.this, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
                     @Override
                     public void onItemDataCallBack(String data) {
                         Log.e("TAG", "onItemDataCallBack: 2 " + data);
                         if (!TextUtils.isEmpty(data)) {
                             otherLimit = data;
-                            Toast toast = Toast.makeText(Alter.this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+                            Toast toast = Toast.makeText(AlterCarInfoActivity.this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
                             toast.setGravity(Gravity.CENTER, 0, 0);
                             toast.show();
                         }
@@ -292,7 +292,6 @@ public class Alter extends BaseActivity {
                 back();
             }
         });
-
 
 
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
@@ -363,7 +362,7 @@ public class Alter extends BaseActivity {
 
     private void initData() {
         //网络请求11000005
-        OrderApi.getRawCarInfo(Alter.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
+        OrderApi.getRawCarInfo(AlterCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
                 clt_id = resp.clt_id;
@@ -394,7 +393,7 @@ public class Alter extends BaseActivity {
                     billPriceTv.setEnabled(true);
                 }
                 isChoose = true;
-                DlrApi.getDlrListByToken(Alter.this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
+                DlrApi.getDlrListByToken(AlterCarInfoActivity.this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetDlrListByTokenResp> resp) {
                         mDlrList = resp;
@@ -407,7 +406,7 @@ public class Alter extends BaseActivity {
                     }
                 });
 
-                DlrApi.getBrand(Alter.this, resp.dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
+                DlrApi.getBrand(AlterCarInfoActivity.this, resp.dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetBrandResp> resp) {
                         mBrandList = resp;
@@ -419,7 +418,7 @@ public class Alter extends BaseActivity {
                     }
                 });
 
-                DlrApi.getTrix(Alter.this, resp.brand_id, new OnItemDataCallBack<List<GetTrixResp>>() {
+                DlrApi.getTrix(AlterCarInfoActivity.this, resp.brand_id, new OnItemDataCallBack<List<GetTrixResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetTrixResp> resp) {
                         mTrixList = resp;
@@ -430,7 +429,7 @@ public class Alter extends BaseActivity {
                         mTrixIndex = selectIndex(trixItems, mTrixIndex, trixTv.getText().toString());
                     }
                 });
-                DlrApi.getModel(Alter.this, resp.trix_id, new OnItemDataCallBack<List<GetModelResp>>() {
+                DlrApi.getModel(AlterCarInfoActivity.this, resp.trix_id, new OnItemDataCallBack<List<GetModelResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetModelResp> resp) {
                         mModelList = resp;
@@ -442,7 +441,7 @@ public class Alter extends BaseActivity {
                     }
                 });
 
-                DlrApi.getLoanBank(Alter.this, resp.dlr_id, new OnItemDataCallBack<List<GetLoanBankResp>>() {
+                DlrApi.getLoanBank(AlterCarInfoActivity.this, resp.dlr_id, new OnItemDataCallBack<List<GetLoanBankResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetLoanBankResp> resp) {
                         mLoanBankList = resp;
@@ -453,7 +452,7 @@ public class Alter extends BaseActivity {
                         mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
                     }
                 });
-                DlrApi.getProductType(Alter.this, resp.bank_id, resp.dlr_id, new OnItemDataCallBack<GetproductResp>() {
+                DlrApi.getProductType(AlterCarInfoActivity.this, resp.bank_id, resp.dlr_id, new OnItemDataCallBack<GetproductResp>() {
                     @Override
                     public void onItemDataCallBack(GetproductResp resp) {
                         mProductList = resp.product_list;
@@ -462,12 +461,18 @@ public class Alter extends BaseActivity {
                         for (GetproductResp.ProductListBean item : resp.product_list) {
                             productTypeItems.add(item.name);
                         }
-                        mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
+                        if (isCanSelectIndex(productTypeItems, productTypeTv.getText().toString())) {
+                            mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
+                        } else {
+                            productTypeTv.setText("");
+                            loanPeriodsTv.setText("");
+                            Toast.makeText(AlterCarInfoActivity.this, "产品类型和还款类型需重新选择", Toast.LENGTH_LONG).show();
+                        }
                         if (isCanSelect(mProductList.get(mProductTypeIndex).nper_list, Integer.valueOf(loanPeriodsTv.getText().toString()))) {
                             mLoanPeriodsIndex = selectIndexInteger(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, Integer.valueOf(loanPeriodsTv.getText().toString()));
                         } else {
                             loanPeriodsTv.setText("");
-                            Toast.makeText(Alter.this, "当前还款期限需重新选择", Toast.LENGTH_LONG).show();
+                            Toast.makeText(AlterCarInfoActivity.this, "当前还款期限需重新选择", Toast.LENGTH_LONG).show();
                         }
 
                     }
@@ -475,7 +480,7 @@ public class Alter extends BaseActivity {
             }
         });
 
-//        DlrApi.getDlrListByToken(Alter.this, resp -> {
+//        DlrApi.getDlrListByToken(AlterCarInfoActivity.this, resp -> {
 //            mDlrList = resp;
 //            dlrItems = new ArrayList<String>();
 //            for (GetDlrListByTokenResp item : resp) {
@@ -487,7 +492,7 @@ public class Alter extends BaseActivity {
 //
 //        });
 //
-        carInfoDlrLin.setOnClickListener(v -> DlrApi.getDlrListByToken(Alter.this, resp -> {
+        carInfoDlrLin.setOnClickListener(v -> DlrApi.getDlrListByToken(AlterCarInfoActivity.this, resp -> {
             if (resp != null && !resp.isEmpty()) {
                 mDlrList = resp;
                 dlrItems = new ArrayList<String>();
@@ -539,7 +544,7 @@ public class Alter extends BaseActivity {
         carInfoBrandLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(dlrTV.getText())) {
                 Log.e("ssss", mDlrList.get(mDlrIndex).dlr_id);
-                DlrApi.getBrand(Alter.this, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
+                DlrApi.getBrand(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetBrandResp> resp) {
                         if (resp != null && !resp.isEmpty()) {
@@ -576,7 +581,7 @@ public class Alter extends BaseActivity {
                 });
                 // mBrandIndex = selectIndex(brandItems, mBrandIndex, brandTv.getText().toString());
             } else {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
@@ -585,7 +590,7 @@ public class Alter extends BaseActivity {
 //车系
         carInfoTrixLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                DlrApi.getTrix(Alter.this, mBrandList.get(mBrandIndex).brand_id, resp -> {
+                DlrApi.getTrix(AlterCarInfoActivity.this, mBrandList.get(mBrandIndex).brand_id, resp -> {
                     if (resp != null && !resp.isEmpty()) {
                         mTrixList = resp;
                         trixItems = new ArrayList<String>();
@@ -616,11 +621,11 @@ public class Alter extends BaseActivity {
                 });
 
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             } else if (TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成品牌选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成品牌选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
@@ -633,7 +638,7 @@ public class Alter extends BaseActivity {
                 if (isAlterCarInfoChange) {
 
                 }
-                DlrApi.getModel(Alter.this, mTrixList.get(mTrixIndex).trix_id, resp -> {
+                DlrApi.getModel(AlterCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, resp -> {
                     if (resp != null && !resp.isEmpty()) {
                         mModelList = resp;
                         modelItems = new ArrayList<String>();
@@ -658,11 +663,11 @@ public class Alter extends BaseActivity {
                 });
 
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             } else if (TextUtils.isEmpty(trixTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成车系选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成车系选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
@@ -762,7 +767,7 @@ public class Alter extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(dlrTV.getText())) {
-                    Toast toast = Toast.makeText(Alter.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                 } else {//需要先请求最先的东西,也就是门店信息
                     WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
@@ -809,7 +814,7 @@ public class Alter extends BaseActivity {
         });
         carInfoLoanBankLin.setOnClickListener(v -> {//选择银行列表
             if (!TextUtils.isEmpty(dlrTV.getText())) {
-                DlrApi.getLoanBank(Alter.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+                DlrApi.getLoanBank(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                     mLoanBankList = resp;//银行列表
                     bankItems = new ArrayList<String>();
                     for (GetLoanBankResp getLoanBankResp : resp) {
@@ -820,7 +825,7 @@ public class Alter extends BaseActivity {
 
                 });
             } else {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
@@ -829,7 +834,7 @@ public class Alter extends BaseActivity {
         carInfoProductTypeLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
 
-                DlrApi.getProductType(Alter.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
+                DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
                     @Override
                     public void onItemDataCallBack(GetproductResp resp) {
                         if (resp == null) {
@@ -856,11 +861,11 @@ public class Alter extends BaseActivity {
                 });
 
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             } else if (TextUtils.isEmpty(loanBankTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-                Toast toast = Toast.makeText(Alter.this, "请您先完成贷款银行选择", Toast.LENGTH_LONG);
+                Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成贷款银行选择", Toast.LENGTH_LONG);
                 toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
             }
@@ -870,7 +875,7 @@ public class Alter extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(productTypeTv.getText())) {
-                    Toast.makeText(Alter.this, "请先选择产品类型", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AlterCarInfoActivity.this, "请先选择产品类型", Toast.LENGTH_LONG).show();
                 } else {
                     WheelViewUtil.showWheelView(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, carInfoLoanPeriodsLin, loanPeriodsTv, "请选择还款期限", new WheelViewUtil.OnSubmitCallBack() {
                         @Override
@@ -887,13 +892,13 @@ public class Alter extends BaseActivity {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(productTypeTv.getText())) {
-                    Toast toast = Toast.makeText(Alter.this, "请选择产品类型", Toast.LENGTH_LONG);
+                    Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请选择产品类型", Toast.LENGTH_LONG);
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                     return;
                 }
                 if (!TextUtils.isEmpty(cityJson)) {
-                    WheelViewUtil.showCityWheelView(Alter.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
+                    WheelViewUtil.showCityWheelView(AlterCarInfoActivity.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
 
@@ -938,7 +943,7 @@ public class Alter extends BaseActivity {
                     req.guide_price = guidePriceTv.getText().toString();
                     req.trix_id = mTrixList.get(mTrixIndex).trix_id;
                     req.loan_bank = loanBankTv.getText().toString();
-                    req.app_id = "11000005";
+                    req.app_id = app_id;
                     req.product_name = productTypeTv.getText().toString();
                     req.dlr = dlrTV.getText().toString();
                     req.brand = brandTv.getText().toString();
@@ -957,10 +962,11 @@ public class Alter extends BaseActivity {
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
                     req.msrp = guidePriceTv.getText().toString();
                     req.reason = carInfoAlterTv.getText().toString();
-                    OrderApi.submitAlterInfo(Alter.this, req, new OnCodeAndMsgCallBack() {
+                    OrderApi.submitAlterInfo(AlterCarInfoActivity.this, req, new OnCodeAndMsgCallBack() {
                         @Override
                         public void callBack(int code, String msg) {
                             if (code > -1) {
+                                Toast.makeText(AlterCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
                                 finish();
                             }
                         }
@@ -1023,7 +1029,6 @@ public class Alter extends BaseActivity {
                 index = i;
             }
         }
-        Log.e("sss", "sss");
         return index;
     }
 
@@ -1042,11 +1047,10 @@ public class Alter extends BaseActivity {
                 return true;
             }
         }
-        Toast.makeText(Alter.this,"S",Toast.LENGTH_LONG).show();
         return false;
     }
 
-    public boolean isCanSelectIndex(List<Integer> list, int index, Integer s) {
+    public boolean isCanSelectIndex(List<String> list, String s) {
         for (int i = 0; i < list.size(); i++) {
             if (list.get(i).equals(s)) {
                 return true;
@@ -1058,53 +1062,53 @@ public class Alter extends BaseActivity {
 
     private boolean checkCanNextStep() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast.makeText(Alter.this, "门店不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "门店不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(brandTv.getText())) {
-            Toast.makeText(Alter.this, "品牌不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "品牌不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(trixTv.getText())) {
-            Toast.makeText(Alter.this, "车系不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "车系不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(modelTv.getText())) {
-            Toast.makeText(Alter.this, "车型不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "车型不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(colorTv.getText())) {
-            Toast.makeText(Alter.this, "颜色不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "颜色不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(billPriceTv.getText())) {
-            Toast.makeText(Alter.this, "开票价不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "开票价不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
-            Toast.makeText(Alter.this, "首付款不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "首付款不能为空", Toast.LENGTH_SHORT).show();
         } else if (!checkFirstPriceValid()) {
-            Toast.makeText(Alter.this, "首付款必须大于开票价20%", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "首付款必须大于开票价20%", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(carLoanPriceTv.getText())) {
-            Toast.makeText(Alter.this, "车辆贷款额不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "车辆贷款额不能为空", Toast.LENGTH_SHORT).show();
         } else if (Integer.valueOf(carLoanPriceTv.getText().toString()) == 0) {
-            Toast.makeText(Alter.this, "车辆贷款额不能为0", Toast.LENGTH_LONG).show();
+            Toast.makeText(AlterCarInfoActivity.this, "车辆贷款额不能为0", Toast.LENGTH_LONG).show();
         } else if (!checkCarLoanPriceValid()) {
-            Toast.makeText(Alter.this, "车辆贷款额必须小于开票价80%", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "车辆贷款额必须小于开票价80%", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
-            Toast.makeText(Alter.this, "首付款不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "首付款不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(managementPriceTv.getText())) {
-            Toast.makeText(Alter.this, "管理费不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "管理费不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(otherPriceTv.getText())) {
-            Toast.makeText(Alter.this, "其他费用不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "其他费用不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(loanBankTv.getText())) {
-            Toast.makeText(Alter.this, "贷款银行不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "贷款银行不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(loanPeriodsTv.getText())) {
-            Toast.makeText(Alter.this, "还款期限不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "还款期限不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(productTypeTv.getText())) {
-            Toast.makeText(Alter.this, "产品类型不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "产品类型不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(plateRegAddrTv.getText())) {
-            Toast.makeText(Alter.this, "预计上牌地不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "预计上牌地不能为空", Toast.LENGTH_SHORT).show();
         } else if (getPrice(otherPriceTv.getText().toString()) % 100 != 0) {
-            Toast.makeText(Alter.this, "其他费用只能是整百", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "其他费用只能是整百", Toast.LENGTH_SHORT).show();
         } else if (getPrice(firstPriceTv) + getPrice(carLoanPriceTv) != getPrice(billPriceTv)) {
-            Toast.makeText(Alter.this, "首付款加车辆贷款额必须等于开票价", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterCarInfoActivity.this, "首付款加车辆贷款额必须等于开票价", Toast.LENGTH_SHORT).show();
         } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) < 10000) {
-            Toast.makeText(Alter.this, "总贷款额需多于10000元", Toast.LENGTH_LONG).show();
+            Toast.makeText(AlterCarInfoActivity.this, "总贷款额需多于10000元", Toast.LENGTH_LONG).show();
         } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(billPriceTv.getText().toString()) * 0.8) {
-            Toast.makeText(Alter.this, "总贷款额不能大于开票价的80%", Toast.LENGTH_LONG).show();
+            Toast.makeText(AlterCarInfoActivity.this, "总贷款额不能大于开票价的80%", Toast.LENGTH_LONG).show();
         } else if (getPrice(billPriceTv) < getPrice(totalLoanPriceTv) + 1) {
-            Toast.makeText(Alter.this, "车辆开票价要大于总贷款额", Toast.LENGTH_LONG).show();
+            Toast.makeText(AlterCarInfoActivity.this, "车辆开票价要大于总贷款额", Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(carInfoAlterTv.getText())) {
-            Toast.makeText(Alter.this, "请选择末尾的修改理由", Toast.LENGTH_LONG).show();
+            Toast.makeText(AlterCarInfoActivity.this, "请选择末尾的修改理由", Toast.LENGTH_LONG).show();
         } else {
             return true;
         }

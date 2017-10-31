@@ -1172,7 +1172,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1214,9 +1214,9 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="13.5sp"
+                tools:text="@string/order_detail_plan_reply_total" />
 
             <Space
                 android:layout_width="10dp"
@@ -1256,7 +1256,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1298,7 +1298,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1340,7 +1340,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1382,7 +1382,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1424,7 +1424,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1466,7 +1466,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1508,7 +1508,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1550,7 +1550,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1592,7 +1592,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1634,7 +1634,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1676,7 +1676,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1718,7 +1718,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1760,7 +1760,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 
@@ -1802,7 +1802,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
+                tools:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
                 android:textSize="13.5sp" />
 

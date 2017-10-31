@@ -40,6 +40,9 @@ public interface OrderService {
     @GET("/api/application/get_app_details/")
     Call<BaseResult<OrderDetailBean>> getAppDetails(@Query("app_id") String app_id);
 
+    @GET("/api/application/modify_app_detail/")
+    Call<BaseResult<OrderDetailBean>> getAppDetails2(@Query("app_id") String app_id);
+
     //http://192.168.0.213:9000/api/application/modify_app?app_id=11000005
     //获取订单原始数据，用于订单返审
 
