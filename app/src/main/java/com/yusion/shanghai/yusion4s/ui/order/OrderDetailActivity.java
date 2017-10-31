@@ -236,8 +236,8 @@ public class OrderDetailActivity extends BaseActivity {
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
 //        order_detail_change_layout.setVisibility(View.GONE);
 
-            order_detail_sign_layout.setVisibility(View.GONE);
-            order_detail_change_layout.setVisibility(View.VISIBLE);
+//            order_detail_sign_layout.setVisibility(View.GONE);
+//            order_detail_change_layout.setVisibility(View.VISIBLE);
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
