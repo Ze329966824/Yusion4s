@@ -14,7 +14,7 @@ import io.sentry.Sentry;
  * Created by LX on 2017/8/14.
  */
 
-public class YusionReceiver extends BroadcastReceiver {
+public class JpushReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
         Bundle bundle = intent.getExtras();
@@ -24,19 +24,16 @@ public class YusionReceiver extends BroadcastReceiver {
             String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
             if (TextUtils.isEmpty(string)) {
                 return;
-            }else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
+            } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 int notificationID = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 String content = bundle.getString(JPushInterface.EXTRA_ALERT);
                 JPushInterface.clearNotificationById(context, notificationID);
             }
-            Log.e("EXTRA_EXTRA",string);
+            Log.e("EXTRA_EXTRA", string);
             Sentry.capture(string);
             i.putExtra("jsonObject", string);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            if (!TextUtils.isEmpty(string)) {
-                context.startActivity(i);
-            }
-
+            context.startActivity(i);
         }
     }
 }

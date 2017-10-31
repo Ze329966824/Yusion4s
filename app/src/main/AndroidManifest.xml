@@ -192,7 +192,7 @@
         <!-- 新的tag/alias接口结果返回需要开发者配置一个自定的广播 -->
 
         <receiver
-            android:name=".jpush.YusionReceiver"
+            android:name=".jpush.JpushReceiver"
             android:enabled="true">
             <intent-filter>
 
