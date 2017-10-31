@@ -21,7 +21,6 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
@@ -144,11 +143,6 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView nperTv;
     private TextView regAddrTv;
     private LinearLayout orderInfoTitleLin;
-    private LinearLayout order_detail_sign_layout;
-    private LinearLayout order_detail_change_layout;
-    private TextView orderDetailChangeBtn;
-    private TextView orderDetailUploadBtn;
-    private int status_st;
     private LinearLayout order_detail_sign_layout;
     private LinearLayout order_detail_change_layout;
     private TextView orderDetailChangeBtn;
@@ -312,30 +306,29 @@ public class OrderDetailActivity extends BaseActivity {
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
 //        order_detail_change_layout.setVisibility(View.GONE);
         if (modify_permission){
-//            order_detail_sign_layout.setVisibility(View.GONE);
-//            order_detail_change_layout.setVisibility(View.VISIBLE);
+            order_detail_sign_layout.setVisibility(View.GONE);
+            order_detail_change_layout.setVisibility(View.VISIBLE);
+        }else {
+            order_detail_sign_layout.setVisibility(View.VISIBLE);
+            order_detail_change_layout.setVisibility(View.GONE);
+        }
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(OrderDetailActivity.this, .class);
-//                intent.putExtra("app_id", app_id);
-//                startActivity(intent);
+                Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
+                intent.putExtra("app_id", app_id);
+                startActivity(intent);
             }
         });
         orderDetailUploadBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(OrderD
-//                        etailActivity.this, SubmitInformationActivity.class);
-//                intent.putExtra("app_id", app_id);
-//                startActivity(intent);
+                Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                intent.putExtra("app_id", app_id);
+                startActivity(intent);
             }
         });
 
-        }else {
-            order_detail_sign_layout.setVisibility(View.VISIBLE);
-            order_detail_change_layout.setVisibility(View.GONE);
-        }
 
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
