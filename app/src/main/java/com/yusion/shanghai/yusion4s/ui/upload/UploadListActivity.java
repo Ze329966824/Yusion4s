@@ -76,7 +76,6 @@ public class UploadListActivity extends BaseActivity {
     private LinearLayout templateLin;
     private LinearLayout templateTitleLin;
     private TextView templateTitle;
-    private TextView templateSl;
     private TextView templateContent;
     private Button templateImgLook;
     private ImageView templateImg;
@@ -253,11 +252,9 @@ public class UploadListActivity extends BaseActivity {
         templateImgLook = (Button) findViewById(R.id.upload_list_template_img_look);
         templateLin = (LinearLayout) findViewById(R.id.upload_list_template);
         templateTitle = (TextView) findViewById(R.id.upload_list_template_title);
-        templateSl = (TextView) findViewById(R.id.upload_list_template_sl);
         templateContent = (TextView) findViewById(R.id.upload_list_template_content);
         templateTitleLin = (LinearLayout) findViewById(R.id.upload_list_template_title_lin);
         templateTitle.setText(topItem.name + "要求");
-        templateSl.setText(topItem.name + "示例");
         templateTitleLin.setOnClickListener(v -> {
             if (isTemplateExpand) {
                 foldTemplate();

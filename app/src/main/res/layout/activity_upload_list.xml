@@ -46,9 +46,9 @@
             android:layout_height="405dp"
             android:layout_alignParentBottom="true"
             android:background="@color/white"
+            android:orientation="vertical"
             android:visibility="gone"
-            tools:visibility="visible"
-            android:orientation="vertical">
+            tools:visibility="visible">
 
             <View
                 android:layout_width="match_parent"
@@ -69,17 +69,18 @@
 
                     <TextView
                         android:id="@+id/upload_list_template_title"
-                        android:layout_width="250dp"
-                        android:layout_height="match_parent"
-                        android:gravity="center_vertical"
-                        tools:text="测试字段"
-                        android:textColor="#666666"
-                        android:textSize="14.5dp" />
-
-                    <Space
                         android:layout_width="0dp"
                         android:layout_height="match_parent"
-                        android:layout_weight="1" />
+                        android:layout_weight="1"
+                        android:gravity="center_vertical"
+                        android:textColor="#666666"
+                        android:textSize="14.5dp"
+                        tools:text="测试字段" />
+
+                    <!--<Space-->
+                    <!--android:layout_width="0dp"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_weight="1" />-->
 
                     <ImageView
                         android:id="@+id/upload_list_expand_img"
@@ -94,55 +95,39 @@
                     android:layout_height="0.5dp"
                     android:background="@color/separate_line_color" />
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/upload_list_template_content"
                     android:layout_width="match_parent"
-                    android:layout_height="83.5dp"
-                    android:orientation="vertical">
-
-                    <TextView
-                        android:id="@+id/upload_list_template_content"
-                        android:layout_width="match_parent"
-                        android:layout_height="32.5dp"
-                        android:layout_marginTop="12.5dp"
-                        android:text="有效居住材料\n拍摄时确保居住材料边框完整，字体清晰，亮度均匀"
-                        android:textColor="#999999"
-                        android:textSize="11.5sp" />
-
-                    <TextView
-                        android:id="@+id/upload_list_template_sl"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="14.5dp"
-                        tools:text="居住材料示例"
-                        android:textColor="#999999"
-                        android:textSize="11.5sp" />
-                </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:paddingBottom="12.5dp"
+                    android:paddingTop="12.5dp"
+                    android:text="有效居住材料\n拍摄时确保居住材料边框完整，字体清晰，亮度均匀"
+                    android:textColor="#999999"
+                    android:textSize="11.5sp" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
-                    android:layout_height="205dp"
+                    android:layout_height="match_parent"
                     android:background="#ffe1e3e6">
 
                     <ImageView
                         android:id="@+id/upload_list_template_img"
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:layout_centerInParent="true"
+                        android:scaleType="centerInside"
                         tools:src="@mipmap/launch_bg" />
-                </RelativeLayout>
-
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
 
                     <Button
                         android:id="@+id/upload_list_template_img_look"
                         android:layout_width="115.5dp"
                         android:layout_height="32.5dp"
+                        android:layout_alignParentBottom="true"
                         android:layout_centerInParent="true"
-                        android:background="@drawable/stroke_06b7a3"
+                        android:layout_marginBottom="10dp"
+                        android:background="@drawable/fill_9906b7a3"
                         android:text="查看样张"
-                        android:textColor="@color/system_color"
+                        android:textColor="#fff"
                         android:textSize="15.5sp" />
                 </RelativeLayout>
             </LinearLayout>
