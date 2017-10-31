@@ -154,10 +154,10 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
         UBT.sendAllUBTEvents(this, () -> {
             finishByLoginOut = true;
-            myApp.clearUserData();
-            startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
-            finish();
         });
+        myApp.clearUserData();
+        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+        finish();
 
     }
 

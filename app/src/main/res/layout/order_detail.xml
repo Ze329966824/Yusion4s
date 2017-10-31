@@ -1657,7 +1657,7 @@
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="visible">
 
         <Button
             android:id="@+id/order_detail_sign"
@@ -1717,7 +1717,7 @@
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
 
         <TextView
