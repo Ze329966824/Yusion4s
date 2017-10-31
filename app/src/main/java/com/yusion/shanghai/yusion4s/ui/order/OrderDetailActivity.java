@@ -20,6 +20,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.Alter;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
@@ -144,6 +145,14 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView regAddrTv;
     private TextView beforeRegAddrTv;
     private LinearLayout orderInfoTitleLin;
+    private LinearLayout order_detail_sign_layout;
+    private LinearLayout order_detail_change_layout;
+    private TextView orderDetailChangeBtn;
+    private TextView orderDetailUploadBtn;
+
+
+    private int status_st;
+    private Boolean modify_permission;
 
 
     @Override
@@ -153,6 +162,7 @@ public class OrderDetailActivity extends BaseActivity {
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
+        modify_permission = getIntent().getBooleanExtra("modify_permission", false);
 
 
 
@@ -295,9 +305,14 @@ public class OrderDetailActivity extends BaseActivity {
 
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
 //        order_detail_change_layout.setVisibility(View.GONE);
-
+        if (modify_permission){
             order_detail_sign_layout.setVisibility(View.GONE);
             order_detail_change_layout.setVisibility(View.VISIBLE);
+        }else {
+            order_detail_sign_layout.setVisibility(View.VISIBLE);
+            order_detail_change_layout.setVisibility(View.GONE);
+        }
+
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
