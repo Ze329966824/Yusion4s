@@ -84,7 +84,7 @@ public class PopupDialogUtil {
         dialog.show();
     }
 
-    public static void showTwoButtonsDialog(Context context, OnOkClickListener clickListener) {
+    public static void showTwoButtonsDialog(Context context,int width,int height, OnOkClickListener clickListener) {
         mContext = context;
 //        if (dialog == null) {
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
@@ -110,13 +110,13 @@ public class PopupDialogUtil {
         dialog.setContentView(view);
         dialog.setCancelable(false);
 
-        dialog.getWindow().getAttributes().width = 1000;
-        dialog.getWindow().getAttributes().height = 400;
+        dialog.getWindow().getAttributes().width = width;
+        dialog.getWindow().getAttributes().height = height;
         show();
     }
 
 
-    public static void showTwoButtonsDialog(Context context, String leftbtn, String rightbtn,String message, OnOkClickListener clickListener, OnCancelClickListener cancelListener) {
+    public static void showTwoButtonsDialog(Context context,int width,int height, String leftbtn, String rightbtn,String message, OnOkClickListener clickListener, OnCancelClickListener cancelListener) {
         mContext = context;
 //        if (dialog == null) {
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
@@ -155,8 +155,8 @@ public class PopupDialogUtil {
         dialog.setContentView(view);
         dialog.setCancelable(false);
 
-        dialog.getWindow().getAttributes().width = 1000;
-        dialog.getWindow().getAttributes().height = 400;
+        dialog.getWindow().getAttributes().width = width;
+        dialog.getWindow().getAttributes().height = height;
 
         show();
     }
