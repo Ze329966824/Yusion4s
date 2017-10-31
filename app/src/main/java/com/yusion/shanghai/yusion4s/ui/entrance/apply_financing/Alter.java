@@ -294,6 +294,7 @@ public class Alter extends BaseActivity {
         });
 
 
+
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         initView();

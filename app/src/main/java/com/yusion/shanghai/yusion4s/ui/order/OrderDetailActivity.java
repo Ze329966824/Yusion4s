@@ -306,8 +306,26 @@ public class OrderDetailActivity extends BaseActivity {
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
 //        order_detail_change_layout.setVisibility(View.GONE);
         if (modify_permission){
-            order_detail_sign_layout.setVisibility(View.GONE);
-            order_detail_change_layout.setVisibility(View.VISIBLE);
+//            order_detail_sign_layout.setVisibility(View.GONE);
+//            order_detail_change_layout.setVisibility(View.VISIBLE);
+        orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(OrderDetailActivity.this, .class);
+//                intent.putExtra("app_id", app_id);
+//                startActivity(intent);
+            }
+        });
+        orderDetailUploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+//                Intent intent = new Intent(OrderD
+//                        etailActivity.this, SubmitInformationActivity.class);
+//                intent.putExtra("app_id", app_id);
+//                startActivity(intent);
+            }
+        });
+
         }else {
             order_detail_sign_layout.setVisibility(View.VISIBLE);
             order_detail_change_layout.setVisibility(View.GONE);

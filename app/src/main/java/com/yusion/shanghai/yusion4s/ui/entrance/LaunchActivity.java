@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Intent;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
@@ -18,6 +19,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.UpdateUtil;
 
@@ -53,23 +55,44 @@ public class LaunchActivity extends BaseActivity {
             checkServerUrl();
         }
     }
+    private String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
 
     private void checkServerUrl() {
         if (!isOnline) {
-            String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
+//            String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
             if (!TextUtils.isEmpty(str)) {
-                new AlertDialog.Builder(this)
-                        .setTitle("请确认服务器地址：")
-                        .setMessage(str)
-                        .setPositiveButton("是", (dialog, which) -> {
-                            Settings.SERVER_URL = str;
-                            getConfigJson();
-                            dialog.dismiss();
-                        })
-                        .setNegativeButton("否", (dialog, which) -> {
-                            getConfigJson();
-                            dialog.dismiss();
-                        }).show();
+                    PopupDialogUtil.showTwoButtonsDialog(this,WIDTH*2/3,HEIGHT*1/5, "还原", "确定", "服务器地址为：\n" + str, new PopupDialogUtil.OnOkClickListener() {
+                                @Override
+                                public void onOkClick(Dialog dialog) {
+//                                YusionApp.isChangeURL = false;
+                                    Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
+//                                Api.initRetrofit();
+                                    dialog.dismiss();
+                                    getConfigJson();
+                                }
+                            }, new PopupDialogUtil.OnCancelClickListener() {
+                                @Override
+                                public void onCancelClick(Dialog dialog) {
+                                    Settings.SERVER_URL = str;
+//                                Api.initRetrofit();
+                                    dialog.dismiss();
+                                    getConfigJson();
+                                }
+                            }
+
+                    );
+//                new AlertDialog.Builder(this)
+//                        .setTitle("请确认服务器地址：")
+//                        .setMessage(str)
+//                        .setPositiveButton("是", (dialog, which) -> {
+//                            Settings.SERVER_URL = str;
+//                            getConfigJson();
+//                            dialog.dismiss();
+//                        })
+//                        .setNegativeButton("否", (dialog, which) -> {
+//                            getConfigJson();
+//                            dialog.dismiss();
+//                        }).show();
             } else {
                 getConfigJson();
             }

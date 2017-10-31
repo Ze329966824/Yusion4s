@@ -97,6 +97,7 @@ public class OrderItemFragment extends BaseFragment {
             public void onRefreshBegin(PtrFrameLayout frame) {
                 refresh();
             }
+
             //改掉RecyclerView 吃 item 问题。
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
@@ -184,6 +185,7 @@ public class OrderItemFragment extends BaseFragment {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st",item.status_st);
+                    intent.putExtra("modify_permission",item.modify_permission);
                     mContext.startActivity(intent);
                 }
             });
@@ -203,20 +205,21 @@ public class OrderItemFragment extends BaseFragment {
             });
             if (item.status_st == 2) {//待审核
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
-                vh.change.setVisibility(View.VISIBLE);
             } else if (item.status_st == 3) {//审核失败
-                vh.change.setVisibility(View.VISIBLE);
                 vh.st.setTextColor(Color.parseColor("#FF3F00"));
             } else if (item.status_st == 4) {//待确认金融方案
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
-                vh.change.setVisibility(View.VISIBLE);
             } else if (item.status_st == 6) {//放款中
                 vh.st.setTextColor(Color.parseColor("#06B7A3"));
-                vh.change.setVisibility(View.VISIBLE);
             } else if (item.status_st == 9) {//已取消
                 vh.st.setTextColor(Color.parseColor("#666666"));
-                vh.change.setVisibility(View.VISIBLE);
             }
+            if (item.modify_permission){
+                vh.change.setVisibility(View.VISIBLE);
+            }else {
+                vh.change.setVisibility(View.GONE);
+            }
+
             vh.st.setText(item.status_code);
             vh.periods.setText(item.nper);
             vh.loan.setText(item.loan_amt);
