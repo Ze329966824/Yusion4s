@@ -737,11 +737,6 @@
                 android:text="下一步"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
-
-            <Button
-                android:id="@+id/change"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content" />
         </LinearLayout>
     </ScrollView>
 
