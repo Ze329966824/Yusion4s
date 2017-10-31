@@ -1,6 +1,5 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -618,12 +617,6 @@ public class CarInfoFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         UBT.bind(this, view, getClass().getSimpleName());
-        // TODO: 2017/10/24 记得删除
-        Button button = (Button) view.findViewById(R.id.change);
-        button.setOnClickListener(v -> {
-            startActivity(new Intent(mContext, AlterCarInfoActivity.class));
-        });
-
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
         totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
 //        otherPriceTv = (EditText) view.findViewById(R.id.car_info_other_price_tv);//其他费用
@@ -1487,7 +1480,7 @@ public class CarInfoFragment extends BaseFragment {
         brandTv.setText(resp.brand);
         trixTv.setText(resp.trix);
         modelTv.setText(resp.model_name);
-       // colorTv.setText(resp.color);
+        // colorTv.setText(resp.color);
 
 //
 //        //  selectIndex(dlrItems, mDlrIndex, "门店测试经销商");
@@ -1503,7 +1496,7 @@ public class CarInfoFragment extends BaseFragment {
 //
 //        modelTv.setText("2017款 宝马5系 530Le");
 
-       isChangeCarInfoChange = true;
+        isChangeCarInfoChange = true;
 //        guidePriceTv.setText(resp.guide_price);//市场指导价
 //        billPriceTv.setText(resp.vehicle_price);//开票价
 //        carLoanPriceTv.setText(resp.vehicle_loan_amt);//车辆贷款额
