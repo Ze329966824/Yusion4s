@@ -24,10 +24,14 @@ import java.util.List;
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
 
     protected Yusion4sApp myApp;
-
+    public int WIDTH;
+    public int HEIGHT;
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        WIDTH = this.getWindowManager().getDefaultDisplay().getWidth();
+        HEIGHT = this.getWindowManager().getDefaultDisplay().getHeight();
         ActivityManager.addActivity(this);
         myApp = ((Yusion4sApp) getApplication());
 //        PgyCrashManager.register(this);
