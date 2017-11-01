@@ -980,7 +980,13 @@ public class CarInfoFragment extends BaseFragment {
                         items.add(getLoanBankResp.name);
                     }
 
-                    WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+                    WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> {
+                        mLoanBankIndex = selectedIndex;
+                        mProductTypeIndex = 0;
+                        productTypeTv.setText(null);
+                        mLoanPeriodsIndex = 0;
+                        loanPeriodsTv.setText(null);
+                    });
 
                 });
             } else {
