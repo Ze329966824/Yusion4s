@@ -82,6 +82,7 @@ public class UploadListActivity extends BaseActivity {
     private String detail_url;
     private String sample_url;
     private View anchor;
+    private ImageView templateVideoLook;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,6 +91,7 @@ public class UploadListActivity extends BaseActivity {
         topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
         app_id = getIntent().getStringExtra("app_id");
         clt_id = getIntent().getStringExtra("clt_id");
+        isVideoPage = topItem.name.contains("视频");
         initView();
         initData();
     }
@@ -250,6 +252,14 @@ public class UploadListActivity extends BaseActivity {
         expandImg = (ImageView) findViewById(R.id.upload_list_expand_img);
         templateImg = (ImageView) findViewById(R.id.upload_list_template_img);
         templateImgLook = (Button) findViewById(R.id.upload_list_template_img_look);
+        templateVideoLook = (ImageView) findViewById(R.id.upload_list_template_video_look);
+        if (isVideoPage) {
+            templateVideoLook.setVisibility(View.VISIBLE);
+            templateImgLook.setVisibility(View.GONE);
+        }else {
+            templateImgLook.setVisibility(View.VISIBLE);
+            templateVideoLook.setVisibility(View.GONE);
+        }
         templateLin = (LinearLayout) findViewById(R.id.upload_list_template);
         templateTitle = (TextView) findViewById(R.id.upload_list_template_title);
         templateContent = (TextView) findViewById(R.id.upload_list_template_content);
@@ -354,7 +364,6 @@ public class UploadListActivity extends BaseActivity {
     private boolean isVideoPage;
 
     private void initData() {
-        isVideoPage = topItem.name.contains("视频");
         ListImgsReq req = new ListImgsReq();
         req.label = topItem.value;
         req.app_id = app_id;
