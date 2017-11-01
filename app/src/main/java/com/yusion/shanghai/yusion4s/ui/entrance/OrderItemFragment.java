@@ -213,11 +213,11 @@ public class OrderItemFragment extends BaseFragment {
             } else if (item.status_st == 9) {//已取消
                 vh.st.setTextColor(Color.parseColor("#666666"));
             }
-            if (item.modify_permission){
-                vh.change.setVisibility(View.VISIBLE);
-            }else {
-                vh.change.setVisibility(View.GONE);
-            }
+//            if (item.modify_permission){
+//                vh.change.setVisibility(View.VISIBLE);
+//            }else {
+//                vh.change.setVisibility(View.GONE);
+//            }
 
             vh.st.setText(item.status_code);
             vh.periods.setText(item.nper);
