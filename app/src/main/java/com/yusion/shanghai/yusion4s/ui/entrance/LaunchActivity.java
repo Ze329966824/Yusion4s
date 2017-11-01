@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
@@ -68,7 +69,9 @@ public class LaunchActivity extends BaseActivity {
                                     Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
 //                                Api.initRetrofit();
                                     dialog.dismiss();
-                                    getConfigJson();
+                                    SharedPrefsUtil.getInstance(LaunchActivity.this).putValue("SERVER_URL", "");
+                                    Toast.makeText(myApp, "还原成功,请自己重启APP！！！", Toast.LENGTH_SHORT).show();
+//                                    getConfigJson();
                                 }
                             }, new PopupDialogUtil.OnCancelClickListener() {
                                 @Override
