@@ -32,6 +32,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -222,6 +223,7 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     @BindView(id = R.id.car_info_other_price_tv, widgetName = "car_info_other_price_tv", onFocusChange = "writeOtherPrice")
     private EditText otherPriceTv;
+
     public List<String> dlrItems;
     public List<String> brandItems;
     public List<String> trixItems;
@@ -299,6 +301,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         initView();
 
         initData();
+        UBT.bind(this);
     }
 
     private void back() {
