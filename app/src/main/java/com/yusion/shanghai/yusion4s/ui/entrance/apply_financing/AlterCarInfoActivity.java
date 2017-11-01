@@ -286,7 +286,7 @@ public class AlterCarInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alter_car_info);
-        initTitleBar(this, "修改订单").setLeftText(" 返回").setLeftClickListener(new View.OnClickListener() {
+        initTitleBar(this, "修改订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 back();
