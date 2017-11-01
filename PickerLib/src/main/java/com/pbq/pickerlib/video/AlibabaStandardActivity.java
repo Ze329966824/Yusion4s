@@ -444,6 +444,8 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
                         e.printStackTrace();
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
+                    } catch (Exception e) {
+                        e.printStackTrace();
                     }
                 }
             }).start();
