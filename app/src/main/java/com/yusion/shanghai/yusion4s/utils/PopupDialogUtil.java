@@ -114,6 +114,53 @@ public class PopupDialogUtil {
         dialog.getWindow().getAttributes().height = height;
         show();
     }
+    public static void showTwoButtonsDialog(Context context, String leftbtn, String rightbtn,String message, OnOkClickListener clickListener, OnCancelClickListener cancelListener) {
+        mContext = context;
+//        if (dialog == null) {
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
+//        }
+        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
+        TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
+//        mOK.setOnClickListener(okListener);
+        mOK.setText(leftbtn);
+        mOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickListener != null) {
+                    clickListener.onOkClick(dialog);
+                }
+            }
+        });
+        TextView mCancel = (TextView) view.findViewById(R.id.popup_dialog_cancel);
+        mCancel.setText(rightbtn);
+//        mCancel.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                dismiss();
+//            }
+//        });
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (cancelListener != null) {
+                    cancelListener.onCancelClick(dialog);
+                }
+            }
+        });
+
+        TextView mMsg = (TextView) view.findViewById(R.id.popup_dialog_msg);
+        mMsg.setText(message);
+        dialog.setContentView(view);
+        dialog.setCancelable(false);
+
+//        ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(view.getWidth(),view.getHeight());
+//        dialog.addContentView(view, params);
+//
+//        dialog.getWindow().getAttributes().width = width;
+//        dialog.getWindow().getAttributes().height = height;
+
+        show();
+    }
 
 
     public static void showTwoButtonsDialog(Context context,int width,int height, String leftbtn, String rightbtn,String message, OnOkClickListener clickListener, OnCancelClickListener cancelListener) {

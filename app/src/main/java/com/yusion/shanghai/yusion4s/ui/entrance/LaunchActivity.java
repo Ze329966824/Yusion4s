@@ -62,8 +62,7 @@ public class LaunchActivity extends BaseActivity {
         if (!isOnline) {
 //            String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
             if (!TextUtils.isEmpty(str)) {
-                    PopupDialogUtil.showTwoButtonsDialog(this,WIDTH*2/3,HEIGHT*1/5, "还原", "确定", "服务器地址为：\n" + str, new PopupDialogUtil.OnOkClickListener() {
-                                @Override
+                PopupDialogUtil.showTwoButtonsDialog(this, "还原", "确定", "服务器地址为：\n" + str, new PopupDialogUtil.OnOkClickListener() {                               @Override
                                 public void onOkClick(Dialog dialog) {
 //                                YusionApp.isChangeURL = false;
                                     Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
