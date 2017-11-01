@@ -295,7 +295,6 @@ public class AlterCarInfoActivity extends BaseActivity {
             }
         });
 
-
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         initView();
@@ -305,23 +304,7 @@ public class AlterCarInfoActivity extends BaseActivity {
     }
 
     private void back() {
-//        new AlertDialog.Builder(this)
-//                .setCancelable(false)
-//                .setMessage("是否放弃此次编辑？")
-//                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .setNegativeButton("放弃", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        finish();
-//                    }
-//                }).show();
-        PopupDialogUtil.showTwoButtonsDialog(this ,"是否放弃本次编辑？","放弃","取消", new PopupDialogUtil.OnOkClickListener() {
+        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", new PopupDialogUtil.OnOkClickListener() {
             @Override
             public void onOkClick(Dialog dialog) {
                 dialog.dismiss();
@@ -585,6 +568,8 @@ public class AlterCarInfoActivity extends BaseActivity {
                                 productTypeTv.setText(null);
 
                                 billPriceTv.setText("");
+                                plateRegAddrTv.setText("");
+                                loanPeriodsTv.setText("");
                             });
                         }
                     }

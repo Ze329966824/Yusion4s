@@ -819,7 +819,6 @@ public class CarInfoFragment extends BaseFragment {
                     Log.e("!!!----品牌---", brandItems.toString());
                     WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
                         mBrandIndex = selectedIndex;
-                        // Log.e("sss", String.valueOf(mBrandIndex));
                         mTrixList.clear();
                         mTrixIndex = 0;
                         trixTv.setText("");
@@ -839,6 +838,8 @@ public class CarInfoFragment extends BaseFragment {
                         productTypeTv.setText(null);
 
                         billPriceTv.setText("");
+                        plateRegAddrTv.setText("");
+                        loanPeriodsTv.setText("");
                     });
                 });
             } else {

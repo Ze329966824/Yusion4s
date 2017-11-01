@@ -75,6 +75,7 @@ public class OrderManagerFragment extends BaseFragment {
             mFragments.add(OrderItemFragment.newInstance(mStCode.get(i)));
         }
         viewPager.setAdapter(new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments));
+        //viewPager.setCurrentItem(1);
         MagicIndicator mMagicIndicator = (MagicIndicator) view.findViewById(R.id.tab_layout);
         CommonNavigator commonNavigator = new CommonNavigator(mContext);
         commonNavigator.setAdjustMode(false);

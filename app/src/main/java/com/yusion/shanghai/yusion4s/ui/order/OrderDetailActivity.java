@@ -301,14 +301,12 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailFinanceProgramLin = (LinearLayout) findViewById(R.id.order_detail_finance_program_lin);
 
 
-
-
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
 //        order_detail_change_layout.setVisibility(View.GONE);
-        if (modify_permission){
+        if (modify_permission) {
             order_detail_sign_layout.setVisibility(View.GONE);
             order_detail_change_layout.setVisibility(View.VISIBLE);
-        }else {
+        } else {
             order_detail_sign_layout.setVisibility(View.VISIBLE);
             order_detail_change_layout.setVisibility(View.GONE);
         }
@@ -386,6 +384,7 @@ public class OrderDetailActivity extends BaseActivity {
                 //金融方案申请和批复
                 if (resp.uw && resp.uw_detail != null) {
                     orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
+                    applyLin.setVisibility(View.GONE);
                     replayBillPriceTv.setText(resp.uw_detail.vehicle_price);
                     replayFirstPriceTv.setText(resp.uw_detail.vehicle_down_payment);
                     replayLoanPriceTv.setText(resp.uw_detail.vehicle_loan_amt);
@@ -408,6 +407,7 @@ public class OrderDetailActivity extends BaseActivity {
                     replyMonthPriceTv.setText(resp.uw_detail.monthly_payment);
                 } else {
                     orderDetailFinanceProgramLin.setVisibility(View.GONE);
+                    applyLin.setVisibility(View.VISIBLE);
                 }
 
                 applyBillPriceTv.setText(resp.vehicle_price);
@@ -471,7 +471,6 @@ public class OrderDetailActivity extends BaseActivity {
 // 车辆原信息和修改信息
                 if (resp.is_modify && resp.old_app != null) {
                     orderInfoTitleLin.setVisibility(View.VISIBLE);
-
                     beforeDlrNameTv.setText(resp.old_app.dlr_nm);
                     beforeBrandTv.setText(resp.old_app.brand);
                     beforeTrixTv.setText(resp.old_app.trix);
