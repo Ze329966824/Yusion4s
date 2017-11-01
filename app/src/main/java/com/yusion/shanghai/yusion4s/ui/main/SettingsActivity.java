@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.ui.main;
 
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -20,6 +21,7 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.UpdateUtil;
 
@@ -112,17 +114,19 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
 //                initUpdateListener();
                 }
                 break;
+            default:
+                break;
         }
     }
 
     private void showLogoutDialog() {
-//        PopupDialogUtil.showTwoButtonsDialog(SettingsActivity.this,"是否退出登录？","是","否",new PopupDialogUtil.OnOkClickListener() {
-//            @Override
-//            public void onOkClick(Dialog dialog) {
-//                dialog.dismiss();
-//                logout();
-//            }
-//        });
+        PopupDialogUtil.showTwoButtonsDialog(SettingsActivity.this,"是否退出登录？","是","否",new PopupDialogUtil.OnOkClickListener() {
+            @Override
+            public void onOkClick(Dialog dialog) {
+                dialog.dismiss();
+                logout();
+            }
+        });
 //        new AlertDialog.Builder(SettingsActivity.this)
 //                .setCancelable(true)
 //                .setTitle(getResources().getString(R.string.mine_logout_dialog_title))
