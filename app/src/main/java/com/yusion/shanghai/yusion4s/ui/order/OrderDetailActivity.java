@@ -147,7 +147,10 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout order_detail_change_layout;
     private TextView orderDetailChangeBtn;
     private TextView orderDetailUploadBtn;
+
+
     private int status_st;
+    private Boolean modify_permission;
 
 
     @Override
@@ -157,6 +160,7 @@ public class OrderDetailActivity extends BaseActivity {
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
+        modify_permission = getIntent().getBooleanExtra("modify_permission", false);
 
 
         initView();
@@ -297,11 +301,35 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailFinanceProgramLin = (LinearLayout) findViewById(R.id.order_detail_finance_program_lin);
 
 
+
+
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
 //        order_detail_change_layout.setVisibility(View.GONE);
+        if (modify_permission){
+            order_detail_sign_layout.setVisibility(View.GONE);
+            order_detail_change_layout.setVisibility(View.VISIBLE);
+        }else {
+            order_detail_sign_layout.setVisibility(View.VISIBLE);
+            order_detail_change_layout.setVisibility(View.GONE);
+        }
+        orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
+                intent.putExtra("app_id", app_id);
+                startActivity(intent);
+            }
+        });
+        orderDetailUploadBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                intent.putExtra("app_id", app_id);
+                startActivity(intent);
+            }
+        });
 
-        order_detail_sign_layout.setVisibility(View.GONE);
-        order_detail_change_layout.setVisibility(View.VISIBLE);
+
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
