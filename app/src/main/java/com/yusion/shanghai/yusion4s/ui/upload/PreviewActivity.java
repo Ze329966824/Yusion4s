@@ -23,6 +23,7 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.ProtocolException;
 import java.net.URL;
+import java.net.URLDecoder;
 
 public class PreviewActivity extends BaseActivity {
     private String imageUrl;
@@ -50,7 +51,7 @@ public class PreviewActivity extends BaseActivity {
             new Thread(() -> {
                 String[] strings = imageUrl.split("/");
                 int length = strings.length;
-                String fileName = strings[length - 1];
+                String fileName = URLDecoder.decode(strings[length - 1]);
                 File dir = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_PICTURES);
                 boolean exist = false;
                 for (File file : dir.listFiles()) {
