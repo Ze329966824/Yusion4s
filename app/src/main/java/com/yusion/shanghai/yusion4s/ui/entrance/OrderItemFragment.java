@@ -184,8 +184,8 @@ public class OrderItemFragment extends BaseFragment {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st", item.status_st);
-                    intent.putExtra("status_st",item.status_st);
-                    intent.putExtra("modify_permission",item.modify_permission);
+                    intent.putExtra("status_st", item.status_st);
+                    intent.putExtra("modify_permission", item.modify_permission);
                     mContext.startActivity(intent);
                 }
             });
@@ -203,20 +203,18 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
-            if (item.status_st == 1) {//待审核2
+            if (item.status_st == 1 || item.status_st == 2 || item.status_st == 0) {//待审核2
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
-            } else if (item.status_st == 4) {//4审核失败
+            } else if (item.status_st == 5 || item.status_st == 6 || item.status_st == 7 || item.status_st == 8) {//4审核失败
                 vh.st.setTextColor(Color.parseColor("#FF3F00"));
-            } else if (item.status_st == 3) {//4待确认金融方案
-                vh.st.setTextColor(Color.parseColor("#FFA400"));
-            } else if (item.status_st == 6) {//放款中
+            } else if (item.status_st == 3 || item.status_st == 4) {//放款中
                 vh.st.setTextColor(Color.parseColor("#06B7A3"));
-            } else if (item.status_st == 10) {//已取消9
+            } else if (item.status_st == 9) {//已取消9
                 vh.st.setTextColor(Color.parseColor("#666666"));
             }
-            if (item.modify_permission){
+            if (item.modify_permission) {
                 vh.change.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 vh.change.setVisibility(View.GONE);
             }
 
