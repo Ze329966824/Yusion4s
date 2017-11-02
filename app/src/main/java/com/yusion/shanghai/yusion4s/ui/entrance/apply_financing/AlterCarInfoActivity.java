@@ -815,8 +815,15 @@ public class AlterCarInfoActivity extends BaseActivity {
                     for (GetLoanBankResp getLoanBankResp : resp) {
                         bankItems.add(getLoanBankResp.name);
                     }
-                    mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
-                    WheelViewUtil.showWheelView(bankItems, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+                    //mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
+                    // WheelViewUtil.showWheelView(bankItems, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+                    WheelViewUtil.showWheelView(bankItems, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> {
+                        mLoanBankIndex = selectedIndex;
+                        mProductTypeIndex = 0;
+                        productTypeTv.setText(null);
+                        mLoanPeriodsIndex = 0;
+                        loanPeriodsTv.setText(null);
+                    });
 
                 });
             } else {
