@@ -476,11 +476,6 @@
                 android:textColor="@color/white"
                 android:textSize="17sp" />
 
-            <Button
-                android:id="@+id/changeCarInfo"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="更改车辆信息" />
         </LinearLayout>
     </ScrollView>
 
