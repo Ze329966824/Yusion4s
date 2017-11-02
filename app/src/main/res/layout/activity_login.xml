@@ -61,6 +61,7 @@
         android:orientation="horizontal">
 
         <EditText
+            android:digits="0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ/*-+.“”：；{}【】"
             android:id="@+id/login_password_edt"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
