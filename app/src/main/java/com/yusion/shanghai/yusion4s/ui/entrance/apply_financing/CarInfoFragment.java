@@ -839,7 +839,9 @@ public class CarInfoFragment extends BaseFragment {
 
                         billPriceTv.setText("");
                         plateRegAddrTv.setText("");
+
                         loanPeriodsTv.setText("");
+                        mLoanPeriodsIndex = 0;
                     });
                 });
             } else {

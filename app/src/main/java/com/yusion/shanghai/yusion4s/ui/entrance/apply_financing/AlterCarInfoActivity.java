@@ -536,7 +536,6 @@ public class AlterCarInfoActivity extends BaseActivity {
 //品牌
         carInfoBrandLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(dlrTV.getText())) {
-                Log.e("ssss", mDlrList.get(mDlrIndex).dlr_id);
                 DlrApi.getBrand(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetBrandResp> resp) {
@@ -546,7 +545,6 @@ public class AlterCarInfoActivity extends BaseActivity {
                             for (GetBrandResp item : resp) {
                                 brandItems.add(item.brand_name);
                             }
-                            Log.e("sss", brandItems.toString());
                             WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
                                 mBrandIndex = selectedIndex;
                                 mTrixList.clear();
@@ -568,8 +566,12 @@ public class AlterCarInfoActivity extends BaseActivity {
                                 productTypeTv.setText(null);
 
                                 billPriceTv.setText("");
+
                                 plateRegAddrTv.setText("");
+
+
                                 loanPeriodsTv.setText("");
+                                mLoanPeriodsIndex = 0;
                             });
                         }
                     }
