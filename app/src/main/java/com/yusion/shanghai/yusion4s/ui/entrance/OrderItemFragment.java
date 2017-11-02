@@ -203,15 +203,15 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
-            if (item.status_st == 2) {//待审核
+            if (item.status_st == 1) {//待审核2
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
-            } else if (item.status_st == 3) {//审核失败
+            } else if (item.status_st == 4) {//4审核失败
                 vh.st.setTextColor(Color.parseColor("#FF3F00"));
-            } else if (item.status_st == 4) {//待确认金融方案
+            } else if (item.status_st == 3) {//4待确认金融方案
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
             } else if (item.status_st == 6) {//放款中
                 vh.st.setTextColor(Color.parseColor("#06B7A3"));
-            } else if (item.status_st == 9) {//已取消
+            } else if (item.status_st == 10) {//已取消9
                 vh.st.setTextColor(Color.parseColor("#666666"));
             }
             if (item.modify_permission){

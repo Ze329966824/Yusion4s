@@ -223,6 +223,7 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     @BindView(id = R.id.car_info_other_price_tv, widgetName = "car_info_other_price_tv", onFocusChange = "writeOtherPrice")
     private EditText otherPriceTv;
+
     public List<String> dlrItems;
     public List<String> brandItems;
     public List<String> trixItems;
@@ -294,7 +295,6 @@ public class AlterCarInfoActivity extends BaseActivity {
             }
         });
 
-
         DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         initView();
@@ -304,23 +304,7 @@ public class AlterCarInfoActivity extends BaseActivity {
     }
 
     private void back() {
-//        new AlertDialog.Builder(this)
-//                .setCancelable(false)
-//                .setMessage("是否放弃此次编辑？")
-//                .setPositiveButton("取消", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                    }
-//                })
-//                .setNegativeButton("放弃", new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        dialog.dismiss();
-//                        finish();
-//                    }
-//                }).show();
-        PopupDialogUtil.showTwoButtonsDialog(this ,"是否放弃本次编辑？","放弃","取消", new PopupDialogUtil.OnOkClickListener() {
+        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", new PopupDialogUtil.OnOkClickListener() {
             @Override
             public void onOkClick(Dialog dialog) {
                 dialog.dismiss();
@@ -552,7 +536,6 @@ public class AlterCarInfoActivity extends BaseActivity {
 //品牌
         carInfoBrandLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(dlrTV.getText())) {
-                Log.e("ssss", mDlrList.get(mDlrIndex).dlr_id);
                 DlrApi.getBrand(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetBrandResp> resp) {
@@ -562,7 +545,6 @@ public class AlterCarInfoActivity extends BaseActivity {
                             for (GetBrandResp item : resp) {
                                 brandItems.add(item.brand_name);
                             }
-                            Log.e("sss", brandItems.toString());
                             WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
                                 mBrandIndex = selectedIndex;
                                 mTrixList.clear();
@@ -584,6 +566,12 @@ public class AlterCarInfoActivity extends BaseActivity {
                                 productTypeTv.setText(null);
 
                                 billPriceTv.setText("");
+
+                                plateRegAddrTv.setText("");
+
+
+                                loanPeriodsTv.setText("");
+                                mLoanPeriodsIndex = 0;
                             });
                         }
                     }
@@ -829,8 +817,15 @@ public class AlterCarInfoActivity extends BaseActivity {
                     for (GetLoanBankResp getLoanBankResp : resp) {
                         bankItems.add(getLoanBankResp.name);
                     }
-                    mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
-                    WheelViewUtil.showWheelView(bankItems, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+                    //mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
+                    // WheelViewUtil.showWheelView(bankItems, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> mLoanBankIndex = selectedIndex);
+                    WheelViewUtil.showWheelView(bankItems, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> {
+                        mLoanBankIndex = selectedIndex;
+                        mProductTypeIndex = 0;
+                        productTypeTv.setText(null);
+                        mLoanPeriodsIndex = 0;
+                        loanPeriodsTv.setText(null);
+                    });
 
                 });
             } else {
