@@ -79,17 +79,17 @@ public class JpushDialogActivity extends BaseActivity {
                             .show();
                     break;
                 case "application":
-//                    new AlertDialog.Builder(JpushDialogActivity.this)
-//                            .setCancelable(false)
-//                            .setTitle(title)
-//                            .setMessage(content)
-//                            .setPositiveButton("知道啦", (dialog, which) -> {
-//                                dialog.dismiss();
-//                                finish();
-//                            })
-//                            .show();
+                    new AlertDialog.Builder(JpushDialogActivity.this)
+                            .setCancelable(false)
+                            .setTitle(title)
+                            .setMessage(content)
+                            .setPositiveButton("知道啦", (dialog, which) -> {
+                                dialog.dismiss();
+                                finish();
+                            })
+                            .show();
 
-                    new JpushDialogPass(this,title,content).show();
+//                    new JpushDialogPass(this,title,content).show();
 
                     break;
 
