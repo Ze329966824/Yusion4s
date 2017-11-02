@@ -214,12 +214,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         step1.setOnClickListener(v -> EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCarInfo));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
-// TODO: 2017/10/23 测试订单用 可删除以下四行及布局
-        Button button = (Button) view.findViewById(R.id.changeCarInfo);
-        button.setOnClickListener(v -> {
-            EventBus.getDefault().post(ApplyFinancingFragmentEvent.changeCarInfo);
-        });
-
         submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
         client_info_name = (TextView) view.findViewById(R.id.client_info_name);
         client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
