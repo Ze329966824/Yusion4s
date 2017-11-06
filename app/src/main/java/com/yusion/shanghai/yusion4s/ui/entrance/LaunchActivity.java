@@ -35,27 +35,51 @@ public class LaunchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
 
-        ApplicationInfo applicationInfo = null;
-        try {
-            applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-            String pgyer_appid = applicationInfo.metaData.getString("PGYER_APPID");
-            Log.e("TAG", "onCreate: pgyer_appid = " + pgyer_appid);
-        } catch (PackageManager.NameNotFoundException e) {
-            Log.e("TAG", "onCreate: " + e);
-            e.printStackTrace();
-        }
-        Log.e("TAG", "onCreate: Settings.isOnline = " + Settings.isOnline);
-        Log.e("TAG", "onCreate: Settings.SERVER_URL = " + Settings.SERVER_URL);
-        Log.e("TAG", "onCreate: Settings.OSS_SERVER_URL = " + Settings.OSS_SERVER_URL);
+//        ApplicationInfo applicationInfo = null;
+//        try {
+//            applicationInfo = getPackageManager().getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
+//            String pgyer_appid = applicationInfo.metaData.getString("PGYER_APPID");
+//            Log.e("TAG", "onCreate: pgyer_appid = " + pgyer_appid);
+//        } catch (PackageManager.NameNotFoundException e) {
+//            Log.e("TAG", "onCreate: " + e);
+//            e.printStackTrace();
+//        }
+//        Log.e("TAG", "onCreate: Settings.isOnline = " + Settings.isOnline);
+//        Log.e("TAG", "onCreate: Settings.SERVER_URL = " + Settings.SERVER_URL);
+//        Log.e("TAG", "onCreate: Settings.OSS_SERVER_URL = " + Settings.OSS_SERVER_URL);
 
-        Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
+//        Yusion4sApp.TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
 
         if (Settings.isOnline) {
             checkVersion();
         } else {
             checkServerUrl();
         }
+
+//        new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Thread.sleep(10000);
+//                } catch (InterruptedException e) {
+//                    e.printStackTrace();
+//                }
+//
+//                runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        if (Settings.isOnline) {
+//                            checkVersion();
+//                        } else {
+//                            checkServerUrl();
+//                        }
+//                    }
+//                });
+//            }
+//        }).start();
+
     }
+
     private String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
 
     private void checkServerUrl() {
@@ -65,24 +89,24 @@ public class LaunchActivity extends BaseActivity {
                 PopupDialogUtil.showTwoButtonsDialog(this, "还原", "确定", "服务器地址为：\n" + str, new PopupDialogUtil.OnOkClickListener() {                               @Override
                                 public void onOkClick(Dialog dialog) {
 //                                YusionApp.isChangeURL = false;
-                                    Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
+                                Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
 //                                Api.initRetrofit();
-                                    dialog.dismiss();
-                                    SharedPrefsUtil.getInstance(LaunchActivity.this).putValue("SERVER_URL", "");
-                                    Toast.makeText(myApp, "还原成功,请自己重启APP！！！", Toast.LENGTH_SHORT).show();
+                                dialog.dismiss();
+                                SharedPrefsUtil.getInstance(LaunchActivity.this).putValue("SERVER_URL", "");
+                                Toast.makeText(myApp, "还原成功,请自己重启APP！！！", Toast.LENGTH_SHORT).show();
 //                                    getConfigJson();
-                                }
-                            }, new PopupDialogUtil.OnCancelClickListener() {
-                                @Override
-                                public void onCancelClick(Dialog dialog) {
-                                    Settings.SERVER_URL = str;
-//                                Api.initRetrofit();
-                                    dialog.dismiss();
-                                    getConfigJson();
-                                }
                             }
+                        }, new PopupDialogUtil.OnCancelClickListener() {
+                            @Override
+                            public void onCancelClick(Dialog dialog) {
+                                Settings.SERVER_URL = str;
+//                                Api.initRetrofit();
+                                dialog.dismiss();
+                                getConfigJson();
+                            }
+                        }
 
-                    );
+                );
 //                new AlertDialog.Builder(this)
 //                        .setTitle("请确认服务器地址：")
 //                        .setMessage(str)
