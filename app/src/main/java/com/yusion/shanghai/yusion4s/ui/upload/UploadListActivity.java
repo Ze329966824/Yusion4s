@@ -476,7 +476,6 @@ public class UploadListActivity extends BaseActivity {
                         uploadImgItemBean.objectKey = objectKey;
                     }, throwable -> {
                         hasUploadOSSLists.add(uploadImgItemBean);
-                        onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
                     });
                     onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
                 }
@@ -499,7 +498,6 @@ public class UploadListActivity extends BaseActivity {
                                 @Override
                                 public void callBack() {
                                     lists.addAll(relToAddList);
-                                    adapter.notifyItemRangeInserted(adapter.getItemCount(), relToAddList.size());
                                     onImgCountChange(lists.size() > 0);
                                 }
                             });

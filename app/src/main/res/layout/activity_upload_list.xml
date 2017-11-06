@@ -99,8 +99,8 @@
                     android:id="@+id/upload_list_template_content"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="12.5dp"
-                    android:paddingTop="12.5dp"
+                    android:paddingBottom="7.5dp"
+                    android:paddingTop="11.5dp"
                     android:text="有效居住材料\n拍摄时确保居住材料边框完整，字体清晰，亮度均匀"
                     android:textColor="#999999"
                     android:textSize="11.5sp" />
@@ -108,6 +108,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
+                    android:layout_marginBottom="15dp"
                     android:background="#ffe1e3e6">
 
                     <ImageView
@@ -120,12 +121,12 @@
 
                     <ImageView
                         android:id="@+id/upload_list_template_video_look"
-                        android:layout_centerInParent="true"
                         android:layout_width="wrap_content"
-                        android:visibility="gone"
-                        tools:visibility="visible"
                         android:layout_height="wrap_content"
-                        android:src="@mipmap/play_video" />
+                        android:layout_centerInParent="true"
+                        android:src="@mipmap/play_video"
+                        android:visibility="gone"
+                        tools:visibility="visible" />
 
                     <Button
                         android:id="@+id/upload_list_template_img_look"
