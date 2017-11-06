@@ -12,8 +12,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
@@ -60,19 +60,29 @@ public class OrderManagerFragment extends BaseFragment {
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         ArrayList<Fragment> mFragments = new ArrayList<>();
-        String[] mTabTitle = {"全部", "待审核", "审核失败", "待确认金融方案", "放款中", "放款成功", "已取消"};
-        String[] mStCode = {"0", "2", "3", "4", "6", "7", "9"};
-        for (int i = 0; i < mTabTitle.length; i++) {
-            mFragments.add(OrderItemFragment.newInstance(mStCode[i]));
+        //网络请求，映射的应该是key value
+        //WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
+        //Yusion4sApp.getConfigResp().order_type_value;
+        List<String> mTabTitle = Yusion4sApp.getConfigResp().order_type_value;
+        List<String> mStCode = Yusion4sApp.getConfigResp().order_type_key;
+
+        //String[] mTabTitle = {"全部", "待审核", "审核失败", "待确认金融方案", "放款中", "放款成功", "已取消"};
+        //String[] mStCode = {"0", "2", "3", "4", "6", "7", "9"};
+//        for (int i = 0; i < mTabTitle.length; i++) {
+//            mFragments.add(OrderItemFragment.newInstance(mStCode[i]));
+//        }
+        for (int i = 0; i < mTabTitle.size(); i++) {
+            mFragments.add(OrderItemFragment.newInstance(mStCode.get(i)));
         }
         viewPager.setAdapter(new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments));
+        //viewPager.setCurrentItem(1);
         MagicIndicator mMagicIndicator = (MagicIndicator) view.findViewById(R.id.tab_layout);
         CommonNavigator commonNavigator = new CommonNavigator(mContext);
         commonNavigator.setAdjustMode(false);
         commonNavigator.setAdapter(new CommonNavigatorAdapter() {
             @Override
             public int getCount() {
-                return mTabTitle.length;
+                return mTabTitle.size();
             }
 
             @Override
@@ -80,7 +90,8 @@ public class OrderManagerFragment extends BaseFragment {
                 ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
                 colorTransitionPagerTitleView.setNormalColor(0xFF999999);
                 colorTransitionPagerTitleView.setSelectedColor(0xFF06B7A3);
-                colorTransitionPagerTitleView.setText(mTabTitle[index]);
+                //colorTransitionPagerTitleView.setText(mTabTitle[index]);
+                colorTransitionPagerTitleView.setText(mTabTitle.get(index));
                 colorTransitionPagerTitleView.setOnClickListener(view -> viewPager.setCurrentItem(index));
                 return colorTransitionPagerTitleView;
             }

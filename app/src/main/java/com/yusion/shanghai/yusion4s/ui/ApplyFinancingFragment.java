@@ -64,10 +64,11 @@ public class ApplyFinancingFragment extends BaseFragment {
                 .beginTransaction()
                 .add(R.id.apply_financing_container, mCarInfoFragment)
                 .add(R.id.apply_financing_container, mCreditInfoFragment)
-//                .hide(mCarInfoFragment)
+                //.hide(mCarInfoFragment)
                 .hide(mCreditInfoFragment)
                 .commit();
         mCurrentFragment = mCarInfoFragment;
+        //mCurrentFragment = mCreditInfoFragment;
     }
 
     @Override
@@ -96,6 +97,11 @@ public class ApplyFinancingFragment extends BaseFragment {
             case showCreditInfo:
                 transaction.hide(mCurrentFragment).show(mCreditInfoFragment);
                 mCurrentFragment = mCreditInfoFragment;
+                break;
+            case changeCarInfo:
+                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
+                mCurrentFragment = mCarInfoFragment;
+                mCarInfoFragment.changeCarInfo();
                 break;
             case reset:
                 req = new SubmitOrderReq();

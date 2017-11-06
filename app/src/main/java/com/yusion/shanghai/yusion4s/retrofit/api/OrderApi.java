@@ -3,19 +3,21 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
-import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
-import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
+import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
+import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCodeAndMsgCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 
-import java.util.IllegalFormatCodePointException;
 import java.util.List;
 
 /**
@@ -69,7 +71,7 @@ public class OrderApi {
 
     public static void getAppDetails(final Context context, String app_id, final OnItemDataCallBack<OrderDetailBean> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getOrderService().getAppDetails(app_id).enqueue(new CustomCallBack<OrderDetailBean>(context, dialog) {
+        Api.getOrderService().getAppDetails2(app_id).enqueue(new CustomCallBack<OrderDetailBean>(context, dialog) {
             @Override
             public void onCustomResponse(OrderDetailBean data) {
                 onItemDataCallBack.onItemDataCallBack(data);
@@ -83,6 +85,26 @@ public class OrderApi {
             @Override
             public void onCustomResponse(GetFinancePlanDetailResp resp) {
                 onItemDataCallBack.onItemDataCallBack(resp);
+            }
+        });
+    }
+
+    public static void getRawCarInfo(final Context context, String app_id, final OnItemDataCallBack<GetRawCarInfoResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getRawCarInfo(app_id).enqueue(new CustomCallBack<GetRawCarInfoResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(GetRawCarInfoResp resp) {
+                onItemDataCallBack.onItemDataCallBack(resp);
+            }
+        });
+    }
+
+    public static void submitAlterInfo(final Context context, GetRawCarInfoResp req, final OnCodeAndMsgCallBack onCodeAndMsgCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().submitAlterInfo(req).enqueue(new CustomCodeAndMsgCallBack(context, dialog) {
+            @Override
+            public void onCustomResponse(int code, String msg) {
+                onCodeAndMsgCallBack.callBack(code, msg);
             }
         });
     }

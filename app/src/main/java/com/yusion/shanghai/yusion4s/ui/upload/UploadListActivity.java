@@ -369,6 +369,9 @@ public class UploadListActivity extends BaseActivity {
         req.app_id = app_id;
         req.clt_id = clt_id;
         UploadApi.listImgs(this, req, resp -> {
+            if (resp == null) {
+                return;
+            }
             if (resp.has_err) {
                 errorLin.setVisibility(View.VISIBLE);
                 errorTv.setText("您提交的资料有误：" + resp.error);

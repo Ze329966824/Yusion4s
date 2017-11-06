@@ -475,6 +475,7 @@
                 android:text="提交申请"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
+
         </LinearLayout>
     </ScrollView>
 

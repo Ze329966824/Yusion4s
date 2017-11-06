@@ -24,7 +24,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -35,6 +34,7 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
@@ -132,7 +132,6 @@ public class OrderItemFragment extends BaseFragment {
             @Override
             public void onItemDataCallBack(List<GetAppListResp> resp) {
                 if (resp != null && resp.size() > 0) {
-
                     ptr.setVisibility(View.VISIBLE);
                     rv.setVisibility(View.VISIBLE);
                     llyt.setVisibility(View.GONE);
@@ -184,7 +183,9 @@ public class OrderItemFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
-                    intent.putExtra("status_st",item.status_st);
+                    intent.putExtra("status_st", item.status_st);
+                    intent.putExtra("status_st", item.status_st);
+                    intent.putExtra("modify_permission", item.modify_permission);
                     mContext.startActivity(intent);
                 }
             });
@@ -202,22 +203,20 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
-            if (item.status_st == 2) {//待审核
+            if (item.status_st == 1 || item.status_st == 2 || item.status_st == 0) {//待审核2
                 vh.st.setTextColor(Color.parseColor("#FFA400"));
-            } else if (item.status_st == 3) {//审核失败
+            } else if (item.status_st == 5 || item.status_st == 6 || item.status_st == 7 || item.status_st == 8) {//4审核失败
                 vh.st.setTextColor(Color.parseColor("#FF3F00"));
-            } else if (item.status_st == 4) {//待确认金融方案
-                vh.st.setTextColor(Color.parseColor("#FFA400"));
-            } else if (item.status_st == 6) {//放款中
+            } else if (item.status_st == 3 || item.status_st == 4) {//放款中
                 vh.st.setTextColor(Color.parseColor("#06B7A3"));
-            } else if (item.status_st == 9) {//已取消
+            } else if (item.status_st == 9) {//已取消9
                 vh.st.setTextColor(Color.parseColor("#666666"));
             }
-//            if (item.modify_permission){
-//                vh.change.setVisibility(View.VISIBLE);
-//            }else {
-//                vh.change.setVisibility(View.GONE);
-//            }
+            if (item.modify_permission) {
+                vh.change.setVisibility(View.VISIBLE);
+            } else {
+                vh.change.setVisibility(View.GONE);
+            }
 
             vh.st.setText(item.status_code);
             vh.periods.setText(item.nper);
@@ -272,18 +271,18 @@ public class OrderItemFragment extends BaseFragment {
             vh.change.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    Intent i1 = new Intent(mContext,   .class);
-//                    i1.putExtra("app_id", item.app_id);
-//                    mContext.startActivity(i1);
-                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
+                    Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
+                    i1.putExtra("app_id", item.app_id);
+                    mContext.startActivity(i1);
+//                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
                 }
             });
             vh.upload.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(mContext, SubmitInformationActivity.class);
-                    intent.putExtra("app_id", item.app_id);
-                    mContext.startActivity(intent);
+                    Intent i2 = new Intent(mContext, SubmitInformationActivity.class);
+                    i2.putExtra("app_id", item.app_id);
+                    mContext.startActivity(i2);
                 }
             });
 

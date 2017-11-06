@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.order;
 
+import com.google.gson.Gson;
+
 /**
  * Created by ice on 2017/7/27.
  */
@@ -57,30 +59,36 @@ public class GetAppListResp {
 
     @Override
     public String toString() {
-        return "GetAppListResp{" +
-                "vehicle_price='" + vehicle_price + '\'' +
-                ", loan_amt='" + loan_amt + '\'' +
-                ", vehicle_loan_amt='" + vehicle_loan_amt + '\'' +
-                ", vehicle_down_payment='" + vehicle_down_payment + '\'' +
-                ", nper='" + nper + '\'' +
-                ", management_fee='" + management_fee + '\'' +
-                ", other_fee='" + other_fee + '\'' +
-                ", clt_nm='" + clt_nm + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", dlr_nm='" + dlr_nm + '\'' +
-                ", brand='" + brand + '\'' +
-                ", trix='" + trix + '\'' +
-                ", model_name='" + model_name + '\'' +
-                ", msrp='" + msrp + '\'' +
-                ", status='" + status + '\'' +
-                ", app_ts='" + app_ts + '\'' +
-                ", dlr_sales_nm='" + dlr_sales_nm + '\'' +
-                ", dlr_sales_mobile='" + dlr_sales_mobile + '\'' +
-                ", dlr_dfim_nm=" + dlr_dfim_nm +
-                ", dlr_dfim_mobile=" + dlr_dfim_mobile +
-                ", app_id='" + app_id + '\'' +
-                ", status_code='" + status_code + '\'' +
-                ", status_st=" + status_st +
-                '}';
+        return new Gson().toJson(this);
     }
+
+
+    //    @Override
+//    public String toString() {
+//        return "GetAppListResp{" +
+//                "vehicle_price='" + vehicle_price + '\'' +
+//                ", loan_amt='" + loan_amt + '\'' +
+//                ", vehicle_loan_amt='" + vehicle_loan_amt + '\'' +
+//                ", vehicle_down_payment='" + vehicle_down_payment + '\'' +
+//                ", nper='" + nper + '\'' +
+//                ", management_fee='" + management_fee + '\'' +
+//                ", other_fee='" + other_fee + '\'' +
+//                ", clt_nm='" + clt_nm + '\'' +
+//                ", mobile='" + mobile + '\'' +
+//                ", dlr_nm='" + dlr_nm + '\'' +
+//                ", brand='" + brand + '\'' +
+//                ", trix='" + trix + '\'' +
+//                ", model_name='" + model_name + '\'' +
+//                ", msrp='" + msrp + '\'' +
+//                ", status='" + status + '\'' +
+//                ", app_ts='" + app_ts + '\'' +
+//                ", dlr_sales_nm='" + dlr_sales_nm + '\'' +
+//                ", dlr_sales_mobile='" + dlr_sales_mobile + '\'' +
+//                ", dlr_dfim_nm=" + dlr_dfim_nm +
+//                ", dlr_dfim_mobile=" + dlr_dfim_mobile +
+//                ", app_id='" + app_id + '\'' +
+//                ", status_code='" + status_code + '\'' +
+//                ", status_st=" + status_st +
+//                '}';
+//    }
 }
