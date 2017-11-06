@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
-import android.test.mock.MockApplication;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -28,6 +27,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
@@ -95,6 +95,7 @@ public class CarInfoFragment extends BaseFragment {
     private Button carInfoNextBtn;
 
     private boolean isChoose = false;
+    private boolean isChangeCarInfoChange;
 
 
     Handler handler = new Handler() {
@@ -262,6 +263,10 @@ public class CarInfoFragment extends BaseFragment {
 
     @BindView(id = R.id.car_info_other_price_tv, widgetName = "car_info_other_price_tv", onFocusChange = "writeOtherPrice")
     private EditText otherPriceTv;
+    private ArrayList<String> dlrItems;
+    private ArrayList<String> brandItems;
+    private ArrayList<String> trixItems;
+    private ArrayList<String> modelItems;
 
     private void writeOtherPrice(View view, boolean hasFocus) {
         Log.e("TAG", "writeOtherPrice() called with: view = [" + view + "], hasFocus = [" + hasFocus + "]");
@@ -303,6 +308,7 @@ public class CarInfoFragment extends BaseFragment {
     private TextView guidePriceTv;
     private TextView totalLoanPriceTv;
     private String cityJson;
+
 
 
     //    @BindView(id = R.id.car_info_plate_reg_addr_lin, widgetName = "上牌地选择", onClick = "selectplateRegAddr")

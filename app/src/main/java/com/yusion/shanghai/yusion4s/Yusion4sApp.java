@@ -14,12 +14,9 @@ import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
-import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
+import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.Locale;
 
