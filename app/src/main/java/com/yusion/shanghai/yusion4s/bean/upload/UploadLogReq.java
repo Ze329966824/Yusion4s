@@ -11,6 +11,8 @@ public class UploadLogReq {
 
     public String app_id;
     public String file_label;
+    public String file_name;
+    public String file_value;
 
     @Override
     public String toString() {
