@@ -327,24 +327,6 @@ public class OrderDetailActivity extends BaseActivity {
             }
         });
 
-
-        orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
-                intent.putExtra("app_id", app_id);
-                startActivity(intent);
-            }
-        });
-        orderDetailUploadBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
-                intent.putExtra("app_id", app_id);
-                startActivity(intent);
-            }
-        });
-
     }
 
     private void initData() {

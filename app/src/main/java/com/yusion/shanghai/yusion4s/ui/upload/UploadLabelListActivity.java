@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -87,7 +88,10 @@ public class UploadLabelListActivity extends BaseActivity {
 
         req = new UploadLogReq();
         req.app_id = app_id;
-        req.file_label = topItem.name;
+        req.file_name = topItem.name;
+        req.file_value = topItem.value;
+        Log.e("TAG", req.file_name);
+        Log.e("TAG", req.file_value);
 
 //        if (topItem.name.equals("征信授权书上传")) {
 //            req.file_label = "征信授权书上传";
@@ -164,6 +168,7 @@ public class UploadLabelListActivity extends BaseActivity {
                     mOnItemClick.onItemClick(v, item, position);
                 }
             });
+
         }
 
         @Override

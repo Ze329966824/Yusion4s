@@ -26,6 +26,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected Yusion4sApp myApp;
     public int WIDTH;
     public int HEIGHT;
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,6 +116,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onUserLeaveHint();
         UBT.addAppEvent(this, "app_pause");
     }
+
 
     private boolean isAppOnForeground() {
         android.app.ActivityManager activityManager = (android.app.ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
