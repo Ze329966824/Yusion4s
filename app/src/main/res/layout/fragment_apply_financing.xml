@@ -1,19 +1,37 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/bg_color"
-              android:orientation="vertical"
-             tools:context="com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment">
 
-    <include
-        android:id="@+id/title_bar"
-        layout="@layout/base_titlebar" />
-
-    <FrameLayout
-        android:id="@+id/apply_financing_container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
-    </FrameLayout>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="11111" />
+    </LinearLayout>
+
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="40dp"
+        android:gravity="bottom">
+
+        <Button
+            android:id="@+id/cteate_order_btn"
+            android:layout_width="match_parent"
+            android:layout_height="42dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="#FF06B7A3"
+            android:text="创建订单"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp" />
+    </LinearLayout>
 </LinearLayout>
