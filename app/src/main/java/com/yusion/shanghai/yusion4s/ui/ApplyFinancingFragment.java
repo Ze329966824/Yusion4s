@@ -17,6 +17,8 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragme
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDLRActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 
+import org.greenrobot.eventbus.EventBus;
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -63,6 +65,13 @@ public class ApplyFinancingFragment extends BaseFragment {
             public void onClick(View v) {
                 Intent i2 = new Intent(mContext, ChangeDLRActivity.class);
                 startActivity(i2);
+            }
+        });
+
+        view.findViewById(R.id.apply_financing_lin1).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                EventBus.getDefault().post(2);
             }
         });
 
@@ -123,6 +132,7 @@ public class ApplyFinancingFragment extends BaseFragment {
 //            EventBus.getDefault().unregister(this);
 //        }
     }
+
 
 //
 //    @Subscribe

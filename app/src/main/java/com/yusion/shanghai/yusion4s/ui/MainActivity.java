@@ -15,6 +15,7 @@ import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -121,7 +122,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (event) {
             case showOrderManager:
                 orderListRb.performClick();
-                break;
+                if (event.position == -1) {
+                    break;
+                }else {
+                    OrderManagerFragmentEvent.showFragment.position =event.position;
+                    EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
+                    break;
+                }
+
         }
     }
 //
