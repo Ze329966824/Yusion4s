@@ -258,7 +258,8 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
         <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
-        <activity android:name=".ui.order.OrderCreateActivity"></activity>
+        <activity android:name=".ui.order.OrderCreateActivity" />
+        <activity android:name=".ui.order.ChangeDLRActivity"></activity>
     </application>
 
 </manifest>

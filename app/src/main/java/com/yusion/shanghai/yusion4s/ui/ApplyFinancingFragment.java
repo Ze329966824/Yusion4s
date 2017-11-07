@@ -14,6 +14,7 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.order.ChangeDLRActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 
 /**
@@ -49,14 +50,21 @@ public class ApplyFinancingFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.cteate_order_btn).setOnClickListener(new View.OnClickListener() {
+        view.findViewById(R.id.apply_financing_cteate_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, OrderCreateActivity.class);
-                startActivity(intent);
+                Intent i1 = new Intent(mContext, OrderCreateActivity.class);
+                startActivity(i1);
             }
         });
 
+        view.findViewById(R.id.apply_financing_triangle_img).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent i2 = new Intent(mContext, ChangeDLRActivity.class);
+                startActivity(i2);
+            }
+        });
 
         /*
 

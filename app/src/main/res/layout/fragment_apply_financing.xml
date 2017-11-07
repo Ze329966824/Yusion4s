@@ -9,12 +9,24 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="42dp"
+        android:background="#FF2D2F3B"
+        android:gravity="center"
         android:orientation="horizontal">
 
         <TextView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:text="贵阳通源丰田汽车销售服务有限公司" />
+            android:id="@+id/apply_financing_dlr_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="5dp"
+            android:text="贵阳通源丰田汽车销售服务有限公司"
+            android:textColor="#FF787980"
+            android:textSize="12.5dp" />
+
+        <ImageView
+            android:id="@+id/apply_financing_triangle_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@mipmap/apply_financing_triangle" />
     </LinearLayout>
 
     <LinearLayout
@@ -25,7 +37,7 @@
         android:gravity="bottom">
 
         <Button
-            android:id="@+id/cteate_order_btn"
+            android:id="@+id/apply_financing_cteate_btn"
             android:layout_width="match_parent"
             android:layout_height="42dp"
             android:layout_marginLeft="15dp"
