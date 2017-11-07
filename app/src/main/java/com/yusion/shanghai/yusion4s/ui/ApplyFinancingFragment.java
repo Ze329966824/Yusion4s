@@ -5,7 +5,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,9 @@ import android.view.ViewGroup;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
-import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
-import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
-
-import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -121,44 +116,44 @@ public class ApplyFinancingFragment extends BaseFragment {
 //        }
     }
 
-
-    @Subscribe
-    public void changeFragment(ApplyFinancingFragmentEvent event) {
-        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-        switch (event) {
-            case showCarInfo:
-                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
-                mCurrentFragment = mCarInfoFragment;
-                break;
-            case showCreditInfo:
-                transaction.hide(mCurrentFragment).show(mCreditInfoFragment);
-                mCurrentFragment = mCreditInfoFragment;
-                break;
-            case changeCarInfo:
-                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
-                mCurrentFragment = mCarInfoFragment;
-                mCarInfoFragment.changeCarInfo();
-                break;
-            case reset:
-                req = new SubmitOrderReq();
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .remove(mCarInfoFragment)
-                        .remove(mCreditInfoFragment)
-                        .commit();
-                mCarInfoFragment = CarInfoFragment.newInstance();
-                mCreditInfoFragment = CreditInfoFragment.newInstance();
-                getChildFragmentManager()
-                        .beginTransaction()
-                        .add(R.id.apply_financing_container, mCarInfoFragment)
-                        .add(R.id.apply_financing_container, mCreditInfoFragment)
-                        .hide(mCreditInfoFragment)
-//                        .hide(mCarInfoFragment)
-                        .commit();
-                mCurrentFragment = mCarInfoFragment;
-                EventBus.getDefault().post(MainActivityEvent.showOrderManager);
-                break;
-        }
-        transaction.commit();
-    }
+//
+//    @Subscribe
+//    public void changeFragment(ApplyFinancingFragmentEvent event) {
+//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+//        switch (event) {
+//            case showCarInfo:
+//                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
+//                mCurrentFragment = mCarInfoFragment;
+//                break;
+//            case showCreditInfo:
+//                transaction.hide(mCurrentFragment).show(mCreditInfoFragment);
+//                mCurrentFragment = mCreditInfoFragment;
+//                break;
+//            case changeCarInfo:
+//                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
+//                mCurrentFragment = mCarInfoFragment;
+//                mCarInfoFragment.changeCarInfo();
+//                break;
+//            case reset:
+//                req = new SubmitOrderReq();
+//                getChildFragmentManager()
+//                        .beginTransaction()
+//                        .remove(mCarInfoFragment)
+//                        .remove(mCreditInfoFragment)
+//                        .commit();
+//                mCarInfoFragment = CarInfoFragment.newInstance();
+//                mCreditInfoFragment = CreditInfoFragment.newInstance();
+//                getChildFragmentManager()
+//                        .beginTransaction()
+//                        .add(R.id.apply_financing_container, mCarInfoFragment)
+//                        .add(R.id.apply_financing_container, mCreditInfoFragment)
+//                        .hide(mCreditInfoFragment)
+////                        .hide(mCarInfoFragment)
+//                        .commit();
+//                mCurrentFragment = mCarInfoFragment;
+//                EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+//                break;
+//        }
+//        transaction.commit();
+//    }
 }

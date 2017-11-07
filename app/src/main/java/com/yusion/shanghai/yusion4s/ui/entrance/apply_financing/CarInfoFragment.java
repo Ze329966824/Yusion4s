@@ -37,7 +37,7 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -1247,7 +1247,7 @@ public class CarInfoFragment extends BaseFragment {
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                     } else if (checkCanNextStep()) {
 
-                        SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                        SubmitOrderReq req = ((OrderCreateActivity)getActivity()).req;
 
                         req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                         req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
@@ -1281,7 +1281,7 @@ public class CarInfoFragment extends BaseFragment {
                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                 } else if (checkCanNextStep()) {
 
-                    SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                    SubmitOrderReq req =  ((OrderCreateActivity)getActivity()).req;
 
                     req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                     req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
