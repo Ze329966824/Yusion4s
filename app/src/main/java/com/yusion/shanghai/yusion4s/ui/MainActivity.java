@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -123,8 +124,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case showOrderManager:
                 orderListRb.performClick();
                 if (event.position == -1) {
+                    Log.e("TAG", "changeFragment: ");
                     break;
                 }else {
+                    Log.e("TAG", "changeFragment: 1111111");
                     OrderManagerFragmentEvent.showFragment.position =event.position;
                     EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
                     break;

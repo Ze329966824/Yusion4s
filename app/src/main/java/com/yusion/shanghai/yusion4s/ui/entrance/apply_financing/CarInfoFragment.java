@@ -1241,6 +1241,7 @@ public class CarInfoFragment extends BaseFragment {
         carInfoNextBtn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View v, boolean hasFocus) {
+                Log.e("TAG", "onFocusChange: ");
                 if (hasFocus) {
                     v.clearFocus();
                     if (Settings.isShameData) {

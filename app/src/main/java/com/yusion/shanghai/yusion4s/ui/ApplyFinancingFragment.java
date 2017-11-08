@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -12,9 +13,10 @@ import android.view.ViewGroup;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
+import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
-import com.yusion.shanghai.yusion4s.ui.order.ChangeDLRActivity;
+import com.yusion.shanghai.yusion4s.ui.order.ChangeDealerActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -52,28 +54,8 @@ public class ApplyFinancingFragment extends BaseFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        view.findViewById(R.id.apply_financing_cteate_btn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i1 = new Intent(mContext, OrderCreateActivity.class);
-                startActivity(i1);
-            }
-        });
+        onclick(view);
 
-        view.findViewById(R.id.apply_financing_triangle_img).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent i2 = new Intent(mContext, ChangeDLRActivity.class);
-                startActivity(i2);
-            }
-        });
-
-        view.findViewById(R.id.apply_financing_lin1).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                EventBus.getDefault().post(2);
-            }
-        });
 
         /*
 
@@ -117,6 +99,39 @@ public class ApplyFinancingFragment extends BaseFragment {
 
         */
 
+    }
+
+    private void onclick(View view) {
+        view.findViewById(R.id.apply_financing_cteate_btn).setOnClickListener(v -> {
+            Intent i1 = new Intent(mContext, OrderCreateActivity.class);
+            startActivity(i1);
+        });
+
+        view.findViewById(R.id.apply_financing_triangle_img).setOnClickListener(v -> {
+            Intent i2 = new Intent(mContext, ChangeDealerActivity.class);
+            startActivity(i2);
+        });
+
+        view.findViewById(R.id.apply_financing_lin1).setOnClickListener(v -> {
+            Log.e("TAG", "onClick: ");
+            MainActivityEvent.showOrderManager.position = 8;
+            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+        });
+
+        view.findViewById(R.id.apply_financing_lin2).setOnClickListener(v -> {
+            MainActivityEvent.showOrderManager.position = 2;
+            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+        });
+
+        view.findViewById(R.id.apply_financing_lin3).setOnClickListener(v -> {
+            MainActivityEvent.showOrderManager.position = 3;
+            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+        });
+
+        view.findViewById(R.id.apply_financing_lin4).setOnClickListener(v -> {
+            MainActivityEvent.showOrderManager.position = 5;
+            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+        });
     }
 
     @Override

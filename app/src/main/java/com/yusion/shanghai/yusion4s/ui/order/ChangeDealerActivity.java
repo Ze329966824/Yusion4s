@@ -5,11 +5,11 @@ import android.os.Bundle;
 
 import com.yusion.shanghai.yusion4s.R;
 
-public class ChangeDLRActivity extends AppCompatActivity {
+public class ChangeDealerActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_change_dlr);
+        setContentView(R.layout.activity_change_dealer);
     }
 }

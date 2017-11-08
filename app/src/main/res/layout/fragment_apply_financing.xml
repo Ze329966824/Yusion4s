@@ -170,6 +170,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/apply_financing_lin2"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -223,10 +224,10 @@
 
 
         <LinearLayout
+            android:id="@+id/apply_financing_lin3"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
-
             android:background="@mipmap/apply_financing_back2"
             android:orientation="vertical">
 
@@ -242,7 +243,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="8dp"
-                    android:text="待提贷后资料"
+                    android:text="放款中"
                     android:textColor="#FF9FB2B9"
                     android:textSize="13dp" />
 
@@ -265,6 +266,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/apply_financing_lin4"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -283,7 +285,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_marginRight="8dp"
-                    android:text="放款中"
+                    android:text="待提贷后资料"
                     android:textColor="#FF9FB2B9"
                     android:textSize="13dp" />
 
