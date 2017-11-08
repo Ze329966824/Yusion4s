@@ -107,7 +107,7 @@ public class ApplyFinancingFragment extends BaseFragment {
             startActivity(i1);
         });
 
-        view.findViewById(R.id.apply_financing_triangle_img).setOnClickListener(v -> {
+        view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
             Intent i2 = new Intent(mContext, ChangeDealerActivity.class);
             startActivity(i2);
         });

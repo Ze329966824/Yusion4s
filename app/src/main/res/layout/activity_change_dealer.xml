@@ -12,19 +12,6 @@
         android:background="@color/white"
         android:orientation="horizontal">
 
-        <EditText
-            android:id="@+id/et_search"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginLeft="15dp"
-            android:background="@null"
-            android:hint="请输入门店名称"
-            android:inputType="text"
-            android:maxLines="1"
-            android:textColor="#000000"
-            android:textColorHint="#FFD1D1D1"
-            android:textSize="13.46dp" />
-
 
         <Button
             android:id="@+id/search_info"
@@ -40,4 +27,12 @@
 
 
     </RelativeLayout>
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+
+
+
+    </android.support.v7.widget.RecyclerView>
 </LinearLayout>
