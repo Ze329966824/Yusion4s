@@ -1,75 +1,78 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="350dp"
-    android:layout_gravity="center"
-    android:background="#ffffff"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="259dp"
+        android:layout_height="233dp"
+        android:layout_gravity="center"
+        android:background="#ffffff"
+        android:orientation="vertical">
 
-        <ImageView
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/dialog_approve_close" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/dialog_approve_refuse" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/dialog_approve_refuse_title"
+            android:layout_width="250dp"
             android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:src="@mipmap/dialog_approve_close" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
+            android:layout_gravity="center"
             android:layout_marginTop="20dp"
-            android:src="@mipmap/dialog_approve_refuse" />
+            android:gravity="center"
+            android:text="管理员残忍的拒绝了您的申请！"
+            android:textColor="#FF222A36"
+            android:textSize="16dp" />
 
-    </RelativeLayout>
 
-    <TextView
-        android:id="@+id/dialog_approve_refuse_title"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="审核人员已经拒绝了您的申请！"
-        android:textColor="#FF222A36"
-        android:textSize="16dp" />
+        <TextView
+            android:id="@+id/dialog_approve_refuse_message"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:text="综合评分不足"
+            android:textColor="#FF999999"
+            android:textSize="14dp" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="原因："
-        android:textColor="#FF222A36"
-        android:textSize="16dp" />
 
-    <TextView
-        android:id="@+id/dialog_approve_refuse_message"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
 
-        android:text="拒绝申请原因：申请原因最多显示三行"
-        android:textColor="#FF999999"
-        android:textSize="14dp" />
-    <TextView
-        android:id="@+id/btn_ok"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="15dp"
-        android:background="#FF06B7A3"
-        android:gravity="center"
-        android:text="知道了"
-        android:textColor="#FFFFFFFF" />
+
+            <TextView
+                android:id="@+id/btn_calltocustomer"
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="#FF06B7A3"
+                android:gravity="center"
+                android:text="查看详情"
+                android:textColor="#FFFFFFFF" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>
