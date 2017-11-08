@@ -1,65 +1,81 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="300dp"
-    android:layout_height="250dp"
-    android:layout_gravity="center"
-    android:background="#ffffff"
-    android:gravity="center_horizontal"
-    android:orientation="vertical">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal">
 
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/btn_cancel"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentTop="true"
-            android:layout_margin="10dp"
-            android:src="@mipmap/dialog_approve_close" />
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="20dp"
-            android:src="@mipmap/dialog_approve_pass" />
-
-    </RelativeLayout>
-
-    <TextView
-        android:id="@+id/dialog_approve_pass_title"
-        android:layout_width="250dp"
-        android:layout_height="wrap_content"
+    <LinearLayout
+        android:layout_width="259dp"
+        android:layout_height="255dp"
         android:layout_gravity="center"
-        android:layout_marginTop="20dp"
-        android:gravity="center"
-        android:paddingLeft="20dp"
-        android:paddingRight="20dp"
-        android:text="恭喜您，您的金融方案审批结果已出"
-        android:textColor="#FF222A36"
-        android:textSize="16dp" />
+        android:background="#ffffff"
+        android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/dialog_approve_pass_message"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:gravity="center"
-        android:text="请仔细核对，并确认您的方案"
-        android:textColor="#FF999999"
-        android:textSize="14dp" />
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
 
-    <TextView
-        android:id="@+id/btn_ok"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"
-        android:layout_marginBottom="0dp"
-        android:layout_marginTop="15dp"
-        android:background="#FF06B7A3"
-        android:gravity="center"
-        android:text="查看金融方案"
-        android:textColor="#FFFFFFFF" />
+            <ImageView
+                android:id="@+id/btn_cancel"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentTop="true"
+                android:layout_margin="10dp"
+                android:src="@mipmap/dialog_approve_close" />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_marginTop="20dp"
+                android:src="@mipmap/dialog_approve_pass" />
+
+        </RelativeLayout>
+
+        <TextView
+            android:id="@+id/dialog_approve_pass_title"
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:paddingLeft="22dp"
+            android:paddingRight="22dp"
+            android:text="恭喜您，您的金融方案审批结果已出"
+            android:textColor="#FF222A36"
+            android:textSize="16dp" />
+
+        <TextView
+            android:id="@+id/dialog_approve_pass_message"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="7dp"
+            android:gravity="center"
+            android:text="请仔细核对，并确认您的方案"
+            android:textColor="#FF999999"
+            android:textSize="14dp" />
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="bottom">
+
+            <TextView
+                android:id="@+id/btn_ok"
+
+                android:layout_width="0dp"
+                android:layout_height="40dp"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:background="#FF06B7A3"
+                android:gravity="center"
+                android:text="查看详情"
+                android:textColor="#FFFFFFFF" />
+
+
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

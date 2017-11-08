@@ -51,7 +51,7 @@ public class OrderDetailBean {
      * dlr_dfim_mobile : 15982172250
      * app_id : 11000105
      */
-
+    public String client_status_code;
     public boolean is_modify;
     public OldAppBean old_app;
     public NewAppBean new_app;
@@ -89,6 +89,8 @@ public class OrderDetailBean {
     public String dlr_dfim_name;
     public String dlr_dfim_mobile;
     public String app_id;
+    public Boolean modify_permission;
+
 
     @Override
     public String toString() {
@@ -269,7 +271,7 @@ public class OrderDetailBean {
         public String management_fee;
         public String other_fee;
         public String uw_result_code;
-        public Object comments;
+        public String comments;
         public String uw_result;
         public String loan_bank;
         public String product_type;

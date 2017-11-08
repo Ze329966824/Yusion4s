@@ -33,7 +33,7 @@ import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 public class OrderDetailActivity extends BaseActivity {
 
 
-    private RelativeLayout waitRel;
+    private LinearLayout waitRel;
     private RelativeLayout cancelRel;
     private RelativeLayout passRel;
     private RelativeLayout rejectRel;
@@ -66,6 +66,10 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView modelTv;
     private TextView guidePriceTv;
     private TextView waitReason;
+    private TextView wait_title;
+    private TextView pass_title;
+    private TextView reject_title;
+    private TextView cancel_title;
     private TextView cancelReason;
     private TextView passReason;
     private TextView rejectReason;
@@ -150,7 +154,7 @@ public class OrderDetailActivity extends BaseActivity {
 
 
     private int status_st;
-    private Boolean modify_permission;
+//    private Boolean modify_permission;
 
 
     @Override
@@ -160,7 +164,7 @@ public class OrderDetailActivity extends BaseActivity {
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
-        modify_permission = getIntent().getBooleanExtra("modify_permission", false);
+//        modify_permission = getIntent().getBooleanExtra("modify_permission", false);
 
 
         initView();
@@ -182,7 +186,7 @@ public class OrderDetailActivity extends BaseActivity {
                 mScrollView.smoothScrollTo(0, 0);
             }
         });
-        waitRel = (RelativeLayout) findViewById(R.id.order_detail_status_wait_layout);
+        waitRel = (LinearLayout) findViewById(R.id.order_detail_status_wait_layout);
         cancelRel = (RelativeLayout) findViewById(R.id.order_detail_status_cancel_layout);
         passRel = (RelativeLayout) findViewById(R.id.order_detail_status_pass_layout);
         rejectRel = (RelativeLayout) findViewById(R.id.order_detail_status_reject_layout);
@@ -190,6 +194,11 @@ public class OrderDetailActivity extends BaseActivity {
         applyLin = (LinearLayout) findViewById(R.id.order_detail_apply_lin);
 
         waitReason = (TextView) findViewById(R.id.order_detail_status_wait_reason);
+        wait_title = (TextView) findViewById(R.id.order_detail_status_wait);
+        pass_title = (TextView) findViewById(R.id.order_detail_status_pass);
+        reject_title = (TextView) findViewById(R.id.order_detail_status_reject);
+        cancel_title = (TextView) findViewById(R.id.order_detail_status_cancel);
+
         cancelReason = (TextView) findViewById(R.id.order_detail_status_cancel_reason);
         passReason = (TextView) findViewById(R.id.order_detail_status_pass_reason);
         rejectReason = (TextView) findViewById(R.id.order_detail_status_reject_reason);
@@ -303,13 +312,13 @@ public class OrderDetailActivity extends BaseActivity {
 
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
 //        order_detail_change_layout.setVisibility(View.GONE);
-        if (modify_permission) {
-            order_detail_sign_layout.setVisibility(View.GONE);
-            order_detail_change_layout.setVisibility(View.VISIBLE);
-        } else {
-            order_detail_sign_layout.setVisibility(View.VISIBLE);
-            order_detail_change_layout.setVisibility(View.GONE);
-        }
+//        if (modify_permission) {
+//            order_detail_sign_layout.setVisibility(View.GONE);
+//            order_detail_change_layout.setVisibility(View.VISIBLE);
+//        } else {
+//            order_detail_sign_layout.setVisibility(View.VISIBLE);
+//            order_detail_change_layout.setVisibility(View.GONE);
+//        }
         orderDetailChangeBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -336,12 +345,22 @@ public class OrderDetailActivity extends BaseActivity {
                 if (resp == null) {
                     return;
                 }
+                if (resp.modify_permission) {
+                    order_detail_sign_layout.setVisibility(View.GONE);
+                    order_detail_change_layout.setVisibility(View.VISIBLE);
+                } else {
+                    order_detail_sign_layout.setVisibility(View.VISIBLE);
+                    order_detail_change_layout.setVisibility(View.GONE);
+
+                }
                 if (resp.status_st == 2) {//待审核
                     waitRel.setVisibility(View.VISIBLE);
                     passRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.VISIBLE);//visiable
                     replyLin.setVisibility(View.GONE);
+                    waitReason.setText(resp.uw_detail.comments);
+                    wait_title.setText(resp.client_status_code);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
                     passRel.setVisibility(View.VISIBLE);
@@ -349,6 +368,7 @@ public class OrderDetailActivity extends BaseActivity {
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.GONE);
                     replyLin.setVisibility(View.VISIBLE);
+                    pass_title.setText(resp.client_status_code);
                     // orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 6) {//放款中      //有批复的
                     passRel.setVisibility(View.VISIBLE);
@@ -356,11 +376,15 @@ public class OrderDetailActivity extends BaseActivity {
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.GONE);
                     replyLin.setVisibility(View.VISIBLE);
+                    passReason.setText(resp.uw_detail.comments);
+                    pass_title.setText(resp.client_status_code);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 3) {//审核失败
                     waitRel.setVisibility(View.GONE);
                     passRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.VISIBLE);
+                    rejectReason.setText(resp.uw_detail.comments);
+                    reject_title.setText(resp.client_status_code);
                     //  orderDetailFinanceProgramLin.setVisibility(View.GONE);
                 }
                 //金融方案申请和批复
