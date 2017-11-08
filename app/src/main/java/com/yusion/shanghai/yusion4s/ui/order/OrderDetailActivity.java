@@ -185,17 +185,11 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
 
-
-
         findViewById(R.id.title_lin).setBackgroundResource(R.mipmap.back_lin1);
         findViewById(R.id.title_img).setBackgroundResource(R.mipmap.back_img1);
         TextView title_tv = (TextView) findViewById(R.id.title_tv);
         title_tv.setText("进行中");
         title_tv.setTextColor(Color.parseColor("#FFFFFF"));
-
-
-
-
 
 
         waitRel = (RelativeLayout) findViewById(R.id.order_detail_status_wait_layout);

@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000"
+    android:orientation="vertical"
+    tools:context="com.yusion.shanghai.yusion4s.ui.order.ApplyProcessActivity">
+
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/one"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="23dp"
+            android:src="@mipmap/no_pass_icon" />
+
+        <View
+            android:id="@+id/line"
+            android:layout_width="2dp"
+            android:layout_height="78dp"
+            android:layout_below="@+id/one"
+            android:layout_marginLeft="21.5dp"
+            android:background="#bdc4cc" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/one"
+            android:background="@mipmap/test2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_margin="15dp"
+                android:background="#fafafb"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="提报订单申请" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text1"
+                    android:layout_marginTop="5dp"
+                    android:text="2026-28-29:21" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/pass_icon" />
+            </RelativeLayout>
+
+
+        </RelativeLayout>
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/one2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="18dp"
+            android:layout_marginTop="23dp"
+            android:src="@mipmap/no_pass_icon" />
+
+        <View
+            android:layout_width="2dp"
+            android:layout_height="78dp"
+            android:layout_below="@+id/one2"
+            android:layout_marginLeft="21.5dp"
+            android:background="#bdc4cc" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="71dp"
+            android:layout_marginLeft="15dp"
+            android:layout_toRightOf="@+id/one2"
+            android:background="@mipmap/test2"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="52dp"
+                android:layout_margin="15dp"
+                android:background="#fafafb"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/text12"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="提报订单申请" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_below="@+id/text12"
+                    android:layout_marginTop="5dp"
+                    android:text="2026-28-29:21" />
+
+
+                <ImageView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:src="@mipmap/pass_icon" />
+            </RelativeLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+
+
+</LinearLayout>
