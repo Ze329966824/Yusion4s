@@ -48,7 +48,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/text1"
+
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="提报订单申请" />
@@ -94,7 +94,7 @@
                 android:text="2026-28-29:21" />
 
             <ImageView
-                android:id="@+id/imageView2"
+                android:id="@+id/imageView3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
