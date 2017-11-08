@@ -217,6 +217,7 @@ public class JpushDialogActivity extends BaseActivity {
                     break;
                 case R.id.btn_ok:
                     dismiss();
+//                    Log.e("TAG", "onClick-------------"+ActivityManager.getPrevActivityName().toString() );
                     Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
                     intent.putExtra("app_id", app_id);
                     startActivity(intent);
