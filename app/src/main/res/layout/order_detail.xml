@@ -19,7 +19,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/title_bar"
         android:orientation="vertical"
-        android:paddingBottom="10dp">
+        android:paddingBottom="10dp"
+        android:visibility="gone">
 
         <!--审核中-->
         <RelativeLayout
@@ -27,7 +28,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/order_detail_status_wait"
@@ -75,7 +77,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/order_detail_status_pass"
@@ -123,7 +126,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/order_detail_status_reject"
@@ -171,9 +175,9 @@
             android:id="@+id/order_detail_status_cancel_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@color/white"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/order_detail_status_cancel"
@@ -217,10 +221,49 @@
         </RelativeLayout>
     </LinearLayout>
 
+
+    <!--复用-->
+    <LinearLayout
+        android:id="@+id/title_lin"
+        android:layout_width="match_parent"
+        android:layout_height="96dp"
+        android:layout_below="@id/title_bar"
+        android:layout_marginTop="10dp"
+
+        android:orientation="vertical">
+
+        <RelativeLayout
+            android:layout_marginTop="20dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:id="@+id/title_img"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_alignTop="@id/title_img"
+
+                android:id="@+id/title_tv"
+                android:layout_marginLeft="10dp"
+                android:textColor="#FF222A36"
+                android:textSize="17dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="拒绝" />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/lln">
+        android:layout_below="@+id/title_lin">
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView_four"

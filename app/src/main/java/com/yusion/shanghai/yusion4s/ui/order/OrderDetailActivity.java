@@ -175,6 +175,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     private void initView() {
         fab = (FloatingActionButton) findViewById(R.id.fab);
+
         mScrollView = (NestedScrollView) findViewById(R.id.scrollView_four);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -182,6 +183,21 @@ public class OrderDetailActivity extends BaseActivity {
                 mScrollView.smoothScrollTo(0, 0);
             }
         });
+
+
+
+
+        findViewById(R.id.title_lin).setBackgroundResource(R.mipmap.back_lin1);
+        findViewById(R.id.title_img).setBackgroundResource(R.mipmap.back_img1);
+        TextView title_tv = (TextView) findViewById(R.id.title_tv);
+        title_tv.setText("进行中");
+        title_tv.setTextColor(Color.parseColor("#FFFFFF"));
+
+
+
+
+
+
         waitRel = (RelativeLayout) findViewById(R.id.order_detail_status_wait_layout);
         cancelRel = (RelativeLayout) findViewById(R.id.order_detail_status_cancel_layout);
         passRel = (RelativeLayout) findViewById(R.id.order_detail_status_pass_layout);
@@ -337,30 +353,30 @@ public class OrderDetailActivity extends BaseActivity {
                     return;
                 }
                 if (resp.status_st == 2) {//待审核
-                    waitRel.setVisibility(View.VISIBLE);
-                    passRel.setVisibility(View.GONE);
-                    rejectRel.setVisibility(View.GONE);
+//                    waitRel.setVisibility(View.VISIBLE);
+//                    passRel.setVisibility(View.GONE);
+//                    rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.VISIBLE);//visiable
                     replyLin.setVisibility(View.GONE);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
-                    passRel.setVisibility(View.VISIBLE);
-                    waitRel.setVisibility(View.GONE);
-                    rejectRel.setVisibility(View.GONE);
+//                    passRel.setVisibility(View.VISIBLE);
+//                    waitRel.setVisibility(View.GONE);
+//                    rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.GONE);
                     replyLin.setVisibility(View.VISIBLE);
                     // orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 6) {//放款中      //有批复的
-                    passRel.setVisibility(View.VISIBLE);
-                    waitRel.setVisibility(View.GONE);
-                    rejectRel.setVisibility(View.GONE);
+//                    passRel.setVisibility(View.VISIBLE);
+//                    waitRel.setVisibility(View.GONE);
+//                    rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.GONE);
                     replyLin.setVisibility(View.VISIBLE);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 3) {//审核失败
-                    waitRel.setVisibility(View.GONE);
-                    passRel.setVisibility(View.GONE);
-                    rejectRel.setVisibility(View.VISIBLE);
+//                    waitRel.setVisibility(View.GONE);
+//                    passRel.setVisibility(View.GONE);
+//                    rejectRel.setVisibility(View.VISIBLE);
                     //  orderDetailFinanceProgramLin.setVisibility(View.GONE);
                 }
                 //金融方案申请和批复
