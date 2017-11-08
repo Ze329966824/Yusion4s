@@ -367,7 +367,8 @@ public class OrderDetailActivity extends BaseActivity {
                     waitRel.setVisibility(View.GONE);
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.GONE);
-                    replyLin.setVisibility(View.VISIBLE);
+                    // replyLin.setVisibility(View.VISIBLE);
+                    replyLin.setVisibility(View.GONE);
                     pass_title.setText(resp.client_status_code);
                     // orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
                 } else if (resp.status_st == 6) {//放款中      //有批复的
@@ -376,6 +377,7 @@ public class OrderDetailActivity extends BaseActivity {
                     rejectRel.setVisibility(View.GONE);
                     applyLin.setVisibility(View.GONE);
                     replyLin.setVisibility(View.VISIBLE);
+                    //replyLin.setVisibility(View.GONE);
                     passReason.setText(resp.uw_detail.comments);
                     pass_title.setText(resp.client_status_code);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
