@@ -50,6 +50,7 @@
         <include layout="@layout/include_line" />
 
         <LinearLayout
+            android:id="@+id/wv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
