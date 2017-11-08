@@ -22,11 +22,13 @@
         android:paddingBottom="10dp">
 
         <!--审核中-->
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/order_detail_status_wait_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <TextView
@@ -63,11 +65,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:text="征信审核中备注……"
+                    tools:text="征信审核中备注……"
                     android:textColor="#FFA400"
                     android:textSize="13.5sp" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <!--审核通过-->
         <RelativeLayout

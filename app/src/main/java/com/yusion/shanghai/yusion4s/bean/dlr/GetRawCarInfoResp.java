@@ -2,8 +2,6 @@ package com.yusion.shanghai.yusion4s.bean.dlr;
 
 import com.google.gson.Gson;
 
-import java.util.concurrent.PriorityBlockingQueue;
-
 /**
  * Created by aa on 2017/10/23.
  */

@@ -44,6 +44,7 @@ public class AlterCarInfoActivity extends BaseActivity {
     private String otherLimit;
     private String clt_id;
     private String id_no;
+    private String vehicle_owner_lender_relation;
 
     private List<GetLoanBankResp> mLoanBankList = new ArrayList<>();
     private List<GetproductResp.ProductListBean> mProductList = new ArrayList<>();
@@ -358,6 +359,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         OrderApi.getRawCarInfo(AlterCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
+                vehicle_owner_lender_relation = resp.vehicle_owner_lender_relation;
                 clt_id = resp.clt_id;
                 brand_id = resp.brand_id;
                 id_no = resp.id_no;
@@ -932,13 +934,14 @@ public class AlterCarInfoActivity extends BaseActivity {
             public void onClick(View v) {
                 if (checkCanNextStep()) {
                     GetRawCarInfoResp req = new GetRawCarInfoResp();
-                    req.vehicle_owner_lender_relation = "";
+                    req.vehicle_owner_lender_relation = vehicle_owner_lender_relation;
                     req.vehicle_cond = "新车";
                     req.gps_fee = "0";
                     req.id_no = id_no;
                     req.clt_id = clt_id;
                     req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                     req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+                    // req.vehicle_owner_lender_relation =
 
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
@@ -966,6 +969,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
                     req.msrp = guidePriceTv.getText().toString();
                     req.reason = carInfoAlterTv.getText().toString();
+
                     OrderApi.submitAlterInfo(AlterCarInfoActivity.this, req, new OnCodeAndMsgCallBack() {
                         @Override
                         public void callBack(int code, String msg) {
