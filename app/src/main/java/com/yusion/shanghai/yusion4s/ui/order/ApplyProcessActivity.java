@@ -67,7 +67,6 @@ public class ApplyProcessActivity extends BaseActivity {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.test222, null);
         ImageView imageView = (ImageView) view.findViewById(R.id.imageView3);
-        imageView.setImageResource(R.mipmap.pass_icon);
         return view;
     }
 

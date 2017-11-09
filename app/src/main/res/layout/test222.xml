@@ -4,7 +4,6 @@
     android:layout_height="wrap_content"
     android:layout_marginRight="15dp"
     android:background="#000"
-
     android:orientation="horizontal">
 
     <LinearLayout
