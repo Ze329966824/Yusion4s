@@ -6,7 +6,7 @@
     android:orientation="vertical">
 
 
-    <!--金融方案申请信息-->
+    <!--金融方案[只有申请没有批复]-->
     <LinearLayout
         android:id="@+id/order_detail_finance_lin"
         android:layout_width="match_parent"
@@ -295,7 +295,7 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:visibility="visible"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <TextView
             android:id="@+id/order_detail_havere_title_info"
@@ -322,7 +322,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/order_detail_apply_reply_header_name_tv"
+                android:id="@+id/order_detail_havere_header_name_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -370,7 +370,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                    android:id="@+id/order_detail_havere_apply_bill_price_tv"
+                android:id="@+id/order_detail_havere_apply_bill_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -407,7 +407,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_first_price_tv2"
+                android:id="@+id/order_detail_havere_apply_first_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -415,7 +415,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_first_price_tv2"
+                android:id="@+id/order_detail_havere_reply_first_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -435,7 +435,6 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -446,7 +445,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_first_percent_tv"
+                android:id="@+id/order_detail_havere_apply_first_percent_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -454,7 +453,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_first_percent_tv"
+                android:id="@+id/order_detail_havere_reply_first_percent_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -483,7 +482,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_loan_price_tv2"
+                android:id="@+id/order_detail_havere_apply_loan_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -491,7 +490,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_loan_price_tv2"
+                android:id="@+id/order_detail_havere_reply_loan_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -510,7 +509,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -521,7 +519,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_management_price_tv2"
+                android:id="@+id/order_detail_havere_apply_management_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -529,7 +527,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_management_price_tv2"
+                android:id="@+id/order_detail_havere_reply_management_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -548,7 +546,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -559,7 +556,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_other_price_tv2"
+                android:id="@+id/order_detail_havere_apply_other_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -567,7 +564,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_other_price_tv2"
+                android:id="@+id/order_detail_havere_reply_other_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -586,7 +583,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -597,7 +593,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_total_price_tv2"
+                android:id="@+id/order_detail_havere_apply_total_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -605,7 +601,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_total_price_tv2"
+                android:id="@+id/order_detail_havere_reply_total_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -624,7 +620,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -635,7 +630,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_bank_tv2"
+                android:id="@+id/order_detail_havere_apply_bank_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -643,7 +638,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_bank_tv2"
+                android:id="@+id/order_detail_havere_reply_bank_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -663,7 +658,6 @@
             android:visibility="visible">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -674,7 +668,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_product_type_tv2"
+                android:id="@+id/order_detail_havere_apply_product_type_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -682,7 +676,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_product_type_tv2"
+                android:id="@+id/order_detail_havere_reply_product_type_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -701,7 +695,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -712,7 +705,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_month_price_tv"
+                android:id="@+id/order_detail_havere_apply_month_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -720,7 +713,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_month_price_tv"
+                android:id="@+id/order_detail_havere_reply_month_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -750,7 +743,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_repay_date_tv2"
+                android:id="@+id/order_detail_havere_apply_repay_date_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -758,7 +751,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_repay_data_tv2"
+                android:id="@+id/order_detail_havere_reply_repay_data_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -772,15 +765,15 @@
 
     <!--订单信息-->
     <LinearLayout
-        android:id="@+id/order_detail_order_info_layout"
+        android:id="@+id/order_detail_order_info_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingBottom="20dp"
-        tools:visibility="visible"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"
