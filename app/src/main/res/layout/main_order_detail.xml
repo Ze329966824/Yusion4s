@@ -432,6 +432,7 @@
             android:background="@color/white"
             android:orientation="horizontal"
             android:paddingTop="5dp"
+            tools:visibility="visible"
             android:visibility="gone">
 
             <TextView
@@ -773,7 +774,7 @@
         android:orientation="vertical"
         android:paddingBottom="20dp"
         android:visibility="visible"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <TextView
             android:layout_width="match_parent"
