@@ -4,287 +4,11 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical">
-    <!--金融方案批复信息-->
-    <!--<LinearLayout-->
-        <!--android:id="@+id/order_detail_reply_lin"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginTop="10dp"-->
-        <!--android:background="@color/white"-->
-        <!--android:orientation="vertical"-->
-        <!--android:paddingBottom="20dp"-->
-        <!--android:visibility="gone"-->
-        <!--tools:visibility="gone">-->
 
-        <!--<TextView-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:padding="15dp"-->
-            <!--android:text="金融方案批复信息"-->
-            <!--android:textColor="@color/text_normal"-->
-            <!--android:textSize="13.5sp" />-->
 
-        <!--<View-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="0.5dp"-->
-            <!--android:background="@color/main_driver" />-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="车辆开票价"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_bill_price_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="车辆首付款"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_first_price_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="车辆贷款金额"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_loan_price_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="档案管理费"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_management_price_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="其他费用"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_other_price_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="总贷款额"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_total_loan_price_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="贷款银行"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_loan_bank_price_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="产品类型"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_product_type_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-
-        <!--<LinearLayout-->
-            <!--android:layout_width="match_parent"-->
-            <!--android:layout_height="wrap_content"-->
-            <!--android:orientation="horizontal"-->
-            <!--android:paddingLeft="15dp"-->
-            <!--android:paddingRight="15dp"-->
-            <!--android:paddingTop="15dp">-->
-
-            <!--<TextView-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="left"-->
-                <!--android:text="还款期限"-->
-                <!--android:textColor="@color/text_light_grey"-->
-                <!--android:textSize="13.5sp" />-->
-
-            <!--<TextView-->
-                <!--android:id="@+id/order_detail_replay_periods_tv"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_weight="1"-->
-                <!--android:gravity="right"-->
-                <!--android:text="@string/order_detail_plan_reply_total"-->
-                <!--android:textColor="@color/text_normal"-->
-                <!--android:textSize="13.5sp" />-->
-        <!--</LinearLayout>-->
-    <!--</LinearLayout>-->
-
-    <!--金融方案申请信息-->
+    <!--金融方案[只有申请没有批复]-->
     <LinearLayout
-        android:id="@+id/order_detail_apply_lin"
+        android:id="@+id/order_detail_finance_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
@@ -295,7 +19,7 @@
         tools:visibility="gone">
 
         <TextView
-            android:id="@+id/order_detail_plan_reply_info"
+            android:id="@+id/order_detail_finance_title_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
@@ -304,7 +28,7 @@
             android:textSize="13.5sp" />
 
         <View
-            android:id="@+id/order_detail_plan_reply_info_line"
+            android:id="@+id/order_detail_finance_title_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/main_driver" />
@@ -327,7 +51,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_bill_price_tv"
+                android:id="@+id/order_detail_finance_bill_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -355,7 +79,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_first_price_tv"
+                android:id="@+id/order_detail_finance_first_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -383,7 +107,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_loan_price_tv"
+                android:id="@+id/order_detail_finance_loan_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -411,7 +135,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_management_price_tv"
+                android:id="@+id/order_detail_finance_management_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -439,7 +163,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_other_price_tv"
+                android:id="@+id/order_detail_finance_other_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -467,7 +191,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_total_loan_price_tv"
+                android:id="@+id/order_detail_finance_total_loan_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -495,7 +219,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_loan_bank_price_tv"
+                android:id="@+id/order_detail_finance_loan_bank_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -523,7 +247,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_product_type_tv"
+                android:id="@+id/order_detail_finance_product_type_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -551,7 +275,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/order_detail_apply_periods_tv"
+                android:id="@+id/order_detail_finance_periods_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -564,17 +288,17 @@
 
     <!--金融方案[有批复有申请]-->
     <LinearLayout
-        android:id="@+id/order_detail_finance_program_lin"
+        android:id="@+id/order_detail_havere_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:visibility="visible"
-        tools:visibility="visible">
+        tools:visibility="gone">
 
         <TextView
-            android:id="@+id/order_detail_plan_reply_info9"
+            android:id="@+id/order_detail_havere_title_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:padding="15dp"
@@ -583,7 +307,7 @@
             android:textSize="13.5sp" />
 
         <View
-            android:id="@+id/order_detail_plan_reply_info_line9"
+            android:id="@+id/order_detail_havere_title_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
             android:background="@color/main_driver" />
@@ -598,7 +322,7 @@
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/eee"
+                android:id="@+id/order_detail_havere_header_name_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -607,7 +331,7 @@
                 android:textSize="11.5sp" />
 
             <TextView
-                android:id="@+id/textView3"
+                android:id="@+id/order_detail_havere_header_apply_info_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -616,6 +340,7 @@
                 android:textSize="11.5sp" />
 
             <TextView
+                android:id="@+id/order_detail_havere_header_reply_info_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -635,7 +360,6 @@
             android:paddingTop="5dp">
 
             <TextView
-                android:id="@+id/ss"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -646,7 +370,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_bill_price_tv2"
+                android:id="@+id/order_detail_havere_apply_bill_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -654,7 +378,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_bill_price_tv2"
+                android:id="@+id/order_detail_havere_reply_bill_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -683,7 +407,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_first_price_tv2"
+                android:id="@+id/order_detail_havere_apply_first_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -691,7 +415,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_first_price_tv2"
+                android:id="@+id/order_detail_havere_reply_first_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -711,7 +435,6 @@
             android:visibility="gone">
 
             <TextView
-                android:id="@+id/textView4"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -722,7 +445,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_first_percent_tv"
+                android:id="@+id/order_detail_havere_apply_first_percent_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -730,7 +453,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_first_percent_tv"
+                android:id="@+id/order_detail_havere_reply_first_percent_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -759,7 +482,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_loan_price_tv2"
+                android:id="@+id/order_detail_havere_apply_loan_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -767,7 +490,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_loan_price_tv2"
+                android:id="@+id/order_detail_havere_reply_loan_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -786,7 +509,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -797,7 +519,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_management_price_tv2"
+                android:id="@+id/order_detail_havere_apply_management_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -805,7 +527,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_management_price_tv2"
+                android:id="@+id/order_detail_havere_reply_management_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -824,7 +546,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -835,7 +556,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_other_price_tv2"
+                android:id="@+id/order_detail_havere_apply_other_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -843,7 +564,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_other_price_tv2"
+                android:id="@+id/order_detail_havere_reply_other_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -862,7 +583,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -873,7 +593,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_total_price_tv2"
+                android:id="@+id/order_detail_havere_apply_total_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -881,7 +601,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_total_price_tv2"
+                android:id="@+id/order_detail_havere_reply_total_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -900,7 +620,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -911,7 +630,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_bank_tv2"
+                android:id="@+id/order_detail_havere_apply_bank_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -919,7 +638,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_bank_tv2"
+                android:id="@+id/order_detail_havere_reply_bank_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -939,7 +658,6 @@
             android:visibility="visible">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -950,7 +668,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_product_type_tv2"
+                android:id="@+id/order_detail_havere_apply_product_type_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -958,7 +676,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_product_type_tv2"
+                android:id="@+id/order_detail_havere_reply_product_type_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -977,7 +695,6 @@
             android:paddingTop="5dp">
 
             <TextView
-
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -988,7 +705,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_month_price_tv"
+                android:id="@+id/order_detail_havere_apply_month_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -996,7 +713,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_month_price_tv"
+                android:id="@+id/order_detail_havere_reply_month_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -1026,7 +743,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/apply_repay_date_tv2"
+                android:id="@+id/order_detail_havere_apply_repay_date_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -1034,7 +751,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_repay_data_tv2"
+                android:id="@+id/order_detail_havere_reply_repay_data_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -1048,15 +765,15 @@
 
     <!--订单信息-->
     <LinearLayout
-        android:id="@+id/order_detail_order_info_layout"
+        android:id="@+id/order_detail_order_info_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingBottom="20dp"
-        tools:visibility="gone"
-        android:visibility="visible">
+        android:visibility="visible"
+        tools:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"
