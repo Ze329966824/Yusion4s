@@ -9,6 +9,9 @@ import java.io.Serializable;
  */
 
 public class UploadImgItemBean implements Serializable {
+
+
+
     public String local_path;
     public String type; //照片类型
     public String role; //照片所属角色
