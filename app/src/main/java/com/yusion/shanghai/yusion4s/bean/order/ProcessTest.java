@@ -10,7 +10,7 @@ import java.util.List;
  */
 
 public class ProcessTest {
-
+    public String st;
     public String title;
     public String title2;
     public String time;
