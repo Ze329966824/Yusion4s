@@ -63,8 +63,8 @@ public class OrderManagerFragment extends BaseFragment {
         //网络请求，映射的应该是key value
         //WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
         //Yusion4sApp.getConfigResp().order_type_value;
-        List<String> mTabTitle = Yusion4sApp.getConfigResp().order_type_value;
-        List<String> mStCode = Yusion4sApp.getConfigResp().order_type_key;
+        List<String> mTabTitle = ((Yusion4sApp) getActivity().getApplication()).getConfigResp().order_type_value;
+        List<String> mStCode = ((Yusion4sApp) getActivity().getApplication()).getConfigResp().order_type_key;
 
         //String[] mTabTitle = {"全部", "待审核", "审核失败", "待确认金融方案", "放款中", "放款成功", "已取消"};
         //String[] mStCode = {"0", "2", "3", "4", "6", "7", "9"};

@@ -296,7 +296,7 @@ public class AlterCarInfoActivity extends BaseActivity {
             }
         });
 
-        DELAY_MILLIS = Yusion4sApp.getConfigResp().DELAY_MILLIS;
+        DELAY_MILLIS = ((Yusion4sApp) getApplication()).getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         initView();
 
