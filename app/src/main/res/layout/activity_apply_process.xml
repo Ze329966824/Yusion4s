@@ -2,132 +2,87 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/ll_parent"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#000"
+    android:background="@color/main_bg"
     android:orientation="vertical"
     tools:context="com.yusion.shanghai.yusion4s.ui.order.ApplyProcessActivity">
 
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/base_titlebar" />
 
-    <RelativeLayout
+
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="96dp"
+        android:layout_marginTop="15dp"
+        android:background="#ffffff"
+        android:orientation="vertical"
+        android:padding="6dp">
 
-        <ImageView
-            android:id="@+id/one"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="23dp"
-            android:src="@mipmap/no_pass_icon" />
-
-        <View
-            android:id="@+id/line"
-            android:layout_width="2dp"
-            android:layout_height="78dp"
-            android:layout_below="@+id/one"
-            android:layout_marginLeft="21.5dp"
-            android:background="#bdc4cc" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="71dp"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/one"
-            android:background="@mipmap/test2"
-            android:gravity="center"
+            android:layout_height="32dp"
             android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_margin="15dp"
-                android:background="#fafafb"
-                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="订单号:"
+                android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/text1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="提报订单申请" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="SSDFGHJK"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/text1"
-                    android:layout_marginTop="5dp"
-                    android:text="2026-28-29:21" />
-
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/pass_icon" />
-            </RelativeLayout>
-
-
-        </RelativeLayout>
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
-        <ImageView
-            android:id="@+id/one2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="18dp"
-            android:layout_marginTop="23dp"
-            android:src="@mipmap/no_pass_icon" />
-
-        <View
-            android:layout_width="2dp"
-            android:layout_height="78dp"
-            android:layout_below="@+id/one2"
-            android:layout_marginLeft="21.5dp"
-            android:background="#bdc4cc" />
-
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="71dp"
-            android:layout_marginLeft="15dp"
-            android:layout_toRightOf="@+id/one2"
-            android:background="@mipmap/test2"
-            android:gravity="center"
+            android:layout_height="32dp"
             android:orientation="horizontal">
 
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="52dp"
-                android:layout_margin="15dp"
-                android:background="#fafafb"
-                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="主贷人:"
+                android:textSize="14sp" />
 
-                <TextView
-                    android:id="@+id/text12"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="提报订单申请" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="张小姐"
+                android:textSize="14sp" />
+        </LinearLayout>
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/text12"
-                    android:layout_marginTop="5dp"
-                    android:text="2026-28-29:21" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:text="创建时间:"
+                android:textSize="14sp" />
 
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentRight="true"
-                    android:src="@mipmap/pass_icon" />
-            </RelativeLayout>
-        </RelativeLayout>
-    </RelativeLayout>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2016-07-05 14:32"
+                android:textSize="14sp" />
+        </LinearLayout>
+    </LinearLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:background="@color/bg_color" />
 
 </LinearLayout>

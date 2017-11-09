@@ -48,7 +48,7 @@
             android:gravity="center">
 
             <TextView
-                android:id="@+id/text1"
+                android:id="@+id/text3"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="提报订单申请" />
@@ -62,10 +62,10 @@
                 android:src="@mipmap/pass_icon" />
         </RelativeLayout>
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="15dp"
-            android:background="#ddd" />
+        <!--<View-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="15dp"-->
+            <!--android:background="#ddd" />-->
     </LinearLayout>
 
 </RelativeLayout>
