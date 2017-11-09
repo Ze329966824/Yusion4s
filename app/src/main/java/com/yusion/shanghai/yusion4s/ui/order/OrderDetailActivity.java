@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -149,6 +150,13 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView orderDetailUploadBtn;
 
 
+    private LinearLayout title_lin;
+    private ImageView title_img;
+    private TextView title_tv;
+    private TextView remark_tv1;
+    private TextView remark_tv2;
+
+
     private int status_st;
     private Boolean modify_permission;
 
@@ -185,11 +193,23 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
 
-        findViewById(R.id.title_lin).setBackgroundResource(R.mipmap.back_lin1);
-        findViewById(R.id.title_img).setBackgroundResource(R.mipmap.back_img1);
-        TextView title_tv = (TextView) findViewById(R.id.title_tv);
+        title_lin = (LinearLayout) findViewById(R.id.title_lin);
+        title_img = (ImageView) findViewById(R.id.title_img);
+        title_tv = (TextView) findViewById(R.id.title_tv);
+        remark_tv1 = (TextView) findViewById(R.id.remark_tv1);
+        remark_tv2 = (TextView) findViewById(R.id.remark_tv2);
+
+        title_lin.setBackgroundResource(R.mipmap.back_lin1);
+        title_img.setBackgroundResource(R.mipmap.back_img1);
         title_tv.setText("进行中");
         title_tv.setTextColor(Color.parseColor("#FFFFFF"));
+        remark_tv1.setTextColor(Color.parseColor("#FFFFFF"));
+        remark_tv2.setTextColor(Color.parseColor("#FFFFFF"));
+        remark_tv2.setText("我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小");
+
+
+
+
 
 
         waitRel = (RelativeLayout) findViewById(R.id.order_detail_status_wait_layout);
