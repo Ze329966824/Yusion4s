@@ -191,7 +191,7 @@ public class OrderDetailActivity extends BaseActivity {
         passRel = (RelativeLayout) findViewById(R.id.order_detail_status_pass_layout);
         rejectRel = (RelativeLayout) findViewById(R.id.order_detail_status_reject_layout);
 //        replyLin = (LinearLayout) findViewById(R.id.order_detail_reply_lin);
-        applyLin = (LinearLayout) findViewById(R.id.order_detail_apply_lin);
+        applyLin = (LinearLayout) findViewById(R.id.order_detail_finance_lin);
 
         waitReason = (TextView) findViewById(R.id.order_detail_status_wait_reason);
         wait_title = (TextView) findViewById(R.id.order_detail_status_wait);
@@ -203,15 +203,15 @@ public class OrderDetailActivity extends BaseActivity {
         passReason = (TextView) findViewById(R.id.order_detail_status_pass_reason);
         rejectReason = (TextView) findViewById(R.id.order_detail_status_reject_reason);
 
-        applyBillPriceTv = (TextView) findViewById(R.id.order_detail_apply_bill_price_tv);
-        applyFirstPriceTv = (TextView) findViewById(R.id.order_detail_apply_first_price_tv);
+        applyBillPriceTv = (TextView) findViewById(R.id.order_detail_finance_bill_price_tv);
+        applyFirstPriceTv = (TextView) findViewById(R.id.order_detail_finance_first_price_tv);
         applyLoanPriceTv = (TextView) findViewById(R.id.order_detail_apply_loan_price_tv);
-        applyManagementPriceTv = (TextView) findViewById(R.id.order_detail_apply_management_price_tv);
-        applyOtherPriceTv = (TextView) findViewById(R.id.order_detail_apply_other_price_tv);
-        applyTotalLoanPriceTv = (TextView) findViewById(R.id.order_detail_apply_total_loan_price_tv);
-        applyLoanBankTv = (TextView) findViewById(R.id.order_detail_apply_loan_bank_price_tv);
-        applyProductTypeTv = (TextView) findViewById(R.id.order_detail_apply_product_type_tv);
-        applyPeriodsTv = (TextView) findViewById(R.id.order_detail_apply_periods_tv);
+        applyManagementPriceTv = (TextView) findViewById(R.id.order_detail_finance_management_price_tv);
+        applyOtherPriceTv = (TextView) findViewById(R.id.order_detail_finance_other_price_tv);
+        applyTotalLoanPriceTv = (TextView) findViewById(R.id.order_detail_finance_total_loan_price_tv);
+        applyLoanBankTv = (TextView) findViewById(R.id.order_detail_finance_loan_bank_tv);
+        applyProductTypeTv = (TextView) findViewById(R.id.order_detail_finance_product_type_tv);
+        applyPeriodsTv = (TextView) findViewById(R.id.order_detail_finance_periods_tv);
 
 //        replayBillPriceTv = (TextView) findViewById(R.id.order_detail_replay_bill_price_tv);
 //        replayFirstPriceTv = (TextView) findViewById(R.id.order_detail_replay_first_price_tv);
@@ -307,7 +307,7 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailChangeBtn = (TextView) findViewById(R.id.order_detail_change_tv);
         orderDetailUploadBtn = (TextView) findViewById(R.id.order_detail_upload_tv);
 
-        orderDetailFinanceProgramLin = (LinearLayout) findViewById(R.id.order_detail_finance_program_lin);
+        orderDetailFinanceProgramLin = (LinearLayout) findViewById(R.id.order_detail_havere_lin);
 
 
 //        order_detail_sign_layout.setVisibility(View.VISIBLE);
