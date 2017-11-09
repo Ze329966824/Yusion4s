@@ -270,8 +270,8 @@ public class OrderDetailActivity extends BaseActivity {
 
         applyFirstPercentTv2 = (TextView) findViewById(R.id.apply_first_percent_tv);
         replyFirstPercentTv2 = (TextView) findViewById(R.id.reply_first_percent_tv);
-        applyBillPriceTv2 = (TextView) findViewById(R.id.apply_bill_price_tv2);
-        replyBillPriceTv2 = (TextView) findViewById(R.id.reply_bill_price_tv2);
+        applyBillPriceTv2 = (TextView) findViewById(R.id.order_detail_havere_apply_bill_price_tv);
+        replyBillPriceTv2 = (TextView) findViewById(R.id.order_detail_havere_reply_bill_price_tv);
 
         applyFirstPriceTv2 = (TextView) findViewById(R.id.apply_first_price_tv2);
         replyFirstPriceTv2 = (TextView) findViewById(R.id.reply_first_price_tv2);

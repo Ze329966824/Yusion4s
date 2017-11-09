@@ -370,7 +370,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                    android:id="@+id/order_detail_apply_reply_bill_price_tv"
+                    android:id="@+id/order_detail_havere_apply_bill_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -378,7 +378,7 @@
                 android:textSize="13.5sp" />
 
             <TextView
-                android:id="@+id/reply_bill_price_tv2"
+                android:id="@+id/order_detail_havere_reply_bill_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
