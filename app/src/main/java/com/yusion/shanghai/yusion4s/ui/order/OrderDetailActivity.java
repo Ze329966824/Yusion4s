@@ -93,7 +93,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView productTypeTv;             //订单-产品类型
     private TextView nperTv;                    //订单-还款期限
     private TextView regAddrTv;                 //订单-上牌地
-    private LinearLayout orderInfoTitleLin;        //订单头布局
+    private LinearLayout orderInfoTitleLin;     //订单头布局
 
 
     private TextView beforeDlrNameTv;          //订单-门店(修改前)
