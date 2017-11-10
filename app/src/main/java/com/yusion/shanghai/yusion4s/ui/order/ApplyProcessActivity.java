@@ -45,15 +45,15 @@ public class ApplyProcessActivity extends BaseActivity {
 
 
         ProcessTest processTest = new ProcessTest();
-        processTest.processTestList = new ArrayList<>();
+        processTest.asyncProcessTestList = new ArrayList<>();
 
         processTest.title = "征信影像审核";
         processTest.time = "34-2128-23";
         ProcessTest processTest4 = new ProcessTest();
         processTest4.title = "还款";
         processTest4.time = "6666-232-32";
-        processTest.processTestList.add(processTest);
-        processTest.processTestList.add(processTest4);
+        processTest.asyncProcessTestList.add(processTest);
+        processTest.asyncProcessTestList.add(processTest4);
 
         list.add(processTest);
 
@@ -68,10 +68,10 @@ public class ApplyProcessActivity extends BaseActivity {
 
             after = i == list.size() - 1 ? null : list.get(i + 1);
 
-            if (processTest3.processTestList.size() > 0 && !processTest3.processTestList.isEmpty()) {
+            if (processTest3.asyncProcessTestList.size() > 0 && !processTest3.asyncProcessTestList.isEmpty()) {
 
-                for (int k = 0; k < processTest3.processTestList.size(); k++) {
-                    ProcessTest processTest5 = processTest3.processTestList.get(k);
+                for (int k = 0; k < processTest3.asyncProcessTestList.size(); k++) {
+                    ProcessTest processTest5 = processTest3.asyncProcessTestList.get(k);
                     if (k == 0) {
 
                         mLl_parent.addView(addView2());
@@ -87,7 +87,7 @@ public class ApplyProcessActivity extends BaseActivity {
 //                View topLine = view.findViewById(R.id.top_line);
 //                View bottomLine = view.findViewById(R.id.bottom_line);
 //
-//                // ProcessTest processTest5 = processTest.processTestList.get(0);
+//                // ProcessTest processTest5 = processTest.asyncProcessTestList.get(0);
 //
 //                TextView tv = (TextView) view.findViewById(R.id.text);
 //                TextView time = (TextView) view.findViewById(R.id.time);
@@ -104,14 +104,14 @@ public class ApplyProcessActivity extends BaseActivity {
 //                View wholeLine = view2.findViewById(R.id.whole_line);
 //                TextView tv2 = (TextView) view2.findViewById(R.id.text2);
 //                TextView time2 = (TextView) view2.findViewById(R.id.time2);
-//                ProcessTest processTest6 = processTest.processTestList.get(1);
+//                ProcessTest processTest6 = processTest.asyncProcessTestList.get(1);
 //                tv2.setText(processTest6.title);
 //                time2.setText(processTest6.time);
 //                if (i == list.size() - 1) {
 //                    wholeLine.setVisibility(View.INVISIBLE);
 //                }
-//                for (int j = 0; j < processTest.processTestList.size(); j++) {
-//                    ProcessTest processTest5 = processTest.processTestList.get(j);
+//                for (int j = 0; j < processTest.asyncProcessTestList.size(); j++) {
+//                    ProcessTest processTest5 = processTest.asyncProcessTestList.get(j);
 //                    tv.setText(processTest5.title);
 //                    time.setText(processTest5.time);
 //                }

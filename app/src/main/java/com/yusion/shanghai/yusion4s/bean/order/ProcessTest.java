@@ -14,9 +14,7 @@ public class ProcessTest {
     public String title;
     public String time;
 
-    public List<ProcessTest> processTestList = new ArrayList<>();
-
-    //public List<ProessTest> asyncProcessTestList = new ArrayList<>();
+    public List<ProcessTest> asyncProcessTestList = new ArrayList<>();
     //一块
     public List<ProcessTest> syncProcessTestList = new ArrayList<>();
 

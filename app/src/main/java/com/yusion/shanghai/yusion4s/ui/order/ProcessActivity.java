@@ -33,30 +33,48 @@ public class ProcessActivity extends BaseActivity {
         list = new ArrayList<>();
         ProcessTest processTest1 = new ProcessTest();
         processTest1.title = "填订单信息";
-        processTest1.time = "123-43243";
+        processTest1.time = "2016-07-05  14:32";
         processTest1.st = "1";
         list.add(processTest1);
 
         ProcessTest processTest2 = new ProcessTest();
-        processTest2.time = "78-22-22";
-        processTest2.title = "还款";
+        processTest2.time = "DW UW";
+        processTest2.title = "2016-07-05  14:32";
         processTest2.st = "2";
         list.add(processTest2);
 
-
-        ProcessTest processTest = new ProcessTest();
-        processTest.st = "3";
-        processTest.processTestList = new ArrayList<>();
-
-        processTest.title = "征信影像审核";
-        processTest.time = "34-2128-23";
-        ProcessTest processTest4 = new ProcessTest();
-        processTest4.title = "还款";
-        processTest4.time = "6666-232-32";
-        processTest.processTestList.add(processTest);
-        processTest.processTestList.add(processTest4);
-
-        list.add(processTest);
+        ProcessTest processTest3 = new ProcessTest();
+        processTest3.st = "3";
+        processTest3.asyncProcessTestList = new ArrayList<>();
+        processTest3.syncProcessTestList = new ArrayList<>();
+        ProcessTest processTest31 = new ProcessTest();
+        ProcessTest processTest32 = new ProcessTest();
+        processTest32.title = "予见电话审核";
+        processTest32.time = "2016-07-05  14:32";
+        processTest3.asyncProcessTestList.add(processTest31);
+        processTest3.asyncProcessTestList.add(processTest32);
+        ProcessTest processTest311 = new ProcessTest();
+        processTest311.title = "征信影像件审核";
+        ProcessTest processTest312 = new ProcessTest();
+        processTest311.title = "予见电话审核";
+        processTest31.syncProcessTestList.add(processTest311);
+        processTest31.syncProcessTestList.add(processTest312);
+        list.add(processTest3);
+//
+//
+//        ProcessTest processTest = new ProcessTest();
+//        processTest.st = "3";
+//        processTest.asyncProcessTestList = new ArrayList<>();
+//
+//        processTest.title = "征信影像审核";
+//        processTest.time = "34-2128-23";
+//        ProcessTest processTest4 = new ProcessTest();
+//        processTest4.title = "还款";
+//        processTest4.time = "6666-232-32";
+//        processTest.asyncProcessTestList.add(processTest);
+//        processTest.asyncProcessTestList.add(processTest4);
+//
+//        list.add(processTest);
 
         for (int i = 0; i < list.size(); i++) {
 
@@ -74,7 +92,6 @@ public class ProcessActivity extends BaseActivity {
             View topLine = view.findViewById(R.id.top_line);
             View bottomLine = view.findViewById(R.id.bottom_line);
             ImageView dianImg = (ImageView) view.findViewById(R.id.st_dian_img);//左边状态点
-            ImageView stImg = (ImageView) view.findViewById(R.id.st_icon);//右侧是否通过的状态图片
 
             if (before == null) {
                 topLine.setVisibility(View.INVISIBLE);
@@ -98,20 +115,62 @@ public class ProcessActivity extends BaseActivity {
 
             mLl_parent.addView(view);
             LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
-            if (current.processTestList.size() > 0 && !current.processTestList.isEmpty()) {
-                for (int j = 0; j < current.processTestList.size(); j++) {
-                    ll_empty.addView(addViewFill());
-                    View view1 = new View(this);
-                    view1.setBackgroundColor(Color.parseColor("#ffffff"));
-                    ll_empty.addView(view1);
-                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view1.getLayoutParams();
-                    lp.height = DensityUtil.dip2px(this, 15);
-                    if (j == current.processTestList.size() - 1) {
-                        ll_empty.removeView(view1);
+            fill(current, ll_empty);
+//            if (current.asyncProcessTestList.size() > 0) {
+//                for (int j = 0; j < current.asyncProcessTestList.size(); j++) {
+//                    View fillView = addViewFill();
+//                    ll_empty.addView(fillView);
+//                    View view1 = new View(this);
+//                    view1.setBackgroundColor(Color.parseColor("#ffffff"));
+//                    ll_empty.addView(view1);
+//                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view1.getLayoutParams();
+//                    lp.height = DensityUtil.dip2px(this, 15);
+//                    if (j == current.asyncProcessTestList.size() - 1) {
+//                        ll_empty.removeView(view1);
+//                    }
+//                }
+//            } else {
+//                for (int k = 0; k < current.syncProcessTestList.size(); k++) {
+//                    View fillView = addViewFill();
+//                    ll_empty.addView(fillView);
+//                }
+//            }
+        }
+    }
+
+    private void fill(ProcessTest current, LinearLayout ll_empty) {
+        if (current.asyncProcessTestList.size() == 0 && current.syncProcessTestList.size() == 0) {
+            //没有子view 直接设置title
+            LinearLayout fillView = addViewFill();
+            fillView.addView(addViewFillContent());
+            ll_empty.addView(fillView);
+        } else if (current.asyncProcessTestList.size() > 0) {
+            //多个异步块子view (需要白线隔离)
+            for (int j = 0; j < current.asyncProcessTestList.size(); j++) {
+                LinearLayout fillView = addViewFill();
+                if (current.asyncProcessTestList.get(j).syncProcessTestList.size() > 0) {
+                    //多个同步块子View
+                    for (int k = 0; k < current.asyncProcessTestList.get(j).syncProcessTestList.size(); k++) {
+                        View syncfillView = addViewFillContent();
+                        fillView.addView(syncfillView);
                     }
+                }else {
+                    //没有同步块子view
+                    View addViewFillContent = addViewFillContent();
+                    fillView.addView(addViewFillContent);
                 }
-            } else {
-                ll_empty.addView(addViewFill());
+
+                ll_empty.addView(fillView);
+                View view1 = new View(this);
+                view1.setBackgroundColor(Color.parseColor("#ffffff"));
+                ll_empty.addView(view1);
+                LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view1.getLayoutParams();
+                lp.height = DensityUtil.dip2px(this, 15);
+                if (j == current.asyncProcessTestList.size() - 1) {
+                    ll_empty.removeView(view1);
+                }
+
+
             }
         }
     }
@@ -122,9 +181,15 @@ public class ProcessActivity extends BaseActivity {
         return view;
     }
 
-    private View addViewFill() {
+    private LinearLayout addViewFill() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.process_fill, null);
+        LinearLayout view = (LinearLayout) inflater.inflate(R.layout.process_fill, null);
+        return view;
+    }
+
+    private View addViewFillContent() {
+        LayoutInflater inflater = LayoutInflater.from(mContext);
+        View view = inflater.inflate(R.layout.process_fil_contentl, null);
         return view;
     }
 }
