@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/ll_fill"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#fafafb">
+
+    <TextView
+        android:id="@+id/text"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="10dp"
+        android:paddingTop="10dp"
+        android:text="提报订单申请"
+        android:textSize="14sp" />
+
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/text"
+        android:layout_marginLeft="10dp"
+        android:layout_marginTop="5dp"
+        android:paddingBottom="10dp"
+        android:text="2026-28-29:21"
+        android:textSize="12sp" />
+
+    <ImageView
+        android:id="@+id/st_icon"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_marginTop="-5dp"
+        android:src="@mipmap/pass_icon" />
+
+</RelativeLayout>

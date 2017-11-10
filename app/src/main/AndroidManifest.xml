@@ -258,7 +258,8 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
         <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
-        <activity android:name=".ui.order.ApplyProcessActivity"></activity>
+        <activity android:name=".ui.order.ApplyProcessActivity" />
+        <activity android:name=".ui.order.ProcessActivity"></activity>
     </application>
 
 </manifest>

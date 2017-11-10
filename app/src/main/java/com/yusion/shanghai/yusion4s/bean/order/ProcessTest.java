@@ -12,10 +12,14 @@ import java.util.List;
 public class ProcessTest {
     public String st;
     public String title;
-    public String title2;
     public String time;
-    public String time2;
+
     public List<ProcessTest> processTestList = new ArrayList<>();
+
+    //public List<ProessTest> asyncProcessTestList = new ArrayList<>();
+    //一块
+    public List<ProcessTest> syncProcessTestList = new ArrayList<>();
+
 
     @Override
     public String toString() {

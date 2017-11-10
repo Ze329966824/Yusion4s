@@ -50,8 +50,8 @@ public class ApplyProcessActivity extends BaseActivity {
         processTest.title = "征信影像审核";
         processTest.time = "34-2128-23";
         ProcessTest processTest4 = new ProcessTest();
-        processTest4.title2 = "还款";
-        processTest4.time2 = "6666-232-32";
+        processTest4.title = "还款";
+        processTest4.time = "6666-232-32";
         processTest.processTestList.add(processTest);
         processTest.processTestList.add(processTest4);
 
@@ -68,37 +68,57 @@ public class ApplyProcessActivity extends BaseActivity {
 
             after = i == list.size() - 1 ? null : list.get(i + 1);
 
-
             if (processTest3.processTestList.size() > 0 && !processTest3.processTestList.isEmpty()) {
-                View view = addView2();
-                View view1 = view.findViewById(R.id.line_kuan);
-                view1.setVisibility(View.GONE);
-                View topLine = view.findViewById(R.id.top_line);
-                View bottomLine = view.findViewById(R.id.bottom_line);
 
-                ProcessTest processTest5 = processTest.processTestList.get(0);
-                TextView tv = (TextView) view.findViewById(R.id.text);
-                TextView time = (TextView) view.findViewById(R.id.time);
+                for (int k = 0; k < processTest3.processTestList.size(); k++) {
+                    ProcessTest processTest5 = processTest3.processTestList.get(k);
+                    if (k == 0) {
 
-                tv.setText(processTest5.title);
-                time.setText(processTest5.time);
-                if (i == 0) {
-                    topLine.setVisibility(View.INVISIBLE);
-                } else if (i == list.size() - 1) {
-                    bottomLine.setVisibility(View.INVISIBLE);
+                        mLl_parent.addView(addView2());
+                    } else {
+                        mLl_parent.addView(addView5());
+                    }
                 }
-                mLl_parent.addView(view);
-                View view2 = addView5();
-                View wholeLine = view2.findViewById(R.id.whole_line);
-                TextView tv2 = (TextView) view2.findViewById(R.id.text2);
-                TextView time2 = (TextView) view2.findViewById(R.id.time2);
-                ProcessTest processTest6 = processTest.processTestList.get(1);
-                tv2.setText(processTest6.title2);
-                time2.setText(processTest6.time2);
-                if (i == list.size() - 1) {
-                    wholeLine.setVisibility(View.INVISIBLE);
-                }
-                mLl_parent.addView(view2);
+
+//                View view = addView2();
+//                View view1 = view.findViewById(R.id.line_kuan);
+//                view1.setVisibility(View.GONE);
+//
+//                View topLine = view.findViewById(R.id.top_line);
+//                View bottomLine = view.findViewById(R.id.bottom_line);
+//
+//                // ProcessTest processTest5 = processTest.processTestList.get(0);
+//
+//                TextView tv = (TextView) view.findViewById(R.id.text);
+//                TextView time = (TextView) view.findViewById(R.id.time);
+//
+//                tv.setText(processTest5.title);
+//                time.setText(processTest5.time);
+//                if (i == 0) {
+//                    topLine.setVisibility(View.INVISIBLE);
+//                } else if (i == list.size() - 1) {
+//                    bottomLine.setVisibility(View.INVISIBLE);
+//                }
+//
+//                View view2 = addView5();
+//                View wholeLine = view2.findViewById(R.id.whole_line);
+//                TextView tv2 = (TextView) view2.findViewById(R.id.text2);
+//                TextView time2 = (TextView) view2.findViewById(R.id.time2);
+//                ProcessTest processTest6 = processTest.processTestList.get(1);
+//                tv2.setText(processTest6.title);
+//                time2.setText(processTest6.time);
+//                if (i == list.size() - 1) {
+//                    wholeLine.setVisibility(View.INVISIBLE);
+//                }
+//                for (int j = 0; j < processTest.processTestList.size(); j++) {
+//                    ProcessTest processTest5 = processTest.processTestList.get(j);
+//                    tv.setText(processTest5.title);
+//                    time.setText(processTest5.time);
+//                }
+//
+//                mLl_parent.addView(view);
+//                mLl_parent.addView(view2);
+
             } else {
                 View view = addView2();
                 View topLine = view.findViewById(R.id.top_line);
@@ -145,4 +165,11 @@ public class ApplyProcessActivity extends BaseActivity {
         return view;
     }
 
+    private void setStdianImg(ImageView imageView, String st) {
+
+    }
+
+    private void setStIcon(ImageView imageView, String st) {
+
+    }
 }
