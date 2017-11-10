@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -109,6 +110,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             Yusion4sApp.isForeground = false;
             UBT.addAppEvent(this, "app_pause");
         }
+    }
+
+    public void reOpenApp(){
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override
