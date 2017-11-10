@@ -5,31 +5,37 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.view.ViewCompat;
+import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.Html;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
+import com.yusion.shanghai.yusion4s.bean.upload.GetTemplateResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
@@ -62,6 +68,19 @@ public class UploadSqsListActivity extends BaseActivity {
     private TextView uploadTv2;
     private boolean isEditing = false;
     private Intent mGetIntent;
+    private ImageView expandImg;
+    private ImageView templateImg;
+    private Button templateImgLook;
+    private ImageView templateVideoLook;
+    private LinearLayout templateLin;
+    private TextView templateTitle;
+    private TextView templateContent;
+    private LinearLayout templateTitleLin;
+    private boolean isTemplateExpand;
+    private String sample_url;
+    private String detail_url;
+    private String dlr_id;
+    private String bank_id;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +91,8 @@ public class UploadSqsListActivity extends BaseActivity {
         title = mGetIntent.getStringExtra("title");
         type = mGetIntent.getStringExtra("type");
         role = mGetIntent.getStringExtra("role");
+        bank_id = mGetIntent.getStringExtra("bank_id");
+        dlr_id = mGetIntent.getStringExtra("dlr_id");
         imgList = (List<UploadImgItemBean>) mGetIntent.getSerializableExtra("imgList");
         uploadFileUrlList = (List<UploadFilesUrlReq.FileUrlBean>) mGetIntent.getSerializableExtra("uploadFileUrlList");
 
@@ -234,18 +255,66 @@ public class UploadSqsListActivity extends BaseActivity {
                 startActivityForResult(i, 100);
             }
         });
+
+        expandImg = (ImageView) findViewById(R.id.upload_list_expand_img);
+        templateImg = (ImageView) findViewById(R.id.upload_list_template_img);
+        templateImgLook = (Button) findViewById(R.id.upload_list_template_img_look);
+        templateVideoLook = (ImageView) findViewById(R.id.upload_list_template_video_look);
+        templateImgLook.setVisibility(View.VISIBLE);
+        templateVideoLook.setVisibility(View.GONE);
+        templateLin = (LinearLayout) findViewById(R.id.upload_list_template);
+        templateTitle = (TextView) findViewById(R.id.upload_list_template_title);
+        templateContent = (TextView) findViewById(R.id.upload_list_template_content);
+        templateTitleLin = (LinearLayout) findViewById(R.id.upload_list_template_title_lin);
+        templateTitleLin.setOnClickListener(v -> {
+            if (isTemplateExpand) {
+                foldTemplate();
+            } else {
+                expandTemplate();
+            }
+        });
+        templateLin.setOnClickListener(v -> {
+        });
+        templateImg.setOnClickListener(img ->
+                previewImg(findViewById(R.id.preview_anchor), detail_url));
+        templateImgLook.setOnClickListener(v -> previewImg(findViewById(R.id.preview_anchor), detail_url));
     }
 
     private void previewImg(View previewAnchor, String imgUrl) {
+        if (TextUtils.isEmpty(imgUrl)) {
+            Toast.makeText(myApp, "没有找到图片", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent intent = new Intent(this, PreviewActivity.class);
         intent.putExtra("PreviewImg", imgUrl);
-        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
-        ActivityCompat.startActivity(this, intent, compat.toBundle());
+        intent.putExtra("breviary", true);
+        startActivity(intent);
+//        Intent intent = new Intent(this, PreviewActivity.class);
+//        intent.putExtra("PreviewImg", imgUrl);
+//        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
+//        ActivityCompat.startActivity(this, intent, compat.toBundle());
     }
 
     private void initData() {
         onImgCountChange(imgList.size() > 0);
         adapter.notifyDataSetChanged();
+
+        UploadApi.getTemplateInSqs(this, bank_id, dlr_id, new OnItemDataCallBack<GetTemplateResp>() {
+
+            @Override
+            public void onItemDataCallBack(GetTemplateResp data) {
+                if (data != null) {
+                    templateLin.setVisibility(View.VISIBLE);
+                    templateContent.setText(Html.fromHtml(data.checker_item.description));
+                    sample_url = data.checker_item.sample_url;
+                    detail_url = data.checker_item.detail_url;
+                    templateTitle.setText(data.checker_item.name + "要求");
+                    if (!isFinishing()) {
+                        Glide.with(UploadSqsListActivity.this).load(sample_url).into(templateImg);
+                    }
+                }
+            }
+        });
     }
 
     private void onImgCountChange(boolean hasImg) {
@@ -353,6 +422,48 @@ public class UploadSqsListActivity extends BaseActivity {
         finish();
     }
 
+    private void expandTemplate() {
+        ViewCompat.animate(templateLin).translationY(0).setDuration(200).setListener(new ViewPropertyAnimatorListener() {
+            @Override
+            public void onAnimationStart(View view) {
+                expandImg.setEnabled(false);
+            }
+
+            @Override
+            public void onAnimationEnd(View view) {
+                isTemplateExpand = true;
+                expandImg.setImageResource(R.mipmap.arrow_down);
+                expandImg.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationCancel(View view) {
+                expandImg.setEnabled(true);
+            }
+        }).start();
+    }
+
+    private void foldTemplate() {
+        ViewCompat.animate(templateLin).translationY(DensityUtil.dip2px(this, 350)).setDuration(200).setListener(new ViewPropertyAnimatorListener() {
+            @Override
+            public void onAnimationStart(View view) {
+                expandImg.setEnabled(false);
+            }
+
+            @Override
+            public void onAnimationEnd(View view) {
+                isTemplateExpand = false;
+                expandImg.setImageResource(R.mipmap.arrow_up);
+                expandImg.setEnabled(true);
+            }
+
+            @Override
+            public void onAnimationCancel(View view) {
+                expandImg.setEnabled(true);
+            }
+        }).start();
+
+    }
 
     public static class RvAdapter extends RecyclerView.Adapter<RvAdapter.VH> {
 
