@@ -53,10 +53,11 @@ public class ProcessActivity extends BaseActivity {
         processTest32.time = "2016-07-05  14:32";
         processTest3.asyncProcessTestList.add(processTest31);
         processTest3.asyncProcessTestList.add(processTest32);
+
         ProcessTest processTest311 = new ProcessTest();
         processTest311.title = "征信影像件审核";
         ProcessTest processTest312 = new ProcessTest();
-        processTest311.title = "予见电话审核";
+        processTest312.title = "征信结果查询";
         processTest31.syncProcessTestList.add(processTest311);
         processTest31.syncProcessTestList.add(processTest312);
         list.add(processTest3);
@@ -151,10 +152,18 @@ public class ProcessActivity extends BaseActivity {
                 if (current.asyncProcessTestList.get(j).syncProcessTestList.size() > 0) {
                     //多个同步块子View
                     for (int k = 0; k < current.asyncProcessTestList.get(j).syncProcessTestList.size(); k++) {
+                        //设置图和线
+                        ProcessTest current2 = current.asyncProcessTestList.get(k);
+                        ProcessTest before2;
+                        ProcessTest after2;
+                        before2 = k == 0 ? null : current.asyncProcessTestList.get(k - 1);
+                        after2 = k == current.asyncProcessTestList.size() - 1 ? null : current.asyncProcessTestList.get(k + 1);
+//                        before = i == 0 ? null : list.get(i - 1);
+//                        after = i == list.size() - 1 ? null : list.get(i + 1);
                         View syncfillView = addViewFillContent();
                         fillView.addView(syncfillView);
                     }
-                }else {
+                } else {
                     //没有同步块子view
                     View addViewFillContent = addViewFillContent();
                     fillView.addView(addViewFillContent);
@@ -169,7 +178,6 @@ public class ProcessActivity extends BaseActivity {
                 if (j == current.asyncProcessTestList.size() - 1) {
                     ll_empty.removeView(view1);
                 }
-
 
             }
         }
@@ -189,7 +197,8 @@ public class ProcessActivity extends BaseActivity {
 
     private View addViewFillContent() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
-        View view = inflater.inflate(R.layout.process_fil_contentl, null);
+        View view = inflater.inflate(R.layout.testjj, null);
+        //process_fil_contentl
         return view;
     }
 }
