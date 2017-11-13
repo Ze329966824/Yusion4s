@@ -8,7 +8,6 @@ import android.util.Log;
 import android.view.Gravity;
 import android.widget.Toast;
 
-import com.amap.api.location.AMapLocation;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
@@ -31,7 +30,6 @@ import java.util.Locale;
 import cn.jpush.android.api.JPushInterface;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
-
 /**
  * Created by ice on 2017/8/9.
  */
@@ -40,7 +38,6 @@ public class Yusion4sApp extends MultiDexApplication {
     private static Yusion4sApp myApplication = null;
     public static String TOKEN;
     public static String ACCOUNT;
-    //    public static String MOBILE;
     public static ConfigResp CONFIG_RESP;
     public static UserInfoBean USERINFOBEAN;
     public static boolean isForeground;
@@ -58,13 +55,17 @@ public class Yusion4sApp extends MultiDexApplication {
         super.onCreate();
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.setCustomCrashHanler(getApplicationContext());
+
         TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
         ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
+
         if (BuildConfig.isOnline) {
             Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
         } else {
             Sentry.init("http://a38b78ed9d104631998185e97f1465ff:d7046f67331d4f8d860d922b0e02bc55@116.62.161.180:9002/8", new AndroidSentryClientFactory(this));
         }
+
+
         PgyCrashManager.register(this);
         jpush();
         umeng();
@@ -78,9 +79,11 @@ public class Yusion4sApp extends MultiDexApplication {
     }
 
     private void instabug() {
-        new Instabug.Builder(this, "fac6ff642eec6bf5599d893a0a1224e3")
-                .setInvocationEvent(InstabugInvocationEvent.SHAKE)
-                .build();
+        if (Settings.forAppium) {
+            //appium不支持instabug
+            return;
+        }
+        new Instabug.Builder(this, "fac6ff642eec6bf5599d893a0a1224e3").setInvocationEvent(InstabugInvocationEvent.SHAKE).build();
     }
 
     private void umeng() {
@@ -103,9 +106,14 @@ public class Yusion4sApp extends MultiDexApplication {
     }
 
     private void jpush() {
-        JPushInterface.setDebugMode(true);
-        // 初始化 JPush
+        if (Settings.isOnline) {
+            JPushInterface.setDebugMode(false);
+        }else {
+            JPushInterface.setDebugMode(true);
+        }
+
         JPushInterface.init(this);
+
         while (TextUtils.isEmpty(reg_id)) {
             reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
             SharedPrefsUtil.getInstance(this).putValue("reg_id", reg_id);
@@ -135,23 +143,24 @@ public class Yusion4sApp extends MultiDexApplication {
     }
 
     public void requestLocation(AMapLocationListener listener) {
-        aMapLocationClient.setLocationListener(new AMapLocationListener() {
-            @Override
-            public void onLocationChanged(AMapLocation aMapLocation) {
-                if (aMapLocation.getErrorCode() == 0) {
-                    String longitude = String.valueOf(aMapLocation.getLongitude());
-                    String latitude = String.valueOf(aMapLocation.getLatitude());
-                    Log.e("GPS", String.format(Locale.CHINA, "location Success:{\"latitude\":\"%s\",\"longitude\":\"%s\"}", latitude, longitude));
-                    SharedPrefsUtil.getInstance(Yusion4sApp.this).putValue("longitude", longitude);
-                    SharedPrefsUtil.getInstance(Yusion4sApp.this).putValue("latitude", latitude);
-                } else {
-                    String errorInfo = String.format(Locale.CHINA, "location Error, ErrCode:%d, errInfo:%s", aMapLocation.getErrorCode(), aMapLocation.getErrorInfo());
-                    Log.e("GPS", errorInfo);
-                    Sentry.capture("GPS:" + errorInfo);
-                }
-                if (listener != null) {
-                    listener.onLocationChanged(aMapLocation);
-                }
+        if (Settings.forAppium) {
+            //appium不支持gps定位
+            return;
+        }
+        aMapLocationClient.setLocationListener(aMapLocation -> {
+            if (aMapLocation.getErrorCode() == 0) {
+                String longitude = String.valueOf(aMapLocation.getLongitude());
+                String latitude = String.valueOf(aMapLocation.getLatitude());
+                Log.e("GPS", String.format(Locale.CHINA, "location Success:{\"latitude\":\"%s\",\"longitude\":\"%s\"}", latitude, longitude));
+                SharedPrefsUtil.getInstance(Yusion4sApp.this).putValue("longitude", longitude);
+                SharedPrefsUtil.getInstance(Yusion4sApp.this).putValue("latitude", latitude);
+            } else {
+                String errorInfo = String.format(Locale.CHINA, "location Error, ErrCode:%d, errInfo:%s", aMapLocation.getErrorCode(), aMapLocation.getErrorInfo());
+                Log.e("GPS", errorInfo);
+                Sentry.capture("GPS:" + errorInfo);
+            }
+            if (listener != null) {
+                listener.onLocationChanged(aMapLocation);
             }
         });
         aMapLocationClient.startLocation();
@@ -166,10 +175,6 @@ public class Yusion4sApp extends MultiDexApplication {
             }
         }
         return CONFIG_RESP;
-    }
-
-    public static void setConfigResp(ConfigResp configResp) {
-        CONFIG_RESP = configResp;
     }
 
     static class CrashHandler implements Thread.UncaughtExceptionHandler {
@@ -205,16 +210,12 @@ public class Yusion4sApp extends MultiDexApplication {
 
         //线程中展示Toast
         private void showToast(final Context context, final String msg) {
-            new Thread(new Runnable() {
-
-                @Override
-                public void run() {
-                    Looper.prepare();
-                    Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER,0,0);
-                    toast.show();
-                    Looper.loop();
-                }
+            new Thread(() -> {
+                Looper.prepare();
+                Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
+                toast.setGravity(Gravity.CENTER,0,0);
+                toast.show();
+                Looper.loop();
             }).start();
         }
     }

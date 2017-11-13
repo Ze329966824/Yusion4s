@@ -33,9 +33,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ActivityManager.addActivity(this);
         WIDTH = this.getWindowManager().getDefaultDisplay().getWidth();
         HEIGHT = this.getWindowManager().getDefaultDisplay().getHeight();
-        ActivityManager.addActivity(this);
         myApp = ((Yusion4sApp) getApplication());
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);

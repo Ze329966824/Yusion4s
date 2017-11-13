@@ -7,6 +7,7 @@ apply plugin: 'me.tatarka.retrolambda'
 
 android {
     def isOnline = true
+    def forAppium = true
 
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
@@ -22,6 +23,8 @@ android {
         }
 
         multiDexEnabled true
+
+        buildConfigField("boolean", "forAppium", forAppium.toString())
 
         buildConfigField("boolean", "isOnline", isOnline.toString())
         def pgyer_appid = "2234913a0c85f5dc0e60faefe41c96e0"//红米手机图标不变
@@ -52,7 +55,9 @@ android {
             String environment = "alpha"
             if (isOnline) environment = "product"
             //projectDir是app目录
-            output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", environment + "-yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
+            String prefix = ""
+            if (forAppium) prefix = prefix + "appium_"
+            output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", prefix + environment + "-yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
         }
     }
     compileOptions {
