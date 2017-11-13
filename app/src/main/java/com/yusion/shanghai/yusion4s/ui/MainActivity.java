@@ -9,6 +9,7 @@ import android.widget.RadioButton;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
+import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
@@ -77,6 +78,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         }
     }
 
+
+    @Override
+    public void onBackPressed() {
+//        super.onBackPressed();
+//        Toast.makeText(myApp, "已无路可退", Toast.LENGTH_SHORT).show();
+        ActivityManager.exit();
+    }
 
     @Override
     public void onClick(View v) {

@@ -11,7 +11,6 @@ import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
-import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
@@ -100,6 +99,7 @@ public class LoginActivity extends BaseActivity {
             Yusion4sApp.TOKEN = resp.token;
 //            Yusion4sApp.MOBILE = resp.mobile;
             Yusion4sApp.ACCOUNT = mLoginAccountTV.getText().toString();
+
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.ACCOUNT);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
@@ -130,7 +130,7 @@ public class LoginActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        ActivityManager.finishOtherActivityEx(LoginActivity.class);
+//        ActivityManager.finishOtherActivityEx(LoginActivity.class);
     }
 
     private void uploadPersonAndDeviceInfo() {
@@ -216,7 +216,7 @@ public class LoginActivity extends BaseActivity {
                     @Override
                     public void onResponse(Call call, Response response) {
 
-                        finish();
+//                        finish();
                     }
 
                     @Override
