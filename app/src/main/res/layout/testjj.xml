@@ -8,13 +8,14 @@
 
 
     <View
+        android:id="@+id/top_line"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:layout_above="@+id/dian_icon"
         android:layout_alignParentTop="true"
         android:layout_marginLeft="16dp"
         android:background="#dddddd"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:visibility="visible" />
 
 
@@ -25,17 +26,18 @@
         android:layout_alignBottom="@+id/text"
         android:layout_marginLeft="10dp"
         android:src="@mipmap/test23"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:visibility="visible" />
 
     <View
+        android:id="@+id/bottom_line"
         android:layout_width="1dp"
         android:layout_height="wrap_content"
         android:layout_alignBottom="@+id/xuxian"
         android:layout_below="@+id/dian_icon"
         android:layout_marginLeft="16dp"
         android:background="#dddddd"
-        android:visibility="visible"
+        android:visibility="gone"
         tools:visibility="visible" />
 
     <TextView
@@ -56,6 +58,7 @@
         android:layout_marginLeft="10dp"
         android:layout_marginTop="5dp"
         android:layout_toRightOf="@+id/dian_icon"
+        android:paddingBottom="10dp"
         android:text="2026-28-29:21"
         android:textSize="12sp" />
 
@@ -65,10 +68,11 @@
         android:layout_height="2dp"
         android:layout_below="@id/time"
         android:layout_marginLeft="35dp"
-        android:layout_marginRight="15dp"
-        android:layout_marginTop="5dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginTop="3dp"
         android:background="@drawable/xuxian"
-        android:layerType="software" />
+        android:layerType="software"
+        android:visibility="gone" />
 
     <ImageView
         android:id="@+id/st_icon"

@@ -153,19 +153,46 @@ public class ProcessActivity extends BaseActivity {
                     //多个同步块子View
                     for (int k = 0; k < current.asyncProcessTestList.get(j).syncProcessTestList.size(); k++) {
                         //设置图和线
-                        ProcessTest current2 = current.asyncProcessTestList.get(k);
+                        ProcessTest current2 = current.asyncProcessTestList.get(j).syncProcessTestList.get(k);
                         ProcessTest before2;
                         ProcessTest after2;
-                        before2 = k == 0 ? null : current.asyncProcessTestList.get(k - 1);
-                        after2 = k == current.asyncProcessTestList.size() - 1 ? null : current.asyncProcessTestList.get(k + 1);
-//                        before = i == 0 ? null : list.get(i - 1);
-//                        after = i == list.size() - 1 ? null : list.get(i + 1);
+                        before2 = k == 0 ? null : current.asyncProcessTestList.get(j).syncProcessTestList.get(k - 1);
+                        after2 = k == current.asyncProcessTestList.get(j).syncProcessTestList.size() - 1 ? null : current.asyncProcessTestList.get(j).syncProcessTestList.get(k + 1);
                         View syncfillView = addViewFillContent();
+                        View topLine = syncfillView.findViewById(R.id.top_line);
+                        View bottomLine = syncfillView.findViewById(R.id.bottom_line);
+                        View xuxian = syncfillView.findViewById(R.id.xuxian);
+                        ImageView dian = (ImageView) syncfillView.findViewById(R.id.dian_icon);
+                        dian.setVisibility(View.VISIBLE);
+                        if (before2 == null) {
+                            topLine.setVisibility(View.INVISIBLE);
+                        } else {
+                            topLine.setVisibility(View.VISIBLE);
+                        }
+                        if (after2 == null) {
+                            xuxian.setVisibility(View.GONE);
+                            bottomLine.setVisibility(View.INVISIBLE);
+                        } else {
+                            xuxian.setVisibility(View.VISIBLE);
+                            bottomLine.setVisibility(View.VISIBLE);
+                        }
+
+//                        else if (after2 != null) {
+//                            bottomLine.setVisibility(View.VISIBLE);
+//                        }
+//                        if (before == null) {
+//                            topLine.setVisibility(View.INVISIBLE);
+//                        } else if (after == null) {
+//                            bottomLine.setVisibility(View.INVISIBLE);
+//                        }
+//                        syncfillView.findViewById(R.id.dian_icon);
                         fillView.addView(syncfillView);
                     }
                 } else {
                     //没有同步块子view
                     View addViewFillContent = addViewFillContent();
+                    ImageView imageView = (ImageView) addViewFillContent.findViewById(R.id.dian_icon);
+                    imageView.setVisibility(View.VISIBLE);
                     fillView.addView(addViewFillContent);
                 }
 
