@@ -2,9 +2,11 @@ package com.yusion.shanghai.yusion4s.base;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 
 import com.umeng.analytics.MobclickAgent;
@@ -31,9 +33,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        ActivityManager.addActivity(this);
         WIDTH = this.getWindowManager().getDefaultDisplay().getWidth();
         HEIGHT = this.getWindowManager().getDefaultDisplay().getHeight();
-        ActivityManager.addActivity(this);
         myApp = ((Yusion4sApp) getApplication());
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
@@ -83,6 +85,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onPause() {
         super.onPause();
+
 //        PgyFeedbackShakeManager.unregister();
         MobclickAgent.onPause(this);
         MobclickAgent.onPause(this);
@@ -100,6 +103,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     protected void onDestroy() {
         super.onDestroy();
         ActivityManager.removeActivity(this);
+        //destroy后显示最新列表
+        for (AppCompatActivity activity : ActivityManager.list) {
+            Log.e("TAG2222", "onDestroy: " + activity.getClass().getSimpleName());
+        }
+        Log.e("TAG2222", "onDestroy: ---------");
     }
 
     @Override
@@ -109,6 +117,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
             Yusion4sApp.isForeground = false;
             UBT.addAppEvent(this, "app_pause");
         }
+    }
+
+    public void reOpenApp() {
+        Intent intent = getBaseContext().getPackageManager()
+                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        startActivity(intent);
     }
 
     @Override

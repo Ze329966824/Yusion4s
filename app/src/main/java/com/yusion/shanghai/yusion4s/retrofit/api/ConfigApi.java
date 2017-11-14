@@ -1,6 +1,5 @@
 package com.yusion.shanghai.yusion4s.retrofit.api;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -11,7 +10,6 @@ import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomResponseBodyCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
-import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import org.json.JSONArray;
@@ -31,7 +29,6 @@ public class ConfigApi {
      * 否则直接返回并存入缓存文件
      */
     public static void getConfigJson(final Context context, final OnVoidCallBack onVoidCallBack) {
-        Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getConfigService().getConfigJson().enqueue(new CustomResponseBodyCallBack(context) {
             @Override
             public void onCustomResponse(String body) {

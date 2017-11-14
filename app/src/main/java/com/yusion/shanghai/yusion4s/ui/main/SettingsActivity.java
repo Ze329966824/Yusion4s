@@ -158,7 +158,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             finishByLoginOut = true;
         });
         myApp.clearUserData();
-        startActivity(new Intent(SettingsActivity.this, LoginActivity.class));
+        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
+        startActivity(intent);
         finish();
 
     }

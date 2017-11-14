@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.awen.photo.photopick.controller.PhotoPagerConfig;
 import com.bumptech.glide.Glide;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
@@ -83,6 +84,7 @@ public class UploadListActivity extends BaseActivity {
     private String sample_url;
     private View anchor;
     private ImageView templateVideoLook;
+    private ArrayList<String> url_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -256,7 +258,7 @@ public class UploadListActivity extends BaseActivity {
         if (isVideoPage) {
             templateVideoLook.setVisibility(View.VISIBLE);
             templateImgLook.setVisibility(View.GONE);
-        }else {
+        } else {
             templateImgLook.setVisibility(View.VISIBLE);
             templateVideoLook.setVisibility(View.GONE);
         }
@@ -279,16 +281,27 @@ public class UploadListActivity extends BaseActivity {
             if (isVideoPage) {
                 playVideo(detail_url);
             } else {
-                previewImg(anchor, detail_url, true);
+                previewImgs();
+//                previewImg(anchor, detail_url, true);
             }
         });
         templateImgLook.setOnClickListener(v -> {
             if (isVideoPage) {
                 playVideo(detail_url);
             } else {
-                previewImg(anchor, detail_url, true);
+                previewImgs();
+//                previewImg(anchor, detail_url, true);
             }
         });
+    }
+
+    private void previewImgs() {
+        new PhotoPagerConfig.Builder(this)
+                .setBigImageUrls(url_list)
+//                .setSavaImage(true)
+//                        .setPosition(2)
+//                        .setSaveImageLocalPath("这里是你想保存的图片地址")
+                .build();
     }
 
     private void playVideo(UploadImgItemBean item) {
@@ -391,20 +404,24 @@ public class UploadListActivity extends BaseActivity {
         String id = topItem.id;
         Log.e("TAG", "initData: " + id);
         UploadApi.getTemplate(this, id, new OnItemDataCallBack<GetTemplateResp>() {
-
             @Override
             public void onItemDataCallBack(GetTemplateResp data) {
-                if (data != null) {
-                    templateLin.setVisibility(View.VISIBLE);
-                    templateContent.setText(Html.fromHtml(data.checker_item.description));
-                    sample_url = data.checker_item.sample_url;
-                    detail_url = data.checker_item.detail_url;
-                    if (!isFinishing()) {
-                        Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
-                    }
-                }
+                showTemplate(data);
             }
         });
+    }
+
+    private void showTemplate(GetTemplateResp data) {
+        if (data != null) {
+            templateLin.setVisibility(View.VISIBLE);
+            templateContent.setText(Html.fromHtml(data.checker_item_.description));
+            sample_url = data.checker_item_.sample_url;
+            detail_url = data.checker_item_.detail_url;
+            url_list = data.checker_item_.url_list;
+            if (!isFinishing()) {
+                Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
+            }
+        }
     }
 
     private void onImgCountChange(boolean hasImg) {

@@ -57,4 +57,7 @@ public interface UploadService {
 //    http://api.alpha.yusiontech.com:8000/api/m/rest/image_checker_config/1/
     @GET("/api/m/rest/image_checker_config/{id}/")
     Call<BaseResult<GetTemplateResp>> getTemplate(@Path("id") String id);
+
+    @GET("/api/material/list_credit_material/")
+    Call<BaseResult<GetTemplateResp>> getTemplateInSqs(@Query("bank_id") String bank_id,@Query("dlr_id") String dlr_id);
 }
