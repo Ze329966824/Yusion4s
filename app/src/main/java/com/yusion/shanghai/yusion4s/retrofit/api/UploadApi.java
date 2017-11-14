@@ -118,4 +118,14 @@ public class UploadApi {
 
     }
 
+    public static void getTemplateInSqs(final Context context, String bank_id, String dlr_id, OnItemDataCallBack<GetTemplateResp> onItemDataCallBack) {
+        Api.getUploadService().getTemplateInSqs(bank_id,dlr_id).enqueue(new CustomCallBack<GetTemplateResp>(context) {
+            @Override
+            public void onCustomResponse(GetTemplateResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+
+    }
+
 }

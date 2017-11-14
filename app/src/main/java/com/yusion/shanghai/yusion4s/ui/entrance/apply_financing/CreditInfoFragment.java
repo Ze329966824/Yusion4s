@@ -529,9 +529,12 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(mContext, UploadSqsListActivity.class);
+        SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        intent.putExtra("dlr_id", req.dlr_id);
+        intent.putExtra("bank_id", req.bank_id);
         switch (v.getId()) {
             case R.id.client_credit__book_lin1://申请人征信授权
-                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
                 intent.putExtra("clt_id", lender_clt_id);
                 intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
                 intent.putExtra("role", Constants.PersonType.LENDER);
@@ -541,34 +544,31 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_spouse_credit__book_lin2://申请人配偶
-                Intent intent1 = new Intent(mContext, UploadSqsListActivity.class);
-                intent1.putExtra("clt_id", lender_sp_clt_id);
-                intent1.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                intent1.putExtra("role", Constants.PersonType.LENDER_SP);
-                intent1.putExtra("imgList", (Serializable) lenderSpList);
-                intent1.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                intent1.putExtra("title", "申请人配偶征信授权书");
-                startActivityForResult(intent1, Constants.REQUEST_MULTI_DOCUMENT);
+                intent.putExtra("clt_id", lender_sp_clt_id);
+                intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent.putExtra("role", Constants.PersonType.LENDER_SP);
+                intent.putExtra("imgList", (Serializable) lenderSpList);
+                intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent.putExtra("title", "申请人配偶征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.guarantor_credit_book_lin3://担保人征信授权
-                Intent intent2 = new Intent(mContext, UploadSqsListActivity.class);
-                intent2.putExtra("clt_id", guarantor_clt_id);
-                intent2.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                intent2.putExtra("role", Constants.PersonType.GUARANTOR);
-                intent2.putExtra("imgList", (Serializable) guarantorList);
-                intent2.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                intent2.putExtra("title", "担保人征信授权书");
-                startActivityForResult(intent2, Constants.REQUEST_MULTI_DOCUMENT);
+                intent.putExtra("clt_id", guarantor_clt_id);
+                intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent.putExtra("role", Constants.PersonType.GUARANTOR);
+                intent.putExtra("imgList", (Serializable) guarantorList);
+                intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent.putExtra("title", "担保人征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.guarantor_spouse_credit_book_lin4://担保人配偶征信授权
-                Intent intent3 = new Intent(mContext, UploadSqsListActivity.class);
-                intent3.putExtra("clt_id", guarantor_sp_clt_id);
-                intent3.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                intent3.putExtra("role", Constants.PersonType.GUARANTOR_SP);
-                intent3.putExtra("imgList", (Serializable) guarantorSpList);
-                intent3.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                intent3.putExtra("title", "担保人配偶征信授权书");
-                startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
+                intent.putExtra("clt_id", guarantor_sp_clt_id);
+                intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent.putExtra("role", Constants.PersonType.GUARANTOR_SP);
+                intent.putExtra("imgList", (Serializable) guarantorSpList);
+                intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent.putExtra("title", "担保人配偶征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_relationship_lin://车主和申请人的关系
                 WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
