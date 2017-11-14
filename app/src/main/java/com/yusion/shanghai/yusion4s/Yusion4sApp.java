@@ -12,6 +12,7 @@ import android.widget.Toast;
 import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
+import com.awen.photo.FrescoImageLoader;
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -69,6 +70,9 @@ public class Yusion4sApp extends MultiDexApplication {
         initInstabug();
 
         initAMap();
+
+        //初始化photoLibrary
+        FrescoImageLoader.init(this);
     }
 
     private void initSentry() {
@@ -213,6 +217,7 @@ public class Yusion4sApp extends MultiDexApplication {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
             //使用Toast进行提示
+            Log.e("TAG", "uncaughtException: " + ex);
             showToast(mContext, "很抱歉，程序异常即将退出！");
             //延时退出
             try {

@@ -81,7 +81,6 @@ public class UploadListActivity extends BaseActivity {
     private Button templateImgLook;
     private ImageView templateImg;
     private String detail_url;
-    private String sample_url;
     private View anchor;
     private ImageView templateVideoLook;
     private ArrayList<String> url_list;
@@ -417,12 +416,15 @@ public class UploadListActivity extends BaseActivity {
         if (data != null) {
             templateLin.setVisibility(View.VISIBLE);
             templateContent.setText(Html.fromHtml(data.checker_item_.description));
-            sample_url = data.checker_item_.sample_url;
             detail_url = data.checker_item_.detail_url;
             url_list = data.checker_item_.url_list;
+            if (url_list == null || url_list.size() == 0) {
+                Toast.makeText(myApp, "后端返回的图片列表不应该为空", Toast.LENGTH_SHORT).show();
+                return;
+            }
             imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
             if (!isFinishing()) {
-                Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
+                Glide.with(UploadListActivity.this).load(url_list.get(0)).into(templateImg);
             }
         }
     }

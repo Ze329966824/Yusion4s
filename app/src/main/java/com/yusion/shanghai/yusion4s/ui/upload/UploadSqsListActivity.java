@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.GridLayoutManager;
@@ -78,7 +80,6 @@ public class UploadSqsListActivity extends BaseActivity {
     private TextView templateContent;
     private LinearLayout templateTitleLin;
     private boolean isTemplateExpand;
-    private String sample_url;
     private String detail_url;
     private String dlr_id;
     private String bank_id;
@@ -116,6 +117,10 @@ public class UploadSqsListActivity extends BaseActivity {
                     mEditTv.setText("编辑");
                     uploadBottomLin.setVisibility(View.GONE);
                 } else {
+                    if (isTemplateExpand) {
+                        foldTemplate();
+                    }
+
                     isEditing = true;
                     mEditTv.setText("取消");
                     uploadBottomLin.setVisibility(View.VISIBLE);
@@ -279,9 +284,8 @@ public class UploadSqsListActivity extends BaseActivity {
         });
         templateLin.setOnClickListener(v -> {
         });
-        templateImg.setOnClickListener(img ->
-                previewImg(findViewById(R.id.preview_anchor), detail_url));
-        templateImgLook.setOnClickListener(v -> previewImg(findViewById(R.id.preview_anchor), detail_url));
+        templateImg.setOnClickListener(img -> previewImgs());
+        templateImgLook.setOnClickListener(v -> previewImgs());
     }
 
     private void previewImg(View previewAnchor, String imgUrl) {
@@ -293,18 +297,20 @@ public class UploadSqsListActivity extends BaseActivity {
 //        intent.putExtra("PreviewImg", imgUrl);
 //        intent.putExtra("breviary", true);
 //        startActivity(intent);
+
+        Intent intent = new Intent(this, PreviewActivity.class);
+        intent.putExtra("PreviewImg", imgUrl);
+        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
+        ActivityCompat.startActivity(this, intent, compat.toBundle());
+    }
+
+    private void previewImgs() {
         new PhotoPagerConfig.Builder(this)
                 .setBigImageUrls(url_list)
 //                .setSavaImage(true)
 //                        .setPosition(2)
 //                        .setSaveImageLocalPath("这里是你想保存的图片地址")
                 .build();
-
-
-//        Intent intent = new Intent(this, PreviewActivity.class);
-//        intent.putExtra("PreviewImg", imgUrl);
-//        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
-//        ActivityCompat.startActivity(this, intent, compat.toBundle());
     }
 
     private void initData() {
@@ -318,13 +324,16 @@ public class UploadSqsListActivity extends BaseActivity {
                 if (data != null) {
                     templateLin.setVisibility(View.VISIBLE);
                     templateContent.setText(Html.fromHtml(data.checker_item_.description));
-                    sample_url = data.checker_item_.sample_url;
                     detail_url = data.checker_item_.detail_url;
                     url_list = data.checker_item_.url_list;
+                    if (url_list == null || url_list.size() == 0) {
+                        Toast.makeText(myApp, "后端返回的图片列表不应该为空", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
                     templateTitle.setText(data.checker_item_.name + "要求");
                     if (!isFinishing()) {
-                        Glide.with(UploadSqsListActivity.this).load(sample_url).into(templateImg);
+                        Glide.with(UploadSqsListActivity.this).load(url_list.get(0)).into(templateImg);
                     }
                 }
             }
