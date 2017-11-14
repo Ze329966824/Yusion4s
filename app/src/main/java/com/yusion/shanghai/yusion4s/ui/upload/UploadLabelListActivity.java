@@ -35,8 +35,9 @@ public class UploadLabelListActivity extends BaseActivity {
         setContentView(R.layout.upload_label_list);
 
         topItem = ((ListDealerLabelsResp) getIntent().getSerializableExtra("topItem"));
-        initTitleBar(this, topItem.name).setRightText("提交").setRightClickListener(v -> onBack()).setRightTextColor(Color.WHITE).setLeftClickListener(v -> onBackFish());
         app_id = getIntent().getStringExtra("app_id");
+        initTitleBar(this, topItem.name).setRightText("提交").setRightClickListener(v -> onBack()).setRightTextColor(Color.WHITE).setLeftClickListener(v -> onBackFish());
+
 
         RecyclerView rv = (RecyclerView) findViewById(R.id.upload_label_list_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -109,11 +110,11 @@ public class UploadLabelListActivity extends BaseActivity {
         UploadApi.uploadLog(this, req, new OnCodeAndMsgCallBack() {
             @Override
             public void callBack(int code, String msg) {
-
+                finish();
             }
         });
 
-        finish();
+        //  finish();
     }
 
     @Override
