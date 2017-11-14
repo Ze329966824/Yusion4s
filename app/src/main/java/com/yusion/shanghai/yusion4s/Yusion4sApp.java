@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
@@ -16,7 +17,6 @@ import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.pgyersdk.crash.PgyCrashManager;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
-import com.yusion.shanghai.yusion4s.bean.user.UserInfoBean;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
@@ -30,25 +30,25 @@ import java.util.Locale;
 import cn.jpush.android.api.JPushInterface;
 import io.sentry.Sentry;
 import io.sentry.android.AndroidSentryClientFactory;
+
 /**
  * Created by ice on 2017/8/9.
  */
-
 public class Yusion4sApp extends MultiDexApplication {
+
     private static Yusion4sApp myApplication = null;
     public static String TOKEN;
     public static String ACCOUNT;
     public static ConfigResp CONFIG_RESP;
-    public static UserInfoBean USERINFOBEAN;
+
     public static boolean isForeground;
 
     public static boolean isLogin;
     private static String reg_id;
 
     //定位服务类
+    @SuppressLint("StaticFieldLeak")
     public static AMapLocationClient aMapLocationClient;
-    //定位参数设置
-    public AMapLocationClientOption aMapLocationClientOption;
 
     @Override
     public void onCreate() {
@@ -56,29 +56,41 @@ public class Yusion4sApp extends MultiDexApplication {
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.setCustomCrashHanler(getApplicationContext());
 
-        TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
-        ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
+        initData();
 
+        initSentry();
+
+        PgyCrashManager.register(this);
+
+        initJpush();
+
+        initUmeng();
+
+        initInstabug();
+
+        initAMap();
+    }
+
+    private void initSentry() {
         if (BuildConfig.isOnline) {
             Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
         } else {
             Sentry.init("http://a38b78ed9d104631998185e97f1465ff:d7046f67331d4f8d860d922b0e02bc55@116.62.161.180:9002/8", new AndroidSentryClientFactory(this));
         }
+    }
 
-
-        PgyCrashManager.register(this);
-        jpush();
-        umeng();
-        instabug();
-        initAMap();
+    private void initData() {
         SqlLiteUtil.init(this);
+        myApplication = this;
+        TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
+        ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
         String cacheUrl = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
         if (!TextUtils.isEmpty(cacheUrl)) {
             Settings.SERVER_URL = cacheUrl;
         }
     }
 
-    private void instabug() {
+    private void initInstabug() {
         if (Settings.forAppium) {
             //appium不支持instabug
             return;
@@ -86,7 +98,7 @@ public class Yusion4sApp extends MultiDexApplication {
         new Instabug.Builder(this, "fac6ff642eec6bf5599d893a0a1224e3").setInvocationEvent(InstabugInvocationEvent.SHAKE).build();
     }
 
-    private void umeng() {
+    private void initUmeng() {
         //禁止默认的页面统计方式
         MobclickAgent.openActivityDurationTrack(false);
         //捕获程序崩溃日志
@@ -96,7 +108,6 @@ public class Yusion4sApp extends MultiDexApplication {
     public void clearUserData() {
         TOKEN = "";
         ACCOUNT = "";
-        USERINFOBEAN = null;
         SharedPrefsUtil.getInstance(this).putValue("token", TOKEN);
         SharedPrefsUtil.getInstance(this).putValue("account", ACCOUNT);
     }
@@ -105,10 +116,10 @@ public class Yusion4sApp extends MultiDexApplication {
         return myApplication;
     }
 
-    private void jpush() {
+    private void initJpush() {
         if (Settings.isOnline) {
             JPushInterface.setDebugMode(false);
-        }else {
+        } else {
             JPushInterface.setDebugMode(true);
         }
 
@@ -122,6 +133,8 @@ public class Yusion4sApp extends MultiDexApplication {
 
     private void initAMap() {
         aMapLocationClient = new AMapLocationClient(this);
+        //定位参数设置
+        AMapLocationClientOption aMapLocationClientOption;
         aMapLocationClientOption = new AMapLocationClientOption();
         aMapLocationClientOption.setLocationMode(AMapLocationClientOption.AMapLocationMode.Hight_Accuracy);
         aMapLocationClientOption.setOnceLocation(true);
@@ -179,16 +192,18 @@ public class Yusion4sApp extends MultiDexApplication {
 
     static class CrashHandler implements Thread.UncaughtExceptionHandler {
 
+        @SuppressLint("StaticFieldLeak")
         private static CrashHandler instance = new CrashHandler();
         private Context mContext;
 
-        private CrashHandler() {}
+        private CrashHandler() {
+        }
 
         public static CrashHandler getInstance() {
             return instance;
         }
 
-        public void setCustomCrashHanler(Context context) {
+        void setCustomCrashHanler(Context context) {
             mContext = context;
             //崩溃时将catch住异常
             Thread.setDefaultUncaughtExceptionHandler(this);
@@ -201,7 +216,7 @@ public class Yusion4sApp extends MultiDexApplication {
             showToast(mContext, "很抱歉，程序异常即将退出！");
             //延时退出
             try {
-                thread.sleep(2000);
+                Thread.sleep(2000);
                 System.exit(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
@@ -213,7 +228,7 @@ public class Yusion4sApp extends MultiDexApplication {
             new Thread(() -> {
                 Looper.prepare();
                 Toast toast = Toast.makeText(context, msg, Toast.LENGTH_LONG);
-                toast.setGravity(Gravity.CENTER,0,0);
+                toast.setGravity(Gravity.CENTER, 0, 0);
                 toast.show();
                 Looper.loop();
             }).start();

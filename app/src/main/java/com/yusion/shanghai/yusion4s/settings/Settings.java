@@ -10,6 +10,7 @@ import com.yusion.shanghai.yusion4s.BuildConfig;
 
 public class Settings {
     public static boolean isOnline = BuildConfig.isOnline;
+    public static boolean forAppium = BuildConfig.forAppium;
     public static boolean isShameData = false;
 
     static {

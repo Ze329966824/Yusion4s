@@ -83,6 +83,7 @@ public class UploadSqsListActivity extends BaseActivity {
     private String dlr_id;
     private String bank_id;
     private ArrayList<String> url_list;
+    private TextView imgsSizeTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -264,6 +265,7 @@ public class UploadSqsListActivity extends BaseActivity {
         templateVideoLook = (ImageView) findViewById(R.id.upload_list_template_video_look);
         templateImgLook.setVisibility(View.VISIBLE);
         templateVideoLook.setVisibility(View.GONE);
+        imgsSizeTv = (TextView) findViewById(R.id.upload_list_template_imgs_size);
         templateLin = (LinearLayout) findViewById(R.id.upload_list_template);
         templateTitle = (TextView) findViewById(R.id.upload_list_template_title);
         templateContent = (TextView) findViewById(R.id.upload_list_template_content);
@@ -319,6 +321,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     sample_url = data.checker_item_.sample_url;
                     detail_url = data.checker_item_.detail_url;
                     url_list = data.checker_item_.url_list;
+                    imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
                     templateTitle.setText(data.checker_item_.name + "要求");
                     if (!isFinishing()) {
                         Glide.with(UploadSqsListActivity.this).load(sample_url).into(templateImg);

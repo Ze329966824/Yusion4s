@@ -15,8 +15,8 @@ android {
         applicationId "com.yusion.shanghai.yusion4s"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 26
-        versionName "V1.4.7"
+        versionCode 29
+        versionName "V1.4.9"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi"
@@ -36,6 +36,15 @@ android {
         }
         manifestPlaceholders = ["PGYER_APPID": pgyer_appid, APP_ICON: app_icon]
     }
+//    productFlavors{
+//        online{
+//
+//        }
+//
+//        alpha{
+//            applicationId "com.yusion.shanghai.yusion4s.alpha"
+//        }
+//    }
     buildTypes {
         release {
             minifyEnabled false
