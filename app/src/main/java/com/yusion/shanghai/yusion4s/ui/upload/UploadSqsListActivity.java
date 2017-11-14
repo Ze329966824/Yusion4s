@@ -305,6 +305,10 @@ public class UploadSqsListActivity extends BaseActivity {
     }
 
     private void previewImgs() {
+        if (url_list == null || url_list.size() == 0) {
+            Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+            return;
+        }
         new PhotoPagerConfig.Builder(this)
                 .setBigImageUrls(url_list)
 //                .setSavaImage(true)
@@ -323,11 +327,15 @@ public class UploadSqsListActivity extends BaseActivity {
             public void onItemDataCallBack(GetTemplateResp data) {
                 if (data != null) {
                     templateLin.setVisibility(View.VISIBLE);
+                    if (data.checker_item_ == null) {
+                        Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
                     templateContent.setText(Html.fromHtml(data.checker_item_.description));
                     detail_url = data.checker_item_.detail_url;
                     url_list = data.checker_item_.url_list;
                     if (url_list == null || url_list.size() == 0) {
-                        Toast.makeText(myApp, "后端返回的图片列表不应该为空", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(myApp, "请相关人员添加模板图片!!!", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
