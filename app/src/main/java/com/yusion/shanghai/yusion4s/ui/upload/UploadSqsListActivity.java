@@ -21,6 +21,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.awen.photo.photopick.controller.PhotoPagerConfig;
 import com.bumptech.glide.Glide;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
@@ -81,6 +82,7 @@ public class UploadSqsListActivity extends BaseActivity {
     private String detail_url;
     private String dlr_id;
     private String bank_id;
+    private ArrayList<String> url_list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -281,14 +283,22 @@ public class UploadSqsListActivity extends BaseActivity {
     }
 
     private void previewImg(View previewAnchor, String imgUrl) {
-        if (TextUtils.isEmpty(imgUrl)) {
-            Toast.makeText(myApp, "没有找到图片", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Intent intent = new Intent(this, PreviewActivity.class);
-        intent.putExtra("PreviewImg", imgUrl);
-        intent.putExtra("breviary", true);
-        startActivity(intent);
+//        if (TextUtils.isEmpty(imgUrl)) {
+//            Toast.makeText(myApp, "没有找到图片", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        Intent intent = new Intent(this, PreviewActivity.class);
+//        intent.putExtra("PreviewImg", imgUrl);
+//        intent.putExtra("breviary", true);
+//        startActivity(intent);
+        new PhotoPagerConfig.Builder(this)
+                .setBigImageUrls(url_list)
+//                .setSavaImage(true)
+//                        .setPosition(2)
+//                        .setSaveImageLocalPath("这里是你想保存的图片地址")
+                .build();
+
+
 //        Intent intent = new Intent(this, PreviewActivity.class);
 //        intent.putExtra("PreviewImg", imgUrl);
 //        ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
@@ -305,10 +315,11 @@ public class UploadSqsListActivity extends BaseActivity {
             public void onItemDataCallBack(GetTemplateResp data) {
                 if (data != null) {
                     templateLin.setVisibility(View.VISIBLE);
-                    templateContent.setText(Html.fromHtml(data.checker_item.description));
-                    sample_url = data.checker_item.sample_url;
-                    detail_url = data.checker_item.detail_url;
-                    templateTitle.setText(data.checker_item.name + "要求");
+                    templateContent.setText(Html.fromHtml(data.checker_item_.description));
+                    sample_url = data.checker_item_.sample_url;
+                    detail_url = data.checker_item_.detail_url;
+                    url_list = data.checker_item_.url_list;
+                    templateTitle.setText(data.checker_item_.name + "要求");
                     if (!isFinishing()) {
                         Glide.with(UploadSqsListActivity.this).load(sample_url).into(templateImg);
                     }

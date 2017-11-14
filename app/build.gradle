@@ -6,8 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    def isOnline = true
-    def forAppium = true
+    def isOnline = false
+    def forAppium = false
 
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
@@ -110,6 +110,7 @@ dependencies {
     compile 'com.shizhefei:LargeImageView:1.0.9'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
+    compile project(path: ':photoLibrary')
 }
 repositories {
     mavenCentral()
