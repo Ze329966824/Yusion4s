@@ -85,6 +85,7 @@ public class UploadListActivity extends BaseActivity {
     private View anchor;
     private ImageView templateVideoLook;
     private ArrayList<String> url_list;
+    private TextView imgsSizeTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -255,6 +256,7 @@ public class UploadListActivity extends BaseActivity {
         templateImg = (ImageView) findViewById(R.id.upload_list_template_img);
         templateImgLook = (Button) findViewById(R.id.upload_list_template_img_look);
         templateVideoLook = (ImageView) findViewById(R.id.upload_list_template_video_look);
+        imgsSizeTv = (TextView) findViewById(R.id.upload_list_template_imgs_size);
         if (isVideoPage) {
             templateVideoLook.setVisibility(View.VISIBLE);
             templateImgLook.setVisibility(View.GONE);
@@ -418,6 +420,7 @@ public class UploadListActivity extends BaseActivity {
             sample_url = data.checker_item_.sample_url;
             detail_url = data.checker_item_.detail_url;
             url_list = data.checker_item_.url_list;
+            imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
             if (!isFinishing()) {
                 Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
             }
