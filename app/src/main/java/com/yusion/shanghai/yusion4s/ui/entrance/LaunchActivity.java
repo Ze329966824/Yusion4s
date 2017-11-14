@@ -92,7 +92,6 @@ public class LaunchActivity extends BaseActivity {
 
 
     private void onTokenValid() {
-
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }

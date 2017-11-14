@@ -12,13 +12,11 @@ import android.widget.Toast;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
@@ -144,8 +142,6 @@ public class LoginActivity extends BaseActivity {
                 contactListBean.display_name = jsonObject.optString("display_name");
 
                 contactBeenList.add(contactListBean);
-                //raw_list.add(jsonObject.toString());
-
             } catch (JSONException e) {
                 e.printStackTrace();
             }
@@ -156,9 +152,6 @@ public class LoginActivity extends BaseActivity {
         if (contactBeenList.size() > 0 && !contactBeenList.isEmpty()) {
             contactBean.contact_list = contactBeenList;
         }
-//        else {
-//            contactBean.raw_data = raw_list;
-//        }
 
         JSONArray smsJsonArray = MobileDataUtil.getUserData(this, "sms");
         List<UBTData.DataBean.SmsBean> smsList = new ArrayList<>();
@@ -192,31 +185,20 @@ public class LoginActivity extends BaseActivity {
             simBean.sms_list = smsList;
         }
 
-        AuthApi.checkUserInfo(this, new OnItemDataCallBack<CheckUserInfoResp>() {
-            @Override
-            public void onItemDataCallBack(CheckUserInfoResp data) {
-                contactBean.clt_nm = data.name;
-                contactBean.mobile = data.mobile;
-                simBean.clt_nm = data.name;
-                simBean.mobile = data.mobile;
-                //PersonApi.uploadPersonAndDeviceInfo(req);
-                PersonApi.uploadPersonAndDeviceInfo(req, new Callback() {
-                    @Override
-                    public void onResponse(Call call, Response response) {
-
-//                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(Call call, Throwable t) {
-
-                    }
-                });
-            }
+        AuthApi.checkUserInfo(this, data -> {
+            contactBean.clt_nm = data.name;
+            contactBean.mobile = data.mobile;
+            simBean.clt_nm = data.name;
+            simBean.mobile = data.mobile;
+            PersonApi.uploadPersonAndDeviceInfo(req, new Callback() {
+                @Override
+                public void onResponse(Call call, Response response) {
+                }
+                @Override
+                public void onFailure(Call call, Throwable t) {
+                }
+            });
         });
-//        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//        startActivity(intent);
-//        finish();
     }
 
 }

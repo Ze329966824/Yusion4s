@@ -188,7 +188,6 @@ public class UBT {
 
     private static ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
 
-
     public static void sendAllUBTEvents(Context context) {
         sendUBTEvents(context, 0, null);
     }
@@ -350,8 +349,6 @@ public class UBT {
 
                     String action = hasFocus ? "focus_in" : "focus_out";
                     addEvent(view.getContext(), action, view, pageName, ((EditText) view).getText().toString());
-//                    addEvent(view.getContext(), "onFocusChange", view, pageName, hasFocus ? "onFocus" : "onBlur");
-
                 } catch (IllegalAccessException e) {
                     e.printStackTrace();
                 } catch (InvocationTargetException e) {
@@ -360,6 +357,26 @@ public class UBT {
             }
         });
 
+    }
+
+    private static void processorOnTextChange(final TextView view, final String pageName) {
+        view.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (TextUtils.isEmpty(s)) {
+                    return;
+                }
+                addEvent(view.getContext(), "text_change", view, pageName, s.toString());
+            }
+        });
     }
 
     private static void processorOnCheckedChange(final Object object, final String methodName, final CompoundButton view, final String pageName) {
@@ -380,26 +397,6 @@ public class UBT {
                 } catch (InvocationTargetException e) {
                     e.printStackTrace();
                 }
-            }
-        });
-    }
-
-    private static void processorOnTextChange(final TextView view, final String pageName) {
-        view.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (TextUtils.isEmpty(s)) {
-                    return;
-                }
-                addEvent(view.getContext(), "text_change", view, pageName, s.toString());
             }
         });
     }
@@ -444,19 +441,22 @@ public class UBT {
         });
     }
 
-    private static void addEvent(Context context, String action, View view, final String pageName, String action_value) {
-        singleThreadPool.execute(new AddEventThread(context, action, view, pageName, action_value, ((String) view.getTag(R.id.UBT_WIDGET))));
-    }
-
     private static void addEvent(Context context, String action, View view, final String pageName) {
         addEvent(context, action, view, pageName, null);
     }
 
+    private static void addEvent(Context context, String action, View view, final String pageName, String action_value) {
+        if (Settings.forAppium) return;
+        singleThreadPool.execute(new AddEventThread(context, action, view, pageName, action_value, ((String) view.getTag(R.id.UBT_WIDGET))));
+    }
+
     public static void addPageEvent(Context context, String action, String object, final String pageName) {
+        if (Settings.forAppium) return;
         singleThreadPool.execute(new AddEventThread(context, action, object, pageName));
     }
 
     public static void addAppEvent(Context context, String action) {
+        if (Settings.forAppium) return;
         singleThreadPool.execute(new AddEventThread(context, action));
     }
 }
