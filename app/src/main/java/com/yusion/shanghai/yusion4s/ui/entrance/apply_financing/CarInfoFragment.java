@@ -27,7 +27,6 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
-import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
@@ -75,7 +74,6 @@ public class CarInfoFragment extends BaseFragment {
     private int mGuidePrice = 0;
 
     private int mNperIndex = 0;
-
     private int mChangeLoanAndFirstPriceCount = 0;
     private boolean ischangeBillPriceBySys = false;
 
@@ -225,6 +223,9 @@ public class CarInfoFragment extends BaseFragment {
             super.handleMessage(msg);
         }
     };
+    @BindView(id = R.id.personal_info_home_address_tv, widgetName = "personal_info_home_address_tv")
+    private TextView carTypeTv;
+
     @BindView(id = R.id.car_info_dlr_tv, widgetName = "car_info_dlr_tv")
     private TextView dlrTV;
 
@@ -308,7 +309,6 @@ public class CarInfoFragment extends BaseFragment {
     private TextView guidePriceTv;
     private TextView totalLoanPriceTv;
     private String cityJson;
-
 
 
     //    @BindView(id = R.id.car_info_plate_reg_addr_lin, widgetName = "上牌地选择", onClick = "selectplateRegAddr")
@@ -656,7 +656,6 @@ public class CarInfoFragment extends BaseFragment {
         colorTv = (EditText) view.findViewById(R.id.car_info_color_tv);//车辆颜色
         plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
         plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
-
         dlrTV = (TextView) view.findViewById(R.id.car_info_dlr_tv);
         brandTv = (TextView) view.findViewById(R.id.car_info_brand_tv);
         trixTv = (TextView) view.findViewById(R.id.car_info_trix_tv);
@@ -677,6 +676,11 @@ public class CarInfoFragment extends BaseFragment {
         carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
         carInfoLoanBankLin = (LinearLayout) view.findViewById(R.id.car_info_loan_bank_lin);
         carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
+        // TODO: 2017/11/15 两种写法都可以
+        String cartype = ((OrderCreateActivity) getActivity()).cartype;
+        Log.e("TAG", "onViewCreated: cartype");
+        String ss = getActivity().getIntent().getStringExtra("cartype");
+        Log.e("TAG", "onViewCreated: ss");
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
 
@@ -1248,8 +1252,7 @@ public class CarInfoFragment extends BaseFragment {
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                     } else if (checkCanNextStep()) {
 
-                        SubmitOrderReq req = ((OrderCreateActivity)getActivity()).req;
-
+                        SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
                         req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                         req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
 
@@ -1267,7 +1270,7 @@ public class CarInfoFragment extends BaseFragment {
                         req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
 
                         //req.product_type = productTypeTv.getText().toString();
-
+                        req.vehicle_cond = carTypeTv.getText().toString();
                         req.plate_reg_addr = plateRegAddrTv.getText().toString();
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                     }
@@ -1282,7 +1285,7 @@ public class CarInfoFragment extends BaseFragment {
                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                 } else if (checkCanNextStep()) {
 
-                    SubmitOrderReq req =  ((OrderCreateActivity)getActivity()).req;
+                    SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
 
                     req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                     req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
@@ -1301,7 +1304,8 @@ public class CarInfoFragment extends BaseFragment {
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
 
                     //req.product_type = productTypeTv.getText().toString();
-
+                    //汽车类型，是新车还是旧车
+                    req.vehicle_cond = carTypeTv.getText().toString();
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
 
@@ -1443,126 +1447,5 @@ public class CarInfoFragment extends BaseFragment {
             sum = (shang + 1) * 100;
         }
         return sum;
-    }
-
-    public void changeCarInfo() {
-        //Toast.makeText(mContext, "测试能否调用", Toast.LENGTH_LONG).show();
-
-        //先清理所有数据
-        //mDlrList.clear();
-        // mDlrIndex = 0;
-        //mBrandList.clear();
-        //mBrandIndex = 0;
-        //brandTv.setText("");//厂商指导价
-
-        //mTrixList.clear();
-        //mTrixIndex = 0;
-        //trixTv.setText("");//选择车型
-
-        //mModelList.clear();
-        //mModelIndex = 0;
-        // modelTv.setText("");
-
-        // guidePriceTv.setText("");
-
-//        mLoanBankList.clear();
-//        mLoanBankIndex = 0;
-//        loanBankTv.setText(null);
-//
-//        //  mProductTypeIndex = 0;
-//        productTypeTv.setText(null);
-//
-//        billPriceTv.setText("");
-
-
-        // mManagementPriceIndex = 0;
-
-//        managementPriceTv.setText("");
-//        totalLoanPriceTv.setText("");
-//        otherPriceTv.setText("");
-//        plateRegAddrTv.setText("");//上牌地选择
-//        loanPeriodsTv.setText("");//还款期限
-
-        //调用接口，进行网络请求获取数据，重新填充并且index要对应， 门店测试经销商，宝马,宝马5系,2017款 宝马5系
-        GetRawCarInfoResp resp = new GetRawCarInfoResp();
-//        public String dlr;
-//        public String brand;
-//        public String trix;
-//        public String model_name;
-//        public String color;
-//        public String guide_price;
-//        public String vehicle_price;//开票价
-//        public String loan_amt;//车辆总贷款额
-//        public String vehicle_loan_amt;//贷款额
-//        public String vehicle_down_payment;//车辆首付款
-//        public double vehicle_down_payment_percent; //首付比例
-//        public String monthly_payment;
-//        public int nper;//还款期限
-//        public String management_fee;//管理费
-//        public String other_fee;//其他费用
-//        public String loan_bank; //贷款银行
-//        public String product_type;//产品类型
-//        resp.dlr = "测试经销商";
-//        resp.brand = "宝马";
-//        resp.trix = "宝马5系";
-//        resp.model_name = "2017款 宝马5系 530Le";
-//        resp.guide_price = "698600";
-//        resp.vehicle_price = "600000";
-//        resp.vehicle_loan_amt = "50000";
-//        resp.vehicle_down_payment = "550000";
-//        resp.management_fee = "300";
-//        resp.other_fee = "300";
-//        resp.loan_amt = "50600";
-//        resp.loan_bank = "中国工商银行台州路桥支行";
-//        resp.product_type = "予见II型";
-//        resp.nper = "36";
-//        resp.plateRegAddress = "北京/北京市/东城区";
-
-
-        dlrTV.setText(resp.dlr);
-        brandTv.setText(resp.brand);
-        trixTv.setText(resp.trix);
-        modelTv.setText(resp.model_name);
-        // colorTv.setText(resp.color);
-
-//
-//        //  selectIndex(dlrItems, mDlrIndex, "门店测试经销商");
-//        Log.e("TAG", ((String.valueOf(mDlrIndex))));
-//
-//        brandTv.setText("宝马");
-//        //selectIndex(brandItems, mBrandIndex, "宝马");
-//        Log.e("TAG", ((String.valueOf(mBrandIndex))));
-//
-//        trixTv.setText("宝马5系");
-//        //selectIndex(trixItems, mTrixIndex, "宝马5系");
-//        Log.e("TAG", ((String.valueOf(mTrixIndex))));
-//
-//        modelTv.setText("2017款 宝马5系 530Le");
-
-        isChangeCarInfoChange = true;
-//        guidePriceTv.setText(resp.guide_price);//市场指导价
-//        billPriceTv.setText(resp.vehicle_price);//开票价
-//        carLoanPriceTv.setText(resp.vehicle_loan_amt);//车辆贷款额
-//        firstPriceTv.setText(resp.vehicle_down_payment);//首付款
-//        managementPriceTv.setText(resp.management_fee);//档案管理费
-//        otherPriceTv.setText(resp.other_fee);//其他费用
-//        totalLoanPriceTv.setText(resp.loan_amt);//总贷款额
-//        loanBankTv.setText(resp.loan_bank);//贷款银行
-//        productTypeTv.setText(resp.product_type);//产品类型
-//        loanPeriodsTv.setText(resp.nper);//还款期限
-//        plateRegAddrTv.setText(resp.plateRegAddress);//上牌地
-//        mGuidePrice = Integer.valueOf(resp.guide_price);
-        //selectIndex(modelItems, mModelIndex, "2017款 宝马5系 530le");
-        Log.e("TAG", ((String.valueOf(mModelIndex))));
-
-
-    }
-
-    public void selectIndex(List<String> list, int index, String s) {
-        for (int i = 0; i < list.size(); i++) {
-            if (list.get(i).equals(s)) {
-                index = i;
-            }
-        }
     }
 }

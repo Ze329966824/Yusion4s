@@ -45,8 +45,6 @@ public class ApplyFinancingFragment extends BaseFragment {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_apply_financing, container, false);
 
-
-
     }
 
 
@@ -55,7 +53,6 @@ public class ApplyFinancingFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 
         onclick(view);
-
 
         /*
 
@@ -104,6 +101,7 @@ public class ApplyFinancingFragment extends BaseFragment {
     private void onclick(View view) {
         view.findViewById(R.id.apply_financing_cteate_btn).setOnClickListener(v -> {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
+            i1.putExtra("cartype", "旧车");
             startActivity(i1);
         });
 
