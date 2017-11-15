@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -16,6 +17,7 @@ import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -129,7 +131,16 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (event) {
             case showOrderManager:
                 orderListRb.performClick();
-                break;
+                if (event.position == -1) {
+                    Log.e("TAG", "changeFragment: ");
+                    break;
+                }else {
+                    Log.e("TAG", "changeFragment: 1111111");
+                    OrderManagerFragmentEvent.showFragment.position =event.position;
+                    EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
+                    break;
+                }
+
         }
     }
 //

@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,6 +16,8 @@ import android.view.ViewGroup;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -25,6 +28,9 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTit
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,6 +39,10 @@ import java.util.List;
  */
 public class OrderManagerFragment extends BaseFragment {
 
+    private CarInfoFragment mCarInfoFragment;
+    private CreditInfoFragment mCreditInfoFragment;
+    private Fragment mCurrentFragment;
+    private ViewPager viewPager;
 
     public static OrderManagerFragment newInstance() {
 
@@ -53,12 +63,26 @@ public class OrderManagerFragment extends BaseFragment {
     }
 
     @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        EventBus.getDefault().register(this);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        if(EventBus.getDefault().isRegistered(this)){
+            EventBus.getDefault().unregister(this);
+        }
+    }
+
+    @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initTitleBar(view, "申请");
         //setBackHide();
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         ArrayList<Fragment> mFragments = new ArrayList<>();
         //网络请求，映射的应该是key value
         //WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
@@ -75,7 +99,7 @@ public class OrderManagerFragment extends BaseFragment {
             mFragments.add(OrderItemFragment.newInstance(mStCode.get(i)));
         }
         viewPager.setAdapter(new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments));
-        //viewPager.setCurrentItem(1);
+       // viewPager.setCurrentItem(1);
         MagicIndicator mMagicIndicator = (MagicIndicator) view.findViewById(R.id.tab_layout);
         CommonNavigator commonNavigator = new CommonNavigator(mContext);
         commonNavigator.setAdjustMode(false);
@@ -127,5 +151,17 @@ public class OrderManagerFragment extends BaseFragment {
             return mFragments == null ? 0 : mFragments.size();
         }
 
+    }
+    @Subscribe
+    public void changeFragment(OrderManagerFragmentEvent event){
+        Log.e("TAG", "changeFragment: "+event);
+        switch (event){
+            case showFragment:
+                Log.e("TAG", "changeFragment: 2222222");
+                viewPager.setCurrentItem(event.position);
+                break;
+            default:
+                break;
+        }
     }
 }
