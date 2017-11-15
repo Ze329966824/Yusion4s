@@ -55,7 +55,7 @@ public class Yusion4sApp extends MultiDexApplication {
     public void onCreate() {
         super.onCreate();
         CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.setCustomCrashHanler(getApplicationContext());
+        crashHandler.setCustomCrashHanler(this);
 
         initData();
 
