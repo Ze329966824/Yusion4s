@@ -29,9 +29,13 @@ public class OrderCreateActivity extends BaseActivity {
         setContentView(R.layout.activity_order_create);
         EventBus.getDefault().register(this);
 
-        initTitleBar(this, "申请融资");
+        //initTitleBar(this, "申请融资");
         cartype = getIntent().getStringExtra("cartype");
-
+        if (cartype.equals("二手车")) {
+            initTitleBar(this, "二手车申请");
+        } else {
+            initTitleBar(this, "新车申请");
+        }
 
         mCarInfoFragment = CarInfoFragment.newInstance();
         mCreditInfoFragment = CreditInfoFragment.newInstance();
