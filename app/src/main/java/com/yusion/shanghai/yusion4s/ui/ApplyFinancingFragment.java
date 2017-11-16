@@ -16,7 +16,7 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
-import com.yusion.shanghai.yusion4s.ui.order.ChangeDLRActivity;
+import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -116,7 +116,7 @@ public class ApplyFinancingFragment extends BaseFragment {
         });
 
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
-            Intent i3 = new Intent(mContext, ChangeDLRActivity.class);
+            Intent i3 = new Intent(mContext, ChangeDlrActivity.class);
             startActivity(i3);
         });
 
