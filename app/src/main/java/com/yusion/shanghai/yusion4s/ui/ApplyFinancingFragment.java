@@ -16,7 +16,7 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
-import com.yusion.shanghai.yusion4s.ui.order.ChangeDealerActivity;
+import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 
 import org.greenrobot.eventbus.EventBus;
@@ -99,15 +99,22 @@ public class ApplyFinancingFragment extends BaseFragment {
     }
 
     private void onclick(View view) {
-        view.findViewById(R.id.apply_financing_cteate_btn).setOnClickListener(v -> {
+        //新车
+        view.findViewById(R.id.apply_financing_cteate_newcar_btn).setOnClickListener(v -> {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
-            i1.putExtra("cartype", "二手车");
+            i1.putExtra("car_type","新车");
             startActivity(i1);
+        });
+        //二手车
+        view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v ->{
+            Intent i2 = new Intent(mContext,OrderCreateActivity.class);
+            i2.putExtra("car_type","二手车");
+            startActivity(i2);
         });
 
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
-            Intent i2 = new Intent(mContext, ChangeDealerActivity.class);
-            startActivity(i2);
+            Intent i3 = new Intent(mContext, ChangeDlrActivity.class);
+            startActivity(i3);
         });
 
         view.findViewById(R.id.apply_financing_lin1).setOnClickListener(v -> {
