@@ -166,6 +166,11 @@ public class UploadListActivity extends BaseActivity {
                 }
                 Collections.sort(indexList);
 
+                if (indexList.size() == 0) {
+                    //没有选中图片就不予点击删除按键
+                    return;
+                }
+
                 //没删除一个对象就该偏移+1
                 int offset = 0;
                 for (int i = 0; i < indexList.size(); i++) {
@@ -430,6 +435,7 @@ public class UploadListActivity extends BaseActivity {
                 Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
                 return;
             }
+
             imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
             if (!isFinishing()) {
                 Glide.with(UploadListActivity.this).load(url_list.get(0)).into(templateImg);

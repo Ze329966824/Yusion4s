@@ -9,6 +9,7 @@ import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 
 import java.io.IOException;
+import java.net.UnknownHostException;
 
 import io.sentry.Sentry;
 import okhttp3.ResponseBody;
@@ -53,7 +54,9 @@ public abstract class CustomResponseBodyCallBack implements Callback<ResponseBod
         if (dialog != null) {
             dialog.dismiss();
         }
-        if (Settings.isOnline) {
+        if (t instanceof UnknownHostException) {
+            Toast.makeText(context, "网络繁忙,请检查网络", Toast.LENGTH_SHORT).show();
+        } else if (Settings.isOnline) {
             Toast.makeText(context, "接口调用失败,请稍后再试...", Toast.LENGTH_LONG).show();
         } else {
             Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
