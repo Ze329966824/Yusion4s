@@ -102,13 +102,13 @@ public class ApplyFinancingFragment extends BaseFragment {
         //新车
         view.findViewById(R.id.apply_financing_cteate_newcar_btn).setOnClickListener(v -> {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
-            i1.putExtra("car_type","新车");
+            i1.putExtra("car_type", "新车");
             startActivity(i1);
         });
         //二手车
-        view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v ->{
-            Intent i2 = new Intent(mContext,OrderCreateActivity.class);
-            i2.putExtra("car_type","二手车");
+        view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v -> {
+            Intent i2 = new Intent(mContext, OrderCreateActivity.class);
+            i2.putExtra("car_type", "二手车");
             startActivity(i2);
         });
 

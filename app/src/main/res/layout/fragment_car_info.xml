@@ -443,7 +443,6 @@
                                 android:id="@+id/oldcar_dance_tv"
                                 style="@style/apply_info_content"
                                 android:layout_marginRight="35dp"
-                                android:enabled="false"
                                 android:hint="请输入"
                                 android:inputType="number" />
 
@@ -489,56 +488,63 @@
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
-                        android:id="@+id/oldcar_guess_price_lin"
-                        style="@style/apply_info_item"
+                        android:id="@+id/oldcar_guess_and_jiaoyi_lin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
                         android:visibility="gone"
                         tools:visibility="visible">
 
-                        <TextView
-                            style="@style/apply_info_title"
-                            android:text="二手车评估价(元)" />
+                        <LinearLayout
+                            android:id="@+id/oldcar_guess_price_lin"
+                            style="@style/apply_info_item"
+                            tools:visibility="visible">
 
-                        <EditText
-                            android:id="@+id/oldcar_guess_price_tv"
-                            style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
-                            android:enabled="false"
-                            android:hint="请输入"
-                            android:inputType="number"
-                            android:maxLength="9" />
+                            <TextView
+                                style="@style/apply_info_title"
+                                android:text="二手车评估价(元)" />
+
+                            <EditText
+                                android:id="@+id/oldcar_guess_price_tv"
+                                style="@style/apply_info_content"
+                                android:layout_marginRight="35dp"
+                                android:enabled="false"
+                                android:hint="请输入"
+                                android:inputType="number"
+                                android:maxLength="9" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
+                            android:background="@color/separate_line_color" />
+
+                        <LinearLayout
+                            android:id="@+id/oldcar_business_price_lin"
+                            style="@style/apply_info_item"
+                            tools:visibility="visible">
+
+                            <TextView
+                                style="@style/apply_info_title"
+                                android:text="车辆交易价(元)" />
+
+                            <EditText
+                                android:id="@+id/oldcar_business_price_tv"
+                                style="@style/apply_info_content"
+                                android:layout_marginRight="35dp"
+                                android:enabled="false"
+                                android:hint="请输入"
+                                android:inputType="number"
+                                android:maxLength="9" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
+                            android:background="@color/separate_line_color" />
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
-
-                    <LinearLayout
-                        android:id="@+id/oldcar_business_price_lin"
-                        style="@style/apply_info_item"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <TextView
-                            style="@style/apply_info_title"
-                            android:text="车辆交易价(元)" />
-
-                        <EditText
-                            android:id="@+id/oldcar_business_price_tv"
-                            style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
-                            android:enabled="false"
-                            android:hint="请输入"
-                            android:inputType="number"
-                            android:maxLength="9" />
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
 
                     <LinearLayout
                         android:id="@+id/personal_info_detail_home_address_lin"
