@@ -15,7 +15,6 @@ import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 
 import java.util.ArrayList;
 
-import static com.umeng.analytics.pro.x.R;
 
 public class ChangeDlrActivity extends AppCompatActivity {
 
@@ -71,7 +70,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
         }
 
