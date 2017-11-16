@@ -5,15 +5,17 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.LayoutInflater;
+import android.view.View;
 import android.view.ViewGroup;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 
-import org.jcodec.codecs.common.biari.MConst;
-
 import java.util.ArrayList;
+
+import static com.umeng.analytics.pro.x.R;
 
 public class ChangeDlrActivity extends AppCompatActivity {
 
@@ -45,7 +47,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
                 }
             }
         });
-        adapter = new ChangeDlrAdapter();
+        adapter = new ChangeDlrAdapter(this,dlrItems);
         changeDlr_rv.setLayoutManager(new LinearLayoutManager(this));
         changeDlr_rv.setAdapter(adapter);
 
@@ -64,8 +66,8 @@ public class ChangeDlrActivity extends AppCompatActivity {
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            return null;
+        public DlrViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            return new DlrViewHolder(LayoutInflater.from(mContext).inflate(R.layout.dlr_list_item,parent,false));
         }
 
         @Override
@@ -77,5 +79,13 @@ public class ChangeDlrActivity extends AppCompatActivity {
         public int getItemCount() {
             return 0;
         }
+
+        protected class DlrViewHolder extends RecyclerView.ViewHolder {
+
+            public DlrViewHolder(View itemView) {
+                super(itemView);
+            }
+        }
+
     }
 }
