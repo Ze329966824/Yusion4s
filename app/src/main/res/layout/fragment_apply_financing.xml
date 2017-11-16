@@ -323,16 +323,30 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginBottom="30dp"
+        android:orientation="horizontal"
         android:gravity="bottom">
 
         <Button
-            android:id="@+id/apply_financing_cteate_btn"
-            android:layout_width="match_parent"
+            android:id="@+id/apply_financing_cteate_newcar_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
             android:layout_height="42dp"
             android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
+            android:layout_marginRight="10dp"
             android:background="#FF06B7A3"
-            android:text="创建订单"
+            android:text="新车"
+            android:textColor="#FFFFFF"
+            android:textSize="18dp" />
+
+
+        <Button
+            android:id="@+id/apply_financing_cteate_oldcar_btn"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="42dp"
+            android:layout_marginRight="15dp"
+            android:background="#FFFF8867"
+            android:text="二手车"
             android:textColor="#FFFFFF"
             android:textSize="18dp" />
     </LinearLayout>
