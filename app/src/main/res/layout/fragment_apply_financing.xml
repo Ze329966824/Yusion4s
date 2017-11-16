@@ -338,7 +338,6 @@
             android:textColor="#FFFFFF"
             android:textSize="18dp" />
 
-
         <Button
             android:id="@+id/apply_financing_cteate_oldcar_btn"
             android:layout_width="0dp"
