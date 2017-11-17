@@ -341,6 +341,10 @@ public class UploadListActivity extends BaseActivity {
     }
 
     private void playVideo(String url) {
+        if (TextUtils.isEmpty(url)) {
+            Toast.makeText(myApp, "未找到视频", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent it = new Intent(Intent.ACTION_VIEW);
         Uri uri = Uri.parse(url);
         it.setDataAndType(uri, "video/mp4");
@@ -435,12 +439,12 @@ public class UploadListActivity extends BaseActivity {
                 return;
             }
             templateContent.setText(Html.fromHtml(data.checker_item_.description));
-            detail_url = data.checker_item_.detail_url;
             url_list = data.checker_item_.url_list;
             if (url_list == null || url_list.size() == 0) {
                 Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
                 return;
             }
+            detail_url = data.checker_item_.url_list.get(0);
 
             imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
             if (!isFinishing()) {

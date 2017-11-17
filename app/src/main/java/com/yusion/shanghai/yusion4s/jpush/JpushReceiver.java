@@ -28,8 +28,6 @@ public class JpushReceiver extends BroadcastReceiver {
                 int notificationID = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 String content = bundle.getString(JPushInterface.EXTRA_ALERT);
                 JPushInterface.clearNotificationById(context, notificationID);
-            } else if ("cn.jpush.android.intent.REGISTRATION".equals(intent.getAction())) {
-
             }
             Log.e("EXTRA_EXTRA", string);
             Sentry.capture(string);
