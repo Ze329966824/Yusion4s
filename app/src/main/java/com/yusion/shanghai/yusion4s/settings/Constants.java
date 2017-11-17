@@ -11,6 +11,7 @@ public class Constants {
     public static final int REQUEST_ADDRESS = 204;
     public static final int REQUEST_DOCUMENT = 205;
     public static final int REQUEST_MULTI_DOCUMENT = 206;
+    public static final int REQUEST_CHANGE_DLR = 207;
 
     public static class FileLabelType {
         public static final String ID_BACK = "id_card_back";

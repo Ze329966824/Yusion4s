@@ -98,6 +98,10 @@ public class Api {
         return retrofit.create(DlrService.class);
     }
 
+    public static DlrService getDlrNum() {
+        return retrofit.create(DlrService.class);
+    }
+
 
     public static String getTag(Request request) {
         StringBuilder tagBuilder = new StringBuilder("API");

@@ -27,6 +27,22 @@
 
 
     <!--</RelativeLayout>-->
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="42dp">
+
+        <TextView
+            android:id="@+id/cancel_drl_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentRight="true"
+            android:layout_centerVertical="true"
+            android:layout_marginRight="15dp"
+            android:text="取消"
+            android:textColor="#FF999999"
+            android:textSize="14dp"/>
+
+    </RelativeLayout>
     <android.support.v7.widget.RecyclerView
         android:id="@+id/change_dlr_rv"
         android:layout_width="match_parent"

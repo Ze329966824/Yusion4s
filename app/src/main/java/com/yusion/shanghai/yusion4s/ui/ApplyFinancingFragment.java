@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui;
 
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,13 +10,19 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
+import com.chanven.lib.cptr.PtrClassicFrameLayout;
+import com.chanven.lib.cptr.PtrDefaultHandler;
+import com.chanven.lib.cptr.PtrFrameLayout;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
+import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 
@@ -23,12 +30,22 @@ import org.greenrobot.eventbus.EventBus;
 
 /**
  * A simple {@link Fragment} subclass.
+ *
+ * @author zzz
  */
 public class ApplyFinancingFragment extends BaseFragment {
 
-    private CarInfoFragment mCarInfoFragment;
-    private CreditInfoFragment mCreditInfoFragment;
-    private Fragment mCurrentFragment;
+
+    private TextView top_dlr;
+    private PtrClassicFrameLayout ptr;
+    private TextView all_count;
+    private TextView today_count;
+    private TextView dealing_count;
+    private TextView reject_count;
+    private TextView to_be_confirm_count;
+    private TextView to_be_upload_count;
+    private TextView to_loan_count;
+
     public SubmitOrderReq req = new SubmitOrderReq();
 
     public static ApplyFinancingFragment newInstance() {
@@ -46,15 +63,21 @@ public class ApplyFinancingFragment extends BaseFragment {
         return inflater.inflate(R.layout.fragment_apply_financing, container, false);
 
 
-
     }
 
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        initView(view);
         onclick(view);
+
+        ptr.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+                refresh();
+            }
+        });
 
 
         /*
@@ -88,16 +111,45 @@ public class ApplyFinancingFragment extends BaseFragment {
 //
 //
 //
-//
-//
-//
-//
-//
 //        //mCurrentFragment = mCreditInfoFragment;
 
-
-
         */
+
+    }
+
+    private void initView(View view) {
+        top_dlr = (TextView) view.findViewById(R.id.apply_financing_dlr_tv);
+        all_count = (TextView) view.findViewById(R.id.all_count);
+        today_count = (TextView) view.findViewById(R.id.today_count);
+        dealing_count = (TextView) view.findViewById(R.id.dealing_count);
+        reject_count = (TextView) view.findViewById(R.id.reject_count);
+        to_be_confirm_count = (TextView) view.findViewById(R.id.to_be_confirm_count);
+        to_loan_count = (TextView) view.findViewById(R.id.to_loan_count);
+        to_be_upload_count = (TextView) view.findViewById(R.id.to_be_upload_count);
+        ptr = (PtrClassicFrameLayout) view.findViewById(R.id.dlr_num_ptr);
+
+    }
+
+    private void refresh() {
+        DlrApi.getDlr(mContext, 1,new OnItemDataCallBack<DlrNumResp>() {
+            @Override
+            public void onItemDataCallBack(DlrNumResp data) {
+                ptr.refreshComplete();
+
+                if (data != null) {
+                    all_count.setText(data.all_count);
+                    today_count.setText(data.today_count);
+                    dealing_count.setText(data.dealing_count);
+                    reject_count.setText(data.reject_count);
+                    to_be_confirm_count.setText(data.to_be_confirm_count);
+                    to_loan_count.setText(data.to_loan_count);
+                    to_be_upload_count.setText(data.to_be_upload_count);
+                }
+
+
+
+            }
+        });
 
     }
 
@@ -105,19 +157,20 @@ public class ApplyFinancingFragment extends BaseFragment {
         //新车
         view.findViewById(R.id.apply_financing_cteate_newcar_btn).setOnClickListener(v -> {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
-            i1.putExtra("car_type","新车");
+            i1.putExtra("car_type", "新车");
             startActivity(i1);
         });
         //二手车
-        view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v ->{
-            Intent i2 = new Intent(mContext,OrderCreateActivity.class);
-            i2.putExtra("car_type","二手车");
+        view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v -> {
+            Intent i2 = new Intent(mContext, OrderCreateActivity.class);
+            i2.putExtra("car_type", "二手车");
             startActivity(i2);
         });
 
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
             Intent i3 = new Intent(mContext, ChangeDlrActivity.class);
-            startActivity(i3);
+
+            startActivityForResult(i3, Constants.REQUEST_CHANGE_DLR);
         });
 
         view.findViewById(R.id.apply_financing_lin1).setOnClickListener(v -> {
@@ -156,8 +209,22 @@ public class ApplyFinancingFragment extends BaseFragment {
 //        }
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-//
+        if (requestCode == Constants.REQUEST_CHANGE_DLR) {
+            if (resultCode == Activity.RESULT_OK) {
+                String dlr = data.getStringExtra("dlr");
+                if (dlr != null) {
+                    top_dlr.setText(dlr);
+                }
+            }
+
+        }
+
+    }
+
 //    @Subscribe
 //    public void changeFragment(ApplyFinancingFragmentEvent event) {
 //        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();

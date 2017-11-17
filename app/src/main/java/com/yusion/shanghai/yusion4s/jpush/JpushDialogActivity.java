@@ -73,7 +73,10 @@ public class JpushDialogActivity extends BaseActivity {
 
 
     void popJpushDialog() {
+//        Log.e("TAG", "mobile: "+mobile);
+//        Log.e("TAG", "ACCOUNT: "+Yusion4sApp.ACCOUNT);
         if (Yusion4sApp.isLogin && mobile.equals(Yusion4sApp.ACCOUNT)) {
+
             switch (category) {
                 case "login":
                     PopupDialogUtil.showOneButtonDialog(this, content, new PopupDialogUtil.OnOkClickListener() {
