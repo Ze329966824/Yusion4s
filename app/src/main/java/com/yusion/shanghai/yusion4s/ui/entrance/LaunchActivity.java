@@ -34,6 +34,10 @@ public class LaunchActivity extends BaseActivity {
         } else {
             checkServerUrl();
         }
+
+//        for (Field field : URLEncoder.class.getDeclaredFields()) {
+//            System.out.println(field.getName());
+//        }
     }
 
     private void checkServerUrl() {

@@ -38,6 +38,7 @@ import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
@@ -314,8 +315,13 @@ public class UploadSqsListActivity extends BaseActivity {
             Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        ArrayList<String> showImgUrls = new ArrayList<>();
+        for (String url : url_list) {
+            showImgUrls.add(URLEncoder.encode(url));
+        }
         new PhotoPagerConfig.Builder(this)
-                .setBigImageUrls(url_list)
+                .setBigImageUrls(showImgUrls)
 //                .setSavaImage(true)
 //                        .setPosition(2)
 //                        .setSaveImageLocalPath("这里是你想保存的图片地址")

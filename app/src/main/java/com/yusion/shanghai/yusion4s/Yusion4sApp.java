@@ -129,11 +129,12 @@ public class Yusion4sApp extends MultiDexApplication {
 
         JPushInterface.init(this);
         int i = 0;
-        while (TextUtils.isEmpty(reg_id) && i<10) {
+        while (TextUtils.isEmpty(reg_id) && i<100) {
             reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
             SharedPrefsUtil.getInstance(this).putValue("reg_id", reg_id);
             i++;
         }
+        Log.e("TAG", "reg_id: " + reg_id);
     }
 
     private void initAMap() {
