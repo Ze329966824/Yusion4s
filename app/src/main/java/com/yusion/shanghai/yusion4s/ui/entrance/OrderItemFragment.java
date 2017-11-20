@@ -57,6 +57,11 @@ public class OrderItemFragment extends BaseFragment {
     private String st;
     private RecyclerView rv;
     private TextView order_list_item_update_tv;
+    private String vehicle_cond;
+
+    public void setVehicle_cond(String vehicle_cond) {
+        this.vehicle_cond = vehicle_cond;
+    }
 
     public static OrderItemFragment newInstance(String s) {
 
@@ -128,7 +133,7 @@ public class OrderItemFragment extends BaseFragment {
     }
 
     public void refresh() {
-        OrderApi.getAppList(mContext, st, new OnItemDataCallBack<List<GetAppListResp>>() {
+        OrderApi.getAppList(mContext, st, vehicle_cond, new OnItemDataCallBack<List<GetAppListResp>>() {
             @Override
             public void onItemDataCallBack(List<GetAppListResp> resp) {
                 if (resp != null && resp.size() > 0) {

@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -12,12 +13,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
+import com.yusion.shanghai.yusion4s.widget.SwitchButton;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -43,6 +46,7 @@ public class OrderManagerFragment extends BaseFragment {
     private CreditInfoFragment mCreditInfoFragment;
     private Fragment mCurrentFragment;
     private ViewPager viewPager;
+    private ArrayList<OrderItemFragment> mFragments;
 
     public static OrderManagerFragment newInstance() {
 
@@ -79,11 +83,11 @@ public class OrderManagerFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        initTitleBar(view, "申请");
+//        initTitleBar(view, "申请");
         //setBackHide();
 
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
-        ArrayList<Fragment> mFragments = new ArrayList<>();
+        mFragments = new ArrayList<>();
         //网络请求，映射的应该是key value
         //WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
         //Yusion4sApp.getConfigResp().order_type_value;
@@ -96,7 +100,9 @@ public class OrderManagerFragment extends BaseFragment {
 //            mFragments.add(OrderItemFragment.newInstance(mStCode[i]));
 //        }
         for (int i = 0; i < mTabTitle.size(); i++) {
-            mFragments.add(OrderItemFragment.newInstance(mStCode.get(i)));
+            OrderItemFragment fragment = OrderItemFragment.newInstance(mStCode.get(i));
+            fragment.setVehicle_cond("新车");
+            mFragments.add(fragment);
         }
         viewPager.setAdapter(new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments));
        // viewPager.setCurrentItem(1);
@@ -130,13 +136,54 @@ public class OrderManagerFragment extends BaseFragment {
         });
         mMagicIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(mMagicIndicator, viewPager);
+
+
+        SwitchButton sb = (SwitchButton) view.findViewById(R.id.order_manager_sb);
+        final TextView newCar = (TextView) view.findViewById(R.id.order_manager_new_car);
+        final TextView oldCar = (TextView) view.findViewById(R.id.order_manager_old_car);
+        sb.setOnCheckedChangeListener(new SwitchButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(SwitchButton view, boolean isChecked) {
+                if (isChecked) {
+                    newCar.setTextColor(Color.parseColor("#666666"));
+                    oldCar.setTextColor(Color.parseColor("#ffffff"));
+                    onSelectOldCar();
+                } else {
+                    newCar.setTextColor(Color.parseColor("#ffffff"));
+                    oldCar.setTextColor(Color.parseColor("#666666"));
+                    onSelectNewCar();
+                }
+            }
+        });
+        {
+            newCar.setTextColor(Color.parseColor("#ffffff"));
+            oldCar.setTextColor(Color.parseColor("#666666"));
+        }
+    }
+
+    private void onSelectOldCar() {
+        for (OrderItemFragment fragment : mFragments) {
+            fragment.setVehicle_cond("二手车");
+            if (fragment.isResumed()) {
+                fragment.refresh();
+            }
+        }
+    }
+
+    private void onSelectNewCar() {
+        for (OrderItemFragment fragment : mFragments) {
+            fragment.setVehicle_cond("新车");
+            if (fragment.isResumed()) {
+                fragment.refresh();
+            }
+        }
     }
 
     private class OrderFragmentPagerAdapter extends FragmentPagerAdapter {
 
-        private final List<Fragment> mFragments;
+        private final List<OrderItemFragment> mFragments;
 
-        OrderFragmentPagerAdapter(FragmentManager fm, List<Fragment> fragments) {
+        OrderFragmentPagerAdapter(FragmentManager fm, List<OrderItemFragment> fragments) {
             super(fm);
             mFragments = fragments;
         }
