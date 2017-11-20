@@ -31,11 +31,11 @@ public class OrderCreateActivity extends BaseActivity {
 
         //initTitleBar(this, "申请融资");
         cartype = getIntent().getStringExtra("car_type");
-//        if (cartype.equals("二手车")) {
-//            initTitleBar(this, "二手车申请");
-//        } else {
-//            initTitleBar(this, "新车申请");
-//        }
+        if (cartype.equals("二手车")) {
+            initTitleBar(this, "二手车申请");
+        } else {
+            initTitleBar(this, "新车申请");
+        }
 
         mCarInfoFragment = CarInfoFragment.newInstance();
         mCreditInfoFragment = CreditInfoFragment.newInstance();

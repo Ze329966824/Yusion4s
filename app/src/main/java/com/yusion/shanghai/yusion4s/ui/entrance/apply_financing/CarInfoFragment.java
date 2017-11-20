@@ -211,8 +211,6 @@ public class CarInfoFragment extends BaseFragment {
             super.handleMessage(msg);
         }
     };
-//    @BindView(id = R.id.personal_info_home_address_tv, widgetName = "personal_info_home_address_tv")
-//    private TextView carTypeTv;
 
     @BindView(id = R.id.car_info_dlr_tv, widgetName = "car_info_dlr_tv")
     private TextView dlrTV;
@@ -298,6 +296,7 @@ public class CarInfoFragment extends BaseFragment {
     private TextView guidePriceTv;
     private TextView totalLoanPriceTv;
     private String cityJson;
+    private String oldCarcityJson;
 
     //上牌地选择
     private LinearLayout plateRegAddrLin;
@@ -327,6 +326,7 @@ public class CarInfoFragment extends BaseFragment {
     //    @BindView(id = R.id.car_info_dlr_lin, widgetName = "门店选择", onClick = "selectDlr")
     private LinearLayout carInfoDlrLin;
 
+
     private LinearLayout oldcar_info_lin;
     private LinearLayout oldcar_guess_price_lin;
     private LinearLayout oldcar_business_price_lin;
@@ -338,6 +338,8 @@ public class CarInfoFragment extends BaseFragment {
     private EditText oldcar_business_price_tv;
     private LinearLayout oldcar_guess_and_jiaoyi_lin;
     private LinearLayout oldcar_addr_lin;
+    private LinearLayout oldcar_addrtime_lin;
+    private View kaipiaojia_line;
 
 
     public static CarInfoFragment newInstance() {
@@ -395,31 +397,23 @@ public class CarInfoFragment extends BaseFragment {
         oldcar_business_price_tv = (EditText) view.findViewById(R.id.oldcar_business_price_tv);//二手车交易价
         oldcar_guess_and_jiaoyi_lin = (LinearLayout) view.findViewById(R.id.oldcar_guess_and_jiaoyi_lin);//预估价和交易价的lin
         oldcar_addr_lin = (LinearLayout) view.findViewById(R.id.oldcar_addr_lin);
-
-        // TODO: 2017/11/15 两种写法都可以
-//        String cartype = ((OrderCreateActivity) getActivity()).cartype;
-//        Log.e("TAG", "onViewCreated: cartype");
+        oldcar_addrtime_lin = (LinearLayout) view.findViewById(R.id.oldcar_addrtime_lin);
+        kaipiaojia_line = view.findViewById(R.id.kaipiaojia_line);
         cartype = getActivity().getIntent().getStringExtra("car_type");
-        if (cartype.equals("二手车")) {
-            oldcar_info_lin.setVisibility(View.VISIBLE);
-            oldcar_guess_and_jiaoyi_lin.setVisibility(View.VISIBLE);
-//            oldcar_business_price_lin.setVisibility(View.VISIBLE);
-//            oldcar_business_price_lin.setVisibility(View.VISIBLE);
-            personal_info_detail_home_address_lin.setVisibility(View.GONE);
-        } else {
-            oldcar_info_lin.setVisibility(View.GONE);
-            oldcar_guess_and_jiaoyi_lin.setVisibility(View.GONE);
-//            oldcar_business_price_lin.setVisibility(View.GONE);
-//            oldcar_business_price_lin.setVisibility(View.GONE);
-            personal_info_detail_home_address_lin.setVisibility(View.VISIBLE);
-        }
+        showNeworOldcarinfolayout(cartype);
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
-
         carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 clickLoanPeriods();
+            }
+        });
+
+        oldcar_addrtime_lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期");
             }
         });
 
@@ -434,7 +428,6 @@ public class CarInfoFragment extends BaseFragment {
                 for (GetDlrListByTokenResp item : resp) {
                     dlrItems.add(item.dlr_nm);
                 }
-
                 //dlrTV  门店显示的textview
                 WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
@@ -480,44 +473,13 @@ public class CarInfoFragment extends BaseFragment {
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(productTypeTv.getText())) {
-                    Toast toast = Toast.makeText(mContext, "请选择产品类型", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                    toast.show();
-                    return;
-                }
-                if (!TextUtils.isEmpty(cityJson)) {
-                    WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
-                        @Override
-                        public void onCitySubmitCallBack(View clickedView, String city) {
-                            if (!TextUtils.isEmpty(plateRegAddrTv.getText())) {
-                                carInfoNextBtn.setEnabled(true);
-                            }
-                        }
-                    }, cityJson);
-
-                } else {
-                    return;
-                }
-
+                clickPlateRegAddrLin();
             }
         });
         managementPriceLl.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (TextUtils.isEmpty(dlrTV.getText())) {
-                    Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
-                    toast.setGravity(Gravity.CENTER, 0, 0);
-                } else {//(clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex)
-                    WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
-                        @Override
-                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                            mManagementPriceIndex = selectedIndex;
-                            isChoose = true;
-                            totalPrice();
-                        }
-                    });
-                }
+                clickManagentPriceLl();
             }
         });
         carInfoBrandLin.setOnClickListener(v -> {
@@ -644,15 +606,24 @@ public class CarInfoFragment extends BaseFragment {
                 toast.show();
             }
         });
-        //原上牌地
         oldcar_addr_lin.setOnClickListener(v -> {
-            WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
+            DlrApi.getOldCarAddr(mContext, new OnItemDataCallBack<List<GetproductResp.SupportAreaBean>>() {
                 @Override
-                public void onCitySubmitCallBack(View clickedView, String city) {
+                public void onItemDataCallBack(List<GetproductResp.SupportAreaBean> data) {
+                    if (data == null) {
+                        return;
+                    }
+                    oldCarcityJson = data.toString();
+                    WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
+                        @Override
+                        public void onCitySubmitCallBack(View clickedView, String city) {
 
+                        }
+                    }, oldCarcityJson);
                 }
             });
         });
+
         oldcar_guess_price_tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1002,6 +973,58 @@ public class CarInfoFragment extends BaseFragment {
 
     }
 
+    private void clickManagentPriceLl() {
+        if (TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+        } else {//(clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex)
+            WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+                @Override
+                public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                    mManagementPriceIndex = selectedIndex;
+                    isChoose = true;
+                    totalPrice();
+                }
+            });
+        }
+    }
+
+    private void clickPlateRegAddrLin() {
+        if (TextUtils.isEmpty(productTypeTv.getText())) {
+            Toast toast = Toast.makeText(mContext, "请选择产品类型", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+            return;
+        }
+        if (!TextUtils.isEmpty(cityJson)) {
+            WheelViewUtil.showCityWheelView(CarInfoFragment.this.getClass().getSimpleName(), plateRegAddrLin, plateRegAddrTv, "请选择", new WheelViewUtil.OnCitySubmitCallBack() {
+                @Override
+                public void onCitySubmitCallBack(View clickedView, String city) {
+                    if (!TextUtils.isEmpty(plateRegAddrTv.getText())) {
+                        carInfoNextBtn.setEnabled(true);
+                    }
+                }
+            }, cityJson);
+
+        } else {
+            return;
+        }
+    }
+
+    private void showNeworOldcarinfolayout(String cartype) {
+        if (cartype.equals("二手车")) {
+            kaipiaojia_line.setVisibility(View.GONE);
+            oldcar_info_lin.setVisibility(View.VISIBLE);
+            oldcar_guess_and_jiaoyi_lin.setVisibility(View.VISIBLE);
+            personal_info_detail_home_address_lin.setVisibility(View.GONE);
+        } else {
+            kaipiaojia_line.setVisibility(View.VISIBLE);
+            oldcar_info_lin.setVisibility(View.GONE);
+            oldcar_guess_and_jiaoyi_lin.setVisibility(View.GONE);
+            personal_info_detail_home_address_lin.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void clickLoanPeriods() {
         if (TextUtils.isEmpty(productTypeTv.getText())) {
             Toast.makeText(mContext, "请先选择产品类型", Toast.LENGTH_LONG).show();
@@ -1078,14 +1101,16 @@ public class CarInfoFragment extends BaseFragment {
 //        }
         else if (getPrice(otherPriceTv.getText().toString()) % 100 != 0) {
             Toast.makeText(mContext, "其他费用只能是整百", Toast.LENGTH_SHORT).show();
-        } else if (getPrice(firstPriceTv) + getPrice(carLoanPriceTv) != getPrice(billPriceTv)) {
+        } else if (cartype.equals("新车") && getPrice(firstPriceTv) + getPrice(carLoanPriceTv) != getPrice(billPriceTv)) {
             Toast.makeText(mContext, "首付款加车辆贷款额必须等于开票价", Toast.LENGTH_SHORT).show();
         } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) < 10000) {
             Toast.makeText(mContext, "总贷款额需多于10000元", Toast.LENGTH_LONG).show();
-        } else if (Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(billPriceTv.getText().toString()) * 0.8) {
+        } else if (cartype.equals("新车") && Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(billPriceTv.getText().toString()) * 0.8) {
             Toast.makeText(mContext, "总贷款额不能大于开票价的80%", Toast.LENGTH_LONG).show();
-        } else if (getPrice(billPriceTv) < getPrice(totalLoanPriceTv) + 1) {
+        } else if (cartype.equals("新车") && getPrice(billPriceTv) < getPrice(totalLoanPriceTv) + 1) {
             Toast.makeText(mContext, "车辆开票价要大于总贷款额", Toast.LENGTH_LONG).show();
+        } else if (cartype.equals("二手车") && Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(oldcar_guess_price_tv.getText().toString()) * 0.7) {
+            Toast.makeText(mContext, "总贷款额不能大于评估价的70%", Toast.LENGTH_LONG).show();
         } else {
             return true;
         }

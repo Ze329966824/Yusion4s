@@ -97,4 +97,15 @@ public class DlrApi {
         });
     }
 
+    public static void getOldCarAddr(final Context context, final OnItemDataCallBack<List<GetproductResp.SupportAreaBean>> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getDlrService().getOldCarAddr().enqueue(new CustomCallBack<List<GetproductResp.SupportAreaBean>>(context, dialog) {
+            @Override
+            public void onCustomResponse(List<GetproductResp.SupportAreaBean> data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
+
 }
