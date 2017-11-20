@@ -32,6 +32,7 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -208,6 +209,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        activity = (OrderCreateActivity) getActivity();
+
         UBT.bind(this, view, getClass().getSimpleName());
         TextView step1 = (TextView) view.findViewById(R.id.step1);
         step1.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
@@ -521,16 +525,18 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
                         }
                         break;
+                    default:
+                        break;
                 }
             }
         }
     }
 
-
+    private OrderCreateActivity activity ;
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-        SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        SubmitOrderReq req = activity.req;
         intent.putExtra("dlr_id", req.dlr_id);
         intent.putExtra("bank_id", req.bank_id);
         switch (v.getId()) {
@@ -583,6 +589,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
                             }
                         });
+                break;
+            default:
                 break;
         }
     }
