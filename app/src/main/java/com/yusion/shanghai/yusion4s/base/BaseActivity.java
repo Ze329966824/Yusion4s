@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 
 import com.umeng.analytics.MobclickAgent;
@@ -104,10 +103,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         super.onDestroy();
         ActivityManager.removeActivity(this);
         //destroy后显示最新列表
-        for (AppCompatActivity activity : ActivityManager.list) {
-            Log.e("TAG2222", "onDestroy: " + activity.getClass().getSimpleName());
-        }
-        Log.e("TAG2222", "onDestroy: ---------");
+//        for (AppCompatActivity activity : ActivityManager.list) {
+//            Log.e("TAG2222", "onDestroy: " + activity.getClass().getSimpleName());
+//        }
+//        Log.e("TAG2222", "onDestroy: ---------");
+        //adb shell dumpsys activity | grep com.yusion.shanghai.yusion4s
     }
 
     @Override

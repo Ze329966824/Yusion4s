@@ -11,6 +11,7 @@ import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
+import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
@@ -202,4 +203,8 @@ public class LoginActivity extends BaseActivity {
         });
     }
 
+    @Override
+    public void onBackPressed() {
+        ActivityManager.exit();
+    }
 }
