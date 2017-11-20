@@ -135,7 +135,7 @@ public class ApplyFinancingFragment extends BaseFragment {
             @Override
             public void onItemDataCallBack(DlrNumResp data) {
                 ptr.refreshComplete();
-
+//                Log.e("TAG", "onItemDataCallBack: "+data.toString());
                 if (data != null) {
                     all_count.setText(data.all_count);
                     today_count.setText(data.today_count);

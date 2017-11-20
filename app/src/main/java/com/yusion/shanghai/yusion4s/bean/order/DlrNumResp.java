@@ -18,13 +18,13 @@ public class DlrNumResp {
      * all_count : 6
      */
 
-  public int reject_count;
-  public int dealing_count;
-  public int to_be_confirm_count;
-  public int to_be_upload_count;
-  public int to_loan_count;
-  public int today_count;
-  public int all_count;
+  public String reject_count;
+  public String dealing_count;
+  public String to_be_confirm_count;
+  public String to_be_upload_count;
+  public String to_loan_count;
+  public String today_count;
+  public String all_count;
 
     @Override
     public String toString() {
