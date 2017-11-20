@@ -26,6 +26,7 @@ import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.Date;
 import java.util.Locale;
 
 import cn.jpush.android.api.JPushInterface;
@@ -128,12 +129,18 @@ public class Yusion4sApp extends MultiDexApplication {
         }
 
         JPushInterface.init(this);
-        int i = 0;
-        while (TextUtils.isEmpty(reg_id) && i<10) {
-            reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
-            SharedPrefsUtil.getInstance(this).putValue("reg_id", reg_id);
-            i++;
-        }
+        new Thread(() -> {
+            long time = new Date().getTime();
+            while (TextUtils.isEmpty(reg_id) || (new Date().getTime() - time) / 1000 > 3) {
+                reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
+            }
+            if (TextUtils.isEmpty(reg_id)) {
+                reg_id = SharedPrefsUtil.getInstance(Yusion4sApp.this).getValue("reg_id", "");
+            }
+            SharedPrefsUtil.getInstance(Yusion4sApp.this).putValue("reg_id", reg_id);
+            Log.e("TAG", "reg_id: " + reg_id);
+        }).start();
+
     }
 
     private void initAMap() {

@@ -174,3 +174,15 @@ public class BuildTimeListener implements TaskExecutionListener, BuildListener {
 }
 
 project.gradle.addListener(new BuildTimeListener())
+
+afterEvaluate{
+    tasks.matching {
+        it.name.startsWith('dex')
+    }.each { dx ->
+        if (dx.additionalParameters == null) {
+            dx.additionalParameters = []
+        }
+        dx.additionalParameters += '--set-max-idx-number=48000'
+        dx.additionalParameters += "--main-dex-list=$projectDir/multidex.keep".toString()
+    }
+}

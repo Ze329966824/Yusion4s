@@ -38,6 +38,7 @@ import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
@@ -79,7 +80,7 @@ public class UploadSqsListActivity extends BaseActivity {
     private TextView templateTitle;
     private TextView templateContent;
     private LinearLayout templateTitleLin;
-    private boolean isTemplateExpand;
+    private boolean isTemplateExpand = true;
     private String detail_url;
     private String dlr_id;
     private String bank_id;
@@ -173,6 +174,11 @@ public class UploadSqsListActivity extends BaseActivity {
                 }
                 Collections.sort(indexList);//排序
 
+                if (indexList.size() == 0) {
+                    //没有选中图片就不予点击删除按键
+                    return;
+                }
+
                 //每删除一个对象就该偏移+1
                 int offset = 0;//indexList 删除的索引集合  删掉一个左标迁移，
                 for (int i = 0; i < indexList.size(); i++) {
@@ -196,7 +202,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 //1.删除本地上传的图片
                 for (String objectKey : delImgObjectKeyList) {
                     for (UploadFilesUrlReq.FileUrlBean fileUrlBean : uploadFileUrlList) {
-                        if (!TextUtils.isEmpty(objectKey) && TextUtils.isEmpty(fileUrlBean.file_id)) {
+                        if (!TextUtils.isEmpty(objectKey) && !TextUtils.isEmpty(fileUrlBean.file_id)) {
                             if (fileUrlBean.file_id.equals(objectKey)) {
                                 uploadFileUrlList.remove(fileUrlBean);
                                 break;
@@ -309,8 +315,13 @@ public class UploadSqsListActivity extends BaseActivity {
             Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        ArrayList<String> showImgUrls = new ArrayList<>();
+        for (String url : url_list) {
+            showImgUrls.add(URLEncoder.encode(url));
+        }
         new PhotoPagerConfig.Builder(this)
-                .setBigImageUrls(url_list)
+                .setBigImageUrls(showImgUrls)
 //                .setSavaImage(true)
 //                        .setPosition(2)
 //                        .setSaveImageLocalPath("这里是你想保存的图片地址")
