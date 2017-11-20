@@ -70,8 +70,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:theme="@style/PhoAppTheme.Transparent"
-            android:name="com.awen.photo.photopick.ui.PhotoPagerActivity" />
+            android:name="com.awen.photo.photopick.ui.PhotoPagerActivity"
+            android:theme="@style/PhoAppTheme.Transparent" />
         <!-- pgy -->
         <meta-data
             android:name="PGYER_APPID"

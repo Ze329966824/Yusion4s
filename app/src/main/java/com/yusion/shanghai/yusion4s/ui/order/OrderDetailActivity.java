@@ -48,6 +48,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView applyLoanBankTv;         //金融方案-贷款银行
     private TextView applyProductTypeTv;      //金融方案-产品类型
     private TextView applyPeriodsTv;          //金融方案-还款期限
+    private TextView applyBusinessTv;         //金融方案-二手车的交易价
 
     private LinearLayout havere_financeLin;                //金融方案(有批复)
     private TextView havere_applyFirstPercentTv;     //金融方案(有批复)-首付比例(申请信息)
@@ -70,8 +71,11 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView havere_replyRepayDateTv;        //金融方案(有批复)-还款期限(批复信息)
     private TextView havere_applyProductTypeTv;      //金融方案(有批复)-产品类型(申请信息)
     private TextView havere_replyProductTypeTv;      //金融方案(有批复)-产品类型(批复信息)
-    private TextView havere_applyMonthPriceTv;       //金融方案(有批复)-月供(批复信息)
+    private TextView havere_applyMonthPriceTv;       //金融方案(有批复)-月供(申请信息)
     private TextView havere_replyMonthPriceTv;       //金融方案(有批复)-月供(批复信息)
+    private TextView havere_applyBuinessPriceTv;      //金融方案(有批复)-二手车交易价(申请信息)
+    private TextView havere_replyBuinessPriceTv;      //金融方案(有批复)-二手车交易价(批复信息)
+
 
     private TextView salesNameTv;               //报单人员姓名
     private TextView customerIdTv;              //客户身份证号
@@ -95,6 +99,11 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView nperTv;                    //订单-还款期限
     private TextView regAddrTv;                 //订单-上牌地
     private LinearLayout orderInfoTitleLin;     //订单头布局
+    private TextView OldcarAddrTV;    //订单 -二手车上牌地
+    private TextView OldcartimeTv;   //二手车上牌时间
+    private TextView OldcardistancevTv;
+    private TextView OldcarGuesspriceTv;
+    private TextView OldcarbusnesspriceTv;//二手车交易价
 
 
     private TextView beforeDlrNameTv;          //订单-门店(修改前)
@@ -114,6 +123,11 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView beforeProductTypeTv;      //订单-产品类型(修改前)
     private TextView beforeNperTv;             //订单-还款期限(修改前)
     private TextView beforeRegAddrTv;          //订单-上牌地(修改前)
+    private TextView beforeOldcarAddrTV;    //订单 -二手车上牌地
+    private TextView beforeOldcartimeTv;    //二手车上牌时间
+    private TextView beforedistancevTv;    //二手车里程数
+    private TextView beforeguesspriceTv;  //二手车评估价
+    private TextView beforebusnesspriceTv; //二手车交易价
 
 
     private TextView waitReason;        //审核中备注
@@ -134,11 +148,18 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView orderDetailChangeBtn;                      //修改资料(两个按钮)
     private TextView orderDetailUploadBtn;                      //提交资料(两个按钮)
 
-
     private FloatingActionButton fab;
     private NestedScrollView mScrollView;
     private String app_id;
     private int status_st;
+    private String cartype;
+
+    private LinearLayout oldcar_business_price_lin;//无批复车辆交易价lin
+    private LinearLayout order_detail_finance_bill_price_lin;//无批复车辆开票价lin
+    private LinearLayout havere_applyBillPrice_lin;//批复 车辆开票价lin
+    private LinearLayout havere_oldcar_applyBillPrice_lin;// 批复交易价
+    private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
+    private LinearLayout oldcar_info_lin;//二手车的信息
 
 
     @Override
@@ -148,9 +169,10 @@ public class OrderDetailActivity extends BaseActivity {
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
-
+        cartype = getIntent().getStringExtra("car_type");
         initView();
         initTitleBar(this, "申请详情");
+        showNeworOldcarinfolayout(cartype);
     }
 
     @Override
@@ -160,6 +182,25 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+        OldcarbusnesspriceTv = (TextView) findViewById(R.id.order_detail_busnessprice_tv);
+        beforebusnesspriceTv = (TextView) findViewById(R.id.oldcar_before_busnessprice_tv);
+        beforeguesspriceTv = (TextView) findViewById(R.id.oldcar_before_guessprice_tv);
+        OldcarGuesspriceTv = (TextView) findViewById(R.id.order_detail_guessprice_tv);
+        beforedistancevTv = (TextView) findViewById(R.id.oldcar_before_distance_tv);
+        OldcardistancevTv = (TextView) findViewById(R.id.order_detail_distance_tv);
+        OldcartimeTv = (TextView) findViewById(R.id.order_detail_addrtime_tv);
+        beforeOldcartimeTv = (TextView) findViewById(R.id.oldcar_before_addrtime_tv);
+        beforeOldcarAddrTV = (TextView) findViewById(R.id.oldcar_before_addr_tv);
+        OldcarAddrTV = (TextView) findViewById(R.id.order_detail_addr_tv);
+        havere_applyBuinessPriceTv = (TextView) findViewById(R.id.order_detail_havere_oldcar_apply_bill_price_tv);
+        havere_replyBuinessPriceTv = (TextView) findViewById(R.id.order_detail_havere_oldcar_reply_bill_price_tv);
+        oldcar_business_price_lin = (LinearLayout) findViewById(R.id.oldcar_business_price_lin);
+        order_detail_finance_bill_price_lin = (LinearLayout) findViewById(R.id.order_detail_finance_bill_price_lin);
+        havere_applyBillPrice_lin = (LinearLayout) findViewById(R.id.havere_applyBillPrice_lin);
+        havere_oldcar_applyBillPrice_lin = (LinearLayout) findViewById(R.id.havere_oldcar_applyBillPrice_lin);
+        newcar_zhidaoAnd_billPrice_lin = (LinearLayout) findViewById(R.id.newcar_zhidaoAnd_billPrice_lin);
+        oldcar_info_lin = (LinearLayout) findViewById(R.id.oldcar_info_lin);
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mScrollView = (NestedScrollView) findViewById(R.id.scrollView_four);
         fab.setOnClickListener(v -> mScrollView.smoothScrollTo(0, 0));
@@ -188,6 +229,8 @@ public class OrderDetailActivity extends BaseActivity {
         applyLoanBankTv = (TextView) findViewById(R.id.order_detail_finance_loan_bank_tv);
         applyProductTypeTv = (TextView) findViewById(R.id.order_detail_finance_product_type_tv);
         applyPeriodsTv = (TextView) findViewById(R.id.order_detail_finance_periods_tv);
+        applyBusinessTv = (TextView) findViewById(R.id.oldcar_business_price_tv);
+
 
         orderInfoTitleLin = (LinearLayout) findViewById(R.id.order_detail_order_info_title);
         dlrNameTv = (TextView) findViewById(R.id.order_detail_dlr_name_tv);
@@ -352,6 +395,7 @@ public class OrderDetailActivity extends BaseActivity {
                 havere_replyFirstPercentTv.setText(resp.uw_detail.vehicle_down_payment_percent * 100 + "%");
                 havere_replyProductTypeTv.setText(resp.uw_detail.product_type);
                 havere_replyMonthPriceTv.setText(resp.uw_detail.monthly_payment);
+                havere_replyBuinessPriceTv.setText(resp.uw_detail.vehicle_price);
 
                 havere_applyBillPriceTv.setText(resp.vehicle_price);
                 havere_applyFirstPriceTv.setText(resp.vehicle_down_payment);
@@ -364,7 +408,9 @@ public class OrderDetailActivity extends BaseActivity {
                 havere_applyFirstPercentTv.setText(resp.vehicle_down_payment_percent * 100 + "%");
                 havere_applyProductTypeTv.setText(resp.product_type);
                 havere_applyMonthPriceTv.setText(resp.monthly_payment);
+                havere_applyBuinessPriceTv.setText(resp.vehicle_price);
 
+                compare(havere_applyBuinessPriceTv, havere_replyBuinessPriceTv);
                 compare(havere_applyMonthPriceTv, havere_replyMonthPriceTv);
                 compare(havere_applyFirstPercentTv, havere_replyFirstPercentTv);
                 compare(havere_applyBillPriceTv, havere_replyBillPriceTv);
@@ -388,8 +434,8 @@ public class OrderDetailActivity extends BaseActivity {
                 applyLoanBankTv.setText(resp.loan_bank);
                 applyProductTypeTv.setText(resp.product_type);
                 applyPeriodsTv.setText(resp.nper);
+                applyBusinessTv.setText(resp.vehicle_price);
             }
-
 
 
             salesNameTv.setText(resp.dlr_sales_name);
@@ -415,7 +461,18 @@ public class OrderDetailActivity extends BaseActivity {
                 beforeProductTypeTv.setText(resp.old_app.product_type);
                 beforeNperTv.setText(resp.old_app.nper);
                 beforeRegAddrTv.setText(resp.old_app.plate_reg_addr);
+                beforebusnesspriceTv.setText(resp.vehicle_price);
+                beforeguesspriceTv.setText(resp.send_hand_valuation);
+                beforedistancevTv.setText(resp.send_hand_mileage);
+                beforeOldcartimeTv.setText(resp.send_hand_plate_time);
+                beforeOldcarAddrTV.setText(resp.origin_plate_reg_addr);
 
+
+                OldcarbusnesspriceTv.setText(resp.vehicle_price);
+                OldcarGuesspriceTv.setText(resp.send_hand_valuation);
+                OldcardistancevTv.setText(resp.send_hand_mileage);
+                OldcartimeTv.setText(resp.send_hand_plate_time);
+                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
                 dlrNameTv.setText(resp.new_app.dlr_nm);
                 brandTv.setText(resp.new_app.brand);
                 trixTv.setText(resp.new_app.trix);
@@ -433,6 +490,17 @@ public class OrderDetailActivity extends BaseActivity {
                 productTypeTv.setText(resp.new_app.product_type);
                 nperTv.setText(resp.new_app.nper);
                 regAddrTv.setText(resp.new_app.plate_reg_addr);
+                OldcarbusnesspriceTv.setText(resp.vehicle_price);
+                OldcarGuesspriceTv.setText(resp.send_hand_valuation);
+                OldcardistancevTv.setText(resp.send_hand_mileage);
+                OldcartimeTv.setText(resp.send_hand_plate_time);
+                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
+
+                compare(beforebusnesspriceTv, OldcarbusnesspriceTv);
+                compare(beforeguesspriceTv, OldcarGuesspriceTv);
+                compare(beforedistancevTv, OldcardistancevTv);
+                compare(beforeOldcartimeTv, OldcartimeTv);
+                compare(beforeOldcarAddrTV, OldcarAddrTV);
 
                 compare(beforeDlrNameTv, dlrNameTv);
                 compare(beforeBrandTv, brandTv);
@@ -471,6 +539,12 @@ public class OrderDetailActivity extends BaseActivity {
                 productTypeTv.setText(resp.product_type);
                 nperTv.setText(resp.nper);
                 regAddrTv.setText(resp.plate_reg_addr);
+                OldcarbusnesspriceTv.setText(resp.vehicle_price);
+                OldcarGuesspriceTv.setText(resp.send_hand_valuation);
+                OldcardistancevTv.setText(resp.send_hand_mileage);
+                OldcartimeTv.setText(resp.send_hand_plate_time);
+                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
+
             }
 
             findViewById(R.id.order_detail_customer_mobile_img).setOnClickListener(v -> {
@@ -524,5 +598,29 @@ public class OrderDetailActivity extends BaseActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+    }
+
+    //    private LinearLayout oldcar_business_price_lin;//无批复车辆交易价lin
+//    private LinearLayout order_detail_finance_bill_price_lin;//无批复车辆开票价lin
+//    private LinearLayout havere_applyBillPrice_lin;//批复 车辆开票价lin
+//    private LinearLayout havere_oldcar_applyBillPrice_lin;// 批复交易价
+//    private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
+//    private LinearLayout oldcar_info_lin;//二手车的信息
+    private void showNeworOldcarinfolayout(String cartype) {
+        if (cartype.equals("二手车")) {
+            oldcar_business_price_lin.setVisibility(View.VISIBLE);
+            havere_oldcar_applyBillPrice_lin.setVisibility(View.VISIBLE);
+            oldcar_info_lin.setVisibility(View.VISIBLE);
+            order_detail_finance_bill_price_lin.setVisibility(View.GONE);
+            havere_applyBillPrice_lin.setVisibility(View.GONE);
+            newcar_zhidaoAnd_billPrice_lin.setVisibility(View.GONE);
+        } else {
+            oldcar_business_price_lin.setVisibility(View.GONE);
+            havere_oldcar_applyBillPrice_lin.setVisibility(View.GONE);
+            oldcar_info_lin.setVisibility(View.GONE);
+            order_detail_finance_bill_price_lin.setVisibility(View.VISIBLE);
+            havere_applyBillPrice_lin.setVisibility(View.VISIBLE);
+            newcar_zhidaoAnd_billPrice_lin.setVisibility(View.VISIBLE);
+        }
     }
 }
