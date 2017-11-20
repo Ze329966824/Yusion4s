@@ -440,7 +440,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                 mGuidePrice = Integer.valueOf(resp.msrp);
                 isChangeCarInfoChange = true;
 
-                if (!TextUtils.isEmpty(guidePriceTv.getText())) {
+                if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
                     billPriceTv.setEnabled(true);
                 }
                 isChoose = true;

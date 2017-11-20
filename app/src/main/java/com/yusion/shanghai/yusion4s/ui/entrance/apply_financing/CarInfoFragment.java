@@ -951,12 +951,15 @@ public class CarInfoFragment extends BaseFragment {
                     req.other_fee = otherPriceTv.getText().toString();
 
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
-                    //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
                     //req.product_type = productTypeTv.getText().toString();
                     //汽车类型，是新车还是旧车
-                    //  req.vehicle_cond = carTypeTv.getText().toString();
+                    req.vehicle_cond = cartype;
+                    req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
+                    req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
+                    req.send_hand_mileage = oldcar_dance_tv.getText().toString();
+                    req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
 
