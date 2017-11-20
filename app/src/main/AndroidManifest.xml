@@ -91,6 +91,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
+            android:name=".ui.order.ChangeDlrActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
             android:name=".ui.MainActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
@@ -264,8 +268,9 @@
             android:name=".ui.entrance.apply_financing.HelperActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
     </application>
-        <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
-
 
 </manifest>

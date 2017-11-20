@@ -270,25 +270,7 @@
             android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="180dp">
-
-            <TextView
-                tools:visibility="visible"
-                android:id="@+id/order_list_item_change_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_text"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="修改资料"
-                android:textColor="#FF06B7A3"
-                android:textSize="11dp"
-                android:visibility="gone" />
-
-
+            >
             <TextView
                 android:id="@+id/order_list_item_upload_tv"
                 android:layout_width="wrap_content"
@@ -304,6 +286,26 @@
                 android:text="上传资料"
                 android:textColor="#FF06B7A3"
                 android:textSize="11dp" />
+            <TextView
+                android:layout_toLeftOf="@id/order_list_item_upload_tv"
+                tools:visibility="visible"
+                android:layout_marginRight="10dp"
+                android:id="@+id/order_list_item_change_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_text"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="修改资料"
+                android:textColor="#FF06B7A3"
+                android:textSize="11dp"
+                android:visibility="gone" />
+
+
+
         </RelativeLayout>
 
         <ImageView

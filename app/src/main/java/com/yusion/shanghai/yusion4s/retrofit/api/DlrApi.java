@@ -10,6 +10,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -36,6 +37,21 @@ public class DlrApi {
             }
         });
     }
+    public static void getDlr(final Context context,int id, final OnItemDataCallBack<DlrNumResp> onItemDataCallBack){
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getDlrNum().getDlrNum(id).enqueue(new CustomCallBack<DlrNumResp>(context,dialog) {
+            @Override
+            public void onCustomResponse(DlrNumResp data) {
+                if (data == null) {
+                    Toast.makeText(context, "获取门店订单信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
+                }else {
+                    onItemDataCallBack.onItemDataCallBack(data);
+                }
+            }
+        });
+    }
+
+
 
     public static void getLoanBank(final Context context, String dlr_id, final OnItemDataCallBack<List<GetLoanBankResp>> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);

@@ -18,7 +18,6 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -55,8 +54,8 @@ public interface UploadService {
     Call<BaseResult> getLog();
 
 //    http://api.alpha.yusiontech.com:8000/api/m/rest/image_checker_config/1/
-    @GET("/api/m/rest/image_checker_config/{id}/")
-    Call<BaseResult<GetTemplateResp>> getTemplate(@Path("id") String id);
+    @GET("/api/material/list_yc_dealer_material_template/")
+    Call<BaseResult<GetTemplateResp>> getTemplate(@Query("id") String id);
 
     @GET("/api/material/list_credit_material/")
     Call<BaseResult<GetTemplateResp>> getTemplateInSqs(@Query("bank_id") String bank_id,@Query("dlr_id") String dlr_id);
