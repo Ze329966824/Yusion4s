@@ -64,6 +64,7 @@ public class JpushDialogActivity extends BaseActivity {
             app_id = jo.optString("app_id");
             category = jo.optString("category");
             order_state = jo.optString("order_state");
+            username = jo.optString("username");
 
             popJpushDialog();
         } else {
@@ -73,7 +74,7 @@ public class JpushDialogActivity extends BaseActivity {
 
 
     void popJpushDialog() {
-        if (Yusion4sApp.isLogin && mobile.equals(Yusion4sApp.ACCOUNT)) {
+        if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
                 case "login":
                     PopupDialogUtil.showOneButtonDialog(this, content, new PopupDialogUtil.OnOkClickListener() {
