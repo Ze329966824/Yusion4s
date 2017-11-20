@@ -300,6 +300,7 @@ public class PhotoPagerActivity extends BaseActivity implements ViewPager.OnPage
             //小图，可在大图前进行展示
             String lowImgUrl = (photoPagerBean.getLowImgUrls() == null || photoPagerBean.getLowImgUrls().isEmpty()) ? "" : photoPagerBean.getLowImgUrls().get(position);
             final Uri uri = Uri.parse(bigImgUrl);
+            //Fresco加载地址有中文图片的无效
             final ImageRequest request = ImageRequestBuilder
                     .newBuilderWithSource(uri)
                     .setProgressiveRenderingEnabled(false)

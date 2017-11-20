@@ -19,12 +19,11 @@ public class AddEventThread implements Runnable {
     private String pageName;//MainActivity
     private String widget;
     private String action_value;
-
     private boolean isPageEvent;
     private boolean isAppEvent;
     private String object;
     private Context context;
-    private String TAG = "UBT";
+    private String TAG = "UBT-DETAIL";
 
     public AddEventThread(Context context, String action, View view, String pageName, String action_value, String widget) {
         this.context = context;
@@ -88,19 +87,11 @@ public class AddEventThread implements Runnable {
         }
 
         for (String s : values.keySet()) {
-            Log.e("VALUES", "run: " + values.get(s));
+            Log.i(TAG, "run: " + values.get(s));
         }
-
         SqlLiteUtil.insert(values);
-//        Log.e(TAG, "run: 插入成功 action=" + action + ",page=" + pageName);
-        Log.e(TAG, "run: 插入成功 ----- " + AddEventThread.this.toString());
-
-
-        //....................
-
-
+        Log.i(TAG, "run: 插入成功 ----- " + AddEventThread.this.toString());
         UBT.sendUBTEvents(context, UBT.LIMIT);
-
     }
 
     @Override
@@ -115,7 +106,6 @@ public class AddEventThread implements Runnable {
                 ", isAppEvent=" + isAppEvent +
                 ", object='" + object + '\'' +
                 ", context=" + context +
-                ", TAG='" + TAG + '\'' +
                 '}';
     }
 }

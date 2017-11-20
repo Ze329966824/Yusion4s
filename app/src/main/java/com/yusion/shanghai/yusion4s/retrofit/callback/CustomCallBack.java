@@ -11,6 +11,7 @@ import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 
+import java.net.UnknownHostException;
 import java.util.Locale;
 
 import io.sentry.Sentry;
@@ -76,7 +77,9 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         if (dialog != null) {
             dialog.dismiss();
         }
-        if (Settings.isOnline) {
+        if (t instanceof UnknownHostException) {
+            Toast.makeText(context, "网络繁忙,请检查网络", Toast.LENGTH_SHORT).show();
+        } else if (Settings.isOnline) {
             Toast.makeText(context, "接口调用失败,请稍后再试...", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();

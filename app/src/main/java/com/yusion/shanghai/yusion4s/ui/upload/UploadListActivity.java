@@ -43,6 +43,7 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
@@ -165,6 +166,11 @@ public class UploadListActivity extends BaseActivity {
                     if (lists.get(i).hasChoose) indexList.add(i);
                 }
                 Collections.sort(indexList);
+
+                if (indexList.size() == 0) {
+                    //没有选中图片就不予点击删除按键
+                    return;
+                }
 
                 //没删除一个对象就该偏移+1
                 int offset = 0;
@@ -301,8 +307,13 @@ public class UploadListActivity extends BaseActivity {
             Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        ArrayList<String> showImgUrls = new ArrayList<>();
+        for (String url : url_list) {
+            showImgUrls.add(URLEncoder.encode(url));
+        }
         new PhotoPagerConfig.Builder(this)
-                .setBigImageUrls(url_list)
+                .setBigImageUrls(showImgUrls)
 //                .setSavaImage(true)
 //                        .setPosition(2)
 //                        .setSaveImageLocalPath("这里是你想保存的图片地址")
@@ -330,6 +341,10 @@ public class UploadListActivity extends BaseActivity {
     }
 
     private void playVideo(String url) {
+        if (TextUtils.isEmpty(url)) {
+            Toast.makeText(myApp, "未找到视频", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent it = new Intent(Intent.ACTION_VIEW);
         Uri uri = Uri.parse(url);
         it.setDataAndType(uri, "video/mp4");
@@ -424,12 +439,13 @@ public class UploadListActivity extends BaseActivity {
                 return;
             }
             templateContent.setText(Html.fromHtml(data.checker_item_.description));
-            detail_url = data.checker_item_.detail_url;
             url_list = data.checker_item_.url_list;
             if (url_list == null || url_list.size() == 0) {
                 Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
                 return;
             }
+            detail_url = data.checker_item_.url_list.get(0);
+
             imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
             if (!isFinishing()) {
                 Glide.with(UploadListActivity.this).load(url_list.get(0)).into(templateImg);

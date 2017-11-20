@@ -92,7 +92,6 @@
                 android:id="@+id/upload_list_template_img_look"
                 android:layout_width="115.5dp"
                 android:layout_height="32.5dp"
-                android:layout_marginBottom="20dp"
                 android:layout_alignBottom="@+id/upload_list_template_imgs_size"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/fill_9906b7a3"

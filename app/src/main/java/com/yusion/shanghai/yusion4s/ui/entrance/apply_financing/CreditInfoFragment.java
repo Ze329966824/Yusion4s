@@ -346,10 +346,11 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     public void callBack(int code, String msg) {
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+//                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
                                     }
                                 });
+                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
                                 EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             }

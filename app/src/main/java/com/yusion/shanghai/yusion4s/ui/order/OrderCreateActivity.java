@@ -21,6 +21,7 @@ public class OrderCreateActivity extends BaseActivity {
     private CreditInfoFragment mCreditInfoFragment;
     private Fragment mCurrentFragment;
     public SubmitOrderReq req = new SubmitOrderReq();
+    public String cartype;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,8 +29,13 @@ public class OrderCreateActivity extends BaseActivity {
         setContentView(R.layout.activity_order_create);
         EventBus.getDefault().register(this);
 
-        initTitleBar(this, "申请融资");
-
+        //initTitleBar(this, "申请融资");
+        cartype = getIntent().getStringExtra("car_type");
+        if (cartype.equals("二手车")) {
+            initTitleBar(this, "二手车申请");
+        } else {
+            initTitleBar(this, "新车申请");
+        }
 
         mCarInfoFragment = CarInfoFragment.newInstance();
         mCreditInfoFragment = CreditInfoFragment.newInstance();
@@ -79,7 +85,7 @@ public class OrderCreateActivity extends BaseActivity {
             case changeCarInfo:
                 transaction.hide(mCurrentFragment).show(mCarInfoFragment);
                 mCurrentFragment = mCarInfoFragment;
-                mCarInfoFragment.changeCarInfo();
+//                mCarInfoFragment.changeCarInfo();
                 break;
             case reset:
                 req = new SubmitOrderReq();
