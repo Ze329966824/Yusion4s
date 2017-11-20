@@ -77,13 +77,10 @@ public class JpushDialogActivity extends BaseActivity {
         if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
                 case "login":
-                    PopupDialogUtil.showOneButtonDialog(this, content, new PopupDialogUtil.OnOkClickListener() {
-                        @Override
-                        public void onOkClick(Dialog dialog) {
-                            myApp.clearUserData();
-                            startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
-                            finish();
-                        }
+                    PopupDialogUtil.showOneButtonDialog(this, content, dialog -> {
+                        myApp.clearUserData();
+                        startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
+                        finish();
                     });
 //                    new AlertDialog.Builder(JpushDialogActivity.this)
 //                            .setCancelable(false)
