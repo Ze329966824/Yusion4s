@@ -34,10 +34,6 @@ public class LaunchActivity extends BaseActivity {
         } else {
             checkServerUrl();
         }
-
-//        for (Field field : URLEncoder.class.getDeclaredFields()) {
-//            System.out.println(field.getName());
-//        }
     }
 
     private void checkServerUrl() {
@@ -47,15 +43,10 @@ public class LaunchActivity extends BaseActivity {
                         Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
                         dialog.dismiss();
                         SharedPrefsUtil.getInstance(LaunchActivity.this).putValue("SERVER_URL", "");
-                        Toast.makeText(myApp, "还原成功,请自己重启APP！！！", Toast.LENGTH_SHORT).show();
-                        new Thread(() -> {
-                            try {
-                                Thread.sleep(1000);
-                            } catch (InterruptedException e) {
-                                e.printStackTrace();
-                            }
-                            ActivityManager.exit();
-                        });
+                        new AlertDialog.Builder(LaunchActivity.this)
+                                .setMessage("重启app生效")
+                                .setPositiveButton("确定", (dialog1, which1) -> ActivityManager.exit())
+                                .show();
                     }, dialog -> {
                         Settings.SERVER_URL = str;
                         dialog.dismiss();
@@ -89,6 +80,9 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void goNextActivity() {
+        if (!Settings.isOnline) {
+            Toast.makeText(myApp, "当前服务器地址:\n" + Settings.SERVER_URL, Toast.LENGTH_SHORT).show();
+        }
         AuthApi.checkToken(this, data -> {
             if (data.valid) {
                 onTokenValid();
