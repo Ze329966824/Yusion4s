@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.inputmethod.EditorInfo;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -59,7 +60,15 @@ public class LoginActivity extends BaseActivity {
         mLoginPasswordTV = (EditText) findViewById(R.id.login_password_edt);
         mLoginPasswordEyeImg = (ImageView) findViewById(R.id.login_password_eye_img);
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
-        findViewById(R.id.login_submit_btn).setOnClickListener(v -> login());
+        Button loginBtn = (Button) findViewById(R.id.login_submit_btn);
+        loginBtn.setOnClickListener(v -> login());
+        loginBtn.setOnLongClickListener(v -> {
+            if (!Settings.isOnline) {
+                mLoginAccountTV.setText("test");
+                mLoginPasswordTV.setText("test");
+            }
+            return true;
+        });
     }
 
     private void login() {
@@ -196,6 +205,7 @@ public class LoginActivity extends BaseActivity {
                 @Override
                 public void onResponse(Call call, Response response) {
                 }
+
                 @Override
                 public void onFailure(Call call, Throwable t) {
                 }
