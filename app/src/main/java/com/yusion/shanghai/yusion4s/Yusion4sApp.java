@@ -131,7 +131,7 @@ public class Yusion4sApp extends MultiDexApplication {
         JPushInterface.init(this);
         new Thread(() -> {
             long time = new Date().getTime();
-            while (TextUtils.isEmpty(reg_id) || (new Date().getTime() - time) / 1000 > 3) {
+            while (TextUtils.isEmpty(reg_id) || (new Date().getTime() - time) / 1000 > 10) {
                 reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
             }
             if (TextUtils.isEmpty(reg_id)) {
