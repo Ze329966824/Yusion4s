@@ -8,6 +8,7 @@ import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -26,7 +27,7 @@ public interface ProductService {
 
     //获取用户信息
     @GET("api/client/client_info/")
-    Call<BaseResult<ClientInfo>> getClientInfo(@Query("id_no") String id_no, @Query("clt_nm") String clt_nm, @Query("update") String update);
+    Call<BaseResult<ClientInfo>> getClientInfo(@Query("id_no") String id_no, @Query("clt_nm") String clt_nm, @Query("update") String update, @Header("authentication") String token);
 
     //更新用户资料
     @POST("api/client/client_info/")
