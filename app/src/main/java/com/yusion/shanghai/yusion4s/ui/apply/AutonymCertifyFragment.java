@@ -163,7 +163,6 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                 }
 
 
-                Yusion4sApp Yusion4sApp = new Yusion4sApp();
                 applyActivity.getMClientInfo().drv_lic_relationship = ((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
                 uploadUrl(data1.clt_id);
 //                nextStep()

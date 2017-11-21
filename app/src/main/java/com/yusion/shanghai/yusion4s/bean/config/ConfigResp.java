@@ -27,7 +27,6 @@ public class ConfigResp {
     public String dealer_material = "";
 
     public ArrayList<String> drv_lic_relationship_list_value = new ArrayList<>();
-    public ArrayList<String> drv_lic_relationship_list_key = new ArrayList<>();
     public ArrayList<String> gender_list_key = new ArrayList<>();
     public List<String> education_list_key = new ArrayList<>();
     public List<String> work_position_key = new ArrayList<>();
@@ -39,6 +38,7 @@ public class ConfigResp {
     public ArrayList<String> urg_other_relationship_list_key = new ArrayList<>();
     public List<String> marriage_key = new ArrayList<>();
     public List<String> marriage_value = new ArrayList<>();
+    public ArrayList<String> drv_lic_relationship_list_key = new ArrayList<>();
 
 
 }
