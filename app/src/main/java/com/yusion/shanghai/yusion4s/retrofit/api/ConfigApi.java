@@ -70,6 +70,10 @@ public class ConfigApi {
         fullConfigResp(jsonObject, "label_list", configResp.label_list_key, configResp.label_list_value);
         fullConfigResp(jsonObject, "app_display", configResp.order_type_key, configResp.order_type_value);
 
+        fullConfigResp(jsonObject, "marriage", configResp.marriage_key, configResp.marriage_value);
+        fullConfigResp(jsonObject, "drv_lic_relationship_list", configResp.drv_lic_relationship_list_key, configResp.drv_lic_relationship_list_value);
+        fullConfigResp(jsonObject, "busi_type_list", configResp.busi_type_list_key, configResp.busi_type_list_value);
+
         JSONArray dealer_material = jsonObject.optJSONArray("dealer_material");
         configResp.dealer_material = dealer_material != null ? dealer_material.toString() : "";
 
