@@ -18,7 +18,6 @@ import com.chanven.lib.cptr.PtrFrameLayout;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
-import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -46,7 +45,7 @@ public class ApplyFinancingFragment extends BaseFragment {
     private TextView to_be_upload_count;
     private TextView to_loan_count;
 
-    public SubmitOrderReq req = new SubmitOrderReq();
+//    public SubmitOrderReq req = new SubmitOrderReq();
 
     public static ApplyFinancingFragment newInstance() {
         Bundle args = new Bundle();

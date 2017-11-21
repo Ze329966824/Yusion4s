@@ -909,7 +909,7 @@ public class CarInfoFragment extends BaseFragment {
                         req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
 
                         req.vehicle_color = colorTv.getText().toString();
-                        req.vehicle_price = billPriceTv.getText().toString();
+                        //req.vehicle_price = billPriceTv.getText().toString();
                         req.vehicle_down_payment = firstPriceTv.getText().toString();
                         req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
                         req.loan_amt = totalLoanPriceTv.getText().toString();
@@ -921,8 +921,17 @@ public class CarInfoFragment extends BaseFragment {
                         req.product_id = mProductList.get(mProductTypeIndex).product_id;
                         req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
 
-                        //req.product_type = productTypeTv.getText().toString();
-                        // req.vehicle_cond = carTypeTv.getText().toString();
+                        req.vehicle_cond = cartype;
+                        if (cartype.equals("新车")) {
+                            req.vehicle_price = billPriceTv.getText().toString();
+                        } else {
+                            req.vehicle_price = oldcar_business_price_tv.getText().toString();
+                        }
+                        req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
+                        req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
+                        req.send_hand_mileage = oldcar_dance_tv.getText().toString();
+                        req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
+                        req.plate_reg_addr = plateRegAddrTv.getText().toString();
                         req.plate_reg_addr = plateRegAddrTv.getText().toString();
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                     }
@@ -943,7 +952,7 @@ public class CarInfoFragment extends BaseFragment {
                     req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
 
                     req.vehicle_color = colorTv.getText().toString();
-                    req.vehicle_price = billPriceTv.getText().toString();
+                   // req.vehicle_price = billPriceTv.getText().toString();
                     req.vehicle_down_payment = firstPriceTv.getText().toString();
                     req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
                     req.loan_amt = totalLoanPriceTv.getText().toString();
@@ -955,6 +964,11 @@ public class CarInfoFragment extends BaseFragment {
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
                     //req.product_type = productTypeTv.getText().toString();
                     //汽车类型，是新车还是旧车
+                    if (cartype.equals("新车")) {
+                        req.vehicle_price = billPriceTv.getText().toString();
+                    } else {
+                        req.vehicle_price = oldcar_business_price_tv.getText().toString();
+                    }
                     req.vehicle_cond = cartype;
                     req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
                     req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
@@ -1064,7 +1078,7 @@ public class CarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "车型不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(colorTv.getText())) {
             Toast.makeText(mContext, "颜色不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(billPriceTv.getText())) {
+        } else if (cartype.equals("新车") && TextUtils.isEmpty(billPriceTv.getText())) {
             Toast.makeText(mContext, "开票价不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
             Toast.makeText(mContext, "首付款不能为空", Toast.LENGTH_SHORT).show();

@@ -31,7 +31,7 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -319,7 +319,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                         }
                     });
                 } else if (checkCanSubmit()) {
-                    SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                    SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+                    // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
@@ -531,7 +532,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-        SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        //SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+
+
         intent.putExtra("dlr_id", req.dlr_id);
         intent.putExtra("bank_id", req.bank_id);
         switch (v.getId()) {

@@ -438,6 +438,10 @@ public class AlterCarInfoActivity extends BaseActivity {
                 loanPeriodsTv.setText(String.valueOf(resp.nper));
                 plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
                 mGuidePrice = Integer.valueOf(resp.msrp);
+                oldcar_guess_price_tv.setText(resp.send_hand_valuation);//估值价
+                oldcar_business_price_tv.setText(resp.vehicle_price);
+                oldcar_addr_tv.setText(resp.origin_plate_reg_addr);
+
                 isChangeCarInfoChange = true;
 
                 if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
