@@ -20,12 +20,13 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yusion.shanghai.yusion.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.DoubleCheckFragment;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
+import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
@@ -319,6 +320,12 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         personal_info_next_btn.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 personal_info_next_btn.clearFocus();
+
+                if (!Settings.isOnline) {
+                    nextStep();
+                    return;
+                }
+
                 if (checkCanNextStep()) {
                     clearDoubleCheckItems();
                     addDoubleCheckItem("姓名", personal_info_clt_nm_edt.getText().toString());

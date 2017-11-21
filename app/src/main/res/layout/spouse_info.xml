@@ -9,7 +9,7 @@
         android:id="@+id/flow_diagram"
         android:layout_width="0dp"
         android:layout_height="86dp"
-        android:background="@color/system_color"
+        android:background="#fff"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -24,7 +24,7 @@
             android:background="@drawable/apply_step_style_1"
             android:gravity="center"
             android:text="@string/number_1"
-            android:textColor="@color/system_color"
+            android:textColor="#fff"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
@@ -47,7 +47,7 @@
             android:background="@drawable/apply_step_style_1"
             android:gravity="center"
             android:text="@string/number_2"
-            android:textColor="@color/system_color"
+            android:textColor="#fff"
             app:layout_constraintLeft_toRightOf="@+id/step1"
             app:layout_constraintRight_toLeftOf="@+id/step3"
             app:layout_constraintTop_toTopOf="@+id/step1" />
@@ -71,7 +71,7 @@
             android:background="@drawable/apply_step_style_1"
             android:gravity="center"
             android:text="@string/all_right"
-            android:textColor="@color/system_color"
+            android:textColor="#fff"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toTopOf="@+id/step1" />
 
@@ -79,7 +79,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="征信信息"
+            android:text="客户征信信息"
             android:textColor="@color/apply_step_style_1_color"
             android:textSize="11.5sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -90,7 +90,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="个人信息"
+            android:text="客户个人信息"
             android:textColor="@color/apply_step_style_1_color"
             android:textSize="11.5sp"
             app:layout_constraintBottom_toBottomOf="parent"
@@ -101,7 +101,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
-            android:text="配偶信息"
+            android:text="客户配偶信息"
             android:textColor="@color/apply_step_style_1_color"
             android:textSize="11.5sp"
             app:layout_constraintBottom_toBottomOf="parent"
