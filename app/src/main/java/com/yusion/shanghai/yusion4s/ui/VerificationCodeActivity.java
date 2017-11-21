@@ -57,7 +57,7 @@ public class VerificationCodeActivity extends BaseActivity {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(VerificationCodeActivity.this, ApplyActivity.class);
-                intent.putExtra("mobile","mobile");
+                intent.putExtra("mobile", "mobile");
                 startActivity(intent);
             }
         });
@@ -74,18 +74,17 @@ public class VerificationCodeActivity extends BaseActivity {
                 if (icv.getTextContent().length() == 4) {
                     LoginReq loginReq = new LoginReq();
                     loginReq.mobile = mobileTV.getText().toString();
-                    loginReq.dtype = "";
                     loginReq.verify_code = icv.getTextContent().toString();
-                    AuthApi.login(VerificationCodeActivity.this, loginReq, new OnItemDataCallBack<LoginResp>() {
+                    AuthApi.yusionLogin(VerificationCodeActivity.this, loginReq, new OnItemDataCallBack<LoginResp>() {
                         @Override
                         public void onItemDataCallBack(LoginResp data) {
                             if (data == null) {
-                                Toast.makeText(myApp, "授权失败", Toast.LENGTH_SHORT).show();
                                 icv.clearAllText();
-                            }else {
+                            } else {
                                 Toast.makeText(myApp, "授权成功", Toast.LENGTH_SHORT).show();
                                 Intent intent = new Intent(VerificationCodeActivity.this, ApplyActivity.class);
-                                intent.putExtra("mobile","mobile");
+                                intent.putExtra("mobile", mobileTV.getText().toString());
+                                intent.putExtra("token", data.token);
                                 startActivity(intent);
                             }
                         }

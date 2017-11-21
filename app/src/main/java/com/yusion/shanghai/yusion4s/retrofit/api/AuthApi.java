@@ -38,6 +38,17 @@ public class AuthApi {
             }
         });
     }
+
+    public static void yusionLogin(final Context context, LoginReq req, final OnItemDataCallBack<LoginResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getAuthService().yusionLogin(req).enqueue(new CustomCallBack<LoginResp>(context,dialog) {
+            @Override
+            public void onCustomResponse(LoginResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
     public static void checkToken(final Context context, final OnItemDataCallBack<CheckTokenResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getAuthService().checkToken().enqueue(new CustomCallBack<CheckTokenResp>(context, dialog) {

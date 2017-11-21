@@ -11,7 +11,6 @@ import com.yusion.shanghai.yusion4s.bean.token.CheckTokenResp;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
 
@@ -24,9 +23,11 @@ public interface AuthService {
     @GET("/api/auth/user_login/")
     Call<BaseResult<GetVCodeResp>> getVCode(@Query("mobile") String mobile);
 
-    @Headers({"Content-type:application/json;charset=UTF-8"})
     @POST("/api/auth/login/")
     Call<BaseResult<LoginResp>> login(@Body LoginReq req);
+
+    @POST("/api/auth/user_login/")
+    Call<BaseResult<LoginResp>> yusionLogin(@Body LoginReq req);
 
     @POST("/api/auth/check_token/")
     Call<BaseResult<CheckTokenResp>> checkToken();
