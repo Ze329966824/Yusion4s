@@ -6,7 +6,7 @@
     android:background="@color/white">
 
 
-    <com.yusion.shanghai.yusion.widget.TitleBar
+    <com.yusion.shanghai.yusion4s.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

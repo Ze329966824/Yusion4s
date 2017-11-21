@@ -631,7 +631,7 @@
                                 style="@style/apply_info_title_wrap"
                                 android:text="门牌号" />
 
-                            <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+                            <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
                                 android:id="@+id/spouse_info_from_income_company_address2_tv"
                                 style="@style/apply_info_content_type_wrap"
                                 android:layout_marginRight="35dp"
@@ -863,7 +863,7 @@
                                 style="@style/apply_info_title_wrap"
                                 android:text="门牌号" />
 
-                            <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+                            <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
                                 android:id="@+id/spouse_info_from_self_company_address2_tv"
                                 style="@style/apply_info_content_type_wrap"
                                 android:layout_marginRight="35dp"
@@ -1118,7 +1118,7 @@
                                 style="@style/apply_info_title_wrap"
                                 android:text="门牌号" />
 
-                            <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+                            <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
                                 android:id="@+id/spouse_info_extra_from_income_company_address2_tv"
                                 style="@style/apply_info_content_type_wrap"
                                 android:layout_marginRight="35dp"

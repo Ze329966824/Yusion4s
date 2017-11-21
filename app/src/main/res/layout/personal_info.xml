@@ -204,7 +204,7 @@
 
                             <TextView
                                 android:id="@+id/personal_info_id_no_edt"
-                                style="@style/apply_info_content"
+                                style="@style/apply_info_content_type_id"
                                 android:layout_marginRight="35dp" />
                         </LinearLayout>
 
@@ -286,7 +286,9 @@
                                 style="@style/apply_info_title"
                                 android:text="手机号码" />
 
-                            <TextView
+                            <EditText
+                                android:enabled="false"
+                                android:textColor="#999999"
                                 android:id="@+id/personal_info_mobile_edt"
                                 style="@style/apply_info_content_type_mobile"
                                 android:layout_marginRight="35dp"
@@ -419,10 +421,9 @@
                                 style="@style/apply_info_title_wrap"
                                 android:text="门牌号" />
 
-                            <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+                            <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
                                 android:id="@+id/personal_info_current_address2_tv"
                                 style="@style/apply_info_content_type_wrap"
-                                android:layout_marginRight="35dp"
                                 android:hint="请输入" />
 
                         </LinearLayout>
@@ -524,6 +525,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        tools:visibility="visible"
                         android:visibility="gone">
 
                         <View
@@ -660,10 +662,9 @@
                                 style="@style/apply_info_title_wrap"
                                 android:text="门牌号" />
 
-                            <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+                            <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
                                 android:id="@+id/personal_info_from_income_company_address2_tv"
                                 style="@style/apply_info_content_type_wrap"
-                                android:layout_marginRight="35dp"
                                 android:hint="请输入" />
 
                         </LinearLayout>
@@ -739,6 +740,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
+                        tools:visibility="visible"
                         android:visibility="gone">
 
                         <View
@@ -841,7 +843,7 @@
 
                             <TextView
                                 style="@style/apply_info_title"
-                                android:text="经营项目地址(选填)" />
+                                android:text="经营项目地址" />
 
                             <TextView
                                 android:id="@+id/personal_info_from_self_company_address_tv"
@@ -869,7 +871,7 @@
 
                             <TextView
                                 style="@style/apply_info_title"
-                                android:text="详细地址(选填)" />
+                                android:text="详细地址" />
 
                             <TextView
                                 android:id="@+id/personal_info_from_self_company_address1_tv"
@@ -895,13 +897,11 @@
 
                             <TextView
                                 style="@style/apply_info_title_wrap"
-                                android:text="门牌号(选填)" />
+                                android:text="门牌号" />
 
-                            <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+                            <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
                                 android:id="@+id/personal_info_from_self_company_address2_tv"
                                 style="@style/apply_info_content_type_wrap"
-                                android:layout_marginLeft="15dp"
-                                android:layout_marginRight="35dp"
                                 android:hint="请输入" />
 
                         </LinearLayout>
@@ -955,8 +955,7 @@
 
                             <EditText
                                 android:id="@+id/personal_info_from_other_remark_edt"
-                                style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
+                                style="@style/apply_info_content_type_wrap"
                                 android:hint="请输入" />
 
                         </LinearLayout>
@@ -1153,10 +1152,9 @@
                                 style="@style/apply_info_title_wrap"
                                 android:text="门牌号" />
 
-                            <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+                            <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
                                 android:id="@+id/personal_info_extra_from_income_company_address2_tv"
                                 style="@style/apply_info_content_type_wrap"
-                                android:layout_marginRight="35dp"
                                 android:hint="请输入" />
 
                         </LinearLayout>
@@ -1576,7 +1574,7 @@
                 </LinearLayout>
             </LinearLayout>
 
-            <TextView
+            <Button
                 android:id="@+id/personal_info_next_btn"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"

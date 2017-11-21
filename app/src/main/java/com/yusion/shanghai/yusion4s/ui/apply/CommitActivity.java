@@ -9,6 +9,8 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 
+
+
 public class CommitActivity extends BaseActivity {
     private Intent mGetIntent;
     private String clt_id;

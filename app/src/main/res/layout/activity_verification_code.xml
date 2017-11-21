@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <com.yusion.shanghai.yusion.widget.TitleBar
+    <com.yusion.shanghai.yusion4s.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
@@ -39,7 +39,7 @@
         android:text="发送验证码"
         android:textColor="#ffffff" />
 
-    <com.yusion.shanghai.yusion.widget.IdentifyingCodeView
+    <com.yusion.shanghai.yusion4s.widget.IdentifyingCodeView
         android:id="@+id/icv"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -63,8 +63,8 @@
         android:visibility="gone" />
     <Button
         android:id="@+id/syz_tessssssssst_btn"
-        android:layout_margin="20dp"
-        android:background="@null"
+        android:layout_margin="40dp"
+        android:background="#23ffcc"
         android:text="进入申请用户界面"
         android:layout_width="match_parent"
         android:layout_height="40dp" />

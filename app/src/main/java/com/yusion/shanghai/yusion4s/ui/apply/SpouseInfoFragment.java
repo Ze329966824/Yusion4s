@@ -444,9 +444,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
-        TextView textView = new TextView(getActivity());
-        textView.setText(R.string.spouse_info);
-        return textView;
+        return inflater.inflate(R.layout.spouse_info, container, false);
     }
 
 
@@ -489,8 +487,9 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step3 = (TextView) view.findViewById(R.id.step3);
     }
 
+
     private void onclick(View view) {
-        UBT.bind(this, view, ApplyActivity.class.getSimpleName());
+        UBT.bind(this, view, getClass().getSimpleName());
 
         spouse_info_mobile_img.setOnClickListener(v -> {
             selectContact();
