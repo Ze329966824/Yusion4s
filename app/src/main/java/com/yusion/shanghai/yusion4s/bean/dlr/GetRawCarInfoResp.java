@@ -57,6 +57,9 @@ public class GetRawCarInfoResp {
     public String send_hand_plate_time;// '二手车上牌时间'
     public String send_hand_mileage;//"里程数"
     public String send_hand_valuation;//"二手车评估价"
+    public String max_reg_year;
+    public String min_reg_year;
+
     @Override
     public String toString() {
         return new Gson().toJson(this);

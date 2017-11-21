@@ -20,6 +20,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
@@ -49,7 +50,10 @@ import java.util.List;
  */
 
 public class CarInfoFragment extends BaseFragment {
+    public List<GetproductResp.SupportAreaBean> list = new ArrayList<>();
 
+    public String min_reg_year;
+    public String max_reg_year;
     public static int DELAY_MILLIS;
     private String otherLimit;
     private List<GetLoanBankResp> mLoanBankList = new ArrayList<>();
@@ -409,11 +413,17 @@ public class CarInfoFragment extends BaseFragment {
                 clickLoanPeriods();
             }
         });
-
+        //上牌时间
         oldcar_addrtime_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期");
+                if (TextUtils.isEmpty(modelTv.getText())) {
+                    Toast toast = Toast.makeText(mContext, "请您先完成车型选择", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else {
+                    WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year);
+                }
             }
         });
 
@@ -467,7 +477,6 @@ public class CarInfoFragment extends BaseFragment {
                 });
             }
         }));
-
 
         //上牌地
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
@@ -579,6 +588,8 @@ public class CarInfoFragment extends BaseFragment {
                         WheelViewUtil.showWheelView(modelItems, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
                             mModelIndex = selectedIndex;
                             mGuidePrice = (int) resp.get(mModelIndex).msrp;
+                            min_reg_year = resp.get(mModelIndex).min_reg_year;
+                            max_reg_year = resp.get(mModelIndex).max_reg_year;
                             guidePriceTv.setText(mGuidePrice + "");
                             billPriceTv.setEnabled(true);
                             oldcar_business_price_tv.setEnabled(true);
@@ -613,6 +624,17 @@ public class CarInfoFragment extends BaseFragment {
                     if (data == null) {
                         return;
                     }
+//                    list = data;
+//                    for (int i = 0; i < list.size(); i++) {
+//                        if (list.get(i).name.equals("北京")) {
+//                            Log.e("TAG", list.get(i).che_300_id);
+//                            for (int j = 0; j < list.get(i).cityList.size(); j++) {
+//                                if (list.get(i).cityList.get(j).name.equals("北京市")) {
+//                                    Log.e("TAG", list.get(i).cityList.get(j).che_300_id);
+//                                }
+//                            }
+//                        }
+//                    }
                     oldCarcityJson = data.toString();
                     WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
                         @Override
@@ -952,7 +974,7 @@ public class CarInfoFragment extends BaseFragment {
                     req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
 
                     req.vehicle_color = colorTv.getText().toString();
-                   // req.vehicle_price = billPriceTv.getText().toString();
+                    // req.vehicle_price = billPriceTv.getText().toString();
                     req.vehicle_down_payment = firstPriceTv.getText().toString();
                     req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
                     req.loan_amt = totalLoanPriceTv.getText().toString();
@@ -1128,6 +1150,15 @@ public class CarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "车辆开票价要大于总贷款额", Toast.LENGTH_LONG).show();
         } else if (cartype.equals("二手车") && Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(oldcar_guess_price_tv.getText().toString()) * 0.7) {
             Toast.makeText(mContext, "总贷款额不能大于评估价的70%", Toast.LENGTH_LONG).show();
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_addr_tv.getText())) {
+            Toast.makeText(mContext, "二手车原上牌地不能为空", Toast.LENGTH_LONG).show();
+
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+            Toast.makeText(mContext, "二手车里程数不能为空", Toast.LENGTH_LONG).show();
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+            Toast.makeText(mContext, "二手车评估价不能为空", Toast.LENGTH_LONG).show();
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_business_price_tv.getText())) {
+            Toast.makeText(mContext, "二手车交易价不能为空", Toast.LENGTH_LONG).show();
         } else {
             return true;
         }

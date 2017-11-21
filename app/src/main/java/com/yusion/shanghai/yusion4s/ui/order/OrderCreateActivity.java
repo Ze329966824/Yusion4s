@@ -1,8 +1,10 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.view.View;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -11,6 +13,7 @@ import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -32,9 +35,19 @@ public class OrderCreateActivity extends BaseActivity {
         //initTitleBar(this, "申请融资");
         cartype = getIntent().getStringExtra("car_type");
         if (cartype.equals("二手车")) {
-            initTitleBar(this, "二手车申请");
+            initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
         } else {
-            initTitleBar(this, "新车申请");
+            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
         }
 
         mCarInfoFragment = CarInfoFragment.newInstance();
@@ -110,5 +123,21 @@ public class OrderCreateActivity extends BaseActivity {
                 break;
         }
         transaction.commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        back();
+    }
+
+    private void back() {
+        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", new PopupDialogUtil.OnOkClickListener() {
+            @Override
+            public void onOkClick(Dialog dialog) {
+                dialog.dismiss();
+                finish();
+            }
+        });
     }
 }
