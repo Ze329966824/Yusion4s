@@ -363,6 +363,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                     autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.idNo)) {
+                                    autonym_certify_id_number_tv.setEnabled(true);
                                     autonym_certify_id_number_tv.setText(ocrResp.idNo);
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.name)) {
