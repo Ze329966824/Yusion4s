@@ -31,6 +31,8 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
@@ -523,6 +525,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
                         }
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -588,6 +592,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
                             }
                         });
+                break;
+            default:
                 break;
         }
     }
