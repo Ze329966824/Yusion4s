@@ -39,7 +39,7 @@
             android:layout_height="15dp"
             android:src="@mipmap/poi_search_icon" />
 
-        <com.yusion.shanghai.yusion.widget.NoEmptyEditText
+        <com.yusion.shanghai.yusion4s.widget.NoEmptyEditText
             android:id="@+id/poi_keywords"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

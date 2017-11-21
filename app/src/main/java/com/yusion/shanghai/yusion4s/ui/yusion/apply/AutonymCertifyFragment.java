@@ -1,4 +1,4 @@
-package com.yusion.shanghai.yusion4s.ui.apply;
+package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 
 import android.app.Activity;
@@ -32,7 +32,7 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.upload.DocumentActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;

@@ -1,4 +1,4 @@
-package com.yusion.shanghai.yusion4s.ui.apply;
+package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -31,8 +31,8 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.upload.DocumentActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.UploadListActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.YusionUploadListActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.utils.ContactsUtil;
@@ -443,7 +443,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.spouse_info, container, false);
     }
 
@@ -525,19 +525,19 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         spouse_info_marriage_lin.setOnClickListener(v -> {
             WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_key, _MARRIAGE_INDEX, spouse_info_marriage_lin, spouse_info_marriage_tv, "请选择", (clickedView, selectedIndex) -> {
                 _MARRIAGE_INDEX = selectedIndex;
-                if (((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX) == "已婚") {
+                if ("已婚".equals(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
                     spouse_info_marriage_group_lin.setVisibility(View.VISIBLE);
                 } else {
                     spouse_info_marriage_group_lin.setVisibility(View.GONE);
                 }
 
-                if (((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX) == "离异") {
+                if ("离异".equals(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
                     spouse_info_divorced_group_lin.setVisibility(View.VISIBLE);
                 } else {
                     spouse_info_divorced_group_lin.setVisibility(View.GONE);
                 }
 
-                if (((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX) == "丧偶") {
+                if ("丧偶".equals(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
                     spouse_info_die_group_lin.setVisibility(View.VISIBLE);
                 } else {
                     spouse_info_die_group_lin.setVisibility(View.GONE);
@@ -574,7 +574,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             });
         });
         spouse_info_divorced_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, UploadListActivity.class);
+            Intent intent = new Intent(mContext, YusionUploadListActivity.class);
             intent.putExtra("type", Constants.FileLabelType.MARRIAGE_PROOF);
             intent.putExtra("needUploadFidToServer", false);
             intent.putExtra("role", Constants.PersonType.LENDER);
@@ -583,7 +583,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
         });
         spouse_info_register_addr_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, UploadListActivity.class);
+            Intent intent = new Intent(mContext, YusionUploadListActivity.class);
             intent.putExtra("type", Constants.FileLabelType.RES_BOOKLET);
             intent.putExtra("needUploadFidToServer", false);
             intent.putExtra("role", Constants.PersonType.LENDER);
