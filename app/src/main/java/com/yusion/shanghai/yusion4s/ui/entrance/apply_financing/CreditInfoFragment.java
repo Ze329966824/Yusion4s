@@ -360,12 +360,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-        createBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(mContext, VerificationCodeActivity.class));
-            }
-        });
+        createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, VerificationCodeActivity.class)));
     }
 
     @Override

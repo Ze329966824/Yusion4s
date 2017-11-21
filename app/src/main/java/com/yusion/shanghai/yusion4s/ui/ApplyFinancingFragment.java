@@ -66,8 +66,8 @@ public class ApplyFinancingFragment extends BaseFragment {
                 .beginTransaction()
                 .add(R.id.apply_financing_container, mCarInfoFragment)
                 .add(R.id.apply_financing_container, mCreditInfoFragment)
-                //.hide(mCarInfoFragment)
-                .hide(mCreditInfoFragment)
+                .hide(mCarInfoFragment)
+//                .hide(mCreditInfoFragment)
                 .commit();
         mCurrentFragment = mCarInfoFragment;
         //mCurrentFragment = mCreditInfoFragment;
@@ -123,6 +123,8 @@ public class ApplyFinancingFragment extends BaseFragment {
                         .commit();
                 mCurrentFragment = mCarInfoFragment;
                 EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+                break;
+            default:
                 break;
         }
         transaction.commit();
