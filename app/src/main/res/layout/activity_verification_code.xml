@@ -61,4 +61,11 @@
         android:layout_gravity="center"
         android:src="@mipmap/code_success"
         android:visibility="gone" />
+    <Button
+        android:id="@+id/syz_tessssssssst_btn"
+        android:layout_margin="20dp"
+        android:background="@null"
+        android:text="进入申请用户界面"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
 </LinearLayout>

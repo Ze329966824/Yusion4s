@@ -44,4 +44,6 @@ public abstract class BaseFragment extends Fragment {
 //        UBT.addPageEvent(getContext(), "page_hidden", "fragment", getClass().getSimpleName());
         MobclickAgent.onPageEnd(this.getClass().getSimpleName());
     }
+
+
 }

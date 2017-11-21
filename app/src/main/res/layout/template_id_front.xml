@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="8dp"
+        android:background="@color/bg_color" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="46dp"
+        android:layout_marginLeft="14.5dp"
+        android:gravity="center_vertical"
+        android:text="身份证国徽面照片要求"
+        android:textSize="14.5dp" />
+
+    <View
+        android:layout_width="wrap_content"
+        android:layout_height="1dp"
+        android:layout_marginLeft="14.5dp"
+        android:layout_marginRight="14.5dp"
+        android:background="@color/bg_color" />
+
+    <LinearLayout
+        android:layout_width="332dp"
+        android:layout_height="16.5dp"
+        android:layout_marginTop="12.5dp"
+        android:orientation="horizontal">
+
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14.5dp"
+            android:text="有效"
+            android:textColor="#ffa400"
+            android:textSize="11.5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="二代身份证"
+            android:textSize="11.5dp"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="332dp"
+        android:layout_height="16.5dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="14.5dp"
+            android:text="拍摄时确保身份证"
+            android:textSize="11.5dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="边框完整，字体清晰，亮度均匀。"
+            android:textColor="#ffa400"
+            android:textSize="11.5dp" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="14.5dp"
+        android:layout_marginTop="14.5dp"
+        android:text="身份证国徽面实例"
+        android:textSize="11.5dp" />
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="12.5dp"
+        android:src="@mipmap/guohui_document" />
+</LinearLayout>

@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white">
+
+
+    <com.yusion.shanghai.yusion.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <ImageView
+        android:id="@+id/icon_commit_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:src="@mipmap/commit_success" />
+    <TextView
+        android:layout_below="@+id/icon_commit_success"
+        android:id="@+id/text_commit_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="10dp"
+        android:text="客户创建成功"
+        android:textSize="19dp" />
+
+
+    <RelativeLayout
+        android:id="@+id/commit_return_layout"
+        android:visibility="gone"
+        tools:visibility="visible"
+        android:layout_below="@id/text_commit_success"
+        android:layout_centerHorizontal="true"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+
+        <TextView
+            android:id="@+id/return_list_info1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/commit_return1"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="继续报单"
+            android:textColor="#FF06B7A3"
+            android:textSize="17dp" />
+
+
+    </RelativeLayout>
+</RelativeLayout>

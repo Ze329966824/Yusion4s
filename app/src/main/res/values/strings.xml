@@ -34,5 +34,7 @@
 
     <string name="order_item_price_get">***元</string>
     <string name="order_item_store">门店：%1$s</string>
+    <string name="commit">提交成功</string>
+    <string name="spouse_info">配偶资料</string>
 
 </resources>

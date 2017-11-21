@@ -470,7 +470,7 @@
                 android:background="@drawable/submit_button"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="提交申请"
+                android:text="创建用户"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
             <Button

@@ -459,5 +459,9 @@ public class UBT {
         if (Settings.forAppium) return;
         singleThreadPool.execute(new AddEventThread(context, action));
     }
+
+    public static void addEvent(Context context, String action, String viewName, String widgetName, final String pageName, String action_value) {
+        singleThreadPool.execute(new AddEventThread(context, action, viewName, pageName, action_value, widgetName));
+    }
 }
 

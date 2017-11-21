@@ -17,6 +17,7 @@ import com.yusion.shanghai.yusion4s.retrofit.service.ConfigService;
 import com.yusion.shanghai.yusion4s.retrofit.service.DlrService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OcrService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OrderService;
+import com.yusion.shanghai.yusion4s.retrofit.service.ProductService;
 import com.yusion.shanghai.yusion4s.retrofit.service.UploadService;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 
@@ -73,7 +74,9 @@ public class Api {
         retrofit = createRetrofit(Settings.SERVER_URL);
 
     }
-
+    public static ProductService getProductService() {
+        return retrofit.create(ProductService.class);
+    }
     public static UploadService getUploadService() {
         return retrofit.create(UploadService.class);
     }

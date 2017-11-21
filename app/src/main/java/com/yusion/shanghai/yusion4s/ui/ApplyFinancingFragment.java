@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragme
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
+
 
 /**
  * A simple {@link Fragment} subclass.
@@ -124,5 +126,9 @@ public class ApplyFinancingFragment extends BaseFragment {
                 break;
         }
         transaction.commit();
+    }
+
+    public void getUserInfo(Intent intent) {
+        mCreditInfoFragment.getUserInfo(intent);
     }
 }
