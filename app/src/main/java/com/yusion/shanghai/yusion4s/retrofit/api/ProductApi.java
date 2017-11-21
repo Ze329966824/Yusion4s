@@ -40,9 +40,9 @@ public class ProductApi {
         });
     }
 
-    public static void getClientInfo(final Context context, GetClientInfoReq req, final OnItemDataCallBack<ClientInfo> onItemDataCallBack) {
+    public static void getClientInfo(final Context context, GetClientInfoReq req, String token, final OnItemDataCallBack<ClientInfo> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getProductService().getClientInfo(req.id_no, req.clt_nm, req.update).enqueue(
+        Api.getProductService().getClientInfo(req.id_no, req.clt_nm, req.update,token).enqueue(
                 new CustomCallBack<ClientInfo>(context, dialog) {
                     @Override
                     public void onCustomResponse(ClientInfo data) {

@@ -66,7 +66,9 @@ public class AddEventThread implements Runnable {
             values.put("object", "");
         } else {
             String object = "";
-            if (view instanceof EditText) {
+            if (!TextUtils.isEmpty(viewName)) {
+                object = viewName;
+            } else if (view instanceof EditText) {
                 object = "edit_text";
             } else if (view instanceof Button) {
                 object = "button";

@@ -563,9 +563,9 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             });
         });
         spouse_info_extra_income_from_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(incomelist, _EXTRA_INCOME_FROME_INDEX, spouse_info_extra_income_from_lin, spouse_info_extra_income_from_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(incomeextarlist, _EXTRA_INCOME_FROME_INDEX, spouse_info_extra_income_from_lin, spouse_info_extra_income_from_tv, "请选择", (clickedView, selectedIndex) -> {
                 _EXTRA_INCOME_FROME_INDEX = selectedIndex;
-                if ("工资".equals(incomelist.get(_EXTRA_INCOME_FROME_INDEX))) {
+                if ("工资".equals(incomeextarlist.get(_EXTRA_INCOME_FROME_INDEX))) {
                     view.findViewById(R.id.spouse_info_extra_from_income_group_lin).setVisibility(View.VISIBLE);
                 } else {
                     view.findViewById(R.id.spouse_info_extra_from_income_group_lin).setVisibility(View.GONE);

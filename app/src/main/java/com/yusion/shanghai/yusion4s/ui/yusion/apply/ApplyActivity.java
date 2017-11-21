@@ -77,8 +77,8 @@ public class ApplyActivity extends BaseActivity {
                 .add(R.id.container, mAutonymCertifyFragment)
                 .add(R.id.container, mPersonalInfoFragment)
                 .add(R.id.container, mSpouseInfoFragment)
-                .hide(mPersonalInfoFragment)
 //                .hide(mAutonymCertifyFragment)
+                .hide(mPersonalInfoFragment)
                 .hide(mSpouseInfoFragment)
                 .commit();
         mCurrentFragment = mAutonymCertifyFragment;

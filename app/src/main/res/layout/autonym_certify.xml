@@ -271,6 +271,7 @@
                             android:textSize="14.5sp" />
 
                         <EditText
+                            android:enabled="true"
                             android:id="@+id/autonym_certify_id_number_tv"
                             style="@style/apply_info_content_type_id"
                             android:layout_marginRight="35dp"
