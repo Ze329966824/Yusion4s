@@ -4,10 +4,6 @@ import android.util.Pair;
 
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.MineFragment;
-import com.yusion.shanghai.yusion4s.ui.apply.AutonymCertifyFragment;
-import com.yusion.shanghai.yusion4s.ui.apply.CommitActivity;
-import com.yusion.shanghai.yusion4s.ui.apply.PersonalInfoFragment;
-import com.yusion.shanghai.yusion4s.ui.apply.SpouseInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
@@ -20,6 +16,10 @@ import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadListActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.AutonymCertifyFragment;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.CommitActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.PersonalInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.SpouseInfoFragment;
 
 import java.util.HashMap;
 

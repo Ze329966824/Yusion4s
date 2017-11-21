@@ -1,4 +1,4 @@
-package com.yusion.shanghai.yusion4s.ui.upload;
+package com.yusion.shanghai.yusion4s.ui.yusion;
 
 import android.app.Activity;
 import android.app.Dialog;
@@ -35,6 +35,7 @@ import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;

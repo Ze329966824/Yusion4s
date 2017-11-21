@@ -1,4 +1,4 @@
-package com.yusion.shanghai.yusion4s.ui.apply;
+package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 
 import android.app.Activity;
@@ -18,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.yusion.shanghai.yusion.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.DoubleCheckFragment;
@@ -26,13 +25,14 @@ import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.bean.user.GetClientInfoReq;
+import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.upload.DocumentActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
@@ -90,7 +90,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private TextView step1;
     private TextView step2;
     private TextView step3;
-    private ApplyActivity applyActivity ;
+    private ApplyActivity applyActivity;
 
 
     void submitAutonymCertify(View view) {
@@ -143,6 +143,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
 
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
+
             ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), "1"), data1 -> {
                 if (data1 == null) {
                     return;
@@ -172,6 +173,12 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         autonym_certify_next_btn.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 autonym_certify_next_btn.clearFocus();
+
+                if (!Settings.isOnline) {
+                    nextStep();
+                    return;
+                }
+
                 if (checkCanNextStep()) {
                     clearDoubleCheckItems();
                     addDoubleCheckItem("姓名", autonym_certify_name_tv.getText().toString());

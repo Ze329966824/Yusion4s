@@ -1,4 +1,4 @@
-package com.yusion.shanghai.yusion4s.ui.apply;
+package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 import android.content.Intent;
 import android.os.Bundle;

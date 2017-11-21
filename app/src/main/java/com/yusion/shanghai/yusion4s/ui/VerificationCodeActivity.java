@@ -17,7 +17,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.product.GetAuthenticationVerifyCodeReq;
 import com.yusion.shanghai.yusion4s.bean.product.RequestAuthenticationReq;
 import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
-import com.yusion.shanghai.yusion4s.ui.apply.ApplyActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
 import com.yusion.shanghai.yusion4s.widget.IdentifyingCodeView;
 
 

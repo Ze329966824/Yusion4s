@@ -1,4 +1,4 @@
-package com.yusion.shanghai.yusion4s.ui.apply;
+package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
@@ -8,11 +8,11 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
 
-import com.yusion.shanghai.yusion.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
+import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;

@@ -173,7 +173,7 @@ public class ClientInfo {
     public String edu;
     public String marriage;
     public String mobile;
-    public RegAddrBean reg_addr;
+    public RegAddrBean reg_addr = new RegAddrBean();
     public String reg_addr_details;
     public CurrentAddrBean current_addr;
     public String house_owner_name;

@@ -1,4 +1,4 @@
-package com.yusion.shanghai.yusion4s.ui.apply;
+package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 import android.content.Context;
 import android.content.Intent;
@@ -24,7 +24,6 @@ import com.yusion.shanghai.yusion4s.widget.NoEmptyEditText;
 
 import java.util.ArrayList;
 import java.util.List;
-
 
 
 /**
