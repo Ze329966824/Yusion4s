@@ -18,6 +18,7 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
@@ -54,6 +55,7 @@ public class ApplyFinancingFragment extends BaseFragment {
     public SubmitOrderReq req = new SubmitOrderReq();
     private String dlr;
     private String dlr_num;
+//    public SubmitOrderReq req = new SubmitOrderReq();
 
     public static ApplyFinancingFragment newInstance() {
         Bundle args = new Bundle();

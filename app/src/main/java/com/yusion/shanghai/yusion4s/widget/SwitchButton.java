@@ -281,9 +281,14 @@ public class SwitchButton extends View implements Checkable {
         paint.setStyle(Paint.Style.FILL);
         //绘制白色背景
         paint.setColor(background);
+        paint.setColor(Color.parseColor("#f2f2f2"));
         drawRoundRect(canvas,
                 left, top, right, bottom,
                 viewRadius, paint);
+
+        //绘制按钮
+        drawButton(canvas, viewState.buttonX, centerY);
+
 ////        //绘制关闭状态的边框
 ////        paint.setStyle(Paint.Style.STROKE);
 ////        paint.setColor(uncheckColor);
@@ -311,9 +316,6 @@ public class SwitchButton extends View implements Checkable {
 //                left + viewRadius, top,
 //                viewState.buttonX, top + 2 * viewRadius,
 //                paint);
-
-        //绘制按钮
-        drawButton(canvas, viewState.buttonX, centerY);
     }
 
 
@@ -452,7 +454,7 @@ public class SwitchButton extends View implements Checkable {
      */
     private void drawButton(Canvas canvas, float x, float y) {
         buttonPaint.setColor(Color.parseColor("#FF06B7A3"));
-        canvas.drawCircle(x, y, buttonRadius, buttonPaint);
+//        canvas.drawCircle(x, y, buttonRadius, buttonPaint);
         float l = x - buttonRadius;
         float t = top;
         float r = l + width / 2 + overLap / 2;
@@ -464,9 +466,10 @@ public class SwitchButton extends View implements Checkable {
             canvas.drawRoundRect(rect, (t + b) / 2, (t + b) / 2, buttonPaint);
         }
 
-        paint.setStyle(Paint.Style.STROKE);
-        paint.setStrokeWidth(1);
-        paint.setColor(0XffDDDDDD);
+//        paint.setStyle(Paint.Style.STROKE);
+//        paint.setStrokeWidth(1);
+//        paint.setColor(0XffDDDDDD);
+
 //        canvas.drawCircle(x, y, buttonRadius, paint);
     }
 

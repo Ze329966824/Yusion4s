@@ -31,7 +31,7 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
@@ -209,9 +209,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
-        activity = (OrderCreateActivity) getActivity();
-
         UBT.bind(this, view, getClass().getSimpleName());
         TextView step1 = (TextView) view.findViewById(R.id.step1);
         step1.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
@@ -273,6 +270,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // startActivity(new Intent(mContext, MainActivity.class));
                 if (Settings.isShameData) {
                     SubmitOrderReq req = new SubmitOrderReq();
                     req.bank_id = "1";
@@ -318,12 +316,14 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     }
                                 });
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
                             }
                         }
                     });
                 } else if (checkCanSubmit()) {
-                    SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                    SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+                    // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
@@ -350,9 +350,11 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                         }
                                     }
                                 });
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
                             }
                         }
                     });
@@ -533,11 +535,14 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         }
     }
 
-    private OrderCreateActivity activity ;
+
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-        SubmitOrderReq req = activity.req;
+        //SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+
+
         intent.putExtra("dlr_id", req.dlr_id);
         intent.putExtra("bank_id", req.bank_id);
         switch (v.getId()) {

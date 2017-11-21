@@ -161,7 +161,6 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
     private LinearLayout oldcar_info_lin;//二手车的信息
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,10 +168,10 @@ public class OrderDetailActivity extends BaseActivity {
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
-        cartype = getIntent().getStringExtra("car_type");
+        //cartype = getIntent().getStringExtra("car_type");
         initView();
         initTitleBar(this, "申请详情");
-        showNeworOldcarinfolayout(cartype);
+        //showNeworOldcarinfolayout(cartype);
     }
 
     @Override
@@ -336,6 +335,8 @@ public class OrderDetailActivity extends BaseActivity {
             if (resp == null) {
                 return;
             }
+            cartype = resp.vehicle_cond;
+            showNeworOldcarinfolayout(cartype);
             if (resp.modify_permission) {
                 order_detail_sign_layout.setVisibility(View.GONE);
                 order_detail_change_layout.setVisibility(View.VISIBLE);
@@ -560,11 +561,13 @@ public class OrderDetailActivity extends BaseActivity {
 
             orderDetailChangeBtn.setOnClickListener(v -> {
                 Intent i1 = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
+                i1.putExtra("car_type", cartype);
                 i1.putExtra("app_id", app_id);
                 startActivity(i1);
             });
             orderDetailUploadBtn.setOnClickListener(v -> {
                 Intent i2 = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                i2.putExtra("car_type", cartype);
                 i2.putExtra("app_id", app_id);
                 startActivity(i2);
             });

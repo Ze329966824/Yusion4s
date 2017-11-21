@@ -3,6 +3,9 @@ package com.yusion.shanghai.yusion4s.utils.wheel;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.icu.text.SimpleDateFormat;
+import android.os.Build;
+import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,7 +32,9 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -129,7 +134,8 @@ public class WheelViewUtil {
         mWheelViewDialog.show();
     }
 
-    public static void showDatePick(final View clickView, final TextView showView, final String title) {
+    @RequiresApi(api = Build.VERSION_CODES.N)
+    public static void showDatePick(final View clickView, final TextView showView, final String title, String min_reg_year, String max_reg_year) {
         clickView.setEnabled(false);
         Context context = clickView.getContext();
         View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.datepick_view_layout, null);
@@ -145,6 +151,29 @@ public class WheelViewUtil {
         Integer[] s2 = new Integer[1];
         Integer[] s3 = new Integer[1];
         boolean[] ischang = {false};
+
+        String minTime = min_reg_year + "-" + "01-01";
+
+        String maxTime = max_reg_year + "-" + "12-31";
+
+        // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        Date date2 = null;
+        try {
+            date = simpleDateFormat.parse(minTime);
+            date2 = simpleDateFormat.parse(maxTime);
+            long mintime = date.getTime();
+            long maxteime = date2.getTime();
+            datePicker.setMinDate(mintime);
+            datePicker.setMaxDate(maxteime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //  Date date = new Date();
+
+        // datePicker.setMaxDate(time);
+
 
         //2017年12月12日
         if (!s.equals("")) {
