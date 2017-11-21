@@ -119,9 +119,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    /**
+     * 并没有杀死进程
+     */
     public void reOpenApp() {
-        Intent intent = getBaseContext().getPackageManager()
-                .getLaunchIntentForPackage(getBaseContext().getPackageName());
+        Intent intent = getBaseContext().getPackageManager().getLaunchIntentForPackage(getBaseContext().getPackageName());
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         startActivity(intent);
     }
