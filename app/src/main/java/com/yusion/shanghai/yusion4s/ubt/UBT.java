@@ -186,6 +186,7 @@ public class UBT {
         });
     }
 
+
     public static int LIMIT;
 
     static {
@@ -286,11 +287,20 @@ public class UBT {
             if (annotations.length == 0) {
                 continue;
             }
+
+
             for (Annotation annotation : annotations) {
+
                 if (annotation instanceof BindView) {
                     BindView viewAnnotation = (BindView) annotation;
+                    String widgetName = ((BindView) annotation).widgetName();
                     View view = sourceView.findViewById(viewAnnotation.id());
-                    view.setTag(R.id.UBT_WIDGET, ((BindView) annotation).widgetName());
+                    if (view == null) {
+                        throw new NullPointerException(widgetName + "控件未找到");
+                    }
+                    view.setTag(R.id.UBT_WIDGET, widgetName);
+
+
                     try {
                         field.setAccessible(true);
                         field.set(object, view);

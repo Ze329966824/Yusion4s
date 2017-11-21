@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
     android:orientation="vertical">
 
     <android.support.constraint.ConstraintLayout
@@ -274,7 +275,7 @@
                             style="@style/apply_info_content_type_id"
                             android:layout_marginRight="35dp"
                             android:hint="请输入"
-                             />
+                            />
 
                     </LinearLayout>
 
@@ -378,7 +379,7 @@
                 </LinearLayout>
 
 
-                <TextView
+                <Button
                     android:id="@+id/autonym_certify_next_btn"
                     android:layout_width="match_parent"
                     android:layout_height="44dp"
