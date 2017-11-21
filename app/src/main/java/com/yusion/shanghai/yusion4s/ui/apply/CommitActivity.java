@@ -9,6 +9,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 
+import static com.umeng.analytics.pro.x.R;
 
 
 public class CommitActivity extends BaseActivity {
@@ -31,7 +32,7 @@ public class CommitActivity extends BaseActivity {
                 Intent intent = getIntent();
                 intent.setClass(CommitActivity.this, MainActivity.class);
 
-                startActivity(intent);
+                startActivity(i);
 
 
             }
