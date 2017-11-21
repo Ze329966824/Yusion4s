@@ -36,6 +36,7 @@
     </RelativeLayout>
 
     <EditText
+        android:background="@null"
         android:id="@+id/login_account_edt"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

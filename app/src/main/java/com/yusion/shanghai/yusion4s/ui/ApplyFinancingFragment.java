@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
@@ -17,14 +18,13 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
-import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -46,7 +46,14 @@ public class ApplyFinancingFragment extends BaseFragment {
     private TextView to_be_upload_count;
     private TextView to_loan_count;
 
+    private ImageView reject_img;
+    private ImageView to_be_confirm_img;
+    private ImageView to_loan_img;
+    private ImageView to_be_upload_img;
+
     public SubmitOrderReq req = new SubmitOrderReq();
+    private String dlr;
+    private String dlr_num;
 
     public static ApplyFinancingFragment newInstance() {
         Bundle args = new Bundle();
@@ -69,8 +76,9 @@ public class ApplyFinancingFragment extends BaseFragment {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         initView(view);
-        onclick(view);
+
 
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
@@ -80,41 +88,64 @@ public class ApplyFinancingFragment extends BaseFragment {
         });
 
 
-        /*
+        if (dlr_num == null) {
+            DlrApi.getDlrListByToken(mContext, resp -> {
+                if (resp != null && !resp.isEmpty()) {
+                    top_dlr.setText(resp.get(0).dlr_nm);
+                    dlr_num = resp.get(0).id;
+                    refresh();
+                }
+            });
+        } else {
+            refresh();
+        }
 
-//
-//
-//        initTitleBar(view, "申请融资");
-//
-//        //setBackHide();
-//
-//        mCarInfoFragment = CarInfoFragment.newInstance();
-//        mCreditInfoFragment = CreditInfoFragment.newInstance();
-//        /**
-//         * 测试时改变了显示的fragment  将mCreditInfoFragment显示，隐藏mCarInfoFragment
-//         *
-//         * 后续记得改回来
-//
-//
-//
-//
-//        getChildFragmentManager()
-//                .beginTransaction()
-//                .add(R.id.apply_financing_container, mCarInfoFragment)
-//                .add(R.id.apply_financing_container, mCreditInfoFragment)
-//                //.hide(mCarInfoFragment)
-//                .hide(mCreditInfoFragment)
-//                .commit();
-//        mCurrentFragment = mCarInfoFragment;
-//
-//
-//
-//
-//
-//        //mCurrentFragment = mCreditInfoFragment;
 
-        */
+    }
 
+
+    private void refresh() {
+        DlrApi.getDlr(mContext, dlr_num, data -> {
+            ptr.refreshComplete();
+            if (data != null) {
+
+
+                String values = SharedPrefsUtil.getInstance(mContext).getValue(dlr_num, null);
+                if (values != null) {
+                    String[] value = values.split("-");
+
+
+                    if (value.length == 4) {
+                        if ((reject_count.getText().toString().compareTo(value[0]) == -1)) {
+                            reject_img.setVisibility(View.VISIBLE);
+                        }
+                        if ((to_be_confirm_count.getText().toString().compareTo(value[1]) == -1)) {
+                            to_be_confirm_img.setVisibility(View.VISIBLE);
+                        }
+                        if ((to_be_upload_count.getText().toString().compareTo(value[2]) == -1)) {
+                            to_be_upload_img.setVisibility(View.VISIBLE);
+                        }
+                        if ((to_loan_count.getText().toString().compareTo(value[3]) == -1)) {
+                            to_loan_img.setVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+
+                all_count.setText(data.all_count);
+                today_count.setText(data.today_count);
+                dealing_count.setText(data.dealing_count);
+                reject_count.setText(data.reject_count);
+                to_be_confirm_count.setText(data.to_be_confirm_count);
+                to_loan_count.setText(data.to_loan_count);
+                to_be_upload_count.setText(data.to_be_upload_count);
+
+
+                SharedPrefsUtil.getInstance(mContext).putValue("dlr_nums", dlr_num + "/");
+                SharedPrefsUtil.getInstance(mContext).putValue
+                        (dlr_num, data.reject_count + "-" + data.to_be_confirm_count + "-" + data.to_loan_count + "-" + data.to_be_upload_count);
+
+            }
+        });
     }
 
     private void initView(View view) {
@@ -128,32 +159,12 @@ public class ApplyFinancingFragment extends BaseFragment {
         to_be_upload_count = (TextView) view.findViewById(R.id.to_be_upload_count);
         ptr = (PtrClassicFrameLayout) view.findViewById(R.id.dlr_num_ptr);
 
-    }
-
-    private void refresh() {
-        DlrApi.getDlr(mContext, 1,new OnItemDataCallBack<DlrNumResp>() {
-            @Override
-            public void onItemDataCallBack(DlrNumResp data) {
-                ptr.refreshComplete();
-//                Log.e("TAG", "onItemDataCallBack: "+data.toString());
-                if (data != null) {
-                    all_count.setText(data.all_count);
-                    today_count.setText(data.today_count);
-                    dealing_count.setText(data.dealing_count);
-                    reject_count.setText(data.reject_count);
-                    to_be_confirm_count.setText(data.to_be_confirm_count);
-                    to_loan_count.setText(data.to_loan_count);
-                    to_be_upload_count.setText(data.to_be_upload_count);
-                }
+        reject_img = (ImageView) view.findViewById(R.id.reject_img);
+        to_be_confirm_img = (ImageView) view.findViewById(R.id.to_be_confirm_img);
+        to_loan_img = (ImageView) view.findViewById(R.id.to_loan_img);
+        to_be_upload_img = (ImageView) view.findViewById(R.id.to_be_upload_img);
 
 
-
-            }
-        });
-
-    }
-
-    private void onclick(View view) {
         //新车
         view.findViewById(R.id.apply_financing_cteate_newcar_btn).setOnClickListener(v -> {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
@@ -195,18 +206,15 @@ public class ApplyFinancingFragment extends BaseFragment {
         });
     }
 
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        EventBus.getDefault().register(this);
     }
 
     @Override
     public void onDestroy() {
         super.onDestroy();
-//        if (EventBus.getDefault().isRegistered(this)) {
-//            EventBus.getDefault().unregister(this);
-//        }
     }
 
     @Override
@@ -215,53 +223,48 @@ public class ApplyFinancingFragment extends BaseFragment {
 
         if (requestCode == Constants.REQUEST_CHANGE_DLR) {
             if (resultCode == Activity.RESULT_OK) {
-                String dlr = data.getStringExtra("dlr");
+                dlr = data.getStringExtra("dlr");
+                dlr_num = data.getStringExtra("dlr_num");
+
                 if (dlr != null) {
                     top_dlr.setText(dlr);
                 }
+                refresh();
             }
 
         }
 
     }
 
-//    @Subscribe
-//    public void changeFragment(ApplyFinancingFragmentEvent event) {
-//        FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-//        switch (event) {
-//            case showCarInfo:
-//                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
-//                mCurrentFragment = mCarInfoFragment;
-//                break;
-//            case showCreditInfo:
-//                transaction.hide(mCurrentFragment).show(mCreditInfoFragment);
-//                mCurrentFragment = mCreditInfoFragment;
-//                break;
-//            case changeCarInfo:
-//                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
-//                mCurrentFragment = mCarInfoFragment;
-//                mCarInfoFragment.changeCarInfo();
-//                break;
-//            case reset:
-//                req = new SubmitOrderReq();
-//                getChildFragmentManager()
-//                        .beginTransaction()
-//                        .remove(mCarInfoFragment)
-//                        .remove(mCreditInfoFragment)
-//                        .commit();
-//                mCarInfoFragment = CarInfoFragment.newInstance();
-//                mCreditInfoFragment = CreditInfoFragment.newInstance();
-//                getChildFragmentManager()
-//                        .beginTransaction()
-//                        .add(R.id.apply_financing_container, mCarInfoFragment)
-//                        .add(R.id.apply_financing_container, mCreditInfoFragment)
-//                        .hide(mCreditInfoFragment)
-////                        .hide(mCarInfoFragment)
-//                        .commit();
-//                mCurrentFragment = mCarInfoFragment;
-//                EventBus.getDefault().post(MainActivityEvent.showOrderManager);
-//                break;
-//        }
-//        transaction.commit();
-//    }
+    @Override
+    public void onResume() {
+        super.onResume();
+        refresh();
+    }
+
+    public void removeDrl() {
+        SharedPrefsUtil.getInstance(mContext).putValue(dlr_num, "");
+    }
+
+    public void removeImg(int position) {
+        switch (position) {
+            case 8:
+                reject_img.setVisibility(View.GONE);
+
+                break;
+            case 2:
+                to_be_confirm_img.setVisibility(View.GONE);
+                break;
+
+            case 3:
+                to_loan_img.setVisibility(View.GONE);
+                break;
+            case 5:
+                to_be_upload_img.setVisibility(View.GONE);
+                break;
+            default:
+                break;
+        }
+
+    }
 }

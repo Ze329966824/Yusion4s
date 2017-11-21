@@ -16,7 +16,7 @@ public class GetDlrListByTokenResp {
      * management_fee : [0,"300.00"]
      * other_fee : 3000.00
      */
-    public int id;
+    public String id;
     public String dlr_id;
     public String dlr_nm;
     public String dtype;
