@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
     xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:gravity="center_horizontal"
     android:orientation="vertical">
 
     <com.yusion.shanghai.yusion4s.widget.TitleBar
@@ -15,19 +16,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
-        android:text="是否发送验证码"
+        android:text="请输入客户手机号"
         android:textColor="#222A36"
         android:textSize="24sp" />
 
-    <TextView
+    <com.yusion.shanghai.yusion4s.widget.ClearEditText
         android:id="@+id/verification_code_mobile_tv"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="187.5dp"
+        android:layout_height="38.5dp"
         android:layout_marginTop="22dp"
-        android:gravity="center_horizontal"
-        tools:text="13800000000"
+        android:paddingRight="10dp"
+        android:background="@drawable/rect_stroke_ffa400"
+        android:digits="0123456789"
+        android:gravity="center"
+        android:inputType="number"
+        android:maxLength="11"
         android:textColor="#ffa400"
-        android:textSize="17sp" />
+        android:textSize="17sp"
+        tools:text="13800000000" />
 
     <Button
         android:id="@+id/send_verification_code"
@@ -35,7 +41,7 @@
         android:layout_height="31dp"
         android:layout_gravity="center_horizontal"
         android:layout_marginTop="22dp"
-        android:background="#ffc723"
+        android:background="@drawable/send_vc_button"
         android:text="发送验证码"
         android:textColor="#ffffff" />
 
@@ -61,11 +67,12 @@
         android:layout_gravity="center"
         android:src="@mipmap/code_success"
         android:visibility="gone" />
+
     <Button
         android:id="@+id/syz_tessssssssst_btn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
         android:layout_margin="40dp"
         android:background="#23ffcc"
-        android:text="进入申请用户界面"
-        android:layout_width="match_parent"
-        android:layout_height="40dp" />
+        android:text="进入申请用户界面" />
 </LinearLayout>

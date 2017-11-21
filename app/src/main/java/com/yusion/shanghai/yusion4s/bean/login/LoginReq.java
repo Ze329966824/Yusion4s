@@ -13,7 +13,8 @@ public class LoginReq {
      * password : yujian
      * dtype : 2
      */
-
+    public String mobile;
+    public String verify_code;
     public String username;
     public String password;
     public String dtype = "2";

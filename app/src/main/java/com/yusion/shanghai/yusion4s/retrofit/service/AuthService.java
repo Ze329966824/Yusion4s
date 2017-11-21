@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.retrofit.service;
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
+import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
 import com.yusion.shanghai.yusion4s.bean.auth.UpdateResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
@@ -19,6 +20,9 @@ import retrofit2.http.Query;
  */
 
 public interface AuthService {
+
+    @GET("/api/auth/user_login/")
+    Call<BaseResult<GetVCodeResp>> getVCode(@Query("mobile") String mobile);
 
     @Headers({"Content-type:application/json;charset=UTF-8"})
     @POST("/api/auth/login/")

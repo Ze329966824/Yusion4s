@@ -14,10 +14,13 @@ import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.product.GetAuthenticationVerifyCodeReq;
-import com.yusion.shanghai.yusion4s.bean.product.RequestAuthenticationReq;
-import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
+import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
+import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
+import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
+import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.widget.IdentifyingCodeView;
 
 
@@ -69,35 +72,24 @@ public class VerificationCodeActivity extends BaseActivity {
             @Override
             public void inputComplete() {
                 if (icv.getTextContent().length() == 4) {
-                    RequestAuthenticationReq req = new RequestAuthenticationReq();
-//                    req.mobile = getIntent().getStringExtra("mobile");
-//                    req.oneself_clt_id = getIntent().getStringExtra("oneself_clt_id");
-                    req.other_clt_id = getIntent().getStringExtra("other_clt_id");
-                    req.relation_ship = getIntent().getStringExtra("relation_ship");
-                    req.verify_code = icv.getTextContent();
-//                    ProductApi.requestAuthentication(VerificationCodeActivity.this, req, new OnCodeAndMsgCallBack() {
-//                        @Override
-//                        public void callBack(int code, String msg) {
-//                            if (code >= 0) {
-//                                successImg.setVisibility(View.VISIBLE);
-//                                Handler handler = new Handler();
-//                                handler.postDelayed(new Runnable() {
-//                                    @Override
-//                                    public void run() {
-//                                        Intent intent = new Intent();
-//                                        intent.putExtra("isSuccess", true);
-//                                        intent.putExtra("verifyCode", relVerifyCode);
-//                                        setResult(RESULT_OK, intent);
-//                                        finish();
-//                                    }
-//                                }, 1500);
-//                            } else {
-//                                Toast.makeText(myApp, "验证失败", Toast.LENGTH_SHORT).show();
-//                            }
-//                        }
-//                    });
-
-
+                    LoginReq loginReq = new LoginReq();
+                    loginReq.mobile = mobileTV.getText().toString();
+                    loginReq.dtype = "";
+                    loginReq.verify_code = icv.getTextContent().toString();
+                    AuthApi.login(VerificationCodeActivity.this, loginReq, new OnItemDataCallBack<LoginResp>() {
+                        @Override
+                        public void onItemDataCallBack(LoginResp data) {
+                            if (data == null) {
+                                Toast.makeText(myApp, "授权失败", Toast.LENGTH_SHORT).show();
+                                icv.clearAllText();
+                            }else {
+                                Toast.makeText(myApp, "授权成功", Toast.LENGTH_SHORT).show();
+                                Intent intent = new Intent(VerificationCodeActivity.this, ApplyActivity.class);
+                                intent.putExtra("mobile","mobile");
+                                startActivity(intent);
+                            }
+                        }
+                    });
                 }
             }
 
@@ -109,7 +101,11 @@ public class VerificationCodeActivity extends BaseActivity {
     }
 
     public void initData() {
-        timer = new CountDownTimer(60000, 1000) {
+        long totalTime = 60000;
+        if (!Settings.isOnline) {
+            totalTime = 50000;
+        }
+        timer = new CountDownTimer(totalTime, 1000) {
             @Override
             public void onTick(long l) {
                 sentVerificationBtn.setText(l / 1000 + "秒后重试");
@@ -124,18 +120,18 @@ public class VerificationCodeActivity extends BaseActivity {
         sentVerificationBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                if (!CheckMobileUtil.checkMobile(mobileTV.getText().toString())) {
+                    Toast.makeText(myApp, "手机号格式不正确", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 view.setEnabled(false);
                 timer.start();
 
-                GetAuthenticationVerifyCodeReq req = new GetAuthenticationVerifyCodeReq();
-                req.mobile = getIntent().getStringExtra("mobile");
-                req.oneself_clt_id = getIntent().getStringExtra("oneself_clt_id");
-                req.other_clt_id = getIntent().getStringExtra("other_clt_id");
-                req.relation_ship = getIntent().getStringExtra("relation_ship");
-                ProductApi.getAuthenticationVerifyCode(VerificationCodeActivity.this, req, data -> {
+                AuthApi.getVCode(VerificationCodeActivity.this, mobileTV.getText().toString(), data -> {
                     if (data == null) {
                         Toast.makeText(myApp, "获取验证码失败", Toast.LENGTH_SHORT).show();
                     } else {
+                        Toast.makeText(myApp, "获取验证码成功", Toast.LENGTH_SHORT).show();
                         relVerifyCode = data.verify_code;
                     }
                 });

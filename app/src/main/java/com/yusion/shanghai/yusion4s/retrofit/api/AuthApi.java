@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
+import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
 import com.yusion.shanghai.yusion4s.bean.auth.UpdateResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
@@ -18,6 +19,16 @@ import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
  */
 
 public class AuthApi {
+    public static void getVCode(Context context, String mobile, final OnItemDataCallBack<GetVCodeResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getAuthService().getVCode(mobile).enqueue(new CustomCallBack<GetVCodeResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(GetVCodeResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
     public static void login(final Context context, LoginReq req, final OnItemDataCallBack<LoginResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getAuthService().login(req).enqueue(new CustomCallBack<LoginResp>(context,dialog) {
