@@ -39,6 +39,8 @@ import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.umeng.analytics.pro.x.al;
+
 public class AlterCarInfoActivity extends BaseActivity {
     public static int DELAY_MILLIS;
     private String otherLimit;
@@ -578,10 +580,17 @@ public class AlterCarInfoActivity extends BaseActivity {
 //
 //        });
 //
+        //上牌时间
         oldcar_addrtime_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year);
+                if (TextUtils.isEmpty(modelTv.getText())) {
+                    Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成车型选择", Toast.LENGTH_LONG);
+                    toast.setGravity(Gravity.CENTER, 0, 0);
+                    toast.show();
+                } else {
+                    WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year);
+                }
             }
         });
 

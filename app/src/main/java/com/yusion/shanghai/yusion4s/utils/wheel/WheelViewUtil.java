@@ -134,6 +134,14 @@ public class WheelViewUtil {
         mWheelViewDialog.show();
     }
 
+    public static String formateDate(Integer s) {
+        if (s < 10) {
+            return "0" + s;
+        } else {
+            return s + "";
+        }
+    }
+
     @RequiresApi(api = Build.VERSION_CODES.N)
     public static void showDatePick(final View clickView, final TextView showView, final String title, String min_reg_year, String max_reg_year) {
         clickView.setEnabled(false);
@@ -177,7 +185,8 @@ public class WheelViewUtil {
 
         //2017年12月12日
         if (!s.equals("")) {
-            String[] array = s.split("年|月|日");
+            //String[] array = s.split("年|月|日");
+            String[] array = s.split("-");
             s1[0] = Integer.valueOf(array[0]);
             s2[0] = Integer.valueOf(array[1]);
             s3[0] = Integer.valueOf(array[2]);
@@ -213,7 +222,7 @@ public class WheelViewUtil {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = s1[0] + "年" + s2[0] + "月" + s3[0] + "日";
+                String result = s1[0] + "-" + formateDate(s2[0]) + "-" + formateDate(s3[0]);
                 showView.setText(result);
                 if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
                     mWheelViewDialog.dismiss();
@@ -222,6 +231,7 @@ public class WheelViewUtil {
                 clickView.setEnabled(true);
             }
         });
+
         cancelBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
