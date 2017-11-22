@@ -126,6 +126,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mMineFragment.refresh(data);
             }
         });
+        String dlr_nums = mApplyFinancingFragment.dlr_num;
+        if (dlr_nums == null) {
+            mApplyFinancingFragment.havenoNum();
+        }
     }
 
     @Subscribe

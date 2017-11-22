@@ -18,7 +18,6 @@ import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
-import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
@@ -53,8 +52,8 @@ public class ApplyFinancingFragment extends BaseFragment {
     private ImageView to_be_upload_img;
 
     public SubmitOrderReq req = new SubmitOrderReq();
-    private String dlr;
-    private String dlr_num;
+    public String dlr;
+    public String dlr_num;
 //    public SubmitOrderReq req = new SubmitOrderReq();
 
     public static ApplyFinancingFragment newInstance() {
@@ -85,28 +84,29 @@ public class ApplyFinancingFragment extends BaseFragment {
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                refresh();
+                refresh(dlr_num);
             }
         });
 
 
+
+
+
+    }
+
+    void havenoNum(){
         if (dlr_num == null) {
             DlrApi.getDlrListByToken(mContext, resp -> {
                 if (resp != null && !resp.isEmpty()) {
                     top_dlr.setText(resp.get(0).dlr_nm);
                     dlr_num = resp.get(0).id;
-                    refresh();
+                    refresh(dlr_num);
                 }
             });
-        } else {
-            refresh();
         }
-
-
     }
 
-
-    private void refresh() {
+     void refresh(String dlr_num) {
         DlrApi.getDlr(mContext, dlr_num, data -> {
             ptr.refreshComplete();
             if (data != null) {
@@ -231,7 +231,8 @@ public class ApplyFinancingFragment extends BaseFragment {
                 if (dlr != null) {
                     top_dlr.setText(dlr);
                 }
-                refresh();
+                Log.e("TAG", "onActivityResult: dlr_num = "+dlr_num);
+                refresh(dlr_num);
             }
 
         }
@@ -241,7 +242,6 @@ public class ApplyFinancingFragment extends BaseFragment {
     @Override
     public void onResume() {
         super.onResume();
-        refresh();
     }
 
     public void removeDrl() {
