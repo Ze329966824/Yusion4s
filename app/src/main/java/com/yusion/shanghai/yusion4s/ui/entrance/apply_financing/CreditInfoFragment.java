@@ -58,6 +58,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private TextView client_phoneNumber;
     private TextView client_ID_card;
     private ImageView delete_icon;
+    private LinearLayout credit_info;
 
     //    @BindView(id = R.id.client_credit__book_lin1, widgetName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
     private LinearLayout client_credit__book_lin;  //申请人征信
@@ -253,7 +254,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
         personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
         delete_icon = (ImageView) view.findViewById(R.id.delete_icon);
-
+        credit_info = (LinearLayout) view.findViewById(R.id.credit_info);
 
 //        credit_applicate_detail_lin.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -267,7 +268,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         delete_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                deleteUserInfo();
             }
         });
 
@@ -390,6 +391,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 guarantorSpList.clear();
                 uploadFileUrlList.clear();
 
+                credit_info.setVisibility(View.VISIBLE);
                 personal_info_group.setVisibility(View.VISIBLE);
                 client_info_name.setText(data.getStringExtra("name"));
                 client_ID_card.setText(data.getStringExtra("sfz"));
@@ -626,6 +628,19 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     }
 
     public void deleteUserInfo() {
+        client_credit__book_lin.setVisibility(View.GONE);
+        client_spouse_credit__book_lin.setVisibility(View.GONE);
+        guarantor_credit_book_lin.setVisibility(View.GONE);
+        guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        personal_info_group.setVisibility(View.GONE);
+        credit_info.setVisibility(View.GONE);
 
+        lenderList.clear();
+        lenderSpList.clear();
+        guarantorList.clear();
+        guarantorSpList.clear();
+        uploadFileUrlList.clear();
+        //submitBtn.setEnabled(data.getBooleanExtra("enable", false));
+        submitBtn.setEnabled(false);
     }
 }
