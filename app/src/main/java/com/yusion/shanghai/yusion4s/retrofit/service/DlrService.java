@@ -53,7 +53,7 @@ public interface DlrService {
 
     //刷新首页的门店信息
     @GET("/api/m/rest/dealer/{id}/dashboard/")
-    Call<BaseResult<DlrNumResp>> getDlrNum(@Path("id") int id);
+    Call<BaseResult<DlrNumResp>> getDlrNum(@Path("id") String id);
     @GET("/api/crm/dealer/get_plate/")
     Call<BaseResult<List<GetproductResp.SupportAreaBean>>> getOldCarAddr();
 

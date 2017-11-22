@@ -21,10 +21,11 @@ import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import java.util.ArrayList;
 
 
-
 public class ChangeDlrActivity extends AppCompatActivity {
 
     private ArrayList<String> dlrItems;
+    private ArrayList<String> dlrItemNums;
+    private String drl_num;
     private RecyclerView changeDlr_rv;
     private ChangeDlrAdapter adapter;
     private ArrayList<String> testlists = new ArrayList<String>() {{
@@ -53,7 +54,15 @@ public class ChangeDlrActivity extends AppCompatActivity {
 
 
     private void over(String msg) {
+        for (int i = 0; i < dlrItems.size(); i++) {
+            if (dlrItems.get(i).equals(msg)){
+                drl_num = dlrItemNums.get(i);
+            }
+        }
+
+
         intent.putExtra("dlr",msg);
+        intent.putExtra("dlr_num",drl_num);
 //        Log.e("TAG", "over: "+msg);
         setResult(RESULT_OK,intent);
         finish();
@@ -86,17 +95,18 @@ public class ChangeDlrActivity extends AppCompatActivity {
 
     private void showDlr() {
         dlrItems = new ArrayList<String>();
+        dlrItemNums = new ArrayList<String>();
         DlrApi.getDlrListByToken(this, resp -> {
             if (resp != null && !resp.isEmpty()) {
                 for (GetDlrListByTokenResp item : resp) {
                     dlrItems.add(item.dlr_nm);
+                    dlrItemNums.add(item.id);
                 }
                 changeDlr_rv = (RecyclerView) findViewById(R.id.change_dlr_rv);
 
+                adapter = new ChangeDlrAdapter(this, dlrItems,mHandler);
 
-//                adapter = new ChangeDlrAdapter(this, dlrItems,mHandler);
-
-                adapter = new ChangeDlrAdapter(this, testlists,mHandler);
+//                adapter = new ChangeDlrAdapter(this, testlists,mHandler);
                 changeDlr_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 changeDlr_rv.setAdapter(adapter);
             }
@@ -104,6 +114,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
 
 
     }
+
 
     class ChangeDlrAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private Context mContext;

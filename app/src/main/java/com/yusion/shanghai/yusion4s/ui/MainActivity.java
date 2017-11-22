@@ -70,6 +70,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mCurrentFragment = mApplyFinancingFragment;
         EventBus.getDefault().register(this);
 
+        mApplyFinancingFragment.removeDrl();
+
     }
 
     @Override
@@ -124,6 +126,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mMineFragment.refresh(data);
             }
         });
+        String dlr_nums = mApplyFinancingFragment.dlr_num;
+        if (dlr_nums == null) {
+            mApplyFinancingFragment.havenoNum();
+        }
     }
 
     @Subscribe
@@ -132,11 +138,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case showOrderManager:
                 orderListRb.performClick();
                 if (event.position == -1) {
-                    Log.e("TAG", "changeFragment: ");
+//                    Log.e("TAG", "changeFragment: ");
                     break;
                 }else {
-                    Log.e("TAG", "changeFragment: 1111111");
+//                    Log.e("TAG", "changeFragment: 1111111");
                     OrderManagerFragmentEvent.showFragment.position =event.position;
+                    Log.e("TAG", "changeFragment: "+event.position);
+                    mApplyFinancingFragment.removeImg(event.position);
                     EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
                     break;
                 }

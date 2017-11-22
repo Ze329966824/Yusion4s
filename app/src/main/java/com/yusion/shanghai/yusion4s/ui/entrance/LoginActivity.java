@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -128,6 +129,19 @@ public class LoginActivity extends BaseActivity {
         myApp.clearUserData();
 
         ConfigApi.getConfigJson(LoginActivity.this, null);
+
+        String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
+        if (dlr_nums != null) {
+
+
+            String[] dlr_num = dlr_nums.split("/");
+            for (String id : dlr_num) {
+                Log.e("TAG", "key: " + id);
+                Log.e("TAG", "valuse: " + SharedPrefsUtil.getInstance(this).getValue(id, null));
+                SharedPrefsUtil.getInstance(this).remove(id);
+            }
+        }
+
     }
 
     private void uploadPersonAndDeviceInfo() {
@@ -139,7 +153,6 @@ public class LoginActivity extends BaseActivity {
         req.app = "Yusion4s";
         req.token = SharedPrefsUtil.getInstance(this).getValue("token", null);
         req.mobile = SharedPrefsUtil.getInstance(this).getValue("account", null);
-
         JSONArray contactJsonArray = MobileDataUtil.getUserData(this, "contact");
         List<UBTData.DataBean.ContactBean> contactBeenList = new ArrayList<>();
 
