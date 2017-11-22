@@ -152,12 +152,9 @@ public class WheelViewUtil {
         Integer[] s3 = new Integer[1];
         boolean[] ischang = {false};
 
-       // String mintimesss = "2017-01-01";
-        String minTime = min_reg_year+"-"+"01-01";
-//        String mintimesss = "2017-01-01 00:00:00";
+        String minTime = min_reg_year + "-" + "01-01";
 
-        //String maxtimesss = "2017-12-31";
-        String maxTime = max_reg_year+"-"+"12-31";
+        String maxTime = max_reg_year + "-" + "12-31";
 
         // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
