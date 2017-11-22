@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +57,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private TextView client_info_name;
     private TextView client_phoneNumber;
     private TextView client_ID_card;
+    private ImageView delete_icon;
 
     //    @BindView(id = R.id.client_credit__book_lin1, widgetName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
     private LinearLayout client_credit__book_lin;  //申请人征信
@@ -250,6 +252,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         autonym_certify_id_back_tv3 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv3);
 
         personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
+        delete_icon = (ImageView) view.findViewById(R.id.delete_icon);
+
 
 //        credit_applicate_detail_lin.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -259,6 +263,13 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                startActivity(intent);
 //            }
 //        });
+
+        delete_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
         findTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -611,6 +622,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     }
 
     public void getUserInfo(Intent intent) {
+
+    }
+
+    public void deleteUserInfo() {
 
     }
 }

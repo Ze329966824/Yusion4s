@@ -119,22 +119,22 @@
                 android:background="@drawable/textview_border"
                 android:orientation="horizontal">
 
-                <TextView
-                    android:id="@+id/tv_find"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/textview_border"
-                    android:gravity="center_vertical"
-                    android:text="请输入客户姓名/手机号/身份证号"
-                    android:textColor="#D1D1D1"
-                    android:textSize="14.5sp"
-                    android:visibility="visible" />
                 <ImageView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginLeft="9dp"
                     android:src="@mipmap/icon_find" />
+
+                <TextView
+                    android:id="@+id/tv_find"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:text="请输入客户姓名/手机号/身份证号"
+                    android:textColor="#D1D1D1"
+                    android:textSize="14.5sp"
+                    android:visibility="visible" />
 
 
             </LinearLayout>
@@ -148,7 +148,7 @@
                 android:layout_marginRight="35dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="15dp"
-                android:background="@drawable/textview_border"
+                android:background="@drawable/btn_bian"
                 android:gravity="center"
                 android:text="创建用户"
                 android:textColor="#999999"
@@ -193,6 +193,7 @@
                     </LinearLayout>
 
                     <ImageView
+                        android:id="@+id/delete_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_alignParentRight="true"
@@ -200,29 +201,6 @@
                         android:layout_marginTop="18dp"
                         android:src="@mipmap/delete_icon" />
                 </RelativeLayout>
-
-                <!--<View-->
-                <!--android:layout_width="3dp"-->
-                <!--android:layout_height="11dp"-->
-                <!--android:layout_marginBottom="2dp"-->
-                <!--android:layout_marginLeft="15dp"-->
-                <!--android:layout_marginStart="15dp"-->
-                <!--android:background="@drawable/fill_vertical_line"-->
-                <!--app:layout_constraintBottom_toBottomOf="@+id/personal_info1"-->
-                <!--app:layout_constraintLeft_toLeftOf="parent" />-->
-
-                <!--<TextView-->
-                <!--android:id="@+id/personal_info1"-->
-                <!--android:layout_width="wrap_content"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginBottom="8dp"-->
-                <!--android:layout_marginLeft="22dp"-->
-                <!--android:layout_marginStart="22dp"-->
-                <!--android:text="申请人信息"-->
-                <!--android:textColor="#666666"-->
-                <!--android:textSize="11.5sp"-->
-                <!--app:layout_constraintBottom_toTopOf="@+id/personal_info_group"-->
-                <!--app:layout_constraintLeft_toLeftOf="parent" />-->
 
                 <LinearLayout
                     android:id="@+id/personal_info_group"
