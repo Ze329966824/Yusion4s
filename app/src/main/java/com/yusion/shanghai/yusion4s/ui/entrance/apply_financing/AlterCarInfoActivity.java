@@ -338,12 +338,12 @@ public class AlterCarInfoActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_alter_car_info);
-        initTitleBar(this, "修改订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                back();
-            }
-        });
+//        initTitleBar(this, "修改订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                back();
+//            }
+//        });
 
         DELAY_MILLIS = ((Yusion4sApp) getApplication()).getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
@@ -622,6 +622,11 @@ public class AlterCarInfoActivity extends BaseActivity {
 
                     mManagementPriceIndex = 0;
 
+                    oldcar_business_price_tv.setText("");
+                    oldcar_guess_price_tv.setText("");
+                    oldcar_dance_tv.setText("");
+                    oldcar_addr_tv.setText("");
+                    oldcar_addrtime_tv.setText("");
                     managementPriceTv.setText("");
                     totalLoanPriceTv.setText("");
                     otherPriceTv.setText("");
@@ -672,6 +677,18 @@ public class AlterCarInfoActivity extends BaseActivity {
 
                                 loanPeriodsTv.setText("");
                                 mLoanPeriodsIndex = 0;
+
+                                oldcar_business_price_tv.setText("");
+                                oldcar_guess_price_tv.setText("");
+                                oldcar_dance_tv.setText("");
+                                oldcar_addr_tv.setText("");
+                                oldcar_addrtime_tv.setText("");
+                                managementPriceTv.setText("");
+                                totalLoanPriceTv.setText("");
+                                otherPriceTv.setText("");
+                                plateRegAddrTv.setText("");//上牌地选择
+                                loanPeriodsTv.setText("");//还款期限
+                                carInfoAlterTv.setText("");//修改理由
                             });
                         }
                     }
@@ -732,6 +749,18 @@ public class AlterCarInfoActivity extends BaseActivity {
                             productTypeTv.setText(null);
 
                             billPriceTv.setText("");
+
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
+                            oldcar_dance_tv.setText("");
+                            oldcar_addr_tv.setText("");
+                            oldcar_addrtime_tv.setText("");
+                            managementPriceTv.setText("");
+                            totalLoanPriceTv.setText("");
+                            otherPriceTv.setText("");
+                            plateRegAddrTv.setText("");//上牌地选择
+                            loanPeriodsTv.setText("");//还款期限
+                            carInfoAlterTv.setText("");//修改理由
                         });
                     }
                 });
@@ -773,6 +802,18 @@ public class AlterCarInfoActivity extends BaseActivity {
                             productTypeTv.setText(null);
 
                             billPriceTv.setText("");
+
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
+                            oldcar_dance_tv.setText("");
+                            oldcar_addr_tv.setText("");
+                            oldcar_addrtime_tv.setText("");
+                            managementPriceTv.setText("");
+                            totalLoanPriceTv.setText("");
+                            otherPriceTv.setText("");
+                            plateRegAddrTv.setText("");//上牌地选择
+                            loanPeriodsTv.setText("");//还款期限
+                            carInfoAlterTv.setText("");//修改理由
                         });
                     }
                 });
@@ -1257,9 +1298,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                 });
             }
         });
-        carInfoNextBtn.setOnClickListener(new View.OnClickListener()
-
-        {
+        carInfoNextBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (checkCanNextStep()) {

@@ -469,6 +469,12 @@ public class CarInfoFragment extends BaseFragment {
 
                     mManagementPriceIndex = 0;
 
+                    oldcar_business_price_tv.setText("");
+                    oldcar_guess_price_tv.setText("");
+                    oldcar_dance_tv.setText("");
+                    oldcar_addr_tv.setText("");
+                    oldcar_addrtime_tv.setText("");
+
                     managementPriceTv.setText("");
                     totalLoanPriceTv.setText("");
                     otherPriceTv.setText("");
@@ -527,6 +533,17 @@ public class CarInfoFragment extends BaseFragment {
 
                         loanPeriodsTv.setText("");
                         mLoanPeriodsIndex = 0;
+
+                        oldcar_business_price_tv.setText("");
+                        oldcar_guess_price_tv.setText("");
+                        oldcar_dance_tv.setText("");
+                        oldcar_addr_tv.setText("");
+                        oldcar_addrtime_tv.setText("");
+                        managementPriceTv.setText("");
+                        totalLoanPriceTv.setText("");
+                        otherPriceTv.setText("");
+                        plateRegAddrTv.setText("");//上牌地选择
+                        loanPeriodsTv.setText("");//还款期限
                     });
                 });
             } else {
@@ -563,6 +580,17 @@ public class CarInfoFragment extends BaseFragment {
                         productTypeTv.setText(null);
 
                         billPriceTv.setText("");
+
+                        oldcar_business_price_tv.setText("");
+                        oldcar_guess_price_tv.setText("");
+                        oldcar_dance_tv.setText("");
+                        oldcar_addr_tv.setText("");
+                        oldcar_addrtime_tv.setText("");
+                        managementPriceTv.setText("");
+                        totalLoanPriceTv.setText("");
+                        otherPriceTv.setText("");
+                        plateRegAddrTv.setText("");//上牌地选择
+                        loanPeriodsTv.setText("");//还款期限
                     });
                 });
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
@@ -604,6 +632,17 @@ public class CarInfoFragment extends BaseFragment {
                             productTypeTv.setText(null);
 
                             billPriceTv.setText("");
+
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
+                            oldcar_dance_tv.setText("");
+                            oldcar_addr_tv.setText("");
+                            oldcar_addrtime_tv.setText("");
+                            managementPriceTv.setText("");
+                            totalLoanPriceTv.setText("");
+                            otherPriceTv.setText("");
+                            plateRegAddrTv.setText("");//上牌地选择
+                            loanPeriodsTv.setText("");//还款期限
                         });
                     }
                 });
