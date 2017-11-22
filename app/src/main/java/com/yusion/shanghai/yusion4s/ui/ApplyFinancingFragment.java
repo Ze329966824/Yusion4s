@@ -67,10 +67,10 @@ public class ApplyFinancingFragment extends BaseFragment {
                 .add(R.id.apply_financing_container, mCarInfoFragment)
                 .add(R.id.apply_financing_container, mCreditInfoFragment)
                 .hide(mCarInfoFragment)
-//                .hide(mCreditInfoFragment)
+                //.hide(mCreditInfoFragment)
                 .commit();
-        mCurrentFragment = mCarInfoFragment;
-        //mCurrentFragment = mCreditInfoFragment;
+        //mCurrentFragment = mCarInfoFragment;
+        mCurrentFragment = mCreditInfoFragment;
     }
 
     @Override
