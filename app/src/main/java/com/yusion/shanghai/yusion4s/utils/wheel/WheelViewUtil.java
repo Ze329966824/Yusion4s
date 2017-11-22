@@ -3,9 +3,6 @@ package com.yusion.shanghai.yusion4s.utils.wheel;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetManager;
-import android.icu.text.SimpleDateFormat;
-import android.os.Build;
-import android.support.annotation.RequiresApi;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +30,7 @@ import org.json.JSONObject;
 
 import java.io.InputStream;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -142,7 +140,6 @@ public class WheelViewUtil {
         }
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.N)
     public static void showDatePick(final View clickView, final TextView showView, final String title, String min_reg_year, String max_reg_year) {
         clickView.setEnabled(false);
         Context context = clickView.getContext();
@@ -165,6 +162,7 @@ public class WheelViewUtil {
         String maxTime = max_reg_year + "-" + "12-31";
 
         // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
         Date date2 = null;
