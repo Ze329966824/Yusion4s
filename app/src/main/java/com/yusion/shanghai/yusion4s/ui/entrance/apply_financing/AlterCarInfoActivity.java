@@ -85,6 +85,8 @@ public class AlterCarInfoActivity extends BaseActivity {
     private boolean billPriceChange = true;
 
     private boolean isChangeCarInfoChange = true;
+    private boolean isChangeOldCarInfo = true;
+    private boolean isChangeOldCarOther = true;
 
     private boolean isAlterCarInfoChange = true;
 
@@ -174,9 +176,11 @@ public class AlterCarInfoActivity extends BaseActivity {
                             }
                         }
                     } else {
-                        if (getPrice(carLoanPriceTv) > getPrice(oldcar_guess_price_tv)) {
-                            Toast.makeText(AlterCarInfoActivity.this, "贷款总额不能大于评估价", Toast.LENGTH_SHORT).show();
-                            carLoanPriceTv.setText(getPrice(oldcar_business_price_tv));
+                        if (getPrice(carLoanPriceTv) > getPrice(oldcar_guess_price_tv) * 0.7) {
+                            Toast.makeText(AlterCarInfoActivity.this, "贷款总额不能大于评估价的70%", Toast.LENGTH_SHORT).show();
+                            //  carLoanPriceTv.setText(getPrice(oldcar_business_price_tv));
+                            carLoanPriceTv.setText("");
+
                         } else {
                             if (Integer.valueOf(carLoanPriceTv.getText().toString()) % 100 != 0) {
                                 sum3 = getRounding(carLoanPriceTv);
@@ -344,7 +348,21 @@ public class AlterCarInfoActivity extends BaseActivity {
         DELAY_MILLIS = ((Yusion4sApp) getApplication()).getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         cartype = getIntent().getStringExtra("car_type");
-        //showNeworOldcarinfolayout(cartype);
+        if (cartype.equals("新车")) {
+            initTitleBar(this, "修改新车订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
+        } else {
+            initTitleBar(this, "修改二手车订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
+        }
         initView();
         initData();
         showNeworOldcarinfolayout(cartype);
@@ -450,9 +468,12 @@ public class AlterCarInfoActivity extends BaseActivity {
                 oldcar_business_price_tv.setText(resp.vehicle_price);//交易价
                 oldcar_addr_tv.setText(resp.origin_plate_reg_addr);//二手车上牌地
                 oldcar_dance_tv.setText(resp.send_hand_mileage);//里程数
+                oldcar_addrtime_tv.setText(resp.send_hand_plate_time);
 
 
                 isChangeCarInfoChange = true;
+                isChangeOldCarInfo = true;
+                isChangeOldCarOther = true;
 
                 if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
                     billPriceTv.setEnabled(true);
@@ -852,11 +873,11 @@ public class AlterCarInfoActivity extends BaseActivity {
 
                     changeFirstPriceByCode = true;
                     changeCarLoanByCode = true;
-                    if (!isChangeCarInfoChange) {
+                    if (!isChangeOldCarInfo) {
                         firstPriceTv.setText("");
                         carLoanPriceTv.setText("");
                     } else {
-                        isChangeCarInfoChange = false;
+                        isChangeOldCarInfo = false;
                     }
 
                     if (billPriceChange) {
@@ -876,58 +897,186 @@ public class AlterCarInfoActivity extends BaseActivity {
                 }
             });
         }
-
-
-        //贷款额度
-        carLoanPriceTv.addTextChangedListener(new TextWatcher() {//车辆贷款
+        carLoanPriceTv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+
             }
 
             @Override
             public void afterTextChanged(Editable s) {
-                otherPriceTv.setText("");
-                if (TextUtils.isEmpty(s)) {
-                    handler.removeMessages(3);
-                    if (changeCarLoanByCode) {
-                        //开票价改变导致
-                        changeCarLoanByCode = false;
-                    } else {
-                        //用户输入的
-                        changeFirstPriceByCode = true;
-                        firstPriceTv.setText(getPrice(billPriceTv) + "");
-                    }
+                if (!isChangeOldCarOther) {
+                    otherPriceTv.setText("");
                 } else {
-                    if (changeCarLoanByCode) {
-                        //首付款改变导致的
-                        changeCarLoanByCode = false;
-                    } else {
-                        //用户输入的
-                        if (carLoanPriceChange) {
-                            if (handler.hasMessages(3)) {
-                                handler.removeMessages(3);
-                            }
-                            handler.sendEmptyMessageDelayed(3, DELAY_MILLIS);
+                    isChangeOldCarOther = false;
+                }
+                if (cartype.equals("新车")) {
+                    // otherPriceTv.setText("");
+                    if (TextUtils.isEmpty(s)) {
+                        handler.removeMessages(3);
+                        if (changeCarLoanByCode) {
+                            //开票价改变导致
+                            changeCarLoanByCode = false;
                         } else {
-                            carLoanPriceChange = true;
+                            //用户输入的
+                            changeFirstPriceByCode = true;
+                            firstPriceTv.setText(getPrice(billPriceTv) + "");
                         }
-                        changeFirstPriceByCode = true;
-                        if (cartype.equals("新车")) {
-                            firstPriceTv.setText(getPrice(billPriceTv) - getPrice(carLoanPriceTv) + "");
+                    } else {
+                        if (changeCarLoanByCode) {
+                            //首付款改变导致的
+                            changeCarLoanByCode = false;
                         } else {
+                            //用户输入的
+                            if (carLoanPriceChange) {
+                                if (handler.hasMessages(3)) {
+                                    handler.removeMessages(3);
+                                }
+                                handler.sendEmptyMessageDelayed(3, DELAY_MILLIS);
+                            } else {
+                                carLoanPriceChange = true;
+                            }
+                            changeFirstPriceByCode = true;
+                            firstPriceTv.setText(getPrice(billPriceTv) - getPrice(carLoanPriceTv) + "");
+                        }
+                    }
+                    otherPriceTv.setEnabled(true);
+                    totalPrice();
+                } else {
+                    // otherPriceTv.setText("");
+                    if (TextUtils.isEmpty(s)) {
+                        handler.removeMessages(3);
+                        if (changeCarLoanByCode) {
+                            //开票价改变导致
+                            changeCarLoanByCode = false;
+                        } else {
+                            //用户输入的
+                            changeFirstPriceByCode = true;
+                            firstPriceTv.setText(getPrice(oldcar_business_price_tv) + "");
+                        }
+                    } else {
+                        if (changeCarLoanByCode) {
+                            //首付款改变导致的
+                            changeCarLoanByCode = false;
+                        } else {
+                            //用户输入的
+                            if (carLoanPriceChange) {
+                                if (handler.hasMessages(3)) {
+                                    handler.removeMessages(3);
+                                }
+                                handler.sendEmptyMessageDelayed(3, DELAY_MILLIS);
+                            } else {
+                                carLoanPriceChange = true;
+                            }
+                            changeFirstPriceByCode = true;
                             firstPriceTv.setText(getPrice(oldcar_business_price_tv) - getPrice(carLoanPriceTv) + "");
                         }
-                        //firstPriceTv.setText(getPrice(billPriceTv) - getPrice(carLoanPriceTv) + "");
                     }
+                    otherPriceTv.setEnabled(true);
+                    totalPrice();
                 }
-                otherPriceTv.setEnabled(true);
-                totalPrice();
             }
         });
+/*
+        // 贷款额度
+        if (cartype.equals("新车")) {
+            carLoanPriceTv.addTextChangedListener(new TextWatcher() {//车辆贷款
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    otherPriceTv.setText("");
+                    if (TextUtils.isEmpty(s)) {
+                        handler.removeMessages(3);
+                        if (changeCarLoanByCode) {
+                            //开票价改变导致
+                            changeCarLoanByCode = false;
+                        } else {
+                            //用户输入的
+                            changeFirstPriceByCode = true;
+                            firstPriceTv.setText(getPrice(billPriceTv) + "");
+                        }
+                    } else {
+                        if (changeCarLoanByCode) {
+                            //首付款改变导致的
+                            changeCarLoanByCode = false;
+                        } else {
+                            //用户输入的
+                            if (carLoanPriceChange) {
+                                if (handler.hasMessages(3)) {
+                                    handler.removeMessages(3);
+                                }
+                                handler.sendEmptyMessageDelayed(3, DELAY_MILLIS);
+                            } else {
+                                carLoanPriceChange = true;
+                            }
+                            changeFirstPriceByCode = true;
+                            firstPriceTv.setText(getPrice(billPriceTv) - getPrice(carLoanPriceTv) + "");
+                        }
+                    }
+                    otherPriceTv.setEnabled(true);
+                    totalPrice();
+
+                }
+            });
+        } else {
+            carLoanPriceTv.addTextChangedListener(new TextWatcher() {//车辆贷款
+                @Override
+                public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                }
+
+                @Override
+                public void onTextChanged(CharSequence s, int start, int before, int count) {
+                }
+
+                @Override
+                public void afterTextChanged(Editable s) {
+                    otherPriceTv.setText("");
+                    if (TextUtils.isEmpty(s)) {
+                        handler.removeMessages(3);
+                        if (changeCarLoanByCode) {
+                            //开票价改变导致
+                            changeCarLoanByCode = false;
+                        } else {
+                            //用户输入的
+                            changeFirstPriceByCode = true;
+                            firstPriceTv.setText(getPrice(billPriceTv) + "");
+                        }
+                    } else {
+                        if (changeCarLoanByCode) {
+                            //首付款改变导致的
+                            changeCarLoanByCode = false;
+                        } else {
+                            //用户输入的
+                            if (carLoanPriceChange) {
+                                if (handler.hasMessages(3)) {
+                                    handler.removeMessages(3);
+                                }
+                                handler.sendEmptyMessageDelayed(3, DELAY_MILLIS);
+                            } else {
+                                carLoanPriceChange = true;
+                            }
+                            changeFirstPriceByCode = true;
+                            firstPriceTv.setText(getPrice(oldcar_business_price_tv) - getPrice(carLoanPriceTv) + "");
+                        }
+                    }
+                    otherPriceTv.setEnabled(true);
+                    totalPrice();
+                }
+            });
+        }
+        */
 
         firstPriceTv.setEnabled(false);
 //档案管理费
@@ -980,7 +1129,9 @@ public class AlterCarInfoActivity extends BaseActivity {
                 totalPrice();
             }
         });
-        carInfoLoanBankLin.setOnClickListener(v -> {//选择银行列表
+        carInfoLoanBankLin.setOnClickListener(v ->
+
+        {//选择银行列表
             if (!TextUtils.isEmpty(dlrTV.getText())) {
                 DlrApi.getLoanBank(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                     mLoanBankList = resp;//银行列表
@@ -1006,7 +1157,9 @@ public class AlterCarInfoActivity extends BaseActivity {
             }
         });
 //产品类型
-        carInfoProductTypeLin.setOnClickListener(v -> {
+        carInfoProductTypeLin.setOnClickListener(v ->
+
+        {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
 
                 DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
@@ -1046,7 +1199,9 @@ public class AlterCarInfoActivity extends BaseActivity {
             }
         });
 
-        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
+        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(productTypeTv.getText())) {
@@ -1063,7 +1218,9 @@ public class AlterCarInfoActivity extends BaseActivity {
         });
 
         //上牌地
-        plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
+        plateRegAddrLin.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(productTypeTv.getText())) {
@@ -1086,7 +1243,9 @@ public class AlterCarInfoActivity extends BaseActivity {
 
             }
         });
-        carInfoAlterLin.setOnClickListener(new View.OnClickListener() {
+        carInfoAlterLin.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.carInfo_alter_key, mAlterReasonIndex, carInfoAlterLin, carInfoAlterTv, "请选择修改理由", new WheelViewUtil.OnSubmitCallBack() {
@@ -1098,7 +1257,9 @@ public class AlterCarInfoActivity extends BaseActivity {
                 });
             }
         });
-        carInfoNextBtn.setOnClickListener(new View.OnClickListener() {
+        carInfoNextBtn.setOnClickListener(new View.OnClickListener()
+
+        {
             @Override
             public void onClick(View v) {
                 if (checkCanNextStep()) {

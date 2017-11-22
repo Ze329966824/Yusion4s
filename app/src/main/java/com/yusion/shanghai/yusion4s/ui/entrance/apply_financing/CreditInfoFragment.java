@@ -31,8 +31,7 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
-import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
@@ -271,6 +270,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // startActivity(new Intent(mContext, MainActivity.class));
                 if (Settings.isShameData) {
                     SubmitOrderReq req = new SubmitOrderReq();
                     req.bank_id = "1";
@@ -316,7 +316,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     }
                                 });
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
                             }
                         }
                     });
@@ -349,9 +350,11 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                         }
                                     }
                                 });
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
                             }
                         }
                     });
