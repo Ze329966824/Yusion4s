@@ -120,15 +120,24 @@ public class ApplyFinancingFragment extends BaseFragment {
                     if (value.length == 4) {
                         if ((reject_count.getText().toString().compareTo(value[0]) == -1)) {
                             reject_img.setVisibility(View.VISIBLE);
+                        }else {
+                            reject_img.setVisibility(View.GONE);
+
                         }
                         if ((to_be_confirm_count.getText().toString().compareTo(value[1]) == -1)) {
                             to_be_confirm_img.setVisibility(View.VISIBLE);
+                        }else {
+                            to_be_confirm_img.setVisibility(View.GONE);
                         }
                         if ((to_be_upload_count.getText().toString().compareTo(value[2]) == -1)) {
                             to_be_upload_img.setVisibility(View.VISIBLE);
+                        }else {
+                            to_be_upload_img.setVisibility(View.GONE);
                         }
                         if ((to_loan_count.getText().toString().compareTo(value[3]) == -1)) {
                             to_loan_img.setVisibility(View.VISIBLE);
+                        }else {
+                            to_loan_img.setVisibility(View.GONE);
                         }
                     }
                 }
