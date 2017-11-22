@@ -462,18 +462,18 @@ public class OrderDetailActivity extends BaseActivity {
                 beforeProductTypeTv.setText(resp.old_app.product_type);
                 beforeNperTv.setText(resp.old_app.nper);
                 beforeRegAddrTv.setText(resp.old_app.plate_reg_addr);
-                beforebusnesspriceTv.setText(resp.vehicle_price);
-                beforeguesspriceTv.setText(resp.send_hand_valuation);
-                beforedistancevTv.setText(resp.send_hand_mileage);
-                beforeOldcartimeTv.setText(resp.send_hand_plate_time);
-                beforeOldcarAddrTV.setText(resp.origin_plate_reg_addr);
+                beforebusnesspriceTv.setText(resp.old_app.vehicle_price);
+                beforeguesspriceTv.setText(resp.old_app.send_hand_valuation);
+                beforedistancevTv.setText(resp.old_app.send_hand_mileage);
+                beforeOldcartimeTv.setText(resp.old_app.send_hand_plate_time);
+                beforeOldcarAddrTV.setText(resp.old_app.origin_plate_reg_addr);
 
 
-                OldcarbusnesspriceTv.setText(resp.vehicle_price);
-                OldcarGuesspriceTv.setText(resp.send_hand_valuation);
-                OldcardistancevTv.setText(resp.send_hand_mileage);
-                OldcartimeTv.setText(resp.send_hand_plate_time);
-                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
+//                OldcarbusnesspriceTv.setText(resp.vehicle_price);
+//                OldcarGuesspriceTv.setText(resp.send_hand_valuation);
+//                OldcardistancevTv.setText(resp.send_hand_mileage);
+//                OldcartimeTv.setText(resp.send_hand_plate_time);
+//                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
                 dlrNameTv.setText(resp.new_app.dlr_nm);
                 brandTv.setText(resp.new_app.brand);
                 trixTv.setText(resp.new_app.trix);
@@ -491,11 +491,11 @@ public class OrderDetailActivity extends BaseActivity {
                 productTypeTv.setText(resp.new_app.product_type);
                 nperTv.setText(resp.new_app.nper);
                 regAddrTv.setText(resp.new_app.plate_reg_addr);
-                OldcarbusnesspriceTv.setText(resp.vehicle_price);
-                OldcarGuesspriceTv.setText(resp.send_hand_valuation);
-                OldcardistancevTv.setText(resp.send_hand_mileage);
-                OldcartimeTv.setText(resp.send_hand_plate_time);
-                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
+                OldcarbusnesspriceTv.setText(resp.new_app.vehicle_price);
+                OldcarGuesspriceTv.setText(resp.new_app.send_hand_valuation);
+                OldcardistancevTv.setText(resp.new_app.send_hand_mileage);
+                OldcartimeTv.setText(resp.new_app.send_hand_plate_time);
+                OldcarAddrTV.setText(resp.new_app.origin_plate_reg_addr);
 
                 compare(beforebusnesspriceTv, OldcarbusnesspriceTv);
                 compare(beforeguesspriceTv, OldcarGuesspriceTv);
