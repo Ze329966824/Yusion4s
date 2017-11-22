@@ -33,9 +33,9 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
-import com.yusion.shanghai.yusion4s.ui.VerificationCodeActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -372,7 +372,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-        createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, VerificationCodeActivity.class)));
+        createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, ApplyActivity.class)));
     }
 
     @Override

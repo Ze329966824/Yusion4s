@@ -83,10 +83,10 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private LinearLayout autonym_certify_id_back_lin;
     private LinearLayout autonym_certify_id_front_lin;
     private LinearLayout autonym_certify_driving_license_lin;
-    private TextView personal_info_clt_nm_edt;
-    private TextView personal_info_id_no_edt;
-    private TextView personal_info_gender_tv;
-    private TextView personal_info_reg_tv;
+//    private TextView personal_info_clt_nm_edt;
+//    private TextView personal_info_id_no_edt;
+//    private TextView personal_info_gender_tv;
+//    private TextView personal_info_reg_tv;
     private TextView step1;
     private TextView step2;
     private TextView step3;
@@ -145,8 +145,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             mDoubleCheckDialog.dismiss();
 
 
-
-            ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), "1"),"token111111", data1 -> {
+            ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), "1"), "token111111", data1 -> {
                 if (data1 == null) {
                     return;
                 }
@@ -176,10 +175,10 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             if (hasFocus) {
                 autonym_certify_next_btn.clearFocus();
 
-//                if (!Settings.isOnline) {
-//                    nextStep();
-//                    return;
-//                }
+                if (!Settings.isOnline) {
+                    nextStep();
+                    return;
+                }
 
                 if (checkCanNextStep()) {
                     clearDoubleCheckItems();
@@ -255,10 +254,10 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         step2 = (TextView) view.findViewById(R.id.step2);
         step3 = (TextView) view.findViewById(R.id.step3);
 
-        personal_info_clt_nm_edt = (TextView) view.findViewById(R.id.personal_info_clt_nm_edt);
-        personal_info_id_no_edt = (TextView) view.findViewById(R.id.personal_info_id_no_edt);
-        personal_info_gender_tv = (TextView) view.findViewById(R.id.personal_info_gender_tv);
-        personal_info_reg_tv = (TextView) view.findViewById(R.id.personal_info_reg_tv);
+//        personal_info_clt_nm_edt = (TextView) view.findViewById(R.id.personal_info_clt_nm_edt);
+//        personal_info_id_no_edt = (TextView) view.findViewById(R.id.personal_info_id_no_edt);
+//        personal_info_gender_tv = (TextView) view.findViewById(R.id.personal_info_gender_tv);
+//        personal_info_reg_tv = (TextView) view.findViewById(R.id.personal_info_reg_tv);
     }
 
     private void uploadUrl(String cltId) {
@@ -329,17 +328,18 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         super.onHiddenChanged(hidden);
         if (!hidden) {
             ClientInfo clientInfoBean = applyActivity.getMClientInfo();
-            personal_info_clt_nm_edt.setText(clientInfoBean.clt_nm);
-            personal_info_id_no_edt.setText(clientInfoBean.id_no);
-            if (!TextUtils.isEmpty(clientInfoBean.gender)) {
-                personal_info_gender_tv.setText(clientInfoBean.gender);
-            }
-            Boolean empty = !TextUtils.isEmpty(clientInfoBean.reg_addr.province);
-            Boolean notEmpty = !TextUtils.isEmpty(clientInfoBean.reg_addr.city);
-            Boolean notEmpty1 = !TextUtils.isEmpty(clientInfoBean.reg_addr.district);
-            if (empty && notEmpty && notEmpty1) {
-                personal_info_reg_tv.setText(clientInfoBean.reg_addr.province + "/" + clientInfoBean.reg_addr.city + "/" + clientInfoBean.reg_addr.district);
-            }
+            if (clientInfoBean == null) return;
+            autonym_certify_name_tv.setText(clientInfoBean.clt_nm);
+            autonym_certify_id_number_tv.setText(clientInfoBean.id_no);
+//            if (!TextUtils.isEmpty(clientInfoBean.gender)) {
+//                personal_info_gender_tv.setText(clientInfoBean.gender);
+//            }
+//            Boolean empty = !TextUtils.isEmpty(clientInfoBean.reg_addr.province);
+//            Boolean notEmpty = !TextUtils.isEmpty(clientInfoBean.reg_addr.city);
+//            Boolean notEmpty1 = !TextUtils.isEmpty(clientInfoBean.reg_addr.district);
+//            if (empty && notEmpty && notEmpty1) {
+//                personal_info_reg_tv.setText(clientInfoBean.reg_addr.province + "/" + clientInfoBean.reg_addr.city + "/" + clientInfoBean.reg_addr.district);
+//            }
         }
     }
 
@@ -367,7 +367,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                 if (!TextUtils.isEmpty(ocrResp.idNo)) {
 //                                    autonym_certify_id_number_tv.setEnabled(true);
                                     autonym_certify_id_number_tv.setText(ocrResp.idNo);
-                                }else {
+                                } else {
 //                                    autonym_certify_id_number_tv.setEnabled(false);
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.name)) {

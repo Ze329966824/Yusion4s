@@ -55,8 +55,10 @@ public class Yusion4sApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.setCustomCrashHanler(this);
+        if (Settings.isOnline) {
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.setCustomCrashHanler(this);
+        }
 
         initData();
 
@@ -225,7 +227,7 @@ public class Yusion4sApp extends MultiDexApplication {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
             //使用Toast进行提示
-            Log.e("TAG", "uncaughtException: " + ex);
+            Log.e("TAG", "uncaughtException: " + ex.toString());
             showToast(mContext, "很抱歉，程序异常即将退出！");
             //延时退出
             try {

@@ -1,18 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/flow_diagram"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="86dp"
-        android:background="#fff"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:background="#fff">
 
         <TextView
             android:id="@+id/step1"
@@ -57,7 +55,7 @@
             android:layout_width="0dp"
             android:layout_height="2dp"
             android:layout_marginTop="13dp"
-            android:background="@color/apply_step_style_1_color"
+            android:background="@drawable/step_gradient_line_style2"
             app:layout_constraintLeft_toRightOf="@+id/step2"
             app:layout_constraintRight_toLeftOf="@+id/step3"
             app:layout_constraintTop_toTopOf="@+id/step1" />
@@ -68,7 +66,7 @@
             android:layout_height="27dp"
             android:layout_marginEnd="50dp"
             android:layout_marginRight="50dp"
-            android:background="@drawable/apply_step_style_1"
+            android:background="@drawable/apply_step_style_2"
             android:gravity="center"
             android:text="@string/all_right"
             android:textColor="#fff"
@@ -102,31 +100,23 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="20dp"
             android:text="客户配偶信息"
-            android:textColor="@color/apply_step_style_1_color"
+            android:textColor="@color/apply_step_style_2_color"
             android:textSize="11.5sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/step3"
             app:layout_constraintRight_toRightOf="@+id/step3" />
 
-        <ImageView
-            android:layout_width="12dp"
-            android:layout_height="5dp"
-            android:src="@drawable/apply_step_triangle"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/step3"
-            app:layout_constraintRight_toRightOf="@+id/step3" />
     </android.support.constraint.ConstraintLayout>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@color/separate_line_color"/>
+
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flow_diagram"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -1448,4 +1438,4 @@
         </LinearLayout>
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</android.support.v7.widget.LinearLayoutCompat>
