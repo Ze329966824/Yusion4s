@@ -1179,7 +1179,6 @@ public class CarInfoFragment extends BaseFragment {
             }
         } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_addr_tv.getText())) {
             Toast.makeText(mContext, "二手车原上牌地不能为空", Toast.LENGTH_LONG).show();
-
         } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_dance_tv.getText())) {
             Toast.makeText(mContext, "二手车里程数不能为空", Toast.LENGTH_LONG).show();
         } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
