@@ -533,6 +533,7 @@ public class CarInfoFragment extends BaseFragment {
 
                         loanPeriodsTv.setText("");
                         mLoanPeriodsIndex = 0;
+                        mManagementPriceIndex = 0;
 
                         oldcar_business_price_tv.setText("");
                         oldcar_guess_price_tv.setText("");
@@ -580,6 +581,7 @@ public class CarInfoFragment extends BaseFragment {
                         productTypeTv.setText(null);
 
                         billPriceTv.setText("");
+                        mManagementPriceIndex = 0;
 
                         oldcar_business_price_tv.setText("");
                         oldcar_guess_price_tv.setText("");
@@ -632,6 +634,7 @@ public class CarInfoFragment extends BaseFragment {
                             productTypeTv.setText(null);
 
                             billPriceTv.setText("");
+                            mManagementPriceIndex = 0;
 
                             oldcar_business_price_tv.setText("");
                             oldcar_guess_price_tv.setText("");

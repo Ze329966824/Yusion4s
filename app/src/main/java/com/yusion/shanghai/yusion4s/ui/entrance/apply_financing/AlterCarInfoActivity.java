@@ -686,7 +686,7 @@ public class AlterCarInfoActivity extends BaseActivity {
 
                                 loanPeriodsTv.setText("");
                                 mLoanPeriodsIndex = 0;
-
+                                mManagementPriceIndex = 0;
                                 oldcar_business_price_tv.setText("");
                                 oldcar_guess_price_tv.setText("");
                                 oldcar_dance_tv.setText("");
@@ -698,6 +698,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                                 plateRegAddrTv.setText("");//上牌地选择
                                 loanPeriodsTv.setText("");//还款期限
                                 carInfoAlterTv.setText("");//修改理由
+
                             });
                         }
                     }
@@ -758,7 +759,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                             productTypeTv.setText(null);
 
                             billPriceTv.setText("");
-
+                            mManagementPriceIndex = 0;
                             oldcar_business_price_tv.setText("");
                             oldcar_guess_price_tv.setText("");
                             oldcar_dance_tv.setText("");
@@ -811,7 +812,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                             productTypeTv.setText(null);
 
                             billPriceTv.setText("");
-
+                            mManagementPriceIndex = 0;
                             oldcar_business_price_tv.setText("");
                             oldcar_guess_price_tv.setText("");
                             oldcar_dance_tv.setText("");
