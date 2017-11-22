@@ -18,7 +18,9 @@
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
         cube_ptr:ptr_resistance="1.7">
-
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
         <LinearLayout
             android:background="@color/bg_color"
             android:orientation="vertical"
@@ -100,7 +102,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="#FF06B7A3"
+                        tools:text="11"
+                        android:textColor="#19736F"
                         android:textSize="34dp" />
 
                     <TextView
@@ -125,7 +128,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:gravity="center"
-                        android:textColor="#FF06B7A3"
+                        android:textColor="#19736F"
                         android:textSize="34dp" />
 
                     <TextView
@@ -146,11 +149,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_marginTop="14dp"
-            android:layout_weight="4"
+            android:layout_height="96dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
+            android:layout_marginTop="10dp"
             android:orientation="horizontal">
 
 
@@ -195,8 +197,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    tools:text="8"
                     android:textColor="#FF5A6982"
-                    android:textSize="30.77dp" />
+                    android:textSize="30.77sp" />
 
             </LinearLayout>
 
@@ -251,10 +254,9 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginLeft="14dp"
-            android:layout_marginRight="14dp"
-            android:layout_weight="4"
+            android:layout_height="96dp"
+            android:layout_marginLeft="10dp"
+            android:layout_marginRight="10dp"
             android:orientation="horizontal">
 
 
@@ -283,22 +285,22 @@
                         android:textSize="13.46dp" />
 
                     <ImageView
-                        android:layout_marginTop="5dp"
-                        android:visibility="gone"
                         android:id="@+id/to_loan_img"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerVertical="true"
+                        android:layout_marginTop="5dp"
                         android:layout_toRightOf="@id/apply_financing_tv4"
-                        android:src="@mipmap/apply_financing_icon" />
+                        android:src="@mipmap/apply_financing_icon"
+                        android:visibility="gone" />
                 </RelativeLayout>
 
                 <TextView
-                    android:layout_marginTop="5dp"
                     android:id="@+id/to_loan_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
+                    android:layout_marginTop="5dp"
                     android:textColor="#FF5A6982"
                     android:textSize="30.77dp" />
 
@@ -354,54 +356,54 @@
         </LinearLayout>
 
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_marginTop="15dp"
-            android:layout_weight="3"
-            android:background="#FFFFFFFF"
-            android:orientation="vertical">
-
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="16dp"
-                android:layout_marginRight="16dp"
-                android:layout_marginTop="10dp"
-                android:orientation="horizontal">
+                android:layout_height="200dp"
+                android:layout_marginTop="14.62dp"
+                android:background="#FFFFFFFF"
+                android:orientation="vertical">
 
-                <Button
-                    android:id="@+id/apply_financing_cteate_newcar_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="42dp"
-                    android:layout_marginRight="10dp"
-                    android:layout_weight="1"
-                    android:background="#FF06B7A3"
-                    android:text="新车"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18dp" />
 
-                <Button
-                    android:id="@+id/apply_financing_cteate_oldcar_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="42dp"
-                    android:layout_weight="1"
-                    android:background="#FFFF8867"
-                    android:text="二手车"
-                    android:textColor="#FFFFFF"
-                    android:textSize="18dp" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="14.42dp"
+                    android:layout_marginRight="14.42dp"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/apply_financing_cteate_newcar_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_weight="1"
+                        android:background="#FF06B7A3"
+                        android:text="新车"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18dp" />
+
+                    <Button
+                        android:id="@+id/apply_financing_cteate_oldcar_btn"
+                        android:layout_width="0dp"
+                        android:layout_height="42dp"
+                        android:layout_weight="1"
+                        android:background="#FFFF8867"
+                        android:text="二手车"
+                        android:textColor="#FFFFFF"
+                        android:textSize="18dp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="35dp"
+                    android:gravity="bottom" />
+
 
             </LinearLayout>
 
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="35dp"
-                android:gravity="bottom" />
-
-
         </LinearLayout>
-
-        </LinearLayout>
+    </ScrollView>
     </com.chanven.lib.cptr.PtrClassicFrameLayout>
 </LinearLayout>
