@@ -161,7 +161,6 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
     private LinearLayout oldcar_info_lin;//二手车的信息
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

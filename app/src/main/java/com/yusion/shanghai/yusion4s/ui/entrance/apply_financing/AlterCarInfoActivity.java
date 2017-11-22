@@ -1441,6 +1441,14 @@ public class AlterCarInfoActivity extends BaseActivity {
                 Toast.makeText(AlterCarInfoActivity.this, "车辆贷款额必须小于评估价70%", Toast.LENGTH_SHORT).show();
             }
             // Toast.makeText(AlterCarInfoActivity.this, "车辆贷款额必须小于开票价80%", Toast.LENGTH_SHORT).show();
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_addr_tv.getText())) {
+            Toast.makeText(AlterCarInfoActivity.this, "二手车原上牌地不能为空", Toast.LENGTH_LONG).show();
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+            Toast.makeText(AlterCarInfoActivity.this, "二手车里程数不能为空", Toast.LENGTH_LONG).show();
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+            Toast.makeText(AlterCarInfoActivity.this, "二手车评估价不能为空", Toast.LENGTH_LONG).show();
+        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_business_price_tv.getText())) {
+            Toast.makeText(AlterCarInfoActivity.this, "二手车交易价不能为空", Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "首付款不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(managementPriceTv.getText())) {
@@ -1469,14 +1477,6 @@ public class AlterCarInfoActivity extends BaseActivity {
             Toast.makeText(AlterCarInfoActivity.this, "请选择末尾的修改理由", Toast.LENGTH_LONG).show();
         } else if (cartype.equals("二手车") && Integer.valueOf(totalLoanPriceTv.getText().toString()) > Integer.valueOf(oldcar_guess_price_tv.getText().toString()) * 0.7) {
             Toast.makeText(AlterCarInfoActivity.this, "总贷款额不能大于评估价的70%", Toast.LENGTH_LONG).show();
-        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_addr_tv.getText())) {
-            Toast.makeText(AlterCarInfoActivity.this, "二手车原上牌地不能为空", Toast.LENGTH_LONG).show();
-        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_dance_tv.getText())) {
-            Toast.makeText(AlterCarInfoActivity.this, "二手车里程数不能为空", Toast.LENGTH_LONG).show();
-        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
-            Toast.makeText(AlterCarInfoActivity.this, "二手车评估价不能为空", Toast.LENGTH_LONG).show();
-        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_business_price_tv.getText())) {
-            Toast.makeText(AlterCarInfoActivity.this, "二手车交易价不能为空", Toast.LENGTH_LONG).show();
         } else {
             return true;
         }
