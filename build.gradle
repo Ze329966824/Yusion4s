@@ -3,9 +3,9 @@
 buildscript {
 
     ext{
-        VersionName = "V1.5.0"
+        VersionName = "V1.5.1"
         VersionCode = 30
-        isOnline = false
+        isOnline = true
         forAppium = false
 
     }
