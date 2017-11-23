@@ -54,7 +54,8 @@ public class ApplyFinancingFragment extends BaseFragment {
     public SubmitOrderReq req = new SubmitOrderReq();
     public String dlr;
     public String dlr_id;
-//    public SubmitOrderReq req = new SubmitOrderReq();
+    public Boolean isfirst = true;
+    //    public SubmitOrderReq req = new SubmitOrderReq();
 
     public static ApplyFinancingFragment newInstance() {
         Bundle args = new Bundle();
@@ -92,13 +93,16 @@ public class ApplyFinancingFragment extends BaseFragment {
     }
 
     void firstLogin() {
-        DlrApi.getDlrListByToken(mContext, resp -> {
-            if (resp != null && !resp.isEmpty()) {
-                top_dlr.setText(resp.get(0).dlr_nm);
-                dlr_id = resp.get(0).id;
-                refresh(dlr_id);
-            }
-        });
+        if (isfirst) {
+            DlrApi.getDlrListByToken(mContext, resp -> {
+                if (resp != null && !resp.isEmpty()) {
+                    top_dlr.setText(resp.get(0).dlr_nm);
+                    dlr_id = resp.get(0).id;
+                    refresh(dlr_id);
+                }
+            });
+        }
+
 
     }
 
@@ -111,7 +115,7 @@ public class ApplyFinancingFragment extends BaseFragment {
 
 
                 String values = SharedPrefsUtil.getInstance(mContext).getValue(id, null);
-                Log.e("TAG", "refresh: values" + values);
+                Log.e("TAG", "refresh: values : " + values);
                 if (values != null) {
                     String[] value = values.split("-");
 
@@ -168,6 +172,8 @@ public class ApplyFinancingFragment extends BaseFragment {
                 SharedPrefsUtil.getInstance(mContext).putValue
                         (id, data.reject_count + "-" + data.to_be_confirm_count + "-" + data.to_loan_count + "-" + data.to_be_upload_count);
 
+
+                dlr = null;
             }
         });
     }
@@ -253,7 +259,8 @@ public class ApplyFinancingFragment extends BaseFragment {
                 if (dlr != null) {
                     top_dlr.setText(dlr);
                 }
-                Log.e("TAG", "onActivityResult: dlr_id = " + dlr_id);
+                Log.e("TAG", "onActivityResult: dlr_id = " + dlr_id+"  , dlr = "+dlr);
+                isfirst = false;
                 refresh(dlr_id);
             }
 
