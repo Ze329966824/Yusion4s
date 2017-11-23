@@ -53,7 +53,7 @@ public class ApplyFinancingFragment extends BaseFragment {
 
     public SubmitOrderReq req = new SubmitOrderReq();
     public String dlr;
-    public String dlr_num;
+    public String dlr_id;
 //    public SubmitOrderReq req = new SubmitOrderReq();
 
     public static ApplyFinancingFragment newInstance() {
@@ -84,35 +84,34 @@ public class ApplyFinancingFragment extends BaseFragment {
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
-                refresh(dlr_num);
+                refresh(dlr_id);
             }
         });
 
 
+    }
 
-
+    void firstLogin() {
+        DlrApi.getDlrListByToken(mContext, resp -> {
+            if (resp != null && !resp.isEmpty()) {
+                top_dlr.setText(resp.get(0).dlr_nm);
+                dlr_id = resp.get(0).id;
+                refresh(dlr_id);
+            }
+        });
 
     }
 
-    void havenoNum(){
-        if (dlr_num == null) {
-            DlrApi.getDlrListByToken(mContext, resp -> {
-                if (resp != null && !resp.isEmpty()) {
-                    top_dlr.setText(resp.get(0).dlr_nm);
-                    dlr_num = resp.get(0).id;
-                    refresh(dlr_num);
-                }
-            });
-        }
-    }
 
-     void refresh(String dlr_num) {
-        DlrApi.getDlr(mContext, dlr_num, data -> {
+    void refresh(String id) {
+
+        DlrApi.getDlr(mContext, id, data -> {
             ptr.refreshComplete();
             if (data != null) {
 
 
-                String values = SharedPrefsUtil.getInstance(mContext).getValue(dlr_num, null);
+                String values = SharedPrefsUtil.getInstance(mContext).getValue(id, null);
+                Log.e("TAG", "refresh: values" + values);
                 if (values != null) {
                     String[] value = values.split("-");
 
@@ -120,25 +119,39 @@ public class ApplyFinancingFragment extends BaseFragment {
                     if (value.length == 4) {
                         if ((reject_count.getText().toString().compareTo(value[0]) == -1)) {
                             reject_img.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             reject_img.setVisibility(View.GONE);
 
                         }
                         if ((to_be_confirm_count.getText().toString().compareTo(value[1]) == -1)) {
                             to_be_confirm_img.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             to_be_confirm_img.setVisibility(View.GONE);
                         }
                         if ((to_be_upload_count.getText().toString().compareTo(value[2]) == -1)) {
                             to_be_upload_img.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             to_be_upload_img.setVisibility(View.GONE);
                         }
                         if ((to_loan_count.getText().toString().compareTo(value[3]) == -1)) {
                             to_loan_img.setVisibility(View.VISIBLE);
-                        }else {
+                        } else {
                             to_loan_img.setVisibility(View.GONE);
                         }
+                    }
+                } else {
+                    Log.e("TAG", "reject_count: " + data.reject_count);
+                    if (data.reject_count.equals("0")) {
+                        reject_img.setVisibility(View.GONE);
+                    }
+                    if (data.to_be_confirm_count.equals("0")) {
+                        to_be_confirm_img.setVisibility(View.GONE);
+                    }
+                    if (data.to_be_upload_count.equals("0")) {
+                        to_be_upload_img.setVisibility(View.GONE);
+                    }
+                    if (data.to_loan_count.equals("0")) {
+                        to_loan_img.setVisibility(View.GONE);
                     }
                 }
 
@@ -151,9 +164,9 @@ public class ApplyFinancingFragment extends BaseFragment {
                 to_be_upload_count.setText(data.to_be_upload_count);
 
 
-                SharedPrefsUtil.getInstance(mContext).putValue("dlr_nums", dlr_num + "/");
+                SharedPrefsUtil.getInstance(mContext).putValue("dlr_nums", dlr_id + "/");
                 SharedPrefsUtil.getInstance(mContext).putValue
-                        (dlr_num, data.reject_count + "-" + data.to_be_confirm_count + "-" + data.to_loan_count + "-" + data.to_be_upload_count);
+                        (id, data.reject_count + "-" + data.to_be_confirm_count + "-" + data.to_loan_count + "-" + data.to_be_upload_count);
 
             }
         });
@@ -235,13 +248,13 @@ public class ApplyFinancingFragment extends BaseFragment {
         if (requestCode == Constants.REQUEST_CHANGE_DLR) {
             if (resultCode == Activity.RESULT_OK) {
                 dlr = data.getStringExtra("dlr");
-                dlr_num = data.getStringExtra("dlr_num");
+                dlr_id = data.getStringExtra("dlr_id");
 
                 if (dlr != null) {
                     top_dlr.setText(dlr);
                 }
-                Log.e("TAG", "onActivityResult: dlr_num = "+dlr_num);
-                refresh(dlr_num);
+                Log.e("TAG", "onActivityResult: dlr_id = " + dlr_id);
+                refresh(dlr_id);
             }
 
         }
@@ -254,7 +267,7 @@ public class ApplyFinancingFragment extends BaseFragment {
     }
 
     public void removeDrl() {
-        SharedPrefsUtil.getInstance(mContext).putValue(dlr_num, "");
+        SharedPrefsUtil.getInstance(mContext).putValue(dlr_id, "");
     }
 
     public void removeImg(int position) {

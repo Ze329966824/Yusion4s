@@ -62,7 +62,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
 
 
         intent.putExtra("dlr",msg);
-        intent.putExtra("dlr_num",drl_num);
+        intent.putExtra("dlr_id",drl_num);
 //        Log.e("TAG", "over: "+msg);
         setResult(RESULT_OK,intent);
         finish();

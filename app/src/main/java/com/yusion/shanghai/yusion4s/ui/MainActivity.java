@@ -126,10 +126,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mMineFragment.refresh(data);
             }
         });
-        String dlr_nums = mApplyFinancingFragment.dlr_num;
-        if (dlr_nums == null) {
-            mApplyFinancingFragment.havenoNum();
-        }
+//        String dlr_nums = mApplyFinancingFragment.dlr_id;
+//        String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
+//
+//        if (dlr_nums == null) {
+//        }else {
+//            mApplyFinancingFragment.refresh(dlr_nums.split("/")[0]);
+//        }
+        Log.e("TAG", "onResume: -------------");
+        mApplyFinancingFragment.firstLogin();
     }
 
     @Subscribe
