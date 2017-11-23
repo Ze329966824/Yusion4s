@@ -40,7 +40,7 @@ public class GetRawCarInfoResp {
     public String loan_amt;//车辆总贷款额
     public String vehicle_loan_amt;//贷款额
     public String vehicle_down_payment;//车辆首付款
-    public int nper;//还款期限
+    public String nper;//还款期限
     public String management_fee;//管理费
     public String other_fee;//其他费用
     public String loan_bank; //贷款银行

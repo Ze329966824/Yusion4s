@@ -1248,9 +1248,7 @@ public class AlterCarInfoActivity extends BaseActivity {
             }
         });
 
-        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener()
-
-        {
+        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(productTypeTv.getText())) {
@@ -1342,9 +1340,9 @@ public class AlterCarInfoActivity extends BaseActivity {
                     req.loan_amt = totalLoanPriceTv.getText().toString();
                     req.management_fee = managementPriceTv.getText().toString();
                     req.other_fee = otherPriceTv.getText().toString();
-                    req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
-                    //req.nper = loanPeriodsTv.getText().toString();
-                    req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                    //req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                    req.nper = loanPeriodsTv.getText().toString();
+                    // req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
                     req.msrp = guidePriceTv.getText().toString();
                     req.reason = carInfoAlterTv.getText().toString();

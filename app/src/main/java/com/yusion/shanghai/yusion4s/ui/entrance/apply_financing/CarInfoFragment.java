@@ -1039,7 +1039,7 @@ public class CarInfoFragment extends BaseFragment {
                         req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                         //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
                         req.product_id = mProductList.get(mProductTypeIndex).product_id;
-                        req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                        req.nper = loanPeriodsTv.getText().toString();
 
                         req.vehicle_cond = cartype;
                         if (cartype.equals("新车")) {
@@ -1081,7 +1081,7 @@ public class CarInfoFragment extends BaseFragment {
 
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
-                    req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                    req.nper = loanPeriodsTv.getText().toString();
                     //req.nper = 0;
                     //req.product_type = productTypeTv.getText().toString();
                     //汽车类型，是新车还是旧车
@@ -1236,9 +1236,9 @@ public class CarInfoFragment extends BaseFragment {
         } else if (TextUtils.isEmpty(loanBankTv.getText())) {
             Toast.makeText(mContext, "贷款银行不能为空", Toast.LENGTH_SHORT).show();
         }
-        else if (TextUtils.isEmpty(loanPeriodsTv.getText())) {
-            Toast.makeText(mContext, "还款期限不能为空", Toast.LENGTH_SHORT).show();
-        }
+//        else if (TextUtils.isEmpty(loanPeriodsTv.getText())) {
+//            Toast.makeText(mContext, "还款期限不能为空", Toast.LENGTH_SHORT).show();
+//        }
         else if (TextUtils.isEmpty(productTypeTv.getText())) {
             Toast.makeText(mContext, "产品类型不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(plateRegAddrTv.getText())) {
