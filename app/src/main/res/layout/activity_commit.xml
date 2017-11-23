@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/white"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+
+    <com.yusion.shanghai.yusion4s.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+
+    <ImageView
+        android:id="@+id/icon_commit_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/title_bar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="39dp"
+        android:src="@mipmap/commit_success" />
+
+    <TextView
+        android:id="@+id/text_commit_success"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/icon_commit_success"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="16dp"
+        android:text="还差最后一步!"
+        android:textColor="#222a36"
+        android:textSize="19dp" />
+
+    <RelativeLayout
+        android:id="@+id/commit_continue_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_commit_success"
+        android:layout_centerHorizontal="true"
+        android:visibility="visible">
+
+
+        <TextView
+            android:id="@+id/text_commit_imgs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="您还需补充二手车申请资料影像件"
+            android:textColor="#999999"
+            android:textSize="17dp" />
+
+        <TextView
+            android:id="@+id/commit_submit"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/text_commit_imgs"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/commit_return"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="立刻提交"
+            android:textColor="#FFFFFF"
+            android:textSize="17dp" />
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:id="@+id/commit_return_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_below="@id/text_commit_success"
+        android:layout_centerHorizontal="true"
+        android:visibility="gone"
+        tools:visibility="visible">
+
+
+        <TextView
+            android:id="@+id/return_list_info1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="40dp"
+            android:background="@drawable/commit_return1"
+            android:clickable="true"
+            android:gravity="center"
+            android:text="返回资料列表"
+            android:textColor="#FF06B7A3"
+            android:textSize="17dp" />
+    </RelativeLayout>
+</android.support.v7.widget.LinearLayoutCompat>

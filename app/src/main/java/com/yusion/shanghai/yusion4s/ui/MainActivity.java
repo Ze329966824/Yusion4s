@@ -1,9 +1,11 @@
 package com.yusion.shanghai.yusion4s.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
@@ -112,6 +114,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
         transaction.commit();
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String cond = intent.getStringExtra("cond");
+        if (!TextUtils.isEmpty(cond)) {
+            if (cond.equals("二手车")) {
+                Intent intent1 = new Intent(this, CommitActivity.class);
+                intent1.putExtra("app_id", intent.getStringExtra("app_id"));
+                startActivity(intent1);
+            }
+        }
     }
 
     @Override
