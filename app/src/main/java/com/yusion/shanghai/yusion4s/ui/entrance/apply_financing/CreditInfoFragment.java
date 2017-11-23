@@ -287,7 +287,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.vehicle_loan_amt = "150000";
                     req.vehicle_owner_lender_relation = "本人";
                     req.vehicle_price = "200000";
-                    req.nper = 24;
+                    req.nper = "24";
                     req.product_id = 1;
                     req.vehicle_model_id = 1128954;
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
