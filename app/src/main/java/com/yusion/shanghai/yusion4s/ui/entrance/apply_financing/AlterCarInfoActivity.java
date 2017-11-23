@@ -1267,9 +1267,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         });
 
         //上牌地
-        plateRegAddrLin.setOnClickListener(new View.OnClickListener()
-
-        {
+        plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if (TextUtils.isEmpty(productTypeTv.getText())) {
@@ -1292,9 +1290,7 @@ public class AlterCarInfoActivity extends BaseActivity {
 
             }
         });
-        carInfoAlterLin.setOnClickListener(new View.OnClickListener()
-
-        {
+        carInfoAlterLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 WheelViewUtil.showWheelView(Yusion4sApp.CONFIG_RESP.carInfo_alter_key, mAlterReasonIndex, carInfoAlterLin, carInfoAlterTv, "请选择修改理由", new WheelViewUtil.OnSubmitCallBack() {
@@ -1346,7 +1342,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                     req.loan_amt = totalLoanPriceTv.getText().toString();
                     req.management_fee = managementPriceTv.getText().toString();
                     req.other_fee = otherPriceTv.getText().toString();
-                    //req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                    req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
                     //req.nper = loanPeriodsTv.getText().toString();
                     req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();

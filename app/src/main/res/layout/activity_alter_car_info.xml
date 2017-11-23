@@ -691,7 +691,7 @@
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"
                         style="@style/apply_info_item"
-                        android:visibility="gone">
+                        android:visibility="visible">
 
                         <TextView
                             style="@style/apply_info_title"
