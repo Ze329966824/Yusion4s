@@ -107,7 +107,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 //            Log.e("TAG2222", "onDestroy: " + activity.getClass().getSimpleName());
 //        }
 //        Log.e("TAG2222", "onDestroy: ---------");
-        //adb shell dumpsys activity | grep com.yusion.shanghai.yusion4s
+//        adb shell dumpsys activity | grep com.yusion.shanghai.yusion4s
     }
 
     @Override
