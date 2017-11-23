@@ -35,12 +35,18 @@ public class SubmitOrderReq {
     public String vehicle_down_payment;
     public String vehicle_loan_amt;
     public String loan_amt;
-    public String vehicle_cond = "新车";
+    public String vehicle_cond;
     public String management_fee;
     public String other_fee;
     public String gps_fee = "0";
     public String plate_reg_addr;
-    public int nper;
+    public String nper;
+
+    public String origin_plate_reg_addr;// "二手车上牌地"
+    public String send_hand_plate_time;// '二手车上牌时间'
+    public String send_hand_mileage;//"里程数"
+    public String send_hand_valuation;//"二手车评估价"
+
     //public String loan_bank;
 
     public String bank_id;

@@ -1,9 +1,12 @@
 package com.yusion.shanghai.yusion4s.ui;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.RadioButton;
 
@@ -16,6 +19,7 @@ import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragmentEvent;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -68,6 +72,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mCurrentFragment = mApplyFinancingFragment;
         EventBus.getDefault().register(this);
 
+        mApplyFinancingFragment.removeDrl();
+
     }
 
     @Override
@@ -111,6 +117,19 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        String cond = intent.getStringExtra("cond");
+        if (!TextUtils.isEmpty(cond)) {
+            if (cond.equals("二手车")) {
+                Intent intent1 = new Intent(this, CommitActivity.class);
+                intent1.putExtra("app_id", intent.getStringExtra("app_id"));
+                startActivity(intent1);
+            }
+        }
+    }
+
+    @Override
     protected void onResume() {
         super.onResume();
         AuthApi.checkUserInfo(this, new OnItemDataCallBack<CheckUserInfoResp>() {
@@ -122,6 +141,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mMineFragment.refresh(data);
             }
         });
+//        String dlr_nums = mApplyFinancingFragment.dlr_id;
+//        String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
+//
+//        if (dlr_nums == null) {
+//        }else {
+//            mApplyFinancingFragment.refresh(dlr_nums.split("/")[0]);
+//        }
+//        Log.e("TAG", "onResume: -------------");
+        mApplyFinancingFragment.firstLogin();
     }
 
     @Subscribe
@@ -129,7 +157,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         switch (event) {
             case showOrderManager:
                 orderListRb.performClick();
-                break;
+                if (event.position == -1) {
+//                    Log.e("TAG", "changeFragment: ");
+                    break;
+                }else {
+//                    Log.e("TAG", "changeFragment: 1111111");
+                    OrderManagerFragmentEvent.showFragment.position =event.position;
+                    Log.e("TAG", "changeFragment: "+event.position);
+                    mApplyFinancingFragment.removeImg(event.position);
+                    EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
+                    break;
+                }
+
         }
     }
 //

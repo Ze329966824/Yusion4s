@@ -34,6 +34,7 @@
             android:background="@color/main_driver" />
 
         <LinearLayout
+            android:id="@+id/order_detail_finance_bill_price_lin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -52,6 +53,35 @@
 
             <TextView
                 android:id="@+id/order_detail_finance_bill_price_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:text="@string/order_detail_plan_reply_total"
+                android:textColor="@color/text_normal"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/oldcar_business_price_lin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:paddingLeft="15dp"
+            android:paddingRight="15dp"
+            android:paddingTop="15dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="left"
+                android:text="车辆交易价"
+                android:textColor="@color/text_light_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/oldcar_business_price_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -351,6 +381,7 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/havere_applyBillPrice_lin"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="15dp"
@@ -379,6 +410,44 @@
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_bill_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center|right"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/havere_oldcar_applyBillPrice_lin"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp"
+            android:layout_marginRight="15dp"
+            android:background="@color/white"
+            android:orientation="horizontal"
+            android:paddingTop="5dp">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:paddingBottom="10dp"
+                android:paddingTop="10dp"
+                android:text="车辆交易价"
+                android:textColor="@color/text_grey"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_havere_oldcar_apply_bill_price_tv"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:textSize="13.5sp" />
+
+            <TextView
+                android:id="@+id/order_detail_havere_oldcar_reply_bill_price_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -432,8 +501,8 @@
             android:background="@color/white"
             android:orientation="horizontal"
             android:paddingTop="5dp"
-            tools:visibility="visible"
-            android:visibility="gone">
+            android:visibility="gone"
+            tools:visibility="visible">
 
             <TextView
                 android:layout_width="0dp"
@@ -1041,7 +1110,8 @@
             android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="15dp">
+            android:paddingTop="15dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"
@@ -1078,87 +1148,313 @@
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/oldcar_info_lin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="厂商指导价"
-                android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
 
-            <TextView
-                android:id="@+id/order_detail_before_guide_price_tv"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="原上牌地"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="13.5sp" />
+
+                <TextView
+                    android:id="@+id/oldcar_before_addr_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp"
+                    tools:text="@string/order_detail_plan_reply_total" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/order_detail_addr_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/order_detail_plan_reply_total"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
 
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="原上牌时间"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="13.5sp" />
 
-            <TextView
-                android:id="@+id/order_detail_guide_price_tv"
-                android:layout_width="0dp"
+                <TextView
+                    android:id="@+id/oldcar_before_addrtime_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp"
+                    tools:text="@string/order_detail_plan_reply_total" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/order_detail_addrtime_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/order_detail_plan_reply_total"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="里程数"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="13.5sp" />
+
+                <TextView
+                    android:id="@+id/oldcar_before_distance_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp"
+                    tools:text="@string/order_detail_plan_reply_total" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/order_detail_distance_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/order_detail_plan_reply_total"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="二手车评估价"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="13.5sp" />
+
+                <TextView
+                    android:id="@+id/oldcar_before_guessprice_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp"
+                    tools:text="@string/order_detail_plan_reply_total" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/order_detail_guessprice_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/order_detail_plan_reply_total"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="车辆交易价"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="13.5sp" />
+
+                <TextView
+                    android:id="@+id/oldcar_before_busnessprice_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp"
+                    tools:text="@string/order_detail_plan_reply_total" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/order_detail_busnessprice_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/order_detail_plan_reply_total"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
+            android:id="@+id/newcar_zhidaoAnd_billPrice_lin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:paddingLeft="15dp"
-            android:paddingRight="15dp"
-            android:paddingTop="15dp">
+            android:orientation="vertical">
 
-            <TextView
-                android:layout_width="0dp"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="left"
-                android:text="车辆开票价"
-                android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
 
-            <TextView
-                android:id="@+id/order_detail_before_vehicle_price_tv"
-                android:layout_width="0dp"
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="市场指导价"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="13.5sp" />
+
+                <TextView
+                    android:id="@+id/order_detail_before_guide_price_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp"
+                    tools:text="@string/order_detail_plan_reply_total" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/order_detail_guide_price_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/order_detail_plan_reply_total"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:orientation="horizontal"
+                android:paddingLeft="15dp"
+                android:paddingRight="15dp"
+                android:paddingTop="15dp">
 
-            <Space
-                android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="left"
+                    android:text="车辆开票价"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="13.5sp" />
 
-            <TextView
-                android:id="@+id/order_detail_vehicle_price_tv"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:gravity="right"
-                android:text="@string/order_detail_plan_reply_total"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                <TextView
+                    android:id="@+id/order_detail_before_vehicle_price_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp"
+                    tools:text="@string/order_detail_plan_reply_total" />
+
+                <Space
+                    android:layout_width="10dp"
+                    android:layout_height="match_parent" />
+
+                <TextView
+                    android:id="@+id/order_detail_vehicle_price_tv"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:gravity="right"
+                    android:text="@string/order_detail_plan_reply_total"
+                    android:textColor="@color/text_normal"
+                    android:textSize="13.5sp" />
+            </LinearLayout>
         </LinearLayout>
 
         <LinearLayout
@@ -1461,7 +1757,8 @@
             android:orientation="horizontal"
             android:paddingLeft="15dp"
             android:paddingRight="15dp"
-            android:paddingTop="15dp">
+            android:paddingTop="15dp"
+            android:visibility="gone">
 
             <TextView
                 android:layout_width="0dp"

@@ -31,7 +31,8 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -269,6 +270,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // startActivity(new Intent(mContext, MainActivity.class));
                 if (Settings.isShameData) {
                     SubmitOrderReq req = new SubmitOrderReq();
                     req.bank_id = "1";
@@ -285,7 +287,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.vehicle_loan_amt = "150000";
                     req.vehicle_owner_lender_relation = "本人";
                     req.vehicle_price = "200000";
-                    req.nper = 24;
+                    req.nper = "24";
                     req.product_id = 1;
                     req.vehicle_model_id = 1128954;
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
@@ -314,12 +316,14 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     }
                                 });
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
                             }
                         }
                     });
                 } else if (checkCanSubmit()) {
-                    SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                    SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+                    // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
@@ -329,6 +333,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 return;
                             }
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            intent.putExtra("app_id", data.app_id);
+                            intent.putExtra("cond", req.vehicle_cond);
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;
@@ -342,13 +349,16 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     public void callBack(int code, String msg) {
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+                                            startActivity(intent);
 //                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
                                     }
                                 });
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(intent);
                             }
                         }
                     });
@@ -522,6 +532,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
                         }
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -531,7 +543,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-        SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        //SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+
+
         intent.putExtra("dlr_id", req.dlr_id);
         intent.putExtra("bank_id", req.bank_id);
         switch (v.getId()) {
@@ -584,6 +599,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
                             }
                         });
+                break;
+            default:
                 break;
         }
     }

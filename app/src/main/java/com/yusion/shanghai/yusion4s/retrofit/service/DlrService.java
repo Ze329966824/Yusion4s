@@ -7,11 +7,13 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.GET;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 /**
@@ -48,5 +50,12 @@ public interface DlrService {
     //其他费用的限制
     @GET("/api/crm/dealer/other_fee_limit/")
     Call<BaseResult<String>> getOtherFeeLimit(@Query("vehicle_loan_amt") String vehicle_loan_amt);
+
+    //刷新首页的门店信息
+    @GET("/api/m/rest/dealer/{id}/dashboard/")
+    Call<BaseResult<DlrNumResp>> getDlrNum(@Path("id") String id);
+    @GET("/api/crm/dealer/get_plate/")
+    Call<BaseResult<List<GetproductResp.SupportAreaBean>>> getOldCarAddr();
+
 
 }
