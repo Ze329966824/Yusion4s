@@ -354,7 +354,8 @@
                                 style="@style/apply_info_content"
                                 android:layout_marginRight="35dp"
                                 android:hint="请输入"
-                                android:inputType="number" />
+                                android:maxLength="5"
+                                android:numeric="decimal" />
 
                         </LinearLayout>
 

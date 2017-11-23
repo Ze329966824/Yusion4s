@@ -413,6 +413,50 @@ public class CarInfoFragment extends BaseFragment {
                 clickLoanPeriods();
             }
         });
+
+        oldcar_dance_tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length()==5&&!s.toString().contains(".")){
+                    oldcar_dance_tv.setText(s.subSequence(0,s.length()-1));
+                    oldcar_dance_tv.setSelection(oldcar_dance_tv.getText().toString().length());
+                    return;
+                }
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        oldcar_dance_tv.setText(s);
+                        oldcar_dance_tv.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    oldcar_dance_tv.setText(s);
+                    oldcar_dance_tv.setSelection(2);
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        oldcar_dance_tv.setText(s.subSequence(0, 1));
+                        oldcar_dance_tv.setSelection(1);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         //上牌时间
         oldcar_addrtime_lin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -824,7 +868,7 @@ public class CarInfoFragment extends BaseFragment {
         carInfoProductTypeLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
 
-                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
+                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id,cartype, new OnItemDataCallBack<GetproductResp>() {
                     @Override
                     public void onItemDataCallBack(GetproductResp resp) {
                         if (resp == null) {

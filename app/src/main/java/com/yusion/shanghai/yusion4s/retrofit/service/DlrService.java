@@ -39,7 +39,7 @@ public interface DlrService {
 
     //获取产品类型
     @GET("/api/crm/dealer/get_product_type/")
-    Call<BaseResult<GetproductResp>> getProductType(@Query("bank_id") String bank_id, @Query("dlr_id") String dlr_id);//bank_name 改bank_id
+    Call<BaseResult<GetproductResp>> getProductType(@Query("bank_id") String bank_id, @Query("dlr_id") String dlr_id, @Query("vehicle_cond") String vehicle_cond);//bank_name 改bank_id
 
     //获取车型
     @GET("/api/crm/dealer/get_vehicle_model_list/")
@@ -54,6 +54,7 @@ public interface DlrService {
     //刷新首页的门店信息
     @GET("/api/m/rest/dealer/{id}/dashboard/")
     Call<BaseResult<DlrNumResp>> getDlrNum(@Path("id") String id);
+
     @GET("/api/crm/dealer/get_plate/")
     Call<BaseResult<List<GetproductResp.SupportAreaBean>>> getOldCarAddr();
 
