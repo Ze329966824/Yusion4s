@@ -152,6 +152,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                 if (data1 == null) {
                     return;
                 }
+                data1.mobile = autonym_certify_mobile_tv.getText().toString();
                 applyActivity.setMClientInfo(data1);
 
                 if (ocrResp != null) {
