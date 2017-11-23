@@ -1328,4 +1328,5 @@ public class CarInfoFragment extends BaseFragment {
         }
         return sum;
     }
+
 }
