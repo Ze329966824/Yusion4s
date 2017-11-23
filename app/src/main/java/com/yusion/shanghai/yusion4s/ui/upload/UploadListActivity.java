@@ -304,7 +304,7 @@ public class UploadListActivity extends BaseActivity {
 
     private void previewImgs() {
         if (url_list == null || url_list.size() == 0) {
-            Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(myApp, "该文件暂无模板！！！", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -435,13 +435,13 @@ public class UploadListActivity extends BaseActivity {
         if (data != null) {
             templateLin.setVisibility(View.VISIBLE);
             if (data.checker_item_ == null) {
-                Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
                 return;
             }
             templateContent.setText(Html.fromHtml(data.checker_item_.description));
             url_list = data.checker_item_.url_list;
             if (url_list == null || url_list.size() == 0) {
-                Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
                 return;
             }
             detail_url = data.checker_item_.url_list.get(0);
