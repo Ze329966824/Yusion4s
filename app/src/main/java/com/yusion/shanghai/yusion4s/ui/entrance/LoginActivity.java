@@ -139,6 +139,7 @@ public class LoginActivity extends BaseActivity {
                 Log.e("TAG", "key: " + id);
                 Log.e("TAG", "valuse: " + SharedPrefsUtil.getInstance(this).getValue(id, null));
                 SharedPrefsUtil.getInstance(this).remove(id);
+                SharedPrefsUtil.getInstance(this).remove("dlr_nums");
             }
         }
 
