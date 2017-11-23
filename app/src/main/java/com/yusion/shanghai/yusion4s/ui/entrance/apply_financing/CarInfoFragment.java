@@ -20,7 +20,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.alibaba.sdk.android.oss.model.GetObjectRequest;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
@@ -1235,9 +1234,11 @@ public class CarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "其他费用不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(loanBankTv.getText())) {
             Toast.makeText(mContext, "贷款银行不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(loanPeriodsTv.getText())) {
-            Toast.makeText(mContext, "还款期限不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(productTypeTv.getText())) {
+        }
+//        else if (TextUtils.isEmpty(loanPeriodsTv.getText())) {
+//            Toast.makeText(mContext, "还款期限不能为空", Toast.LENGTH_SHORT).show();
+//        }
+        else if (TextUtils.isEmpty(productTypeTv.getText())) {
             Toast.makeText(mContext, "产品类型不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(plateRegAddrTv.getText())) {
             Toast.makeText(mContext, "预计上牌地不能为空", Toast.LENGTH_SHORT).show();

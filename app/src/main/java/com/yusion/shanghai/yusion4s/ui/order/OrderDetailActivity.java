@@ -170,7 +170,7 @@ public class OrderDetailActivity extends BaseActivity {
         status_st = getIntent().getIntExtra("status_st", 0);
         //cartype = getIntent().getStringExtra("car_type");
         initView();
-        initTitleBar(this, "申请详情");
+        // initTitleBar(this, "申请详情");
         //showNeworOldcarinfolayout(cartype);
     }
 
@@ -336,6 +336,12 @@ public class OrderDetailActivity extends BaseActivity {
                 return;
             }
             cartype = resp.vehicle_cond;
+            if (cartype.equals("新车")) {
+                initTitleBar(this, "新车申请详情");
+            } else {
+                initTitleBar(this, "二手车申请详情");
+            }
+
             showNeworOldcarinfolayout(cartype);
             if (resp.modify_permission) {
                 order_detail_sign_layout.setVisibility(View.GONE);
