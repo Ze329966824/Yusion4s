@@ -39,8 +39,6 @@ import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.umeng.analytics.pro.x.al;
-
 public class AlterCarInfoActivity extends BaseActivity {
     public static int DELAY_MILLIS;
     private String otherLimit;
@@ -1506,9 +1504,9 @@ public class AlterCarInfoActivity extends BaseActivity {
             Toast.makeText(AlterCarInfoActivity.this, "其他费用不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(loanBankTv.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "贷款银行不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(loanPeriodsTv.getText())) {
-            Toast.makeText(AlterCarInfoActivity.this, "还款期限不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(productTypeTv.getText())) {
+        }
+//
+        else if (TextUtils.isEmpty(productTypeTv.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "产品类型不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(plateRegAddrTv.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "预计上牌地不能为空", Toast.LENGTH_SHORT).show();
