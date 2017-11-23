@@ -348,6 +348,7 @@ public class DocumentActivity extends BaseActivity {
                 upLoadImg(dialog, localPath);
             } else if (mType.equals(Constants.FileLabelType.ID_BACK)) {
                 OcrUtil.requestOcr(this, localPath, new OSSObjectKeyBean(mRole, mType, ".png"), "id_card", (ocrResp, objectKey) -> {
+                            mOcrResp = new OcrResp.ShowapiResBodyBean();
                             if (ocrResp == null) {
                                 Toast.makeText(this, "识别失败", Toast.LENGTH_LONG).show();
                             } else if (ocrResp.showapi_res_code != 0 && TextUtils.isEmpty(ocrResp.showapi_res_body.idNo) || TextUtils.isEmpty(ocrResp.showapi_res_body.name)) {

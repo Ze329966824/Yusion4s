@@ -86,6 +86,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private LinearLayout autonym_certify_id_back_lin;
     private LinearLayout autonym_certify_id_front_lin;
     private LinearLayout autonym_certify_driving_license_lin;
+    private LinearLayout autonym_certify_id_number_lin;
 //    private TextView personal_info_clt_nm_edt;
 //    private TextView personal_info_id_no_edt;
 //    private TextView personal_info_gender_tv;
@@ -140,6 +141,14 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private void onClick(View view) {
         UBT.bind(this, view, ApplyActivity.class.getSimpleName());
 
+        autonym_certify_id_number_lin.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!autonym_certify_id_number_tv.isEnabled()){
+                    Toast.makeText(mContext,"请重新拍摄身份证人像面并识别成功！",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
         mDoubleCheckChangeBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
         });
@@ -254,6 +263,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         autonym_certify_id_back_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_id_back_lin);
         autonym_certify_id_front_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_id_front_lin);
         autonym_certify_driving_license_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_driving_license_lin);
+        autonym_certify_id_number_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_id_number_lin);
         step1 = (TextView) view.findViewById(R.id.step1);
         step2 = (TextView) view.findViewById(R.id.step2);
         step3 = (TextView) view.findViewById(R.id.step3);
@@ -369,10 +379,11 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                     autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.idNo)) {
-//                                    autonym_certify_id_number_tv.setEnabled(true);
+                                    autonym_certify_id_number_tv.setEnabled(true);
                                     autonym_certify_id_number_tv.setText(ocrResp.idNo);
                                 } else {
-//                                    autonym_certify_id_number_tv.setEnabled(false);
+                                    autonym_certify_id_number_tv.setText("");
+                                    autonym_certify_id_number_tv.setEnabled(false);
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.name)) {
                                     autonym_certify_name_tv.setText(ocrResp.name);
