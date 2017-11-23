@@ -69,6 +69,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     @BindView(id = R.id.autonym_certify_id_number_tv, widgetName = "autonym_certify_id_number_tv")
     private EditText autonym_certify_id_number_tv;
 
+    @BindView(id = R.id.autonym_certify_mobile_tv, widgetName = "autonym_certify_mobile_tv")
+    private EditText autonym_certify_mobile_tv;
+
     @BindView(id = R.id.autonym_certify_driving_license_tv, widgetName = "autonym_certify_driving_license_tv")
     private TextView autonym_certify_driving_license_tv;
 

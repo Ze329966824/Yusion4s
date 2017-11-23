@@ -280,6 +280,30 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout style="@style/apply_info_item">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:text="手机号"
+                            android:textColor="@color/textColor"
+                            android:textSize="14.5sp" />
+
+                        <EditText
+                            android:id="@+id/autonym_certify_mobile_tv"
+                            style="@style/apply_info_content_type_mobile"
+                            android:layout_marginRight="35dp"
+                            android:enabled="true"
+                            android:hint="请输入" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout

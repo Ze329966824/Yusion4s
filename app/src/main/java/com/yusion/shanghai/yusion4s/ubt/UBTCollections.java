@@ -123,6 +123,7 @@ public class UBTCollections {
         widgetNameMaps.put("autonym_certify_id_front_tv", "上传身份证国徽面");
         widgetNameMaps.put("autonym_certify_name_tv", "输入姓名");
         widgetNameMaps.put("autonym_certify_id_number_tv", "输入身份证号");
+        widgetNameMaps.put("autonym_certify_mobile_tv", "输入手机号");
         widgetNameMaps.put("autonym_certify_driving_license_tv", "上传驾驶证");
         widgetNameMaps.put("autonym_certify_driving_license_rel_tv", "选择驾驶证与本人关系");
 
