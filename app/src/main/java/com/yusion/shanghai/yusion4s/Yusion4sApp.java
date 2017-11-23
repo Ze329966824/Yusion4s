@@ -138,6 +138,9 @@ public class Yusion4sApp extends MultiDexApplication {
                 reg_id = SharedPrefsUtil.getInstance(Yusion4sApp.this).getValue("reg_id", "");
             }
             SharedPrefsUtil.getInstance(Yusion4sApp.this).putValue("reg_id", reg_id);
+            while (TextUtils.isEmpty(reg_id) || (new Date().getTime() - time) / 1000 > 30) {
+                reg_id = JPushInterface.getRegistrationID(Yusion4sApp.this);
+            }
             Log.e("TAG", "reg_id: " + reg_id);
         }).start();
 
