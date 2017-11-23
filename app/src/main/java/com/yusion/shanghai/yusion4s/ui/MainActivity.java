@@ -148,7 +148,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 //        }else {
 //            mApplyFinancingFragment.refresh(dlr_nums.split("/")[0]);
 //        }
-        Log.e("TAG", "onResume: -------------");
+//        Log.e("TAG", "onResume: -------------");
         mApplyFinancingFragment.firstLogin();
     }
 
