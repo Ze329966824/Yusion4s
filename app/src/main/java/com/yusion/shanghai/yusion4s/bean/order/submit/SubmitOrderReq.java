@@ -40,7 +40,7 @@ public class SubmitOrderReq {
     public String other_fee;
     public String gps_fee = "0";
     public String plate_reg_addr;
-    public int nper;
+    public String nper;
 
     public String origin_plate_reg_addr;// "二手车上牌地"
     public String send_hand_plate_time;// '二手车上牌时间'

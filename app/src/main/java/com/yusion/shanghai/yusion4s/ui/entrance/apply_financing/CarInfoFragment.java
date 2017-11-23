@@ -1039,7 +1039,7 @@ public class CarInfoFragment extends BaseFragment {
                         req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                         //req.product_id = mProductList.get(mProductTypeIndex).getProduct_id();
                         req.product_id = mProductList.get(mProductTypeIndex).product_id;
-                        req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                        req.nper = loanPeriodsTv.getText().toString();
 
                         req.vehicle_cond = cartype;
                         if (cartype.equals("新车")) {
@@ -1081,7 +1081,8 @@ public class CarInfoFragment extends BaseFragment {
 
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
-                    req.nper = Integer.valueOf(loanPeriodsTv.getText().toString());
+                    req.nper = loanPeriodsTv.getText().toString();
+                    //req.nper = 0;
                     //req.product_type = productTypeTv.getText().toString();
                     //汽车类型，是新车还是旧车
                     if (cartype.equals("新车")) {
