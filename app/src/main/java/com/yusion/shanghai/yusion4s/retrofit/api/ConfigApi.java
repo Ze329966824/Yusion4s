@@ -58,6 +58,7 @@ public class ConfigApi {
         ConfigResp configResp = new ConfigResp();
         configResp.DELAY_MILLIS = jsonObject.optInt("lost_focus_delay");
         configResp.agreement_url = jsonObject.optString("agreement_url");
+        configResp.send_hand_base_material = jsonObject.optString("send_hand_base_material");
         configResp.contract_list_url = jsonObject.optString("contract_list_url");
         String ubt_limit = jsonObject.optString("ubt_limit");
         if (!TextUtils.isEmpty(ubt_limit)) {

@@ -25,4 +25,5 @@ public class ConfigResp {
     public List<String> order_type_value = new ArrayList<>();
 
     public String dealer_material = "";
+    public String send_hand_base_material = "";
 }

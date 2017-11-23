@@ -333,6 +333,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 return;
                             }
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            intent.putExtra("app_id", data.app_id);
+                            intent.putExtra("cond", req.vehicle_cond);
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;
@@ -346,15 +349,16 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     public void callBack(int code, String msg) {
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+                                            startActivity(intent);
 //                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
                                     }
                                 });
-                                startActivity(new Intent(mContext, MainActivity.class));
+
 //                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
                                 // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-                                startActivity(new Intent(mContext, MainActivity.class));
+                                startActivity(intent);
                             }
                         }
                     });
