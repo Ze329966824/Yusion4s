@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -43,6 +44,10 @@ public class CommitActivity extends BaseActivity {
                                 item = listDealerLabelsResp;
                                 break;
                             }
+                        }
+                        if (item == null) {
+                            Toast.makeText(myApp, "没有找到指定影像件标签,请稍后补充上传", Toast.LENGTH_SHORT).show();
+                            return;
                         }
                         Intent intent = new Intent(CommitActivity.this, UploadLabelListActivity.class);
                         intent.putExtra("topItem", item);

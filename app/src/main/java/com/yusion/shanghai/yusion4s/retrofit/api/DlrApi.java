@@ -93,9 +93,9 @@ public class DlrApi {
         });
     }
 
-    public static void getProductType(final Context context, String bank_id, String dlr_id, final OnItemDataCallBack<GetproductResp> onItemDataCallBack) {
+    public static void getProductType(final Context context, String bank_id, String dlr_id,String vehicle_cond, final OnItemDataCallBack<GetproductResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getDlrService().getProductType(bank_id, dlr_id).enqueue(new CustomCallBack<GetproductResp>(context, dialog) {
+        Api.getDlrService().getProductType(bank_id, dlr_id,vehicle_cond).enqueue(new CustomCallBack<GetproductResp>(context, dialog) {
             @Override
             public void onCustomResponse(GetproductResp resp) {
                 onItemDataCallBack.onItemDataCallBack(resp);

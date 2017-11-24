@@ -538,9 +538,18 @@ public class AlterCarInfoActivity extends BaseActivity {
                         mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
                     }
                 });
-                DlrApi.getProductType(AlterCarInfoActivity.this, resp.bank_id, resp.dlr_id, new OnItemDataCallBack<GetproductResp>() {
+                DlrApi.getProductType(AlterCarInfoActivity.this, resp.bank_id, resp.dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                     @Override
                     public void onItemDataCallBack(GetproductResp resp) {
+                        if (resp == null) {
+                            return;
+                        }
+                        if (resp.product_list == null && resp.product_list.isEmpty()) {
+                            return;
+                        }
+                        if (resp.support_area == null && resp.support_area.isEmpty()) {
+                            return;
+                        }
                         mProductList = resp.product_list;
                         productTypeItems = new ArrayList<String>();
                         cityJson = resp.support_area.toString();
@@ -551,16 +560,15 @@ public class AlterCarInfoActivity extends BaseActivity {
                             mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
                         } else {
                             productTypeTv.setText("");
-                            loanPeriodsTv.setText("");
-                            Toast.makeText(AlterCarInfoActivity.this, "产品类型和还款类型需重新选择", Toast.LENGTH_LONG).show();
+                            // loanPeriodsTv.setText("");
+                            Toast.makeText(AlterCarInfoActivity.this, "产品类型需重新选择", Toast.LENGTH_LONG).show();
                         }
-                        if (isCanSelect(mProductList.get(mProductTypeIndex).nper_list, Integer.valueOf(loanPeriodsTv.getText().toString()))) {
-                            mLoanPeriodsIndex = selectIndexInteger(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, Integer.valueOf(loanPeriodsTv.getText().toString()));
-                        } else {
-                            loanPeriodsTv.setText("");
-                            Toast.makeText(AlterCarInfoActivity.this, "当前还款期限需重新选择", Toast.LENGTH_LONG).show();
-                        }
-
+//                        if (isCanSelect(mProductList.get(mProductTypeIndex).nper_list, Integer.valueOf(loanPeriodsTv.getText().toString()))) {
+//                            mLoanPeriodsIndex = selectIndexInteger(mProductList.get(mProductTypeIndex).nper_list, mLoanPeriodsIndex, Integer.valueOf(loanPeriodsTv.getText().toString()));
+//                        } else {
+//                            loanPeriodsTv.setText("");
+//                            Toast.makeText(AlterCarInfoActivity.this, "当前还款期限需重新选择", Toast.LENGTH_LONG).show();
+//                        }
                     }
                 });
             }
@@ -578,6 +586,51 @@ public class AlterCarInfoActivity extends BaseActivity {
 //
 //        });
 //
+
+        oldcar_dance_tv.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.toString().length() == 5 && !s.toString().contains(".")) {
+                    oldcar_dance_tv.setText(s.subSequence(0, s.length() - 1));
+                    oldcar_dance_tv.setSelection(oldcar_dance_tv.getText().toString().length());
+                    return;
+                }
+                if (s.toString().contains(".")) {
+                    if (s.length() - 1 - s.toString().indexOf(".") > 2) {
+                        s = s.toString().subSequence(0,
+                                s.toString().indexOf(".") + 3);
+                        oldcar_dance_tv.setText(s);
+                        oldcar_dance_tv.setSelection(s.length());
+                    }
+                }
+                if (s.toString().trim().substring(0).equals(".")) {
+                    s = "0" + s;
+                    oldcar_dance_tv.setText(s);
+                    oldcar_dance_tv.setSelection(2);
+                }
+
+                if (s.toString().startsWith("0")
+                        && s.toString().trim().length() > 1) {
+                    if (!s.toString().substring(1, 2).equals(".")) {
+                        oldcar_dance_tv.setText(s.subSequence(0, 1));
+                        oldcar_dance_tv.setSelection(1);
+                        return;
+                    }
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+
         //上牌时间
         oldcar_addrtime_lin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1211,7 +1264,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
 
-                DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<GetproductResp>() {
+                DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                     @Override
                     public void onItemDataCallBack(GetproductResp resp) {
                         if (resp == null) {
