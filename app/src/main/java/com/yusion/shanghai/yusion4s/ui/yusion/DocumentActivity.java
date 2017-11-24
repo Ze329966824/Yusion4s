@@ -26,21 +26,26 @@ import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
+import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
+import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OcrUtil;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
@@ -356,6 +361,8 @@ public class DocumentActivity extends BaseActivity {
                             } else {
                                 Toast.makeText(this, "识别成功", Toast.LENGTH_LONG).show();
                                 mOcrResp = ocrResp.showapi_res_body;
+                                // 搜索是否存在该用户
+                                search(mOcrResp.idNo);
                             }
                             onUploadOssSuccess(localPath, dialog, objectKey);
                         }, (throwable, s) -> {
@@ -370,6 +377,25 @@ public class DocumentActivity extends BaseActivity {
             }
         }
 
+    }
+
+    private void search(String idNo) {
+        OrderApi.searchClientExist(DocumentActivity.this, idNo, new OnItemDataCallBack<List<SearchClientResp>>() {
+            @Override
+            public void onItemDataCallBack(List<SearchClientResp> data) {
+                if (data != null && data.size() == 1) {
+                    PopupDialogUtil.createUserDialog(
+                            DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", data.get(0).clt_nm, data.get(0).mobile, data.get(0).id_no, dialog -> {
+                                Intent intent = new Intent(DocumentActivity.this, CommitActivity.class);
+                                intent.putExtra("why_commit", "create_user");
+                                intent.putExtra("clt_nm",data.get(0).clt_nm);
+                                intent.putExtra("mobile",data.get(0).mobile);
+                                intent.putExtra("id_no",data.get(0).id_no);
+                                startActivity(intent);
+                            });
+                }
+            }
+        });
     }
 
     private void upLoadImg(final Dialog dialog, String imagePath) {

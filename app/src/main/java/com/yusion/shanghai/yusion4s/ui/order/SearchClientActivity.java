@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -66,6 +67,7 @@ public class SearchClientActivity extends BaseActivity {
                             @Override
                             public void onItemDataCallBack(List<SearchClientResp> data) {
                                 if (data.size() != 0) {
+                                    Log.e("TAG", " searchClientExist : "+data.size());
                                     items.clear();
                                     rv_client_info.setVisibility(View.VISIBLE);
                                     search_warn_lly.setVisibility(View.GONE);

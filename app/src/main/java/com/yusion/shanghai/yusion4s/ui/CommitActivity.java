@@ -12,6 +12,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 
 import java.util.List;
@@ -28,11 +29,53 @@ public class CommitActivity extends BaseActivity {
         setContentView(R.layout.activity_commit);
         initTitleBar(this, "提交成功");
 
-        //UBT.uploadPersonAndDeviceInfo(this);
+        switch (getIntent().getStringExtra("why_commit")) {
+
+            case "old_car":
+                fromOldCar();
+                break;
 
 
-        TextView submit = (TextView) findViewById(R.id.commit_submit);
-        submit.setOnClickListener(new View.OnClickListener() {
+            case "create_user":
+                fromCreateUser();
+                break;
+
+
+            default:
+                fromUnknown();
+                break;
+        }
+    }
+
+    private void fromUnknown() {
+        ((TextView) findViewById(R.id.commit_title_tv)).setText("why come here?");
+        findViewById(R.id.commit_continue_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_return_layout).setVisibility(View.GONE);
+    }
+
+    private void fromCreateUser() {
+        ((TextView) findViewById(R.id.commit_title_tv)).setText("客户创建成功");
+        findViewById(R.id.commit_continue_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_return_layout).setVisibility(View.VISIBLE);
+        TextView returnBtn = (TextView) findViewById(R.id.commit_return_btn);
+        returnBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = getIntent();
+                intent.setClass(CommitActivity.this, OrderCreateActivity.class);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void fromOldCar() {
+        findViewById(R.id.commit_return_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_continue_layout).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.commit_title_tv)).setText("还差最后一步!");
+
+        TextView submitBtn = (TextView) findViewById(R.id.commit_continue_btn);
+        submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 UploadApi.listDealerLabels(CommitActivity.this, getIntent().getStringExtra("app_id"), new OnItemDataCallBack<List<ListDealerLabelsResp>>() {
@@ -58,64 +101,6 @@ public class CommitActivity extends BaseActivity {
                 });
             }
         });
-//        mGetIntent = getIntent();
-//        switch (mGetIntent.getStringExtra("commit_state")) {
-//            case "return":
-//                findViewById(R.id.commit_return_layout).setVisibility(View.VISIBLE);
-//                findViewById(R.id.commit_continue_layout).setVisibility(View.GONE);
-//
-//                findViewById(R.id.return_list_info1).setOnClickListener(v -> UserApi.getListCurrentTpye(CommitActivity.this, data -> {
-//                    if (data.guarantor_commited) {
-//                        Intent intent = new Intent(CommitActivity.this, InfoListActivity.class);
-//                        intent.putExtra("ishaveGuarantee", true);
-//                        startActivity(intent);
-//                        finish();
-//                    } else {
-//                        Intent intent = new Intent(CommitActivity.this, InfoListActivity.class);
-//                        intent.putExtra("ishaveGuarantee", false);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                }));
-//
-//                break;
-//
-//            case "continue":
-//                findViewById(R.id.commit_continue_layout).setVisibility(View.VISIBLE);
-//                findViewById(R.id.commit_return_layout).setVisibility(View.GONE);
-//
-//                //返回资料列表
-//                findViewById(R.id.continue_imgs_info).setOnClickListener(v -> UserApi.getListCurrentTpye(CommitActivity.this, data -> {
-//                    if (data.guarantor_commited) {
-//                        Intent intent = new Intent(CommitActivity.this, InfoListActivity.class);
-//                        intent.putExtra("ishaveGuarantee", true);
-//                        startActivity(intent);
-//                        finish();
-//                    } else {
-//                        Intent intent = new Intent(CommitActivity.this, InfoListActivity.class);
-//                        intent.putExtra("ishaveGuarantee", false);
-//                        startActivity(intent);
-//                        finish();
-//                    }
-//                }));
-//
-//                //继续上传影像件
-//                findViewById(R.id.return_list_info).setOnClickListener(v -> {
-//                    clt_id = mGetIntent.getStringExtra("clt_id");
-//                    role = mGetIntent.getStringExtra("role");
-//                    title = mGetIntent.getStringExtra("title");
-//                    Intent intent = new Intent(this, UploadLabelListActivity.class);
-//                    intent.putExtra("clt_id", clt_id);
-//                    intent.putExtra("role", role);
-//                    intent.putExtra("title", title);
-//                    startActivity(intent);
-//                    finish();
-//                });
-//
-//                break;
-//        }
-
-
     }
 }
 

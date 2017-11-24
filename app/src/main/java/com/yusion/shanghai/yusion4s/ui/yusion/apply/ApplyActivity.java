@@ -13,6 +13,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
+import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -94,7 +95,7 @@ public class ApplyActivity extends BaseActivity {
 
     public void requestSubmit() {
         Intent intent = new Intent(this, CommitActivity.class);
-        intent.putExtra("commit_state", "return");
+        intent.putExtra("why_commit", "create_user");
         startActivity(intent);
         finish();
     }

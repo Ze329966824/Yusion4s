@@ -63,8 +63,8 @@ public class OrderCreateActivity extends BaseActivity {
                 .beginTransaction()
                 .add(R.id.order_create_container, mCarInfoFragment)
                 .add(R.id.order_create_container, mCreditInfoFragment)
-                //.hide(mCarInfoFragment)
-                .hide(mCreditInfoFragment)
+                .hide(mCarInfoFragment)
+//                .hide(mCreditInfoFragment)
                 .commit();
         mCurrentFragment = mCarInfoFragment;
 
