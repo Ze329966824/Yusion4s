@@ -100,8 +100,8 @@ public class OrderManagerFragment extends BaseFragment {
 //            mFragments.add(OrderItemFragment.newInstance(mStCode[i]));
 //        }
         for (int i = 0; i < mTabTitle.size(); i++) {
-            OrderItemFragment fragment = OrderItemFragment.newInstance(mStCode.get(i));
-            fragment.setVehicle_cond("新车");
+            OrderItemFragment fragment = OrderItemFragment.newInstance(mStCode.get(i),"新车");
+//            fragment.setVehicle_cond("新车");
             mFragments.add(fragment);
         }
         viewPager.setAdapter(new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments));

@@ -58,16 +58,31 @@ public class OrderItemFragment extends BaseFragment {
     private String st;
     private RecyclerView rv;
     private TextView order_list_item_update_tv;
-    private String vehicle_cond;
+    private String vehicle_cond = "新车";
+    private MyOrderListAdapter myOrderListAdapter;
 
     public void setVehicle_cond(String vehicle_cond) {
         this.vehicle_cond = vehicle_cond;
+        if (myOrderListAdapter!=null) {
+            myOrderListAdapter.setVehicle_cond(vehicle_cond);
+            myOrderListAdapter.notifyDataSetChanged();
+        }
     }
 
     public static OrderItemFragment newInstance(String s) {
 
         Bundle args = new Bundle();
         args.putString("st", s);
+        OrderItemFragment fragment = new OrderItemFragment();
+        fragment.setArguments(args);
+        return fragment;
+    }
+
+    public static OrderItemFragment newInstance(String s,String vehicle_cond) {
+
+        Bundle args = new Bundle();
+        args.putString("st", s);
+        args.putString("vehicle_cond", vehicle_cond);
         OrderItemFragment fragment = new OrderItemFragment();
         fragment.setArguments(args);
         return fragment;
@@ -89,12 +104,14 @@ public class OrderItemFragment extends BaseFragment {
 //            EventBus.getDefault().register(this);
 //        }
         st = getArguments().getString("st");
+        vehicle_cond = getArguments().getString("vehicle_cond");
         llyt = (LinearLayout) view.findViewById(R.id.my_order_llyt);
         rv = (RecyclerView) view.findViewById(R.id.my_order_rv);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.addItemDecoration(new RecyclerViewDivider(mContext, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(getActivity(), 10), ContextCompat.getColor(getActivity(), R.color.main_bg)));
         items = new ArrayList<>();
-        MyOrderListAdapter myOrderListAdapter = new MyOrderListAdapter(mContext, items);
+        myOrderListAdapter = new MyOrderListAdapter(mContext, items);
+        myOrderListAdapter.setVehicle_cond(vehicle_cond);
         adapter = new RecyclerAdapterWithHF(myOrderListAdapter);
         rv.setAdapter(adapter);
         ptr = (PtrClassicFrameLayout) view.findViewById(R.id.my_order_ptr);
@@ -168,6 +185,11 @@ public class OrderItemFragment extends BaseFragment {
         private Context mContext;
         private OnItemClick mOnItemClick;
         private List<GetAppListResp> mItems;
+        private String vehicle_cond;
+
+        public void setVehicle_cond(String vehicle_cond) {
+            this.vehicle_cond = vehicle_cond;
+        }
 
         public MyOrderListAdapter(Context context, List<GetAppListResp> items) {
             mContext = context;
@@ -182,6 +204,7 @@ public class OrderItemFragment extends BaseFragment {
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            Log.e("TAG", "onBindViewHolder: " + vehicle_cond);
             VH vh = (VH) holder;
             GetAppListResp item = mItems.get(position);
             vh.itemView.setOnClickListener(new View.OnClickListener() {
@@ -194,6 +217,11 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
+            if (vehicle_cond.equals("二手车")) {
+                vh.car_icon.setImageResource(R.mipmap.old_car_icon);
+            }else {
+                vh.car_icon.setImageResource(R.mipmap.new_car_icon);
+            }
             vh.name.setText(item.clt_nm);
             vh.door.setText(item.dlr_nm);
             vh.brand.setText(item.brand);
@@ -315,6 +343,7 @@ public class OrderItemFragment extends BaseFragment {
             public ImageView phone;
             public TextView change;
             public TextView upload;
+            public ImageView car_icon;
 
             public VH(View itemView) {
                 super(itemView);
@@ -331,6 +360,7 @@ public class OrderItemFragment extends BaseFragment {
                 phone = ((ImageView) itemView.findViewById(R.id.order_list_item_phone_img));
                 change = (TextView) itemView.findViewById(R.id.order_list_item_change_tv);
                 upload = (TextView) itemView.findViewById(R.id.order_list_item_upload_tv);
+                car_icon = (ImageView) itemView.findViewById(R.id.order_list_item_car_icon);
             }
         }
 
