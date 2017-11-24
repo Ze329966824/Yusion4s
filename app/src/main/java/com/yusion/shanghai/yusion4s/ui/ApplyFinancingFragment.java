@@ -132,15 +132,15 @@ public class ApplyFinancingFragment extends BaseFragment {
                         } else {
                             to_be_confirm_img.setVisibility(View.GONE);
                         }
-                        if ((to_be_upload_count.getText().toString().compareTo(value[2]) == -1)) {
-                            to_be_upload_img.setVisibility(View.VISIBLE);
-                        } else {
-                            to_be_upload_img.setVisibility(View.GONE);
-                        }
-                        if ((to_loan_count.getText().toString().compareTo(value[3]) == -1)) {
+                        if ((to_loan_count.getText().toString().compareTo(value[2]) == -1)) {
                             to_loan_img.setVisibility(View.VISIBLE);
                         } else {
                             to_loan_img.setVisibility(View.GONE);
+                        }
+                        if ((to_be_upload_count.getText().toString().compareTo(value[3]) == -1)) {
+                            to_be_upload_img.setVisibility(View.VISIBLE);
+                        } else {
+                            to_be_upload_img.setVisibility(View.GONE);
                         }
                     }
                 } else {
@@ -151,11 +151,11 @@ public class ApplyFinancingFragment extends BaseFragment {
                     if (data.to_be_confirm_count.equals("0")) {
                         to_be_confirm_img.setVisibility(View.GONE);
                     }
-                    if (data.to_be_upload_count.equals("0")) {
-                        to_be_upload_img.setVisibility(View.GONE);
-                    }
                     if (data.to_loan_count.equals("0")) {
                         to_loan_img.setVisibility(View.GONE);
+                    }
+                    if (data.to_be_upload_count.equals("0")) {
+                        to_be_upload_img.setVisibility(View.GONE);
                     }
                 }
 
