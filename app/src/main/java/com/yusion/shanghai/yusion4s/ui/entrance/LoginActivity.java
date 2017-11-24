@@ -54,6 +54,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         myApp.requestLocation(null);
         initView();
+//        startActivity(new Intent(this, Car300WebViewActivity.class));
     }
 
     private void initView() {
