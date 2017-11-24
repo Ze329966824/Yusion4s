@@ -587,8 +587,6 @@ public class AlterCarInfoActivity extends BaseActivity {
 //        });
 //
 
-
-
         oldcar_dance_tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
