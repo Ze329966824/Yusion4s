@@ -54,7 +54,7 @@ public class GetAppListResp {
 
     public String status_code;
     public int status_st;
-
+    public String vehicle_cond;
     public Boolean modify_permission;
 
     @Override

@@ -43,12 +43,12 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
-import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.io.File;
@@ -91,6 +91,7 @@ public class UploadListActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
+
         topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
         app_id = getIntent().getStringExtra("app_id");
         clt_id = getIntent().getStringExtra("clt_id");
@@ -304,7 +305,7 @@ public class UploadListActivity extends BaseActivity {
 
     private void previewImgs() {
         if (url_list == null || url_list.size() == 0) {
-            Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+            Toast.makeText(myApp, "该文件暂无模板！！！", Toast.LENGTH_SHORT).show();
             return;
         }
 
@@ -435,13 +436,13 @@ public class UploadListActivity extends BaseActivity {
         if (data != null) {
             templateLin.setVisibility(View.VISIBLE);
             if (data.checker_item_ == null) {
-                Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
                 return;
             }
             templateContent.setText(Html.fromHtml(data.checker_item_.description));
             url_list = data.checker_item_.url_list;
             if (url_list == null || url_list.size() == 0) {
-                Toast.makeText(myApp, "请相关人员添加模板图片！！！", Toast.LENGTH_SHORT).show();
+                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
                 return;
             }
             detail_url = data.checker_item_.url_list.get(0);

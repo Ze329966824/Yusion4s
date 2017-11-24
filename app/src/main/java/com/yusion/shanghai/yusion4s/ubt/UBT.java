@@ -10,7 +10,6 @@ package com.yusion.shanghai.yusion4s.ubt;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;

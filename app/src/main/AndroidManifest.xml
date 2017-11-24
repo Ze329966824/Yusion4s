@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.yusion.shanghai.yusion4s"> <!-- umeng -->
+    package="com.yusion.shanghai.yusion4s" > <!-- umeng -->
     <uses-sdk android:minSdkVersion="8" />
 
     <uses-permission android:name="android.permission.READ_SMS" />
@@ -41,7 +41,7 @@
     <!-- 高德定位 -->
     <!-- 用于进行网络定位 -->
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <!-- 用于访问GPS定位 -->
+    <!-- 用于访问GPS定位 -->l
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <!-- 用于获取运营商信息，用于支持提供运营商信息相关的接口 -->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -64,10 +64,11 @@
     <application
         android:name=".Yusion4sApp"
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="${APP_ICON}"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
+        android:theme="@style/AppTheme" >
         <activity
             android:name="com.awen.photo.photopick.ui.PhotoPagerActivity"
             android:theme="@style/PhoAppTheme.Transparent" />
@@ -79,7 +80,7 @@
         <activity
             android:name=".ui.entrance.LaunchActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan">
+            android:windowSoftInputMode="stateHidden|adjustPan" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -88,6 +89,10 @@
         </activity>
         <activity
             android:name=".ui.order.OrderDetailActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.order.ChangeDlrActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
@@ -121,6 +126,10 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
+            android:name=".ui.order.OrderCreateActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
             android:name=".ui.order.SearchClientActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
@@ -150,7 +159,7 @@
         <service
             android:name="cn.jpush.android.service.PushService"
             android:enabled="true"
-            android:exported="false">
+            android:exported="false" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.REGISTER" />
                 <action android:name="cn.jpush.android.intent.REPORT" />
@@ -164,7 +173,7 @@
         <service
             android:name="cn.jpush.android.service.DaemonService"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true" >
             <intent-filter>
                 <action android:name="cn.jpush.android.intent.DaemonService" />
 
@@ -175,8 +184,8 @@
         <!-- Required SDK核心功能 -->
         <receiver
             android:name="cn.jpush.android.service.PushReceiver"
-            android:enabled="true">
-            <intent-filter android:priority="1000">
+            android:enabled="true" >
+            <intent-filter android:priority="1000" >
                 <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED_PROXY" />
 
                 <category android:name="com.yusion.shanghai.yusion4s" />
@@ -199,7 +208,7 @@
             android:name="cn.jpush.android.ui.PushActivity"
             android:configChanges="orientation|keyboardHidden"
             android:exported="false"
-            android:theme="@android:style/Theme.NoTitleBar">
+            android:theme="@android:style/Theme.NoTitleBar" >
             <intent-filter>
                 <action android:name="cn.jpush.android.ui.PushActivity" />
 
@@ -221,7 +230,7 @@
 
         <receiver
             android:name=".jpush.JpushReceiver"
-            android:enabled="true">
+            android:enabled="true" >
             <intent-filter>
 
                 <!-- Required 用户注册SDK的intent -->
@@ -289,6 +298,7 @@
             android:name=".ui.entrance.apply_financing.AlterCarInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".ui.CommitActivity" />
     </application>
 
 </manifest>

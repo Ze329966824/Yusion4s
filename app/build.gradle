@@ -6,8 +6,8 @@ apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
 android {
-    def isOnline = false
-    def forAppium = false
+//    def isOnline = true
+//    def forAppium = false
 
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
@@ -15,8 +15,8 @@ android {
         applicationId "com.yusion.shanghai.yusion4s"
         minSdkVersion 15
         targetSdkVersion 21
-        versionCode 29
-        versionName "V1.5.0"
+        versionCode rootProject.VersionCode
+        versionName "${rootProject.VersionName}"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         ndk {
             abiFilters "armeabi"
@@ -47,8 +47,7 @@ android {
 //    }
     buildTypes {
         release {
-//            shrinkResources true
-            minifyEnabled true
+            minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
@@ -120,6 +119,8 @@ dependencies {
     compile 'com.shizhefei:LargeImageView:1.0.9'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
+
+    compile "io.reactivex.rxjava2:rxjava:2.1.6"
     compile project(path: ':photoLibrary')
 }
 repositories {
@@ -176,7 +177,7 @@ public class BuildTimeListener implements TaskExecutionListener, BuildListener {
 
 project.gradle.addListener(new BuildTimeListener())
 
-afterEvaluate{
+afterEvaluate {
     tasks.matching {
         it.name.startsWith('dex')
     }.each { dx ->

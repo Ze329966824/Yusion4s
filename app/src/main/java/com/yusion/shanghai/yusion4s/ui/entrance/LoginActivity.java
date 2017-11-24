@@ -4,6 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,13 +65,33 @@ public class LoginActivity extends BaseActivity {
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
         Button loginBtn = (Button) findViewById(R.id.login_submit_btn);
         loginBtn.setOnClickListener(v -> login());
-        loginBtn.setOnLongClickListener(v -> {
-            if (!Settings.isOnline) {
-                mLoginAccountTV.setText("test");
-                mLoginPasswordTV.setText("test");
-            }
-            return true;
-        });
+        if (!Settings.isOnline) {
+            loginBtn.setOnLongClickListener(v -> {
+                mLoginAccountTV.setText("13333333333");
+                mLoginPasswordTV.setText("yujian");
+                return true;
+            });
+            loginBtn.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View v, MotionEvent event) {
+                    int offset = 300;
+                    if (event.getAction() == MotionEvent.ACTION_UP) {
+                        Log.e("TAG", "x:" + event.getX() + " y:" + event.getY());
+                        Log.e("TAG", "rx:" + event.getRawX() + " ry:" + event.getRawY());
+                        Log.e("TAG", "bottom:" + v.getBottom() + " top:" + v.getTop());
+
+                        if (event.getRawY() > v.getBottom() + offset) {
+                            mLoginAccountTV.setText("19999999999");
+                            mLoginPasswordTV.setText("yujian");
+                        } else if (event.getRawY() < v.getTop() - offset) {
+                            mLoginAccountTV.setText("18888888888");
+                            mLoginPasswordTV.setText("yujian");
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
     }
 
     private void login() {
@@ -128,6 +151,20 @@ public class LoginActivity extends BaseActivity {
         myApp.clearUserData();
 
         ConfigApi.getConfigJson(LoginActivity.this, null);
+
+        String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
+        if (dlr_nums != null) {
+
+
+            String[] dlr_num = dlr_nums.split("/");
+            for (String id : dlr_num) {
+                Log.e("TAG", "key: " + id);
+                Log.e("TAG", "valuse: " + SharedPrefsUtil.getInstance(this).getValue(id, null));
+                SharedPrefsUtil.getInstance(this).remove(id);
+                SharedPrefsUtil.getInstance(this).remove("dlr_nums");
+            }
+        }
+
     }
 
     private void uploadPersonAndDeviceInfo() {
@@ -139,7 +176,6 @@ public class LoginActivity extends BaseActivity {
         req.app = "Yusion4s";
         req.token = SharedPrefsUtil.getInstance(this).getValue("token", null);
         req.mobile = SharedPrefsUtil.getInstance(this).getValue("account", null);
-
         JSONArray contactJsonArray = MobileDataUtil.getUserData(this, "contact");
         List<UBTData.DataBean.ContactBean> contactBeenList = new ArrayList<>();
 

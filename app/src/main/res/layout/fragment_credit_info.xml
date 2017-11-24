@@ -58,7 +58,7 @@
             android:layout_marginStart="1dp"
             android:background="@drawable/apply_step_style_2"
             android:gravity="center"
-            android:text="@string/all_right"
+            android:text="@string/number_2"
             android:textColor="@color/white"
             app:layout_constraintLeft_toRightOf="@+id/step_separate_line"
             app:layout_constraintTop_toTopOf="@+id/step1" />

@@ -14,6 +14,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,11 @@ public class OrderItemFragment extends BaseFragment {
     private String st;
     private RecyclerView rv;
     private TextView order_list_item_update_tv;
+    private String vehicle_cond;
+
+    public void setVehicle_cond(String vehicle_cond) {
+        this.vehicle_cond = vehicle_cond;
+    }
 
     public static OrderItemFragment newInstance(String s) {
 
@@ -128,7 +134,7 @@ public class OrderItemFragment extends BaseFragment {
     }
 
     public void refresh() {
-        OrderApi.getAppList(mContext, st, new OnItemDataCallBack<List<GetAppListResp>>() {
+        OrderApi.getAppList(mContext, st, vehicle_cond, new OnItemDataCallBack<List<GetAppListResp>>() {
             @Override
             public void onItemDataCallBack(List<GetAppListResp> resp) {
                 if (resp != null && resp.size() > 0) {
@@ -272,6 +278,8 @@ public class OrderItemFragment extends BaseFragment {
                 public void onClick(View v) {
                     Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
                     i1.putExtra("app_id", item.app_id);
+                    i1.putExtra("car_type", item.vehicle_cond);
+                    Log.e("TAG", item.vehicle_cond);
                     mContext.startActivity(i1);
 //                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
                 }

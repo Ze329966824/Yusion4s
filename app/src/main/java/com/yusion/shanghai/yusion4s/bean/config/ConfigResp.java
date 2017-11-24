@@ -25,6 +25,7 @@ public class ConfigResp {
     public List<String> order_type_value = new ArrayList<>();
 
     public String dealer_material = "";
+    public String send_hand_base_material = "";
 
     public ArrayList<String> drv_lic_relationship_list_value = new ArrayList<>();
     public ArrayList<String> gender_list_key = new ArrayList<>();

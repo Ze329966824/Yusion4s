@@ -21,4 +21,6 @@ public class GetModelResp {
     public String eng_cap;
     public String seat_number;
     public int model_id;
+    public String min_reg_year;
+    public String max_reg_year;
 }
