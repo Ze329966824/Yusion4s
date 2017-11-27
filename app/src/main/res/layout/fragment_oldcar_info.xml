@@ -441,10 +441,10 @@
                             android:layout_height="wrap_content">
 
                             <Button
-                                android:layout_marginLeft="15dp"
                                 android:id="@+id/btn_reset"
                                 android:layout_width="110.5dp"
                                 android:layout_height="42dp"
+                                android:layout_marginLeft="15dp"
                                 android:background="@drawable/reset_butotn"
                                 android:enabled="false"
                                 android:text="重置"
@@ -479,6 +479,7 @@
                                 android:id="@+id/oldcar_guess_tv"
                                 style="@style/apply_info_content"
                                 android:layout_marginRight="35dp"
+                                android:enabled="false"
                                 android:hint="请先估价"
                                 android:inputType="number" />
 

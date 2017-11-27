@@ -1,5 +1,8 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
+import android.app.Activity;
+import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
@@ -40,6 +43,7 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -109,6 +113,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private String plate_year;
     private String playe_month;
     private String mile_age;
+    private String guess_img;
     // province_id=1&city_id=1&brand_id=1&trix_id=1&model_id=1&plate_year=1&plate_month=1&mile_age=1
 
 
@@ -432,6 +437,21 @@ public class OldCarInfoFragment extends BaseFragment {
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
 
+
+        look_guess_img_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+                    Toast.makeText(mContext, "请先进行车辆价格评估", Toast.LENGTH_LONG).show();
+                }
+                if (guess_img != null && !guess_img.isEmpty()) {
+                    Intent intent = new Intent();
+                    intent.putExtra("guess_img", guess_img);
+                    startActivity(intent);
+                }
+            }
+        });
+
         btn_fast_valuation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -441,15 +461,20 @@ public class OldCarInfoFragment extends BaseFragment {
                     public void onItemDataCallBack(GetCheUrlResp data) {
                         if (data != null) {
                             cheUrl = data.url;
-                            //发送给webwiew
+                            Intent intent = new Intent();
+                            intent.putExtra("cheUrl", cheUrl);
+                            startActivityForResult(intent, 100);
                         }
                     }
                 });
                 CheApi.getChePriceAndImage(mContext, new OnItemDataCallBack<GetChePriceAndImageResp>() {
                     @Override
                     public void onItemDataCallBack(GetChePriceAndImageResp data) {
-                        //data.getResult().getImg();
-                        SharedPrefsUtil.getInstance(mContext).putValue("s", data.toString());
+                        SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
+                        if (data.result != null) {
+                            oldcar_guess_price_tv.setText(data.result.price);
+                            guess_img = data.result.img;
+                        }
                     }
                 });
             }
@@ -527,10 +552,10 @@ public class OldCarInfoFragment extends BaseFragment {
             @Override
             public void afterTextChanged(Editable s) {
                 if (!TextUtils.isEmpty(brandTv.getText())
-                        && TextUtils.isEmpty(trixTv.getText())
-                        && TextUtils.isEmpty(modelTv.getText())
-                        && TextUtils.isEmpty(oldcar_addr_tv.getText())
-                        && TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                        && !TextUtils.isEmpty(trixTv.getText())
+                        && !TextUtils.isEmpty(modelTv.getText())
+                        && !TextUtils.isEmpty(oldcar_addr_tv.getText())
+                        && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
                     btn_reset.setEnabled(true);
                     btn_fast_valuation.setEnabled(true);
                 }
@@ -1403,6 +1428,22 @@ public class OldCarInfoFragment extends BaseFragment {
         } else {
             return getPrice(carLoanPriceTv) * 100 <= getPrice(oldcar_business_price_tv) * 80 && getPrice(carLoanPriceTv) >= 0;
         }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
+            String priceAndImage = SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", "");
+            Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
+            if (priceAndImage == null || priceAndImage.isEmpty()) {
+                dialog.show();
+            } else {
+                dialog.dismiss();
+                SharedPrefsUtil.getInstance(mContext).remove("priceAndImage");
+            }
+        }
+
     }
 
     @Override

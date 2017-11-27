@@ -6,7 +6,6 @@ import android.view.View;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseWebViewActivity;
@@ -32,8 +31,9 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
                 return false;
             }
         });
+        url = getIntent().getStringExtra("cheUrl");
         settings.setCacheMode(WebSettings.LOAD_NO_CACHE);
-        url = "https://m.che300.com/estimate/result/1/1/1/1/1/1-1/1/1/null/";
+        //url = "https://m.che300.com/estimate/result/1/1/1/1/1/1-1/1/1/null/";
         webView.loadUrl(url);
         titleBar = initTitleBar(this, "车300估值报告");
         titleBar.setLeftClickListener(v -> {
@@ -45,7 +45,10 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
         });
         View car300hint = findViewById(R.id.car300_hint);
         findViewById(R.id.car300_hint_close).setOnClickListener(v -> car300hint.setVisibility(View.GONE));
-        findViewById(R.id.car300_confirm).setOnClickListener(v -> Toast.makeText(myApp, "确定", Toast.LENGTH_SHORT).show());
+        findViewById(R.id.car300_confirm).setOnClickListener(v -> {
+            setResult(RESULT_OK);
+            finish();
+        });
     }
 
     @Override
