@@ -42,6 +42,8 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.ui.Car300WebViewActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.AppraisalvalueActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -445,7 +447,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     Toast.makeText(mContext, "请先进行车辆价格评估", Toast.LENGTH_LONG).show();
                 }
                 if (guess_img != null && !guess_img.isEmpty()) {
-                    Intent intent = new Intent();
+                    Intent intent = new Intent(mContext, AppraisalvalueActivity.class);
                     intent.putExtra("guess_img", guess_img);
                     startActivity(intent);
                 }
@@ -461,7 +463,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     public void onItemDataCallBack(GetCheUrlResp data) {
                         if (data != null) {
                             cheUrl = data.url;
-                            Intent intent = new Intent();
+                            Intent intent = new Intent(mContext, Car300WebViewActivity.class);
                             intent.putExtra("cheUrl", cheUrl);
                             startActivityForResult(intent, 100);
                         }
@@ -474,6 +476,8 @@ public class OldCarInfoFragment extends BaseFragment {
                         if (data.result != null) {
                             oldcar_guess_price_tv.setText(data.result.price);
                             guess_img = data.result.img;
+                            ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
+                            ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
                         }
                     }
                 });
