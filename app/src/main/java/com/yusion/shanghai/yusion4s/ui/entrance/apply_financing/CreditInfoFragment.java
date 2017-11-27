@@ -336,6 +336,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             Intent intent = new Intent(mContext, MainActivity.class);
                             intent.putExtra("app_id", data.app_id);
                             intent.putExtra("cond", req.vehicle_cond);
+
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;
@@ -354,7 +355,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                         }
                                     }
                                 });
-
 //                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
                                 // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
