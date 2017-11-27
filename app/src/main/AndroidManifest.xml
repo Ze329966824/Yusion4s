@@ -274,8 +274,14 @@
             android:name=".ui.entrance.apply_financing.AlterCarInfoActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".ui.CommitActivity" />
-        <activity android:name=".ui.Car300WebViewActivity"></activity>
+        <activity android:name=".ui.CommitActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".ui.Car300WebViewActivity"
+            android:screenOrientation="portrait"
+            android:exported="true"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
     </application>
 
 </manifest>
