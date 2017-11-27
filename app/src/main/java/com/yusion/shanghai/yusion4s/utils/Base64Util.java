@@ -36,7 +36,7 @@ public class Base64Util {
      * @param string
      * @return
      */
-    public Bitmap stringtoBitmap(String string){
+    public static Bitmap stringtoBitmap(String string){
         //将字符串转换成Bitmap类型
         Bitmap bitmap=null;
         try {
