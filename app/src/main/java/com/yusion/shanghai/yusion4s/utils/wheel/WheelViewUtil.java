@@ -60,6 +60,10 @@ public class WheelViewUtil {
         void onCitySubmitCallBack(View clickedView, String city);
     }
 
+    public interface OndateSubmitCallBack {
+        void OndateSubmitCallBack(View clickedView, String date);
+    }
+
     private static <T> void showWheelView(final List<T> list, int selectedIndex, final TextView showView,
                                           final String title, final OnSubmitCallBack onSubmitCallBack) {
         showWheelView(list, selectedIndex, showView, showView, title, onSubmitCallBack);
@@ -140,7 +144,7 @@ public class WheelViewUtil {
         }
     }
 
-    public static void showDatePick(final View clickView, final TextView showView, final String title, String min_reg_year, String max_reg_year) {
+    public static void showDatePick(final View clickView, final TextView showView, final String title, String min_reg_year, String max_reg_year, final OndateSubmitCallBack ondateSubmitCallBack) {
         clickView.setEnabled(false);
         Context context = clickView.getContext();
         View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.datepick_view_layout, null);
@@ -200,7 +204,7 @@ public class WheelViewUtil {
             });
 
         } else {
-            s1[0] = 2010;
+            s1[0] = Integer.valueOf(min_reg_year);
             s2[0] = 0;
             s3[0] = 1;
             datePicker.init(s1[0], s2[0], s3[0], new DatePicker.OnDateChangedListener() {
@@ -222,6 +226,9 @@ public class WheelViewUtil {
             public void onClick(View v) {
                 String result = s1[0] + "-" + formateDate(s2[0]) + "-" + formateDate(s3[0]);
                 showView.setText(result);
+                if (ondateSubmitCallBack != null) {
+                    ondateSubmitCallBack.OndateSubmitCallBack(clickView, result);
+                }
                 if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
                     mWheelViewDialog.dismiss();
                     mWheelViewDialog = null;
