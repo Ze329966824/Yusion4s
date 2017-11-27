@@ -19,6 +19,8 @@ public class AppraisalvalueActivity extends AppCompatActivity {
 //    private String imageName = "874427913279298799.jpg";
 
 
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
