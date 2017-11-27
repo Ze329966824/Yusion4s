@@ -16,7 +16,7 @@
         android:gravity="bottom"
         android:orientation="vertical">
 
-        <ImageView
+        <com.shizhefei.view.largeimage.LargeImageView
             android:id="@+id/appraisal_value_img"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
