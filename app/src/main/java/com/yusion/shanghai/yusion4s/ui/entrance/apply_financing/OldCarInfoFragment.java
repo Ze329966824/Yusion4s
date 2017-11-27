@@ -425,7 +425,7 @@ public class OldCarInfoFragment extends BaseFragment {
         oldcar_addr_tv = (TextView) view.findViewById(R.id.oldcar_addr_tv);//二手车原上牌地
         oldcar_addrtime_tv = (TextView) view.findViewById(R.id.oldcar_addrtime_tv);//二手车原上牌时间
         oldcar_dance_tv = (EditText) view.findViewById(R.id.oldcar_dance_tv);//二手车里程数
-        oldcar_guess_price_tv = (EditText) view.findViewById(R.id.oldcar_guess_price_tv);//二手车预估价
+        oldcar_guess_price_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车预估价
         oldcar_business_price_tv = (EditText) view.findViewById(R.id.oldcar_business_price_tv);//二手车交易价
         oldcar_guess_and_jiaoyi_lin = (LinearLayout) view.findViewById(R.id.oldcar_guess_and_jiaoyi_lin);//预估价和交易价的lin
         oldcar_addr_lin = (LinearLayout) view.findViewById(R.id.oldcar_addr_lin);
@@ -433,9 +433,8 @@ public class OldCarInfoFragment extends BaseFragment {
         kaipiaojia_line = view.findViewById(R.id.kaipiaojia_line);
         btn_reset = (Button) view.findViewById(R.id.btn_reset); //重置
         btn_fast_valuation = (Button) view.findViewById(R.id.btn_fast_valuation);//快速估值
-        oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
+        //oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
         look_guess_img_btn = (Button) view.findViewById(R.id.look_guess_img_btn);//查看估值截图
-        oldcar_guess_price_tv = (EditText) view.findViewById(R.id.oldcar_guess_price_tv);
         cartype = getActivity().getIntent().getStringExtra("car_type");
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
@@ -470,12 +469,13 @@ public class OldCarInfoFragment extends BaseFragment {
                         }
                     }
                 });
+
                 CheApi.getChePriceAndImage(mContext, new OnItemDataCallBack<GetChePriceAndImageResp>() {
                     @Override
                     public void onItemDataCallBack(GetChePriceAndImageResp data) {
                         SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
                         if (data.result != null) {
-                            oldcar_guess_price_tv.setText(data.result.price);
+                            oldcar_guess_price_tv.setText(data.result.price + "");
                             guess_img = data.result.img;
                             ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
                             ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
