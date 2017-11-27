@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -28,7 +29,7 @@ public class AppraisalvalueActivity extends AppCompatActivity {
     private void initView() {
         appraisal_value_img = (ImageView) findViewById(R.id.appraisal_value_img);
         appraisal_download_tv = (TextView) findViewById(R.id.appraisal_download_tv);
-
+        Log.e("TAG", "base64 = "+getIntent().getStringExtra("guess_img"));
         Bitmap bitmap = Base64Util.stringtoBitmap(getIntent().getStringExtra("guess_img"));
         appraisal_value_img.setImageBitmap(bitmap);
     }
