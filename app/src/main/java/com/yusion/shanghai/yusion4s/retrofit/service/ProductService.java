@@ -26,10 +26,10 @@ public interface ProductService {
 
 
     //获取用户信息
-    @GET("api/client/client_info/")
-    Call<BaseResult<ClientInfo>> getClientInfo(@Query("id_no") String id_no, @Query("clt_nm") String clt_nm, @Query("update") String update, @Header("authentication") String token);
+    @GET("api/client/dealer_client_info/")
+    Call<BaseResult<ClientInfo>> getClientInfo(@Query("id_no") String id_no, @Query("clt_nm") String clt_nm, @Query("mobile") String mobile, @Header("authentication") String token);
 
     //更新用户资料
-    @POST("api/client/client_info/")
+    @POST("api/client/dealer_client_info/")
     Call<BaseResult<ClientInfo>> updateClientInfo(@Body ClientInfo req);
 }

@@ -38,7 +38,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
-import com.yusion.shanghai.yusion4s.ui.CommitActivity;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
@@ -386,11 +386,11 @@ public class DocumentActivity extends BaseActivity {
                 if (data != null && data.size() == 1) {
                     PopupDialogUtil.relevanceInfoDialog(
                             DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", data.get(0).clt_nm, data.get(0).mobile, data.get(0).id_no, dialog -> {
-                                Intent intent = new Intent(DocumentActivity.this, CommitActivity.class);
+                                Intent intent = new Intent(DocumentActivity.this, OrderCreateActivity.class);
                                 intent.putExtra("why_commit", "create_user");
-                                intent.putExtra("clt_nm",data.get(0).clt_nm);
+                                intent.putExtra("name",data.get(0).clt_nm);
                                 intent.putExtra("mobile",data.get(0).mobile);
-                                intent.putExtra("id_no",data.get(0).id_no);
+                                intent.putExtra("sfz",data.get(0).id_no);
                                 startActivity(intent);
                             });
                 }

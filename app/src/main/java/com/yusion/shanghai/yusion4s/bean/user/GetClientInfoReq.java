@@ -9,7 +9,7 @@ import com.google.gson.Gson;
 public class GetClientInfoReq {
     public String id_no = "";
     public String clt_nm = "";
-    public String update = "";//update为1时更新用户
+    public String mobile = "";//update为1时更新用户
 
     public GetClientInfoReq() {
     }
@@ -19,10 +19,10 @@ public class GetClientInfoReq {
         this.clt_nm = clt_nm;
     }
 
-    public GetClientInfoReq(String id_no, String clt_nm, String update) {
+    public GetClientInfoReq(String id_no, String clt_nm, String mobile) {
         this.id_no = id_no;
         this.clt_nm = clt_nm;
-        this.update = update;
+        this.mobile = mobile;
     }
 
     @Override

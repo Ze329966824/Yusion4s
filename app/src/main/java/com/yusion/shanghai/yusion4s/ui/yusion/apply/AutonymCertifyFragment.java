@@ -159,7 +159,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             mDoubleCheckDialog.dismiss();
 
             if(checkMobile()) {
-                ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), "1"), "token111111", data1 -> {
+                ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), "token111111", data1 -> {
                     if (data1 == null) {
                         return;
                     }
