@@ -384,7 +384,7 @@ public class DocumentActivity extends BaseActivity {
             @Override
             public void onItemDataCallBack(List<SearchClientResp> data) {
                 if (data != null && data.size() == 1) {
-                    PopupDialogUtil.createUserDialog(
+                    PopupDialogUtil.relevanceInfoDialog(
                             DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", data.get(0).clt_nm, data.get(0).mobile, data.get(0).id_no, dialog -> {
                                 Intent intent = new Intent(DocumentActivity.this, CommitActivity.class);
                                 intent.putExtra("why_commit", "create_user");

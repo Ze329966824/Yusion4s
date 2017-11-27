@@ -34,6 +34,8 @@ import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
+import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -87,7 +89,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private LinearLayout autonym_certify_id_front_lin;
     private LinearLayout autonym_certify_driving_license_lin;
     private LinearLayout autonym_certify_id_number_lin;
-//    private TextView personal_info_clt_nm_edt;
+    //    private TextView personal_info_clt_nm_edt;
 //    private TextView personal_info_id_no_edt;
 //    private TextView personal_info_gender_tv;
 //    private TextView personal_info_reg_tv;
@@ -144,8 +146,8 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         autonym_certify_id_number_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!autonym_certify_id_number_tv.isEnabled()){
-                    Toast.makeText(mContext,"请重新拍摄身份证人像面并识别成功！",Toast.LENGTH_SHORT).show();
+                if (!autonym_certify_id_number_tv.isEnabled()) {
+                    Toast.makeText(mContext, "请重新拍摄身份证人像面并识别成功！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,42 +158,43 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
 
-
-            ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), "1"), "token111111", data1 -> {
-                if (data1 == null) {
-                    return;
-                }
-                data1.mobile = autonym_certify_mobile_tv.getText().toString();
-                applyActivity.setMClientInfo(data1);
-
-                if (ocrResp != null) {
-                    applyActivity.getMClientInfo().gender = ocrResp.sex;
-                    if (TextUtils.isEmpty(ocrResp.addr)) {
-                        applyActivity.getMClientInfo().reg_addr_details = "";
-                    } else {
-                        applyActivity.getMClientInfo().reg_addr_details = ocrResp.addr;
-
+            if(checkMobile()) {
+                ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), "1"), "token111111", data1 -> {
+                    if (data1 == null) {
+                        return;
                     }
-                    applyActivity.getMClientInfo().reg_addr.province = ocrResp.province;
-                    applyActivity.getMClientInfo().reg_addr.city = ocrResp.city;
-                    applyActivity.getMClientInfo().reg_addr.district = ocrResp.town;
-                }
+                    data1.mobile = autonym_certify_mobile_tv.getText().toString();
+                    applyActivity.setMClientInfo(data1);
+
+                    if (ocrResp != null) {
+                        applyActivity.getMClientInfo().gender = ocrResp.sex;
+                        if (TextUtils.isEmpty(ocrResp.addr)) {
+                            applyActivity.getMClientInfo().reg_addr_details = "";
+                        } else {
+                            applyActivity.getMClientInfo().reg_addr_details = ocrResp.addr;
+
+                        }
+                        applyActivity.getMClientInfo().reg_addr.province = ocrResp.province;
+                        applyActivity.getMClientInfo().reg_addr.city = ocrResp.city;
+                        applyActivity.getMClientInfo().reg_addr.district = ocrResp.town;
+                    }
 
 
-                applyActivity.getMClientInfo().drv_lic_relationship = ((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
-                uploadUrl(data1.clt_id);
+                    applyActivity.getMClientInfo().drv_lic_relationship = ((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
+                    uploadUrl(data1.clt_id);
 //                nextStep()
-            });
+                });
+            }
         });
 
         autonym_certify_next_btn.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 autonym_certify_next_btn.clearFocus();
 
-                if (!Settings.isOnline) {
-                    nextStep();
-                    return;
-                }
+//                if (!Settings.isOnline) {
+//                    nextStep();
+//                    return;
+//                }
 
                 if (checkCanNextStep()) {
                     clearDoubleCheckItems();
@@ -199,6 +202,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                     addDoubleCheckItem("身份证号", autonym_certify_id_number_tv.getText().toString());
                     mDoubleCheckDialog.show();
                 }
+
             }
         });
         autonym_certify_driving_license_rel_lin.setOnClickListener(v -> {
@@ -252,6 +256,13 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         }
 
         autonym_certify_warnning_lin.post(() -> handler.sendEmptyMessageDelayed(0, 2000));
+    }
+
+    private boolean checkMobile() {
+
+        PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", dialog -> dialog.dismiss());
+
+        return false;
     }
 
     private void initView(View view) {
@@ -317,14 +328,18 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             Toast.makeText(mContext, "请拍摄身份证人像面", Toast.LENGTH_SHORT).show();
         } else if (ID_FRONT_FID.isEmpty()) {
             Toast.makeText(mContext, "请拍摄身份证国徽面", Toast.LENGTH_SHORT).show();
-        } else if (DRI_FID.isEmpty()) {
-            Toast.makeText(mContext, "请拍摄驾照影像件", Toast.LENGTH_SHORT).show();
         } else if (autonym_certify_name_tv.getText().toString().trim().isEmpty()) {
             Toast.makeText(mContext, "姓名不能为空", Toast.LENGTH_SHORT).show();
         } else if (autonym_certify_id_number_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "身份证号不能为空", Toast.LENGTH_SHORT).show();
         } else if (!CheckIdCardValidUtil.isValidatedAllIdcard(autonym_certify_id_number_tv.getText().toString())) {
             Toast.makeText(mContext, "身份证号有误", Toast.LENGTH_SHORT).show();
+        } else if (autonym_certify_mobile_tv.getText().toString().isEmpty()) {
+            Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+        } else if (!CheckMobileUtil.checkMobile(autonym_certify_mobile_tv.getText().toString().toString())) {
+            Toast.makeText(mContext, "手机号码格式错误", Toast.LENGTH_SHORT).show();
+        } else if (DRI_FID.isEmpty()) {
+            Toast.makeText(mContext, "请拍摄驾照影像件", Toast.LENGTH_SHORT).show();
         } else if (autonym_certify_driving_license_rel_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "请选择驾照证持有人与本人关系", Toast.LENGTH_SHORT).show();
         } else {

@@ -24,6 +24,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
@@ -42,9 +43,9 @@ public class SearchClientActivity extends BaseActivity {
     @BindView(id = R.id.search_info, widgetName = "search_info", onClick = "searchClient")
     private Button search_info;
 
-    private TextView tv_notice;
 
-    private LinearLayout search_warn_lly;
+    private LinearLayout search_no_result_lin;
+    private Button search_create_user_btn;
 
 
     @Override
@@ -70,11 +71,11 @@ public class SearchClientActivity extends BaseActivity {
                                     Log.e("TAG", " searchClientExist : "+data.size());
                                     items.clear();
                                     rv_client_info.setVisibility(View.VISIBLE);
-                                    search_warn_lly.setVisibility(View.GONE);
+                                    search_no_result_lin.setVisibility(View.GONE);
                                     items.addAll(data);
                                     adapter.notifyDataSetChanged();
                                 } else {
-                                    search_warn_lly.setVisibility(View.VISIBLE);
+                                    search_no_result_lin.setVisibility(View.VISIBLE);
                                     rv_client_info.setVisibility(View.GONE);
                                 }
                             }
@@ -91,7 +92,6 @@ public class SearchClientActivity extends BaseActivity {
     }
 
     private void initView() {
-        tv_notice = (TextView) findViewById(R.id.tv_notice);
         // search_info = (TextView) findViewById(R.id.search_info);
         // et_search = (EditText) findViewById(R.id.et_search);
         rv_client_info = (RecyclerView) findViewById(R.id.rv_client_info);
@@ -101,7 +101,14 @@ public class SearchClientActivity extends BaseActivity {
         SearchClientAdapter searchClientAdapter = new SearchClientAdapter(SearchClientActivity.this, items);
         adapter = new RecyclerAdapterWithHF(searchClientAdapter);
         rv_client_info.setAdapter(adapter);
-        search_warn_lly = (LinearLayout) findViewById(R.id.search_warn_lly);
+        search_no_result_lin = (LinearLayout) findViewById(R.id.search_no_result_lin);
+        search_create_user_btn = (Button) findViewById(R.id.search_create_user_btn);
+        search_create_user_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(SearchClientActivity.this, ApplyActivity.class));
+            }
+        });
 
     }
 
@@ -133,11 +140,11 @@ public class SearchClientActivity extends BaseActivity {
 //                    if (data.size() != 0) {
 //                        items.clear();
 //                        rv_client_info.setVisibility(View.VISIBLE);
-//                        search_warn_lly.setVisibility(View.GONE);
+//                        search_no_result_lin.setVisibility(View.GONE);
 //                        items.addAll(data);
 //                        adapter.notifyDataSetChanged();
 //                    } else {
-//                        search_warn_lly.setVisibility(View.VISIBLE);
+//                        search_no_result_lin.setVisibility(View.VISIBLE);
 //                        rv_client_info.setVisibility(View.GONE);
 //                    }
 //                }
