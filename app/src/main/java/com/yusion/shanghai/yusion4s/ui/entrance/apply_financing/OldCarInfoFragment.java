@@ -53,7 +53,7 @@ import java.util.List;
  */
 
 public class OldCarInfoFragment extends BaseFragment {
-    public List<GetproductResp.SupportAreaBean> list = new ArrayList<>();
+    public List<GetproductResp.SupportAreaBean> Addrlist = new ArrayList<>();
 
     public String min_reg_year;
     public String max_reg_year;
@@ -100,6 +100,16 @@ public class OldCarInfoFragment extends BaseFragment {
     private String cartype;
 
     private String cheUrl;
+
+    private String province_che_300_id;
+    private String city_che_300_id;
+    private String brand_id;
+    private String trix_id;
+    private String model_id;
+    private String plate_year;
+    private String playe_month;
+    private String mile_age;
+    // province_id=1&city_id=1&brand_id=1&trix_id=1&model_id=1&plate_year=1&plate_month=1&mile_age=1
 
 
     Handler handler = new Handler() {
@@ -425,7 +435,8 @@ public class OldCarInfoFragment extends BaseFragment {
         btn_fast_valuation.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheApi.getCheUrl(mContext, "1", "1", "1", "", "", "1", "1", "1", new OnItemDataCallBack<GetCheUrlResp>() {
+                mile_age = oldcar_dance_tv.getText().toString();
+                CheApi.getCheUrl(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, playe_month, mile_age, new OnItemDataCallBack<GetCheUrlResp>() {
                     @Override
                     public void onItemDataCallBack(GetCheUrlResp data) {
                         if (data != null) {
@@ -441,6 +452,31 @@ public class OldCarInfoFragment extends BaseFragment {
                         SharedPrefsUtil.getInstance(mContext).putValue("s", data.toString());
                     }
                 });
+            }
+        });
+        btn_reset.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mBrandList.clear();
+                mBrandIndex = 0;
+                brandTv.setText("");
+
+                mTrixList.clear();
+                mTrixIndex = 0;
+                trixTv.setText("");
+
+                mModelList.clear();
+                mModelIndex = 0;
+                modelTv.setText("");
+
+                Addrlist.clear();
+                oldcar_addr_tv.setText("");
+
+                oldcar_addrtime_tv.setText("");
+                oldcar_dance_tv.setText("");
+
+                btn_reset.setEnabled(false);
+                btn_fast_valuation.setEnabled(false);
             }
         });
 
@@ -490,7 +526,14 @@ public class OldCarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-
+                if (!TextUtils.isEmpty(brandTv.getText())
+                        && TextUtils.isEmpty(trixTv.getText())
+                        && TextUtils.isEmpty(modelTv.getText())
+                        && TextUtils.isEmpty(oldcar_addr_tv.getText())
+                        && TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                    btn_reset.setEnabled(true);
+                    btn_fast_valuation.setEnabled(true);
+                }
             }
         });
 
@@ -507,8 +550,8 @@ public class OldCarInfoFragment extends BaseFragment {
                         @Override
                         public void OndateSubmitCallBack(View clickedView, String date) {
                             String[] array = date.split("-");
-                            String year = array[0];
-                            String month = array[1];
+                            plate_year = array[0];
+                            playe_month = array[1];
                         }
                     });
                 }
@@ -532,11 +575,11 @@ public class OldCarInfoFragment extends BaseFragment {
 
                     mBrandList.clear();
                     mBrandIndex = 0;
-                    brandTv.setText("");//厂商指导价
+                    brandTv.setText("");
 
                     mTrixList.clear();
                     mTrixIndex = 0;
-                    trixTv.setText("");//选择车型
+                    trixTv.setText("");
 
                     mModelList.clear();
                     mModelIndex = 0;
@@ -645,7 +688,11 @@ public class OldCarInfoFragment extends BaseFragment {
         carInfoTrixLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
                 DlrApi.getTrix(mContext, mBrandList.get(mBrandIndex).brand_id, resp -> {
+                    if (resp.isEmpty() || resp.size() < 0) {
+                        return;
+                    }
                     mTrixList = resp;
+                    brand_id = mBrandList.get(mBrandIndex).brand_id;
                     trixItems = new ArrayList<String>();
                     for (GetTrixResp trixResp : resp) {
                         trixItems.add(trixResp.trix_name);
@@ -699,6 +746,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
                     if (resp != null && !resp.isEmpty()) {
                         mModelList = resp;
+                        trix_id = mTrixList.get(mTrixIndex).trix_id;
                         modelItems = new ArrayList<String>();
                         for (GetModelResp modelResp : resp) {
                             modelItems.add(modelResp.model_name);
@@ -708,6 +756,7 @@ public class OldCarInfoFragment extends BaseFragment {
                             mGuidePrice = (int) resp.get(mModelIndex).msrp;
                             min_reg_year = resp.get(mModelIndex).min_reg_year;
                             max_reg_year = resp.get(mModelIndex).max_reg_year;
+                            model_id = String.valueOf(resp.get(mModelIndex).model_id);
                             guidePriceTv.setText(mGuidePrice + "");
                             billPriceTv.setEnabled(true);
                             oldcar_business_price_tv.setEnabled(true);
@@ -754,22 +803,22 @@ public class OldCarInfoFragment extends BaseFragment {
                     if (data == null) {
                         return;
                     }
-//                    list = data;
-//                    for (int i = 0; i < list.size(); i++) {
-//                        if (list.get(i).name.equals("北京")) {
-//                            Log.e("TAG", list.get(i).che_300_id);
-//                            for (int j = 0; j < list.get(i).cityList.size(); j++) {
-//                                if (list.get(i).cityList.get(j).name.equals("北京市")) {
-//                                    Log.e("TAG", list.get(i).cityList.get(j).che_300_id);
-//                                }
-//                            }
-//                        }
-//                    }
+                    Addrlist = data;
                     oldCarcityJson = data.toString();
                     WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
-
+                            String array[] = city.split("/");
+                            for (int i = 0; i < Addrlist.size(); i++) {
+                                if (Addrlist.get(i).name.equals(array[0])) {
+                                    province_che_300_id = Addrlist.get(i).province_che_300_id;
+                                    for (int j = 0; j < Addrlist.get(i).cityList.size(); j++) {
+                                        if (Addrlist.get(i).cityList.get(j).name.equals(array[1])) {
+                                            city_che_300_id = Addrlist.get(i).cityList.get(j).city_che_300_id;
+                                        }
+                                    }
+                                }
+                            }
                         }
                     }, oldCarcityJson);
                 }

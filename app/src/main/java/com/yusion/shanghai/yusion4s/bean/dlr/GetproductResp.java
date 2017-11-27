@@ -24,7 +24,7 @@ public class GetproductResp {
          * name : 江苏
          * cityList : [{"name":"苏州","districtList":[{"name":"工业园区"},{"name":"吴中区"}]}]
          */
-        public String che_300_id;
+        public String province_che_300_id;
         public String name;
         public List<CityListBean> cityList;
 
@@ -38,7 +38,7 @@ public class GetproductResp {
              * name : 苏州
              * districtList : [{"name":"工业园区"},{"name":"吴中区"}]
              */
-            public String che_300_id;
+            public String city_che_300_id;
             public String name;
             public List<DistrictListBean> districtList;
 
