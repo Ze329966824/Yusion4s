@@ -318,6 +318,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             } else {
 //                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                 startActivity(new Intent(mContext, MainActivity.class));
+
                             }
                         }
                     });
