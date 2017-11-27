@@ -670,6 +670,8 @@ public class OldCarInfoFragment extends BaseFragment {
                     Log.e("!!!----品牌---", brandItems.toString());
                     WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
                         mBrandIndex = selectedIndex;
+                        brand_id = resp.get(mBrandIndex).che_300_id;
+
                         mTrixList.clear();
                         mTrixIndex = 0;
                         trixTv.setText("");
@@ -722,14 +724,14 @@ public class OldCarInfoFragment extends BaseFragment {
                         return;
                     }
                     mTrixList = resp;
-                    brand_id = mBrandList.get(mBrandIndex).brand_id;
+                    // brand_id = mBrandList.get(mBrandIndex).brand_id;
                     trixItems = new ArrayList<String>();
                     for (GetTrixResp trixResp : resp) {
                         trixItems.add(trixResp.trix_name);
                     }
                     WheelViewUtil.showWheelView(trixItems, mTrixIndex, carInfoBrandLin, trixTv, "请选择车系", (clickedView, selectedIndex) -> {
                         mTrixIndex = selectedIndex;
-
+                        trix_id = resp.get(mTrixIndex).che_300_id;
                         mModelList.clear();
                         mModelIndex = 0;
                         modelTv.setText("");
@@ -776,23 +778,22 @@ public class OldCarInfoFragment extends BaseFragment {
                 DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
                     if (resp != null && !resp.isEmpty()) {
                         mModelList = resp;
-                        trix_id = mTrixList.get(mTrixIndex).trix_id;
+                        //trix_id = mTrixList.get(mTrixIndex).trix_id;
                         modelItems = new ArrayList<String>();
                         for (GetModelResp modelResp : resp) {
                             modelItems.add(modelResp.model_name);
                         }
                         WheelViewUtil.showWheelView(modelItems, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
                             mModelIndex = selectedIndex;
+                            model_id = resp.get(mModelIndex).che_300_id;
                             mGuidePrice = (int) resp.get(mModelIndex).msrp;
                             min_reg_year = resp.get(mModelIndex).min_reg_year;
                             max_reg_year = resp.get(mModelIndex).max_reg_year;
-                            model_id = String.valueOf(resp.get(mModelIndex).model_id);
                             guidePriceTv.setText(mGuidePrice + "");
                             billPriceTv.setEnabled(true);
                             oldcar_business_price_tv.setEnabled(true);
                             oldcar_guess_price_tv.setEnabled(true);
                             //otherPriceTv.setHint("整百且小于" + mDlrList.get(mDlrIndex).other_fee);
-
                             mLoanBankList.clear();
                             mLoanBankIndex = 0;
                             loanBankTv.setText(null);
