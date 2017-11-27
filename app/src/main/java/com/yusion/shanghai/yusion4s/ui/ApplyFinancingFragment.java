@@ -22,7 +22,6 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
-import com.yusion.shanghai.yusion4s.ui.entrance.AppraisalvalueActivity;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -198,7 +197,7 @@ public class ApplyFinancingFragment extends BaseFragment {
 
         //新车
         view.findViewById(R.id.apply_financing_cteate_newcar_btn).setOnClickListener(v -> {
-            Intent i1 = new Intent(mContext, AppraisalvalueActivity.class);
+            Intent i1 = new Intent(mContext, OrderCreateActivity.class);
             i1.putExtra("car_type", "新车");
             startActivity(i1);
         });
