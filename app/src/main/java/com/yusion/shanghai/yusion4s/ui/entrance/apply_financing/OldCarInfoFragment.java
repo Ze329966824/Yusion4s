@@ -29,14 +29,18 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.GetChePriceAndImageResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.GetCheUrlResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
+import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -94,6 +98,8 @@ public class OldCarInfoFragment extends BaseFragment {
     private boolean isChangeCarInfoChange;
 
     private String cartype;
+
+    private String cheUrl;
 
 
     Handler handler = new Handler() {
@@ -345,6 +351,11 @@ public class OldCarInfoFragment extends BaseFragment {
     private LinearLayout oldcar_addrtime_lin;
     private View kaipiaojia_line;
 
+    private Button btn_reset; //重置
+    private Button btn_fast_valuation;//快速估值
+    private EditText oldcar_guess_tv;//二手车评估价
+    private Button look_guess_img_btn;//查看估值截图
+
 
     public static OldCarInfoFragment newInstance() {
         Bundle args = new Bundle();
@@ -357,7 +368,7 @@ public class OldCarInfoFragment extends BaseFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_car_info, container, false);
+        return inflater.inflate(R.layout.fragment_oldcar_info, container, false);
     }
 
     @Override
@@ -403,10 +414,36 @@ public class OldCarInfoFragment extends BaseFragment {
         oldcar_addr_lin = (LinearLayout) view.findViewById(R.id.oldcar_addr_lin);
         oldcar_addrtime_lin = (LinearLayout) view.findViewById(R.id.oldcar_addrtime_lin);
         kaipiaojia_line = view.findViewById(R.id.kaipiaojia_line);
+        btn_reset = (Button) view.findViewById(R.id.btn_reset); //重置
+        btn_fast_valuation = (Button) view.findViewById(R.id.btn_fast_valuation);//快速估值
+        oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
+        look_guess_img_btn = (Button) view.findViewById(R.id.look_guess_img_btn);//查看估值截图
         cartype = getActivity().getIntent().getStringExtra("car_type");
-        showNeworOldcarinfolayout(cartype);
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
+
+        btn_fast_valuation.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CheApi.getCheUrl(mContext, "1", "1", "1", "", "", "1", "1", "1", new OnItemDataCallBack<GetCheUrlResp>() {
+                    @Override
+                    public void onItemDataCallBack(GetCheUrlResp data) {
+                        if (data != null) {
+                            cheUrl = data.url;
+                            //发送给webwiew
+                        }
+                    }
+                });
+                CheApi.getChePriceAndImage(mContext, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+                    @Override
+                    public void onItemDataCallBack(GetChePriceAndImageResp data) {
+                        //data.getResult().getImg();
+                        SharedPrefsUtil.getInstance(mContext).putValue("s", data.toString());
+                    }
+                });
+            }
+        });
+
         carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -466,7 +503,14 @@ public class OldCarInfoFragment extends BaseFragment {
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
-                    WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year);
+                    WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year, new WheelViewUtil.OndateSubmitCallBack() {
+                        @Override
+                        public void OndateSubmitCallBack(View clickedView, String date) {
+                            String[] array = date.split("-");
+                            String year = array[0];
+                            String month = array[1];
+                        }
+                    });
                 }
             }
         });
@@ -1190,20 +1234,6 @@ public class OldCarInfoFragment extends BaseFragment {
 
         } else {
             return;
-        }
-    }
-
-    private void showNeworOldcarinfolayout(String cartype) {
-        if (cartype.equals("二手车")) {
-            kaipiaojia_line.setVisibility(View.GONE);
-            oldcar_info_lin.setVisibility(View.VISIBLE);
-            oldcar_guess_and_jiaoyi_lin.setVisibility(View.VISIBLE);
-            personal_info_detail_home_address_lin.setVisibility(View.GONE);
-        } else {
-            kaipiaojia_line.setVisibility(View.VISIBLE);
-            oldcar_info_lin.setVisibility(View.GONE);
-            oldcar_guess_and_jiaoyi_lin.setVisibility(View.GONE);
-            personal_info_detail_home_address_lin.setVisibility(View.VISIBLE);
         }
     }
 
