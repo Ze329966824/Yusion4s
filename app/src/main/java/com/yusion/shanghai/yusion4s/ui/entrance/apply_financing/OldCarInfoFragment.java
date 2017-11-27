@@ -463,8 +463,9 @@ public class OldCarInfoFragment extends BaseFragment {
                     public void onItemDataCallBack(GetCheUrlResp data) {
                         if (data != null) {
                             cheUrl = data.url;
+                            String url_test = "https://m.che300.com/estimate/result/16/46/158/32779/1133313/2017-10/1/1/null/";
                             Intent intent = new Intent(mContext, Car300WebViewActivity.class);
-                            intent.putExtra("cheUrl", cheUrl);
+                            intent.putExtra("cheUrl", url_test);
                             startActivityForResult(intent, 100);
                         }
                     }

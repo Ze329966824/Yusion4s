@@ -92,6 +92,8 @@ public class AppraisalvalueActivity extends AppCompatActivity {
             "vJDVkYR+TEDaZzMANzcB3BGyC4L56gVXqKFfayo4tlt" +
             "a1+7sPIy3+nxJQhzOCLXaT6qtzaHHM1TGCF+AkpCwlkZVitbvQPpzSLiF5xQ3vyXmxUYyhx8J37fyVJLUiqbKmDkNxGTso2b/6LsvNAVr00jcGN/Ahd0QFiXifq7xcBhUm2fu/AEf41D4CJU8AAA" +
             "AASUVORK5CYII=";
+
+    private String str1 = "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";
 //  private String path = "C:\\Users\\LX\\Desktop\\";
 //    private String imageName = "874427913279298799.jpg";
 
@@ -110,8 +112,17 @@ public class AppraisalvalueActivity extends AppCompatActivity {
         appraisal_download_tv = (TextView) findViewById(R.id.appraisal_download_tv);
         Log.e("TAG", "base64 = "+getIntent().getStringExtra("guess_img"));
 //        Bitmap bitmap = Base64Util.stringtoBitmap(getIntent().getStringExtra("guess_img"));
-        Bitmap bitmap = Base64Util.stringtoBitmap(base64Str);
+//        CheApi.getChePriceAndImage(this, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+//            @Override
+//            public void onItemDataCallBack(GetChePriceAndImageResp data) {
+//
+//                Bitmap bitmap = Base64Util.stringtoBitmap(data.result.img);
+//                appraisal_value_img.setImageBitmap(bitmap);
+//            }
+//        });
+        Bitmap bitmap = Base64Util.stringtoBitmap(getIntent().getStringExtra("guess_img"));
         appraisal_value_img.setImageBitmap(bitmap);
+
     }
 }
 
