@@ -23,4 +23,5 @@ public class GetModelResp {
     public int model_id;
     public String min_reg_year;
     public String max_reg_year;
+    public String che_300_id;
 }

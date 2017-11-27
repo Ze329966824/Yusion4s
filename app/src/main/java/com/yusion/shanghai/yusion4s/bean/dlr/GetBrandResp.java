@@ -21,6 +21,7 @@ public class GetBrandResp {
     public String brand_code;
     public String level;
     public String brand_id;
+    public String che_300_id;
 
     @Override
     public String toString() {
