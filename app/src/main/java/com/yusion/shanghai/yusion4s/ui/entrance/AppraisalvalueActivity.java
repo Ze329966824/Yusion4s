@@ -13,3 +13,5 @@ public class AppraisalvalueActivity extends AppCompatActivity {
         setContentView(R.layout.activity_appraisalvalue);
     }
 }
+
+
