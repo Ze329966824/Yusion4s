@@ -13,6 +13,7 @@ import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.OldCarInfoFragment;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -22,6 +23,7 @@ public class OrderCreateActivity extends BaseActivity {
 
     private CarInfoFragment mCarInfoFragment;
     private CreditInfoFragment mCreditInfoFragment;
+    private OldCarInfoFragment mOldCarInfoFragment;
     private Fragment mCurrentFragment;
     public SubmitOrderReq req = new SubmitOrderReq();
     public String cartype;
@@ -52,21 +54,40 @@ public class OrderCreateActivity extends BaseActivity {
 
         mCarInfoFragment = CarInfoFragment.newInstance();
         mCreditInfoFragment = CreditInfoFragment.newInstance();
+        mOldCarInfoFragment = OldCarInfoFragment.newInstance();
 
          /*   测试时改变了显示的fragment  将mCreditInfoFragment显示，隐藏mCarInfoFragment
          *
          * 后续记得改回来
          */
 
-
-        getSupportFragmentManager()
-                .beginTransaction()
+//        getSupportFragmentManager()
+//                .beginTransaction()
+//                .add(R.id.order_create_container, mCarInfoFragment)
+//                .add(R.id.order_create_container, mCreditInfoFragment)
+//                .add(R.id.order_create_container, mOldCarInfoFragment)
+//                //.hide(mCarInfoFragment)
+//                .hide(mCreditInfoFragment)
+//                .commit();
+//        mCurrentFragment = mCarInfoFragment;
+        getSupportFragmentManager().beginTransaction()
                 .add(R.id.order_create_container, mCarInfoFragment)
                 .add(R.id.order_create_container, mCreditInfoFragment)
-                //.hide(mCarInfoFragment)
-                .hide(mCreditInfoFragment)
+                .add(R.id.order_create_container, mOldCarInfoFragment)
                 .commit();
-        mCurrentFragment = mCarInfoFragment;
+        if (cartype.equals("新车")) {
+            getSupportFragmentManager().beginTransaction()
+                    .hide(mCreditInfoFragment)
+                    .hide(mOldCarInfoFragment)
+                    .commit();
+            mCurrentFragment = mCarInfoFragment;
+        } else {
+            getSupportFragmentManager().beginTransaction()
+                    .hide(mCreditInfoFragment)
+                    .hide(mCarInfoFragment)
+                    .commit();
+            mCurrentFragment = mOldCarInfoFragment;
+        }
 
 
         //mCurrentFragment = mCreditInfoFragment;

@@ -640,7 +640,12 @@ public class AlterCarInfoActivity extends BaseActivity {
                     toast.setGravity(Gravity.CENTER, 0, 0);
                     toast.show();
                 } else {
-                    WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year);
+                    WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year, new WheelViewUtil.OndateSubmitCallBack() {
+                        @Override
+                        public void OndateSubmitCallBack(View clickedView, String date) {
+
+                        }
+                    });
                 }
             }
         });
