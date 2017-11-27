@@ -480,8 +480,7 @@
                                 style="@style/apply_info_content"
                                 android:layout_marginRight="35dp"
                                 android:enabled="false"
-                                android:hint="请先估价"
-                                android:inputType="number" />
+                                android:hint="请先估价" />
 
                         </LinearLayout>
 
@@ -671,7 +670,7 @@
                             android:id="@+id/car_info_car_loan_price_tv"
                             style="@style/apply_info_content"
                             android:layout_marginRight="35dp"
-                            android:enabled="false"
+                            android:enabled="true"
                             android:hint="请输入"
                             android:inputType="number"
                             android:maxLength="9" />
