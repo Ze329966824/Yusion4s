@@ -338,6 +338,12 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             intent.putExtra("app_id", data.app_id);
                             intent.putExtra("cond", req.vehicle_cond);
 
+                            if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                                UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
+                                urlBean.label = ((OrderCreateActivity) getActivity()).label;
+                                urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
+                                uploadFileUrlList.add(urlBean);
+                            }
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;

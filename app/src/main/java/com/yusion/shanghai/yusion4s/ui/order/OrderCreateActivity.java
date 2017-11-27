@@ -27,6 +27,8 @@ public class OrderCreateActivity extends BaseActivity {
     private Fragment mCurrentFragment;
     public SubmitOrderReq req = new SubmitOrderReq();
     public String cartype;
+    public String file_id;
+    public String label;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
