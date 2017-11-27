@@ -435,6 +435,7 @@ public class OldCarInfoFragment extends BaseFragment {
         btn_fast_valuation = (Button) view.findViewById(R.id.btn_fast_valuation);//快速估值
         oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
         look_guess_img_btn = (Button) view.findViewById(R.id.look_guess_img_btn);//查看估值截图
+        oldcar_guess_price_tv = (EditText) view.findViewById(R.id.oldcar_guess_price_tv);
         cartype = getActivity().getIntent().getStringExtra("car_type");
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
