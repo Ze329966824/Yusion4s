@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.graphics.Bitmap;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -13,6 +14,9 @@ import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.utils.Base64Util;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -59,7 +63,16 @@ public class AppraisalvalueActivity extends BaseActivity {
             req.label = getIntent().getStringExtra("label");
 
             UploadApi.listImgs(this, req, data -> {
-                appraisal_value_img.setImage(data.list.get(0).s_url);
+                URL url = null;
+                try {
+                    url = new URL(data.list.get(0).s_url);
+                    Drawable thumb_d = Drawable.createFromStream(url.openStream(), "src");
+                    appraisal_value_img.setImage(thumb_d);
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             });
         }
 
