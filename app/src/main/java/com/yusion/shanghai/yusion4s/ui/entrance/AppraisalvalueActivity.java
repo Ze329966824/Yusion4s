@@ -2,15 +2,21 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.graphics.Bitmap;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatActivity;
+import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
 import com.shizhefei.view.largeimage.LargeImageView;
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.utils.Base64Util;
 
-public class AppraisalvalueActivity extends AppCompatActivity {
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class AppraisalvalueActivity extends BaseActivity {
     private LargeImageView appraisal_value_img;
     private TextView appraisal_download_tv;
 
@@ -21,6 +27,13 @@ public class AppraisalvalueActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_appraisalvalue);
+
+        initTitleBar(this, "车300估值报告").setLeftClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
         initView();
     }
 
@@ -42,11 +55,15 @@ public class AppraisalvalueActivity extends AppCompatActivity {
 
 
 
-        appraisal_download_tv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Base64Util.saveBaseImage(baseStr,getPackageResourcePath(),"appraisalvalue.png");
-            }
+        appraisal_download_tv.setOnClickListener(v -> {
+            Date date=new Date();
+            DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
+            String time=format.format(date);
+            String name = time +".png";
+
+            Base64Util.saveBaseImage(baseStr,Environment.getExternalStorageDirectory().getPath()+"/yusion/",name);
+            Log.e("TAG", "path : "+Environment.getExternalStorageDirectory().getPath());
+
         });
 
 
