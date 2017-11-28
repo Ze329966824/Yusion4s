@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -25,6 +26,12 @@ public class OrderCreateActivity extends BaseActivity {
     private Fragment mCurrentFragment;
     public SubmitOrderReq req = new SubmitOrderReq();
     public String cartype;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mCreditInfoFragment.relevance(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,8 +70,8 @@ public class OrderCreateActivity extends BaseActivity {
                 .beginTransaction()
                 .add(R.id.order_create_container, mCarInfoFragment)
                 .add(R.id.order_create_container, mCreditInfoFragment)
-                .hide(mCarInfoFragment)
-//                .hide(mCreditInfoFragment)
+//                .hide(mCarInfoFragment)
+                .hide(mCreditInfoFragment)
                 .commit();
         mCurrentFragment = mCarInfoFragment;
 

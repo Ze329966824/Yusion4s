@@ -35,7 +35,7 @@ public class ApplyActivity extends BaseActivity {
         this.mClientInfo = mClientInfo;
     }
 
-    ClientInfo mClientInfo = new ClientInfo();
+    public ClientInfo mClientInfo ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +48,7 @@ public class ApplyActivity extends BaseActivity {
     }
 
     private void initView() {
+        mClientInfo = new ClientInfo();
         initTitleBar(this, "填写个人资料").setLeftClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

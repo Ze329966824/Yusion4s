@@ -24,6 +24,7 @@ import android.widget.Toast;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
@@ -32,8 +33,10 @@ import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
+import com.yusion.shanghai.yusion4s.bean.user.GetClientInfoReq;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
+import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -77,6 +80,7 @@ public class DocumentActivity extends BaseActivity {
     private String clt_id;
     private UploadImgItemBean uploadImgItemBean;
     private String imgId;
+    private SearchClientResp searchResp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -362,7 +366,24 @@ public class DocumentActivity extends BaseActivity {
                                 Toast.makeText(this, "识别成功", Toast.LENGTH_LONG).show();
                                 mOcrResp = ocrResp.showapi_res_body;
                                 // 搜索是否存在该用户
-                                search(mOcrResp.idNo);
+                                search(mOcrResp.idNo, data1 -> {
+                                    SearchClientResp resp = (SearchClientResp) data1;
+                                    //获取用户信息commited
+                                    ProductApi.getClientInfo(DocumentActivity.this, new GetClientInfoReq(resp.id_no, resp.clt_nm, resp.mobile), Yusion4sApp.TOKEN, data2 -> {
+                                        if (data2 != null && data2.commited.equals("1")) {
+                                            PopupDialogUtil.relevanceInfoDialog(
+                                                    DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", data2.clt_nm, data2.mobile, data2.id_no, dialog1 -> {
+                                                        Intent intent = new Intent(DocumentActivity.this, OrderCreateActivity.class);
+                                                        checkAuthCreditExist(intent,searchResp);
+                                                        intent.putExtra("name", data2.clt_nm);
+                                                        intent.putExtra("mobile", data2.mobile);
+                                                        intent.putExtra("sfz", data2.id_no);
+                                                        startActivity(intent);
+                                                        finish();
+                                                    });
+                                        }
+                                    });
+                                });
                             }
                             onUploadOssSuccess(localPath, dialog, objectKey);
                         }, (throwable, s) -> {
@@ -379,21 +400,11 @@ public class DocumentActivity extends BaseActivity {
 
     }
 
-    private void search(String idNo) {
-        OrderApi.searchClientExist(DocumentActivity.this, idNo, new OnItemDataCallBack<List<SearchClientResp>>() {
-            @Override
-            public void onItemDataCallBack(List<SearchClientResp> data) {
-                if (data != null && data.size() == 1) {
-                    PopupDialogUtil.relevanceInfoDialog(
-                            DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", data.get(0).clt_nm, data.get(0).mobile, data.get(0).id_no, dialog -> {
-                                Intent intent = new Intent(DocumentActivity.this, OrderCreateActivity.class);
-                                intent.putExtra("why_commit", "create_user");
-                                intent.putExtra("name",data.get(0).clt_nm);
-                                intent.putExtra("mobile",data.get(0).mobile);
-                                intent.putExtra("sfz",data.get(0).id_no);
-                                startActivity(intent);
-                            });
-                }
+    private void search(String idNo, OnItemDataCallBack callBack) {
+        OrderApi.searchClientExist(DocumentActivity.this, idNo, data -> {
+            if (data != null && data.size() == 1) {
+                searchResp = data.get(0);
+                callBack.onItemDataCallBack(data.get(0));
             }
         });
     }
@@ -491,6 +502,41 @@ public class DocumentActivity extends BaseActivity {
             delete_image_btn.setEnabled(true);
             delete_image_btn.setTextColor(Color.parseColor("#ff3f00"));
         }
+    }
+
+    private void checkAuthCreditExist(Intent intent, SearchClientResp item) {
+        if (item.auth_credit.lender != null) {//如果不等于空
+            intent.putExtra("isHasLender", "1");
+            intent.putExtra("lender_clt_id", item.auth_credit.lender.clt_id);
+            intent.putExtra("lender", item.auth_credit.lender.auth_credit_img_count);
+        } else {
+            intent.putExtra("isHasLender", "2");
+        }
+        if (item.auth_credit.lender_sp != null) {//如果不等于空
+            intent.putExtra("isHasLender_sp", "1");
+            intent.putExtra("lender_sp_clt_id", item.auth_credit.lender_sp.clt_id);
+            intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
+        } else {
+            intent.putExtra("isHasLender_sp", "2");
+        }
+
+        if (item.auth_credit.guarantor != null) {//如果不等于空
+            intent.putExtra("isGuarantor", "1");
+            intent.putExtra("guarantor_clt_id", item.auth_credit.guarantor.clt_id);
+            intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
+        } else {
+            intent.putExtra("isGuarantor", "2");
+        }
+
+        if (item.auth_credit.guarantor_sp != null) {//如果不等于空
+            intent.putExtra("isGuarantor_sp", "1");
+            intent.putExtra("guarantor_sp_clt_id", item.auth_credit.guarantor_sp.clt_id);
+            intent.putExtra("guarantor_sp", item.auth_credit.guarantor_sp.auth_credit_img_count);
+
+        } else {
+            intent.putExtra("isGuarantor_sp", "2");
+        }
+
     }
 }
 
