@@ -233,17 +233,17 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         spouse_info_submit_btn.requestFocus();
         spouse_info_submit_btn.requestFocusFromTouch();
 
-//        if (checkCanNextStep()) {
-//            if (spouse_info_marriage_tv.getText().toString() == "已婚") {
-//                clearDoubleCheckItems();
-//                addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
-//                addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
-//                addDoubleCheckItem("手机号", spouse_info_mobile_edt.getText().toString());
-//                mDoubleCheckDialog.show();
-//            } else {
-//                submit();
-//            }
-//        }
+        if (checkCanNextStep()) {
+            if (spouse_info_marriage_tv.getText().toString() == "已婚") {
+                clearDoubleCheckItems();
+                addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
+                addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
+                addDoubleCheckItem("手机号", spouse_info_mobile_edt.getText().toString());
+                mDoubleCheckDialog.show();
+            } else {
+                submit();
+            }
+        }
     }
 
     private void submit() {
@@ -492,23 +492,23 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step2 = (TextView) view.findViewById(R.id.step2);
         step3 = (TextView) view.findViewById(R.id.step3);
 
-        spouse_info_submit_btn.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                spouse_info_submit_btn.clearFocus();
-
-                if (checkCanNextStep()) {
-                    if (spouse_info_marriage_tv.getText().toString() == "已婚") {
-                        clearDoubleCheckItems();
-                        addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
-                        addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
-                        addDoubleCheckItem("手机号", spouse_info_mobile_edt.getText().toString());
-                        mDoubleCheckDialog.show();
-                    } else {
-                        submit();
-                    }
-                }
-            }
-        });
+//        spouse_info_submit_btn.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (hasFocus) {
+//                spouse_info_submit_btn.clearFocus();
+//
+//                if (checkCanNextStep()) {
+//                    if (spouse_info_marriage_tv.getText().toString() == "已婚") {
+//                        clearDoubleCheckItems();
+//                        addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
+//                        addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
+//                        addDoubleCheckItem("手机号", spouse_info_mobile_edt.getText().toString());
+//                        mDoubleCheckDialog.show();
+//                    } else {
+//                        submit();
+//                    }
+//                }
+//            }
+//        });
         spouse_info_mobile_img.setOnClickListener(v -> {
             selectContact();
         });

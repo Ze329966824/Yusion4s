@@ -238,10 +238,23 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
 
 
     void submitPersonalInfo(View view) {
-        personal_info_next_btn.setFocusable(true);
-        personal_info_next_btn.setFocusableInTouchMode(true);
-        personal_info_next_btn.requestFocus();
-        personal_info_next_btn.requestFocusFromTouch();
+//        personal_info_next_btn.setFocusable(true);
+//        personal_info_next_btn.setFocusableInTouchMode(true);
+//        personal_info_next_btn.requestFocus();
+//        personal_info_next_btn.requestFocusFromTouch();
+
+        if (!Settings.isOnline) {
+            nextStep();
+            return;
+        }
+
+        if (checkCanNextStep()) {
+            clearDoubleCheckItems();
+            addDoubleCheckItem("姓名", personal_info_clt_nm_edt.getText().toString());
+            addDoubleCheckItem("身份证号", personal_info_id_no_edt.getText().toString());
+            addDoubleCheckItem("手机号", personal_info_mobile_edt.getText().toString());
+            mDoubleCheckDialog.show();
+        }
     }
 
     public PersonalInfoFragment() {
@@ -317,24 +330,24 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
     }
 
     private void onClick(View view) {
-        personal_info_next_btn.setOnFocusChangeListener((v, hasFocus) -> {
-            if (hasFocus) {
-                personal_info_next_btn.clearFocus();
-
-                if (!Settings.isOnline) {
-                    nextStep();
-                    return;
-                }
-
-                if (checkCanNextStep()) {
-                    clearDoubleCheckItems();
-                    addDoubleCheckItem("姓名", personal_info_clt_nm_edt.getText().toString());
-                    addDoubleCheckItem("身份证号", personal_info_id_no_edt.getText().toString());
-                    addDoubleCheckItem("手机号", personal_info_mobile_edt.getText().toString());
-                    mDoubleCheckDialog.show();
-                }
-            }
-        });
+//        personal_info_next_btn.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (hasFocus) {
+//                personal_info_next_btn.clearFocus();
+//
+//                if (!Settings.isOnline) {
+//                    nextStep();
+//                    return;
+//                }
+//
+//                if (checkCanNextStep()) {
+//                    clearDoubleCheckItems();
+//                    addDoubleCheckItem("姓名", personal_info_clt_nm_edt.getText().toString());
+//                    addDoubleCheckItem("身份证号", personal_info_id_no_edt.getText().toString());
+//                    addDoubleCheckItem("手机号", personal_info_mobile_edt.getText().toString());
+//                    mDoubleCheckDialog.show();
+//                }
+//            }
+//        });
 
         mDoubleCheckChangeBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
