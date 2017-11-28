@@ -29,6 +29,8 @@ public class OrderCreateActivity extends BaseActivity {
     public String cartype;
     public String file_id;
     public String label;
+    public String region;
+    public String bucket;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,8 +113,13 @@ public class OrderCreateActivity extends BaseActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         switch (event) {
             case showCarInfo:
-                transaction.hide(mCurrentFragment).show(mCarInfoFragment);
-                mCurrentFragment = mCarInfoFragment;
+                if (cartype.equals("新车")) {
+                    transaction.hide(mCurrentFragment).show(mCarInfoFragment);
+                    mCurrentFragment = mCarInfoFragment;
+                } else {
+                    transaction.hide(mCurrentFragment).show(mOldCarInfoFragment);
+                    mCurrentFragment = mOldCarInfoFragment;
+                }
                 break;
             case showCreditInfo:
                 transaction.hide(mCurrentFragment).show(mCreditInfoFragment);

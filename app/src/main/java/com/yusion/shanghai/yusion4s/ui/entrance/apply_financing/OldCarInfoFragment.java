@@ -113,7 +113,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private String trix_id;
     private String model_id;
     private String plate_year;
-    private String playe_month;
+    private String plate_month;
     private String mile_age;
     private String guess_img;
     // province_id=1&city_id=1&brand_id=1&trix_id=1&model_id=1&plate_year=1&plate_month=1&mile_age=1
@@ -458,7 +458,7 @@ public class OldCarInfoFragment extends BaseFragment {
             @Override
             public void onClick(View v) {
                 mile_age = oldcar_dance_tv.getText().toString();
-                CheApi.getCheUrl(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, playe_month, mile_age, new OnItemDataCallBack<GetCheUrlResp>() {
+                CheApi.getCheUrl(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetCheUrlResp>() {
                     @Override
                     public void onItemDataCallBack(GetCheUrlResp data) {
                         if (data != null) {
@@ -476,9 +476,16 @@ public class OldCarInfoFragment extends BaseFragment {
                         SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
                         if (data.result != null) {
                             oldcar_guess_price_tv.setText(data.result.price + "");
+                            oldcar_business_price_tv.setText(data.result.price + "");
+                            if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+                                carLoanPriceTv.setEnabled(true);
+                                look_guess_img_btn.setEnabled(true);
+                            }
                             guess_img = data.result.img;
                             ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
                             ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
+                            ((OrderCreateActivity) getActivity()).bucket = data.result.file_info.bucket;
+                            ((OrderCreateActivity) getActivity()).region = data.result.file_info.region;
                         }
                     }
                 });
@@ -505,6 +512,49 @@ public class OldCarInfoFragment extends BaseFragment {
                 oldcar_addrtime_tv.setText("");
                 oldcar_dance_tv.setText("");
 
+                btn_reset.setEnabled(false);
+                btn_fast_valuation.setEnabled(false);
+
+
+
+                mBrandList.clear();
+                mBrandIndex = 0;
+                brandTv.setText("");
+
+                mTrixList.clear();
+                mTrixIndex = 0;
+                trixTv.setText("");
+
+                mModelList.clear();
+                mModelIndex = 0;
+                modelTv.setText("");
+
+                mGuidePrice = 0;
+                guidePriceTv.setText("");
+
+                mLoanBankList.clear();
+                mLoanBankIndex = 0;
+                loanBankTv.setText(null);
+
+                mProductTypeIndex = 0;
+                productTypeTv.setText(null);
+
+                billPriceTv.setText("");
+
+                mManagementPriceIndex = 0;
+
+                oldcar_business_price_tv.setText("");
+                oldcar_guess_price_tv.setText("");
+                oldcar_dance_tv.setText("");
+                oldcar_addr_tv.setText("");
+                oldcar_addrtime_tv.setText("");
+
+                managementPriceTv.setText("");
+                totalLoanPriceTv.setText("");
+                otherPriceTv.setText("");
+                plateRegAddrTv.setText("");//上牌地选择
+                loanPeriodsTv.setText("");//还款期限
+                look_guess_img_btn.setEnabled(false);
                 btn_reset.setEnabled(false);
                 btn_fast_valuation.setEnabled(false);
             }
@@ -581,7 +631,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         public void OndateSubmitCallBack(View clickedView, String date) {
                             String[] array = date.split("-");
                             plate_year = array[0];
-                            playe_month = array[1];
+                            plate_month = array[1];
                         }
                     });
                 }
@@ -640,6 +690,9 @@ public class OldCarInfoFragment extends BaseFragment {
                     otherPriceTv.setText("");
                     plateRegAddrTv.setText("");//上牌地选择
                     loanPeriodsTv.setText("");//还款期限
+                    look_guess_img_btn.setEnabled(false);
+                    btn_reset.setEnabled(false);
+                    btn_fast_valuation.setEnabled(false);
 
                 });
             }
@@ -1449,7 +1502,6 @@ public class OldCarInfoFragment extends BaseFragment {
                 SharedPrefsUtil.getInstance(mContext).remove("priceAndImage");
             }
         }
-
     }
 
     @Override

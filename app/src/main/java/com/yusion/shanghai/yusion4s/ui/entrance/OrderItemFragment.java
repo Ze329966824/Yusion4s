@@ -36,6 +36,7 @@ import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
@@ -276,11 +277,20 @@ public class OrderItemFragment extends BaseFragment {
             vh.change.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
-                    i1.putExtra("app_id", item.app_id);
-                    i1.putExtra("car_type", item.vehicle_cond);
-                    Log.e("TAG", item.vehicle_cond);
-                    mContext.startActivity(i1);
+                    if (item.vehicle_cond.equals("新车")) {
+                        Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
+                        i1.putExtra("app_id", item.app_id);
+                        i1.putExtra("car_type", item.vehicle_cond);
+                        Log.e("TAG", item.vehicle_cond);
+                        mContext.startActivity(i1);
+                    } else {
+                        Intent i1 = new Intent(mContext, AlterOldCarInfoActivity.class);
+                        i1.putExtra("app_id", item.app_id);
+                        i1.putExtra("car_type", item.vehicle_cond);
+                        Log.e("TAG", item.vehicle_cond);
+                        mContext.startActivity(i1);
+                    }
+
 //                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
                 }
             });

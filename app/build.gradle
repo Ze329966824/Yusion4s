@@ -97,7 +97,7 @@ dependencies {
     compile files('libs/jcore-android-1.1.6.jar')
     compile files('libs/jpush-android-3.0.8.jar')
     //    compile 'com.pgyersdk:sdk:2.7.0'
-    
+
 
     compile project(path: ':photoLibrary')
 

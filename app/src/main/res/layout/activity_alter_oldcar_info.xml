@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -7,104 +7,14 @@
     android:focusableInTouchMode="true"
     android:orientation="vertical">
 
-    <View
-        android:layout_width="368dp"
-        android:layout_height="0.5dp"
-        android:background="@color/separate_line_color"
-        app:layout_constraintBottom_toTopOf="@+id/flow_diagram"
-        app:layout_constraintLeft_toLeftOf="parent" />
-
-    <android.support.constraint.ConstraintLayout
-        android:id="@+id/flow_diagram"
-        android:layout_width="0dp"
-        android:layout_height="86dp"
-        android:background="@color/white"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/step1"
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:layout_marginEnd="1dp"
-            android:layout_marginRight="1dp"
-            android:layout_marginTop="15dp"
-            android:background="@drawable/apply_step_style_2"
-            android:gravity="center"
-            android:text="@string/number_1"
-            android:textColor="@color/white"
-            app:layout_constraintRight_toLeftOf="@+id/step_separate_line"
-            app:layout_constraintTop_toTopOf="parent" />
-
-
-        <View
-            android:id="@+id/step_separate_line"
-            android:layout_width="140dp"
-            android:layout_height="2dp"
-            android:layout_marginTop="13dp"
-            android:background="@drawable/step_gradient_line_style1"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/step1" />
-
-        <TextView
-            android:id="@+id/step2"
-            android:layout_width="27dp"
-            android:layout_height="27dp"
-            android:layout_marginLeft="1dp"
-            android:layout_marginStart="1dp"
-            android:background="@drawable/apply_step_style_3"
-            android:gravity="center"
-            android:text="@string/all_right"
-            android:textColor="@color/white"
-            app:layout_constraintLeft_toRightOf="@+id/step_separate_line"
-            app:layout_constraintTop_toTopOf="@+id/step1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="车辆信息"
-            android:textColor="@color/apply_step_style_2_color"
-            android:textSize="11.5sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/step1"
-            app:layout_constraintRight_toRightOf="@+id/step1" />
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="20dp"
-            android:text="征信信息"
-            android:textColor="@color/apply_step_style_3_color"
-            android:textSize="11.5sp"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintLeft_toLeftOf="@+id/step2"
-            app:layout_constraintRight_toRightOf="@+id/step2" />
-
-
-    </android.support.constraint.ConstraintLayout>
-
-    <View
-        android:layout_width="0dp"
-        android:layout_height="1dp"
-        android:background="@color/separate_line_color"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flow_diagram" />
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/base_titlebar" />
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="1dp"
-        android:scrollbars="none"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flow_diagram"
-        app:layout_constraintVertical_bias="0.0">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -193,6 +103,7 @@
                     android:layout_height="11dp"
                     android:layout_marginBottom="2dp"
                     android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
                     android:background="@drawable/fill_vertical_line"
                     app:layout_constraintBottom_toBottomOf="@+id/personal_info1"
                     app:layout_constraintLeft_toLeftOf="parent" />
@@ -215,10 +126,9 @@
                     android:id="@+id/personal_info_group"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
+                    android:layout_marginTop="38dp"
                     android:background="@color/white"
                     android:orientation="vertical"
-                    app:layout_constraintHorizontal_bias="0.0"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
@@ -545,11 +455,11 @@
                         android:layout_height="10dp"
                         android:background="@color/bg_color" />
 
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
-
 
                     <LinearLayout
                         style="@style/apply_info_item"
@@ -568,6 +478,12 @@
 
                     </LinearLayout>
 
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/oldcar_guess_and_jiaoyi_lin"
@@ -575,7 +491,7 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
                         android:visibility="gone"
-                        tools:visibility="visible">
+                        tools:visibility="gone">
 
                         <LinearLayout
                             android:id="@+id/oldcar_guess_price_lin"
@@ -664,11 +580,10 @@
                             android:text="车辆贷款额(元)" />
 
                         <EditText
-
                             android:id="@+id/car_info_car_loan_price_tv"
                             style="@style/apply_info_content"
                             android:layout_marginRight="35dp"
-                            android:enabled="false"
+                            android:enabled="true"
                             android:hint="请输入"
                             android:inputType="number"
                             android:maxLength="9" />
@@ -899,19 +814,17 @@
 
                     <View
                         android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <View
+                        android:layout_width="match_parent"
                         android:layout_height="10dp"
                         android:background="@color/bg_color" />
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
-
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
@@ -945,11 +858,53 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_alter_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="修改理由" />
+
+                        <TextView
+                            android:id="@+id/car_info_alter_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
                 </LinearLayout>
+
             </android.support.constraint.ConstraintLayout>
 
             <Button
-                android:id="@+id/car_info_next_btn"
+                android:id="@+id/car_info_alter_btn"
                 android:layout_width="match_parent"
                 android:layout_height="44dp"
                 android:layout_marginBottom="20dp"
@@ -961,11 +916,10 @@
                 android:background="@drawable/submit_button"
                 android:enabled="false"
                 android:gravity="center"
-                android:text="下一步"
+                android:text="提交申请"
                 android:textColor="@color/white"
                 android:textSize="17sp" />
         </LinearLayout>
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
-
+</android.support.v7.widget.LinearLayoutCompat>
