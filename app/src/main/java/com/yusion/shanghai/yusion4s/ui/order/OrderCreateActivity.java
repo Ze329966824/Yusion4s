@@ -30,7 +30,9 @@ public class OrderCreateActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+//        setTitle();
         mCreditInfoFragment.relevance(intent);
+
     }
 
     @Override
@@ -39,23 +41,10 @@ public class OrderCreateActivity extends BaseActivity {
         setContentView(R.layout.activity_order_create);
         EventBus.getDefault().register(this);
 
+        setTitle();
+
         //initTitleBar(this, "申请融资");
-        cartype = getIntent().getStringExtra("car_type");
-        if (cartype.equals("二手车")) {
-            initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back();
-                }
-            });
-        } else {
-            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back();
-                }
-            });
-        }
+
 
         mCarInfoFragment = CarInfoFragment.newInstance();
         mCreditInfoFragment = CreditInfoFragment.newInstance();
@@ -79,6 +68,25 @@ public class OrderCreateActivity extends BaseActivity {
         //mCurrentFragment = mCreditInfoFragment;
 
 
+    }
+
+    private void setTitle() {
+        cartype = getIntent().getStringExtra("car_type");
+        if (cartype.equals("二手车")) {
+            initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
+        } else {
+            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
+        }
     }
 
 

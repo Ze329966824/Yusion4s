@@ -2,7 +2,6 @@ package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -48,6 +47,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import static android.graphics.Typeface.createFromAsset;
+import static com.yusion.shanghai.yusion4s.R.layout.autonym_certify;
 
 public class AutonymCertifyFragment extends DoubleCheckFragment {
 
@@ -132,7 +132,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.autonym_certify, container, false);
+        return inflater.inflate(autonym_certify, container, false);
     }
 
     @Override
@@ -267,10 +267,16 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         ProductApi.check3Elements(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, new OnItemDataCallBack<Check3ElementsResp>() {
             @Override
             public void onItemDataCallBack(Check3ElementsResp data) {
-                if (!data.match.equals("1")) {
-                    PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", Dialog::dismiss);
-                } else {
-                    callBack.onItemDataCallBack(true);
+                if (data != null) {
+                    if (data.match.equals("1")) {
+                        callBack.onItemDataCallBack(true);
+                    } else {
+                        PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", dialog -> {
+                            if (!applyActivity.isFinishing()) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
                 }
             }
         });
@@ -414,6 +420,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.name)) {
                                     autonym_certify_name_tv.setText(ocrResp.name);
+                                }else {
+                                    autonym_certify_name_tv.setText("");
+
                                 }
                                 break;
 

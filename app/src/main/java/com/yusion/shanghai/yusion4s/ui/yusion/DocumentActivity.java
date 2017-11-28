@@ -24,7 +24,6 @@ import android.widget.Toast;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
@@ -33,13 +32,10 @@ import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
-import com.yusion.shanghai.yusion4s.bean.user.GetClientInfoReq;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
@@ -366,24 +362,8 @@ public class DocumentActivity extends BaseActivity {
                                 Toast.makeText(this, "识别成功", Toast.LENGTH_LONG).show();
                                 mOcrResp = ocrResp.showapi_res_body;
                                 // 搜索是否存在该用户
-                                search(mOcrResp.idNo, data1 -> {
-                                    SearchClientResp resp = (SearchClientResp) data1;
-                                    //获取用户信息commited
-                                    ProductApi.getClientInfo(DocumentActivity.this, new GetClientInfoReq(resp.id_no, resp.clt_nm, resp.mobile), Yusion4sApp.TOKEN, data2 -> {
-                                        if (data2 != null && data2.commited.equals("1")) {
-                                            PopupDialogUtil.relevanceInfoDialog(
-                                                    DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", data2.clt_nm, data2.mobile, data2.id_no, dialog1 -> {
-                                                        Intent intent = new Intent(DocumentActivity.this, OrderCreateActivity.class);
-                                                        checkAuthCreditExist(intent,searchResp);
-                                                        intent.putExtra("name", data2.clt_nm);
-                                                        intent.putExtra("mobile", data2.mobile);
-                                                        intent.putExtra("sfz", data2.id_no);
-                                                        startActivity(intent);
-                                                        finish();
-                                                    });
-                                        }
-                                    });
-                                });
+                                search(mOcrResp.idNo);
+
                             }
                             onUploadOssSuccess(localPath, dialog, objectKey);
                         }, (throwable, s) -> {
@@ -400,11 +380,25 @@ public class DocumentActivity extends BaseActivity {
 
     }
 
-    private void search(String idNo, OnItemDataCallBack callBack) {
+    private void search(String idNo) {
         OrderApi.searchClientExist(DocumentActivity.this, idNo, data -> {
             if (data != null && data.size() == 1) {
                 searchResp = data.get(0);
-                callBack.onItemDataCallBack(data.get(0));
+                if (searchResp.auth_credit.lender.commited.equals("1")) {
+                    PopupDialogUtil.relevanceInfoDialog(
+                            DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", searchResp.clt_nm, searchResp.mobile, idNo, dialog -> {
+                                dialog.dismiss();
+                                Intent intent = getIntent();
+                                intent.setClass(DocumentActivity.this, OrderCreateActivity.class);checkAuthCreditExist(intent, searchResp);
+                                intent.putExtra("enable", true);
+                                intent.putExtra("name", searchResp.clt_nm);
+                                intent.putExtra("mobile", searchResp.mobile);
+                                intent.putExtra("sfz", searchResp.id_no);
+                                startActivity(intent);
+                                finish();
+
+                            });
+                }
             }
         });
     }

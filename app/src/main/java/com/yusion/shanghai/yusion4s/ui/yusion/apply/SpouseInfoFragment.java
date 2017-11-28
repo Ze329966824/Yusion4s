@@ -492,9 +492,10 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step2 = (TextView) view.findViewById(R.id.step2);
         step3 = (TextView) view.findViewById(R.id.step3);
 
-        spouse_info_submit_btn.setOnFocusChangeListener(new View.OnFocusChangeListener() {
-            @Override
-            public void onFocusChange(View v, boolean hasFocus) {
+        spouse_info_submit_btn.setOnFocusChangeListener((v, hasFocus) -> {
+            if (hasFocus) {
+                spouse_info_submit_btn.clearFocus();
+
                 if (checkCanNextStep()) {
                     if (spouse_info_marriage_tv.getText().toString() == "已婚") {
                         clearDoubleCheckItems();

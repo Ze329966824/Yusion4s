@@ -76,9 +76,7 @@ public class PopupDialogUtil {
 
     public static void relevanceInfoDialog(Context context, String title, String name, String mobile , String idno, OnOkClickListener clickListener ) {
         mContext = context;
-        if (dialog == null) {
-            dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        }
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_relevance_user, null);
         TextView mTitle = (TextView) view.findViewById(R.id.popup_dialog_title);
         TextView mName = (TextView) view.findViewById(R.id.dialog_create_nm);
@@ -104,9 +102,7 @@ public class PopupDialogUtil {
 
     public static void checkInfoDialog(Context context, String reason1, String reason2 , String reason3, OnOkClickListener clickListener ) {
         mContext = context;
-        if (dialog == null) {
-            dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        }
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_check_user, null);
         TextView mReason1 = (TextView) view.findViewById(R.id.dialog_relevance_reason1);
         TextView mReason2 = (TextView) view.findViewById(R.id.dialog_relevance_reason2);
@@ -131,9 +127,7 @@ public class PopupDialogUtil {
     public static void showOneButtonDialog(Context context, String title, String msg,
                                            OnOkClickListener clickListener) {
         mContext = context;
-        if (dialog == null) {
-            dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        }
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_one_button, null);
         TextView mTitle = (TextView) view.findViewById(R.id.popup_dialog_title);
         mTitle.setText(title);
@@ -172,9 +166,7 @@ public class PopupDialogUtil {
     }
     public static void showTwoButtonsDialog(Context context,String content,String leftMsg,String rightMsg,OnOkClickListener clickListener) {
         mContext = context;
-//        if (dialog == null) {
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
-//        }
         View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
         TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
 //        mOK.setOnClickListener(okListener);

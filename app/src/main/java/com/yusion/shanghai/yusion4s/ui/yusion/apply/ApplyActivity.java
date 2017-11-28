@@ -41,6 +41,7 @@ public class ApplyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply);
+
         initView();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -95,7 +96,8 @@ public class ApplyActivity extends BaseActivity {
     }
 
     public void requestSubmit() {
-        Intent intent = new Intent(this, CommitActivity.class);
+        Intent intent = getIntent();
+        intent.setClass(ApplyActivity.this, CommitActivity.class);
         intent.putExtra("why_commit", "create_user");
         startActivity(intent);
         finish();
