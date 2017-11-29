@@ -587,6 +587,8 @@ public class AlterCarInfoActivity extends BaseActivity {
 //        });
 //
 
+
+
         oldcar_dance_tv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -595,7 +597,7 @@ public class AlterCarInfoActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().length() == 5 && !s.toString().contains(".")) {
+                if (s.toString().length() == 3 && !s.toString().contains(".")) {
                     oldcar_dance_tv.setText(s.subSequence(0, s.length() - 1));
                     oldcar_dance_tv.setSelection(oldcar_dance_tv.getText().toString().length());
                     return;
