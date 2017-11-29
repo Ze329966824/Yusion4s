@@ -26,7 +26,6 @@ import com.yusion.shanghai.yusion4s.base.DoubleCheckFragment;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.settings.Constants;
-import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
@@ -243,10 +242,10 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
 //        personal_info_next_btn.requestFocus();
 //        personal_info_next_btn.requestFocusFromTouch();
 
-        if (!Settings.isOnline) {
-            nextStep();
-            return;
-        }
+//        if (!Settings.isOnline) {
+//            nextStep();
+//            return;
+//        }
 
         if (checkCanNextStep()) {
             clearDoubleCheckItems();
@@ -275,6 +274,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
             ClientInfo clientInfoBean = applyActivity.mClientInfo;
             personal_info_clt_nm_edt.setText(clientInfoBean.clt_nm);
             personal_info_id_no_edt.setText(clientInfoBean.id_no);
+            personal_info_mobile_edt.setText(clientInfoBean.mobile);
             if (!TextUtils.isEmpty(clientInfoBean.gender)) {
                 personal_info_gender_tv.setText(clientInfoBean.gender);
             }
@@ -455,7 +455,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
             nextStep();
         });
 
-        personal_info_mobile_edt.setText(Yusion4sApp.ACCOUNT);
+//        personal_info_mobile_edt.setText(applyActivity.mClientInfo.mobile);
         personal_info_gender_lin.setOnClickListener(v -> {
             WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().gender_list_key, _GENDER_INDEX, personal_info_gender_lin, personal_info_gender_tv, "请选择", (clickedView, selectedIndex) -> _GENDER_INDEX = selectedIndex);
 
@@ -708,6 +708,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
 
 
     private void nextStep() {
+        Log.e("TAG", "personal : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
         EventBus.getDefault().post(ApplyActivityEvent.showCommonRepaymentPeople);
     }
 
@@ -752,39 +753,39 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
             Toast.makeText(mContext, "是否与父母同住不能为空", Toast.LENGTH_SHORT).show();
         } else if (personal_info_income_from_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "主要收入来源不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "工资" && personal_info_from_income_year_edt.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("工资") && personal_info_from_income_year_edt.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "年收入不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "工资" && personal_info_from_income_company_name_edt.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("工资") && personal_info_from_income_company_name_edt.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "单位名称不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "工资" && personal_info_from_income_company_address_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("工资") && personal_info_from_income_company_address_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "单位地址不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "工资" && personal_info_from_income_company_address1_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("工资") && personal_info_from_income_company_address1_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "详细地址不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "工资" && personal_info_from_income_company_address2_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("工资") && personal_info_from_income_company_address2_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "门牌号不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "工资" && personal_info_from_income_work_position_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("工资") && personal_info_from_income_work_position_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "职务不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "自营" && personal_info_from_self_year_edt.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("自营") && personal_info_from_self_year_edt.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "年收入不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "自营" && personal_info_from_self_type_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("自营") && personal_info_from_self_type_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "业务类型不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "自营" && personal_info_from_self_company_address_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("自营") && personal_info_from_self_company_address_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "项目经营地址不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "自营" && personal_info_from_self_company_address1_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("自营") && personal_info_from_self_company_address1_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "自营的详细地址不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_income_from_tv.getText().toString() == "自营" && personal_info_from_self_company_address2_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_income_from_tv.getText().toString().equals("自营") && personal_info_from_self_company_address2_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "自营的门牌号不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_extra_income_from_tv.getText().toString() == "工资" && personal_info_extra_from_income_year_edt.getText().toString().isEmpty()) {
+        } else if (personal_info_extra_income_from_tv.getText().toString().equals("工资") && personal_info_extra_from_income_year_edt.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "年收入不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_extra_income_from_tv.getText().toString() == "工资" && personal_info_extra_from_income_company_name_edt.getText().toString().isEmpty()) {
+        } else if (personal_info_extra_income_from_tv.getText().toString().equals("工资") && personal_info_extra_from_income_company_name_edt.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "单位名称不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_extra_income_from_tv.getText().toString() == "工资" && personal_info_extra_from_income_company_address_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_extra_income_from_tv.getText().toString().equals("工资") && personal_info_extra_from_income_company_address_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "单位地址不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_extra_income_from_tv.getText().toString() == "工资" && personal_info_extra_from_income_company_address1_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_extra_income_from_tv.getText().toString().equals("工资") && personal_info_extra_from_income_company_address1_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "详细地址不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_extra_income_from_tv.getText().toString() == "工资" && personal_info_extra_from_income_company_address2_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_extra_income_from_tv.getText().toString().equals("工资") && personal_info_extra_from_income_company_address2_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "门牌号不能为空", Toast.LENGTH_SHORT).show();
-        } else if (personal_info_extra_income_from_tv.getText().toString() == "工资" && personal_info_extra_from_income_work_position_tv.getText().toString().isEmpty()) {
+        } else if (personal_info_extra_income_from_tv.getText().toString().equals("工资") && personal_info_extra_from_income_work_position_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "职务不能为空", Toast.LENGTH_SHORT).show();
         } else if (personal_info_house_type_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "房屋性质不能为空", Toast.LENGTH_SHORT).show();
@@ -798,7 +799,6 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
             Toast.makeText(mContext, "紧急联系人人姓名不能为空", Toast.LENGTH_SHORT).show();
         } else if (personal_info_urg_mobile1_edt.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
-            ;
         } else if (!CheckMobileUtil.checkMobile(personal_info_urg_mobile1_edt.getText().toString().toString())) {
             Toast.makeText(mContext, "紧急联系人手机号格式错误", Toast.LENGTH_SHORT).show();
         } else if (personal_info_urg_relation1_tv.getText().toString().isEmpty()) {

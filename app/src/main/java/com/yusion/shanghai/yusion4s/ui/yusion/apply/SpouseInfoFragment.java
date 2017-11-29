@@ -228,13 +228,13 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     private Button spouse_info_submit_btn;
 
     void submitSpouseInfo(View view) {
-        spouse_info_submit_btn.setFocusable(true);
-        spouse_info_submit_btn.setFocusableInTouchMode(true);
-        spouse_info_submit_btn.requestFocus();
-        spouse_info_submit_btn.requestFocusFromTouch();
+//        spouse_info_submit_btn.setFocusable(true);
+//        spouse_info_submit_btn.setFocusableInTouchMode(true);
+//        spouse_info_submit_btn.requestFocus();
+//        spouse_info_submit_btn.requestFocusFromTouch();
 
         if (checkCanNextStep()) {
-            if (spouse_info_marriage_tv.getText().toString() == "已婚") {
+            if (spouse_info_marriage_tv.getText().toString() .equals("已婚")) {
                 clearDoubleCheckItems();
                 addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
                 addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
@@ -249,7 +249,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     private void submit() {
         applyActivity.mClientInfo.marriage = spouse_info_marriage_tv.getText().toString();
         if ("已婚".equals(applyActivity.mClientInfo.marriage)) {
-            applyActivity.mClientInfo.spouse.marriage = "已婚";
+//            applyActivity.mClientInfo.spouse.marriage = "已婚";
             if (ocrResp != null) {
                 if (TextUtils.isEmpty(ocrResp.addr)) {
                     applyActivity.mClientInfo.spouse.reg_addr_details = "";
@@ -457,7 +457,6 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        onclick(view);
     }
 
     private void initView(View view) {
@@ -700,12 +699,6 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
 
-    private void onclick(View view) {
-
-
-
-
-    }
 
     private void selectContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
@@ -782,6 +775,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
+        Log.e("TAG", "spouse : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
         applyActivity.requestSubmit();
     }
 

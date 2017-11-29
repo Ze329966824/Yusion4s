@@ -168,7 +168,6 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                         return;
                     }
                     applyActivity.mClientInfo = data1;
-
                     if (ocrResp != null) {
                         applyActivity.mClientInfo.gender = ocrResp.sex;
                         if (TextUtils.isEmpty(ocrResp.addr)) {
@@ -367,6 +366,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
+        Log.e("TAG", "auto : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
         EventBus.getDefault().post(ApplyActivityEvent.showPersonalInfoFragment);
     }
 

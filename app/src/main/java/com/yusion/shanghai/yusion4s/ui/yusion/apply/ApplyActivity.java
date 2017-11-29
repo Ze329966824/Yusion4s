@@ -99,6 +99,7 @@ public class ApplyActivity extends BaseActivity {
         Intent intent = getIntent();
         intent.setClass(ApplyActivity.this, CommitActivity.class);
         intent.putExtra("why_commit", "create_user");
+        intent.putExtra("id_no", mClientInfo.id_no);
         startActivity(intent);
         finish();
     }
