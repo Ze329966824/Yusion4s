@@ -1,7 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
@@ -15,6 +15,8 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.utils.Base64Util;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.DateFormat;
@@ -66,8 +68,11 @@ public class AppraisalvalueActivity extends BaseActivity {
                 URL url = null;
                 try {
                     url = new URL(data.list.get(0).s_url);
-                    Drawable thumb_d = Drawable.createFromStream(url.openStream(), "src");
-                    appraisal_value_img.setImage(thumb_d);
+                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+                    conn.setConnectTimeout(5 * 1000);
+                    InputStream inputStream = conn.getInputStream();
+                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                    appraisal_value_img.setImage(bitmap);
                 } catch (MalformedURLException e) {
                     e.printStackTrace();
                 } catch (IOException e) {
