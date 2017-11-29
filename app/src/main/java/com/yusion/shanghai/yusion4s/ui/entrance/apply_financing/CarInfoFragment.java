@@ -422,8 +422,8 @@ public class CarInfoFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                if (s.toString().length()==5&&!s.toString().contains(".")){
-                    oldcar_dance_tv.setText(s.subSequence(0,s.length()-1));
+                if (s.toString().length() == 3 && !s.toString().contains(".")) {
+                    oldcar_dance_tv.setText(s.subSequence(0, s.length() - 1));
                     oldcar_dance_tv.setSelection(oldcar_dance_tv.getText().toString().length());
                     return;
                 }
@@ -868,7 +868,7 @@ public class CarInfoFragment extends BaseFragment {
         carInfoProductTypeLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
 
-                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id,cartype, new OnItemDataCallBack<GetproductResp>() {
+                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                     @Override
                     public void onItemDataCallBack(GetproductResp resp) {
                         if (resp == null) {

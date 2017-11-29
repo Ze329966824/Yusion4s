@@ -5,6 +5,8 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 
+apply plugin: 'com.growingio.android'
+
 android {
 //    def isOnline = true
 //    def forAppium = false
@@ -12,6 +14,10 @@ android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
     defaultConfig {
+
+        resValue("string", "growingio_project_id", "8892821e0de2f687")
+        resValue("string", "growingio_url_scheme", "growing.eef54f1a6e5f2268")
+
         applicationId "com.yusion.shanghai.yusion4s"
         minSdkVersion 15
         targetSdkVersion 21
@@ -122,6 +128,8 @@ dependencies {
 
     compile "io.reactivex.rxjava2:rxjava:2.1.6"
     compile project(path: ':photoLibrary')
+
+    compile 'com.growingio.android:vds-android-agent:1.1.1@aar'
 }
 repositories {
     mavenCentral()
