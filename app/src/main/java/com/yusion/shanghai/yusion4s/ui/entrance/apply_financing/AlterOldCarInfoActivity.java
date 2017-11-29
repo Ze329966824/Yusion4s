@@ -16,6 +16,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -300,7 +301,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private Button btn_reset; //重置
     private Button btn_fast_valuation;//快速估值
     private EditText oldcar_guess_tv;//二手车评估价
-    private Button look_guess_img_btn;//查看估值截图
+    private RadioButton look_guess_img_btn;//查看估值截图
 
 
     private void writeOtherPrice(View view, boolean hasFocus) {
@@ -465,7 +466,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         btn_reset = (Button) findViewById(R.id.btn_reset); //重置
         btn_fast_valuation = (Button) findViewById(R.id.btn_fast_valuation);//快速估值
         //oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
-        look_guess_img_btn = (Button) findViewById(R.id.look_guess_img_btn);//查看估值截图
+        look_guess_img_btn = (RadioButton) findViewById(R.id.look_guess_img_btn);//查看估值截图
     }
 
     private void initData() {
@@ -521,6 +522,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
                     billPriceTv.setEnabled(true);
                 }
+                look_guess_img_btn.setChecked(true);
                 look_guess_img_btn.setEnabled(true);
                 isChoose = true;
                 DlrApi.getDlrListByToken(AlterOldCarInfoActivity.this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
@@ -664,6 +666,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             oldcar_business_price_tv.setText(data.result.price + "");
                             if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                                 carLoanPriceTv.setEnabled(true);
+                                look_guess_img_btn.setChecked(true);
                                 look_guess_img_btn.setEnabled(true);
                             }
                             guess_img = data.result.img;
@@ -741,6 +744,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 otherPriceTv.setText("");
                 plateRegAddrTv.setText("");//上牌地选择
                 loanPeriodsTv.setText("");//还款期限
+                look_guess_img_btn.setChecked(false);
                 look_guess_img_btn.setEnabled(false);
                 btn_reset.setEnabled(false);
                 btn_fast_valuation.setEnabled(false);
@@ -868,6 +872,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     plateRegAddrTv.setText("");//上牌地选择
                     loanPeriodsTv.setText("");//还款期限
                     carInfoAlterTv.setText("");//修改理由
+                    look_guess_img_btn.setChecked(false);
                     look_guess_img_btn.setEnabled(false);
                     btn_reset.setEnabled(false);
                     btn_fast_valuation.setEnabled(false);

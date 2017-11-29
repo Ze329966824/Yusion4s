@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -371,7 +372,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private Button btn_reset; //重置
     private Button btn_fast_valuation;//快速估值
     private EditText oldcar_guess_tv;//二手车评估价
-    private Button look_guess_img_btn;//查看估值截图
+    private RadioButton look_guess_img_btn;//查看估值截图
 
 
     public static OldCarInfoFragment newInstance() {
@@ -434,7 +435,7 @@ public class OldCarInfoFragment extends BaseFragment {
         btn_reset = (Button) view.findViewById(R.id.btn_reset); //重置
         btn_fast_valuation = (Button) view.findViewById(R.id.btn_fast_valuation);//快速估值
         //oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
-        look_guess_img_btn = (Button) view.findViewById(R.id.look_guess_img_btn);//查看估值截图
+        look_guess_img_btn = (RadioButton) view.findViewById(R.id.look_guess_img_btn);//查看估值截图
         cartype = getActivity().getIntent().getStringExtra("car_type");
 
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
@@ -479,6 +480,7 @@ public class OldCarInfoFragment extends BaseFragment {
                             oldcar_business_price_tv.setText(data.result.price + "");
                             if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                                 carLoanPriceTv.setEnabled(true);
+                                look_guess_img_btn.setChecked(true);
                                 look_guess_img_btn.setEnabled(true);
                             }
                             guess_img = data.result.img;
@@ -514,7 +516,6 @@ public class OldCarInfoFragment extends BaseFragment {
 
                 btn_reset.setEnabled(false);
                 btn_fast_valuation.setEnabled(false);
-
 
 
                 mBrandList.clear();
@@ -554,6 +555,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 otherPriceTv.setText("");
                 plateRegAddrTv.setText("");//上牌地选择
                 loanPeriodsTv.setText("");//还款期限
+                look_guess_img_btn.setChecked(false);
                 look_guess_img_btn.setEnabled(false);
                 btn_reset.setEnabled(false);
                 btn_fast_valuation.setEnabled(false);
@@ -690,6 +692,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     otherPriceTv.setText("");
                     plateRegAddrTv.setText("");//上牌地选择
                     loanPeriodsTv.setText("");//还款期限
+                    look_guess_img_btn.setChecked(false);
                     look_guess_img_btn.setEnabled(false);
                     btn_reset.setEnabled(false);
                     btn_fast_valuation.setEnabled(false);

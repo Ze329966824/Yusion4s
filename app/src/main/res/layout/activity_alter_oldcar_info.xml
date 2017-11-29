@@ -357,6 +357,7 @@
                                 android:background="@drawable/reset_butotn"
                                 android:enabled="false"
                                 android:text="重置"
+                                android:textColor="#dadbdd"
                                 android:textSize="16.5sp" />
 
                             <Button
@@ -399,7 +400,7 @@
                             android:layout_height="@dimen/separate_line_height"
                             android:background="@color/separate_line_color" />
 
-                        <Button
+                        <RadioButton
                             android:id="@+id/look_guess_img_btn"
                             android:layout_width="105dp"
                             android:layout_height="30dp"
@@ -407,9 +408,11 @@
                             android:layout_marginBottom="10dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginTop="10dp"
-                            android:background="@drawable/reset_butotn"
-                            android:enabled="false"
-                            android:text="查看估值截图" />
+                            android:button="@null"
+                            android:checked="false"
+                            android:drawableRight="@drawable/guess_image_selector"
+                            android:text="查看估值截图"
+                            android:textColor="@color/guess_image_color" />
 
                         <View
                             android:layout_width="match_parent"
