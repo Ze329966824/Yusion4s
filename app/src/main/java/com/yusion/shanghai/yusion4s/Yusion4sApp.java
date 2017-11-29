@@ -13,6 +13,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.awen.photo.FrescoImageLoader;
+import com.growingio.android.sdk.collection.Configuration;
+import com.growingio.android.sdk.collection.GrowingIO;
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -57,6 +59,9 @@ public class Yusion4sApp extends MultiDexApplication {
         super.onCreate();
         CrashHandler crashHandler = CrashHandler.getInstance();
         crashHandler.setCustomCrashHanler(this);
+
+        GrowingIO.startWithConfiguration(this, new Configuration().useID().trackAllFragments());
+//        .setChannel("XXX应用商店"));
 
         initData();
 
