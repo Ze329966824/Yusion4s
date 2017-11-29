@@ -59,6 +59,12 @@ public class GetRawCarInfoResp {
     public String send_hand_valuation;//"二手车评估价"
     public String max_reg_year;
     public String min_reg_year;
+    public String province_che_300_id;
+    public String city_che_300_id;
+    public String vehicle_model_che_300_id;
+    public String trix_che_300_id;
+    public String brand_che_300_id;
+    public String che_300_label;
 
     @Override
     public String toString() {

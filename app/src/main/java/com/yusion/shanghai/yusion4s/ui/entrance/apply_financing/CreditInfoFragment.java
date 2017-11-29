@@ -108,6 +108,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     //存放最后提交订单时需要上传的授权书url
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
+    //存放二手车的截图
+    private List<UploadFilesUrlReq.FileUrlBean> uploadOldCarImgUrlList = new ArrayList<>();
 
     //用于和 UploadSqsListActivity 类间交互
     private List<UploadImgItemBean> lenderList = new ArrayList<>();
@@ -342,7 +344,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
                                 urlBean.label = ((OrderCreateActivity) getActivity()).label;
                                 urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
-                                uploadFileUrlList.add(urlBean);
+                                urlBean.app_id = data.app_id;
+                                uploadOldCarImgUrlList.add(urlBean);
+                                // uploadFileUrlList.add(urlBean);
                             }
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
@@ -357,6 +361,21 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     public void callBack(int code, String msg) {
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+
+                                            if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                                                UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();
+                                                uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
+                                                uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
+                                                uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
+                                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
+                                                    @Override
+                                                    public void callBack(int code, String msg) {
+                                                        Log.e("TAG", uploadFilesUrlReq1.bucket);
+                                                        Log.e("TAG", uploadFilesUrlReq1.region);
+
+                                                    }
+                                                });
+                                            }
                                             startActivity(intent);
 //                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
