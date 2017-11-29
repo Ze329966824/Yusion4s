@@ -475,6 +475,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     @Override
                     public void onItemDataCallBack(GetChePriceAndImageResp data) {
                         SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
+                        Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
                         if (data.result != null) {
                             oldcar_guess_price_tv.setText(data.result.price + "");
                             oldcar_business_price_tv.setText(data.result.price + "");
@@ -631,6 +632,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year, new WheelViewUtil.OndateSubmitCallBack() {
                         @Override
                         public void OndateSubmitCallBack(View clickedView, String date) {
+                            btn_reset.setEnabled(true);
                             String[] array = date.split("-");
                             plate_year = array[0];
                             plate_month = array[1];
@@ -725,6 +727,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     }
                     Log.e("!!!----品牌---", brandItems.toString());
                     WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
+                        btn_reset.setEnabled(true);
                         mBrandIndex = selectedIndex;
                         brand_id = resp.get(mBrandIndex).che_300_id;
 
@@ -786,6 +789,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         trixItems.add(trixResp.trix_name);
                     }
                     WheelViewUtil.showWheelView(trixItems, mTrixIndex, carInfoBrandLin, trixTv, "请选择车系", (clickedView, selectedIndex) -> {
+                        btn_reset.setEnabled(true);
                         mTrixIndex = selectedIndex;
                         trix_id = resp.get(mTrixIndex).che_300_id;
                         mModelList.clear();
@@ -840,6 +844,7 @@ public class OldCarInfoFragment extends BaseFragment {
                             modelItems.add(modelResp.model_name);
                         }
                         WheelViewUtil.showWheelView(modelItems, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
+                            btn_reset.setEnabled(true);
                             mModelIndex = selectedIndex;
                             model_id = resp.get(mModelIndex).che_300_id;
                             mGuidePrice = (int) resp.get(mModelIndex).msrp;
@@ -895,6 +900,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
+                            btn_reset.setEnabled(true);
                             String array[] = city.split("/");
                             for (int i = 0; i < Addrlist.size(); i++) {
                                 if (Addrlist.get(i).name.equals(array[0])) {
@@ -1500,9 +1506,12 @@ public class OldCarInfoFragment extends BaseFragment {
             Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
             if (priceAndImage == null || priceAndImage.isEmpty()) {
                 dialog.show();
+                Log.e("SP1", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
             } else {
                 dialog.dismiss();
                 SharedPrefsUtil.getInstance(mContext).remove("priceAndImage");
+                Log.e("SP2", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
+
             }
         }
     }

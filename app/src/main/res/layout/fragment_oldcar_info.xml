@@ -437,7 +437,8 @@
 
                         <RelativeLayout
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content">
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="15dp">
 
                             <Button
                                 android:id="@+id/btn_reset"
@@ -447,7 +448,7 @@
                                 android:background="@drawable/reset_butotn"
                                 android:enabled="false"
                                 android:text="重置"
-                                android:textColor="#dadbdd"
+                                android:textColor="@color/reset_color"
                                 android:textSize="16.5sp" />
 
                             <Button

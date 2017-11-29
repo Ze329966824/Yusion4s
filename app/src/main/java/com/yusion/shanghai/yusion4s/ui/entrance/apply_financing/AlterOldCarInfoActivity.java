@@ -815,6 +815,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     WheelViewUtil.showDatePick(oldcar_addrtime_lin, oldcar_addrtime_tv, "请选择日期", min_reg_year, max_reg_year, new WheelViewUtil.OndateSubmitCallBack() {
                         @Override
                         public void OndateSubmitCallBack(View clickedView, String date) {
+                            btn_reset.setEnabled(true);
                             String[] array = date.split("-");
                             plate_year = array[0];
                             plate_month = array[1];
@@ -889,6 +890,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     public void onItemDataCallBack(List<GetBrandResp> resp) {
                         if (resp != null && !resp.isEmpty()) {
                             mBrandList = resp;
+                            btn_reset.setEnabled(true);
                             brandItems = new ArrayList<String>();
                             for (GetBrandResp item : resp) {
                                 brandItems.add(item.brand_name);
@@ -956,6 +958,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
+                            btn_reset.setEnabled(true);
                             String array[] = city.split("/");
                             for (int i = 0; i < Addrlist.size(); i++) {
                                 if (Addrlist.get(i).name.equals(array[0])) {
@@ -980,6 +983,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 DlrApi.getTrix(AlterOldCarInfoActivity.this, mBrandList.get(mBrandIndex).brand_id, resp -> {
                     if (resp != null && !resp.isEmpty()) {
                         mTrixList = resp;
+                        btn_reset.setEnabled(true);
                         trixItems = new ArrayList<String>();
                         for (GetTrixResp trixResp : resp) {
                             trixItems.add(trixResp.trix_name);
@@ -1037,6 +1041,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 DlrApi.getModel(AlterOldCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, resp -> {
                     if (resp != null && !resp.isEmpty()) {
                         mModelList = resp;
+                        btn_reset.setEnabled(true);
                         modelItems = new ArrayList<String>();
                         for (GetModelResp modelResp : resp) {
                             modelItems.add(modelResp.model_name);
