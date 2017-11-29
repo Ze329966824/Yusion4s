@@ -237,7 +237,9 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
 
 
     void submitPersonalInfo(View view) {
-        submit();
+        if (checkCanNextStep()) {
+            submit();
+        }
 //        personal_info_next_btn.setFocusable(true);
 //        personal_info_next_btn.setFocusableInTouchMode(true);
 //        personal_info_next_btn.requestFocus();

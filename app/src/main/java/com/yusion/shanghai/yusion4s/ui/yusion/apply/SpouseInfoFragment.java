@@ -256,10 +256,10 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 } else {
                     applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
                 }
-
-                applyActivity.mClientInfo.spouse.reg_addr.province = ocrResp.province;
-                applyActivity.mClientInfo.spouse.reg_addr.city = ocrResp.city;
-                applyActivity.mClientInfo.spouse.reg_addr.district = ocrResp.town;
+                Log.e("TAG", "ocrResp:    "+ocrResp.toString());
+//                applyActivity.mClientInfo.spouse.reg_addr.province = ocrResp.province;
+//                applyActivity.mClientInfo.spouse.reg_addr.city = ocrResp.city;
+//                applyActivity.mClientInfo.spouse.reg_addr.district = ocrResp.town;
             }
             applyActivity.mClientInfo.spouse.clt_nm = spouse_info_clt_nm_edt.getText().toString();
             applyActivity.mClientInfo.spouse.id_no = spouse_info_id_no_edt.getText().toString();
