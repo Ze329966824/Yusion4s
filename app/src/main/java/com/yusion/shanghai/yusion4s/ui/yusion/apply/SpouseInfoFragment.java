@@ -228,8 +228,13 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     private Button spouse_info_submit_btn;
 
     void submitSpouseInfo(View view) {
+//        spouse_info_submit_btn.setFocusable(true);
+//        spouse_info_submit_btn.setFocusableInTouchMode(true);
+//        spouse_info_submit_btn.requestFocus();
+//        spouse_info_submit_btn.requestFocusFromTouch();
+
         if (checkCanNextStep()) {
-            if (spouse_info_marriage_tv.getText().toString() == "已婚") {
+            if (spouse_info_marriage_tv.getText().toString() .equals("已婚")) {
                 clearDoubleCheckItems();
                 addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
                 addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
@@ -242,68 +247,68 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
     private void submit() {
-        applyActivity.getMClientInfo().marriage = spouse_info_marriage_tv.getText().toString();
-        if ("已婚".equals(applyActivity.getMClientInfo().marriage)) {
-            applyActivity.getMClientInfo().spouse.marriage = "已婚";
+        applyActivity.mClientInfo.marriage = spouse_info_marriage_tv.getText().toString();
+        if ("已婚".equals(applyActivity.mClientInfo.marriage)) {
+//            applyActivity.mClientInfo.spouse.marriage = "已婚";
             if (ocrResp != null) {
                 if (TextUtils.isEmpty(ocrResp.addr)) {
-                    applyActivity.getMClientInfo().spouse.reg_addr_details = "";
+                    applyActivity.mClientInfo.spouse.reg_addr_details = "";
                 } else {
-                    applyActivity.getMClientInfo().spouse.reg_addr_details = ocrResp.addr;
+                    applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
                 }
-
-                applyActivity.getMClientInfo().spouse.reg_addr.province = ocrResp.province;
-                applyActivity.getMClientInfo().spouse.reg_addr.city = ocrResp.city;
-                applyActivity.getMClientInfo().spouse.reg_addr.district = ocrResp.town;
+                Log.e("TAG", "ocrResp:    "+ocrResp.toString());
+//                applyActivity.mClientInfo.spouse.reg_addr.province = ocrResp.province;
+//                applyActivity.mClientInfo.spouse.reg_addr.city = ocrResp.city;
+//                applyActivity.mClientInfo.spouse.reg_addr.district = ocrResp.town;
             }
-            applyActivity.getMClientInfo().spouse.clt_nm = spouse_info_clt_nm_edt.getText().toString();
-            applyActivity.getMClientInfo().spouse.id_no = spouse_info_id_no_edt.getText().toString();
-            applyActivity.getMClientInfo().spouse.gender = spouse_info_gender_tv.getText().toString();
-            applyActivity.getMClientInfo().spouse.mobile = spouse_info_mobile_edt.getText().toString();
-            applyActivity.getMClientInfo().child_num = spouse_info_child_count_edt.getText().toString();
+            applyActivity.mClientInfo.spouse.clt_nm = spouse_info_clt_nm_edt.getText().toString();
+            applyActivity.mClientInfo.spouse.id_no = spouse_info_id_no_edt.getText().toString();
+            applyActivity.mClientInfo.spouse.gender = spouse_info_gender_tv.getText().toString();
+            applyActivity.mClientInfo.spouse.mobile = spouse_info_mobile_edt.getText().toString();
+            applyActivity.mClientInfo.child_num = spouse_info_child_count_edt.getText().toString();
 
             //主要收入来源
             switch (spouse_info_income_from_tv.getText().toString()) {
                 case "工资":
-                    applyActivity.getMClientInfo().spouse.major_income_type = "工资";
-                    applyActivity.getMClientInfo().spouse.major_income = spouse_info_from_income_year_edt.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_company_name = spouse_info_from_income_company_name_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_income_type = "工资";
+                    applyActivity.mClientInfo.spouse.major_income = spouse_info_from_income_year_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_company_name = spouse_info_from_income_company_name_edt.getText().toString();
                     if (!TextUtils.isEmpty(spouse_info_from_income_company_address_tv.getText().toString())) {
-                        applyActivity.getMClientInfo().spouse.major_company_addr.province = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                        applyActivity.getMClientInfo().spouse.major_company_addr.city = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                        applyActivity.getMClientInfo().spouse.major_company_addr.district = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                        applyActivity.mClientInfo.spouse.major_company_addr.province = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                        applyActivity.mClientInfo.spouse.major_company_addr.city = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                        applyActivity.mClientInfo.spouse.major_company_addr.district = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
                     } else {
-                        applyActivity.getMClientInfo().spouse.major_company_addr.province = "";
-                        applyActivity.getMClientInfo().spouse.major_company_addr.city = "";
-                        applyActivity.getMClientInfo().spouse.major_company_addr.district = "";
+                        applyActivity.mClientInfo.spouse.major_company_addr.province = "";
+                        applyActivity.mClientInfo.spouse.major_company_addr.city = "";
+                        applyActivity.mClientInfo.spouse.major_company_addr.district = "";
                     }
-                    applyActivity.getMClientInfo().spouse.major_company_addr.address1 = spouse_info_from_income_company_address1_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_company_addr.address2 = spouse_info_from_income_company_address2_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_work_position = spouse_info_from_income_work_position_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_work_phone_num = spouse_info_from_income_work_phone_num_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_company_addr.address1 = spouse_info_from_income_company_address1_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_company_addr.address2 = spouse_info_from_income_company_address2_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_work_position = spouse_info_from_income_work_position_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_work_phone_num = spouse_info_from_income_work_phone_num_edt.getText().toString();
                     break;
                 case "自营":
-                    applyActivity.getMClientInfo().spouse.major_income_type = "自营";
-                    applyActivity.getMClientInfo().spouse.major_income = spouse_info_from_self_year_edt.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_busi_type = spouse_info_from_self_type_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_company_name = spouse_info_from_self_company_name_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_income_type = "自营";
+                    applyActivity.mClientInfo.spouse.major_income = spouse_info_from_self_year_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_busi_type = spouse_info_from_self_type_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_company_name = spouse_info_from_self_company_name_edt.getText().toString();
                     if (TextUtils.isEmpty(spouse_info_from_self_company_address_tv.getText())) {
-                        applyActivity.getMClientInfo().spouse.major_company_addr.province = "";
-                        applyActivity.getMClientInfo().spouse.major_company_addr.city = "";
-                        applyActivity.getMClientInfo().spouse.major_company_addr.district = "";
+                        applyActivity.mClientInfo.spouse.major_company_addr.province = "";
+                        applyActivity.mClientInfo.spouse.major_company_addr.city = "";
+                        applyActivity.mClientInfo.spouse.major_company_addr.district = "";
                     } else {
-                        applyActivity.getMClientInfo().spouse.major_company_addr.province = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
-                        applyActivity.getMClientInfo().spouse.major_company_addr.city = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
+                        applyActivity.mClientInfo.spouse.major_company_addr.province = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
+                        applyActivity.mClientInfo.spouse.major_company_addr.city = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
                         ;
-                        applyActivity.getMClientInfo().spouse.major_company_addr.district = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
+                        applyActivity.mClientInfo.spouse.major_company_addr.district = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
                     }
-                    applyActivity.getMClientInfo().spouse.major_company_addr.address1 = spouse_info_from_self_company_address1_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_company_addr.address2 = spouse_info_from_self_company_address2_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_company_addr.address1 = spouse_info_from_self_company_address1_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_company_addr.address2 = spouse_info_from_self_company_address2_tv.getText().toString();
                     break;
                 case "其他":
-                    applyActivity.getMClientInfo().spouse.major_income_type = "其他";
-                    applyActivity.getMClientInfo().spouse.major_income = spouse_info_from_other_year_edt.getText().toString();
-                    applyActivity.getMClientInfo().spouse.major_remark = spouse_info_from_other_remark_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_income_type = "其他";
+                    applyActivity.mClientInfo.spouse.major_income = spouse_info_from_other_year_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.major_remark = spouse_info_from_other_remark_edt.getText().toString();
 
                     break;
                 default:
@@ -312,39 +317,39 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             //额外收入来源
             switch (spouse_info_extra_income_from_tv.getText().toString()) {
                 case "工资":
-                    applyActivity.getMClientInfo().spouse.extra_income_type = "工资";
-                    applyActivity.getMClientInfo().spouse.extra_income = spouse_info_extra_from_income_year_edt.getText().toString();
-                    applyActivity.getMClientInfo().spouse.extra_company_name = spouse_info_extra_from_income_company_name_edt.getText().toString();
-                    applyActivity.getMClientInfo().spouse.extra_company_addr.province = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                    applyActivity.getMClientInfo().spouse.extra_company_addr.city = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                    applyActivity.getMClientInfo().spouse.extra_company_addr.district = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
-                    applyActivity.getMClientInfo().spouse.extra_company_addr.address1 = spouse_info_extra_from_income_company_address1_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.extra_company_addr.address2 = spouse_info_extra_from_income_company_address2_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.extra_work_position = spouse_info_extra_from_income_work_position_tv.getText().toString();
-                    applyActivity.getMClientInfo().spouse.extra_work_phone_num = spouse_info_extra_from_income_work_phone_num_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.extra_income_type = "工资";
+                    applyActivity.mClientInfo.spouse.extra_income = spouse_info_extra_from_income_year_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.extra_company_name = spouse_info_extra_from_income_company_name_edt.getText().toString();
+                    applyActivity.mClientInfo.spouse.extra_company_addr.province = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                    applyActivity.mClientInfo.spouse.extra_company_addr.city = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                    applyActivity.mClientInfo.spouse.extra_company_addr.district = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                    applyActivity.mClientInfo.spouse.extra_company_addr.address1 = spouse_info_extra_from_income_company_address1_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.extra_company_addr.address2 = spouse_info_extra_from_income_company_address2_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.extra_work_position = spouse_info_extra_from_income_work_position_tv.getText().toString();
+                    applyActivity.mClientInfo.spouse.extra_work_phone_num = spouse_info_extra_from_income_work_phone_num_edt.getText().toString();
                     break;
                 case "无":
-                    applyActivity.getMClientInfo().spouse.extra_income_type = "无";
+                    applyActivity.mClientInfo.spouse.extra_income_type = "无";
                     break;
                 default:
                     break;
             }
-        } else if ("离异".equals(applyActivity.getMClientInfo().marriage)) {
-            applyActivity.getMClientInfo().child_num = spouse_info_divorced_child_count_edt.getText().toString();
-        } else if ("丧偶".equals(applyActivity.getMClientInfo().marriage)) {
-            applyActivity.getMClientInfo().child_num = spouse_info_die_child_count_edt.getText().toString();
+        } else if ("离异".equals(applyActivity.mClientInfo.marriage)) {
+            applyActivity.mClientInfo.child_num = spouse_info_divorced_child_count_edt.getText().toString();
+        } else if ("丧偶".equals(applyActivity.mClientInfo.marriage)) {
+            applyActivity.mClientInfo.child_num = spouse_info_die_child_count_edt.getText().toString();
         }
-        Log.e("current_addr2--------", applyActivity.getMClientInfo().current_addr.province);
-        Log.e("current_addr2--------", applyActivity.getMClientInfo().current_addr.city);
-        Log.e("current_addr2--------", applyActivity.getMClientInfo().current_addr.district);
-        Log.e("current_addr2--------", applyActivity.getMClientInfo().current_addr.address1);
-        Log.e("current_addr2--------", applyActivity.getMClientInfo().current_addr.address2);
+        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.province);
+        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.city);
+        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.district);
+        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.address1);
+        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.address2);
 
-        FileUtil.saveLog(applyActivity.getMClientInfo().toString());
-        ProductApi.updateClientInfo(mContext, applyActivity.getMClientInfo(), data1 -> {
-            if (data1 != null) {
-                applyActivity.setMClientInfo(data1);
-                uploadUrl(applyActivity.getMClientInfo().clt_id, applyActivity.getMClientInfo().spouse.clt_id);
+        FileUtil.saveLog(applyActivity.mClientInfo.toString());
+        ProductApi.updateClientInfo(mContext, applyActivity.mClientInfo, data1 -> {
+            if (data1 != null && data1.commited.equals("1")) {
+                applyActivity.mClientInfo = data1;
+                uploadUrl(applyActivity.mClientInfo.clt_id, applyActivity.mClientInfo.spouse.clt_id);
             }
         });
 
@@ -452,10 +457,10 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-        onclick(view);
     }
 
     private void initView(View view) {
+        UBT.bind(this, view, getClass().getSimpleName());
         applyActivity = (ApplyActivity) getActivity();
         spouse_info_mobile_img = (ImageView) view.findViewById(R.id.spouse_info_mobile_img);
         spouse_info_id_back_lin = (LinearLayout) view.findViewById(R.id.spouse_info_id_back_lin);
@@ -485,12 +490,24 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step1 = (TextView) view.findViewById(R.id.step1);
         step2 = (TextView) view.findViewById(R.id.step2);
         step3 = (TextView) view.findViewById(R.id.step3);
-    }
 
-
-    private void onclick(View view) {
-        UBT.bind(this, view, getClass().getSimpleName());
-
+//        spouse_info_submit_btn.setOnFocusChangeListener((v, hasFocus) -> {
+//            if (hasFocus) {
+//                spouse_info_submit_btn.clearFocus();
+//
+//                if (checkCanNextStep()) {
+//                    if (spouse_info_marriage_tv.getText().toString() == "已婚") {
+//                        clearDoubleCheckItems();
+//                        addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
+//                        addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
+//                        addDoubleCheckItem("手机号", spouse_info_mobile_edt.getText().toString());
+//                        mDoubleCheckDialog.show();
+//                    } else {
+//                        submit();
+//                    }
+//                }
+//            }
+//        });
         spouse_info_mobile_img.setOnClickListener(v -> {
             selectContact();
         });
@@ -679,8 +696,9 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step1.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
         step2.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
         step3.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
-
     }
+
+
 
     private void selectContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
@@ -703,7 +721,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 
     private void uploadUrl(String cltId, String spouseCltId) {
         ArrayList<UploadFilesUrlReq.FileUrlBean> files = new ArrayList<>();
-        switch (applyActivity.getMClientInfo().marriage) {
+        switch (applyActivity.mClientInfo.marriage) {
             case "离异":
 
                 for (UploadImgItemBean divorceItem : divorceImgsList) {
@@ -757,6 +775,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
+        Log.e("TAG", "spouse : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
         applyActivity.requestSubmit();
     }
 

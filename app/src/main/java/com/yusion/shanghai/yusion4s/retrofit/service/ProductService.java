@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.retrofit.service;
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
+import com.yusion.shanghai.yusion4s.bean.auth.Check3ElementsResp;
 import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
 import com.yusion.shanghai.yusion4s.bean.product.RequestAuthenticationReq;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
@@ -26,10 +27,14 @@ public interface ProductService {
 
 
     //获取用户信息
-    @GET("api/client/client_info/")
-    Call<BaseResult<ClientInfo>> getClientInfo(@Query("id_no") String id_no, @Query("clt_nm") String clt_nm, @Query("update") String update, @Header("authentication") String token);
+    @GET("api/client/dealer_client_info/")
+    Call<BaseResult<ClientInfo>> getClientInfo(@Query("id_no") String id_no, @Query("clt_nm") String clt_nm, @Query("mobile") String mobile, @Header("authentication") String token);
 
     //更新用户资料
-    @POST("api/client/client_info/")
+    @POST("api/client/dealer_client_info/")
     Call<BaseResult<ClientInfo>> updateClientInfo(@Body ClientInfo req);
+
+    //校验用户三要素
+    @GET("api/client/mobile_3_elements_check/")
+    Call<BaseResult<Check3ElementsResp>> check3Elements(@Query("id_no") String id_no, @Query("clt_nm") String clt_nm, @Query("mobile") String mobile, @Header("authentication") String token);
 }

@@ -13,6 +13,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
+import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
@@ -34,19 +35,24 @@ public class ApplyActivity extends BaseActivity {
         this.mClientInfo = mClientInfo;
     }
 
-    ClientInfo mClientInfo = new ClientInfo();
+    public ClientInfo mClientInfo ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply);
+
         initView();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
         }
     }
 
+    @Override
+    public void onBackPressed() {}
+
     private void initView() {
+        mClientInfo = new ClientInfo();
         initTitleBar(this, "填写个人资料").setLeftClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -93,8 +99,10 @@ public class ApplyActivity extends BaseActivity {
     }
 
     public void requestSubmit() {
-        Intent intent = new Intent(this, CommitActivity.class);
-        intent.putExtra("commit_state", "return");
+        Intent intent = getIntent();
+        intent.setClass(ApplyActivity.this, CommitActivity.class);
+        intent.putExtra("why_commit", "create_user");
+        intent.putExtra("id_no", mClientInfo.id_no);
         startActivity(intent);
         finish();
     }

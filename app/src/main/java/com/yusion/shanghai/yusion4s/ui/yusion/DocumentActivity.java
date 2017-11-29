@@ -26,21 +26,25 @@ import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
+import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.bean.upload.DelImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
+import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OcrUtil;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
@@ -72,6 +76,7 @@ public class DocumentActivity extends BaseActivity {
     private String clt_id;
     private UploadImgItemBean uploadImgItemBean;
     private String imgId;
+    private SearchClientResp searchResp;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -356,6 +361,9 @@ public class DocumentActivity extends BaseActivity {
                             } else {
                                 Toast.makeText(this, "识别成功", Toast.LENGTH_LONG).show();
                                 mOcrResp = ocrResp.showapi_res_body;
+                                // 搜索是否存在该用户
+                                search(mOcrResp.idNo);
+
                             }
                             onUploadOssSuccess(localPath, dialog, objectKey);
                         }, (throwable, s) -> {
@@ -370,6 +378,29 @@ public class DocumentActivity extends BaseActivity {
             }
         }
 
+    }
+
+    private void search(String idNo) {
+        OrderApi.searchClientExist(DocumentActivity.this, idNo, data -> {
+            if (data != null && data.size() == 1) {
+                searchResp = data.get(0);
+                if (searchResp.auth_credit.lender.commited.equals("1")) {
+                    PopupDialogUtil.relevanceInfoDialog(
+                            DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", searchResp.clt_nm, searchResp.mobile, idNo, dialog -> {
+                                dialog.dismiss();
+                                Intent intent = getIntent();
+                                intent.setClass(DocumentActivity.this, OrderCreateActivity.class);checkAuthCreditExist(intent, searchResp);
+                                intent.putExtra("enable", true);
+                                intent.putExtra("name", searchResp.clt_nm);
+                                intent.putExtra("mobile", searchResp.mobile);
+                                intent.putExtra("sfz", searchResp.id_no);
+                                startActivity(intent);
+                                finish();
+
+                            });
+                }
+            }
+        });
     }
 
     private void upLoadImg(final Dialog dialog, String imagePath) {
@@ -465,6 +496,41 @@ public class DocumentActivity extends BaseActivity {
             delete_image_btn.setEnabled(true);
             delete_image_btn.setTextColor(Color.parseColor("#ff3f00"));
         }
+    }
+
+    private void checkAuthCreditExist(Intent intent, SearchClientResp item) {
+        if (item.auth_credit.lender != null) {//如果不等于空
+            intent.putExtra("isHasLender", "1");
+            intent.putExtra("lender_clt_id", item.auth_credit.lender.clt_id);
+            intent.putExtra("lender", item.auth_credit.lender.auth_credit_img_count);
+        } else {
+            intent.putExtra("isHasLender", "2");
+        }
+        if (item.auth_credit.lender_sp != null) {//如果不等于空
+            intent.putExtra("isHasLender_sp", "1");
+            intent.putExtra("lender_sp_clt_id", item.auth_credit.lender_sp.clt_id);
+            intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
+        } else {
+            intent.putExtra("isHasLender_sp", "2");
+        }
+
+        if (item.auth_credit.guarantor != null) {//如果不等于空
+            intent.putExtra("isGuarantor", "1");
+            intent.putExtra("guarantor_clt_id", item.auth_credit.guarantor.clt_id);
+            intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
+        } else {
+            intent.putExtra("isGuarantor", "2");
+        }
+
+        if (item.auth_credit.guarantor_sp != null) {//如果不等于空
+            intent.putExtra("isGuarantor_sp", "1");
+            intent.putExtra("guarantor_sp_clt_id", item.auth_credit.guarantor_sp.clt_id);
+            intent.putExtra("guarantor_sp", item.auth_credit.guarantor_sp.auth_credit_img_count);
+
+        } else {
+            intent.putExtra("isGuarantor_sp", "2");
+        }
+
     }
 }
 

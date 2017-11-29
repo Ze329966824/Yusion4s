@@ -640,10 +640,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         return false;
     }
 
-    public void getUserInfo(Intent intent) {
 
-    }
-
+    // 直接关联
     public void deleteUserInfo() {
         client_credit__book_lin.setVisibility(View.GONE);
         client_spouse_credit__book_lin.setVisibility(View.GONE);
@@ -657,7 +655,65 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         guarantorList.clear();
         guarantorSpList.clear();
         uploadFileUrlList.clear();
-        //submitBtn.setEnabled(data.getBooleanExtra("enable", false));
         submitBtn.setEnabled(false);
+    }
+
+    public void relevance(Intent data) {
+        //清空数据
+        client_credit__book_lin.setVisibility(View.GONE);
+        client_spouse_credit__book_lin.setVisibility(View.GONE);
+        guarantor_credit_book_lin.setVisibility(View.GONE);
+        guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        lenderList.clear();
+        lenderSpList.clear();
+        guarantorList.clear();
+        guarantorSpList.clear();
+        uploadFileUrlList.clear();
+
+        credit_info.setVisibility(View.VISIBLE);
+        personal_info_group.setVisibility(View.VISIBLE);
+        client_info_name.setText(data.getStringExtra("name"));
+        client_ID_card.setText(data.getStringExtra("sfz"));
+        client_phoneNumber.setText(data.getStringExtra("mobile"));
+
+        if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
+            client_credit__book_lin.setVisibility(View.VISIBLE);
+            lender_clt_id = data.getStringExtra("lender_clt_id");
+            autonym_certify_id_back_tv.setText("请上传");
+            autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            client_credit__book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isHasLender_sp").equals("1")) { //不等于空是1 等于空是2
+            client_spouse_credit__book_lin.setVisibility(View.VISIBLE);
+            lender_sp_clt_id = data.getStringExtra("lender_sp_clt_id");
+            autonym_certify_id_back_tv1.setText("请上传");
+            autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
+            //                }
+        } else {
+            client_spouse_credit__book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isGuarantor").equals("1")) { //不等于空是1 等于空是2
+            guarantor_credit_book_lin.setVisibility(View.VISIBLE);
+            guarantor_clt_id = data.getStringExtra("guarantor_clt_id");
+            autonym_certify_id_back_tv2.setText("请上传");
+            autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            guarantor_credit_book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isGuarantor_sp").equals("1")) { //不等于空是1 等于空是2
+            guarantor_spouse_credit_book_lin.setVisibility(View.VISIBLE);
+            guarantor_sp_clt_id = data.getStringExtra("guarantor_sp_clt_id");
+            autonym_certify_id_back_tv3.setText("请上传");
+            autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        }
+
+        submitBtn.setEnabled(data.getBooleanExtra("enable", false));
+
     }
 }

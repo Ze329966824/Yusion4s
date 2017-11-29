@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.yusion.shanghai.yusion4s.bean.auth.Check3ElementsResp;
 import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
 import com.yusion.shanghai.yusion4s.bean.product.GetAuthenticationVerifyCodeReq;
 import com.yusion.shanghai.yusion4s.bean.product.RequestAuthenticationReq;
@@ -42,7 +43,7 @@ public class ProductApi {
 
     public static void getClientInfo(final Context context, GetClientInfoReq req, String token, final OnItemDataCallBack<ClientInfo> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getProductService().getClientInfo(req.id_no, req.clt_nm, req.update,token).enqueue(
+        Api.getProductService().getClientInfo(req.id_no, req.clt_nm, req.mobile,token).enqueue(
                 new CustomCallBack<ClientInfo>(context, dialog) {
                     @Override
                     public void onCustomResponse(ClientInfo data) {
@@ -61,4 +62,17 @@ public class ProductApi {
                     }
                 });
     }
+
+    public static void check3Elements(final Context context, GetClientInfoReq req, String token, final OnItemDataCallBack<Check3ElementsResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getProductService().check3Elements(req.id_no, req.clt_nm, req.mobile,token).enqueue(
+                new CustomCallBack<Check3ElementsResp>(context,dialog) {
+                    @Override
+                    public void onCustomResponse(Check3ElementsResp data) {
+                        onItemDataCallBack.onItemDataCallBack(data);
+                    }
+                });
+
+    }
+
 }

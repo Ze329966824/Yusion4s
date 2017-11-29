@@ -9,6 +9,7 @@ import android.os.Message;
 import android.support.annotation.Nullable;
 import android.support.v4.view.ViewCompat;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.DoubleCheckFragment;
+import com.yusion.shanghai.yusion4s.bean.auth.Check3ElementsResp;
 import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
@@ -28,12 +30,15 @@ import com.yusion.shanghai.yusion4s.bean.user.GetClientInfoReq;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
+import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -42,6 +47,7 @@ import org.greenrobot.eventbus.EventBus;
 import java.util.ArrayList;
 
 import static android.graphics.Typeface.createFromAsset;
+import static com.yusion.shanghai.yusion4s.R.layout.autonym_certify;
 
 public class AutonymCertifyFragment extends DoubleCheckFragment {
 
@@ -87,7 +93,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private LinearLayout autonym_certify_id_front_lin;
     private LinearLayout autonym_certify_driving_license_lin;
     private LinearLayout autonym_certify_id_number_lin;
-//    private TextView personal_info_clt_nm_edt;
+    //    private TextView personal_info_clt_nm_edt;
 //    private TextView personal_info_id_no_edt;
 //    private TextView personal_info_gender_tv;
 //    private TextView personal_info_reg_tv;
@@ -126,7 +132,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.autonym_certify, container, false);
+        return inflater.inflate(autonym_certify, container, false);
     }
 
     @Override
@@ -144,8 +150,8 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         autonym_certify_id_number_lin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (!autonym_certify_id_number_tv.isEnabled()){
-                    Toast.makeText(mContext,"请重新拍摄身份证人像面并识别成功！",Toast.LENGTH_SHORT).show();
+                if (!autonym_certify_id_number_tv.isEnabled()) {
+                    Toast.makeText(mContext, "请重新拍摄身份证人像面并识别成功！", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -156,31 +162,32 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
 
-
-            ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), "1"), "token111111", data1 -> {
-                if (data1 == null) {
-                    return;
-                }
-                data1.mobile = autonym_certify_mobile_tv.getText().toString();
-                applyActivity.setMClientInfo(data1);
-
-                if (ocrResp != null) {
-                    applyActivity.getMClientInfo().gender = ocrResp.sex;
-                    if (TextUtils.isEmpty(ocrResp.addr)) {
-                        applyActivity.getMClientInfo().reg_addr_details = "";
-                    } else {
-                        applyActivity.getMClientInfo().reg_addr_details = ocrResp.addr;
-
+            checkMobile(data -> {
+                ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, data1 -> {
+                    if (data1 == null) {
+                        return;
                     }
-                    applyActivity.getMClientInfo().reg_addr.province = ocrResp.province;
-                    applyActivity.getMClientInfo().reg_addr.city = ocrResp.city;
-                    applyActivity.getMClientInfo().reg_addr.district = ocrResp.town;
-                }
+                    applyActivity.mClientInfo = data1;
+                    if (ocrResp != null) {
+                        applyActivity.mClientInfo.gender = ocrResp.sex;
+                        if (TextUtils.isEmpty(ocrResp.addr)) {
+                            applyActivity.mClientInfo.reg_addr_details = "";
+                        } else {
+                            applyActivity.mClientInfo.reg_addr_details = ocrResp.addr;
+
+                        }
+                        applyActivity.mClientInfo.reg_addr.province = ocrResp.province;
+                        applyActivity.mClientInfo.reg_addr.city = ocrResp.city;
+                        applyActivity.mClientInfo.reg_addr.district = ocrResp.town;
+                    }
 
 
-                applyActivity.getMClientInfo().drv_lic_relationship = ((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
-                uploadUrl(data1.clt_id);
+                    applyActivity.mClientInfo.drv_lic_relationship = ((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
+                    Log.e("TAG", "mClientInfo: {" + applyActivity.mClientInfo.toString() + "}");
+
+                    uploadUrl(data1.clt_id);
 //                nextStep()
+                });
             });
         });
 
@@ -188,17 +195,19 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             if (hasFocus) {
                 autonym_certify_next_btn.clearFocus();
 
-                if (!Settings.isOnline) {
-                    nextStep();
-                    return;
-                }
+//                if (!Settings.isOnline) {
+//                    nextStep();
+//                    return;
+//                }
 
                 if (checkCanNextStep()) {
                     clearDoubleCheckItems();
                     addDoubleCheckItem("姓名", autonym_certify_name_tv.getText().toString());
                     addDoubleCheckItem("身份证号", autonym_certify_id_number_tv.getText().toString());
+                    addDoubleCheckItem("手机号", autonym_certify_mobile_tv.getText().toString());
                     mDoubleCheckDialog.show();
                 }
+
             }
         });
         autonym_certify_driving_license_rel_lin.setOnClickListener(v -> {
@@ -252,6 +261,26 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         }
 
         autonym_certify_warnning_lin.post(() -> handler.sendEmptyMessageDelayed(0, 2000));
+    }
+
+    private void checkMobile(OnItemDataCallBack callBack) {
+        ProductApi.check3Elements(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, new OnItemDataCallBack<Check3ElementsResp>() {
+            @Override
+            public void onItemDataCallBack(Check3ElementsResp data) {
+                if (data != null) {
+                    if (data.match.equals("1")) {
+                        callBack.onItemDataCallBack(true);
+                    } else {
+                        PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", dialog -> {
+                            if (!applyActivity.isFinishing()) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
+                }
+            }
+        });
+
     }
 
     private void initView(View view) {
@@ -317,14 +346,18 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             Toast.makeText(mContext, "请拍摄身份证人像面", Toast.LENGTH_SHORT).show();
         } else if (ID_FRONT_FID.isEmpty()) {
             Toast.makeText(mContext, "请拍摄身份证国徽面", Toast.LENGTH_SHORT).show();
-        } else if (DRI_FID.isEmpty()) {
-            Toast.makeText(mContext, "请拍摄驾照影像件", Toast.LENGTH_SHORT).show();
         } else if (autonym_certify_name_tv.getText().toString().trim().isEmpty()) {
             Toast.makeText(mContext, "姓名不能为空", Toast.LENGTH_SHORT).show();
         } else if (autonym_certify_id_number_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "身份证号不能为空", Toast.LENGTH_SHORT).show();
         } else if (!CheckIdCardValidUtil.isValidatedAllIdcard(autonym_certify_id_number_tv.getText().toString())) {
             Toast.makeText(mContext, "身份证号有误", Toast.LENGTH_SHORT).show();
+        } else if (autonym_certify_mobile_tv.getText().toString().isEmpty()) {
+            Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+        } else if (!CheckMobileUtil.checkMobile(autonym_certify_mobile_tv.getText().toString().toString())) {
+            Toast.makeText(mContext, "手机号码格式错误", Toast.LENGTH_SHORT).show();
+        } else if (DRI_FID.isEmpty()) {
+            Toast.makeText(mContext, "请拍摄驾照影像件", Toast.LENGTH_SHORT).show();
         } else if (autonym_certify_driving_license_rel_tv.getText().toString().isEmpty()) {
             Toast.makeText(mContext, "请选择驾照证持有人与本人关系", Toast.LENGTH_SHORT).show();
         } else {
@@ -334,6 +367,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
+        Log.e("TAG", "auto : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
         EventBus.getDefault().post(ApplyActivityEvent.showPersonalInfoFragment);
     }
 
@@ -341,7 +375,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            ClientInfo clientInfoBean = applyActivity.getMClientInfo();
+            ClientInfo clientInfoBean = applyActivity.mClientInfo;
             if (clientInfoBean == null) return;
             autonym_certify_name_tv.setText(clientInfoBean.clt_nm);
             autonym_certify_id_number_tv.setText(clientInfoBean.id_no);
@@ -387,6 +421,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.name)) {
                                     autonym_certify_name_tv.setText(ocrResp.name);
+                                }else {
+                                    autonym_certify_name_tv.setText("");
+
                                 }
                                 break;
 

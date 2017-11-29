@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -27,12 +28,49 @@ public class OrderCreateActivity extends BaseActivity {
     public String cartype;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+//        setTitle();
+        mCreditInfoFragment.relevance(intent);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_create);
         EventBus.getDefault().register(this);
 
+        setTitle();
+
         //initTitleBar(this, "申请融资");
+
+
+        mCarInfoFragment = CarInfoFragment.newInstance();
+        mCreditInfoFragment = CreditInfoFragment.newInstance();
+
+         /*   测试时改变了显示的fragment  将mCreditInfoFragment显示，隐藏mCarInfoFragment
+         *
+         * 后续记得改回来
+         */
+
+
+        getSupportFragmentManager()
+                .beginTransaction()
+                .add(R.id.order_create_container, mCarInfoFragment)
+                .add(R.id.order_create_container, mCreditInfoFragment)
+//                .hide(mCarInfoFragment)
+                .hide(mCreditInfoFragment)
+                .commit();
+        mCurrentFragment = mCarInfoFragment;
+
+
+        //mCurrentFragment = mCreditInfoFragment;
+
+
+    }
+
+    private void setTitle() {
         cartype = getIntent().getStringExtra("car_type");
         if (cartype.equals("二手车")) {
             initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
@@ -49,29 +87,6 @@ public class OrderCreateActivity extends BaseActivity {
                 }
             });
         }
-
-        mCarInfoFragment = CarInfoFragment.newInstance();
-        mCreditInfoFragment = CreditInfoFragment.newInstance();
-
-         /*   测试时改变了显示的fragment  将mCreditInfoFragment显示，隐藏mCarInfoFragment
-         *
-         * 后续记得改回来
-         */
-
-
-        getSupportFragmentManager()
-                .beginTransaction()
-                .add(R.id.order_create_container, mCarInfoFragment)
-                .add(R.id.order_create_container, mCreditInfoFragment)
-                //.hide(mCarInfoFragment)
-                .hide(mCreditInfoFragment)
-                .commit();
-        mCurrentFragment = mCarInfoFragment;
-
-
-        //mCurrentFragment = mCreditInfoFragment;
-
-
     }
 
 
