@@ -63,6 +63,10 @@ public class CommitActivity extends BaseActivity {
         returnBtn.setOnClickListener(v -> OrderApi.searchClientExist(CommitActivity.this, intent.getStringExtra("id_no"), data -> {
             if (data.size() == 1 && data.get(0) != null) {
                 checkAuthCreditExist(intent, data.get(0));
+                intent.putExtra("name", data.get(0).clt_nm);
+                intent.putExtra("sfz", data.get(0).id_no);
+                intent.putExtra("mobile", data.get(0).mobile);
+                intent.putExtra("enable", true);
                 startActivity(intent);
             }
         }));

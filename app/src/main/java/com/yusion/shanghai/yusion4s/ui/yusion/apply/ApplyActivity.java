@@ -48,6 +48,9 @@ public class ApplyActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {}
+
     private void initView() {
         mClientInfo = new ClientInfo();
         initTitleBar(this, "填写个人资料").setLeftClickListener(new View.OnClickListener() {

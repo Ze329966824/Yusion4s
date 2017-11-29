@@ -237,6 +237,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
 
 
     void submitPersonalInfo(View view) {
+        submit();
 //        personal_info_next_btn.setFocusable(true);
 //        personal_info_next_btn.setFocusableInTouchMode(true);
 //        personal_info_next_btn.requestFocus();
@@ -246,14 +247,115 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
 //            nextStep();
 //            return;
 //        }
+//        if (checkCanNextStep()) {
+//            clearDoubleCheckItems();
+//            addDoubleCheckItem("姓名", personal_info_clt_nm_edt.getText().toString());
+//            addDoubleCheckItem("身份证号", personal_info_id_no_edt.getText().toString());
+//            addDoubleCheckItem("手机号", personal_info_mobile_edt.getText().toString());
+//            mDoubleCheckDialog.show();
+//        }
+    }
 
-        if (checkCanNextStep()) {
-            clearDoubleCheckItems();
-            addDoubleCheckItem("姓名", personal_info_clt_nm_edt.getText().toString());
-            addDoubleCheckItem("身份证号", personal_info_id_no_edt.getText().toString());
-            addDoubleCheckItem("手机号", personal_info_mobile_edt.getText().toString());
-            mDoubleCheckDialog.show();
+    private void submit() {
+        if (!TextUtils.isEmpty(personal_info_reg_tv.getText().toString())) {
+            applyActivity.mClientInfo.reg_addr.province = personal_info_reg_tv.getText().toString().trim().split("/")[0];
+            applyActivity.mClientInfo.reg_addr.city = personal_info_reg_tv.getText().toString().trim().split("/")[1];
+            applyActivity.mClientInfo.reg_addr.district = personal_info_reg_tv.getText().toString().trim().split("/")[2];
         }
+        applyActivity.mClientInfo.gender = personal_info_gender_tv.getText().toString();
+        applyActivity.mClientInfo.mobile = personal_info_mobile_edt.getText().toString();
+        applyActivity.mClientInfo.edu = personal_info_education_tv.getText().toString();
+
+        //现住地址
+        if (!TextUtils.isEmpty(personal_info_current_address_tv.getText().toString())) {
+            applyActivity.mClientInfo.current_addr.province = personal_info_current_address_tv.getText().toString().trim().split("/")[0];
+            applyActivity.mClientInfo.current_addr.city = personal_info_current_address_tv.getText().toString().trim().split("/")[1];
+            applyActivity.mClientInfo.current_addr.district = personal_info_current_address_tv.getText().toString().trim().split("/")[2];
+        }
+        applyActivity.mClientInfo.current_addr.address1 = (personal_info_current_address1_tv.getText().toString());
+        applyActivity.mClientInfo.current_addr.address2 = (personal_info_current_address2_tv.getText().toString());
+        applyActivity.mClientInfo.is_live_with_parent = (personal_info_live_with_parent_tv.getText().toString());
+        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.province);
+        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.city);
+        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.district);
+        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address1);
+        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address2);
+
+
+        //主要收入来源
+        switch (personal_info_income_from_tv.getText().toString()) {
+            case "工资":
+                applyActivity.mClientInfo.major_income_type = "工资";
+                applyActivity.mClientInfo.major_income = personal_info_from_income_year_edt.getText().toString();
+                applyActivity.mClientInfo.major_company_name = personal_info_from_income_company_name_edt.getText().toString();
+                applyActivity.mClientInfo.major_company_addr.province = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                applyActivity.mClientInfo.major_company_addr.city = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                applyActivity.mClientInfo.major_company_addr.district = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_income_company_address1_tv.getText().toString();
+                applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_income_company_address2_tv.getText().toString();
+                applyActivity.mClientInfo.major_work_position = personal_info_from_income_work_position_tv.getText().toString();
+                applyActivity.mClientInfo.major_work_phone_num = personal_info_from_income_work_phone_num_edt.getText().toString();
+                break;
+
+            case "自营":
+                applyActivity.mClientInfo.major_income_type = "自营";
+                applyActivity.mClientInfo.major_income = personal_info_from_self_year_edt.getText().toString();
+                applyActivity.mClientInfo.major_busi_type = personal_info_from_self_type_tv.getText().toString();
+                applyActivity.mClientInfo.major_company_name = personal_info_from_self_company_name_edt.getText().toString();
+                if (TextUtils.isEmpty(personal_info_from_self_company_address_tv.getText().toString())) {
+                    applyActivity.mClientInfo.major_company_addr.province = "";
+                    applyActivity.mClientInfo.major_company_addr.city = "";
+                    applyActivity.mClientInfo.major_company_addr.district = "";
+                } else {
+                    applyActivity.mClientInfo.major_company_addr.province = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
+                    applyActivity.mClientInfo.major_company_addr.city = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
+                    applyActivity.mClientInfo.major_company_addr.district = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
+                }
+                applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_self_company_address1_tv.getText().toString();
+                applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_self_company_address2_tv.getText().toString();
+                break;
+            case "其他":
+                applyActivity.mClientInfo.major_income_type = "其他";
+                applyActivity.mClientInfo.major_income = personal_info_from_other_year_edt.getText().toString();
+                applyActivity.mClientInfo.major_remark = personal_info_from_other_remark_edt.getText().toString();
+                break;
+            default:
+                break;
+
+        }
+        //额外收入来源
+        switch (personal_info_extra_income_from_tv.getText().toString()) {
+            case "工资":
+                applyActivity.mClientInfo.extra_income_type = "工资";
+                applyActivity.mClientInfo.extra_income = personal_info_extra_from_income_year_edt.getText().toString();
+                applyActivity.mClientInfo.extra_company_name = personal_info_extra_from_income_company_name_edt.getText().toString();
+                applyActivity.mClientInfo.extra_company_addr.province = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                applyActivity.mClientInfo.extra_company_addr.city = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                applyActivity.mClientInfo.extra_company_addr.district = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                applyActivity.mClientInfo.extra_company_addr.address1 = personal_info_extra_from_income_company_address1_tv.getText().toString();
+                applyActivity.mClientInfo.extra_company_addr.address2 = personal_info_extra_from_income_company_address2_tv.getText().toString();
+                applyActivity.mClientInfo.extra_work_position = personal_info_extra_from_income_work_position_tv.getText().toString();
+                applyActivity.mClientInfo.extra_work_phone_num = personal_info_extra_from_income_work_phone_num_edt.getText().toString();
+                break;
+            case "无":
+                applyActivity.mClientInfo.extra_income_type = "无";
+                break;
+            default:
+                break;
+        }
+
+        //房屋性质
+        applyActivity.mClientInfo.house_owner_name = personal_info_house_owner_name_edt.getText().toString();
+        applyActivity.mClientInfo.house_owner_relation = personal_info_house_owner_relation_tv.getText().toString();
+        applyActivity.mClientInfo.house_type = personal_info_house_type_tv.getText().toString();
+        applyActivity.mClientInfo.house_area = personal_info_house_area_edt.getText().toString();
+        applyActivity.mClientInfo.urg_contact1 = personal_info_urg_contact1_edt.getText().toString();
+        applyActivity.mClientInfo.urg_mobile1 = personal_info_urg_mobile1_edt.getText().toString();
+        applyActivity.mClientInfo.urg_relation1 = personal_info_urg_relation1_tv.getText().toString();
+        applyActivity.mClientInfo.urg_contact2 = personal_info_urg_contact2_edt.getText().toString();
+        applyActivity.mClientInfo.urg_mobile2 = personal_info_urg_mobile2_edt.getText().toString();
+        applyActivity.mClientInfo.urg_relation2 = personal_info_urg_relation2_tv.getText().toString();
+        nextStep();
     }
 
     public PersonalInfoFragment() {
@@ -354,105 +456,105 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
-            if (!TextUtils.isEmpty(personal_info_reg_tv.getText().toString())) {
-                applyActivity.mClientInfo.reg_addr.province = personal_info_reg_tv.getText().toString().trim().split("/")[0];
-                applyActivity.mClientInfo.reg_addr.city = personal_info_reg_tv.getText().toString().trim().split("/")[1];
-                applyActivity.mClientInfo.reg_addr.district = personal_info_reg_tv.getText().toString().trim().split("/")[2];
-            }
-            applyActivity.mClientInfo.gender = personal_info_gender_tv.getText().toString();
-            applyActivity.mClientInfo.mobile = personal_info_mobile_edt.getText().toString();
-            applyActivity.mClientInfo.edu = personal_info_education_tv.getText().toString();
-
-            //现住地址
-            if (!TextUtils.isEmpty(personal_info_current_address_tv.getText().toString())) {
-                applyActivity.mClientInfo.current_addr.province = personal_info_current_address_tv.getText().toString().trim().split("/")[0];
-                applyActivity.mClientInfo.current_addr.city = personal_info_current_address_tv.getText().toString().trim().split("/")[1];
-                applyActivity.mClientInfo.current_addr.district = personal_info_current_address_tv.getText().toString().trim().split("/")[2];
-            }
-            applyActivity.mClientInfo.current_addr.address1 = (personal_info_current_address1_tv.getText().toString());
-            applyActivity.mClientInfo.current_addr.address2 = (personal_info_current_address2_tv.getText().toString());
-            applyActivity.mClientInfo.is_live_with_parent = (personal_info_live_with_parent_tv.getText().toString());
-            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.province);
-            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.city);
-            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.district);
-            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address1);
-            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address2);
-
-
-            //主要收入来源
-            switch (personal_info_income_from_tv.getText().toString()) {
-                case "工资":
-                    applyActivity.mClientInfo.major_income_type = "工资";
-                    applyActivity.mClientInfo.major_income = personal_info_from_income_year_edt.getText().toString();
-                    applyActivity.mClientInfo.major_company_name = personal_info_from_income_company_name_edt.getText().toString();
-                    applyActivity.mClientInfo.major_company_addr.province = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                    applyActivity.mClientInfo.major_company_addr.city = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                    applyActivity.mClientInfo.major_company_addr.district = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
-                    applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_income_company_address1_tv.getText().toString();
-                    applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_income_company_address2_tv.getText().toString();
-                    applyActivity.mClientInfo.major_work_position = personal_info_from_income_work_position_tv.getText().toString();
-                    applyActivity.mClientInfo.major_work_phone_num = personal_info_from_income_work_phone_num_edt.getText().toString();
-                    break;
-
-                case "自营":
-                    applyActivity.mClientInfo.major_income_type = "自营";
-                    applyActivity.mClientInfo.major_income = personal_info_from_self_year_edt.getText().toString();
-                    applyActivity.mClientInfo.major_busi_type = personal_info_from_self_type_tv.getText().toString();
-                    applyActivity.mClientInfo.major_company_name = personal_info_from_self_company_name_edt.getText().toString();
-                    if (TextUtils.isEmpty(personal_info_from_self_company_address_tv.getText().toString())) {
-                        applyActivity.mClientInfo.major_company_addr.province = "";
-                        applyActivity.mClientInfo.major_company_addr.city = "";
-                        applyActivity.mClientInfo.major_company_addr.district = "";
-                    } else {
-                        applyActivity.mClientInfo.major_company_addr.province = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
-                        applyActivity.mClientInfo.major_company_addr.city = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
-                        applyActivity.mClientInfo.major_company_addr.district = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
-                    }
-                    applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_self_company_address1_tv.getText().toString();
-                    applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_self_company_address2_tv.getText().toString();
-                    break;
-                case "其他":
-                    applyActivity.mClientInfo.major_income_type = "其他";
-                    applyActivity.mClientInfo.major_income = personal_info_from_other_year_edt.getText().toString();
-                    applyActivity.mClientInfo.major_remark = personal_info_from_other_remark_edt.getText().toString();
-                    break;
-                default:
-                    break;
-
-            }
-            //额外收入来源
-            switch (personal_info_extra_income_from_tv.getText().toString()) {
-                case "工资":
-                    applyActivity.mClientInfo.extra_income_type = "工资";
-                    applyActivity.mClientInfo.extra_income = personal_info_extra_from_income_year_edt.getText().toString();
-                    applyActivity.mClientInfo.extra_company_name = personal_info_extra_from_income_company_name_edt.getText().toString();
-                    applyActivity.mClientInfo.extra_company_addr.province = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                    applyActivity.mClientInfo.extra_company_addr.city = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                    applyActivity.mClientInfo.extra_company_addr.district = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
-                    applyActivity.mClientInfo.extra_company_addr.address1 = personal_info_extra_from_income_company_address1_tv.getText().toString();
-                    applyActivity.mClientInfo.extra_company_addr.address2 = personal_info_extra_from_income_company_address2_tv.getText().toString();
-                    applyActivity.mClientInfo.extra_work_position = personal_info_extra_from_income_work_position_tv.getText().toString();
-                    applyActivity.mClientInfo.extra_work_phone_num = personal_info_extra_from_income_work_phone_num_edt.getText().toString();
-                    break;
-                case "无":
-                    applyActivity.mClientInfo.extra_income_type = "无";
-                    break;
-                default:
-                    break;
-            }
-
-            //房屋性质
-            applyActivity.mClientInfo.house_owner_name = personal_info_house_owner_name_edt.getText().toString();
-            applyActivity.mClientInfo.house_owner_relation = personal_info_house_owner_relation_tv.getText().toString();
-            applyActivity.mClientInfo.house_type = personal_info_house_type_tv.getText().toString();
-            applyActivity.mClientInfo.house_area = personal_info_house_area_edt.getText().toString();
-            applyActivity.mClientInfo.urg_contact1 = personal_info_urg_contact1_edt.getText().toString();
-            applyActivity.mClientInfo.urg_mobile1 = personal_info_urg_mobile1_edt.getText().toString();
-            applyActivity.mClientInfo.urg_relation1 = personal_info_urg_relation1_tv.getText().toString();
-            applyActivity.mClientInfo.urg_contact2 = personal_info_urg_contact2_edt.getText().toString();
-            applyActivity.mClientInfo.urg_mobile2 = personal_info_urg_mobile2_edt.getText().toString();
-            applyActivity.mClientInfo.urg_relation2 = personal_info_urg_relation2_tv.getText().toString();
-            nextStep();
+//            if (!TextUtils.isEmpty(personal_info_reg_tv.getText().toString())) {
+//                applyActivity.mClientInfo.reg_addr.province = personal_info_reg_tv.getText().toString().trim().split("/")[0];
+//                applyActivity.mClientInfo.reg_addr.city = personal_info_reg_tv.getText().toString().trim().split("/")[1];
+//                applyActivity.mClientInfo.reg_addr.district = personal_info_reg_tv.getText().toString().trim().split("/")[2];
+//            }
+//            applyActivity.mClientInfo.gender = personal_info_gender_tv.getText().toString();
+//            applyActivity.mClientInfo.mobile = personal_info_mobile_edt.getText().toString();
+//            applyActivity.mClientInfo.edu = personal_info_education_tv.getText().toString();
+//
+//            //现住地址
+//            if (!TextUtils.isEmpty(personal_info_current_address_tv.getText().toString())) {
+//                applyActivity.mClientInfo.current_addr.province = personal_info_current_address_tv.getText().toString().trim().split("/")[0];
+//                applyActivity.mClientInfo.current_addr.city = personal_info_current_address_tv.getText().toString().trim().split("/")[1];
+//                applyActivity.mClientInfo.current_addr.district = personal_info_current_address_tv.getText().toString().trim().split("/")[2];
+//            }
+//            applyActivity.mClientInfo.current_addr.address1 = (personal_info_current_address1_tv.getText().toString());
+//            applyActivity.mClientInfo.current_addr.address2 = (personal_info_current_address2_tv.getText().toString());
+//            applyActivity.mClientInfo.is_live_with_parent = (personal_info_live_with_parent_tv.getText().toString());
+//            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.province);
+//            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.city);
+//            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.district);
+//            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address1);
+//            Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address2);
+//
+//
+//            //主要收入来源
+//            switch (personal_info_income_from_tv.getText().toString()) {
+//                case "工资":
+//                    applyActivity.mClientInfo.major_income_type = "工资";
+//                    applyActivity.mClientInfo.major_income = personal_info_from_income_year_edt.getText().toString();
+//                    applyActivity.mClientInfo.major_company_name = personal_info_from_income_company_name_edt.getText().toString();
+//                    applyActivity.mClientInfo.major_company_addr.province = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+//                    applyActivity.mClientInfo.major_company_addr.city = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+//                    applyActivity.mClientInfo.major_company_addr.district = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+//                    applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_income_company_address1_tv.getText().toString();
+//                    applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_income_company_address2_tv.getText().toString();
+//                    applyActivity.mClientInfo.major_work_position = personal_info_from_income_work_position_tv.getText().toString();
+//                    applyActivity.mClientInfo.major_work_phone_num = personal_info_from_income_work_phone_num_edt.getText().toString();
+//                    break;
+//
+//                case "自营":
+//                    applyActivity.mClientInfo.major_income_type = "自营";
+//                    applyActivity.mClientInfo.major_income = personal_info_from_self_year_edt.getText().toString();
+//                    applyActivity.mClientInfo.major_busi_type = personal_info_from_self_type_tv.getText().toString();
+//                    applyActivity.mClientInfo.major_company_name = personal_info_from_self_company_name_edt.getText().toString();
+//                    if (TextUtils.isEmpty(personal_info_from_self_company_address_tv.getText().toString())) {
+//                        applyActivity.mClientInfo.major_company_addr.province = "";
+//                        applyActivity.mClientInfo.major_company_addr.city = "";
+//                        applyActivity.mClientInfo.major_company_addr.district = "";
+//                    } else {
+//                        applyActivity.mClientInfo.major_company_addr.province = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
+//                        applyActivity.mClientInfo.major_company_addr.city = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
+//                        applyActivity.mClientInfo.major_company_addr.district = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
+//                    }
+//                    applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_self_company_address1_tv.getText().toString();
+//                    applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_self_company_address2_tv.getText().toString();
+//                    break;
+//                case "其他":
+//                    applyActivity.mClientInfo.major_income_type = "其他";
+//                    applyActivity.mClientInfo.major_income = personal_info_from_other_year_edt.getText().toString();
+//                    applyActivity.mClientInfo.major_remark = personal_info_from_other_remark_edt.getText().toString();
+//                    break;
+//                default:
+//                    break;
+//
+//            }
+//            //额外收入来源
+//            switch (personal_info_extra_income_from_tv.getText().toString()) {
+//                case "工资":
+//                    applyActivity.mClientInfo.extra_income_type = "工资";
+//                    applyActivity.mClientInfo.extra_income = personal_info_extra_from_income_year_edt.getText().toString();
+//                    applyActivity.mClientInfo.extra_company_name = personal_info_extra_from_income_company_name_edt.getText().toString();
+//                    applyActivity.mClientInfo.extra_company_addr.province = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+//                    applyActivity.mClientInfo.extra_company_addr.city = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+//                    applyActivity.mClientInfo.extra_company_addr.district = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+//                    applyActivity.mClientInfo.extra_company_addr.address1 = personal_info_extra_from_income_company_address1_tv.getText().toString();
+//                    applyActivity.mClientInfo.extra_company_addr.address2 = personal_info_extra_from_income_company_address2_tv.getText().toString();
+//                    applyActivity.mClientInfo.extra_work_position = personal_info_extra_from_income_work_position_tv.getText().toString();
+//                    applyActivity.mClientInfo.extra_work_phone_num = personal_info_extra_from_income_work_phone_num_edt.getText().toString();
+//                    break;
+//                case "无":
+//                    applyActivity.mClientInfo.extra_income_type = "无";
+//                    break;
+//                default:
+//                    break;
+//            }
+//
+//            //房屋性质
+//            applyActivity.mClientInfo.house_owner_name = personal_info_house_owner_name_edt.getText().toString();
+//            applyActivity.mClientInfo.house_owner_relation = personal_info_house_owner_relation_tv.getText().toString();
+//            applyActivity.mClientInfo.house_type = personal_info_house_type_tv.getText().toString();
+//            applyActivity.mClientInfo.house_area = personal_info_house_area_edt.getText().toString();
+//            applyActivity.mClientInfo.urg_contact1 = personal_info_urg_contact1_edt.getText().toString();
+//            applyActivity.mClientInfo.urg_mobile1 = personal_info_urg_mobile1_edt.getText().toString();
+//            applyActivity.mClientInfo.urg_relation1 = personal_info_urg_relation1_tv.getText().toString();
+//            applyActivity.mClientInfo.urg_contact2 = personal_info_urg_contact2_edt.getText().toString();
+//            applyActivity.mClientInfo.urg_mobile2 = personal_info_urg_mobile2_edt.getText().toString();
+//            applyActivity.mClientInfo.urg_relation2 = personal_info_urg_relation2_tv.getText().toString();
+//            nextStep();
         });
 
 //        personal_info_mobile_edt.setText(applyActivity.mClientInfo.mobile);

@@ -204,6 +204,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                     clearDoubleCheckItems();
                     addDoubleCheckItem("姓名", autonym_certify_name_tv.getText().toString());
                     addDoubleCheckItem("身份证号", autonym_certify_id_number_tv.getText().toString());
+                    addDoubleCheckItem("手机号", autonym_certify_mobile_tv.getText().toString());
                     mDoubleCheckDialog.show();
                 }
 
