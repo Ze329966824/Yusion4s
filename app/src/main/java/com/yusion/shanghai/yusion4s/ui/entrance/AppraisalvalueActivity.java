@@ -64,7 +64,7 @@ public class AppraisalvalueActivity extends BaseActivity {
             String name = time + ".png";
 
             Base64Util.saveBaseImage(baseStr, Environment.getExternalStorageDirectory().getPath() + "/yusion/", name);
-            Toast.makeText(this,"截图已保存到"+Environment.getExternalStorageDirectory().getPath()+ "/yusion/"+name,Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "截图已保存到" + Environment.getExternalStorageDirectory().getPath() + "/yusion/" + name, Toast.LENGTH_SHORT).show();
             Log.e("TAG", "path : " + Environment.getExternalStorageDirectory().getPath());
 
         });
@@ -80,14 +80,14 @@ public class AppraisalvalueActivity extends BaseActivity {
 //            req.clt_id = getIntent().getStringExtra("clt_id");
             req.role = getIntent().getStringExtra("role");
             req.label = getIntent().getStringExtra("label");
-            Log.e("TAG", req.clt_id + req.app_id + req.role + req.label);
+            Log.e("TAG333", req.clt_id + req.app_id + req.role + req.label);
 
 
             UploadApi.listImgs(this, req, new OnItemDataCallBack<ListImgsResp>() {
                 @Override
                 public void onItemDataCallBack(ListImgsResp data) {
                     if (data.list.isEmpty() || data.list.size() < 0) {
-                        Toast.makeText(AppraisalvalueActivity.this,"并没有图片",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AppraisalvalueActivity.this, "并没有图片", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     try {
@@ -106,6 +106,7 @@ public class AppraisalvalueActivity extends BaseActivity {
             });
         }
     }
+
     private void setUrl(OnItemDataCallBack callBack) {
         HttpURLConnection conn = null;
         try {
