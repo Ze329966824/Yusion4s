@@ -20,7 +20,7 @@ public interface CheInfoService {
 
     //获取截图和价格
     @GET("/che300/vuluation/price/")
-    Call<BaseResult<GetChePriceAndImageResp>> getChePriceAndImage();
+    Call<BaseResult<GetChePriceAndImageResp>> getChePriceAndImage(@Query("province_id") String province_id, @Query("city_id") String city_id, @Query("brand_id") String brand_id, @Query("trix_id") String trix_id, @Query("model_id") String model_id, @Query("plate_year") String plate_year, @Query("plate_month") String plate_month, @Query("mile_age") String mile_age);
 
 
 }

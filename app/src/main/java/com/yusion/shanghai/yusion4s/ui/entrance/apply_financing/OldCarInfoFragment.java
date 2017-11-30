@@ -20,7 +20,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -283,6 +282,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private ArrayList<String> brandItems;
     private ArrayList<String> trixItems;
     private ArrayList<String> modelItems;
+    private Dialog dialog;
 
     private void writeOtherPrice(View view, boolean hasFocus) {
         Log.e("TAG", "writeOtherPrice() called with: view = [" + view + "], hasFocus = [" + hasFocus + "]");
@@ -372,7 +372,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private Button btn_reset; //重置
     private Button btn_fast_valuation;//快速估值
     private EditText oldcar_guess_tv;//二手车评估价
-    private RadioButton look_guess_img_btn;//查看估值截图
+    private Button look_guess_img_btn;//查看估值截图
 
 
     public static OldCarInfoFragment newInstance() {
@@ -435,19 +435,20 @@ public class OldCarInfoFragment extends BaseFragment {
         btn_reset = (Button) view.findViewById(R.id.btn_reset); //重置
         btn_fast_valuation = (Button) view.findViewById(R.id.btn_fast_valuation);//快速估值
         //oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
-        look_guess_img_btn = (RadioButton) view.findViewById(R.id.look_guess_img_btn);//查看估值截图
+        look_guess_img_btn = (Button) view.findViewById(R.id.look_guess_img_btn);//查看估值截图
         cartype = getActivity().getIntent().getStringExtra("car_type");
-
+        dialog = LoadingUtils.createLoadingDialog(mContext);
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
 
 
         look_guess_img_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("TAG", "onClick: 点击");
                 if (TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                     Toast.makeText(mContext, "请先进行车辆价格评估", Toast.LENGTH_LONG).show();
                 }
-                if (guess_img != null && !guess_img.isEmpty()) {
+                if (guess_img != null) {
                     Intent intent = new Intent(mContext, AppraisalvalueActivity.class);
                     intent.putExtra("guess_img", guess_img);
                     startActivity(intent);
@@ -471,7 +472,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     }
                 });
 
-                CheApi.getChePriceAndImage(mContext, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+                CheApi.getChePriceAndImage(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
                     @Override
                     public void onItemDataCallBack(GetChePriceAndImageResp data) {
                         SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
@@ -481,9 +482,10 @@ public class OldCarInfoFragment extends BaseFragment {
                             oldcar_business_price_tv.setText(data.result.price + "");
                             if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                                 carLoanPriceTv.setEnabled(true);
-                                look_guess_img_btn.setChecked(true);
                                 look_guess_img_btn.setEnabled(true);
                             }
+                            dialog.dismiss();
+                            guess_img = "";
                             guess_img = data.result.img;
                             ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
                             ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
@@ -494,6 +496,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 });
             }
         });
+
         btn_reset.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -514,10 +517,6 @@ public class OldCarInfoFragment extends BaseFragment {
 
                 oldcar_addrtime_tv.setText("");
                 oldcar_dance_tv.setText("");
-
-                btn_reset.setEnabled(false);
-                btn_fast_valuation.setEnabled(false);
-
 
                 mBrandList.clear();
                 mBrandIndex = 0;
@@ -556,7 +555,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 otherPriceTv.setText("");
                 plateRegAddrTv.setText("");//上牌地选择
                 loanPeriodsTv.setText("");//还款期限
-                look_guess_img_btn.setChecked(false);
+
                 look_guess_img_btn.setEnabled(false);
                 btn_reset.setEnabled(false);
                 btn_fast_valuation.setEnabled(false);
@@ -694,7 +693,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     otherPriceTv.setText("");
                     plateRegAddrTv.setText("");//上牌地选择
                     loanPeriodsTv.setText("");//还款期限
-                    look_guess_img_btn.setChecked(false);
+
                     look_guess_img_btn.setEnabled(false);
                     btn_reset.setEnabled(false);
                     btn_fast_valuation.setEnabled(false);
@@ -853,7 +852,7 @@ public class OldCarInfoFragment extends BaseFragment {
                             guidePriceTv.setText(mGuidePrice + "");
                             billPriceTv.setEnabled(true);
                             oldcar_business_price_tv.setEnabled(true);
-                            oldcar_guess_price_tv.setEnabled(true);
+                            //oldcar_guess_price_tv.setEnabled(true);
                             //otherPriceTv.setHint("整百且小于" + mDlrList.get(mDlrIndex).other_fee);
                             mLoanBankList.clear();
                             mLoanBankIndex = 0;
@@ -1503,12 +1502,12 @@ public class OldCarInfoFragment extends BaseFragment {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             String priceAndImage = SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", "");
-            Dialog dialog = LoadingUtils.createLoadingDialog(mContext);
             if (priceAndImage == null || priceAndImage.isEmpty()) {
                 dialog.show();
                 Log.e("SP1", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
             } else {
                 dialog.dismiss();
+                look_guess_img_btn.setEnabled(true);
                 SharedPrefsUtil.getInstance(mContext).remove("priceAndImage");
                 Log.e("SP2", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
 

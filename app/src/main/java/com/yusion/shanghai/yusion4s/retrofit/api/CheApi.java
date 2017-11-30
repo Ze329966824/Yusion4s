@@ -35,8 +35,8 @@ public class CheApi {
         });
     }
 
-    public static void getChePriceAndImage(final Context context, OnItemDataCallBack<GetChePriceAndImageResp> onItemDataCallBack) {
-        CheApi.getCheInfoService().getChePriceAndImage().enqueue(new CustomCallBack<GetChePriceAndImageResp>(context) {
+    public static void getChePriceAndImage(final Context context, String province_id, String city_id, String brand_id, String trix_id, String model_id, String plate_year, String plate_month, String mile_age,OnItemDataCallBack<GetChePriceAndImageResp> onItemDataCallBack) {
+        CheApi.getCheInfoService().getChePriceAndImage(province_id, city_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age).enqueue(new CustomCallBack<GetChePriceAndImageResp>(context) {
             @Override
             public void onCustomResponse(GetChePriceAndImageResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);

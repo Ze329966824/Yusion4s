@@ -491,7 +491,7 @@
                             android:layout_height="@dimen/separate_line_height"
                             android:background="@color/separate_line_color" />
 
-                        <RadioButton
+                        <Button
                             android:id="@+id/look_guess_img_btn"
                             android:layout_width="105dp"
                             android:layout_height="30dp"
@@ -499,8 +499,7 @@
                             android:layout_marginBottom="10dp"
                             android:layout_marginRight="15dp"
                             android:layout_marginTop="10dp"
-                            android:button="@null"
-                            android:checked="false"
+                            android:background="@null"
                             android:drawableRight="@drawable/guess_image_selector"
                             android:enabled="false"
                             android:text="查看估值截图"

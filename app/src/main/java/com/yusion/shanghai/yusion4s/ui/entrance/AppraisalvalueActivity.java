@@ -28,8 +28,8 @@ public class AppraisalvalueActivity extends BaseActivity {
     private TextView appraisal_download_tv;
 
 
-
     private String baseStr;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,14 +57,19 @@ public class AppraisalvalueActivity extends BaseActivity {
         if (baseStr != null) {
             Bitmap bitmap = Base64Util.stringtoBitmap(baseStr);
             appraisal_value_img.setImage(bitmap);
-        }else {
+            baseStr = "";
+        } else {
             ListImgsReq req = new ListImgsReq();
             req.app_id = getIntent().getStringExtra("app_id");
             req.clt_id = getIntent().getStringExtra("clt_id");
             req.role = getIntent().getStringExtra("role");
             req.label = getIntent().getStringExtra("label");
+            Log.e("TAG", req.clt_id + req.app_id + req.role + req.label);
 
             UploadApi.listImgs(this, req, data -> {
+                if (data.list.isEmpty() || data.list.size() < 0) {
+                    return;
+                }
                 URL url = null;
                 try {
                     url = new URL(data.list.get(0).s_url);
@@ -82,15 +87,14 @@ public class AppraisalvalueActivity extends BaseActivity {
         }
 
 
-
         appraisal_download_tv.setOnClickListener(v -> {
-            Date date=new Date();
-            DateFormat format=new SimpleDateFormat("yyyy-MM-dd");
-            String time=format.format(date);
-            String name = time +".png";
+            Date date = new Date();
+            DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+            String time = format.format(date);
+            String name = time + ".png";
 
-            Base64Util.saveBaseImage(baseStr,Environment.getExternalStorageDirectory().getPath()+"/yusion/",name);
-            Log.e("TAG", "path : "+Environment.getExternalStorageDirectory().getPath());
+            Base64Util.saveBaseImage(baseStr, Environment.getExternalStorageDirectory().getPath() + "/yusion/", name);
+            Log.e("TAG", "path : " + Environment.getExternalStorageDirectory().getPath());
 
         });
 

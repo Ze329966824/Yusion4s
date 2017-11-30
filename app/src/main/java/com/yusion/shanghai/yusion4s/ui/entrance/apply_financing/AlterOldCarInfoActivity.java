@@ -16,7 +16,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -301,7 +300,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private Button btn_reset; //重置
     private Button btn_fast_valuation;//快速估值
     private EditText oldcar_guess_tv;//二手车评估价
-    private RadioButton look_guess_img_btn;//查看估值截图
+    private Button look_guess_img_btn;//查看估值截图
 
 
     private void writeOtherPrice(View view, boolean hasFocus) {
@@ -372,6 +371,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private View kaipiaojia_line;
 
     private String cartype;
+    private Dialog dialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -380,6 +380,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         DELAY_MILLIS = ((Yusion4sApp) getApplication()).getConfigResp().DELAY_MILLIS;
         app_id = getIntent().getStringExtra("app_id");
         cartype = getIntent().getStringExtra("car_type");
+        dialog = LoadingUtils.createLoadingDialog(AlterOldCarInfoActivity.this);
+
         if (cartype.equals("新车")) {
             initTitleBar(this, "修改新车订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(new View.OnClickListener() {
                 @Override
@@ -466,7 +468,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         btn_reset = (Button) findViewById(R.id.btn_reset); //重置
         btn_fast_valuation = (Button) findViewById(R.id.btn_fast_valuation);//快速估值
         //oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
-        look_guess_img_btn = (RadioButton) findViewById(R.id.look_guess_img_btn);//查看估值截图
+        look_guess_img_btn = (Button) findViewById(R.id.look_guess_img_btn);//查看估值截图
     }
 
     private void initData() {
@@ -522,7 +524,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
                     billPriceTv.setEnabled(true);
                 }
-                look_guess_img_btn.setChecked(true);
                 look_guess_img_btn.setEnabled(true);
                 isChoose = true;
                 DlrApi.getDlrListByToken(AlterOldCarInfoActivity.this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
@@ -626,12 +627,13 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 if (TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                     Toast.makeText(AlterOldCarInfoActivity.this, "请先进行车辆价格评估", Toast.LENGTH_LONG).show();
                 }
-                if (guess_img != null && !guess_img.isEmpty()) {
+                if (guess_img != null) {
                     Intent intent = new Intent(AlterOldCarInfoActivity.this, AppraisalvalueActivity.class);
                     intent.putExtra("guess_img", guess_img);
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(AlterOldCarInfoActivity.this, AppraisalvalueActivity.class);
+                    Log.e("TAG", clt_id + app_id + vehicle_owner_lender_relation + che_300_label);
                     intent.putExtra("clt_id", clt_id);
                     intent.putExtra("app_id", app_id);
                     intent.putExtra("role", vehicle_owner_lender_relation);
@@ -656,8 +658,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         }
                     }
                 });
-
-                CheApi.getChePriceAndImage(AlterOldCarInfoActivity.this, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+                CheApi.getChePriceAndImage(AlterOldCarInfoActivity.this, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
                     @Override
                     public void onItemDataCallBack(GetChePriceAndImageResp data) {
                         SharedPrefsUtil.getInstance(AlterOldCarInfoActivity.this).putValue("priceAndImage", data.toString());
@@ -666,16 +667,14 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             oldcar_business_price_tv.setText(data.result.price + "");
                             if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                                 carLoanPriceTv.setEnabled(true);
-                                look_guess_img_btn.setChecked(true);
                                 look_guess_img_btn.setEnabled(true);
                             }
+                            dialog.dismiss();
                             guess_img = data.result.img;
                             String bucket = data.result.file_info.bucket;
                             String region = data.result.file_info.region;
                             String file_id = data.result.file_info.file_id;
                             che_300_label = data.result.file_info.label;
-//                            ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
-//                            ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
                         }
                     }
                 });
@@ -744,7 +743,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 otherPriceTv.setText("");
                 plateRegAddrTv.setText("");//上牌地选择
                 loanPeriodsTv.setText("");//还款期限
-                look_guess_img_btn.setChecked(false);
+
                 look_guess_img_btn.setEnabled(false);
                 btn_reset.setEnabled(false);
                 btn_fast_valuation.setEnabled(false);
@@ -873,7 +872,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     plateRegAddrTv.setText("");//上牌地选择
                     loanPeriodsTv.setText("");//还款期限
                     carInfoAlterTv.setText("");//修改理由
-                    look_guess_img_btn.setChecked(false);
+
                     look_guess_img_btn.setEnabled(false);
                     btn_reset.setEnabled(false);
                     btn_fast_valuation.setEnabled(false);
@@ -1087,6 +1086,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 toast.show();
             }
         });
+        /*
         if (cartype.equals("二手车")) {
             oldcar_guess_price_tv.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -1105,12 +1105,20 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         oldcar_business_price_tv.setText("");
                         carLoanPriceTv.setText("");
                         firstPriceTv.setText("");
+                        otherPriceTv.setText("");
+                        managementPriceTv.setText("");
+                        totalLoanPriceTv.setText("");
+                        loanBankTv.setText("");
+                        plateRegAddrTv.setText("");
+                        productTypeTv.setText("");
+
                     } else {
                         isChangeCarInfoChange = false;
                     }
                 }
             });
         }
+        */
 
 
 //billPriceTv 车辆开票价
@@ -1154,7 +1162,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     }
                 }
             });
-        } else {
+        }
+        /*
+        else {
             oldcar_business_price_tv.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1197,6 +1207,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 }
             });
         }
+        */
+
         carLoanPriceTv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1429,9 +1441,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 totalPrice();
             }
         });
-        carInfoLoanBankLin.setOnClickListener(v ->
-
-        {//选择银行列表
+        carInfoLoanBankLin.setOnClickListener(v -> {//选择银行列表
             if (!TextUtils.isEmpty(dlrTV.getText())) {
                 DlrApi.getLoanBank(AlterOldCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                     mLoanBankList = resp;//银行列表
@@ -1457,9 +1467,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             }
         });
 //产品类型
-        carInfoProductTypeLin.setOnClickListener(v ->
-
-        {
+        carInfoProductTypeLin.setOnClickListener(v -> {
             if (!TextUtils.isEmpty(loanBankTv.getText())) {
 
                 DlrApi.getProductType(AlterOldCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
@@ -1757,9 +1765,11 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             Toast.makeText(AlterOldCarInfoActivity.this, "二手车里程数不能为空", Toast.LENGTH_LONG).show();
         } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
             Toast.makeText(AlterOldCarInfoActivity.this, "二手车评估价不能为空", Toast.LENGTH_LONG).show();
-        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_business_price_tv.getText())) {
-            Toast.makeText(AlterOldCarInfoActivity.this, "二手车交易价不能为空", Toast.LENGTH_LONG).show();
-        } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
+        }
+//        else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_business_price_tv.getText())) {
+//            Toast.makeText(AlterOldCarInfoActivity.this, "二手车交易价不能为空", Toast.LENGTH_LONG).show();
+//        }
+        else if (TextUtils.isEmpty(firstPriceTv.getText())) {
             Toast.makeText(AlterOldCarInfoActivity.this, "首付款不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(managementPriceTv.getText())) {
             Toast.makeText(AlterOldCarInfoActivity.this, "管理费不能为空", Toast.LENGTH_SHORT).show();
@@ -1826,6 +1836,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 dialog.show();
             } else {
                 dialog.dismiss();
+                look_guess_img_btn.setEnabled(true);
                 SharedPrefsUtil.getInstance(AlterOldCarInfoActivity.this).remove("priceAndImage");
             }
         }
