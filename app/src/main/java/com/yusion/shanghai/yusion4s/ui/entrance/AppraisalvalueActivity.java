@@ -98,7 +98,7 @@ public class AppraisalvalueActivity extends BaseActivity {
                         return;
                     }
                     try {
-                        url = new URL(data.list.get(0).s_url);
+                        url = new URL(data.list.get(0).raw_url);
                         finalUrl = url;
                         setUrl();
                     } catch (MalformedURLException e) {
