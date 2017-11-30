@@ -82,10 +82,8 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
         intentData.clt_id = getIntent.getStringExtra("clt_id");
         intentData.imgObjectKey = getIntent.getStringExtra("objectKey");
 
-        intentData.role = "lender";
-        intentData.type = "id_card_back";
-        // TODO: 2017/11/30
-
+//        intentData.role = "lender";
+//        intentData.type = "id_card_back";
 
         initView();
         initData();
