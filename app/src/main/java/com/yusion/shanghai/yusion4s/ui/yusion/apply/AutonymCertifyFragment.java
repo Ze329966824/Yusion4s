@@ -35,7 +35,7 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
+import com.yusion.shanghai.yusion4s.ui.SingleImgUploadForCreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
@@ -220,7 +220,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
 
         });
         autonym_certify_id_back_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_BACK);
             intent.putExtra("role", Constants.PersonType.LENDER);
             intent.putExtra("imgUrl", idBackImgUrl);
@@ -230,7 +230,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             startActivityForResult(intent, Constants.REQUEST_DOCUMENT);
         });
         autonym_certify_id_front_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_FRONT);
             intent.putExtra("role", Constants.PersonType.LENDER);
             intent.putExtra("imgUrl", idFrontImgUrl);
@@ -239,7 +239,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             startActivityForResult(intent, Constants.REQUEST_DOCUMENT);
         });
         autonym_certify_driving_license_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.DRI_LIC);
             intent.putExtra("role", Constants.PersonType.LENDER);
             intent.putExtra("imgUrl", drivingLicImgUrl);

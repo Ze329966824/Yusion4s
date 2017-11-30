@@ -1,22 +1,16 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
-//apply plugin: 'kotlin-android'
-//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.growingio.android'
 
 android {
-//    def isOnline = true
-//    def forAppium = false
-
-    compileSdkVersion 25
-    buildToolsVersion "26.0.0"
+    compileSdkVersion 26
+    buildToolsVersion "26.0.3"
     defaultConfig {
-        resValue("string", "growingio_project_id", "8892821e0de2f687")
-        resValue("string", "growingio_url_scheme", "growing.eef54f1a6e5f2268")
         applicationId "com.yusion.shanghai.yusion4s"
         minSdkVersion 15
+        //noinspection OldTargetApi
         targetSdkVersion 21
         versionCode rootProject.VersionCode
         versionName "${rootProject.VersionName}"
@@ -27,27 +21,20 @@ android {
 
         multiDexEnabled true
 
-        buildConfigField("boolean", "forAppium", forAppium.toString())
+        buildConfigField("boolean", "forAppium", rootProject.forAppium.toString())
+        buildConfigField("boolean", "isOnline", rootProject.isOnline.toString())
 
-        buildConfigField("boolean", "isOnline", isOnline.toString())
         def pgyer_appid = "2234913a0c85f5dc0e60faefe41c96e0"//红米手机图标不变
         def app_icon = "@mipmap/test_ic_launcher"
-//        def app_icon = "@mipmap/ic_launcher"
         if (isOnline) {
             pgyer_appid = "a455421518edcbc4d3784f2b855b0691"
             app_icon = "@mipmap/ic_launcher"
         }
         manifestPlaceholders = ["PGYER_APPID": pgyer_appid, APP_ICON: app_icon]
+
+        resValue("string", "growingio_project_id", "8892821e0de2f687")
+        resValue("string", "growingio_url_scheme", "growing.eef54f1a6e5f2268")
     }
-//    productFlavors{
-//        online{
-//
-//        }
-//
-//        alpha{
-//            applicationId "com.yusion.shanghai.yusion4s.alpha"
-//        }
-//    }
     buildTypes {
         release {
             minifyEnabled false
@@ -62,6 +49,15 @@ android {
             keyPassword RELEASE_KEY_PASSWORD
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    sourceSets.main {
+        assets.srcDirs = ['assets']
+        jniLibs.srcDirs = ['libs']//指定jniLibs文件夹路径
+        jni.srcDirs = []//不编译jni
+    }
     applicationVariants.all { variant ->
         variant.outputs.each { output ->
             String environment = "alpha"
@@ -72,15 +68,6 @@ android {
             output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", prefix + environment + "-yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
         }
     }
-    compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
-        targetCompatibility JavaVersion.VERSION_1_8
-    }
-    sourceSets.main {
-        assets.srcDirs = ['assets']
-        jniLibs.srcDirs = ['libs']//指定jniLibs文件夹路径
-        jni.srcDirs = []//不编译jni
-    }
 }
 
 static def buildTime() {
@@ -89,49 +76,48 @@ static def buildTime() {
     return df.format(new Date())
 }
 
+configurations.all {
+    resolutionStrategy {
+        force 'com.android.support:multidex:1.0.2'
+        force 'com.google.code.findbugs:jsr305:3.0.2'
+
+    }
+}
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'AliyunSdk-RC', ext: 'aar')
-//    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
-    compile project(path: ':PickerLib')
-    compile files('libs/jcore-android-1.1.6.jar')
-    compile files('libs/jpush-android-3.0.8.jar')
-    //    compile 'com.pgyersdk:sdk:2.7.0'
-    compile 'com.android.support:appcompat-v7:25.3.1'
+//    compile files('libs/jcore-android-1.1.6.jar')
+//    compile files('libs/jpush-android-3.0.8.jar')
+    compile 'com.android.support:appcompat-v7:26.1.0'
+    compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
     compile 'com.github.bumptech.glide:glide:4.0.0'
     compile 'com.github.bumptech.glide:compiler:4.0.0'
     compile 'com.github.bumptech.glide:okhttp3-integration:4.0.0'
-    compile 'com.android.support:recyclerview-v7:25.3.1'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
     compile 'com.chanven.lib:cptr:1.1.0'
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
-    compile 'com.squareup.retrofit2:converter-gson:2.2.0'
-    compile 'com.android.support:support-v4:25.3.1'
-    compile 'com.android.support:design:26.0.0-alpha1'
-    compile 'io.sentry:sentry-android:1.5.2'
+    compile 'com.squareup.retrofit2:converter-gson:2.3.0'
+    compile 'io.sentry:sentry-android:1.5.4'
     compile 'com.squareup.okhttp:okhttp:2.7.5'
-    compile 'com.umeng.analytics:analytics:latest.integration'
+    compile 'com.umeng.analytics:analytics:6.1.2'
     compile 'com.instabug.library:instabug:4.2.10'
-    compile 'com.android.support:multidex:1.0.1'
-    compile 'com.amap.api:location:latest.integration'
+    compile 'com.android.support:multidex:1.0.2'
+    compile 'com.amap.api:location:3.6.1'
     compile 'com.shizhefei:LargeImageView:1.0.9'
     testCompile 'junit:junit:4.12'
-    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
 
     compile "io.reactivex.rxjava2:rxjava:2.1.6"
     compile 'com.growingio.android:vds-android-agent:1.1.1@aar'
+    compile project(path: ':PickerLib')
     compile project(path: ':photoLibrary')
 }
-repositories {
-    mavenCentral()
-}
 
-public class BuildTimeListener implements TaskExecutionListener, BuildListener {
+class BuildTimeListener implements TaskExecutionListener, BuildListener {
     private Clock clock
     private times = []
 
@@ -144,7 +130,6 @@ public class BuildTimeListener implements TaskExecutionListener, BuildListener {
     void afterExecute(Task task, TaskState taskState) {
         def ms = clock.timeInMs
         times.add([ms, task.path])
-
         //task.project.logger.warn "${task.path} spend ${ms}ms"
     }
 

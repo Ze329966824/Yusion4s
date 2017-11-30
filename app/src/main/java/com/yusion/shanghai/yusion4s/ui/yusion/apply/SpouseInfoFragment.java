@@ -31,7 +31,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
+import com.yusion.shanghai.yusion4s.ui.SingleImgUploadForCreateUserActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.YusionUploadListActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
@@ -234,7 +234,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 //        spouse_info_submit_btn.requestFocusFromTouch();
 
         if (checkCanNextStep()) {
-            if (spouse_info_marriage_tv.getText().toString() .equals("已婚")) {
+            if (spouse_info_marriage_tv.getText().toString().equals("已婚")) {
                 clearDoubleCheckItems();
                 addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
                 addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
@@ -256,7 +256,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 } else {
                     applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
                 }
-                Log.e("TAG", "ocrResp:    "+ocrResp.toString());
+                Log.e("TAG", "ocrResp:    " + ocrResp.toString());
 //                applyActivity.mClientInfo.spouse.reg_addr.province = ocrResp.province;
 //                applyActivity.mClientInfo.spouse.reg_addr.city = ocrResp.city;
 //                applyActivity.mClientInfo.spouse.reg_addr.district = ocrResp.town;
@@ -520,7 +520,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             submit();
         });
         spouse_info_id_back_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_BACK);
             intent.putExtra("needUploadFidToServer", false);
             intent.putExtra("role", Constants.PersonType.LENDER_SP);
@@ -531,7 +531,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
 
         spouse_info_id_front_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_FRONT);
             intent.putExtra("needUploadFidToServer", false);
             intent.putExtra("role", Constants.PersonType.LENDER_SP);
@@ -699,7 +699,6 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
 
-
     private void selectContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, Constants.REQUEST_CONTACTS);
@@ -775,7 +774,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
-        Log.e("TAG", "spouse : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
+        Log.e("TAG", "spouse : clientinfo = {" + applyActivity.mClientInfo.toString() + "}");
         applyActivity.requestSubmit();
     }
 

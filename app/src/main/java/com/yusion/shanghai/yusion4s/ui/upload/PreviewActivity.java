@@ -102,4 +102,10 @@ public class PreviewActivity extends BaseActivity {
             imageView.setOnClickListener(v -> finish());
         }
     }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        overridePendingTransition(0, R.anim.center_zoom_out);
+    }
 }

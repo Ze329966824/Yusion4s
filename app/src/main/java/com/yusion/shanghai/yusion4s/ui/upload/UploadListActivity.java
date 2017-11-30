@@ -487,6 +487,8 @@ public class UploadListActivity extends BaseActivity {
         Intent intent = new Intent(this, PreviewActivity.class);
         intent.putExtra("PreviewImg", imgUrl);
         intent.putExtra("breviary", isBreviary);
+        startActivity(intent);
+//        overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
         if (isBreviary) {
             startActivity(intent);
         } else {
