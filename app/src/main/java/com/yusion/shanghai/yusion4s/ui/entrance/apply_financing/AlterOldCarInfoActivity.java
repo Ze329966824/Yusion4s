@@ -67,6 +67,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private String bucket;
     private String region;
     private String file_id;
+    private String s;
 
     private List<GetLoanBankResp> mLoanBankList = new ArrayList<>();
     private List<GetproductResp.ProductListBean> mProductList = new ArrayList<>();
@@ -251,12 +252,10 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         }
                     }
                 case 5:
-                    danceChange = false;
+                    // danceChange = false;
                     oldcar_guess_price_tv.setText("");
                     look_guess_img_btn.setEnabled(false);
-//                    else {
-//                        oldcar_business_price_tv.setText(oldcar_business_price_tv.getText());
-//                    }
+
             }
             super.handleMessage(msg);
         }
@@ -505,7 +504,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 colorTv.setText(resp.vehicle_color);
                 guidePriceTv.setText(resp.msrp);//市场指导价
                 billPriceTv.setText(resp.vehicle_price);//开票价
-                oldcar_guess_price_tv.setText(resp.send_hand_valuation);//估值价
+
 
                 // oldcar_business_price_tv.setText(resp.vehicle_price);//交易价
                 carLoanPriceTv.setText(resp.vehicle_loan_amt);//车辆贷款额
@@ -520,7 +519,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
                 mGuidePrice = Integer.valueOf(resp.msrp);
                 oldcar_addr_tv.setText(resp.origin_plate_reg_addr);//二手车上牌地
-                oldcar_dance_tv.setText(resp.send_hand_mileage);//里程数
                 oldcar_addrtime_tv.setText(resp.send_hand_plate_time);
                 String[] array = resp.send_hand_plate_time.split("-");
                 plate_year = array[0];
@@ -530,11 +528,13 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 isChangeOldCarInfo = true;
                 isChangeOldCarOther = true;
                 isChangeOldCarDance = true;
+                oldcar_dance_tv.setText(resp.send_hand_mileage);//里程数
+                oldcar_guess_price_tv.setText(resp.send_hand_valuation);//估值价
                 if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
                     billPriceTv.setEnabled(true);
                 }
                 look_guess_img_btn.setEnabled(true);
-                isChoose = true;
+//                isChoose = true;
                 DlrApi.getDlrListByToken(AlterOldCarInfoActivity.this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetDlrListByTokenResp> resp) {
@@ -545,6 +545,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         }
                         mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
                         mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
+                        isChoose = true;
                     }
                 });
 
@@ -752,6 +753,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 otherPriceTv.setText("");
                 plateRegAddrTv.setText("");//上牌地选择
                 loanPeriodsTv.setText("");//还款期限
+                firstPriceTv.setText("");
+                carLoanPriceTv.setText("");
+
 
                 look_guess_img_btn.setEnabled(false);
                 btn_reset.setEnabled(false);
@@ -800,6 +804,11 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
             @Override
             public void afterTextChanged(Editable s) {
+                if (!isChangeOldCarDance) {
+                    handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
+                } else {
+                    isChangeOldCarDance = false;
+                }
                 if (!TextUtils.isEmpty(brandTv.getText())
                         && !TextUtils.isEmpty(trixTv.getText())
                         && !TextUtils.isEmpty(modelTv.getText())
@@ -808,23 +817,22 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     btn_reset.setEnabled(true);
                     btn_fast_valuation.setEnabled(true);
                 }
-                if (TextUtils.isEmpty(s)) {
-                    handler.removeMessages(5);
-                } else {
-                    if (danceChange) {
-                        if (handler.hasMessages(5)) {
-                            handler.removeMessages(5);
-                        }
-                        if (!isChangeOldCarDance) {
-                            handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
-                        } else {
-                            isChangeOldCarDance = false;
-                        }
-                    } else {
-                        danceChange = true;
-                    }
-                }
-                //oldcar_guess_price_tv.setText("");
+//                if (TextUtils.isEmpty(s)) {
+//                    handler.removeMessages(5);
+//                } else {
+//                    if (danceChange) {
+//                        if (handler.hasMessages(5)) {
+//                            handler.removeMessages(5);
+//                        }
+//                        if (!isChangeOldCarDance) {
+//                            handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
+//                        } else {
+//                            isChangeOldCarDance = false;
+//                        }
+//                    } else {
+//                        danceChange = true;
+//                    }
+//                }
             }
         });
 
