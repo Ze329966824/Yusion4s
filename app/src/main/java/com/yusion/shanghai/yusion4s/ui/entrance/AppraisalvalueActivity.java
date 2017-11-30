@@ -11,7 +11,9 @@ import com.shizhefei.view.largeimage.LargeImageView;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
+import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.Base64Util;
 
 import java.io.IOException;
@@ -66,24 +68,40 @@ public class AppraisalvalueActivity extends BaseActivity {
             req.label = getIntent().getStringExtra("label");
             Log.e("TAG", req.clt_id + req.app_id + req.role + req.label);
 
-            UploadApi.listImgs(this, req, data -> {
-                if (data.list.isEmpty() || data.list.size() < 0) {
-                    return;
+            UploadApi.listImgs(this, req, new OnItemDataCallBack<ListImgsResp>() {
+                @Override
+                public void onItemDataCallBack(ListImgsResp data) {
+                    if (data.list.isEmpty() || data.list.size() < 0) {
+                        return;
+                    }
+                    URL url = null;
+                    try {
+                        url = new URL(data.list.get(0).s_url);
+                        URL finalUrl = url;
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                HttpURLConnection conn = null;
+                                try {
+                                    conn = (HttpURLConnection) finalUrl.openConnection();
+                                    conn.setConnectTimeout(5 * 1000);
+                                    InputStream inputStream = null;
+                                    inputStream = conn.getInputStream();
+                                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
+                                    appraisal_value_img.setImage(bitmap);
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        });
+
+                    } catch (MalformedURLException e) {
+                        e.printStackTrace();
+                    }
                 }
-                URL url = null;
-                try {
-                    url = new URL(data.list.get(0).s_url);
-                    HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-                    conn.setConnectTimeout(5 * 1000);
-                    InputStream inputStream = conn.getInputStream();
-                    Bitmap bitmap = BitmapFactory.decodeStream(inputStream);
-                    appraisal_value_img.setImage(bitmap);
-                } catch (MalformedURLException e) {
-                    e.printStackTrace();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+
             });
+
         }
 
 
