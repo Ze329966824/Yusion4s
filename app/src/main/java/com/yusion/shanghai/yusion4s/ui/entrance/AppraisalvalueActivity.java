@@ -61,7 +61,7 @@ public class AppraisalvalueActivity extends BaseActivity {
         } else {
             ListImgsReq req = new ListImgsReq();
             req.app_id = getIntent().getStringExtra("app_id");
-            req.clt_id = getIntent().getStringExtra("clt_id");
+//            req.clt_id = getIntent().getStringExtra("clt_id");
             req.role = getIntent().getStringExtra("role");
             req.label = getIntent().getStringExtra("label");
             Log.e("TAG", req.clt_id + req.app_id + req.role + req.label);
