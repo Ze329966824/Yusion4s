@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Looper;
 import android.support.multidex.MultiDexApplication;
 import android.text.TextUtils;
@@ -13,8 +14,6 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.awen.photo.FrescoImageLoader;
-import com.growingio.android.sdk.collection.Configuration;
-import com.growingio.android.sdk.collection.GrowingIO;
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.pgyersdk.crash.PgyCrashManager;
