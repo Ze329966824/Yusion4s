@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.shizhefei.view.largeimage.LargeImageView;
 import com.yusion.shanghai.yusion4s.R;
@@ -94,6 +95,7 @@ public class AppraisalvalueActivity extends BaseActivity {
             String name = time + ".png";
 
             Base64Util.saveBaseImage(baseStr, Environment.getExternalStorageDirectory().getPath() + "/yusion/", name);
+            Toast.makeText(this,"截图已保存到"+Environment.getExternalStorageDirectory().getPath()+ "/yusion/"+name,Toast.LENGTH_SHORT).show();
             Log.e("TAG", "path : " + Environment.getExternalStorageDirectory().getPath());
 
         });
