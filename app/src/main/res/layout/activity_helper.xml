@@ -37,18 +37,18 @@
                     <ImageView
                         android:id="@+id/contract_img"
                         android:src="@mipmap/contract"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
+                        android:layout_width="25dp"
+                        android:layout_height="25dp" />
 
 
-                    <TextView
-                        android:id="@+id/helper_tv"
-                        android:layout_marginLeft="20dp"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="合同规范模板"
-                        android:textColor="@color/text_normal"
-                        android:textSize="16sp"/>
+                <TextView
+                    android:id="@+id/helper_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:text="合同规范模板"
+                    android:textColor="@color/text_normal"
+                    android:textSize="16sp" />
 
                 <Space
                     android:layout_width="0dp"
