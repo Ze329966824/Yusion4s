@@ -669,9 +669,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             }
                             dialog.dismiss();
                             guess_img = data.result.img;
-                            String bucket = data.result.file_info.bucket;
-                            String region = data.result.file_info.region;
-                            String file_id = data.result.file_info.file_id;
+                            bucket = data.result.file_info.bucket;
+                            region = data.result.file_info.region;
+                            file_id = data.result.file_info.file_id;
                             che_300_label = data.result.file_info.label;
                         }
                     }
@@ -961,6 +961,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         return;
                     }
                     oldCarcityJson = data.toString();
+                    Addrlist = data;
                     WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
