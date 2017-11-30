@@ -340,7 +340,7 @@
 
                             <TextView
                                 style="@style/apply_info_title"
-                                android:text="原上牌地" />
+                                android:text="城市" />
 
                             <TextView
                                 android:id="@+id/oldcar_addr_tv"

@@ -209,7 +209,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         }
                     } else {
                         if (getPrice(carLoanPriceTv) > getPrice(oldcar_guess_price_tv) * 0.7) {
-                            Toast.makeText(AlterOldCarInfoActivity.this, "贷款总额不能大于评估价的70%", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(AlterOldCarInfoActivity.this, "车辆贷款额不能大于评估价的70%", Toast.LENGTH_SHORT).show();
                             //  carLoanPriceTv.setText(getPrice(oldcar_business_price_tv));
                             carLoanPriceTv.setText("");
 
@@ -467,7 +467,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         kaipiaojia_line = findViewById(R.id.kaipiaojia_line);
         btn_reset = (Button) findViewById(R.id.btn_reset); //重置
         btn_fast_valuation = (Button) findViewById(R.id.btn_fast_valuation);//快速估值
-        //oldcar_guess_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车评估价
         look_guess_img_btn = (Button) findViewById(R.id.look_guess_img_btn);//查看估值截图
     }
 
@@ -495,6 +494,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 colorTv.setText(resp.vehicle_color);
                 guidePriceTv.setText(resp.msrp);//市场指导价
                 billPriceTv.setText(resp.vehicle_price);//开票价
+                oldcar_guess_price_tv.setText(resp.send_hand_valuation);//估值价
+
+                oldcar_business_price_tv.setText(resp.vehicle_price);//交易价
                 carLoanPriceTv.setText(resp.vehicle_loan_amt);//车辆贷款额
                 firstPriceTv.setText(resp.vehicle_down_payment);//首付款
                 managementPriceTv.setText(resp.management_fee);//档案管理费
@@ -506,11 +508,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 loanPeriodsTv.setText(String.valueOf(resp.nper));
                 plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
                 mGuidePrice = Integer.valueOf(resp.msrp);
-
-                oldcar_guess_price_tv.setText(resp.send_hand_valuation);//估值价
-                oldcar_business_price_tv.setText(resp.vehicle_price);//交易价
                 oldcar_addr_tv.setText(resp.origin_plate_reg_addr);//二手车上牌地
-
                 oldcar_dance_tv.setText(resp.send_hand_mileage);//里程数
                 oldcar_addrtime_tv.setText(resp.send_hand_plate_time);
                 String[] array = resp.send_hand_plate_time.split("-");
@@ -759,6 +757,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                btn_reset.setEnabled(true);
                 if (s.toString().length() == 3 && !s.toString().contains(".")) {
                     oldcar_dance_tv.setText(s.subSequence(0, s.length() - 1));
                     oldcar_dance_tv.setSelection(oldcar_dance_tv.getText().toString().length());
@@ -815,9 +814,16 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         @Override
                         public void OndateSubmitCallBack(View clickedView, String date) {
                             btn_reset.setEnabled(true);
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
                             String[] array = date.split("-");
                             plate_year = array[0];
                             plate_month = array[1];
+                            if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                                btn_fast_valuation.setEnabled(true);
+                            }
                         }
                     });
                 }
@@ -933,7 +939,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                 plateRegAddrTv.setText("");//上牌地选择
                                 loanPeriodsTv.setText("");//还款期限
                                 carInfoAlterTv.setText("");//修改理由
-
+                                btn_fast_valuation.setEnabled(false);
+                                look_guess_img_btn.setEnabled(false);
                             });
                         }
                     }
@@ -958,13 +965,20 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
                             btn_reset.setEnabled(true);
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
+                            if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                                btn_fast_valuation.setEnabled(true);
+                            }
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
                             String array[] = city.split("/");
                             for (int i = 0; i < Addrlist.size(); i++) {
                                 if (Addrlist.get(i).name.equals(array[0])) {
-                                    province_che_300_id = Addrlist.get(i).province_che_300_id;
+                                    province_che_300_id = Addrlist.get(i).che_300_id;
                                     for (int j = 0; j < Addrlist.get(i).cityList.size(); j++) {
                                         if (Addrlist.get(i).cityList.get(j).name.equals(array[1])) {
-                                            city_che_300_id = Addrlist.get(i).cityList.get(j).city_che_300_id;
+                                            city_che_300_id = Addrlist.get(i).cityList.get(j).che_300_id;
                                         }
                                     }
                                 }
@@ -1018,6 +1032,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             plateRegAddrTv.setText("");//上牌地选择
                             loanPeriodsTv.setText("");//还款期限
                             carInfoAlterTv.setText("");//修改理由
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
                         });
                     }
                 });
@@ -1072,6 +1088,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             plateRegAddrTv.setText("");//上牌地选择
                             loanPeriodsTv.setText("");//还款期限
                             carInfoAlterTv.setText("");//修改理由
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
                         });
                     }
                 });
@@ -1086,7 +1104,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 toast.show();
             }
         });
-        /*
+
         if (cartype.equals("二手车")) {
             oldcar_guess_price_tv.addTextChangedListener(new TextWatcher() {
                 @Override
@@ -1101,24 +1119,16 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
                 @Override
                 public void afterTextChanged(Editable s) {
-                    if (!isChangeCarInfoChange) {
-                        oldcar_business_price_tv.setText("");
-                        carLoanPriceTv.setText("");
-                        firstPriceTv.setText("");
-                        otherPriceTv.setText("");
-                        managementPriceTv.setText("");
-                        totalLoanPriceTv.setText("");
-                        loanBankTv.setText("");
-                        plateRegAddrTv.setText("");
-                        productTypeTv.setText("");
-
-                    } else {
-                        isChangeCarInfoChange = false;
-                    }
+//                    if (!isChangeCarInfoChange) {
+////                        oldcar_business_price_tv.setText("");
+////                        carLoanPriceTv.setText("");
+////                        firstPriceTv.setText("");
+//                    } else {
+//                        isChangeCarInfoChange = false;
+//                    }
                 }
             });
         }
-        */
 
 
 //billPriceTv 车辆开票价
@@ -1162,9 +1172,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     }
                 }
             });
-        }
-        /*
-        else {
+        } else {
             oldcar_business_price_tv.addTextChangedListener(new TextWatcher() {
                 @Override
                 public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -1207,8 +1215,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 }
             });
         }
-        */
-
         carLoanPriceTv.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
