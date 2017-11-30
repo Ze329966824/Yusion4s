@@ -948,6 +948,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                 brandItems.add(item.brand_name);
                             }
                             WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
+                                btn_reset.setEnabled(true);
+                                brand_id = resp.get(mBrandIndex).che_300_id;
                                 mBrandIndex = selectedIndex;
                                 mTrixList.clear();
                                 mTrixIndex = 0;
@@ -1051,8 +1053,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         }
                         mTrixIndex = selectIndex(trixItems, mTrixIndex, trixTv.getText().toString());
                         WheelViewUtil.showWheelView(trixItems, mTrixIndex, carInfoBrandLin, trixTv, "请选择车系", (clickedView, selectedIndex) -> {
+                            btn_reset.setEnabled(true);
                             mTrixIndex = selectedIndex;
-
+                            trix_id = resp.get(mTrixIndex).che_300_id;
                             mModelList.clear();
                             mModelIndex = 0;
                             modelTv.setText("");
@@ -1111,7 +1114,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         }
                         mModelIndex = selectIndex(modelItems, mModelIndex, modelTv.getText().toString());
                         WheelViewUtil.showWheelView(modelItems, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
+                            btn_reset.setEnabled(true);
                             mModelIndex = selectedIndex;
+                            model_id = resp.get(mModelIndex).che_300_id;
                             mGuidePrice = (int) resp.get(mModelIndex).msrp;
                             guidePriceTv.setText(mGuidePrice + "");
                             billPriceTv.setEnabled(true);
