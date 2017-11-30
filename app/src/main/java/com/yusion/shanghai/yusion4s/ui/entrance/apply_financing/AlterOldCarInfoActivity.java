@@ -488,8 +488,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 resp.send_hand_mileage = resp.send_hand_mileage.substring(0, resp.send_hand_mileage.length() - 2);
                 Log.e("TAG", "onItemDataCallBack: " + resp.send_hand_mileage);
                 che_300_label = resp.che_300_label;
-//                province_che_300_id = resp.province_che_300_id;
-//                city_che_300_id = resp.city_che_300_id;
+                province_che_300_id = resp.province_che_300_id;
+                city_che_300_id = resp.city_che_300_id;
                 vehicle_owner_lender_relation = resp.vehicle_owner_lender_relation;
                 brand_id = resp.brand_che_300_id;
                 trix_id = resp.trix_che_300_id;

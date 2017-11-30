@@ -50,6 +50,7 @@ public class Yusion4sApp extends MultiDexApplication {
     public static boolean isLogin;
     private static String reg_id;
 
+
     //定位服务类
     @SuppressLint("StaticFieldLeak")
     public static AMapLocationClient aMapLocationClient;
