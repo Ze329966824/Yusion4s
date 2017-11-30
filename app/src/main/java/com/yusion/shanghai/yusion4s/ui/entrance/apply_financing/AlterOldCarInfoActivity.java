@@ -485,7 +485,11 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         OrderApi.getRawCarInfo(AlterOldCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
+                resp.send_hand_mileage = resp.send_hand_mileage.substring(0, resp.send_hand_mileage.length() - 2);
+                Log.e("TAG", "onItemDataCallBack: " + resp.send_hand_mileage);
                 che_300_label = resp.che_300_label;
+//                province_che_300_id = resp.province_che_300_id;
+//                city_che_300_id = resp.city_che_300_id;
                 vehicle_owner_lender_relation = resp.vehicle_owner_lender_relation;
                 brand_id = resp.brand_che_300_id;
                 trix_id = resp.trix_che_300_id;
@@ -529,6 +533,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 isChangeOldCarOther = true;
                 isChangeOldCarDance = true;
                 oldcar_dance_tv.setText(resp.send_hand_mileage);//里程数
+
                 oldcar_guess_price_tv.setText(resp.send_hand_valuation);//估值价
                 if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
                     billPriceTv.setEnabled(true);
@@ -643,7 +648,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     startActivity(intent);
                 } else {
                     Intent intent = new Intent(AlterOldCarInfoActivity.this, AppraisalvalueActivity.class);
-                    Log.e("TAG", clt_id + app_id + vehicle_owner_lender_relation + che_300_label);
+
                     intent.putExtra("clt_id", clt_id);
                     intent.putExtra("app_id", app_id);
                     intent.putExtra("role", vehicle_owner_lender_relation);
