@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_bg"
@@ -44,24 +45,23 @@
             android:textSize="14.5dp" />
 
 
-
         <Button
-            android:background="@null"
             android:id="@+id/search_info"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_alignParentRight="true"
             android:layout_marginLeft="12dp"
             android:layout_marginRight="15dp"
+            android:background="@null"
             android:text="搜索"
             android:textColor="#06b7a3"
             android:textSize="14.5dp" />
 
         <View
-            android:layout_toLeftOf="@id/search_info"
             android:layout_width="1dp"
             android:layout_height="17dp"
             android:layout_centerVertical="true"
+            android:layout_toLeftOf="@id/search_info"
             android:background="@color/separate_line_color" />
 
     </RelativeLayout>
@@ -72,34 +72,36 @@
         android:background="@color/separate_line_color" />
 
     <LinearLayout
-        android:id="@+id/search_warn_lly"
-        android:layout_width="314dp"
-        android:layout_height="33dp"
-        android:layout_gravity="center"
-        android:layout_marginTop="7dp"
-        android:orientation="horizontal"
-        android:visibility="gone">
-
-        <ImageView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="3dp"
-            android:src="@mipmap/search_warn" />
-
-        <TextView
-            android:id="@+id/tv_notice"
-            android:layout_width="307dp"
-            android:layout_height="33dp"
-            android:layout_gravity="center"
-            android:layout_marginLeft="4dp"
-            android:maxLines="2"
-            android:text="很抱歉！！没有找到您要搜索的客户，请核对客户姓名/手机
-号/身份证号。"
-
-            android:textColor="#ffa400"
-            android:textSize="11.5sp" />
+        android:visibility="gone"
+        android:id="@+id/search_no_result_lin"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_gravity="center_horizontal"
+        android:src="@mipmap/search_no_result"
+        android:id="@+id/search_no_result"
+        />
 
 
+    <Button
+        android:id="@+id/search_create_user_btn"
+        android:layout_width="match_parent"
+        android:layout_height="42dp"
+        android:layout_marginEnd="15dp"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="35dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="5dp"
+        android:background="#FF06B7A3"
+        android:gravity="center"
+        android:text="创建用户"
+        android:textColor="#FFFFFF"
+        android:textSize="17sp" />
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView

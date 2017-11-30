@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -35,6 +36,7 @@ import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -56,6 +58,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private TextView client_info_name;
     private TextView client_phoneNumber;
     private TextView client_ID_card;
+    private ImageView delete_icon;
+    private LinearLayout credit_info;
 
     //    @BindView(id = R.id.client_credit__book_lin1, widgetName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
     private LinearLayout client_credit__book_lin;  //申请人征信
@@ -105,6 +109,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private LinearLayout personal_info_group;
 
     private Button submitBtn;
+    private Button createBtn;
 
     //存放最后提交订单时需要上传的授权书url
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
@@ -218,6 +223,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
         submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
+        createBtn = (Button) view.findViewById(R.id.credit_info_create_btn);
         client_info_name = (TextView) view.findViewById(R.id.client_info_name);
         client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
         client_ID_card = (TextView) view.findViewById(R.id.client_ID_card);
@@ -250,6 +256,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         autonym_certify_id_back_tv3 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv3);
 
         personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
+        delete_icon = (ImageView) view.findViewById(R.id.delete_icon);
+        credit_info = (LinearLayout) view.findViewById(R.id.credit_info);
 
 //        credit_applicate_detail_lin.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -259,6 +267,13 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                startActivity(intent);
 //            }
 //        });
+
+        delete_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteUserInfo();
+            }
+        });
 
         findTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -392,6 +407,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
             }
         });
+
+        createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, ApplyActivity.class)));
     }
 
     @Override
@@ -410,6 +427,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 guarantorSpList.clear();
                 uploadFileUrlList.clear();
 
+                credit_info.setVisibility(View.VISIBLE);
                 personal_info_group.setVisibility(View.VISIBLE);
                 client_info_name.setText(data.getStringExtra("name"));
                 client_ID_card.setText(data.getStringExtra("sfz"));
@@ -646,5 +664,82 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             return true;
         }
         return false;
+    }
+
+
+    // 直接关联
+    public void deleteUserInfo() {
+        client_credit__book_lin.setVisibility(View.GONE);
+        client_spouse_credit__book_lin.setVisibility(View.GONE);
+        guarantor_credit_book_lin.setVisibility(View.GONE);
+        guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        personal_info_group.setVisibility(View.GONE);
+        credit_info.setVisibility(View.GONE);
+
+        lenderList.clear();
+        lenderSpList.clear();
+        guarantorList.clear();
+        guarantorSpList.clear();
+        uploadFileUrlList.clear();
+        submitBtn.setEnabled(false);
+    }
+
+    public void relevance(Intent data) {
+        //清空数据
+        client_credit__book_lin.setVisibility(View.GONE);
+        client_spouse_credit__book_lin.setVisibility(View.GONE);
+        guarantor_credit_book_lin.setVisibility(View.GONE);
+        guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        lenderList.clear();
+        lenderSpList.clear();
+        guarantorList.clear();
+        guarantorSpList.clear();
+        uploadFileUrlList.clear();
+
+        credit_info.setVisibility(View.VISIBLE);
+        personal_info_group.setVisibility(View.VISIBLE);
+        client_info_name.setText(data.getStringExtra("name"));
+        client_ID_card.setText(data.getStringExtra("sfz"));
+        client_phoneNumber.setText(data.getStringExtra("mobile"));
+
+        if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
+            client_credit__book_lin.setVisibility(View.VISIBLE);
+            lender_clt_id = data.getStringExtra("lender_clt_id");
+            autonym_certify_id_back_tv.setText("请上传");
+            autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            client_credit__book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isHasLender_sp").equals("1")) { //不等于空是1 等于空是2
+            client_spouse_credit__book_lin.setVisibility(View.VISIBLE);
+            lender_sp_clt_id = data.getStringExtra("lender_sp_clt_id");
+            autonym_certify_id_back_tv1.setText("请上传");
+            autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
+            //                }
+        } else {
+            client_spouse_credit__book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isGuarantor").equals("1")) { //不等于空是1 等于空是2
+            guarantor_credit_book_lin.setVisibility(View.VISIBLE);
+            guarantor_clt_id = data.getStringExtra("guarantor_clt_id");
+            autonym_certify_id_back_tv2.setText("请上传");
+            autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            guarantor_credit_book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isGuarantor_sp").equals("1")) { //不等于空是1 等于空是2
+            guarantor_spouse_credit_book_lin.setVisibility(View.VISIBLE);
+            guarantor_sp_clt_id = data.getStringExtra("guarantor_sp_clt_id");
+            autonym_certify_id_back_tv3.setText("请上传");
+            autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        }
+
+        submitBtn.setEnabled(data.getBooleanExtra("enable", false));
+
     }
 }

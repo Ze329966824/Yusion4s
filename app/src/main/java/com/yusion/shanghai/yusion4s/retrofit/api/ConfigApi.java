@@ -66,10 +66,24 @@ public class ConfigApi {
         }
 
         fullConfigResp(jsonObject, "", configResp.carInfo_alter_key, configResp.carInfo_alter_value);
+
         fullConfigResp(jsonObject, "vehicle_owner_lender_relationship_list", configResp.owner_applicant_relation_key, configResp.owner_applicant_relation_value);
         fullConfigResp(jsonObject, "application_modify_reason_list", configResp.carInfo_alter_key, configResp.carInfo_alter_value);
         fullConfigResp(jsonObject, "label_list", configResp.label_list_key, configResp.label_list_value);
         fullConfigResp(jsonObject, "app_display", configResp.order_type_key, configResp.order_type_value);
+
+
+
+        fullConfigResp(jsonObject, "education_list", configResp.education_list_key, configResp.education_list_value);
+        fullConfigResp(jsonObject, "marriage", configResp.marriage_key, configResp.marriage_value);
+        fullConfigResp(jsonObject, "work_position", configResp.work_position_key, configResp.work_position_value);
+        fullConfigResp(jsonObject, "gender_list", configResp.gender_list_key, configResp.gender_list_value);
+        fullConfigResp(jsonObject, "house_type_list", configResp.house_type_list_key, configResp.house_type_list_value);
+        fullConfigResp(jsonObject, "house_relationship_list", configResp.house_relationship_list_key, configResp.house_relationship_list_value);
+        fullConfigResp(jsonObject, "urg_other_relationship_list", configResp.urg_other_relationship_list_key, configResp.urg_other_relationship_list_value);
+        fullConfigResp(jsonObject, "urg_rela_relationship_list", configResp.urg_rela_relationship_list_key, configResp.urg_rela_relationship_list_value);
+        fullConfigResp(jsonObject, "drv_lic_relationship_list", configResp.drv_lic_relationship_list_key, configResp.drv_lic_relationship_list_value);
+        fullConfigResp(jsonObject, "busi_type_list", configResp.busi_type_list_key, configResp.busi_type_list_value);
 
         JSONArray dealer_material = jsonObject.optJSONArray("dealer_material");
         configResp.dealer_material = dealer_material != null ? dealer_material.toString() : "";

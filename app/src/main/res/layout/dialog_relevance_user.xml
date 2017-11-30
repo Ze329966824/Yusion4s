@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:background="#FFFFFF"
+    android:gravity="center_horizontal"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="@dimen/x270"
+        android:layout_height="@dimen/y210"
+        android:orientation="vertical">
+
+
+        <TextView
+            android:id="@+id/popup_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="26.92dp"
+            android:gravity="center_horizontal"
+            android:maxLines="2"
+            android:maxEms="10"
+            android:paddingLeft="10dp"
+            android:paddingRight="10dp"
+            android:text="系统检测到当前客户为已注册用户，可直接关联。"
+            android:textColor="#FF222A36"
+            android:textSize="17.31dp" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="31.73dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/dialog_create_nm"
+                android:layout_width="match_parent"
+                android:layout_height="22.12dp"
+                android:paddingTop="5dp"
+                android:text="• 姓名：张*予"
+                android:textColor="#FF3F3F3F"
+                android:textSize="13.46dp" />
+
+            <TextView
+                android:id="@+id/dialog_create_mobile"
+                android:layout_width="match_parent"
+                android:layout_height="22.12dp"
+                android:paddingTop="5dp"
+                android:text="• 电话：159****9956"
+                android:textColor="#FF3F3F3F"
+                android:textSize="13.46dp" />
+
+            <TextView
+                android:id="@+id/dialog_create_idno"
+                android:layout_width="match_parent"
+                android:layout_height="22.12dp"
+                android:paddingTop="5dp"
+                android:text="• 身份证：411251365488754126"
+                android:textColor="#FF3F3F3F"
+                android:textSize="13.46dp" />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="fill_parent"
+            android:gravity="bottom">
+
+            <TextView
+                android:id="@+id/popup_dialog_ok"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:background="#FF06B7A3"
+                android:gravity="center"
+                android:text="去关联"
+                android:textColor="#FFFFFFFF"
+                android:textSize="18dp"
+                android:visibility="visible" />
+        </LinearLayout>
+    </LinearLayout>
+
+</LinearLayout>

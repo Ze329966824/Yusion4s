@@ -2,8 +2,6 @@ package com.yusion.shanghai.yusion4s.bean.order;
 
 import com.google.gson.Gson;
 
-import org.json.JSONObject;
-
 /**
  * Created by ice on 2017/7/26.
  */
@@ -56,6 +54,7 @@ public class SearchClientResp {
     }
 
     public class lender {
+        public String commited;
         public String clt_id;
         public String auth_credit_img_count;
 

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white"
+
+    android:orientation="vertical">
+
+    <LinearLayout
+        style="@style/apply_info_item">
+
+        <TextView
+            android:id="@+id/double_check_item_title"
+            style="@style/apply_info_title"
+            android:textColor="#999999"
+            tools:text="姓名"/>
+
+        <TextView
+            android:id="@+id/double_check_item_content"
+            style="@style/apply_info_content"
+            android:gravity="right|center_vertical"
+            tools:text="6217002020021252713"/>
+    </LinearLayout>
+
+    <include layout="@layout/include_line"/>
+
+
+</LinearLayout>

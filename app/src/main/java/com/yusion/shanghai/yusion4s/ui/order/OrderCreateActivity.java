@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
@@ -33,28 +34,23 @@ public class OrderCreateActivity extends BaseActivity {
     public String bucket;
 
     @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+//        setTitle();
+        mCreditInfoFragment.relevance(intent);
+
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_create);
         EventBus.getDefault().register(this);
 
+        setTitle();
+
         //initTitleBar(this, "申请融资");
-        cartype = getIntent().getStringExtra("car_type");
-        if (cartype.equals("二手车")) {
-            initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back();
-                }
-            });
-        } else {
-            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back();
-                }
-            });
-        }
+
 
         mCarInfoFragment = CarInfoFragment.newInstance();
         mCreditInfoFragment = CreditInfoFragment.newInstance();
@@ -97,6 +93,25 @@ public class OrderCreateActivity extends BaseActivity {
         //mCurrentFragment = mCreditInfoFragment;
 
 
+    }
+
+    private void setTitle() {
+        cartype = getIntent().getStringExtra("car_type");
+        if (cartype.equals("二手车")) {
+            initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
+        } else {
+            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    back();
+                }
+            });
+        }
     }
 
 

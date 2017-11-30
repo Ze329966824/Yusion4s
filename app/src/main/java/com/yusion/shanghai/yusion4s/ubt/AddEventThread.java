@@ -23,6 +23,7 @@ public class AddEventThread implements Runnable {
     private boolean isAppEvent;
     private String object;
     private Context context;
+    private String viewName;
     private String TAG = "UBT-DETAIL";
 
     public AddEventThread(Context context, String action, View view, String pageName, String action_value, String widget) {
@@ -31,6 +32,14 @@ public class AddEventThread implements Runnable {
         this.pageName = pageName;
         this.action_value = action_value;
         this.view = view;
+        this.widget = widget;
+    }
+    public AddEventThread(Context context, String action, String viewName, String pageName, String action_value, String widget) {
+        this.context = context;
+        this.action = action;
+        this.pageName = pageName;
+        this.action_value = action_value;
+        this.viewName = viewName;
         this.widget = widget;
     }
 
@@ -57,7 +66,9 @@ public class AddEventThread implements Runnable {
             values.put("object", "");
         } else {
             String object = "";
-            if (view instanceof EditText) {
+            if (!TextUtils.isEmpty(viewName)) {
+                object = viewName;
+            } else if (view instanceof EditText) {
                 object = "edit_text";
             } else if (view instanceof Button) {
                 object = "button";

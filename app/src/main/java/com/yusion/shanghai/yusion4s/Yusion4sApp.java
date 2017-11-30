@@ -13,6 +13,8 @@ import com.amap.api.location.AMapLocationClient;
 import com.amap.api.location.AMapLocationClientOption;
 import com.amap.api.location.AMapLocationListener;
 import com.awen.photo.FrescoImageLoader;
+import com.growingio.android.sdk.collection.Configuration;
+import com.growingio.android.sdk.collection.GrowingIO;
 import com.instabug.library.Instabug;
 import com.instabug.library.invocation.InstabugInvocationEvent;
 import com.pgyersdk.crash.PgyCrashManager;
@@ -55,8 +57,13 @@ public class Yusion4sApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        CrashHandler crashHandler = CrashHandler.getInstance();
-        crashHandler.setCustomCrashHanler(this);
+        if (Settings.isOnline) {
+            CrashHandler crashHandler = CrashHandler.getInstance();
+            crashHandler.setCustomCrashHanler(this);
+        }
+
+        GrowingIO.startWithConfiguration(this, new Configuration().useID().trackAllFragments());
+//        .setChannel("XXX应用商店"));
 
         initData();
 
@@ -228,7 +235,7 @@ public class Yusion4sApp extends MultiDexApplication {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
             //使用Toast进行提示
-            Log.e("TAG", "uncaughtException: " + ex);
+            Log.e("TAG", "uncaughtException: " + ex.toString());
             showToast(mContext, "很抱歉，程序异常即将退出！");
             //延时退出
             try {

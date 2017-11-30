@@ -35,6 +35,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton orderListRb;
     private RadioButton mineRb;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -124,6 +125,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             if (cond.equals("二手车")) {
                 Intent intent1 = new Intent(this, CommitActivity.class);
                 intent1.putExtra("app_id", intent.getStringExtra("app_id"));
+                intent1.putExtra("why_commit", "old_car");
                 startActivity(intent1);
             }
         }

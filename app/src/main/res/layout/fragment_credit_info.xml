@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
 
@@ -9,7 +9,7 @@
     android:orientation="vertical">
 
     <View
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="@color/separate_line_color"
         app:layout_constraintBottom_toTopOf="@+id/flow_diagram"
@@ -17,7 +17,7 @@
 
     <android.support.constraint.ConstraintLayout
         android:id="@+id/flow_diagram"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="86dp"
         android:background="@color/white"
         app:layout_constraintHorizontal_bias="1.0"
@@ -87,15 +87,13 @@
     </android.support.constraint.ConstraintLayout>
 
     <View
-        android:layout_width="368dp"
+        android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="@color/separate_line_color"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flow_diagram" />
+        android:background="@color/separate_line_color"/>
 
     <ScrollView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_marginTop="1dp"
         android:scrollbars="none"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -130,56 +128,90 @@
                     android:id="@+id/tv_find"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-
                     android:gravity="center_vertical"
                     android:text="请输入客户姓名/手机号/身份证号"
                     android:textColor="#D1D1D1"
                     android:textSize="14.5sp"
                     android:visibility="visible" />
+
+
             </LinearLayout>
 
+            <Button
+                android:id="@+id/credit_info_create_btn"
+                android:layout_width="match_parent"
+                android:layout_height="42dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="15dp"
+                android:background="#FFFFFFFF"
+                android:gravity="center"
+                android:text="创建用户"
+                android:textColor="#999999"
+                android:textSize="17sp" />
 
-            <android.support.constraint.ConstraintLayout
+
+            <LinearLayout
                 android:id="@+id/credit_info"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:visibility="visible"
+                android:layout_marginTop="1dp"
+                android:orientation="vertical"
+                android:visibility="gone"
                 tools:visibility="visible">
 
-                <View
-                    android:layout_width="3dp"
-                    android:layout_height="11dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="15dp"
-                    android:layout_marginStart="15dp"
-                    android:background="@drawable/fill_vertical_line"
-                    app:layout_constraintBottom_toBottomOf="@+id/personal_info1"
-                    app:layout_constraintLeft_toLeftOf="parent" />
-
-                <TextView
-                    android:id="@+id/personal_info1"
+                <RelativeLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginStart="22dp"
-                    android:text="申请人信息"
-                    android:textColor="#666666"
-                    android:textSize="11.5sp"
-                    app:layout_constraintBottom_toTopOf="@+id/personal_info_group"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    android:layout_height="wrap_content">
+
+                    <LinearLayout
+                        android:layout_width="wrap_content"
+                        android:layout_height="35dp"
+                        android:background="@color/bg_color"
+                        android:orientation="horizontal">
+
+                        <View
+                            android:layout_width="3dp"
+                            android:layout_height="11dp"
+                            android:layout_marginLeft="15dp"
+                            android:layout_marginStart="15dp"
+                            android:layout_marginTop="20dp"
+                            android:background="@drawable/fill_vertical_line" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginTop="18dp"
+                            android:text="申请人信息"
+                            android:textColor="#666666"
+                            android:textSize="11.5sp" />
+                    </LinearLayout>
+
+                    <ImageView
+                        android:id="@+id/delete_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentRight="true"
+                        android:layout_marginRight="15dp"
+                        android:layout_marginTop="18dp"
+                        android:src="@mipmap/delete_icon" />
+                </RelativeLayout>
 
                 <LinearLayout
                     android:id="@+id/personal_info_group"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="38dp"
+                    android:layout_marginTop="5dp"
                     android:background="@color/bg_color"
                     android:orientation="vertical"
                     android:visibility="gone"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent">
+                    app:layout_constraintTop_toTopOf="parent"
+                    tools:visibility="visible">
 
                     <View
                         android:layout_width="match_parent"
@@ -290,7 +322,8 @@
                         android:id="@+id/client_credit__book_lin1"
                         style="@style/apply_info_item"
                         android:layout_marginTop="10dp"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -324,7 +357,8 @@
                     <LinearLayout
                         android:id="@+id/client_spouse_credit__book_lin2"
                         style="@style/apply_info_item"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -358,7 +392,8 @@
                         android:id="@+id/guarantor_credit_book_lin3"
                         style="@style/apply_info_item"
                         android:layout_marginTop="10dp"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             android:id="@+id/textView4"
@@ -392,7 +427,8 @@
                     <LinearLayout
                         android:id="@+id/guarantor_spouse_credit_book_lin4"
                         style="@style/apply_info_item"
-                        android:visibility="gone">
+                        android:visibility="gone"
+                        tools:visibility="visible">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -423,6 +459,7 @@
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
+
                         android:id="@+id/client_relationship_lin"
                         style="@style/apply_info_item"
                         android:layout_marginTop="10dp"
@@ -457,8 +494,21 @@
                         android:background="@color/separate_line_color" />
 
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
-
+            </LinearLayout>
+            <!--<Button-->
+            <!--android:id="@+id/credit_info_create_btn"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="44dp"-->
+            <!--android:layout_marginEnd="15dp"-->
+            <!--android:layout_marginLeft="15dp"-->
+            <!--android:layout_marginRight="35dp"-->
+            <!--android:layout_marginStart="15dp"-->
+            <!--android:layout_marginTop="15dp"-->
+            <!--android:background="@drawable/submit_button"-->
+            <!--android:gravity="center"-->
+            <!--android:text="创建用户"-->
+            <!--android:textColor="@color/white"-->
+            <!--android:textSize="17sp" />-->
             <Button
                 android:id="@+id/credit_info_submit_btn"
                 android:layout_width="match_parent"
@@ -479,4 +529,4 @@
         </LinearLayout>
     </ScrollView>
 
-</android.support.constraint.ConstraintLayout>
+</LinearLayout>
