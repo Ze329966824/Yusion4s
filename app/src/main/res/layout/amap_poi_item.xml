@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="#FFF"
+    android:paddingBottom="10dp"
+    android:paddingTop="10dp">
+
+    <ImageView
+        android:layout_width="15dp"
+        android:layout_height="15dp"
+        android:layout_marginTop="10dp"
+        android:src="@mipmap/amap_poi_item_add"/>
+
+
+    <TextView
+        android:hint="哈哈童装"
+        android:id="@+id/item_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:textColor="#222A36"
+        android:textSize="14sp"/>
+
+    <TextView
+        android:hint="浦电路189号"
+        android:id="@+id/item_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/item_title"
+        android:layout_marginLeft="30dp"
+        android:layout_marginRight="10dp"
+        android:gravity="top"
+        android:paddingTop="2dp"
+        android:textColor="#B1B1B1"
+        android:textSize="12sp"/>
+
+</RelativeLayout>

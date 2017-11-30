@@ -24,5 +24,7 @@
     <color name="select_in">#CDC9C9</color>
     <color name="select_off">#FFFFFF</color>
 
+    <color name="textColor">#222a36</color>
+
 
 </resources>
