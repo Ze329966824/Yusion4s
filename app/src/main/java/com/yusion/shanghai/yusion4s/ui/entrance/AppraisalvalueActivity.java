@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -17,6 +18,9 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.Base64Util;
 
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -48,6 +52,7 @@ public class AppraisalvalueActivity extends BaseActivity {
     private void initView() {
         appraisal_value_img = (LargeImageView) findViewById(R.id.appraisal_value_img);
         appraisal_download_tv = (TextView) findViewById(R.id.appraisal_download_tv);
+        baseStr = getIntent().getStringExtra("guess_img");
 
 //        CheApi.getChePriceAndImage(this, new OnItemDataCallBack<GetChePriceAndImageResp>() {
 //            @Override
@@ -62,14 +67,16 @@ public class AppraisalvalueActivity extends BaseActivity {
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String time = format.format(date);
             String name = time + ".png";
-
-            Base64Util.saveBaseImage(baseStr, Environment.getExternalStorageDirectory().getPath() + "/yusion/", name);
-            Toast.makeText(this,"截图已保存到"+Environment.getExternalStorageDirectory().getPath()+ "/yusion/"+name,Toast.LENGTH_SHORT).show();
-            Log.e("TAG", "path : " + Environment.getExternalStorageDirectory().getPath());
+            if (baseStr != null) {
+                Base64Util.saveBaseImage(baseStr, Environment.getExternalStorageDirectory().getPath() + "/yusion/", name);
+                Log.e("TAG", "path : " + Environment.getExternalStorageDirectory().getPath());
+            }else {
+                saveImage(name);
+            }
+            Toast.makeText(this, "截图已保存到" + Environment.getExternalStorageDirectory().getPath() + "/yusion/" + name, Toast.LENGTH_SHORT).show();
 
         });
 
-        baseStr = getIntent().getStringExtra("guess_img");
         if (baseStr != null) {
             Bitmap bitmap = Base64Util.stringtoBitmap(baseStr);
             appraisal_value_img.setImage(bitmap);
@@ -87,18 +94,13 @@ public class AppraisalvalueActivity extends BaseActivity {
                 @Override
                 public void onItemDataCallBack(ListImgsResp data) {
                     if (data.list.isEmpty() || data.list.size() < 0) {
-                        Toast.makeText(AppraisalvalueActivity.this,"并没有图片",Toast.LENGTH_SHORT).show();
+                        Toast.makeText(AppraisalvalueActivity.this, "并没有图片", Toast.LENGTH_SHORT).show();
                         return;
                     }
                     try {
                         url = new URL(data.list.get(0).s_url);
                         finalUrl = url;
-                        new Thread(() -> setUrl(new OnItemDataCallBack() {
-                            @Override
-                            public void onItemDataCallBack(Object data) {
-                                appraisal_value_img.setImage(bitmap);
-                            }
-                        }));
+                        setUrl();
                     } catch (MalformedURLException e) {
                         e.printStackTrace();
                     }
@@ -106,16 +108,53 @@ public class AppraisalvalueActivity extends BaseActivity {
             });
         }
     }
-    private void setUrl(OnItemDataCallBack callBack) {
-        HttpURLConnection conn = null;
+
+    private void setUrl() {
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                HttpURLConnection conn = null;
+                try {
+                    conn = (HttpURLConnection) finalUrl.openConnection();
+                    conn.setConnectTimeout(5 * 1000);
+                    InputStream inputStream = null;
+                    inputStream = conn.getInputStream();
+                    bitmap = BitmapFactory.decodeStream(inputStream);
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            appraisal_value_img.setImage(bitmap);
+                        }
+                    });
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public void saveImage(String strFileName) {
+        String strPath = Environment.getExternalStorageDirectory().getPath() + "/yusion";
+
         try {
-            conn = (HttpURLConnection) finalUrl.openConnection();
-            conn.setConnectTimeout(5 * 1000);
-            InputStream inputStream = null;
-            inputStream = conn.getInputStream();
-            bitmap = BitmapFactory.decodeStream(inputStream);
-            callBack.onItemDataCallBack(true);
+            File destDir = new File(strPath);
+            if (!destDir.exists()) {
+                Log.d("MagicMirror", "Dir not exist create it " + strPath);
+                destDir.mkdirs();
+                Log.d("MagicMirror", "Make dir success: " + strPath);
+            }
+
+            File imageFile = new File(strPath + "/" + strFileName);
+            imageFile.createNewFile();
+            FileOutputStream fos = new FileOutputStream(imageFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
+            fos.flush();
+            fos.close();
+        } catch (FileNotFoundException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
         } catch (IOException e) {
+            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }
