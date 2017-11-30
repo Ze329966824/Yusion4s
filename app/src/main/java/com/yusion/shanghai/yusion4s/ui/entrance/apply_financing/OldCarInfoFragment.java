@@ -233,6 +233,16 @@ public class OldCarInfoFragment extends BaseFragment {
                     } else {
                         oldcar_business_price_tv.setText(oldcar_business_price_tv.getText());
                     }
+                    break;
+                case 5:
+                    oldcar_guess_price_tv.setText("");
+                    firstPriceTv.setText("");
+                    carLoanPriceTv.setText("");
+                    totalLoanPriceTv.setText("");
+                    managementPriceTv.setText("");
+                    otherPriceTv.setText("");
+                    look_guess_img_btn.setEnabled(false);
+                    break;
 
             }
             super.handleMessage(msg);
@@ -613,6 +623,8 @@ public class OldCarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
+
                 if (!TextUtils.isEmpty(brandTv.getText())
                         && !TextUtils.isEmpty(trixTv.getText())
                         && !TextUtils.isEmpty(modelTv.getText())

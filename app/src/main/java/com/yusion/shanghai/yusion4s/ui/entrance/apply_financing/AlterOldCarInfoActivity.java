@@ -251,11 +251,17 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             }
                         }
                     }
+                    break;
                 case 5:
                     // danceChange = false;
                     oldcar_guess_price_tv.setText("");
+                    firstPriceTv.setText("");
+                    carLoanPriceTv.setText("");
+                    totalLoanPriceTv.setText("");
+                    managementPriceTv.setText("");
+                    otherPriceTv.setText("");
                     look_guess_img_btn.setEnabled(false);
-
+                    break;
             }
             super.handleMessage(msg);
         }
