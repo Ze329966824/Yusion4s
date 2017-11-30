@@ -253,6 +253,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 case 5:
                     danceChange = false;
                     oldcar_guess_price_tv.setText("");
+                    look_guess_img_btn.setEnabled(false);
 //                    else {
 //                        oldcar_business_price_tv.setText(oldcar_business_price_tv.getText());
 //                    }
