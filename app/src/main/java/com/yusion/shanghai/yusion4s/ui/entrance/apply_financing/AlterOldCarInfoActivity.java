@@ -759,6 +759,11 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                btn_fast_valuation.setEnabled(false);
+                look_guess_img_btn.setEnabled(false);
+                oldcar_business_price_tv.setText("");
+                oldcar_guess_price_tv.setText("");
+                btn_reset.setEnabled(true);
                 if (s.toString().length() == 3 && !s.toString().contains(".")) {
                     oldcar_dance_tv.setText(s.subSequence(0, s.length() - 1));
                     oldcar_dance_tv.setSelection(oldcar_dance_tv.getText().toString().length());
@@ -815,9 +820,16 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         @Override
                         public void OndateSubmitCallBack(View clickedView, String date) {
                             btn_reset.setEnabled(true);
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
                             String[] array = date.split("-");
                             plate_year = array[0];
                             plate_month = array[1];
+                            if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                                btn_fast_valuation.setEnabled(true);
+                            }
                         }
                     });
                 }
@@ -933,7 +945,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                 plateRegAddrTv.setText("");//上牌地选择
                                 loanPeriodsTv.setText("");//还款期限
                                 carInfoAlterTv.setText("");//修改理由
-
+                                btn_fast_valuation.setEnabled(false);
+                                look_guess_img_btn.setEnabled(false);
                             });
                         }
                     }
@@ -958,13 +971,20 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
                             btn_reset.setEnabled(true);
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
+                            if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                                btn_fast_valuation.setEnabled(true);
+                            }
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
                             String array[] = city.split("/");
                             for (int i = 0; i < Addrlist.size(); i++) {
                                 if (Addrlist.get(i).name.equals(array[0])) {
-                                    province_che_300_id = Addrlist.get(i).province_che_300_id;
+                                    province_che_300_id = Addrlist.get(i).che_300_id;
                                     for (int j = 0; j < Addrlist.get(i).cityList.size(); j++) {
                                         if (Addrlist.get(i).cityList.get(j).name.equals(array[1])) {
-                                            city_che_300_id = Addrlist.get(i).cityList.get(j).city_che_300_id;
+                                            city_che_300_id = Addrlist.get(i).cityList.get(j).che_300_id;
                                         }
                                     }
                                 }
@@ -1018,6 +1038,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             plateRegAddrTv.setText("");//上牌地选择
                             loanPeriodsTv.setText("");//还款期限
                             carInfoAlterTv.setText("");//修改理由
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
                         });
                     }
                 });
@@ -1072,6 +1094,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             plateRegAddrTv.setText("");//上牌地选择
                             loanPeriodsTv.setText("");//还款期限
                             carInfoAlterTv.setText("");//修改理由
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
                         });
                     }
                 });
