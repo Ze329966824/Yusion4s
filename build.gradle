@@ -2,7 +2,7 @@
 
 buildscript {
 
-    ext{
+    ext {
         VersionName = "V1.5.2"
         VersionCode = 31
         isOnline = false
@@ -33,7 +33,7 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }//tabLayout
         maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }//pgy
-        flatDir{
+        flatDir {
             dirs 'libs'
         }
         maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
