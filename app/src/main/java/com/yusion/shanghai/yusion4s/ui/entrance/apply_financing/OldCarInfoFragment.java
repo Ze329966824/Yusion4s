@@ -196,7 +196,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         }
                     } else {
                         if (getPrice(carLoanPriceTv) > getPrice(oldcar_guess_price_tv) * 0.7) {
-                            Toast.makeText(mContext, "贷款总额不能大于评估价的70%", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "车辆贷款额不能大于评估价的70%", Toast.LENGTH_SHORT).show();
                             //carLoanPriceTv.setText(getPrice(oldcar_business_price_tv));
                             carLoanPriceTv.setText("");
                         } else {
