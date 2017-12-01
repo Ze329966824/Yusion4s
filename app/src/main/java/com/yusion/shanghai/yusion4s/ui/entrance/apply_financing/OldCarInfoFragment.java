@@ -196,7 +196,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         }
                     } else {
                         if (getPrice(carLoanPriceTv) > getPrice(oldcar_guess_price_tv) * 0.7) {
-                            Toast.makeText(mContext, "贷款总额不能大于评估价的70%", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(mContext, "车辆贷款额不能大于评估价的70%", Toast.LENGTH_SHORT).show();
                             //carLoanPriceTv.setText(getPrice(oldcar_business_price_tv));
                             carLoanPriceTv.setText("");
                         } else {
@@ -233,6 +233,16 @@ public class OldCarInfoFragment extends BaseFragment {
                     } else {
                         oldcar_business_price_tv.setText(oldcar_business_price_tv.getText());
                     }
+                    break;
+                case 5:
+                    oldcar_guess_price_tv.setText("");
+                    firstPriceTv.setText("");
+                    carLoanPriceTv.setText("");
+                    totalLoanPriceTv.setText("");
+                    managementPriceTv.setText("");
+                    otherPriceTv.setText("");
+                    look_guess_img_btn.setEnabled(false);
+                    break;
 
             }
             super.handleMessage(msg);
@@ -577,6 +587,11 @@ public class OldCarInfoFragment extends BaseFragment {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
+                btn_fast_valuation.setEnabled(false);
+                look_guess_img_btn.setEnabled(false);
+                oldcar_business_price_tv.setText("");
+                oldcar_guess_price_tv.setText("");
+                btn_reset.setEnabled(true);
                 if (s.toString().length() == 3 && !s.toString().contains(".")) {
                     oldcar_dance_tv.setText(s.subSequence(0, s.length() - 1));
                     oldcar_dance_tv.setSelection(oldcar_dance_tv.getText().toString().length());
@@ -608,6 +623,8 @@ public class OldCarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+                handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
+
                 if (!TextUtils.isEmpty(brandTv.getText())
                         && !TextUtils.isEmpty(trixTv.getText())
                         && !TextUtils.isEmpty(modelTv.getText())
@@ -632,9 +649,16 @@ public class OldCarInfoFragment extends BaseFragment {
                         @Override
                         public void OndateSubmitCallBack(View clickedView, String date) {
                             btn_reset.setEnabled(true);
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
                             String[] array = date.split("-");
                             plate_year = array[0];
                             plate_month = array[1];
+                            if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                                btn_fast_valuation.setEnabled(true);
+                            }
                         }
                     });
                 }
@@ -765,6 +789,8 @@ public class OldCarInfoFragment extends BaseFragment {
                         otherPriceTv.setText("");
                         plateRegAddrTv.setText("");//上牌地选择
                         loanPeriodsTv.setText("");//还款期限
+                        btn_fast_valuation.setEnabled(false);
+                        look_guess_img_btn.setEnabled(false);
                     });
                 });
             } else {
@@ -818,6 +844,8 @@ public class OldCarInfoFragment extends BaseFragment {
                         otherPriceTv.setText("");
                         plateRegAddrTv.setText("");//上牌地选择
                         loanPeriodsTv.setText("");//还款期限
+                        btn_fast_valuation.setEnabled(false);
+                        look_guess_img_btn.setEnabled(false);
                     });
                 });
             } else if (TextUtils.isEmpty(dlrTV.getText())) {
@@ -873,6 +901,8 @@ public class OldCarInfoFragment extends BaseFragment {
                             otherPriceTv.setText("");
                             plateRegAddrTv.setText("");//上牌地选择
                             loanPeriodsTv.setText("");//还款期限
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
                         });
                     }
                 });
@@ -900,13 +930,20 @@ public class OldCarInfoFragment extends BaseFragment {
                         @Override
                         public void onCitySubmitCallBack(View clickedView, String city) {
                             btn_reset.setEnabled(true);
+                            btn_fast_valuation.setEnabled(false);
+                            look_guess_img_btn.setEnabled(false);
+                            if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                                btn_fast_valuation.setEnabled(true);
+                            }
+                            oldcar_business_price_tv.setText("");
+                            oldcar_guess_price_tv.setText("");
                             String array[] = city.split("/");
                             for (int i = 0; i < Addrlist.size(); i++) {
                                 if (Addrlist.get(i).name.equals(array[0])) {
-                                    province_che_300_id = Addrlist.get(i).province_che_300_id;
+                                    province_che_300_id = Addrlist.get(i).che_300_id;
                                     for (int j = 0; j < Addrlist.get(i).cityList.size(); j++) {
                                         if (Addrlist.get(i).cityList.get(j).name.equals(array[1])) {
-                                            city_che_300_id = Addrlist.get(i).cityList.get(j).city_che_300_id;
+                                            city_che_300_id = Addrlist.get(i).cityList.get(j).che_300_id;
                                         }
                                     }
                                 }

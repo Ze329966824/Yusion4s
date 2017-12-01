@@ -3,13 +3,13 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetChePriceAndImageResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetCheUrlResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.service.CheInfoService;
-import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 
 import retrofit2.Retrofit;
@@ -19,7 +19,7 @@ import retrofit2.Retrofit;
  */
 
 public class CheApi {
-    public static Retrofit retrofit = Api.createRetrofit(Settings.Che_SERVER_URL);
+    public static Retrofit retrofit = Api.createRetrofit(Yusion4sApp.CONFIG_RESP.Che300Url);
 
     private static CheInfoService getCheInfoService() {
         return retrofit.create(CheInfoService.class);
@@ -35,7 +35,7 @@ public class CheApi {
         });
     }
 
-    public static void getChePriceAndImage(final Context context, String province_id, String city_id, String brand_id, String trix_id, String model_id, String plate_year, String plate_month, String mile_age,OnItemDataCallBack<GetChePriceAndImageResp> onItemDataCallBack) {
+    public static void getChePriceAndImage(final Context context, String province_id, String city_id, String brand_id, String trix_id, String model_id, String plate_year, String plate_month, String mile_age, OnItemDataCallBack<GetChePriceAndImageResp> onItemDataCallBack) {
         CheApi.getCheInfoService().getChePriceAndImage(province_id, city_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age).enqueue(new CustomCallBack<GetChePriceAndImageResp>(context) {
             @Override
             public void onCustomResponse(GetChePriceAndImageResp data) {

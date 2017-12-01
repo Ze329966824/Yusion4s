@@ -26,7 +26,7 @@ public class Settings {
     //    private static String ALPHA_SERVER_URL = "http://192.168.0.214:8000/";
     public static String UBT_SERVER_URL = "http://ubt.yusiontech.com:5141/";
     // public static String Che_SERVER_URL = "http://192.168.0.180:8090/";
-    public static String Che_SERVER_URL = "http://ubt.yusiontech.com:8090/";
+//    public static String Che_SERVER_URL = "http://ubt.yusiontech.com:8090/";
 
 
     public static String SERVER_URL = isOnline ? "http://api.yusiontech.com:8000/" : ALPHA_SERVER_URL;

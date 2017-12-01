@@ -60,6 +60,7 @@ public class ConfigApi {
         configResp.agreement_url = jsonObject.optString("agreement_url");
         configResp.send_hand_base_material = jsonObject.optString("send_hand_base_material");
         configResp.contract_list_url = jsonObject.optString("contract_list_url");
+        configResp.Che300Url = jsonObject.optString("che_300_base_ulr");
         String ubt_limit = jsonObject.optString("ubt_limit");
         if (!TextUtils.isEmpty(ubt_limit)) {
             UBT.LIMIT = Integer.valueOf(ubt_limit);
@@ -71,7 +72,6 @@ public class ConfigApi {
         fullConfigResp(jsonObject, "application_modify_reason_list", configResp.carInfo_alter_key, configResp.carInfo_alter_value);
         fullConfigResp(jsonObject, "label_list", configResp.label_list_key, configResp.label_list_value);
         fullConfigResp(jsonObject, "app_display", configResp.order_type_key, configResp.order_type_value);
-
 
 
         fullConfigResp(jsonObject, "education_list", configResp.education_list_key, configResp.education_list_value);

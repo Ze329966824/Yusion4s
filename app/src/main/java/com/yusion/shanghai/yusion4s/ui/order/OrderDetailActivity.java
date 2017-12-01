@@ -20,6 +20,7 @@ import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 
 
@@ -566,10 +567,17 @@ public class OrderDetailActivity extends BaseActivity {
             });
 
             orderDetailChangeBtn.setOnClickListener(v -> {
-                Intent i1 = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
-                i1.putExtra("car_type", cartype);
-                i1.putExtra("app_id", app_id);
-                startActivity(i1);
+                if (cartype.equals("二手车")) {
+                    Intent i1 = new Intent(OrderDetailActivity.this, AlterOldCarInfoActivity.class);
+                    i1.putExtra("car_type", cartype);
+                    i1.putExtra("app_id", app_id);
+                    startActivity(i1);
+                } else {
+                    Intent i1 = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
+                    i1.putExtra("car_type", cartype);
+                    i1.putExtra("app_id", app_id);
+                    startActivity(i1);
+                }
             });
             orderDetailUploadBtn.setOnClickListener(v -> {
                 Intent i2 = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);

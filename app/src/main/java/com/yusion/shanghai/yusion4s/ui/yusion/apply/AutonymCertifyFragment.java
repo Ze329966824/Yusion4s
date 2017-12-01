@@ -161,7 +161,12 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
 
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
+            checkMobile(new OnItemDataCallBack() {
+                @Override
+                public void onItemDataCallBack(Object data) {
 
+                }
+            });
             checkMobile(data -> {
                 ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, data1 -> {
                     if (data1 == null) {
