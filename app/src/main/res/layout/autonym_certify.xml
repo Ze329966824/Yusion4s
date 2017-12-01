@@ -274,7 +274,6 @@
                             android:id="@+id/autonym_certify_id_number_tv"
                             style="@style/apply_info_content_type_id"
                             android:layout_marginRight="35dp"
-                            android:enabled="false"
                             android:hint="请输入" />
 
                     </LinearLayout>

@@ -418,17 +418,12 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                     autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.idNo)) {
-                                    autonym_certify_id_number_tv.setEnabled(true);
                                     autonym_certify_id_number_tv.setText(ocrResp.idNo);
-                                } else {
-                                    autonym_certify_id_number_tv.setText("");
-                                    autonym_certify_id_number_tv.setEnabled(false);
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.name)) {
                                     autonym_certify_name_tv.setText(ocrResp.name);
                                 }else {
                                     autonym_certify_name_tv.setText("");
-
                                 }
                                 break;
 

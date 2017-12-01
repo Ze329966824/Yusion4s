@@ -53,7 +53,7 @@ public class ApplyActivity extends BaseActivity {
 
     private void initView() {
         mClientInfo = new ClientInfo();
-        initTitleBar(this, "创建客户").setLeftImageResource(R.mipmap.create_finish_icon).setLeftClickListener(new View.OnClickListener() {
+        initTitleBar(this, "创建客户").setLeftClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new AlertDialog.Builder(ApplyActivity.this).setMessage("您确定退出该页面返回首页?")
