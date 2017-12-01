@@ -54,14 +54,6 @@ public class AppraisalvalueActivity extends BaseActivity {
         appraisal_download_tv = (TextView) findViewById(R.id.appraisal_download_tv);
         baseStr = getIntent().getStringExtra("guess_img");
 
-//        CheApi.getChePriceAndImage(this, new OnItemDataCallBack<GetChePriceAndImageResp>() {
-//            @Override
-//            public void onItemDataCallBack(GetChePriceAndImageResp data) {
-//                baseStr = data.result.img;
-//                Bitmap bitmap = Base64Util.stringtoBitmap(baseStr);
-//                appraisal_value_img.setImage(bitmap);
-//            }
-//        });
         appraisal_download_tv.setOnClickListener(v -> {
             Date date = new Date();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
@@ -110,25 +102,22 @@ public class AppraisalvalueActivity extends BaseActivity {
     }
 
     private void setUrl() {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                HttpURLConnection conn = null;
-                try {
-                    conn = (HttpURLConnection) finalUrl.openConnection();
-                    conn.setConnectTimeout(5 * 1000);
-                    InputStream inputStream = null;
-                    inputStream = conn.getInputStream();
-                    bitmap = BitmapFactory.decodeStream(inputStream);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            appraisal_value_img.setImage(bitmap);
-                        }
-                    });
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+        new Thread(() -> {
+            HttpURLConnection conn = null;
+            try {
+                conn = (HttpURLConnection) finalUrl.openConnection();
+                conn.setConnectTimeout(5 * 1000);
+                InputStream inputStream = null;
+                inputStream = conn.getInputStream();
+                bitmap = BitmapFactory.decodeStream(inputStream);
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        appraisal_value_img.setImage(bitmap);
+                    }
+                });
+            } catch (IOException e) {
+                e.printStackTrace();
             }
         }).start();
     }
@@ -150,11 +139,7 @@ public class AppraisalvalueActivity extends BaseActivity {
             bitmap.compress(Bitmap.CompressFormat.JPEG, 50, fos);
             fos.flush();
             fos.close();
-        } catch (FileNotFoundException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
         } catch (IOException e) {
-            // TODO Auto-generated catch block
             e.printStackTrace();
         }
     }

@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,27 +15,19 @@ import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.CommitActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import static com.yusion.shanghai.yusion4s.utils.PopupDialogUtil.dismiss;
 
 
 public class ApplyActivity extends BaseActivity {
-    private AutonymCertifyFragment mAutonymCertifyFragment;
-    private PersonalInfoFragment mPersonalInfoFragment;
-    private SpouseInfoFragment mSpouseInfoFragment;
+    private AutonymCertifyFragment mAutonymCertifyFragment;       //征信信息
+    private PersonalInfoFragment mPersonalInfoFragment;           //个人信息
+    private SpouseInfoFragment mSpouseInfoFragment;               //配偶信息
     private Fragment mCurrentFragment;
-    OcrResp mOcrRespByAutonymCertify = new OcrResp();
-
-    public ClientInfo getMClientInfo() {
-        return mClientInfo;
-    }
-
-    public void setMClientInfo(ClientInfo mClientInfo) {
-        this.mClientInfo = mClientInfo;
-    }
-
     public ClientInfo mClientInfo ;
 
     @Override
@@ -53,28 +46,11 @@ public class ApplyActivity extends BaseActivity {
 
     private void initView() {
         mClientInfo = new ClientInfo();
-        initTitleBar(this, "创建客户").setLeftImageResource(R.mipmap.create_finish_icon).setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(ApplyActivity.this).setMessage("您确定退出该页面返回首页?")
-                        .setPositiveButton("确定退出", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("取消退出", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-
-            }
-        });
-
+        initTitleBar(this, "创建客户").setLeftImageResource(R.mipmap.create_finish_icon).setLeftClickListener(v ->
+                PopupDialogUtil.showTwoButtonsDialog(ApplyActivity.this, "您确定退出该页面返回首页", "确定退出", "取消退出?", dialog -> {
+                    dialog.dismiss();
+                    finish();
+                }));
         mAutonymCertifyFragment = new AutonymCertifyFragment();
         mPersonalInfoFragment = new PersonalInfoFragment();
         mSpouseInfoFragment = new SpouseInfoFragment();
@@ -98,6 +74,7 @@ public class ApplyActivity extends BaseActivity {
         }
     }
 
+    //填完所有信息二次确认后走这里
     public void requestSubmit() {
         Intent intent = getIntent();
         intent.setClass(ApplyActivity.this, CommitActivity.class);
@@ -119,7 +96,6 @@ public class ApplyActivity extends BaseActivity {
                 transaction.hide(mCurrentFragment).show(mPersonalInfoFragment);
                 mCurrentFragment = mPersonalInfoFragment;
                 break;
-
             case showCommonRepaymentPeople:
                 transaction.hide(mCurrentFragment).show(mSpouseInfoFragment);
                 mCurrentFragment = mSpouseInfoFragment;
