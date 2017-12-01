@@ -26,15 +26,15 @@ import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    private MineFragment mMineFragment;//我的
-    private Fragment mCurrentFragment;//当前的
+    private ApplyFinancingFragment mApplyFinancingFragment; //申请融资
+    private OrderManagerFragment mOrderManagerFragment;     //申请
+    private MineFragment mMineFragment;                     //我的
+    private Fragment mCurrentFragment;                      //当前的
     private FragmentManager mFragmentManager;
-    private ApplyFinancingFragment mApplyFinancingFragment;//申请融资
-    private OrderManagerFragment mOrderManagerFragment;//申请
     private RadioButton applyOrderRb;
     private RadioButton orderListRb;
     private RadioButton mineRb;
-
+    public Boolean isfirstLogin = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,11 +42,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         setContentView(R.layout.activity_main);
 
         Yusion4sApp.isLogin = true;
-        applyOrderRb = (RadioButton) findViewById(R.id.main_tab_order_apply);
-        orderListRb = (RadioButton) findViewById(R.id.main_tab_order);
-        mineRb = (RadioButton) findViewById(R.id.main_tab_mine);
+        init();
+    }
 
-
+    private void init() {
+        applyOrderRb = findViewById(R.id.main_tab_order_apply);
+        orderListRb = findViewById(R.id.main_tab_order);
+        mineRb = findViewById(R.id.main_tab_mine);
         mApplyFinancingFragment = ApplyFinancingFragment.newInstance();
         mMineFragment = MineFragment.newInstance();
         mOrderManagerFragment = OrderManagerFragment.newInstance();
@@ -133,7 +135,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     break;
                 }else {
                     OrderManagerFragmentEvent.showFragment.position =event.position;
-                    Log.e("TAG", "changeFragment: "+event.position);
                     mApplyFinancingFragment.removeImg(event.position);
                     EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
                     break;

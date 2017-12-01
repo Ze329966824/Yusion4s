@@ -25,15 +25,9 @@ public class ChangeDlrActivity extends AppCompatActivity {
 
     private ArrayList<String> dlrItems;
     private ArrayList<String> dlrItemNums;
-    private String drl_num;
+    private String drl_id;
     private RecyclerView changeDlr_rv;
     private ChangeDlrAdapter adapter;
-    private ArrayList<String> testlists = new ArrayList<String>() {{
-        add("测试门店1");
-        add("测试门店2");
-        add("测试门店3");
-    }};
-
     private Intent intent;
 
     private Handler mHandler = new Handler() {
@@ -51,33 +45,28 @@ public class ChangeDlrActivity extends AppCompatActivity {
         }
     };
 
-
-
+    //返回mainacitivty
     private void over(String msg) {
         for (int i = 0; i < dlrItems.size(); i++) {
-            if (dlrItems.get(i).equals(msg)){
-                drl_num = dlrItemNums.get(i);
+            if (dlrItems.get(i).equals(msg)) {
+                drl_id = dlrItemNums.get(i);
             }
         }
-
-
-        intent.putExtra("dlr",msg);
-        intent.putExtra("dlr_id",drl_num);
-//        Log.e("TAG", "over: "+msg);
-        setResult(RESULT_OK,intent);
+        intent.putExtra("dlr", msg);
+        intent.putExtra("dlr_id", drl_id);
+        setResult(RESULT_OK, intent);
         finish();
-
     }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_dealer);
-        intent = getIntent();
+        //启动动画
         overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
+        intent = getIntent();
         cancel();
         showDlr();
-
     }
 
     private void cancel() {
@@ -90,9 +79,10 @@ public class ChangeDlrActivity extends AppCompatActivity {
     @Override
     public void finish() {
         super.finish();
+        //退出动画
         overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
     }
-
+    //显示门店列表
     private void showDlr() {
         dlrItems = new ArrayList<String>();
         dlrItemNums = new ArrayList<String>();
@@ -102,27 +92,20 @@ public class ChangeDlrActivity extends AppCompatActivity {
                     dlrItems.add(item.dlr_nm);
                     dlrItemNums.add(item.id);
                 }
-                changeDlr_rv = (RecyclerView) findViewById(R.id.change_dlr_rv);
-
-                adapter = new ChangeDlrAdapter(this, dlrItems,mHandler);
-
-//                adapter = new ChangeDlrAdapter(this, testlists,mHandler);
+                changeDlr_rv = findViewById(R.id.change_dlr_rv);
+                adapter = new ChangeDlrAdapter(this, dlrItems, mHandler);
                 changeDlr_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
                 changeDlr_rv.setAdapter(adapter);
             }
         });
-
-
     }
-
 
     class ChangeDlrAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         private Context mContext;
         private ArrayList<String> items;
         private final Handler mHandler;
 
-
-        ChangeDlrAdapter(Context context, ArrayList<String> list,Handler handler) {
+        ChangeDlrAdapter(Context context, ArrayList<String> list, Handler handler) {
             mContext = context;
             items = list;
             mHandler = handler;
@@ -140,20 +123,16 @@ public class ChangeDlrActivity extends AppCompatActivity {
             if (!TextUtils.isEmpty(dlr)) {
                 viewHolder.dlr_tv.setText(dlr);
 
-            }else {
+            } else {
                 ((TextView) findViewById(R.id.item_list_dlr_tv)).setText("没！有！门！店！");
-
             }
-
             viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     mHandler.sendMessage(mHandler.obtainMessage(0, dlr));
-
                 }
             });
         }
-
 
         @Override
         public int getItemCount() {
@@ -165,7 +144,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
 
             public DlrViewHolder(View itemView) {
                 super(itemView);
-                dlr_tv = (TextView) itemView.findViewById(R.id.item_list_dlr_tv);
+                dlr_tv = itemView.findViewById(R.id.item_list_dlr_tv);
             }
         }
 
