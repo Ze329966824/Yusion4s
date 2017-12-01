@@ -61,16 +61,7 @@ public class PopupDialogUtil {
 
 
         dialog.setContentView(view);
-
-
-//        int screenWidth = getWindowManager().getDefaultDisplay().getWidth(); // 屏幕宽
-//        int screenHeight = getWindowManager().getDefaultDisplay().getHeight(); // 屏幕高
-
-
-//        dialog.getWindow().getAttributes().width = 259;
-//        dialog.getWindow().getAttributes().height = 259;
         dialog.setCancelable(false);
-//        dialog.getWindow().getAttributes()
         show();
     }
 

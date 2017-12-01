@@ -774,7 +774,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
-        Log.e("TAG", "spouse : clientinfo = {" + applyActivity.mClientInfo.toString() + "}");
+        Log.e("TAG", "spouse : clientinfo = { " + applyActivity.mClientInfo.toString() + " }");
         applyActivity.requestSubmit();
     }
 
