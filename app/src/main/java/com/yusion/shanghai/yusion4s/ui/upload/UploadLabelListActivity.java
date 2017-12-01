@@ -45,7 +45,7 @@ public class UploadLabelListActivity extends BaseActivity {
         rv.setAdapter(adapter);
         adapter.setOnItemClick((v, item, index) -> {
             Intent intent = new Intent();
-            intent.setClass(UploadLabelListActivity.this, UploadListActivity.class);
+            intent.setClass(UploadLabelListActivity.this, ExtraUploadListActivity.class);
 
             intent.putExtra("topItem", item);
             intent.putExtra("index", index);

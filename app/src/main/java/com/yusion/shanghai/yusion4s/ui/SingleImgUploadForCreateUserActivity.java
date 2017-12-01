@@ -29,16 +29,17 @@ import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OcrUtil;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
+import com.yusion.shanghai.yusion4s.utils.PreviewImgUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -202,10 +203,11 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
         //取消
         TextView tv3 = bottomLayout.findViewById(R.id.tv3);
         tv1.setOnClickListener(v -> {
-            Intent intent = new Intent(SingleImgUploadForCreateUserActivity.this, PreviewActivity.class);
-            intent.putExtra("PreviewImg", imgUrl);
-            startActivity(intent);
+            ArrayList<String> showImgUrls = new ArrayList<>();
+            showImgUrls.add(imgUrl);
+            PreviewImgUtil.showImg(this, showImgUrls);
             overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
+
             if (mBottomDialog.isShowing()) {
                 mBottomDialog.dismiss();
             }

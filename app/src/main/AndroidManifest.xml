@@ -297,7 +297,10 @@
             android:name=".ui.upload.PreviewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
+        <activity
+            android:name=".ui.upload.ExtraPreviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <meta-data
             android:name="UMENG_APPKEY"
             android:value="59b677d4aed179296b001125" />
