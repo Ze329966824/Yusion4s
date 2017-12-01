@@ -19,7 +19,6 @@ import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 
-
 public class ApplyActivity extends BaseActivity {
     private AutonymCertifyFragment mAutonymCertifyFragment;
     private PersonalInfoFragment mPersonalInfoFragment;
@@ -35,7 +34,7 @@ public class ApplyActivity extends BaseActivity {
         this.mClientInfo = mClientInfo;
     }
 
-    public ClientInfo mClientInfo ;
+    public ClientInfo mClientInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +48,8 @@ public class ApplyActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+    }
 
     private void initView() {
         mClientInfo = new ClientInfo();

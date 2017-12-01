@@ -46,6 +46,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         orderListRb = (RadioButton) findViewById(R.id.main_tab_order);
         mineRb = (RadioButton) findViewById(R.id.main_tab_mine);
 
+
 //        WangDai4sApp.isBack2Home = false;
 //        setContentView(R.layout.activity_main);
 //
@@ -162,12 +163,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (event.position == -1) {
 //                    Log.e("TAG", "changeFragment: ");
                     break;
-                }else {
+                } else {
 //                    Log.e("TAG", "changeFragment: 1111111");
-                    OrderManagerFragmentEvent.showFragment.position =event.position;
-                    Log.e("TAG", "changeFragment: "+event.position);
+                    OrderManagerFragmentEvent.showFragment.position = event.position;
+                    Log.e("TAG", "changeFragment: " + event.position);
                     mApplyFinancingFragment.removeImg(event.position);
-                    EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
+                    EventBus.getDefault().post(OrderManagerFragmentEvent.showFragment);
                     break;
                 }
 
