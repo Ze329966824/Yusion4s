@@ -157,7 +157,7 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <activity
-            android:name=".ui.yusion.apply.CommitActivity"
+            android:name=".ui.CommitActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
