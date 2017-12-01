@@ -6,17 +6,9 @@
     android:layout_height="match_parent"
     android:transitionName="shareNames">
 
-
     <com.yusion.shanghai.yusion4s.glide.StatusImageRel
         android:id="@+id/image_preview"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
-
-    <com.shizhefei.view.largeimage.LargeImageView
-        android:id="@+id/image_preview_breviary"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:animateScaleType="true"
-        app:scaleType="fitAuto" />
 
 </RelativeLayout>

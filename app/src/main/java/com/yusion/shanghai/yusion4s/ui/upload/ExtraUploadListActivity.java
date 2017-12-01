@@ -12,7 +12,6 @@ import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -54,9 +53,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * 1.支持从证信信息页面点击授权书进入
- */
 public class ExtraUploadListActivity extends BaseActivity {
 
     private ListDealerLabelsResp.LabelListBean topItem;
@@ -192,9 +188,10 @@ public class ExtraUploadListActivity extends BaseActivity {
                         } else {
                             imgUrl = item.raw_url;
                         }
-                        ArrayList<String> showImgUrls = new ArrayList<>();
-                        showImgUrls.add(imgUrl);
-                        PreviewImgUtil.showImg(ExtraUploadListActivity.this, showImgUrls);
+
+                        Intent intent = new Intent(ExtraUploadListActivity.this, ExtraPreviewActivity.class);
+                        intent.putExtra("PreviewImg", imgUrl);
+                        startActivity(intent);
                         overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
                     }
                 }
@@ -363,7 +360,6 @@ public class ExtraUploadListActivity extends BaseActivity {
                 expandImg.setEnabled(true);
             }
         }).start();
-
     }
 
     private boolean isVideoPage;
@@ -462,9 +458,7 @@ public class ExtraUploadListActivity extends BaseActivity {
                     OssUtil.synchronizationUploadOss(ExtraUploadListActivity.this, uploadImgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), objectKey -> {
                         hasUploadOSSLists.add(uploadImgItemBean);
                         uploadImgItemBean.objectKey = objectKey;
-                    }, throwable -> {
-                        hasUploadOSSLists.add(uploadImgItemBean);
-                    });
+                    }, throwable -> hasUploadOSSLists.add(uploadImgItemBean));
                     onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
                 }
             }).start();
@@ -472,27 +466,17 @@ public class ExtraUploadListActivity extends BaseActivity {
     }
 
     private void onUploadOssFinish(int finalAccount, ArrayList<String> files, Dialog dialog, final List<UploadImgItemBean> toAddList) {
-        Log.e("TAG", "finalAccount: " + finalAccount);
-        Log.e("TAG", "files.size(): " + files.size());
         if (finalAccount == files.size()) {
             dialog.dismiss();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
-                        @Override
-                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
-                            uploadImgs(app_id, clt_id, relToAddList, new OnVoidCallBack() {
-                                @Override
-                                public void callBack() {
-                                    lists.addAll(relToAddList);
-                                    onImgCountChange(lists.size() > 0);
-                                }
-                            });
-                        }
-                    });
+            runOnUiThread(() -> calculateRelToAddList(toAddList, relToAddList -> uploadImgs(app_id, clt_id, relToAddList, () -> {
+                if (relToAddList.size() != toAddList.size()) {
+                    Toast.makeText(myApp, "由于网络因素，有些照片未上传成功", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(myApp, "上传成功", Toast.LENGTH_SHORT).show();
                 }
-            });
+                lists.addAll(relToAddList);
+                onImgCountChange(lists.size() > 0);
+            })));
         }
     }
 
@@ -522,6 +506,7 @@ public class ExtraUploadListActivity extends BaseActivity {
         if (isFinishing()) {
             return;
         }
+        
         if (mUploadFileDialog == null) {
             mUploadFileDialog = LoadingUtils.createLoadingDialog(this);
             mUploadFileDialog.setCancelable(false);
@@ -531,16 +516,12 @@ public class ExtraUploadListActivity extends BaseActivity {
         uploadFilesUrlReq.files = uploadFileUrlBeanList;
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(this).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(this).getValue("bucket", "");
-        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, new OnItemDataCallBack<List<String>>() {
-            @Override
-            public void onItemDataCallBack(List<String> data) {
-                for (int i = 0; i < lists.size(); i++) {
-                    lists.get(i).id = data.get(i);
-                }
-                mUploadFileDialog.dismiss();
-                onSuccessCallBack.callBack();
-                Toast.makeText(ExtraUploadListActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, data -> {
+            for (int i = 0; i < lists.size(); i++) {
+                lists.get(i).id = data.get(i);
             }
+            mUploadFileDialog.dismiss();
+            onSuccessCallBack.callBack();
         });
     }
 
@@ -592,7 +573,6 @@ public class ExtraUploadListActivity extends BaseActivity {
             } else {
                 UploadImgItemBean item = mItems.get(position);
                 StatusImageRel statusImageRel = (StatusImageRel) holder.itemView;
-
                 if (!TextUtils.isEmpty(item.local_path)) {
                     GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
                 } else {

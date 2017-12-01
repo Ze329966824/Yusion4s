@@ -38,11 +38,11 @@ import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
+import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.io.File;
@@ -55,7 +55,7 @@ import java.util.List;
 
 //如果删除刚上传的图片需要从集合删除还需要在fileUrlList集合删除
 
-public class UploadSqsListActivity extends BaseActivity {
+public class ExtraUploadNotUploadServerImgActivity extends BaseActivity {
     private RvAdapter adapter;
     private boolean canBack = true;
     private List<UploadImgItemBean> imgList = new ArrayList<>();
@@ -216,7 +216,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 req.clt_id = clt_id;
                 req.id.addAll(delImgIdList);//delImgIdList 删除id的集合
                 if (delImgIdList.size() > 0) {
-                    UploadApi.delImgs(UploadSqsListActivity.this, req, new OnCodeAndMsgCallBack() {
+                    UploadApi.delImgs(ExtraUploadNotUploadServerImgActivity.this, req, new OnCodeAndMsgCallBack() {
                         @Override
                         public void callBack(int code, String msg) {
                             if (code == 0) {
@@ -264,7 +264,7 @@ public class UploadSqsListActivity extends BaseActivity {
 
             @Override
             public void onFooterClick(View v) {
-                Intent i = new Intent(UploadSqsListActivity.this, PhotoMediaActivity.class);
+                Intent i = new Intent(ExtraUploadNotUploadServerImgActivity.this, PhotoMediaActivity.class);
                 i.putExtra("loadType", PhotoVideoDir.Type.IMAGE.toString());
                 startActivityForResult(i, 100);
             }
@@ -352,7 +352,7 @@ public class UploadSqsListActivity extends BaseActivity {
                     imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
                     templateTitle.setText(data.checker_item_.name + "要求");
                     if (!isFinishing()) {
-                        Glide.with(UploadSqsListActivity.this).load(url_list.get(0)).into(templateImg);
+                        Glide.with(ExtraUploadNotUploadServerImgActivity.this).load(url_list.get(0)).into(templateImg);
                     }
                 }
             }
@@ -401,7 +401,7 @@ public class UploadSqsListActivity extends BaseActivity {
                 dialog.show();
                 new Thread(() -> {
                     for (UploadImgItemBean uploadImgItemBean : toAddList) {
-                        OssUtil.synchronizationUploadOss(UploadSqsListActivity.this, uploadImgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), objectKey -> {
+                        OssUtil.synchronizationUploadOss(ExtraUploadNotUploadServerImgActivity.this, uploadImgItemBean.local_path, new OSSObjectKeyBean(role, type, ".png"), objectKey -> {
                             hasUploadOssLists.add(uploadImgItemBean);
                             uploadImgItemBean.objectKey = objectKey;
                         }, data1 -> {
