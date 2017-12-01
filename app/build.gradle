@@ -1,9 +1,10 @@
 import java.text.SimpleDateFormat
 
 apply plugin: 'com.android.application'
-apply plugin: 'kotlin-android'
-apply plugin: 'kotlin-android-extensions'
+//apply plugin: 'kotlin-android'
+//apply plugin: 'kotlin-android-extensions'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'com.growingio.android'
 
 apply plugin: 'com.growingio.android'
 
@@ -14,7 +15,6 @@ android {
     compileSdkVersion 25
     buildToolsVersion "26.0.0"
     defaultConfig {
-
         resValue("string", "growingio_project_id", "8892821e0de2f687")
         resValue("string", "growingio_url_scheme", "growing.eef54f1a6e5f2268")
         applicationId "com.yusion.shanghai.yusion4s"
@@ -97,7 +97,7 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile(name: 'AliyunSdk-RC', ext: 'aar')
-    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+//    compile "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
     compile project(path: ':PickerLib')
     compile files('libs/jcore-android-1.1.6.jar')
     compile files('libs/jpush-android-3.0.8.jar')
@@ -124,8 +124,9 @@ dependencies {
     compile 'com.shizhefei:LargeImageView:1.0.9'
     testCompile 'junit:junit:4.12'
     androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
-    compile 'com.growingio.android:vds-android-agent:1.1.1@aar'
+
     compile "io.reactivex.rxjava2:rxjava:2.1.6"
+    compile 'com.growingio.android:vds-android-agent:1.1.1@aar'
     compile project(path: ':photoLibrary')
 }
 repositories {

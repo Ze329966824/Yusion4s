@@ -62,13 +62,13 @@ public class Yusion4sApp extends MultiDexApplication {
             CrashHandler crashHandler = CrashHandler.getInstance();
             crashHandler.setCustomCrashHanler(this);
         }
+        initSentry();
 
         GrowingIO.startWithConfiguration(this, new Configuration().useID().trackAllFragments());
 //        .setChannel("XXX应用商店"));
 
         initData();
 
-        initSentry();
 
         PgyCrashManager.register(this);
 

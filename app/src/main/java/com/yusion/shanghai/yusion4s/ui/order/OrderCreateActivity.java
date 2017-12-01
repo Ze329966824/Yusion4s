@@ -20,6 +20,7 @@ import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+
 public class OrderCreateActivity extends BaseActivity {
 
     private CarInfoFragment mCarInfoFragment;
@@ -77,7 +78,8 @@ public class OrderCreateActivity extends BaseActivity {
                 .commit();
         if (cartype.equals("新车")) {
             getSupportFragmentManager().beginTransaction()
-                    .hide(mCreditInfoFragment)
+//                    .hide(mCreditInfoFragment)
+                    .hide(mCarInfoFragment)
                     .hide(mOldCarInfoFragment)
                     .commit();
             mCurrentFragment = mCarInfoFragment;

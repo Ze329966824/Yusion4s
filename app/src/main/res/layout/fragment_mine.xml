@@ -8,15 +8,15 @@
     <RelativeLayout
         android:id="@+id/mine_fragment_info_lin"
         android:layout_width="match_parent"
-        android:layout_height="220dp"
-        android:background="@color/white"
+        android:layout_height="277dp"
+        android:background="@mipmap/mine_background"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="70dp"
-            android:layout_height="70dp"
+            android:layout_width="101.92dp"
+            android:layout_height="101.92dp"
             android:layout_above="@+id/mine_name_tv"
             android:layout_centerHorizontal="true"
             android:layout_marginBottom="8.5dp"
@@ -32,8 +32,8 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="7.5dp"
             android:text="高育良"
-            android:textColor="#222a36"
-            android:textSize="20sp" />
+            android:textColor="#FFFFFFFF"
+            android:textSize="19.23sp" />
 
         <ImageView
             android:id="@+id/mine_role_img"
@@ -54,20 +54,31 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="9.5dp"
             android:text="17621062314"
-            android:textColor="#666666"
-            android:textSize="13.5sp" />
+            android:textColor="#FFFFFFFF"
+            android:textSize="13.46sp" />
 
         <TextView
             android:id="@+id/mine_desc_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_above="@+id/mine_line_img"
+            android:layout_centerHorizontal="true"
+            android:layout_centerVertical="true"
+            android:layout_marginBottom="5dp"
+            android:text="予见汽车  贴心无处不在"
+            android:textColor="#FFFFFFFF"
+
+            android:textSize="13.46sp" />
+
+        <ImageView
+            android:id="@+id/mine_line_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
             android:layout_marginBottom="20dp"
-            android:text="予见汽车  贴心无处不在"
-            android:textColor="#666666"
-            android:textSize="13.5sp" />
+            android:src="@mipmap/mine_line" />
     </RelativeLayout>
 
     <View
