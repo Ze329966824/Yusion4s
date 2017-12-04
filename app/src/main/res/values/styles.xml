@@ -193,4 +193,11 @@
         <item name="android:gravity">top</item>
         <item name="android:layout_marginTop">10dp</item>
     </style>
+
+    <attr name="indexBarTextSize" format="dimension" />
+
+    <declare-styleable name="IndexBar">
+        <attr name="indexBarTextSize" />
+        <attr name="indexBarPressBackground" format="color" />
+    </declare-styleable>
 </resources>

@@ -15,12 +15,11 @@ import android.view.ViewGroup;
  */
 
 public class CustomBehavior extends FloatingActionButton.Behavior {
+    private boolean mIsAnimatingOut = false;
+    private boolean mIsAnimatingIn = false;
     public CustomBehavior(Context context, AttributeSet attrs) {
         super();
     }
-
-    private boolean mIsAnimatingOut = false;
-    private boolean mIsAnimatingIn = false;
 
     @Override
     public boolean onStartNestedScroll(CoordinatorLayout coordinatorLayout, FloatingActionButton child, View directTargetChild, View target, int nestedScrollAxes) {
