@@ -389,7 +389,8 @@ public class DocumentActivity extends BaseActivity {
                             DocumentActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", searchResp.clt_nm, searchResp.mobile, idNo, dialog -> {
                                 dialog.dismiss();
                                 Intent intent = getIntent();
-                                intent.setClass(DocumentActivity.this, OrderCreateActivity.class);checkAuthCreditExist(intent, searchResp);
+                                intent.setClass(DocumentActivity.this, OrderCreateActivity.class);
+                                checkAuthCreditExist(intent, searchResp);
                                 intent.putExtra("enable", true);
                                 intent.putExtra("name", searchResp.clt_nm);
                                 intent.putExtra("mobile", searchResp.mobile);

@@ -1,17 +1,13 @@
 package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
-import android.app.AlertDialog;
-import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.CommitActivity;
@@ -20,15 +16,13 @@ import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-import static com.yusion.shanghai.yusion4s.utils.PopupDialogUtil.dismiss;
-
 
 public class ApplyActivity extends BaseActivity {
     private AutonymCertifyFragment mAutonymCertifyFragment;       //征信信息
     private PersonalInfoFragment mPersonalInfoFragment;           //个人信息
     private SpouseInfoFragment mSpouseInfoFragment;               //配偶信息
     private Fragment mCurrentFragment;
-    public ClientInfo mClientInfo ;
+    public ClientInfo mClientInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,7 +36,16 @@ public class ApplyActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+        if (mCurrentFragment == mAutonymCertifyFragment) {
+            Toast.makeText(this, "已经是第一页了！", Toast.LENGTH_SHORT).show();
+        } else if (mCurrentFragment == mPersonalInfoFragment) {
+            changeFragment(ApplyActivityEvent.showAutonymCertifyFragment);
+        } else {
+            changeFragment(ApplyActivityEvent.showPersonalInfoFragment);
+        }
+    }
+
 
     private void initView() {
         mClientInfo = new ClientInfo();
@@ -96,7 +99,7 @@ public class ApplyActivity extends BaseActivity {
                 transaction.hide(mCurrentFragment).show(mPersonalInfoFragment);
                 mCurrentFragment = mPersonalInfoFragment;
                 break;
-            case showCommonRepaymentPeople:
+            case showSpouseInfoFragment:
                 transaction.hide(mCurrentFragment).show(mSpouseInfoFragment);
                 mCurrentFragment = mSpouseInfoFragment;
                 break;

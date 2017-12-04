@@ -37,9 +37,7 @@ public class OrderCreateActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-//        setTitle();
         mCreditInfoFragment.relevance(intent);
-
     }
 
     @Override
