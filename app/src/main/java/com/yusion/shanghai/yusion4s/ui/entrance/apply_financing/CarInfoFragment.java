@@ -43,14 +43,18 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+/**
+ * {@link com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarI
+ * {@link CarInfoFragment#writeOtherPrice(View, boolean)}获取 ()}
+ * 1.其他费用{@link com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment#writeOtherPrice(android.view.View, boolean)}  }
+ * addTextChange
+ */
 
 /**
  * Created by aa on 2017/8/9.
  */
 
 public class CarInfoFragment extends BaseFragment {
-    public List<GetproductResp.SupportAreaBean> list = new ArrayList<>();
-
     public String min_reg_year;
     public String max_reg_year;
     public static int DELAY_MILLIS;
@@ -227,6 +231,13 @@ public class CarInfoFragment extends BaseFragment {
     private ArrayList<String> trixItems;
     private ArrayList<String> modelItems;
 
+    /**
+     * 其他费用获得焦点时候调用
+     *
+     * @param view
+     * @param hasFocus
+     */
+    //// TODO: 2017/12/1 点击闪屏问题
     private void writeOtherPrice(View view, boolean hasFocus) {
         Log.e("TAG", "writeOtherPrice() called with: view = [" + view + "], hasFocus = [" + hasFocus + "]");
         if (hasFocus) {
@@ -918,6 +929,9 @@ public class CarInfoFragment extends BaseFragment {
     }
 
     private int getPrice(String priceStr) {
+        if (priceStr.contains(".")) {
+            Toast.makeText(mContext, "数据不合规", Toast.LENGTH_SHORT).show();
+        }
         int priceInt;
         if (TextUtils.isEmpty(priceStr)) {
             priceInt = 0;
