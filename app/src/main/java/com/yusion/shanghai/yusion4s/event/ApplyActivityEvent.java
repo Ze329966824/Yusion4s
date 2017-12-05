@@ -5,5 +5,5 @@ package com.yusion.shanghai.yusion4s.event;
  */
 
 public enum ApplyActivityEvent {
-    showAutonymCertifyFragment,showPersonalInfoFragment,showCommonRepaymentPeople
+    showAutonymCertifyFragment,showPersonalInfoFragment, showSpouseInfoFragment
 }

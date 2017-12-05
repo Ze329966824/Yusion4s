@@ -65,11 +65,11 @@ public class ChangeDlrActivity extends AppCompatActivity {
         //启动动画
         overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
         intent = getIntent();
-        cancel();
+        init();
         showDlr();
     }
 
-    private void cancel() {
+    private void init() {
         findViewById(R.id.cancel_drl_tv).setOnClickListener(v -> {
             setResult(RESULT_CANCELED);
             finish();
@@ -82,10 +82,11 @@ public class ChangeDlrActivity extends AppCompatActivity {
         //退出动画
         overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
     }
+
     //显示门店列表
     private void showDlr() {
-        dlrItems = new ArrayList<String>();
-        dlrItemNums = new ArrayList<String>();
+        dlrItems = new ArrayList<>();
+        dlrItemNums = new ArrayList<>();
         DlrApi.getDlrListByToken(this, resp -> {
             if (resp != null && !resp.isEmpty()) {
                 for (GetDlrListByTokenResp item : resp) {
@@ -94,7 +95,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
                 }
                 changeDlr_rv = findViewById(R.id.change_dlr_rv);
                 adapter = new ChangeDlrAdapter(this, dlrItems, mHandler);
-                changeDlr_rv.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+                changeDlr_rv.setLayoutManager(new LinearLayoutManager(this));
                 changeDlr_rv.setAdapter(adapter);
             }
         });
@@ -126,12 +127,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
             } else {
                 ((TextView) findViewById(R.id.item_list_dlr_tv)).setText("没！有！门！店！");
             }
-            viewHolder.itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mHandler.sendMessage(mHandler.obtainMessage(0, dlr));
-                }
-            });
+            viewHolder.itemView.setOnClickListener(v -> mHandler.sendMessage(mHandler.obtainMessage(0, dlr)));
         }
 
         @Override

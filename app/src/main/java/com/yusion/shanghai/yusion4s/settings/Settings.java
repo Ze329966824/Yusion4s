@@ -23,7 +23,7 @@ public class Settings {
     //9000是线上环境
     private static String ALPHA_SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
     private static String ALPHA_OSS_SERVER_URL = "http://oss.alpha.yusiontech.com:9100";
-    //    private static String ALPHA_SERVER_URL = "http://192.168.0.214:8000/";
+//        private static String ALPHA_SERVER_URL = "http://192.168.0.165:8000/";
     public static String UBT_SERVER_URL = "http://ubt.yusiontech.com:5141/";
     // public static String Che_SERVER_URL = "http://192.168.0.180:8090/";
 //    public static String Che_SERVER_URL = "http://ubt.yusiontech.com:8090/";

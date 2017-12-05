@@ -34,7 +34,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton applyOrderRb;
     private RadioButton orderListRb;
     private RadioButton mineRb;
-    public Boolean isfirstLogin = true;
+    public Boolean isFirstLogin = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 .commit();
         mCurrentFragment = mApplyFinancingFragment;
         EventBus.getDefault().register(this);
-        mApplyFinancingFragment.removeDrl();
     }
 
     @Override
@@ -101,22 +100,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        String cond = intent.getStringExtra("cond");
-        if (!TextUtils.isEmpty(cond)) {
-            if (cond.equals("二手车")) {
-                Intent intent1 = new Intent(this, CommitActivity.class);
-                intent1.putExtra("app_id", intent.getStringExtra("app_id"));
-                intent1.putExtra("why_commit", "old_car");
-                startActivity(intent1);
-            }
-        }
-    }
-
-    @Override
     protected void onResume() {
         super.onResume();
+
         AuthApi.checkUserInfo(this, data -> {
             if (data == null) {
                 return;
@@ -126,6 +112,15 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mApplyFinancingFragment.firstLogin();
     }
 
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        //
+        if (intent.getBooleanExtra("from_commit",false)) {
+            changeFragment(MainActivityEvent.showOrderManager);
+        }
+    }
+
     @Subscribe
     public void changeFragment(MainActivityEvent event) {
         switch (event) {
@@ -133,10 +128,10 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 orderListRb.performClick();
                 if (event.position == -1) {
                     break;
-                }else {
-                    OrderManagerFragmentEvent.showFragment.position =event.position;
+                } else {
+                    OrderManagerFragmentEvent.showFragment.position = event.position;
                     mApplyFinancingFragment.removeImg(event.position);
-                    EventBus.getDefault().post( OrderManagerFragmentEvent.showFragment);
+                    EventBus.getDefault().post(OrderManagerFragmentEvent.showFragment);
                     break;
                 }
             default:

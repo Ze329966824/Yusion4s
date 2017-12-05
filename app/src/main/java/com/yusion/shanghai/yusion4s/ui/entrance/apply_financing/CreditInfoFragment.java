@@ -1,11 +1,14 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -32,6 +35,7 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
@@ -45,6 +49,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.R.attr.data;
 
 /**
  * Created by aa on 2017/8/9.
@@ -287,6 +293,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                TelephonyManager  telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
                 // startActivity(new Intent(mContext, MainActivity.class));
                 if (Settings.isShameData) {
                     SubmitOrderReq req = new SubmitOrderReq();
@@ -307,6 +314,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.nper = "24";
                     req.product_id = 1;
                     req.vehicle_model_id = 1128954;
+                    req.imei = telephonyManager.getDeviceId();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
@@ -342,8 +350,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 } else if (checkCanSubmit()) {
                     SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
                     // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                    req.imei = telephonyManager.getDeviceId();
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
+                    req.imei = telephonyManager.getDeviceId();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
@@ -351,9 +361,14 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 return;
                             }
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(mContext, MainActivity.class);
-                            intent.putExtra("app_id", data.app_id);
-                            intent.putExtra("cond", req.vehicle_cond);
+                            Intent intent = new Intent(mContext, CommitActivity.class);
+                            if (req.vehicle_cond.equals("二手车")) {
+                                intent.putExtra("app_id", data.app_id);
+                                intent.putExtra("why_commit", "old_car");
+                            }
+                            else {
+                                intent.putExtra("why_commit", "new_car");
+                            }
 
                             if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
                                 UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
