@@ -80,6 +80,7 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private void goNextActivity() {
+//        startActivity(new Intent(this, CarSelectActivity.class));
         if (!Settings.isOnline) {
             Toast.makeText(myApp, "当前服务器地址:\n" + Settings.SERVER_URL, Toast.LENGTH_SHORT).show();
         }

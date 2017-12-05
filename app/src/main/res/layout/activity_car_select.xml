@@ -1,46 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.yusion.shanghai.yusion4s.car_select.BrandSelectDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/car_select_drawlayout1"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical">
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/rv"
+    <FrameLayout
+        android:id="@+id/car_select_content"
         android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/brand_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/white">
+
+        </android.support.v7.widget.RecyclerView>
+
+        <com.yusion.shanghai.yusion4s.car_select.IndexBar.widget.IndexBar
+            android:id="@+id/indexBar"
+            app:indexBarPressBackground="@color/transparent"
+            app:indexBarTextSize="11.5sp"
+            android:layout_width="21dp"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:layout_marginBottom="60dp"
+            android:layout_marginTop="77dp" />
+
+        <TextView
+            android:id="@+id/tvSideBarHint"
+            tools:text="A"
+            tools:visibility="visible"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:layout_gravity="center"
+            android:background="@drawable/shape_side_bar_bg"
+            android:gravity="center"
+            android:textColor="@android:color/white"
+            android:textSize="48sp"
+            android:visibility="gone" />
+
+    </FrameLayout>
+
+    <include
+        layout="@layout/trix_select"
+        android:layout_width="300dp"
         android:layout_height="match_parent"
-        android:background="@android:color/white">
+        android:layout_gravity="right" />
 
-    </android.support.v7.widget.RecyclerView>
-
-    <com.yusion.shanghai.yusion4s.car_select.IndexBar.widget.IndexBar
-        android:id="@+id/indexBar"
-        android:layout_width="21dp"
-        android:layout_height="match_parent"
-        android:layout_gravity="right"
-        android:layout_marginBottom="60dp"
-        android:layout_marginTop="77dp"
-        app:indexBarPressBackground="@color/transparent"
-        app:indexBarTextSize="11.5sp" />
-
-    <TextView
-        android:id="@+id/tvSideBarHint"
-        android:layout_width="80dp"
-        android:layout_height="80dp"
-        android:layout_gravity="center"
-        android:background="@drawable/shape_side_bar_bg"
-        android:gravity="center"
-        android:textColor="@android:color/white"
-        android:textSize="48sp"
-        android:visibility="gone"
-        tools:text="A"
-        tools:visibility="visible" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom"
-        android:onClick="updateDatas"
-        android:text="更新数据源" />
-
-</FrameLayout>
+</com.yusion.shanghai.yusion4s.car_select.BrandSelectDrawerLayout>

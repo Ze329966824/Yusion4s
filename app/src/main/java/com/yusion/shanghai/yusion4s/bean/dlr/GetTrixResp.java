@@ -1,10 +1,12 @@
 package com.yusion.shanghai.yusion4s.bean.dlr;
 
+import com.yusion.shanghai.yusion4s.car_select.IndexBar.bean.BaseIndexPinyinBean;
+
 /**
  * Created by ice on 2017/7/28.
  */
 
-public class GetTrixResp {
+public class GetTrixResp extends BaseIndexPinyinBean {
 
 
     /**
@@ -21,4 +23,19 @@ public class GetTrixResp {
     public Object trix_code;
     public String trix_id;
     public String che_300_id;
+
+    @Override
+    public String getTarget() {
+        return trix_name;
+    }
+
+    @Override
+    public boolean isNeedToPinyin() {
+        return true;
+    }
+
+    @Override
+    public boolean isShowSuspension() {
+        return true;
+    }
 }

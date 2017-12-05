@@ -9,15 +9,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
-import com.yusion.shanghai.yusion4s.glide.progress.GlideApp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 
 import java.util.List;
 
 
-public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> {
+public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
     protected Context mContext;
-    protected List<GetBrandResp> mDatas;
+    protected List<GetTrixResp> mDatas;
     protected LayoutInflater mInflater;
     protected OnItemClickListener onItemClickListener;
 
@@ -25,36 +24,36 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> 
         this.onItemClickListener = onItemClickListener;
     }
 
-    public BrandAdapter(Context mContext, List<GetBrandResp> mDatas) {
+    public TrixAdapter(Context mContext, List<GetTrixResp> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mInflater = LayoutInflater.from(mContext);
     }
 
-    public List<GetBrandResp> getDatas() {
+    public List<GetTrixResp> getDatas() {
         return mDatas;
     }
 
-    public BrandAdapter setDatas(List<GetBrandResp> datas) {
+    public TrixAdapter setDatas(List<GetTrixResp> datas) {
         mDatas = datas;
         return this;
     }
 
     @Override
-    public BrandAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+    public TrixAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
         return new ViewHolder(mInflater.inflate(R.layout.item_brand, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final BrandAdapter.ViewHolder holder, final int position) {
-        final GetBrandResp brandResp = mDatas.get(position);
-        holder.tvCity.setText(brandResp.brand_name);
+    public void onBindViewHolder(final TrixAdapter.ViewHolder holder, final int position) {
+        final GetTrixResp cityBean = mDatas.get(position);
+        holder.tvCity.setText(cityBean.trix_name);
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v, brandResp);
+                onItemClickListener.onItemClick(v);
             }
         });
-        GlideApp.with(mContext).load(brandResp.brand_image_url).circleCrop().into(holder.avatar);
+//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.avatar);
     }
 
     @Override
@@ -75,7 +74,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> 
         }
     }
 
-    public interface OnItemClickListener {
-        void onItemClick(View v, GetBrandResp brandResp);
+    public interface OnItemClickListener{
+        void onItemClick(View v);
     }
 }
