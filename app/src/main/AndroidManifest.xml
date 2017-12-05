@@ -259,7 +259,8 @@
         <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
         <activity android:name=".ui.entrance.apply_financing.AlterCarInfoActivity" />
         <activity android:name=".ui.order.ApplyProcessActivity" />
-        <activity android:name=".ui.order.ProcessActivity"></activity>
+        <activity android:name=".ui.order.ProcessActivity" />
+        <activity android:name=".ui.order.OrderProcessActivity"></activity>
     </application>
 
 </manifest>

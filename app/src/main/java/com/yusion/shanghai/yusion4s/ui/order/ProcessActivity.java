@@ -11,6 +11,8 @@ import android.widget.LinearLayout;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessTest;
+import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -30,6 +32,18 @@ public class ProcessActivity extends BaseActivity {
         initTitleBar(this, "订单进度");
         mContext = this;
         mLl_parent = (LinearLayout) findViewById(R.id.ll_parent);
+
+        OrderApi.getOrderProcess(this, "app_id", new OnItemDataCallBack<ProcessTest>() {
+            @Override
+            public void onItemDataCallBack(ProcessTest data) {
+                //data.st;
+                //data.time;
+                //data.title;
+                list.clear();
+                list = data.seriesList;
+            }
+        });
+
         list = new ArrayList<>();
         ProcessTest processTest1 = new ProcessTest();
         processTest1.title = "填订单信息";
@@ -225,7 +239,6 @@ public class ProcessActivity extends BaseActivity {
     private View addViewFillContent() {
         LayoutInflater inflater = LayoutInflater.from(mContext);
         View view = inflater.inflate(R.layout.testjj, null);
-        //process_fil_contentl
         return view;
     }
 }

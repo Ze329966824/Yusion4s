@@ -13,10 +13,14 @@ public class ProcessTest {
     public String st;
     public String title;
     public String time;
+    public List<ProcessTest> seriesList = new ArrayList<>();
+    public List<ProcessTest> parallelList = new ArrayList<>();
 
     public List<ProcessTest> asyncProcessTestList = new ArrayList<>();
-    //一块
+    //seriesList
+//    //一块
     public List<ProcessTest> syncProcessTestList = new ArrayList<>();
+    //parallelList
 
 
     @Override
