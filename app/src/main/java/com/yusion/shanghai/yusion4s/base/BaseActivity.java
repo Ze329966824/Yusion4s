@@ -46,10 +46,11 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         titleBar.setLeftClickListener(view -> activity.finish());
         titleBar.setImmersive(false);
         titleBar.setTitle(title);
+        titleBar.setLeftTextColor(R.color.black);
         titleBar.setLeftImageResource(R.mipmap.title_back_arrow);
-        titleBar.setBackgroundResource(R.color.bg_color);
-        titleBar.setTitleColor(activity.getResources().getColor(R.color.title_bar_text_color));
-        titleBar.setDividerColor(activity.getResources().getColor(R.color.system_color));
+        titleBar.setBackgroundResource(R.color.white);
+        titleBar.setTitleColor(activity.getResources().getColor(R.color.black));
+        titleBar.setDividerColor(activity.getResources().getColor(R.color.separate_line_color));
         return titleBar;
     }
 

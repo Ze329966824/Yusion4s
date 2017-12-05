@@ -28,7 +28,8 @@ public class ApplyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply);
-
+        //启动动画
+        overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
         initView();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -75,6 +76,13 @@ public class ApplyActivity extends BaseActivity {
         if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
+    }
+
+    @Override
+    public void finish() {
+        super.finish();
+        //退出动画
+        overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
     }
 
     //填完所有信息二次确认后走这里
