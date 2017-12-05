@@ -288,7 +288,6 @@ public class UBT {
                 continue;
             }
 
-
             for (Annotation annotation : annotations) {
 
                 if (annotation instanceof BindView) {
