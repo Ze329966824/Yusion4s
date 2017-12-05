@@ -147,7 +147,7 @@ public class ClientInfo {
      * update_time : 2017-08-22 17:09:32
      * spouse : {"major_income_type":null,"major_income":0,"major_busi_type":null,"major_company_name":null,"major_company_addr":{"province":"","city":"","district":null,"zip_code":null,"address1":null,"address2":null,"longitude":null,"latitude":null,"len_of_residence":null,"created_time":"2017-08-22T17:09:33.630","update_time":"2017-08-22T17:09:33.630"},"major_work_position":null,"major_work_phone_num":null,"major_remark":null,"extra_income_type":null,"extra_income":0,"extra_busi_type":null,"extra_company_name":null,"extra_company_addr":{"province":"","city":"","district":null,"zip_code":null,"address1":null,"address2":null,"longitude":null,"latitude":null,"len_of_residence":null,"created_time":"2017-08-22T17:09:33.698","update_time":"2017-08-22T17:09:33.698"},"extra_work_position":null,"extra_work_phone_num":null,"extra_remark":null,"clt_id":"9c7df05c871911e7999802f1f38b2f4a","clt_nm":"我老婆","id_no":"1234567","gender":null,"birthday":null,"age":null,"edu":null,"marriage":null,"mobile":"","reg_addr":{"province":"","city":"","district":null,"zip_code":null,"address1":null,"address2":null,"longitude":null,"latitude":null,"len_of_residence":null,"created_time":"2017-08-22T17:09:33.497","update_time":"2017-08-22T17:09:33.498"},"reg_addr_details":null,"current_addr":{"province":"","city":"","district":null,"zip_code":null,"address1":null,"address2":null,"longitude":null,"latitude":null,"len_of_residence":null,"created_time":"2017-08-22T17:09:33.564","update_time":"2017-08-22T17:09:33.564"},"house_owner_name":null,"house_type":null,"house_area":0,"house_owner_relation":null,"urg_contact1":null,"urg_mobile1":null,"urg_relation1":null,"urg_contact2":null,"urg_mobile2":null,"urg_relation2":null,"commited":0,"status":"N","created_time":"2017-08-22 17:09:33","update_time":"2017-08-22 17:09:33"}
      */
-
+    public String imei;
     public String major_income_type;
     public String major_income;
     public String major_busi_type = "";
@@ -377,7 +377,7 @@ public class ClientInfo {
          * created_time : 2017-08-22 17:09:33
          * update_time : 2017-08-22 17:09:33
          */
-
+        public String imei;
         public String major_income_type;
         public String major_income;
         public String major_busi_type;

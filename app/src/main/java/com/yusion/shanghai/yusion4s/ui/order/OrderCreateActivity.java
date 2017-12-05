@@ -37,9 +37,7 @@ public class OrderCreateActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-//        setTitle();
         mCreditInfoFragment.relevance(intent);
-
     }
 
     @Override
@@ -78,8 +76,8 @@ public class OrderCreateActivity extends BaseActivity {
                 .commit();
         if (cartype.equals("新车")) {
             getSupportFragmentManager().beginTransaction()
-                    .hide(mCreditInfoFragment)
-//                    .hide(mCarInfoFragment)
+//                    .hide(mCreditInfoFragment)
+                    .hide(mCarInfoFragment)
                     .hide(mOldCarInfoFragment)
                     .commit();
             mCurrentFragment = mCarInfoFragment;

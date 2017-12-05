@@ -26,6 +26,7 @@ public class SubmitOrderReq {
      * loan_bank : 工商银行        bank_id 银行名字
      * product_type : 予见I型     product_id 产品 名字
      */
+    public String imei;
     public String clt_id;
     public String id_no;
     public String dlr_id;

@@ -5,7 +5,6 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -78,8 +77,9 @@ public class ApplyFinancingFragment extends BaseFragment {
     }
 
     void firstLogin() {
-        if (activity.isfirstLogin) {
+        if (activity.isFirstLogin) {
             DlrApi.getDlrListByToken(mContext, resp -> {
+                activity.isFirstLogin = false;
                 if (resp != null && !resp.isEmpty()) {
                     top_dlr.setText(resp.get(0).dlr_nm);
                     dlr_id = resp.get(0).id;
@@ -225,7 +225,6 @@ public class ApplyFinancingFragment extends BaseFragment {
                 if (dlr != null) {
                     top_dlr.setText(dlr);
                 }
-                activity.isfirstLogin = false;
                 refresh(dlr_id);
             }
         }
@@ -236,10 +235,6 @@ public class ApplyFinancingFragment extends BaseFragment {
         super.onResume();
     }
 
-    //每次启动mainacitvity时把sp的dlr_id的四个订单数清除
-    public void removeDrl() {
-        SharedPrefsUtil.getInstance(mContext).putValue(dlr_id, "");
-    }
 
     //移除new小图标
     public void removeImg(int position) {

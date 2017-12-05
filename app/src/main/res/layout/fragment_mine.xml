@@ -9,7 +9,7 @@
         android:id="@+id/mine_fragment_info_lin"
         android:layout_width="match_parent"
         android:layout_height="277dp"
-        android:background="@mipmap/mine_background"
+        android:background="#FF2D2F3B"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:visibility="visible">

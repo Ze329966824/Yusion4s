@@ -2,11 +2,13 @@ package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.ContactsContract;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -346,6 +348,8 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.address2);
 
         FileUtil.saveLog(applyActivity.mClientInfo.toString());
+        TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+        applyActivity.mClientInfo.spouse.imei = telephonyManager.getDeviceId();
         ProductApi.updateClientInfo(mContext, applyActivity.mClientInfo, data1 -> {
             if (data1 != null && data1.commited.equals("1")) {
                 applyActivity.mClientInfo = data1;

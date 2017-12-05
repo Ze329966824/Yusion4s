@@ -45,9 +45,9 @@ public class LoginActivity extends BaseActivity {
     private EditText mLoginAccountTV;               // 账号
     private EditText mLoginPasswordTV;              // 密码
     private ImageView mLoginPasswordEyeImg;
-    private boolean isShowPassword = false;
-    private TelephonyManager telephonyManager;
     private Button loginBtn;
+    private TelephonyManager telephonyManager;
+    private boolean isShowPassword = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -95,7 +95,6 @@ public class LoginActivity extends BaseActivity {
     }
     //登录
     private void login() {
-        LoginReq req = new LoginReq();
         String account = mLoginAccountTV.getText().toString();
         String password = mLoginPasswordTV.getText().toString();
         if (TextUtils.isEmpty(account)) {
@@ -105,6 +104,7 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(myApp, "密码不能为空!", Toast.LENGTH_SHORT).show();
             return;
         }
+        LoginReq req = new LoginReq();
         req.username = account;
         req.password = password;
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
@@ -236,12 +236,8 @@ public class LoginActivity extends BaseActivity {
 
         String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
         if (dlr_nums != null) {
-
-
             String[] dlr_num = dlr_nums.split("/");
             for (String id : dlr_num) {
-                Log.e("TAG", "key: " + id);
-                Log.e("TAG", "valuse: " + SharedPrefsUtil.getInstance(this).getValue(id, null));
                 SharedPrefsUtil.getInstance(this).remove(id);
                 SharedPrefsUtil.getInstance(this).remove("dlr_nums");
             }
