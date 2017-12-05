@@ -7,10 +7,12 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Toast;
 
 import java.util.List;
 
@@ -19,6 +21,7 @@ import java.util.List;
  */
 
 public class SuspensionDecoration extends RecyclerView.ItemDecoration {
+    private final Context context;
     private List<? extends ISuspensionInterface> mDatas;
     private Paint mPaint;
     private Rect mBounds;//用于存放测量文字Rect
@@ -38,6 +41,7 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
         mDatas = datas;
         mPaint = new Paint();
         mBounds = new Rect();
+        this.context = context;
         mTitleHeight = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 28, context.getResources().getDisplayMetrics());
         mTitleFontSize = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_SP, 13, context.getResources().getDisplayMetrics());
         mPaint.setTextSize(mTitleFontSize);
@@ -103,7 +107,7 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
                 } else {//其他的通过判断
                     String nowTag = mDatas.get(position).getSuspensionTag();
                     String lastTag = mDatas.get(position - 1).getSuspensionTag();
-                    Log.e("TAG", "nowTag: " + nowTag + ".......lastTag: " + lastTag);
+//                    Log.e("TAG", "nowTag: " + nowTag + ".......lastTag: " + lastTag);
                     if (null != nowTag && !nowTag.equals(lastTag)) {
                         //不为空 且跟前一个tag不一样了，说明是新的分类，也要title
                         drawTitleArea(c, left, right, child, params, position);
@@ -129,8 +133,13 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
         mPaint.setColor(COLOR_TITLE_BG);
         c.drawRect(left, child.getTop() - params.topMargin - mTitleHeight, right, child.getTop() - params.topMargin, mPaint);
         mPaint.setColor(COLOR_TITLE_FONT);
-        mPaint.getTextBounds(mDatas.get(position).getSuspensionTag(), 0, mDatas.get(position).getSuspensionTag().length(), mBounds);
-        c.drawText(mDatas.get(position).getSuspensionTag(), child.getPaddingLeft(), child.getTop() - params.topMargin - (mTitleHeight / 2 - mBounds.height() / 2), mPaint);
+        String suspensionTag = mDatas.get(position).getSuspensionTag();
+        if (TextUtils.isEmpty(suspensionTag)) {
+            Toast.makeText(context, "数据残缺", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        mPaint.getTextBounds(suspensionTag, 0, suspensionTag.length(), mBounds);
+        c.drawText(suspensionTag, child.getPaddingLeft(), child.getTop() - params.topMargin - (mTitleHeight / 2 - mBounds.height() / 2), mPaint);
     }
 
     @Override

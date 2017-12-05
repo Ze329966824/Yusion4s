@@ -5,18 +5,17 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 
 import java.util.List;
 
 
-public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
+public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ViewHolder> {
     protected Context mContext;
-    protected List<GetTrixResp> mDatas;
+    protected List<GetModelResp> mDatas;
     protected LayoutInflater mInflater;
     protected OnItemClickListener onItemClickListener;
 
@@ -24,33 +23,33 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public TrixAdapter(Context mContext, List<GetTrixResp> mDatas) {
+    public ModelAdapter(Context mContext, List<GetModelResp> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mInflater = LayoutInflater.from(mContext);
     }
 
-    public List<GetTrixResp> getDatas() {
+    public List<GetModelResp> getDatas() {
         return mDatas;
     }
 
-    public TrixAdapter setDatas(List<GetTrixResp> datas) {
+    public ModelAdapter setDatas(List<GetModelResp> datas) {
         mDatas = datas;
         return this;
     }
 
     @Override
-    public TrixAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(mInflater.inflate(R.layout.item_brand, parent, false));
+    public ModelAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(mInflater.inflate(R.layout.item_model, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final TrixAdapter.ViewHolder holder, final int position) {
-        final GetTrixResp trixResp = mDatas.get(position);
-        holder.tvCity.setText(trixResp.trix_name);
+    public void onBindViewHolder(final ModelAdapter.ViewHolder holder, final int position) {
+        final GetModelResp modelResp = mDatas.get(position);
+        holder.tvCity.setText(modelResp.model_name);
         holder.itemView.setOnClickListener(v -> {
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v,trixResp);
+                onItemClickListener.onItemClick(v,modelResp);
             }
         });
 //        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.avatar);
@@ -63,19 +62,16 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCity;
-        ImageView avatar;
         View content;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvCity = itemView.findViewById(R.id.tvCity);
-            avatar = itemView.findViewById(R.id.ivAvatar);
-            avatar.setVisibility(View.GONE);
             content = itemView.findViewById(R.id.content);
         }
     }
 
     public interface OnItemClickListener{
-        void onItemClick(View v, GetTrixResp trixResp);
+        void onItemClick(View v,GetModelResp modelResp);
     }
 }

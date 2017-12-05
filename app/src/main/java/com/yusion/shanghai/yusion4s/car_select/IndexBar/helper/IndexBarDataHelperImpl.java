@@ -109,6 +109,12 @@ public class IndexBarDataHelperImpl implements IIndexBarDataHelper {
         return this;
     }
 
+    /**
+     * 仅当indexBar不需要完全显示 a..z 等26个字母时调用
+     * @param sourceDatas
+     * @param indexDatas
+     * @return
+     */
     @Override
     public IIndexBarDataHelper getSortedIndexDatas(List<? extends BaseIndexPinyinBean> sourceDatas, List<String> indexDatas) {
         if (null == sourceDatas || sourceDatas.isEmpty()) {

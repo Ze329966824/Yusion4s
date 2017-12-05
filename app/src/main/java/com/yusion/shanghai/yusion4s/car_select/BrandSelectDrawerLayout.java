@@ -1358,7 +1358,7 @@ public class BrandSelectDrawerLayout extends ViewGroup {
 
     @Override
     protected boolean drawChild(Canvas canvas, View child, long drawingTime) {
-        Log.e("TAG", "drawChild() called with: canvas = [" + canvas + "], child = [" + child + "], drawingTime = [" + drawingTime + "]");
+//        Log.e("TAG", "drawChild() called with: canvas = [" + canvas + "], child = [" + child + "], drawingTime = [" + drawingTime + "]");
         final int height = getHeight();
         final boolean drawingContent = isContentView(child);
         int clipLeft = 0, clipRight = getWidth();
@@ -1387,9 +1387,9 @@ public class BrandSelectDrawerLayout extends ViewGroup {
         final boolean result = super.drawChild(canvas, child, drawingTime);
         canvas.restoreToCount(restoreCount);
 
-        Log.e("TAG", "mScrimOpacity: " + mScrimOpacity);
-        Log.e("TAG", "drawChild: " + (mShadowRightResolved != null ? "true" : "false"));
-        Log.e("TAG", "drawChild: " + (checkDrawerViewAbsoluteGravity(child, Gravity.RIGHT) ? "true" : "false"));
+//        Log.e("TAG", "mScrimOpacity: " + mScrimOpacity);
+//        Log.e("TAG", "drawChild: " + (mShadowRightResolved != null ? "true" : "false"));
+//        Log.e("TAG", "drawChild: " + (checkDrawerViewAbsoluteGravity(child, Gravity.RIGHT) ? "true" : "false"));
         if (mScrimOpacity > 0 && drawingContent) {
             final int baseAlpha = (mScrimColor & 0xff000000) >>> 24;
             final int imag = (int) (baseAlpha * mScrimOpacity);
