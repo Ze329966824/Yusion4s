@@ -1,11 +1,13 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -288,6 +290,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onClick(View v) {
                 // startActivity(new Intent(mContext, MainActivity.class));
+                TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
                 if (Settings.isShameData) {
                     SubmitOrderReq req = new SubmitOrderReq();
                     req.bank_id = "1";
@@ -307,6 +310,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.nper = "24";
                     req.product_id = 1;
                     req.vehicle_model_id = 1128954;
+                    req.imei = telephonyManager.getDeviceId();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
@@ -344,6 +348,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
+                    req.imei = telephonyManager.getDeviceId();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
