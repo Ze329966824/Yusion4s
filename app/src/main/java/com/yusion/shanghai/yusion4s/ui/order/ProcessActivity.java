@@ -102,7 +102,6 @@ public class ProcessActivity extends BaseActivity {
 
             after = i == list.size() - 1 ? null : list.get(i + 1);
 
-
             View view = addViewEmpty();
             View topLine = view.findViewById(R.id.top_line);
             View bottomLine = view.findViewById(R.id.bottom_line);
