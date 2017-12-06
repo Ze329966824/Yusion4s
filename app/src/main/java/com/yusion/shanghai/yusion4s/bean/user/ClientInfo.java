@@ -377,6 +377,7 @@ public class ClientInfo {
          * created_time : 2017-08-22 17:09:33
          * update_time : 2017-08-22 17:09:33
          */
+        public String is_live_with_parent;
         public String imei;
         public String major_income_type;
         public String major_income;

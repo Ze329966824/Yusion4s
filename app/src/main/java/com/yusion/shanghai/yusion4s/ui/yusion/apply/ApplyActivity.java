@@ -63,9 +63,9 @@ public class ApplyActivity extends BaseActivity {
                 .add(R.id.container, mAutonymCertifyFragment)
                 .add(R.id.container, mPersonalInfoFragment)
                 .add(R.id.container, mSpouseInfoFragment)
-//                .hide(mAutonymCertifyFragment)
+                .hide(mAutonymCertifyFragment)
                 .hide(mPersonalInfoFragment)
-                .hide(mSpouseInfoFragment)
+//                .hide(mSpouseInfoFragment)
                 .commit();
         mCurrentFragment = mAutonymCertifyFragment;
     }
@@ -116,4 +116,5 @@ public class ApplyActivity extends BaseActivity {
         }
         transaction.commit();
     }
+
 }
