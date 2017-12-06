@@ -68,7 +68,7 @@ public class PreviewBottomDialogUtil {
                 if (onPreviewCallback != null) {
                     onPreviewCallback.onPreviewCallback();
                 }
-                Intent intent = new Intent(mContext, PreviewActivity.class);
+                Intent intent = new Intent(mContext, ExtraPreviewActivity.class);
                 intent.putExtra("PreviewImg", imgUrl);
                 ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(((Activity) mContext), mPreviewAnchor, "shareNames");
                 ActivityCompat.startActivity(mContext, intent, compat.toBundle());

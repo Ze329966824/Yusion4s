@@ -304,7 +304,7 @@ public class UploadSqsListActivity extends BaseActivity {
 //        intent.putExtra("breviary", true);
 //        startActivity(intent);
 
-        Intent intent = new Intent(this, PreviewActivity.class);
+        Intent intent = new Intent(this, ExtraPreviewActivity.class);
         intent.putExtra("PreviewImg", imgUrl);
         ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
         ActivityCompat.startActivity(this, intent, compat.toBundle());

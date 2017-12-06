@@ -6,7 +6,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -55,6 +54,7 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         myApp.requestLocation(null);
         initView();
+        Log.e("TAG", "onCreate: ");
     }
 
     private void initView() {
@@ -95,6 +95,10 @@ public class LoginActivity extends BaseActivity {
     }
     //登录
     private void login() {
+//        Intent intent = new Intent(this, CarSelectActivity.class);
+//        intent.putExtra("class", LoginActivity.class);
+//        intent.putExtra("should_reset", true);
+//        startActivity(intent);
         String account = mLoginAccountTV.getText().toString();
         String password = mLoginPasswordTV.getText().toString();
         if (TextUtils.isEmpty(account)) {
@@ -110,7 +114,9 @@ public class LoginActivity extends BaseActivity {
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
         AuthApi.login(this, req, this::loginSuccess);
     }
-    //隐藏&显示密码
+
+
+    //    隐藏&显示密码
     private void clickPasswordEye() {
         if (isShowPassword) {
             //隐藏密码

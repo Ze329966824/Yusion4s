@@ -6,15 +6,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v4.view.ViewPropertyAnimatorListener;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Html;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +21,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.awen.photo.photopick.controller.PhotoPagerConfig;
 import com.bumptech.glide.Glide;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
@@ -39,7 +35,6 @@ import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
@@ -47,6 +42,7 @@ import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
+import com.yusion.shanghai.yusion4s.utils.PreviewImgUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
@@ -55,12 +51,10 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Locale;
 
-/**
- * 1.支持从证信信息页面点击授权书进入
- * 2.支持从提交资料页面进入
- */
 public class ExtraUploadListActivity extends BaseActivity {
+
     private ListDealerLabelsResp.LabelListBean topItem;
     private TextView errorTv;
     private LinearLayout errorLin;
@@ -80,14 +74,8 @@ public class ExtraUploadListActivity extends BaseActivity {
 
     private boolean isTemplateExpand = true;
     private LinearLayout templateLin;
-    private LinearLayout templateTitleLin;
-    private TextView templateTitle;
     private TextView templateContent;
-    private Button templateImgLook;
     private ImageView templateImg;
-    private String detail_url;
-    private View anchor;
-    private ImageView templateVideoLook;
     private ArrayList<String> url_list;
     private TextView imgsSizeTv;
 
@@ -100,6 +88,7 @@ public class ExtraUploadListActivity extends BaseActivity {
         app_id = getIntent().getStringExtra("app_id");
         clt_id = getIntent().getStringExtra("clt_id");
 
+        // TODO: 2017/12/1 需要字段
         isVideoPage = topItem.name.contains("视频");
 
         initView();
@@ -107,113 +96,66 @@ public class ExtraUploadListActivity extends BaseActivity {
     }
 
     private void initView() {
-        anchor = findViewById(R.id.preview_anchor);
         TitleBar titleBar = initTitleBar(this, topItem.name).setLeftClickListener(v -> onBack());
         mEditTv = titleBar.getRightTextTv();
         mEditTv.setEnabled(false);
         mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
-        titleBar.setRightText("编辑").setRightClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (isEditing) {
-                    isEditing = false;
-                    mEditTv.setText("编辑");
-                    uploadBottomLin.setVisibility(View.GONE);
-                } else {
-                    if (isTemplateExpand) {
-                        foldTemplate();
-                    }
+        titleBar.setRightText("编辑").setRightClickListener(v -> {
 
-                    isEditing = true;
-                    mEditTv.setText("取消");
-                    uploadBottomLin.setVisibility(View.VISIBLE);
-
-                    uploadTv1.setText("全选");
-                    uploadTv2.setText("删除");
-                    uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
+            if (isEditing) {
+                //编辑状态点取消
+                isEditing = false;
+                mEditTv.setText("编辑");
+                uploadBottomLin.setVisibility(View.GONE);
+            } else {
+                //未编辑状态点编辑
+                //先折叠模板
+                if (isTemplateExpand) {
+                    foldTemplate();
                 }
-                adapter.setIsEditing(isEditing);
+
+                isEditing = true;
+                mEditTv.setText("取消");
+                uploadBottomLin.setVisibility(View.VISIBLE);
+
+                uploadTv1.setText("全选");
+                uploadTv2.setText("删除");
+                uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
             }
+
+            //通知adapter编辑状态改变 请求重绘
+            adapter.setIsEditing(isEditing);
+
         });
-        uploadBottomLin = (LinearLayout) findViewById(R.id.upload_bottom_lin);
-        uploadTv1 = (TextView) findViewById(R.id.upload_bottom_tv1);
-        uploadTv2 = (TextView) findViewById(R.id.upload_bottom_tv2);
-        uploadTv1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (uploadTv1.getText().toString().equals("全选")) {
-                    for (UploadImgItemBean itemBean : lists) {
-                        itemBean.hasChoose = true;
-                    }
-                    uploadTv1.setText("取消全选");
-                    uploadTv2.setText(String.format("删除(%d)", getCurrentChooseItemCount()));
-                    uploadTv2.setTextColor(Color.RED);
-                    adapter.notifyDataSetChanged();
-                } else if (uploadTv1.getText().toString().equals("取消全选")) {
-                    for (UploadImgItemBean itemBean : lists) {
-                        itemBean.hasChoose = false;
-                    }
-                    uploadTv1.setText("全选");
-                    uploadTv2.setText("删除");
-                    uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
-                    adapter.notifyDataSetChanged();
+
+        uploadBottomLin = findViewById(R.id.upload_bottom_lin);
+        uploadTv1 = findViewById(R.id.upload_bottom_tv1);//全选
+        uploadTv2 = findViewById(R.id.upload_bottom_tv2);//删除
+        uploadTv1.setOnClickListener(v -> {
+            if (uploadTv1.getText().toString().equals("全选")) {
+                for (UploadImgItemBean itemBean : lists) {
+                    itemBean.hasChoose = true;
                 }
-            }
-        });
-        uploadTv2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                //要删除的图片的id集合
-                List<String> delImgIdList = new ArrayList<>();
-
-                //要删除的索引集合
-                List<Integer> indexList = new ArrayList<>();
-                for (int i = 0; i < lists.size(); i++) {
-                    if (lists.get(i).hasChoose) indexList.add(i);
+                uploadTv1.setText("取消全选");
+                uploadTv2.setText(String.format(Locale.CHINA, "删除(%d)", getCurrentChooseItemCount()));
+                uploadTv2.setTextColor(Color.RED);
+                adapter.notifyDataSetChanged();
+            } else if (uploadTv1.getText().toString().equals("取消全选")) {
+                for (UploadImgItemBean itemBean : lists) {
+                    itemBean.hasChoose = false;
                 }
-                Collections.sort(indexList);
-
-                if (indexList.size() == 0) {
-                    //没有选中图片就不予点击删除按键
-                    return;
-                }
-
-                //没删除一个对象就该偏移+1
-                int offset = 0;
-                for (int i = 0; i < indexList.size(); i++) {
-                    int delIndex = indexList.get(i) - offset;
-                    delImgIdList.add(lists.get(delIndex).id);
-                    lists.remove(delIndex);
-                    offset++;
-                }
-
+                uploadTv1.setText("全选");
                 uploadTv2.setText("删除");
                 uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
                 adapter.notifyDataSetChanged();
-
-                DelImgsReq req = new DelImgsReq();
-                req.clt_id = clt_id;
-                req.app_id = app_id;
-                req.id.addAll(delImgIdList);
-                if (delImgIdList.size() > 0) {
-                    UploadApi.delImgs(ExtraUploadListActivity.this, req, new OnCodeAndMsgCallBack() {
-                        @Override
-                        public void callBack(int code, String msg) {
-                            if (code == 0) {
-                                Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
-                                onImgCountChange(lists.size() > 0);
-                            }
-                        }
-                    });
-                }
             }
         });
+        uploadTv2.setOnClickListener(v -> delImgs());
 
-        errorTv = (TextView) findViewById(R.id.upload_list_error_tv);
-        errorLin = (LinearLayout) findViewById(R.id.upload_list_error_lin);
+        errorTv = findViewById(R.id.upload_list_error_tv);
+        errorLin = findViewById(R.id.upload_list_error_lin);
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.upload_list_rv);
+        RecyclerView rv = findViewById(R.id.upload_list_rv);
         rv.setLayoutManager(new GridLayoutManager(this, 3));
         adapter = new RvAdapter(this, lists, topItem.name.contains("视频"));
         rv.setAdapter(adapter);
@@ -221,14 +163,10 @@ public class ExtraUploadListActivity extends BaseActivity {
             @Override
             public void onItemClick(View v, UploadImgItemBean item, int index) {
                 if (isEditing) {
-                    if (item.hasChoose) {
-                        item.hasChoose = false;
-                    } else {
-                        item.hasChoose = true;
-                    }
+                    item.hasChoose = !item.hasChoose;
                     adapter.notifyDataSetChanged();
                     if (getCurrentChooseItemCount() != 0) {
-                        uploadTv2.setText(String.format("删除(%d)", getCurrentChooseItemCount()));
+                        uploadTv2.setText(String.format(Locale.CHINA, "删除(%d)", getCurrentChooseItemCount()));
                         uploadTv2.setTextColor(Color.RED);
                     } else {
                         uploadTv2.setText("删除");
@@ -236,7 +174,13 @@ public class ExtraUploadListActivity extends BaseActivity {
                     }
                 } else {
                     if (isVideoPage) {
-                        playVideo(item);
+                        String url;
+                        if (TextUtils.isEmpty(item.s_url)) {
+                            url = item.local_path;
+                        } else {
+                            url = item.raw_url;
+                        }
+                        playVideo(url);
                     } else {
                         String imgUrl;
                         if (!TextUtils.isEmpty(item.local_path)) {
@@ -244,7 +188,11 @@ public class ExtraUploadListActivity extends BaseActivity {
                         } else {
                             imgUrl = item.raw_url;
                         }
-                        previewImg(anchor, imgUrl);
+
+                        Intent intent = new Intent(ExtraUploadListActivity.this, ExtraPreviewActivity.class);
+                        intent.putExtra("PreviewImg", imgUrl);
+                        startActivity(intent);
+                        overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
                     }
                 }
             }
@@ -264,11 +212,12 @@ public class ExtraUploadListActivity extends BaseActivity {
         });
 
 
-        expandImg = (ImageView) findViewById(R.id.upload_list_expand_img);
-        templateImg = (ImageView) findViewById(R.id.upload_list_template_img);
-        templateImgLook = (Button) findViewById(R.id.upload_list_template_img_look);
-        templateVideoLook = (ImageView) findViewById(R.id.upload_list_template_video_look);
-        imgsSizeTv = (TextView) findViewById(R.id.upload_list_template_imgs_size);
+        //------------以下是模板相关------------
+        expandImg = findViewById(R.id.upload_list_expand_img);
+        templateImg = findViewById(R.id.upload_list_template_img);
+        Button templateImgLook = findViewById(R.id.upload_list_template_img_look);
+        ImageView templateVideoLook = findViewById(R.id.upload_list_template_video_look);
+        imgsSizeTv = findViewById(R.id.upload_list_template_imgs_size);
         if (isVideoPage) {
             templateVideoLook.setVisibility(View.VISIBLE);
             templateImgLook.setVisibility(View.GONE);
@@ -276,10 +225,10 @@ public class ExtraUploadListActivity extends BaseActivity {
             templateImgLook.setVisibility(View.VISIBLE);
             templateVideoLook.setVisibility(View.GONE);
         }
-        templateLin = (LinearLayout) findViewById(R.id.upload_list_template);
-        templateTitle = (TextView) findViewById(R.id.upload_list_template_title);
-        templateContent = (TextView) findViewById(R.id.upload_list_template_content);
-        templateTitleLin = (LinearLayout) findViewById(R.id.upload_list_template_title_lin);
+        templateLin = findViewById(R.id.upload_list_template);
+        TextView templateTitle = findViewById(R.id.upload_list_template_title);
+        templateContent = findViewById(R.id.upload_list_template_content);
+        LinearLayout templateTitleLin = findViewById(R.id.upload_list_template_title_lin);
         templateTitle.setText(topItem.name + "要求");
         templateTitleLin.setOnClickListener(v -> {
             if (isTemplateExpand) {
@@ -288,28 +237,65 @@ public class ExtraUploadListActivity extends BaseActivity {
                 expandTemplate();
             }
         });
-        templateLin.setOnClickListener(v -> {
-        });
-        templateImg.setOnClickListener(img ->
-        {
-            if (isVideoPage) {
-                playVideo(detail_url);
-            } else {
-                previewImgs();
-//                previewImg(anchor, detail_url, true);
-            }
-        });
-        templateImgLook.setOnClickListener(v -> {
-            if (isVideoPage) {
-                playVideo(detail_url);
-            } else {
-                previewImgs();
-//                previewImg(anchor, detail_url, true);
-            }
-        });
+        findViewById(R.id.upload_list_template_img_group).setOnClickListener(v -> {
+                    if (isVideoPage) {
+                        playVideo(url_list.get(0));
+                    } else {
+                        previewTemplateImgs();
+                    }
+                }
+        );
     }
 
-    private void previewImgs() {
+    private void delImgs() {
+        //要删除的图片的id集合
+        List<String> delImgIdList = new ArrayList<>();
+
+        //要删除的索引集合
+        List<Integer> indexList = new ArrayList<>();
+        for (int i = 0; i < lists.size(); i++) {
+            if (lists.get(i).hasChoose) indexList.add(i);
+        }
+        Collections.sort(indexList);
+
+        if (indexList.size() == 0) {
+            //没有选中图片就不予点击删除按键
+            return;
+        }
+
+        ArrayList<UploadImgItemBean> tempList = new ArrayList<>();
+        tempList.addAll(lists);
+        //每删除一个对象就该偏移+1
+        int offset = 0;
+        for (int i = 0; i < indexList.size(); i++) {
+            int delIndex = indexList.get(i) - offset;
+            delImgIdList.add(tempList.get(delIndex).id);
+            tempList.remove(delIndex);
+            offset++;
+        }
+
+        DelImgsReq req = new DelImgsReq();
+        req.clt_id = clt_id;
+        req.app_id = app_id;
+        req.id.addAll(delImgIdList);
+        if (delImgIdList.size() > 0) {
+            UploadApi.delImgs(ExtraUploadListActivity.this, req, (code, msg) -> {
+                if (code == 0) {
+                    Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
+
+                    uploadTv2.setText("删除");
+                    uploadTv2.setTextColor(Color.parseColor("#d1d1d1"));
+
+                    lists.clear();
+                    lists.addAll(tempList);
+
+                    onImgCountChange(lists.size() > 0);
+                }
+            });
+        }
+    }
+
+    private void previewTemplateImgs() {
         if (url_list == null || url_list.size() == 0) {
             Toast.makeText(myApp, "该文件暂无模板！！！", Toast.LENGTH_SHORT).show();
             return;
@@ -319,37 +305,13 @@ public class ExtraUploadListActivity extends BaseActivity {
         for (String url : url_list) {
             showImgUrls.add(URLEncoder.encode(url));
         }
-        new PhotoPagerConfig.Builder(this)
-                .setBigImageUrls(showImgUrls)
-//                .setSavaImage(true)
-//                        .setPosition(2)
-//                        .setSaveImageLocalPath("这里是你想保存的图片地址")
-                .build();
-    }
-
-    private void playVideo(UploadImgItemBean item) {
-//        Intent it = new Intent(Intent.ACTION_VIEW);
-//        Uri uri;
-//        if (TextUtils.isEmpty(item.s_url)) {
-//            uri = Uri.parse(item.local_path);
-//        } else {
-//            uri = Uri.parse(item.raw_url);
-//        }
-//        Log.e("TAG", "onItemClick: " + uri.toString());
-//        it.setDataAndType(uri, "video/mp4");
-//        startActivity(it);
-        String url;
-        if (TextUtils.isEmpty(item.s_url)) {
-            url = item.local_path;
-        } else {
-            url = item.raw_url;
-        }
-        playVideo(url);
+        PreviewImgUtil.showImg(this, showImgUrls);
+        overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
     }
 
     private void playVideo(String url) {
         if (TextUtils.isEmpty(url)) {
-            Toast.makeText(myApp, "未找到视频", Toast.LENGTH_SHORT).show();
+            Toast.makeText(myApp, "未找到可观看的视频", Toast.LENGTH_SHORT).show();
             return;
         }
         Intent it = new Intent(Intent.ACTION_VIEW);
@@ -398,7 +360,6 @@ public class ExtraUploadListActivity extends BaseActivity {
                 expandImg.setEnabled(true);
             }
         }).start();
-
     }
 
     private boolean isVideoPage;
@@ -419,44 +380,31 @@ public class ExtraUploadListActivity extends BaseActivity {
                 errorLin.setVisibility(View.GONE);
             }
 
-            onImgCountChange(resp.list.size() > 0);
-
             if (resp.list.size() != 0) {
                 lists.addAll(resp.list);
-                adapter.notifyDataSetChanged();
+                onImgCountChange(resp.list.size() > 0);
             }
         });
 
-
-        String id = topItem.id;
-        Log.e("TAG", "initData: " + id);
-        UploadApi.getTemplate(this, id, new OnItemDataCallBack<GetTemplateResp>() {
-            @Override
-            public void onItemDataCallBack(GetTemplateResp data) {
-                showTemplate(data);
-            }
-        });
+        UploadApi.getTemplate(this, topItem.id, data -> showTemplate(data));
     }
 
     private void showTemplate(GetTemplateResp data) {
         if (data != null) {
-            templateLin.setVisibility(View.VISIBLE);
-            if (data.checker_item_ == null) {
-                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
+            if (data.checker_item_ == null || data.checker_item_.url_list == null || data.checker_item_.url_list.size() == 0) {
+                Toast.makeText(myApp, "该文件暂无模板.", Toast.LENGTH_SHORT).show();
                 return;
             }
+            templateLin.setVisibility(View.VISIBLE);
             templateContent.setText(Html.fromHtml(data.checker_item_.description));
             url_list = data.checker_item_.url_list;
-            if (url_list == null || url_list.size() == 0) {
-                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            detail_url = data.checker_item_.url_list.get(0);
-
             imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
+
             if (!isFinishing()) {
                 Glide.with(ExtraUploadListActivity.this).load(url_list.get(0)).into(templateImg);
             }
+        } else {
+            Toast.makeText(myApp, "模板模块初始化失败", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -485,28 +433,6 @@ public class ExtraUploadListActivity extends BaseActivity {
         return totalCount;
     }
 
-    private void previewImg(View previewAnchor, String imgUrl, boolean isBreviary) {
-        if (TextUtils.isEmpty(imgUrl)) {
-            Toast.makeText(myApp, "没有找到图片", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        Intent intent = new Intent(this, PreviewActivity.class);
-        intent.putExtra("PreviewImg", imgUrl);
-        intent.putExtra("breviary", isBreviary);
-        startActivity(intent);
-//        overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
-        if (isBreviary) {
-            startActivity(intent);
-        } else {
-            ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
-            ActivityCompat.startActivity(this, intent, compat.toBundle());
-        }
-    }
-
-    private void previewImg(View previewAnchor, String imgUrl) {
-        previewImg(previewAnchor, imgUrl, false);
-    }
-
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -532,9 +458,7 @@ public class ExtraUploadListActivity extends BaseActivity {
                     OssUtil.synchronizationUploadOss(ExtraUploadListActivity.this, uploadImgItemBean.local_path, new OSSObjectKeyBean(Constants.PersonType.LENDER, topItem.value, suffix), objectKey -> {
                         hasUploadOSSLists.add(uploadImgItemBean);
                         uploadImgItemBean.objectKey = objectKey;
-                    }, throwable -> {
-                        hasUploadOSSLists.add(uploadImgItemBean);
-                    });
+                    }, throwable -> hasUploadOSSLists.add(uploadImgItemBean));
                     onUploadOssFinish(hasUploadOSSLists.size(), files, dialog, toAddList);
                 }
             }).start();
@@ -542,27 +466,17 @@ public class ExtraUploadListActivity extends BaseActivity {
     }
 
     private void onUploadOssFinish(int finalAccount, ArrayList<String> files, Dialog dialog, final List<UploadImgItemBean> toAddList) {
-        Log.e("TAG", "finalAccount: " + finalAccount);
-        Log.e("TAG", "files.size(): " + files.size());
         if (finalAccount == files.size()) {
             dialog.dismiss();
-            runOnUiThread(new Runnable() {
-                @Override
-                public void run() {
-                    calculateRelToAddList(toAddList, new OnItemDataCallBack<List<UploadImgItemBean>>() {
-                        @Override
-                        public void onItemDataCallBack(List<UploadImgItemBean> relToAddList) {
-                            uploadImgs(app_id, clt_id, relToAddList, new OnVoidCallBack() {
-                                @Override
-                                public void callBack() {
-                                    lists.addAll(relToAddList);
-                                    onImgCountChange(lists.size() > 0);
-                                }
-                            });
-                        }
-                    });
+            runOnUiThread(() -> calculateRelToAddList(toAddList, relToAddList -> uploadImgs(app_id, clt_id, relToAddList, () -> {
+                if (relToAddList.size() != toAddList.size()) {
+                    Toast.makeText(myApp, "由于网络因素，有些照片未上传成功", Toast.LENGTH_SHORT).show();
+                }else {
+                    Toast.makeText(myApp, "上传成功", Toast.LENGTH_SHORT).show();
                 }
-            });
+                lists.addAll(relToAddList);
+                onImgCountChange(lists.size() > 0);
+            })));
         }
     }
 
@@ -592,6 +506,7 @@ public class ExtraUploadListActivity extends BaseActivity {
         if (isFinishing()) {
             return;
         }
+        
         if (mUploadFileDialog == null) {
             mUploadFileDialog = LoadingUtils.createLoadingDialog(this);
             mUploadFileDialog.setCancelable(false);
@@ -601,16 +516,12 @@ public class ExtraUploadListActivity extends BaseActivity {
         uploadFilesUrlReq.files = uploadFileUrlBeanList;
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(this).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(this).getValue("bucket", "");
-        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, new OnItemDataCallBack<List<String>>() {
-            @Override
-            public void onItemDataCallBack(List<String> data) {
-                for (int i = 0; i < lists.size(); i++) {
-                    lists.get(i).id = data.get(i);
-                }
-                mUploadFileDialog.dismiss();
-                onSuccessCallBack.callBack();
-                Toast.makeText(ExtraUploadListActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, data -> {
+            for (int i = 0; i < lists.size(); i++) {
+                lists.get(i).id = data.get(i);
             }
+            mUploadFileDialog.dismiss();
+            onSuccessCallBack.callBack();
         });
     }
 
@@ -650,7 +561,6 @@ public class ExtraUploadListActivity extends BaseActivity {
             if (viewType == TYPE_ADD_IMG) {
                 view = mLayoutInflater.inflate(R.layout.upload_list_add_img_item, parent, false);
             } else if (viewType == TYPE_IMG) {
-//                view = new StatusImageRel(mContext);
                 view = mLayoutInflater.inflate(R.layout.upload_list_img_item, parent, false);
             }
             return new VH(view);
@@ -663,7 +573,6 @@ public class ExtraUploadListActivity extends BaseActivity {
             } else {
                 UploadImgItemBean item = mItems.get(position);
                 StatusImageRel statusImageRel = (StatusImageRel) holder.itemView;
-
                 if (!TextUtils.isEmpty(item.local_path)) {
                     GlideUtil.loadLocalImg(mContext, statusImageRel, new File(item.local_path));
                 } else {

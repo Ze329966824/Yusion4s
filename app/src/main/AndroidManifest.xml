@@ -90,6 +90,7 @@
             </intent-filter>
             <intent-filter>
                 <data android:scheme="growing.eef54f1a6e5f2268" />
+
                 <action android:name="android.intent.action.VIEW" />
 
                 <category android:name="android.intent.category.DEFAULT" />
@@ -160,7 +161,6 @@
             android:name=".ui.yusion.apply.AMapPoiListActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
-
         <activity
             android:name=".ui.CommitActivity"
             android:screenOrientation="portrait"
@@ -297,6 +297,10 @@
             android:name=".ui.upload.PreviewActivity"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".ui.upload.ExtraPreviewActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
 
         <meta-data
             android:name="UMENG_APPKEY"
@@ -325,6 +329,12 @@
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".ui.entrance.AppraisalvalueActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".car_select.CarSelectActivity"
+            android:exported="true"
+            android:launchMode="singleInstance"
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity

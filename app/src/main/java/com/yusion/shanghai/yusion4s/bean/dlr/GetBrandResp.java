@@ -1,12 +1,13 @@
 package com.yusion.shanghai.yusion4s.bean.dlr;
 
 import com.google.gson.Gson;
+import com.yusion.shanghai.yusion4s.car_select.IndexBar.bean.BaseIndexPinyinBean;
 
 /**
  * Created by ice on 2017/7/28.
  */
 
-public class GetBrandResp {
+public class GetBrandResp extends BaseIndexPinyinBean {
 
     /**
      * superior : null
@@ -21,10 +22,26 @@ public class GetBrandResp {
     public String brand_code;
     public String level;
     public String brand_id;
+    public String brand_image_url;
     public String che_300_id;
 
     @Override
     public String toString() {
         return new Gson().toJson(this);
+    }
+
+    @Override
+    public String getTarget() {
+        return brand_name;
+    }
+
+    @Override
+    public boolean isNeedToPinyin() {
+        return true;
+    }
+
+    @Override
+    public boolean isShowSuspension() {
+        return true;
     }
 }
