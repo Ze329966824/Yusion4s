@@ -1,11 +1,13 @@
 package com.yusion.shanghai.yusion4s.car_select;
 
 import android.content.Intent;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.LinearLayout;
@@ -25,14 +27,23 @@ import com.yusion.shanghai.yusion4s.car_select.adapter.TrixAdapter;
 import com.yusion.shanghai.yusion4s.car_select.model.CityBean;
 import com.yusion.shanghai.yusion4s.car_select.suspension.SuspensionDecoration;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
+import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 /**
- * 进入该页面需要使用 startActivityForResult 并用intent携带 dlr_id 字符串
+ * 进入该页面需要使用 startActivity 并用intent携带页面结束后需要跳转的 class 类对象
+ * eg:  Intent intent = new Intent(this, CarSelectActivity.class);
+ *      intent.putExtra("class", LoginActivity.class);//选择完车型后跳转到LoginActivity
+ *      intent.putExtra("dlr_id", xxx);
+ *      intent.putExtra("should_reset", true);//true表示重置该页面 默认false
+ *      startActivity(intent);
+ *
+ * 该class类对象启动模式必须是 singleTask
  * 选中品牌后会调用{@link CarSelectActivity#selectModel(GetModelResp)}将数据返回
+ * 返回到之前的activity时会回调其 onNewIntent 方法
  */
 public class CarSelectActivity extends BaseActivity {
 
@@ -58,13 +69,24 @@ public class CarSelectActivity extends BaseActivity {
     private List<EngCapBean> engCapBeanList = new ArrayList<>();
     private RecyclerView mEngGv;
     private EngGvAdapter engGvAdapter;
+    private List<GetModelResp> rawModelList;
 
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        if (getIntent().getBooleanExtra("should_reset",false)) {
+            drawerLayout2.closeDrawer(Gravity.RIGHT);
+            drawerLayout1.closeDrawer(Gravity.RIGHT);
+        }
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_select);
-        initTitleBar(this, "选择车型");
+        initTitleBar(this, "选择车型").setLeftClickListener(v -> startActivity(new Intent(this, (Class<?>) getIntent().getExtras().get("class"))));
+        Log.e("TAG", "onCreate: ");
 
         drawerLayout1 = findViewById(R.id.car_select_drawlayout1);
         drawerLayout2 = findViewById(R.id.car_select_drawlayout2);
@@ -131,24 +153,69 @@ public class CarSelectActivity extends BaseActivity {
         modelSuspensionDecoration = new SuspensionDecoration(this, modelList);
         mModelRv.addItemDecoration(modelSuspensionDecoration);
         mModelRv.addItemDecoration(new DividerItemDecoration(CarSelectActivity.this, DividerItemDecoration.VERTICAL_LIST));
-        mModelAdapter.setOnItemClickListener((v,modelResp) -> {
+        mModelAdapter.setOnItemClickListener((v, modelResp) -> {
             selectModel(modelResp);
         });
         mEngGv = findViewById(R.id.eng_gv);
-        mEngGv.setLayoutManager(new GridLayoutManager(this, 2));
+        mEngGv.setLayoutManager(new GridLayoutManager(this, 3));
+        mEngGv.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                int childLayoutPosition = parent.getChildLayoutPosition(view);
+                if (childLayoutPosition > -1 && childLayoutPosition < 3) {
+                    outRect.top = DensityUtil.dip2px(CarSelectActivity.this, 9);
+                }
+                outRect.right = DensityUtil.dip2px(CarSelectActivity.this, 11);
+                outRect.bottom = DensityUtil.dip2px(CarSelectActivity.this, 9);
+            }
+        });
         engGvAdapter = new EngGvAdapter(this, engCapBeanList);
+        engGvAdapter.setOnItemCheckedChangeListener(new EngGvAdapter.OnItemCheckedChangeListener() {
+            @Override
+            public void onItemCheckedChange(View v, boolean isChecked, EngCapBean engCapBean) {
+                boolean hasItemSelected = false;
+                List<EngCapBean> hasSelectedEngCap = new ArrayList<>();
+                for (EngCapBean capBean : engCapBeanList) {
+                    if (capBean.has_selected) {
+                        hasItemSelected = true;
+                        hasSelectedEngCap.add(capBean);
+                    }
+                }
+                modelList.clear();
+                if (hasItemSelected) {
+                    List<String> hasSelectedEngCapString = new ArrayList<>();
+                    for (EngCapBean bean : hasSelectedEngCap) {
+                        hasSelectedEngCapString.add(bean.eng_cap);
+                    }
+                    for (GetModelResp modelResp : rawModelList) {
+                        if (hasSelectedEngCapString.contains(modelResp.eng_cap)) {
+                            modelList.add(modelResp);
+                        }
+                    }
+                } else {
+                    modelList.addAll(rawModelList);
+                }
+                mModelAdapter.notifyDataSetChanged();
+            }
+        });
         mEngGv.setAdapter(engGvAdapter);
     }
 
+
     private void selectModel(GetModelResp modelResp) {
-        Intent intent = new Intent();
-        intent.putExtra("modleResp", modelResp);
-        setResult(RESULT_OK,intent);
-        finish();
+        Intent intent = getIntent();
+        Class toClass = (Class) intent.getExtras().get("class");
+        Intent intent2 = new Intent();
+        intent2.putExtra("modleResp", modelResp);
+        setResult(RESULT_OK, intent2);
+        intent2.setClass(this, toClass);
+        startActivity(intent2);
+//        finish();
     }
 
     private void showModelList(GetTrixResp trixResp) {
         DlrApi.getModel(this, trixResp.trix_id, modelResp -> {
+            rawModelList = modelResp;
             if (modelResp == null) {
                 Toast.makeText(myApp, "返回数据为空", Toast.LENGTH_SHORT).show();
                 return;
@@ -178,7 +245,6 @@ public class CarSelectActivity extends BaseActivity {
             engCapBeanList.add(engCapBean);
         }
         engGvAdapter.notifyDataSetChanged();
-        Toast.makeText(this, engCapBeanList.toString(), Toast.LENGTH_SHORT).show();
     }
 
     private void showTrixList(GetBrandResp brandResp) {

@@ -9,10 +9,21 @@
         layout="@layout/pack_up" />
 
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginLeft="15dp"
+        android:gravity="center_vertical"
+        android:text="排量"
+        android:textColor="@color/textColor"
+        android:textSize="11.5dp" />
+
     <android.support.v7.widget.RecyclerView
         android:id="@+id/eng_gv"
+        android:background="@color/white"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"/>
+        android:layout_height="wrap_content"
+        android:paddingLeft="15dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/model_rv"
