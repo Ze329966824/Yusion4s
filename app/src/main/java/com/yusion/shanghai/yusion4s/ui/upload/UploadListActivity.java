@@ -213,7 +213,7 @@
 //        rv.setAdapter(adapter);
 //        adapter.setOnItemClick(new RvAdapter.OnItemClick() {
 //            @Override
-//            public void onItemClick(View v, UploadImgItemBean item, int index) {
+//            public void onItemCheckedChange(View v, UploadImgItemBean item, int index) {
 //                if (isEditing) {
 //                    if (item.hasChoose) {
 //                        item.hasChoose = false;
@@ -329,7 +329,7 @@
 ////        } else {
 ////            uri = Uri.parse(item.raw_url);
 ////        }
-////        Log.e("TAG", "onItemClick: " + uri.toString());
+////        Log.e("TAG", "onItemCheckedChange: " + uri.toString());
 ////        it.setDataAndType(uri, "video/mp4");
 ////        startActivity(it);
 //        String url;
@@ -667,7 +667,7 @@
 //                        GlideUtil.loadImg(mContext, statusImageRel, item.s_url);
 //                    }
 //                }
-//                holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, position));
+//                holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemCheckedChange(v, item, position));
 //                if (isEditing) {
 //                    statusImageRel.cbImg.setVisibility(View.VISIBLE);
 //                    if (item.hasChoose) {
@@ -710,7 +710,7 @@
 //        }
 //
 //        public interface OnItemClick {
-//            void onItemClick(View v, UploadImgItemBean item, int index);
+//            void onItemCheckedChange(View v, UploadImgItemBean item, int index);
 //
 //            void onFooterClick(View v);
 //        }

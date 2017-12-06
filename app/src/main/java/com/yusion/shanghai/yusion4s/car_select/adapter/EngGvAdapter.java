@@ -5,7 +5,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
+import android.widget.CheckBox;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.car_select.EngCapBean;
@@ -22,6 +22,11 @@ public class EngGvAdapter extends RecyclerView.Adapter<EngGvAdapter.VH> {
     private List<EngCapBean> list;
     private Context context;
     private final LayoutInflater inflater;
+    protected OnItemCheckedChangeListener onItemCheckedChangeListener;
+
+    public void setOnItemCheckedChangeListener(OnItemCheckedChangeListener onItemCheckedChangeListener) {
+        this.onItemCheckedChangeListener = onItemCheckedChangeListener;
+    }
 
     public EngGvAdapter(Context context, List<EngCapBean> list) {
         this.list = list;
@@ -36,7 +41,19 @@ public class EngGvAdapter extends RecyclerView.Adapter<EngGvAdapter.VH> {
 
     @Override
     public void onBindViewHolder(VH holder, int position) {
-        holder.engTv.setText(list.get(position).eng_cap);
+        EngCapBean engCapBean = list.get(position);
+        holder.engTv.setText(engCapBean.eng_cap);
+        if (engCapBean.has_selected) {
+            holder.engTv.setChecked(true);
+        }else {
+            holder.engTv.setChecked(false);
+        }
+        holder.engTv.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            engCapBean.has_selected = isChecked;
+            if (onItemCheckedChangeListener!=null) {
+                onItemCheckedChangeListener.onItemCheckedChange(buttonView,isChecked, engCapBean);
+            }
+        });
     }
 
     @Override
@@ -46,12 +63,16 @@ public class EngGvAdapter extends RecyclerView.Adapter<EngGvAdapter.VH> {
 
     static class VH extends RecyclerView.ViewHolder {
 
-        public TextView engTv;
+        public CheckBox engTv;
 
         public VH(View itemView) {
             super(itemView);
             engTv = itemView.findViewById(R.id.eng_tv);
         }
+    }
+
+    public interface OnItemCheckedChangeListener {
+        void onItemCheckedChange(View v, boolean isChecked, EngCapBean engCapBean);
     }
 
 }
