@@ -3,6 +3,8 @@ package com.yusion.shanghai.yusion4s.utils.wheel;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetManager;
+import android.content.res.Resources;
+import android.os.Build;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,6 +31,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -144,6 +147,39 @@ public class WheelViewUtil {
         }
     }
 
+    private static void hideDay(DatePicker mDatePicker) {
+        try {
+            /* 处理android5.0以上的特殊情况 */
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int daySpinnerId = Resources.getSystem().getIdentifier("day", "id", "android");
+                if (daySpinnerId != 0) {
+                    View daySpinner = mDatePicker.findViewById(daySpinnerId);
+                    if (daySpinner != null) {
+                        daySpinner.setVisibility(View.GONE);
+                    }
+                }
+            } else {
+                Field[] datePickerfFields = mDatePicker.getClass().getDeclaredFields();
+                for (Field datePickerField : datePickerfFields) {
+                    if ("mDaySpinner".equals(datePickerField.getName()) || ("mDayPicker").equals(datePickerField.getName())) {
+                        datePickerField.setAccessible(true);
+                        Object dayPicker = new Object();
+                        try {
+                            dayPicker = datePickerField.get(mDatePicker);
+                        } catch (IllegalAccessException e) {
+                            e.printStackTrace();
+                        } catch (IllegalArgumentException e) {
+                            e.printStackTrace();
+                        }
+                        ((View) dayPicker).setVisibility(View.GONE);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
     public static void showDatePick(final View clickView, final TextView showView, final String title, String min_reg_year, String max_reg_year, final OndateSubmitCallBack ondateSubmitCallBack) {
         clickView.setEnabled(false);
         Context context = clickView.getContext();
@@ -154,7 +190,6 @@ public class WheelViewUtil {
         Button okBtn = (Button) wheelViewLayout.findViewById(R.id.select_ok);
         Button cancelBtn = (Button) wheelViewLayout.findViewById(R.id.select_cancel);
         String s = showView.getText().toString();
-        //char ss[] = s.toCharArray();
         datePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
         Integer[] s1 = new Integer[1];
         Integer[] s2 = new Integer[1];
@@ -164,8 +199,6 @@ public class WheelViewUtil {
         String minTime = min_reg_year + "-" + "01-01";
 
         String maxTime = max_reg_year + "-" + "12-31";
-
-        // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         Date date = null;
@@ -180,11 +213,8 @@ public class WheelViewUtil {
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        //  Date date = new Date();
-
-        // datePicker.setMaxDate(time);
-
-
+        hideDay(datePicker);
+        // ((ViewGroup) ((ViewGroup) datePicker.getChildAt(0)).getChildAt(1)).getChildAt(0).setVisibility(View.GONE);
         //2017年12月12日
         if (!s.equals("")) {
             //String[] array = s.split("年|月|日");
@@ -224,7 +254,8 @@ public class WheelViewUtil {
         okBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String result = s1[0] + "-" + formateDate(s2[0]) + "-" + formateDate(s3[0]);
+                String result = s1[0] + "-" + formateDate(s2[0]);
+                // String result = s1[0] + "-" + formateDate(s2[0]) + "-" + formateDate(s3[0]);
                 showView.setText(result);
                 if (ondateSubmitCallBack != null) {
                     ondateSubmitCallBack.OndateSubmitCallBack(clickView, result);
