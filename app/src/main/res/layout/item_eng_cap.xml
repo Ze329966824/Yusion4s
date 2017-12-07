@@ -14,6 +14,6 @@
         android:button="@null"
         android:gravity="center"
         android:text="1.2"
-        android:textColor="#222A36"
+        android:textColor="@color/eng_color"
         android:textSize="14.42sp" />
 </LinearLayout>

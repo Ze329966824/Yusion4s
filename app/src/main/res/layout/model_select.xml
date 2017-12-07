@@ -2,32 +2,44 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="horizontal">
 
-    <include
-        android:id="@+id/model_pack_up"
-        layout="@layout/pack_up" />
+    <ImageView
+        android:layout_width="7dp"
+        android:layout_height="match_parent"
+        android:background="@mipmap/shadow_v_line" />
 
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:layout_marginLeft="15dp"
-        android:gravity="center_vertical"
-        android:text="排量"
-        android:textColor="@color/textColor"
-        android:textSize="11.5dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/eng_gv"
-        android:background="@color/white"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingLeft="15dp" />
-
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/model_rv"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/white" />
+        android:background="@color/white"
+        android:orientation="vertical">
+
+        <include
+            android:id="@+id/model_pack_up"
+            layout="@layout/pack_up" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_marginLeft="15dp"
+            android:gravity="center_vertical"
+            android:text="排量"
+            android:textColor="@color/textColor"
+            android:textSize="11.5dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/eng_gv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/white"
+            android:paddingLeft="15dp" />
+
+        <android.support.v7.widget.RecyclerView
+            android:id="@+id/model_rv"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white" />
+    </LinearLayout>
 </LinearLayout>
