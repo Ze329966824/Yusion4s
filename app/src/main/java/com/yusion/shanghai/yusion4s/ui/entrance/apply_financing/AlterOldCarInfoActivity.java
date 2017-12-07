@@ -124,7 +124,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private String mile_age;
     private String guess_img;
     private int submit_model_id;
-    private boolean isRestCarinfo = true;
+    private boolean isRestCarinfo = false;
 
     private String oldCarcityJson;
 
@@ -1376,6 +1376,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         loanPeriodsTv.setText("");//还款期限
         firstPriceTv.setText("");
         carLoanPriceTv.setText("");
+        car_info_tv.setText("");
 
         look_guess_img_btn.setEnabled(false);
         btn_reset.setEnabled(false);
@@ -1426,7 +1427,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             intent.putExtra("class", AlterOldCarInfoActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
-            isRestCarinfo = false;
+            isRestCarinfo = true;
             startActivity(intent);
         }
     }

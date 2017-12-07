@@ -97,6 +97,8 @@ public class CarInfoFragment extends BaseFragment {
 
     private String cartype;
 
+    private boolean isRestCarinfo = true;
+
 
     Handler handler = new Handler() {
         @Override
@@ -779,22 +781,18 @@ public class CarInfoFragment extends BaseFragment {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("class", OrderCreateActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
-            intent.putExtra("should_reset", false);//true表示重置该页面 默认false
+            intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
+            isRestCarinfo = false;
             startActivity(intent);
         }
     }
-//             *eg:
-//            Intent intent = new Intent(this, CarSelectActivity.class);
-// *intent.putExtra("class", LoginActivity.class);//选择完车型后跳转到LoginActivity
-// *intent.putExtra("dlr_id", xxx);
-// *intent.putExtra("should_reset", true);//true表示重置该页面 默认false
-// *startActivity(intent);
 
 
     public void getCarInfo(Intent data) {
         GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
         model_id = modleResp.model_id;
         car_info_tv.setText(modleResp.model_name);
+        guidePriceTv.setText(modleResp.msrp + "");
     }
 
     private void selectDlrStore() {
