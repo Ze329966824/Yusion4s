@@ -101,6 +101,8 @@ public class UploadSqsListActivity extends BaseActivity {
         imgList = (List<UploadImgItemBean>) mGetIntent.getSerializableExtra("imgList");
         uploadFileUrlList = (List<UploadFilesUrlReq.FileUrlBean>) mGetIntent.getSerializableExtra("uploadFileUrlList");
 
+
+
         initView();
         initData();
     }

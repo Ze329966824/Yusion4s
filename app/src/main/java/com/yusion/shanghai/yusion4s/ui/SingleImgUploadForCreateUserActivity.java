@@ -419,14 +419,14 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
     private void checkAuthCreditExist(Intent intent, SearchClientResp item) {
         if (item.auth_credit.lender != null) {//如果不等于空
             intent.putExtra("isHasLender", "1");
-            intent.putExtra("lender_intentData.clt_id", item.auth_credit.lender.clt_id);
+            intent.putExtra("lender_clt_id", item.auth_credit.lender.clt_id);
             intent.putExtra("lender", item.auth_credit.lender.auth_credit_img_count);
         } else {
             intent.putExtra("isHasLender", "2");
         }
         if (item.auth_credit.lender_sp != null) {//如果不等于空
             intent.putExtra("isHasLender_sp", "1");
-            intent.putExtra("lender_sp_intentData.clt_id", item.auth_credit.lender_sp.clt_id);
+            intent.putExtra("lender_sp_clt_id", item.auth_credit.lender_sp.clt_id);
             intent.putExtra("lender_sp", item.auth_credit.lender_sp.auth_credit_img_count);
         } else {
             intent.putExtra("isHasLender_sp", "2");
@@ -434,7 +434,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
 
         if (item.auth_credit.guarantor != null) {//如果不等于空
             intent.putExtra("isGuarantor", "1");
-            intent.putExtra("guarantor_intentData.clt_id", item.auth_credit.guarantor.clt_id);
+            intent.putExtra("guarantor_clt_id", item.auth_credit.guarantor.clt_id);
             intent.putExtra("guarantor", item.auth_credit.guarantor.auth_credit_img_count);
         } else {
             intent.putExtra("isGuarantor", "2");
@@ -442,7 +442,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
 
         if (item.auth_credit.guarantor_sp != null) {//如果不等于空
             intent.putExtra("isGuarantor_sp", "1");
-            intent.putExtra("guarantor_sp_intentData.clt_id", item.auth_credit.guarantor_sp.clt_id);
+            intent.putExtra("guarantor_sp_clt_id", item.auth_credit.guarantor_sp.clt_id);
             intent.putExtra("guarantor_sp", item.auth_credit.guarantor_sp.auth_credit_img_count);
 
         } else {

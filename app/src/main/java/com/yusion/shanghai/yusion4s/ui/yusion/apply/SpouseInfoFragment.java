@@ -648,6 +648,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 //            }
 //        });
         spouse_info_mobile_img.setOnClickListener(v -> {
+            CURRENT_CLICKED_VIEW_FOR_CONTACT = v.getId();
             selectContact();
         });
 
@@ -1007,7 +1008,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 if (contacts != null) {
                     System.arraycopy(contacts, 0, result, 0, contacts.length);
                 }
-                if (CURRENT_CLICKED_VIEW_FOR_CONTACT == spouse_info_mobile_edt.getId()) {
+                if (CURRENT_CLICKED_VIEW_FOR_CONTACT == spouse_info_mobile_img.getId()) {
                     spouse_info_mobile_edt.setText(result[1].replace(" ", ""));
                     UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_mobile_edt", ApplyActivity.class.getSimpleName(), "手机号");
                 }
