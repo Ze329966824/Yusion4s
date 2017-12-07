@@ -83,9 +83,9 @@ public class DlrApi {
         });
     }
 
-    public static void getModel(final Context context, String trix, final OnItemDataCallBack<List<GetModelResp>> onItemDataCallBack) {
+    public static void getModel(final Context context, String trix,String vehicle_cond, final OnItemDataCallBack<List<GetModelResp>> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getDlrService().getModel(trix).enqueue(new CustomCallBack<List<GetModelResp>>(context, dialog) {
+        Api.getDlrService().getModel(trix,vehicle_cond).enqueue(new CustomCallBack<List<GetModelResp>>(context, dialog) {
             @Override
             public void onCustomResponse(List<GetModelResp> data) {
                 onItemDataCallBack.onItemDataCallBack(data);

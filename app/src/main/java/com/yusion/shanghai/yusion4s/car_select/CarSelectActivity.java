@@ -38,6 +38,7 @@ import java.util.List;
  * eg:  Intent intent = new Intent(this, CarSelectActivity.class);
  * intent.putExtra("class", LoginActivity.class);//选择完车型后跳转到LoginActivity
  * intent.putExtra("dlr_id", xxx);
+ * intent.putExtra("vehicle_cond", xxx);
  * intent.putExtra("should_reset", true);//true表示重置该页面 默认false
  * startActivity(intent);
  * <p>
@@ -77,7 +78,7 @@ public class CarSelectActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (getIntent().getBooleanExtra("should_reset", false)) {
+        if (intent.getBooleanExtra("should_reset", false)) {
             drawerLayout2.closeDrawer(Gravity.RIGHT);
             drawerLayout1.closeDrawer(Gravity.RIGHT);
         }
@@ -249,7 +250,7 @@ public class CarSelectActivity extends BaseActivity {
 
     private void showModelList(GetTrixResp trixResp) {
         currentTrixResp = trixResp;
-        DlrApi.getModel(this, trixResp.trix_id, modelResp -> {
+        DlrApi.getModel(this, trixResp.trix_id, getIntent().getStringExtra("vehicle_cond"), modelResp -> {
             rawModelList = modelResp;
             if (modelResp == null) {
                 Toast.makeText(myApp, "返回数据为空", Toast.LENGTH_SHORT).show();

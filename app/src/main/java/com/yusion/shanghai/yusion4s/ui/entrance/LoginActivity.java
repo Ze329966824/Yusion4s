@@ -70,6 +70,7 @@ public class LoginActivity extends BaseActivity {
         setTestAccount();
 
     }
+
     //测试账号
     private void setTestAccount() {
         if (!Settings.isOnline) {
@@ -93,6 +94,7 @@ public class LoginActivity extends BaseActivity {
             });
         }
     }
+
     //登录
     private void login() {
 //        Intent intent = new Intent(this, CarSelectActivity.class);
@@ -129,6 +131,7 @@ public class LoginActivity extends BaseActivity {
             mLoginPasswordTV.setInputType(EditorInfo.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
         }
     }
+
     //登陆成功
     private void loginSuccess(LoginResp resp) {
         if (resp != null) {
