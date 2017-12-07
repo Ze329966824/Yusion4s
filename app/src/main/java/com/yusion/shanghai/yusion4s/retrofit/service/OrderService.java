@@ -2,11 +2,11 @@ package com.yusion.shanghai.yusion4s.retrofit.service;
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
-import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
-import com.yusion.shanghai.yusion4s.bean.order.ProcessTest;
-import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
+import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
+import com.yusion.shanghai.yusion4s.bean.order.ProcessReq;
+import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
@@ -60,5 +60,6 @@ public interface OrderService {
     // 192.168.0.214:8000/api/application/app_progress/
     //获取订单进度
     @GET("/api/application/app_progress/")
-    Call<BaseResult<ProcessTest>> getOrderProcess(@Query("app_id") String app_id);
+    Call<BaseResult<ProcessReq>> getOrderProcess();
+    //Call<BaseResult<ProcessReq>> getOrderProcess(@Query("app_id") String app_id);
 }

@@ -7,23 +7,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.order.ProcessReq;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessTest;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class ProcessActivity extends BaseActivity {
     private LinearLayout mLl_parent;
     private Context mContext;
-    private List<ProcessTest> list;
+    private List<ProcessReq.ListBean> list;
     private String st;
     private String st2;
+    private TextView app_id;
+    private TextView create_time;
+    private TextView clt_nm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,49 +36,113 @@ public class ProcessActivity extends BaseActivity {
         initTitleBar(this, "订单进度");
         mContext = this;
         mLl_parent = (LinearLayout) findViewById(R.id.ll_parent);
+        app_id = (TextView) findViewById(R.id.app_id);
+        create_time = (TextView) findViewById(R.id.creat_time);
 
-        OrderApi.getOrderProcess(this, "app_id", new OnItemDataCallBack<ProcessTest>() {
+
+
+        OrderApi.getOrderProcess(this, "", new OnItemDataCallBack<ProcessReq>() {
             @Override
-            public void onItemDataCallBack(ProcessTest data) {
+            public void onItemDataCallBack(ProcessReq data) {
+                list = data.list;
                 //data.st;
                 //data.time;
                 //data.title;
-                list.clear();
-                list = data.seriesList;
+
+                for (int i = 0; i < list.size(); i++) {
+                    ProcessReq.ListBean current = list.get(i);
+                    //  ProcessTest current = list.get(i);
+
+                    ProcessReq.ListBean before;
+                    ProcessReq.ListBean after;
+
+                    before = i == 0 ? null : list.get(i - 1);
+
+                    after = i == list.size() - 1 ? null : list.get(i + 1);
+
+                    View view = addViewEmpty();
+                    View topLine = view.findViewById(R.id.top_line);
+                    View bottomLine = view.findViewById(R.id.bottom_line);
+                    ImageView dianImg = (ImageView) view.findViewById(R.id.st_dian_img);//左边状态点
+
+                    if (before == null) {
+                        topLine.setVisibility(View.INVISIBLE);
+                    } else if (after == null) {
+                        bottomLine.setVisibility(View.INVISIBLE);
+                    }
+                    //设置线条颜色
+                    st = current.st;
+                    if (before != null) {
+                        st2 = before.st;
+                        if (st2.equals("1")) {
+                            topLine.setBackgroundColor(Color.parseColor("#06b7a3"));
+                        }
+                    }
+                    if (st.equals("1")) {
+                        bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
+                        dianImg.setImageResource(R.mipmap.test25);
+                    } else if (st.equals("2")) {
+                        dianImg.setImageResource(R.mipmap.test24);
+                    }
+
+                    mLl_parent.addView(view);
+                    LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
+                    //fill(current, ll_empty);
+
+//            if (current.asyncProcessTestList.size() > 0) {
+//                for (int j = 0; j < current.asyncProcessTestList.size(); j++) {
+//                    View fillView = addViewFill();
+//                    ll_empty.addView(fillView);
+//                    View view1 = new View(this);
+//                    view1.setBackgroundColor(Color.parseColor("#ffffff"));
+//                    ll_empty.addView(view1);
+//                    LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view1.getLayoutParams();
+//                    lp.height = DensityUtil.dip2px(this, 15);
+//                    if (j == current.asyncProcessTestList.size() - 1) {
+//                        ll_empty.removeView(view1);
+//                    }
+//                }
+//            } else {
+//                for (int k = 0; k < current.syncProcessTestList.size(); k++) {
+//                    View fillView = addViewFill();
+//                    ll_empty.addView(fillView);
+//                }
+//            }
+                }
             }
         });
 
-        list = new ArrayList<>();
-        ProcessTest processTest1 = new ProcessTest();
-        processTest1.title = "填订单信息";
-        processTest1.time = "2016-07-05  14:32";
-        processTest1.st = "1";
-        list.add(processTest1);
-
-        ProcessTest processTest2 = new ProcessTest();
-        processTest2.time = "DW UW";
-        processTest2.title = "2016-07-05  14:32";
-        processTest2.st = "2";
-        list.add(processTest2);
-
-        ProcessTest processTest3 = new ProcessTest();
-        processTest3.st = "3";
-        processTest3.asyncProcessTestList = new ArrayList<>();
-        processTest3.syncProcessTestList = new ArrayList<>();
-        ProcessTest processTest31 = new ProcessTest();
-        ProcessTest processTest32 = new ProcessTest();
-        processTest32.title = "予见电话审核";
-        processTest32.time = "2016-07-05  14:32";
-        processTest3.asyncProcessTestList.add(processTest31);
-        processTest3.asyncProcessTestList.add(processTest32);
-
-        ProcessTest processTest311 = new ProcessTest();
-        processTest311.title = "征信影像件审核";
-        ProcessTest processTest312 = new ProcessTest();
-        processTest312.title = "征信结果查询";
-        processTest31.syncProcessTestList.add(processTest311);
-        processTest31.syncProcessTestList.add(processTest312);
-        list.add(processTest3);
+//        list = new ArrayList<>();
+//        ProcessTest processTest1 = new ProcessTest();
+//        processTest1.title = "填订单信息";
+//        processTest1.time = "2016-07-05  14:32";
+//        processTest1.st = "1";
+//        list.add(processTest1);
+//
+//        ProcessTest processTest2 = new ProcessTest();
+//        processTest2.time = "DW UW";
+//        processTest2.title = "2016-07-05  14:32";
+//        processTest2.st = "2";
+//        list.add(processTest2);
+//
+//        ProcessTest processTest3 = new ProcessTest();
+//        processTest3.st = "3";
+//        processTest3.asyncProcessTestList = new ArrayList<>();
+//        processTest3.syncProcessTestList = new ArrayList<>();
+//        ProcessTest processTest31 = new ProcessTest();
+//        ProcessTest processTest32 = new ProcessTest();
+//        processTest32.title = "予见电话审核";
+//        processTest32.time = "2016-07-05  14:32";
+//        processTest3.asyncProcessTestList.add(processTest31);
+//        processTest3.asyncProcessTestList.add(processTest32);
+//
+//        ProcessTest processTest311 = new ProcessTest();
+//        processTest311.title = "征信影像件审核";
+//        ProcessTest processTest312 = new ProcessTest();
+//        processTest312.title = "征信结果查询";
+//        processTest31.syncProcessTestList.add(processTest311);
+//        processTest31.syncProcessTestList.add(processTest312);
+//        list.add(processTest3);
 //
 //
 //        ProcessTest processTest = new ProcessTest();
@@ -91,12 +159,13 @@ public class ProcessActivity extends BaseActivity {
 //
 //        list.add(processTest);
 
+        /*
         for (int i = 0; i < list.size(); i++) {
+            ProcessReq.ListBean current = list.get(i);
+            //  ProcessTest current = list.get(i);
 
-            ProcessTest current = list.get(i);
-
-            ProcessTest before;
-            ProcessTest after;
+            ProcessReq.ListBean before;
+            ProcessReq.ListBean after;
 
             before = i == 0 ? null : list.get(i - 1);
 
@@ -129,7 +198,8 @@ public class ProcessActivity extends BaseActivity {
 
             mLl_parent.addView(view);
             LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
-            fill(current, ll_empty);
+            //fill(current, ll_empty);
+
 //            if (current.asyncProcessTestList.size() > 0) {
 //                for (int j = 0; j < current.asyncProcessTestList.size(); j++) {
 //                    View fillView = addViewFill();
@@ -150,6 +220,7 @@ public class ProcessActivity extends BaseActivity {
 //                }
 //            }
         }
+        */
     }
 
     private void fill(ProcessTest current, LinearLayout ll_empty) {

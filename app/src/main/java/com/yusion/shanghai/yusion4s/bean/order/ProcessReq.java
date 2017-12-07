@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.bean.order;
 
+import com.google.gson.Gson;
+
 import java.util.List;
 
 /**
@@ -19,6 +21,11 @@ public class ProcessReq {
     public String app_id;
     public String create_time;
     public List<ListBean> list;
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
 
     public String getClt_nm() {
         return clt_nm;
@@ -52,7 +59,7 @@ public class ProcessReq {
         this.list = list;
     }
 
-    public static class ListBean {
+    public class ListBean {
         /**
          * st : pass
          * time :
@@ -66,6 +73,11 @@ public class ProcessReq {
         public String title;
         public List<?> seriesList;
         public List<?> parellelList;
+
+        @Override
+        public String toString() {
+            return new Gson().toJson(this);
+        }
 
         public String getSt() {
             return st;

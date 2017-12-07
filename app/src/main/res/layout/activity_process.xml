@@ -33,6 +33,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/app_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="SSDFGHJK"
@@ -52,6 +53,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/clt_nm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="张小姐"
@@ -71,6 +73,7 @@
                 android:textSize="14sp" />
 
             <TextView
+                android:id="@+id/creat_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2016-07-05 14:32"
