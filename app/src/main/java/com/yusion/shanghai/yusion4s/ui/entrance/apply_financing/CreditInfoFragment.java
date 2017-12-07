@@ -8,8 +8,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -50,6 +48,8 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 /**
  * Created by aa on 2017/8/9.
@@ -105,6 +105,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     private void toApplicantDetailActivity(View view) {
         Intent intent = new Intent(mContext, ApplicantDetailActivity.class);
+        Log.e("TAG", "toApplicantDetailActivity: "+lender_clt_id);
         intent.putExtra("clt_id", lender_clt_id);
         startActivity(intent);
     }
@@ -242,7 +243,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         client_spouse_credit__book_lin.setOnClickListener(this);
         //用户详情
         credit_applicate_detail_lin = (LinearLayout) view.findViewById(R.id.credit_applicate_detail_lin);
-        credit_applicate_detail_lin.setOnClickListener(this);
+//        credit_applicate_detail_lin.setOnClickListener(this);
         //担保人授权
         guarantor_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_credit_book_lin3);
         guarantor_credit_book_lin.setOnClickListener(this);
@@ -263,15 +264,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
         delete_icon = (ImageView) view.findViewById(R.id.delete_icon);
         credit_info = (LinearLayout) view.findViewById(R.id.credit_info);
-
-//        credit_applicate_detail_lin.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Intent intent = new Intent(mContext, ApplicantDetailActivity.class);
-//                intent.putExtra("clt_id", lender_clt_id);
-//                startActivity(intent);
-//            }
-//        });
 
         delete_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -347,6 +339,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                         }
                     });
                 } else if (checkCanSubmit()) {
+                    OrderCreateActivity createActivity = (OrderCreateActivity) getActivity();
                     SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
                     // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
@@ -405,6 +398,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                                 });
                                             }
                                             startActivity(intent);
+                                            createActivity.finish();
 //                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
                                     }
@@ -413,6 +407,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             } else {
                                 // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                 startActivity(intent);
+                                createActivity.finish();
                             }
                         }
                     });
@@ -606,6 +601,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
         intent.putExtra("dlr_id", req.dlr_id);
         intent.putExtra("bank_id", req.bank_id);
+
         switch (v.getId()) {
             case R.id.client_credit__book_lin1://申请人征信授权
                 intent.putExtra("clt_id", lender_clt_id);
@@ -718,6 +714,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
             client_credit__book_lin.setVisibility(View.VISIBLE);
             lender_clt_id = data.getStringExtra("lender_clt_id");
+            Log.e("TAG", "relevance: "+lender_clt_id);
             autonym_certify_id_back_tv.setText("请上传");
             autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
         } else {
