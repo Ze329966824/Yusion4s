@@ -362,6 +362,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
         intentData.imgObjectKey = objectKey;
         runOnUiThread(() -> {
             onImageCountChange();
+            //加载图片
             GlideUtil.loadLocalImg(SingleImgUploadForCreateUserActivity.this, statusImageRel, new File(imgUrl));
         });
 

@@ -29,6 +29,7 @@ public class GetModelResp implements ISuspensionInterface,Serializable {
     public String min_reg_year;
     public String max_reg_year;
     public String group_name;
+
     public String che_300_id;
 
     @Override
