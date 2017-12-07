@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
@@ -27,6 +28,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
@@ -89,6 +91,8 @@ public class AlterCarInfoActivity extends BaseActivity {
     private Button carInfoNextBtn;
     private boolean isChoose = false;
     private String app_id;
+    private int model_id;
+    private boolean isRestCarinfo = true;
 
     Handler handler = new Handler() {
         @Override
@@ -286,6 +290,14 @@ public class AlterCarInfoActivity extends BaseActivity {
     private View kaipiaojia_line;
 
     private String cartype;
+    private LinearLayout car_info_lin;
+    private TextView car_info_tv;
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        getCarInfo(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -357,6 +369,8 @@ public class AlterCarInfoActivity extends BaseActivity {
         carInfoAlterTv = (TextView) findViewById(R.id.car_info_alter_tv);
         personal_info_detail_home_address_lin = (LinearLayout) findViewById(R.id.personal_info_detail_home_address_lin);//车辆开票价a
         kaipiaojia_line = findViewById(R.id.kaipiaojia_line);
+        car_info_lin = findViewById(R.id.car_info_lin);
+        car_info_tv = findViewById(R.id.car_info_tv);
     }
 
     private void initData() {
@@ -388,6 +402,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                 loanPeriodsTv.setText(resp.nper + "");//还款期限
                 loanPeriodsTv.setText(String.valueOf(resp.nper));
                 plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
+                car_info_tv.setText(resp.model_name);
                 mGuidePrice = Integer.valueOf(resp.msrp);
 
                 isChangeCarInfoChange = true;
@@ -489,7 +504,9 @@ public class AlterCarInfoActivity extends BaseActivity {
         carInfoDlrLin.setOnClickListener(v ->
                 selectDlrStore()
         );
-
+        car_info_lin.setOnClickListener(v ->
+                selectCarInfo()
+        );
 //选择品牌
         carInfoBrandLin.setOnClickListener(v ->
                 selectBrand()
@@ -677,15 +694,15 @@ public class AlterCarInfoActivity extends BaseActivity {
                     req.id_no = id_no;
                     req.clt_id = clt_id;
                     req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
-                    req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
-                    // req.vehicle_owner_lender_relation =
+                    // req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+                    req.vehicle_model_id = model_id;
 
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
-                    req.brand_id = mBrandList.get(mBrandIndex).brand_id;
+                    //  req.brand_id = mBrandList.get(mBrandIndex).brand_id;
                     req.dlr_nm = dlrTV.getText().toString();
                     req.guide_price = guidePriceTv.getText().toString();
-                    req.trix_id = mTrixList.get(mTrixIndex).trix_id;
+                    //  req.trix_id = mTrixList.get(mTrixIndex).trix_id;
                     req.loan_bank = loanBankTv.getText().toString();
                     req.app_id = app_id;
                     req.product_name = productTypeTv.getText().toString();
@@ -719,6 +736,12 @@ public class AlterCarInfoActivity extends BaseActivity {
             }
         });
 
+    }
+
+    public void getCarInfo(Intent data) {
+        GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
+        model_id = modleResp.model_id;
+        car_info_tv.setText(modleResp.model_name);
     }
 
     private void selectPlateAddr() {
@@ -777,6 +800,21 @@ public class AlterCarInfoActivity extends BaseActivity {
             Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成贷款银行选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
+        }
+    }
+
+    private void selectCarInfo() {
+        if (TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            Intent intent = new Intent(this, CarSelectActivity.class);
+            intent.putExtra("class", AlterCarInfoActivity.class);
+            intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
+            isRestCarinfo = false;
+            startActivity(intent);
         }
     }
 
@@ -1063,13 +1101,17 @@ public class AlterCarInfoActivity extends BaseActivity {
     private boolean checkCanNextStep() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "门店不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(brandTv.getText())) {
-            Toast.makeText(AlterCarInfoActivity.this, "品牌不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(trixTv.getText())) {
-            Toast.makeText(AlterCarInfoActivity.this, "车系不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(modelTv.getText())) {
+        } else if (TextUtils.isEmpty(carInfoAlterTv.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "车型不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(colorTv.getText())) {
+        }
+//        else if (TextUtils.isEmpty(brandTv.getText())) {
+//            Toast.makeText(AlterCarInfoActivity.this, "品牌不能为空", Toast.LENGTH_SHORT).show();
+//        } else if (TextUtils.isEmpty(trixTv.getText())) {
+//            Toast.makeText(AlterCarInfoActivity.this, "车系不能为空", Toast.LENGTH_SHORT).show();
+//        } else if (TextUtils.isEmpty(modelTv.getText())) {
+//            Toast.makeText(AlterCarInfoActivity.this, "车型不能为空", Toast.LENGTH_SHORT).show();
+//        }
+        else if (TextUtils.isEmpty(colorTv.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "颜色不能为空", Toast.LENGTH_SHORT).show();
         } else if (cartype.equals("新车") && TextUtils.isEmpty(billPriceTv.getText())) {
             Toast.makeText(AlterCarInfoActivity.this, "开票价不能为空", Toast.LENGTH_SHORT).show();

@@ -35,6 +35,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetChePriceAndImageResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetCheUrlResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
+import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
@@ -103,13 +104,16 @@ public class OldCarInfoFragment extends BaseFragment {
     private String cheUrl;
     private String province_che_300_id;
     private String city_che_300_id;
+
     private String brand_id;
     private String trix_id;
     private String model_id;
+
     private String plate_year;
     private String plate_month;
     private String mile_age;
     private String guess_img;
+    private int submit_model_id;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -322,6 +326,9 @@ public class OldCarInfoFragment extends BaseFragment {
     private Button btn_fast_valuation;//快速估值
     private EditText oldcar_guess_tv;//二手车评估价
     private Button look_guess_img_btn;//查看估值截图
+    //车型选择
+    private LinearLayout car_info_lin;
+    private TextView car_info_tv;
 
 
     public static OldCarInfoFragment newInstance() {
@@ -385,7 +392,12 @@ public class OldCarInfoFragment extends BaseFragment {
         cartype = getActivity().getIntent().getStringExtra("car_type");
         dialog = LoadingUtils.createLoadingDialog(mContext);
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
+        car_info_lin = view.findViewById(R.id.car_info_lin);
+        car_info_tv = view.findViewById(R.id.car_info_tv);
 
+        car_info_lin.setOnClickListener(v ->
+                selectCarInfo()
+        );
 
         look_guess_img_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -461,11 +473,19 @@ public class OldCarInfoFragment extends BaseFragment {
             public void afterTextChanged(Editable s) {
                 handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
 
-                if (!TextUtils.isEmpty(brandTv.getText())
-                        && !TextUtils.isEmpty(trixTv.getText())
-                        && !TextUtils.isEmpty(modelTv.getText())
+//                if (!TextUtils.isEmpty(brandTv.getText())
+//                        && !TextUtils.isEmpty(trixTv.getText())
+//                        && !TextUtils.isEmpty(modelTv.getText())
+//                        && !TextUtils.isEmpty(oldcar_addr_tv.getText())
+//                        && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+//                    btn_reset.setEnabled(true);
+//                    btn_fast_valuation.setEnabled(true);
+//                }
+                if (!TextUtils.isEmpty(car_info_tv.getText())
                         && !TextUtils.isEmpty(oldcar_addr_tv.getText())
-                        && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                        && !TextUtils.isEmpty(oldcar_dance_tv.getText())
+                        && !TextUtils.isEmpty(oldcar_addrtime_tv.getText())
+                        ) {
                     btn_reset.setEnabled(true);
                     btn_fast_valuation.setEnabled(true);
                 }
@@ -688,7 +708,8 @@ public class OldCarInfoFragment extends BaseFragment {
 
                         SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
                         req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
-                        req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+                        req.vehicle_model_id = submit_model_id;
+                        //req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
                         req.vehicle_color = colorTv.getText().toString();
                         req.vehicle_down_payment = firstPriceTv.getText().toString();
                         req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
@@ -831,7 +852,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         btn_reset.setEnabled(true);
                         btn_fast_valuation.setEnabled(false);
                         look_guess_img_btn.setEnabled(false);
-                        if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                        if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(car_info_tv.getText())) {
                             btn_fast_valuation.setEnabled(true);
                         }
                         oldcar_business_price_tv.setText("");
@@ -1111,6 +1132,35 @@ public class OldCarInfoFragment extends BaseFragment {
         }
     }
 
+    public void getCarInfo(Intent data) {
+        GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
+        min_reg_year = modleResp.min_reg_year;
+        max_reg_year = modleResp.max_reg_year;
+        submit_model_id = modleResp.model_id;
+        model_id = String.valueOf(modleResp.model_id);//用于车300估价使用
+        trix_id = data.getStringExtra("trix_che300_id");
+        brand_id = data.getStringExtra("brand_che300_id");
+        car_info_tv.setText(modleResp.model_name);
+        if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText())) {
+            btn_fast_valuation.setEnabled(true);
+        }
+        btn_reset.setEnabled(true);
+    }
+
+    private void selectCarInfo() {
+        if (TextUtils.isEmpty(dlrTV.getText())) {
+            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            toast.setGravity(Gravity.CENTER, 0, 0);
+            toast.show();
+        } else {
+            Intent intent = new Intent(mContext, CarSelectActivity.class);
+            intent.putExtra("class", OrderCreateActivity.class);
+            intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            intent.putExtra("should_reset", false);//true表示重置该页面 默认false
+            startActivity(intent);
+        }
+    }
+
     private void clickResetBtn() {
         mBrandList.clear();
         mBrandIndex = 0;
@@ -1288,24 +1338,24 @@ public class OldCarInfoFragment extends BaseFragment {
     private boolean checkCanNextStep() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
             Toast.makeText(mContext, "门店不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(brandTv.getText())) {
-            Toast.makeText(mContext, "品牌不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(trixTv.getText())) {
-            Toast.makeText(mContext, "车系不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(modelTv.getText())) {
+        } else if (TextUtils.isEmpty(car_info_tv.getText())) {
             Toast.makeText(mContext, "车型不能为空", Toast.LENGTH_SHORT).show();
-        } else if (TextUtils.isEmpty(colorTv.getText())) {
+        }
+//        else if (TextUtils.isEmpty(brandTv.getText())) {
+//            Toast.makeText(mContext, "品牌不能为空", Toast.LENGTH_SHORT).show();
+//        } else if (TextUtils.isEmpty(trixTv.getText())) {
+//            Toast.makeText(mContext, "车系不能为空", Toast.LENGTH_SHORT).show();
+//        } else if (TextUtils.isEmpty(modelTv.getText())) {
+//            Toast.makeText(mContext, "车型不能为空", Toast.LENGTH_SHORT).show();
+//        }
+        else if (TextUtils.isEmpty(colorTv.getText())) {
             Toast.makeText(mContext, "颜色不能为空", Toast.LENGTH_SHORT).show();
         } else if (cartype.equals("新车") && TextUtils.isEmpty(billPriceTv.getText())) {
             Toast.makeText(mContext, "开票价不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
             Toast.makeText(mContext, "首付款不能为空", Toast.LENGTH_SHORT).show();
         } else if (!checkFirstPriceValid()) {
-            if (cartype.equals("新车")) {
-                Toast.makeText(mContext, "首付款必须大于开票价20%", Toast.LENGTH_SHORT).show();
-            } else {
-                Toast.makeText(mContext, "首付款必须大于评估价30%", Toast.LENGTH_SHORT).show();
-            }
+            Toast.makeText(mContext, "首付款必须大于评估价30%", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(carLoanPriceTv.getText())) {
             Toast.makeText(mContext, "车辆贷款额不能为空", Toast.LENGTH_SHORT).show();
         } else if (Integer.valueOf(carLoanPriceTv.getText().toString()) == 0) {

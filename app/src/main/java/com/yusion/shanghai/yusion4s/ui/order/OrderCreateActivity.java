@@ -37,7 +37,21 @@ public class OrderCreateActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        mCreditInfoFragment.relevance(intent);
+        switch (intent.getStringExtra("why_come")) {
+            case "car_select":
+                if (cartype.equals("新车")) {
+                    mCarInfoFragment.getCarInfo(intent);
+                } else {
+                    mOldCarInfoFragment.getCarInfo(intent);
+                }
+                break;
+            case "create_user":
+                mCreditInfoFragment.relevance(intent);
+                break;
+            default:
+                break;
+
+        }
     }
 
     @Override
@@ -76,8 +90,8 @@ public class OrderCreateActivity extends BaseActivity {
                 .commit();
         if (cartype.equals("新车")) {
             getSupportFragmentManager().beginTransaction()
-//                    .hide(mCreditInfoFragment)
-                    .hide(mCarInfoFragment)
+                    .hide(mCreditInfoFragment)
+//                    .hide(mCarInfoFragment)
                     .hide(mOldCarInfoFragment)
                     .commit();
             mCurrentFragment = mCarInfoFragment;

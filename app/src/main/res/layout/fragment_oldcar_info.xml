@@ -223,14 +223,56 @@
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toTopOf="parent">
 
+
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
-                        android:id="@+id/car_info_brand_lin"
+                        android:id="@+id/car_info_lin"
                         style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="车型选择" />
+
+                        <TextView
+                            android:id="@+id/car_info_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择"
+                            android:maxLines="2"
+                            android:singleLine="false" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_brand_lin"
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -258,12 +300,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
 
-                        android:background="@color/separate_line_color" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/car_info_trix_lin"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -291,12 +335,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
 
-                        android:background="@color/separate_line_color" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/car_info_model_lin"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -324,7 +370,8 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/oldcar_info_lin"
@@ -363,6 +410,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
                             android:background="@color/separate_line_color" />
 
                         <LinearLayout
@@ -395,6 +443,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
                             android:background="@color/separate_line_color" />
 
                         <LinearLayout style="@style/apply_info_item">
