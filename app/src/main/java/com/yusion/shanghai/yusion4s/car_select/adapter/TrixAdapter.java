@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.car_select.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -48,7 +49,17 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
     public void onBindViewHolder(final TrixAdapter.ViewHolder holder, final int position) {
         final GetTrixResp trixResp = mDatas.get(position);
         holder.tvCity.setText(trixResp.trix_name);
+        if (trixResp.has_select_by_user) {
+            holder.itemView.setBackgroundColor(Color.parseColor("#d1d1d1"));
+        } else {
+            holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
+        }
         holder.itemView.setOnClickListener(v -> {
+            for (GetTrixResp resp : mDatas) {
+                resp.has_select_by_user = false;
+            }
+            trixResp.has_select_by_user = true;
+            notifyDataSetChanged();
             if (onItemClickListener != null) {
                 onItemClickListener.onItemClick(v,trixResp);
             }

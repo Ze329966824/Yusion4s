@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.bean.dlr;
 
+import com.google.gson.Gson;
 import com.yusion.shanghai.yusion4s.car_select.suspension.ISuspensionInterface;
 
 import java.io.Serializable;
@@ -39,5 +40,10 @@ public class GetModelResp implements ISuspensionInterface,Serializable {
     @Override
     public String getSuspensionTag() {
         return group_name;
+    }
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
     }
 }

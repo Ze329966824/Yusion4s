@@ -3,7 +3,6 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
@@ -16,8 +15,8 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
+import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
@@ -95,24 +94,24 @@ public class LoginActivity extends BaseActivity {
     }
     //登录
     private void login() {
-//        Intent intent = new Intent(this, CarSelectActivity.class);
-//        intent.putExtra("class", LoginActivity.class);
-//        intent.putExtra("should_reset", true);
-//        startActivity(intent);
-        String account = mLoginAccountTV.getText().toString();
-        String password = mLoginPasswordTV.getText().toString();
-        if (TextUtils.isEmpty(account)) {
-            Toast.makeText(myApp, "账号不能为空!", Toast.LENGTH_SHORT).show();
-            return;
-        } else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(myApp, "密码不能为空!", Toast.LENGTH_SHORT).show();
-            return;
-        }
-        LoginReq req = new LoginReq();
-        req.username = account;
-        req.password = password;
-        req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
-        AuthApi.login(this, req, this::loginSuccess);
+        Intent intent = new Intent(this, CarSelectActivity.class);
+        intent.putExtra("class", LoginActivity.class);
+        intent.putExtra("should_reset", false);
+        startActivity(intent);
+//        String account = mLoginAccountTV.getText().toString();
+//        String password = mLoginPasswordTV.getText().toString();
+//        if (TextUtils.isEmpty(account)) {
+//            Toast.makeText(myApp, "账号不能为空!", Toast.LENGTH_SHORT).show();
+//            return;
+//        } else if (TextUtils.isEmpty(password)) {
+//            Toast.makeText(myApp, "密码不能为空!", Toast.LENGTH_SHORT).show();
+//            return;
+//        }
+//        LoginReq req = new LoginReq();
+//        req.username = account;
+//        req.password = password;
+//        req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
+//        AuthApi.login(this, req, this::loginSuccess);
     }
 
 

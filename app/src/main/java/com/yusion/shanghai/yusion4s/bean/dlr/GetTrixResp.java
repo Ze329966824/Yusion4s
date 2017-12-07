@@ -26,6 +26,7 @@ public class GetTrixResp implements ISuspensionInterface {
     public boolean has_header;
     public String header_name;
     public String series_group_name;
+    public boolean has_select_by_user;
 
     @Override
     public String toString() {

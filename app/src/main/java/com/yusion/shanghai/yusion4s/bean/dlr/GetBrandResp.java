@@ -24,6 +24,7 @@ public class GetBrandResp extends BaseIndexPinyinBean {
     public String brand_id;
     public String brand_image_url;
     public String che_300_id;
+    public boolean has_select_by_user;
 
     @Override
     public String toString() {
