@@ -1381,6 +1381,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         look_guess_img_btn.setEnabled(false);
         btn_reset.setEnabled(false);
         btn_fast_valuation.setEnabled(false);
+        isRestCarinfo = true;
     }
 
     private void clickFastValuationBtn() {

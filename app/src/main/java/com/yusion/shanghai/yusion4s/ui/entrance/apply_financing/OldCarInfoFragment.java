@@ -114,7 +114,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private String mile_age;
     private String guess_img;
     private int submit_model_id;
-    private boolean isRestCarinfo = false;
+    private boolean isRestCarinfo = true;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -1227,6 +1227,7 @@ public class OldCarInfoFragment extends BaseFragment {
         look_guess_img_btn.setEnabled(false);
         btn_reset.setEnabled(false);
         btn_fast_valuation.setEnabled(false);
+        isRestCarinfo = true;
     }
 
     private void clickFastValuationBtn() {

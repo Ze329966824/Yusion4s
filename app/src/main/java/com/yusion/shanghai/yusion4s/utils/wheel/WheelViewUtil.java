@@ -221,7 +221,7 @@ public class WheelViewUtil {
             String[] array = s.split("-");
             s1[0] = Integer.valueOf(array[0]);
             s2[0] = Integer.valueOf(array[1]);
-            s3[0] = Integer.valueOf(array[2]);
+            s3[0] = 1;
             Log.e("TAG", "showDatePick: sssss");
             datePicker.init(s1[0], s2[0] - 1, s3[0], new DatePicker.OnDateChangedListener() {
                 @Override
@@ -229,10 +229,8 @@ public class WheelViewUtil {
                     s1[0] = year;
                     s2[0] = monthOfYear + 1;
                     s3[0] = dayOfMonth;
-                    // s3[0] = dayOfMonth;
                 }
             });
-
         } else {
             s1[0] = Integer.valueOf(min_reg_year);
             s2[0] = 0;
