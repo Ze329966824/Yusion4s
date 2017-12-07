@@ -114,6 +114,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private String mile_age;
     private String guess_img;
     private int submit_model_id;
+    private boolean isRestCarinfo = true;
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -722,7 +723,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         req.vehicle_cond = cartype;
                         req.vehicle_price = oldcar_business_price_tv.getText().toString();
                         req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
-                        req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
+                        req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString()+"-01";
                         req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                         req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
                         req.plate_reg_addr = plateRegAddrTv.getText().toString();
@@ -742,7 +743,9 @@ public class OldCarInfoFragment extends BaseFragment {
 
                     SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
                     req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
-                    req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+                    // req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
+                    req.vehicle_model_id = submit_model_id;
+
                     req.vehicle_color = colorTv.getText().toString();
                     req.vehicle_down_payment = firstPriceTv.getText().toString();
                     req.vehicle_loan_amt = carLoanPriceTv.getText().toString();
@@ -756,7 +759,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     req.vehicle_price = oldcar_business_price_tv.getText().toString();
                     req.vehicle_cond = cartype;
                     req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
-                    req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
+                    req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString() + "-01";
                     req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                     req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
@@ -1059,7 +1062,8 @@ public class OldCarInfoFragment extends BaseFragment {
                 }
                 WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
-
+                    car_info_tv.setText("");
+                    isRestCarinfo = true;
                     mBrandList.clear();
                     mBrandIndex = 0;
                     brandTv.setText("");
@@ -1137,10 +1141,47 @@ public class OldCarInfoFragment extends BaseFragment {
         min_reg_year = modleResp.min_reg_year;
         max_reg_year = modleResp.max_reg_year;
         submit_model_id = modleResp.model_id;
-        model_id = String.valueOf(modleResp.model_id);//用于车300估价使用
+        model_id = modleResp.che_300_id;//用于车300估价使用
         trix_id = data.getStringExtra("trix_che300_id");
         brand_id = data.getStringExtra("brand_che300_id");
         car_info_tv.setText(modleResp.model_name);
+
+        plateAddrlist.clear();
+        oldcar_addr_tv.setText("");
+
+        oldcar_addrtime_tv.setText("");
+        oldcar_dance_tv.setText("");
+
+        mGuidePrice = 0;
+        guidePriceTv.setText("");
+
+        mLoanBankList.clear();
+        mLoanBankIndex = 0;
+        loanBankTv.setText(null);
+
+        mProductTypeIndex = 0;
+        productTypeTv.setText(null);
+
+        billPriceTv.setText("");
+
+        mManagementPriceIndex = 0;
+
+        oldcar_business_price_tv.setText("");
+        oldcar_guess_price_tv.setText("");
+        oldcar_dance_tv.setText("");
+        oldcar_addr_tv.setText("");
+        oldcar_addrtime_tv.setText("");
+
+        managementPriceTv.setText("");
+        totalLoanPriceTv.setText("");
+        otherPriceTv.setText("");
+        plateRegAddrTv.setText("");//上牌地选择
+        loanPeriodsTv.setText("");//还款期限
+
+        look_guess_img_btn.setEnabled(false);
+        btn_fast_valuation.setEnabled(false);
+        isRestCarinfo = true;
+
         if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText())) {
             btn_fast_valuation.setEnabled(true);
         }
@@ -1156,7 +1197,8 @@ public class OldCarInfoFragment extends BaseFragment {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("class", OrderCreateActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
-            intent.putExtra("should_reset", false);//true表示重置该页面 默认false
+            intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
+            isRestCarinfo = false;
             startActivity(intent);
         }
     }
@@ -1218,9 +1260,11 @@ public class OldCarInfoFragment extends BaseFragment {
         plateRegAddrTv.setText("");//上牌地选择
         loanPeriodsTv.setText("");//还款期限
 
+        car_info_tv.setText("");
         look_guess_img_btn.setEnabled(false);
         btn_reset.setEnabled(false);
         btn_fast_valuation.setEnabled(false);
+        isRestCarinfo = true;
     }
 
     private void clickFastValuationBtn() {

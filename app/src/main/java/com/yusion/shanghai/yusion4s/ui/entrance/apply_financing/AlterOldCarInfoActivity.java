@@ -124,7 +124,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private String mile_age;
     private String guess_img;
     private int submit_model_id;
-    private boolean isRestCarinfo = true;
+    private boolean isRestCarinfo = false;
 
     private String oldCarcityJson;
 
@@ -1230,6 +1230,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
                 WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
+                    car_info_tv.setText("");
+                    isRestCarinfo = true;
                     isAlterCarInfoChange = false;
                     mBrandList.clear();
                     mBrandIndex = 0;
@@ -1309,6 +1311,42 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         trix_id = data.getStringExtra("trix_che300_id");
         brand_id = data.getStringExtra("brand_che300_id");
         car_info_tv.setText(modleResp.model_name);
+        plateAddrlist.clear();
+        oldcar_addr_tv.setText("");
+
+        oldcar_addrtime_tv.setText("");
+        oldcar_dance_tv.setText("");
+
+        mGuidePrice = 0;
+        guidePriceTv.setText("");
+
+        mLoanBankList.clear();
+        mLoanBankIndex = 0;
+        loanBankTv.setText(null);
+
+        mProductTypeIndex = 0;
+        productTypeTv.setText(null);
+
+        billPriceTv.setText("");
+
+        mManagementPriceIndex = 0;
+
+        // oldcar_business_price_tv.setText("");
+        oldcar_guess_price_tv.setText("");
+        oldcar_dance_tv.setText("");
+        oldcar_addr_tv.setText("");
+        oldcar_addrtime_tv.setText("");
+
+        managementPriceTv.setText("");
+        totalLoanPriceTv.setText("");
+        otherPriceTv.setText("");
+        plateRegAddrTv.setText("");//上牌地选择
+        loanPeriodsTv.setText("");//还款期限
+
+        look_guess_img_btn.setEnabled(false);
+        btn_fast_valuation.setEnabled(false);
+        isRestCarinfo = true;
+
         if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText())) {
             btn_fast_valuation.setEnabled(true);
         }
@@ -1376,10 +1414,12 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         loanPeriodsTv.setText("");//还款期限
         firstPriceTv.setText("");
         carLoanPriceTv.setText("");
+        car_info_tv.setText("");
 
         look_guess_img_btn.setEnabled(false);
         btn_reset.setEnabled(false);
         btn_fast_valuation.setEnabled(false);
+        isRestCarinfo = true;
     }
 
     private void clickFastValuationBtn() {
@@ -1426,7 +1466,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             intent.putExtra("class", AlterOldCarInfoActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
-            isRestCarinfo = false;
+            isRestCarinfo = true;
             startActivity(intent);
         }
     }

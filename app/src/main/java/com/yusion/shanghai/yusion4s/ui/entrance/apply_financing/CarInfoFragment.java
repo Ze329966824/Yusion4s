@@ -97,6 +97,8 @@ public class CarInfoFragment extends BaseFragment {
 
     private String cartype;
 
+    private boolean isRestCarinfo = true;
+
 
     Handler handler = new Handler() {
         @Override
@@ -168,7 +170,7 @@ public class CarInfoFragment extends BaseFragment {
                 case 4://车辆开票价
                     billPriceChange = false;
                     int sum4 = 0;
-                    if (Integer.valueOf(billPriceTv.getText().toString()) > mGuidePrice) {
+                    if (Integer.valueOf(billPriceTv.getText().toString()) > getPrice(guidePriceTv)) {
                         Toast.makeText(mContext, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
                         billPriceTv.setText(mGuidePrice + "");//设置光标在右边
                         billPriceTv.setSelection((mGuidePrice + "").length());
@@ -779,22 +781,24 @@ public class CarInfoFragment extends BaseFragment {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("class", OrderCreateActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
-            intent.putExtra("should_reset", false);//true表示重置该页面 默认false
+            intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
+            isRestCarinfo = false;
             startActivity(intent);
         }
     }
-//             *eg:
-//            Intent intent = new Intent(this, CarSelectActivity.class);
-// *intent.putExtra("class", LoginActivity.class);//选择完车型后跳转到LoginActivity
-// *intent.putExtra("dlr_id", xxx);
-// *intent.putExtra("should_reset", true);//true表示重置该页面 默认false
-// *startActivity(intent);
 
 
     public void getCarInfo(Intent data) {
         GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
         model_id = modleResp.model_id;
         car_info_tv.setText(modleResp.model_name);
+        guidePriceTv.setText(modleResp.msrp + "");
+
+
+
+        clearExceptCarInfo();
+        isRestCarinfo = true;
+        billPriceTv.setEnabled(true);
     }
 
     private void selectDlrStore() {
@@ -808,6 +812,8 @@ public class CarInfoFragment extends BaseFragment {
                 //dlrTV  门店显示的textview
                 WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
+                    car_info_tv.setText("");
+                    isRestCarinfo = true;
 
                     mBrandList.clear();
                     mBrandIndex = 0;
