@@ -1277,7 +1277,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     }
 
     private void selectPlateAddrTime() {
-        if (TextUtils.isEmpty(modelTv.getText())) {
+        if (TextUtils.isEmpty(car_info_tv.getText())) {
             Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成车型选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();

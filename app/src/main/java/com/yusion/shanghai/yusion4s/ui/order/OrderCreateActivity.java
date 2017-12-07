@@ -37,21 +37,31 @@ public class OrderCreateActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        switch (intent.getStringExtra("why_come")) {
-            case "car_select":
+        String why_come = intent.getStringExtra("why_come");
+        if (why_come != null) {
+            if ("car_select".equals(why_come)) {
                 if (cartype.equals("新车")) {
                     mCarInfoFragment.getCarInfo(intent);
                 } else {
                     mOldCarInfoFragment.getCarInfo(intent);
                 }
-                break;
-            case "create_user":
-                mCreditInfoFragment.relevance(intent);
-                break;
-            default:
-                break;
-
+            }
         }
+
+//        switch (why_come) {
+//            case "car_select":
+//                if (cartype.equals("新车")) {
+//                    mCarInfoFragment.getCarInfo(intent);
+//                } else {
+//                    mOldCarInfoFragment.getCarInfo(intent);
+//                }
+//                break;
+//            case "create_user":
+//                mCreditInfoFragment.relevance(intent);
+//                break;
+//            default:
+//                break;
+        //   }
     }
 
     @Override

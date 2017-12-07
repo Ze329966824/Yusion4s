@@ -1108,7 +1108,7 @@ public class OldCarInfoFragment extends BaseFragment {
     }
 
     private void selectAddrTime() {
-        if (TextUtils.isEmpty(modelTv.getText())) {
+        if (TextUtils.isEmpty(car_info_tv.getText())) {
             Toast toast = Toast.makeText(mContext, "请您先完成车型选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
