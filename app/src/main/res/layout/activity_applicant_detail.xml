@@ -71,7 +71,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:gravity="center_vertical"
-                        android:text="张晓"
                         android:textColor="#222a36"
                         android:textSize="13.5sp" />
 
@@ -98,7 +97,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:gravity="center_vertical"
-                        android:text="张晓"
                         android:textColor="#222a36"
                         android:textSize="13.5sp" />
 
@@ -125,7 +123,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:gravity="center_vertical"
-                        android:text="张晓"
                         android:textColor="#222a36"
                         android:textSize="13.5sp" />
 
@@ -152,7 +149,6 @@
                         android:layout_alignParentRight="true"
                         android:layout_marginRight="15dp"
                         android:gravity="center_vertical"
-                        android:text="张晓"
                         android:textColor="#222a36"
                         android:textSize="13.5sp" />
 
@@ -222,7 +218,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -249,7 +244,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -276,7 +270,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -306,7 +299,6 @@
                             android:layout_marginEnd="15dp"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -379,7 +371,6 @@
                             android:layout_marginEnd="13dp"
                             android:layout_marginRight="13dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -406,7 +397,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -433,7 +423,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -460,7 +449,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -531,7 +519,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -558,7 +545,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -585,7 +571,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
@@ -612,7 +597,6 @@
                             android:layout_alignParentRight="true"
                             android:layout_marginRight="15dp"
                             android:gravity="center_vertical"
-                            android:text="张晓"
                             android:textColor="#222a36"
                             android:textSize="13.5sp" />
 
