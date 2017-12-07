@@ -34,7 +34,7 @@
             android:layout_marginTop="15dp"
             android:background="@drawable/apply_step_style_2"
             android:gravity="center"
-            android:text="@string/number_1"
+            android:text="@string/all_right"
             android:textColor="@color/white"
             app:layout_constraintRight_toLeftOf="@+id/step_separate_line"
             app:layout_constraintTop_toTopOf="parent" />
@@ -184,40 +184,43 @@
                 android:layout_height="@dimen/separate_line_height"
                 android:background="@color/separate_line_color" />
 
-            <android.support.constraint.ConstraintLayout
+            <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:orientation="vertical"
                 android:visibility="visible"
                 tools:visibility="visible">
 
-                <View
-                    android:layout_width="3dp"
-                    android:layout_height="11dp"
-                    android:layout_marginBottom="2dp"
-                    android:layout_marginLeft="15dp"
-                    android:background="@drawable/fill_vertical_line"
-                    app:layout_constraintBottom_toBottomOf="@+id/personal_info1"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="11dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/fill_vertical_line" />
 
 
-                <TextView
-                    android:id="@+id/personal_info1"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginBottom="8dp"
-                    android:layout_marginLeft="22dp"
-                    android:layout_marginStart="22dp"
-                    android:text="车辆情况"
-                    android:textColor="#666666"
-                    android:textSize="11.5sp"
-                    app:layout_constraintBottom_toTopOf="@+id/personal_info_group"
-                    app:layout_constraintLeft_toLeftOf="parent" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="7.5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="18dp"
+                        android:text="车辆信息"
+                        android:textColor="#666666"
+                        android:textSize="11.5sp" />
+
+                </LinearLayout>
 
                 <LinearLayout
                     android:id="@+id/personal_info_group"
-                    android:layout_width="0dp"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="50dp"
                     android:background="@color/white"
                     android:orientation="vertical"
                     app:layout_constraintHorizontal_bias="0.0"
@@ -903,7 +906,7 @@
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
                 </LinearLayout>
-            </android.support.constraint.ConstraintLayout>
+            </LinearLayout>
 
             <Button
                 android:id="@+id/car_info_next_btn"

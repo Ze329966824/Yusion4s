@@ -1,8 +1,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFF"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <View
@@ -16,22 +16,23 @@
         android:background="@color/main_driver" />
 
     <LinearLayout
-        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/order_list_item_car_icon"
-            android:layout_marginLeft="15dp"
-            android:layout_gravity="center_vertical"
-            tools:src="@mipmap/old_car_icon"
             android:layout_width="23dp"
-            android:layout_height="23dp" />
+            android:layout_height="23dp"
+            android:layout_marginLeft="15dp"
+            android:layout_marginTop="8.65dp"
+            tools:src="@mipmap/old_car_icon" />
 
         <LinearLayout
-            android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -276,21 +277,34 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <ImageView
+        <TextView
             android:id="@+id/order_list_item_phone_img"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="15dp"
+            android:drawableLeft="@mipmap/icon_item_phone"
+            android:drawablePadding="6dp"
             android:paddingBottom="15dp"
             android:paddingTop="15dp"
-            android:src="@mipmap/icon_item_phone" />
+            android:text="联系客户"
+            android:textColor="#999999"
+            android:textSize="13.5dp" />
+
+        <!--<ImageView-->
+        <!--android:layout_width="wrap_content"-->
+        <!--android:layout_height="wrap_content"-->
+        <!--android:layout_gravity="center_vertical"-->
+        <!--android:layout_marginLeft="10dp"-->
+        <!--android:paddingBottom="15dp"-->
+        <!--android:paddingTop="15dp"-->
+        <!--android:src="@mipmap/icon_item_phone" />-->
 
         <RelativeLayout
-            android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            >
+            android:visibility="visible">
+
             <TextView
                 android:id="@+id/order_list_item_upload_tv"
                 android:layout_width="wrap_content"
@@ -306,15 +320,15 @@
                 android:text="上传资料"
                 android:textColor="#FF06B7A3"
                 android:textSize="11dp" />
+
             <TextView
-                android:layout_toLeftOf="@id/order_list_item_upload_tv"
-                tools:visibility="visible"
-                android:layout_marginRight="10dp"
                 android:id="@+id/order_list_item_change_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
                 android:layout_marginTop="10dp"
+                android:layout_toLeftOf="@id/order_list_item_upload_tv"
                 android:background="@drawable/shape_text"
                 android:gravity="center"
                 android:paddingLeft="10dp"
@@ -322,8 +336,8 @@
                 android:text="修改资料"
                 android:textColor="#FF06B7A3"
                 android:textSize="11dp"
-                android:visibility="gone" />
-
+                android:visibility="gone"
+                tools:visibility="visible" />
 
 
         </RelativeLayout>

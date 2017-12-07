@@ -350,7 +350,7 @@ public class OrderItemFragment extends BaseFragment {
             public TextView trix;
             public TextView loan;
             public TextView periods;
-            public ImageView phone;
+            public TextView phone;
             public TextView change;
             public TextView upload;
             public ImageView car_icon;
@@ -367,7 +367,7 @@ public class OrderItemFragment extends BaseFragment {
                 trix = ((TextView) itemView.findViewById(R.id.order_list_item_trix_tv));
                 loan = ((TextView) itemView.findViewById(R.id.order_list_item_total_loan_tv));
                 periods = ((TextView) itemView.findViewById(R.id.order_list_item_periods_tv));
-                phone = ((ImageView) itemView.findViewById(R.id.order_list_item_phone_img));
+                phone = ((TextView) itemView.findViewById(R.id.order_list_item_phone_img));
                 change = (TextView) itemView.findViewById(R.id.order_list_item_change_tv);
                 upload = (TextView) itemView.findViewById(R.id.order_list_item_upload_tv);
                 car_icon = (ImageView) itemView.findViewById(R.id.order_list_item_car_icon);
