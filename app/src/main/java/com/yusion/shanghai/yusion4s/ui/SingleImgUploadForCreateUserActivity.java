@@ -401,7 +401,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
             default:
                 title = intentData.type;
         }
-        return initTitleBar(this, title).setLeftClickListener(v -> onBack()).setRightText("编辑").setRightTextColor(Color.parseColor("#ffffff")).setRightTextSize(16);
+        return initTitleBar(this, title).setLeftClickListener(v -> onBack()).setRightText("编辑").setRightTextColor(R.color.black).setRightTextSize(16);
     }
 
     public void onChooseChange(boolean hasChoose) {

@@ -51,7 +51,7 @@ public class ApplicantDetailActivity extends BaseActivity {
         initTitleBar(this, "申请人详情").setLeftClickListener(v -> onBack());
 
         Intent intent = getIntent();
-        clt_id = intent.getStringExtra("clt_id");
+        clt_id = intent.getStringExtra("x");
 
         client_name = (TextView) findViewById(R.id.client_name);
         client_mobile = (TextView) findViewById(R.id.client_mobile);
