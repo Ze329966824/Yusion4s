@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -49,8 +50,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.attr.data;
 
 /**
  * Created by aa on 2017/8/9.
@@ -350,7 +349,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 } else if (checkCanSubmit()) {
                     SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
                     // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
-                    req.imei = telephonyManager.getDeviceId();
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
                     req.imei = telephonyManager.getDeviceId();

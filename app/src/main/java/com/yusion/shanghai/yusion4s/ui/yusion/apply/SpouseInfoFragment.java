@@ -179,7 +179,24 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 
     @BindView(id = R.id.spouse_info_education_tv, widgetName = "spouse_info_education_tv")
     private TextView spouse_info_education_tv;
-    
+
+    @BindView(id = R.id.spouse_info_current_address_tv, widgetName = "spouse_info_current_address_tv")
+    private TextView spouse_info_current_address_tv;
+
+    @BindView(id = R.id.spouse_info_current_address1_tv, widgetName = "spouse_info_current_address1_tv")
+    private TextView spouse_info_current_address1_tv;
+
+    @BindView(id = R.id.spouse_info_current_address2_tv, widgetName = "spouse_info_current_address2_tv")
+    private NoEmptyEditText spouse_info_current_address2_tv;
+
+    @BindView(id = R.id.spouse_info_live_with_parent_tv, widgetName = "spouse_info_live_with_parent_tv")
+    private TextView spouse_info_live_with_parent_tv;
+    @BindView(id = R.id.spouse_info_reg_tv, widgetName = "spouse_info_reg_tv")
+    private TextView spouse_info_reg_tv;
+
+    @BindView(id = R.id.spouse_info_education_tv, widgetName = "spouse_info_education_tv")
+    private TextView spouse_info_education_tv;
+
     @BindView(id = R.id.spouse_info_current_address_tv, widgetName = "spouse_info_current_address_tv")
     private TextView spouse_info_current_address_tv;
 
@@ -612,6 +629,19 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         spouse_info_from_self_group_lin = (LinearLayout) view.findViewById(R.id.spouse_info_from_self_group_lin);
         spouse_info_from_other_remark_edt = (EditText) view.findViewById(R.id.spouse_info_from_other_remark_edt);
         spouse_info_from_other_year_edt = (EditText) view.findViewById(R.id.spouse_info_from_other_year_edt);
+        spouse_info_reg_lin = (LinearLayout) view.findViewById(R.id.spouse_info_reg_lin);
+        spouse_info_education_lin = (LinearLayout) view.findViewById(R.id.spouse_info_education_lin);
+        spouse_info_current_address_lin = (LinearLayout) view.findViewById(R.id.spouse_info_current_address_lin);
+        spouse_info_current_address1_lin = (LinearLayout) view.findViewById(R.id.spouse_info_current_address1_lin);
+        spouse_info_live_with_parent_lin = (LinearLayout) view.findViewById(R.id.spouse_info_live_with_parent_lin);
+
+        spouse_info_house_type_lin = (LinearLayout) view.findViewById(R.id.spouse_info_house_type_lin);
+        spouse_info_house_owner_relation_lin = (LinearLayout) view.findViewById(R.id.spouse_info_house_owner_relation_lin);
+        spouse_info_urg_relation1_lin = (LinearLayout) view.findViewById(R.id.spouse_info_urg_relation1_lin);
+        spouse_info_urg_relation2_lin = (LinearLayout) view.findViewById(R.id.spouse_info_urg_relation2_lin);
+        spouse_info_urg_mobile1_img = (ImageView) view.findViewById(R.id.spouse_info_urg_mobile1_img);
+        spouse_info_urg_mobile2_img = (ImageView) view.findViewById(R.id.spouse_info_urg_mobile2_img);
+
         spouse_info_reg_lin = view.findViewById(R.id.spouse_info_reg_lin);
         spouse_info_education_lin = view.findViewById(R.id.spouse_info_education_lin);
         spouse_info_current_address_lin = view.findViewById(R.id.spouse_info_current_address_lin);

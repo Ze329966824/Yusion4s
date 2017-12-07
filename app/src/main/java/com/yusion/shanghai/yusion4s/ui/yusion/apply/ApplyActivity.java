@@ -16,6 +16,7 @@ import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 public class ApplyActivity extends BaseActivity {
     private AutonymCertifyFragment mAutonymCertifyFragment;       //征信信息
