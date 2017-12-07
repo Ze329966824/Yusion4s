@@ -57,7 +57,7 @@
 
         <include
             layout="@layout/trix_select"
-            android:layout_width="280dp"
+            android:layout_width="287dp"
             android:layout_height="match_parent"
             android:layout_gravity="right" />
 

@@ -37,7 +37,7 @@
 
     <include
         layout="@layout/model_select"
-        android:layout_width="180dp"
+        android:layout_width="187dp"
         android:layout_height="match_parent"
         android:layout_gravity="right" />
 </com.yusion.shanghai.yusion4s.car_select.BrandSelectDrawerLayout>

@@ -740,16 +740,19 @@ public class AlterCarInfoActivity extends BaseActivity {
     }
 
     public void getCarInfo(Intent data) {
+
         GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
-        model_id = modleResp.model_id;
-        car_info_tv.setText(modleResp.model_name);
+        if (modleResp != null) {
+            model_id = modleResp.model_id;
+            car_info_tv.setText(modleResp.model_name);
 
-        mGuidePrice = (int) modleResp.msrp;
-        guidePriceTv.setText(mGuidePrice + "");
+            mGuidePrice = (int) modleResp.msrp;
+            guidePriceTv.setText(mGuidePrice + "");
 
-        clearExceptCarInfo();
-        isRestCarinfo = false;
-        billPriceTv.setEnabled(true);
+            clearExceptCarInfo();
+            isRestCarinfo = false;
+            billPriceTv.setEnabled(true);
+        }
     }
 
     private void selectPlateAddr() {

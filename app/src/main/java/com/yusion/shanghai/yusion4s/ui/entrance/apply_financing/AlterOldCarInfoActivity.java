@@ -1305,6 +1305,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     public void getCarInfo(Intent data) {
         GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
+        if (modleResp == null) {
+            return;
+        }
         min_reg_year = modleResp.min_reg_year;
         max_reg_year = modleResp.max_reg_year;
         submit_model_id = modleResp.model_id;
