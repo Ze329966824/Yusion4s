@@ -45,23 +45,10 @@ public class OrderCreateActivity extends BaseActivity {
                 } else {
                     mOldCarInfoFragment.getCarInfo(intent);
                 }
+            } else if ("create_user".equals(why_come)) {
+                mCreditInfoFragment.relevance(intent);
             }
         }
-
-//        switch (why_come) {
-//            case "car_select":
-//                if (cartype.equals("新车")) {
-//                    mCarInfoFragment.getCarInfo(intent);
-//                } else {
-//                    mOldCarInfoFragment.getCarInfo(intent);
-//                }
-//                break;
-//            case "create_user":
-//                mCreditInfoFragment.relevance(intent);
-//                break;
-//            default:
-//                break;
-        //   }
     }
 
     @Override

@@ -332,6 +332,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
                                 intent.putExtra("name", searchResp.clt_nm);
                                 intent.putExtra("mobile", searchResp.mobile);
                                 intent.putExtra("sfz", searchResp.id_no);
+                                intent.putExtra("why_come", "create_user");
                                 startActivity(intent);
                                 finish();
 

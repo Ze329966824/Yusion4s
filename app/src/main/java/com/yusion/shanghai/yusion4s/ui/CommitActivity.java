@@ -89,6 +89,7 @@ public class CommitActivity extends BaseActivity {
                 intent.putExtra("name", data.get(0).clt_nm);
                 intent.putExtra("sfz", data.get(0).id_no);
                 intent.putExtra("mobile", data.get(0).mobile);
+                intent.putExtra("why_come", "create_user");
                 intent.putExtra("enable", true);
                 startActivity(intent);
                 finish();
