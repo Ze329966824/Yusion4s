@@ -667,6 +667,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             intent.putExtra("ocrResp", ocrResp);
             intent.putExtra("imgUrl", idBackImgUrl);
             intent.putExtra("objectKey", ID_BACK_FID);
+            intent.putExtra("for_spouse", true);
             startActivityForResult(intent, Constants.REQUEST_DOCUMENT);
         });
 
