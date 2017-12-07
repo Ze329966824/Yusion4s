@@ -783,8 +783,8 @@ public class CarInfoFragment extends BaseFragment {
             intent.putExtra("class", OrderCreateActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
-            isRestCarinfo = false;
             startActivity(intent);
+            isRestCarinfo = false;
         }
     }
 

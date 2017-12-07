@@ -1346,7 +1346,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
         look_guess_img_btn.setEnabled(false);
         btn_fast_valuation.setEnabled(false);
-        isRestCarinfo = true;
+        isRestCarinfo = false;
 
         if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText())) {
             btn_fast_valuation.setEnabled(true);
@@ -1468,8 +1468,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             intent.putExtra("class", AlterOldCarInfoActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
-            isRestCarinfo = true;
             startActivity(intent);
+            isRestCarinfo = false;
         }
     }
 

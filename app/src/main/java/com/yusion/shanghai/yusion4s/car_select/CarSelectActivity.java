@@ -78,7 +78,7 @@ public class CarSelectActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (getIntent().getBooleanExtra("should_reset", false)) {
+        if (intent.getBooleanExtra("should_reset", false)) {
             drawerLayout2.closeDrawer(Gravity.RIGHT);
             drawerLayout1.closeDrawer(Gravity.RIGHT);
         }

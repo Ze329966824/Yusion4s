@@ -748,7 +748,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         guidePriceTv.setText(mGuidePrice + "");
 
         clearExceptCarInfo();
-        isRestCarinfo = true;
+        isRestCarinfo = false;
         billPriceTv.setEnabled(true);
     }
 
@@ -822,8 +822,8 @@ public class AlterCarInfoActivity extends BaseActivity {
             intent.putExtra("vehicle_cond", "新车");
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
-            isRestCarinfo = true;
             startActivity(intent);
+            isRestCarinfo = false;
         }
     }
 
