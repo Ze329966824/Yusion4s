@@ -135,6 +135,34 @@ public class CarSelectActivity extends BaseActivity {
             @Override
             public void onDrawerClosed(View drawerView) {
                 drawerLayout1.setDrawerLockMode(BrandSelectDrawerLayout.LOCK_MODE_UNLOCKED);
+
+                //关闭的时候需要将被选中的块颜色去掉
+                for (GetTrixResp trixResp : trixList) {
+                    trixResp.has_select_by_user = false;
+                }
+                mTrixAdapter.notifyDataSetChanged();
+            }
+
+            @Override
+            public void onDrawerStateChanged(int newState) {
+            }
+        });
+        drawerLayout1.addDrawerListener(new BrandSelectDrawerLayout.DrawerListener() {
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+            }
+
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                //关闭的时候需要将被选中的块颜色去掉
+                for (GetBrandResp brandResp : brandList) {
+                    brandResp.has_select_by_user = false;
+                }
+                mBrandAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -199,6 +227,7 @@ public class CarSelectActivity extends BaseActivity {
             }
         });
         mEngGv.setAdapter(engGvAdapter);
+
     }
 
 
