@@ -9,73 +9,63 @@ import java.util.List;
 public class ProcessReq {
 
     /**
-     * st : null
-     * title : null
-     * time : null
-     * seriesList : [{"st":"pass","title":"初级信审审批","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"高级信审审批","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"高级信审复审","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"初级信审审批","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"提交申请","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"DW UW 1st","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"提车资料审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"抵押资料审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"提车资料审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"抵押资料审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":null,"title":null,"time":null,"seriesList":[],"parallelList":[]},{"st":null,"title":null,"time":null,"seriesList":[],"parallelList":[]},{"st":"pass","title":"基本资料审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"基本资料审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"放款","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"合同影像件预审","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"返审审批","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":null,"title":null,"time":null,"seriesList":[],"parallelList":[{"st":"pass","title":"电话审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"征信影像件审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]}]},{"st":"pass","title":"电话审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"征信影像件审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"征信影像件审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"央行征信查询","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":null,"title":null,"time":null,"seriesList":[],"parallelList":[]},{"st":null,"title":null,"time":null,"seriesList":[],"parallelList":[]},{"st":"pass","title":"DW uw 2nd","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"家访影像件审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"用户确认金融方案","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"家访影像件审核","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"用户确认金融方案","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]},{"st":"pass","title":"人脸识别 电子签约","time":"2017-12-05 11:27:49","seriesList":[],"parallelList":[]}]
-     * parallelList : []
+     * clt_nm : xxx
+     * app_id : ttt
+     * create_time : 2017-12-06 12:12:12
+     * list : [{"st":"pass","time":"","title":"提交申请","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"征信审核","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"确认金融方案","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"贷后追踪","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"放款","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"放款审核","seriesList":[],"parellelList":[]}]
      */
 
-    private Object st;
-    private Object title;
-    private Object time;
-    private List<SeriesListBean> seriesList;
-    private List<?> parallelList;
+    public String clt_nm;
+    public String app_id;
+    public String create_time;
+    public List<ListBean> list;
 
-    public Object getSt() {
-        return st;
+    public String getClt_nm() {
+        return clt_nm;
     }
 
-    public void setSt(Object st) {
-        this.st = st;
+    public void setClt_nm(String clt_nm) {
+        this.clt_nm = clt_nm;
     }
 
-    public Object getTitle() {
-        return title;
+    public String getApp_id() {
+        return app_id;
     }
 
-    public void setTitle(Object title) {
-        this.title = title;
+    public void setApp_id(String app_id) {
+        this.app_id = app_id;
     }
 
-    public Object getTime() {
-        return time;
+    public String getCreate_time() {
+        return create_time;
     }
 
-    public void setTime(Object time) {
-        this.time = time;
+    public void setCreate_time(String create_time) {
+        this.create_time = create_time;
     }
 
-    public List<SeriesListBean> getSeriesList() {
-        return seriesList;
+    public List<ListBean> getList() {
+        return list;
     }
 
-    public void setSeriesList(List<SeriesListBean> seriesList) {
-        this.seriesList = seriesList;
+    public void setList(List<ListBean> list) {
+        this.list = list;
     }
 
-    public List<?> getParallelList() {
-        return parallelList;
-    }
-
-    public void setParallelList(List<?> parallelList) {
-        this.parallelList = parallelList;
-    }
-
-    public static class SeriesListBean {
+    public static class ListBean {
         /**
          * st : pass
-         * title : 初级信审审批
-         * time : 2017-12-05 11:27:49
+         * time :
+         * title : 提交申请
          * seriesList : []
-         * parallelList : []
+         * parellelList : []
          */
 
-        private String st;
-        private String title;
-        private String time;
-        private List<?> seriesList;
-        private List<?> parallelList;
+        public String st;
+        public String time;
+        public String title;
+        public List<?> seriesList;
+        public List<?> parellelList;
 
         public String getSt() {
             return st;
@@ -83,14 +73,6 @@ public class ProcessReq {
 
         public void setSt(String st) {
             this.st = st;
-        }
-
-        public String getTitle() {
-            return title;
-        }
-
-        public void setTitle(String title) {
-            this.title = title;
         }
 
         public String getTime() {
@@ -101,6 +83,14 @@ public class ProcessReq {
             this.time = time;
         }
 
+        public String getTitle() {
+            return title;
+        }
+
+        public void setTitle(String title) {
+            this.title = title;
+        }
+
         public List<?> getSeriesList() {
             return seriesList;
         }
@@ -109,12 +99,12 @@ public class ProcessReq {
             this.seriesList = seriesList;
         }
 
-        public List<?> getParallelList() {
-            return parallelList;
+        public List<?> getParellelList() {
+            return parellelList;
         }
 
-        public void setParallelList(List<?> parallelList) {
-            this.parallelList = parallelList;
+        public void setParellelList(List<?> parellelList) {
+            this.parellelList = parellelList;
         }
     }
 }
