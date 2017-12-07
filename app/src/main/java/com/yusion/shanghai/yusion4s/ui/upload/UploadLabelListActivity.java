@@ -61,7 +61,9 @@ public class UploadLabelListActivity extends BaseActivity {
     }
 
     private void onBack() {
-        startActivity(new Intent(this,SubmitInformationActivity.class));
+        Intent intent = new Intent(this, SubmitInformationActivity.class);
+        intent.putExtra("app_id", app_id);
+        startActivity(intent);
         finish();
     }
 
