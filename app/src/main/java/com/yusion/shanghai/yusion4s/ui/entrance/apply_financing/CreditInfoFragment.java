@@ -8,8 +8,6 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
-import android.text.TextUtils;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -292,7 +290,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                TelephonyManager  telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+                TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
                 // startActivity(new Intent(mContext, MainActivity.class));
                 if (Settings.isShameData) {
                     SubmitOrderReq req = new SubmitOrderReq();
@@ -363,8 +361,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             if (req.vehicle_cond.equals("二手车")) {
                                 intent.putExtra("app_id", data.app_id);
                                 intent.putExtra("why_commit", "old_car");
-                            }
-                            else {
+                            } else {
                                 intent.putExtra("why_commit", "new_car");
                             }
 

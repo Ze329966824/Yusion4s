@@ -170,7 +170,7 @@ public class CarInfoFragment extends BaseFragment {
                 case 4://车辆开票价
                     billPriceChange = false;
                     int sum4 = 0;
-                    if (Integer.valueOf(billPriceTv.getText().toString()) > getPrice(guidePriceTv)) {
+                    if (Integer.valueOf(billPriceTv.getText().toString()) > mGuidePrice) {
                         Toast.makeText(mContext, "开票价不能大于厂商指导价", Toast.LENGTH_SHORT).show();
                         billPriceTv.setText(mGuidePrice + "");//设置光标在右边
                         billPriceTv.setSelection((mGuidePrice + "").length());
@@ -792,8 +792,9 @@ public class CarInfoFragment extends BaseFragment {
         GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
         model_id = modleResp.model_id;
         car_info_tv.setText(modleResp.model_name);
-        guidePriceTv.setText(modleResp.msrp + "");
 
+        mGuidePrice = (int) modleResp.msrp;
+        guidePriceTv.setText(mGuidePrice + "");
 
 
         clearExceptCarInfo();
