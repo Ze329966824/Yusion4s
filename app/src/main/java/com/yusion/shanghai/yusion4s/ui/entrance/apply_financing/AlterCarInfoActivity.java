@@ -378,6 +378,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         OrderApi.getRawCarInfo(AlterCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
+                model_id = resp.vehicle_model_id;
                 vehicle_owner_lender_relation = resp.vehicle_owner_lender_relation;
                 min_reg_year = resp.min_reg_year;
                 max_reg_year = resp.max_reg_year;
@@ -449,7 +450,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                         mTrixIndex = selectIndex(trixItems, mTrixIndex, trixTv.getText().toString());
                     }
                 });
-                DlrApi.getModel(AlterCarInfoActivity.this, resp.trix_id, new OnItemDataCallBack<List<GetModelResp>>() {
+                DlrApi.getModel(AlterCarInfoActivity.this, resp.trix_id, "二手车", new OnItemDataCallBack<List<GetModelResp>>() {
                     @Override
                     public void onItemDataCallBack(List<GetModelResp> resp) {
                         mModelList = resp;
@@ -742,7 +743,9 @@ public class AlterCarInfoActivity extends BaseActivity {
         GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
         model_id = modleResp.model_id;
         car_info_tv.setText(modleResp.model_name);
-        guidePriceTv.setText(modleResp.msrp + "");
+
+        mGuidePrice = (int) modleResp.msrp;
+        guidePriceTv.setText(mGuidePrice + "");
 
         clearExceptCarInfo();
         isRestCarinfo = true;
@@ -816,6 +819,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         } else {
             Intent intent = new Intent(this, CarSelectActivity.class);
             intent.putExtra("class", AlterCarInfoActivity.class);
+            intent.putExtra("vehicle_cond", "新车");
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             isRestCarinfo = true;
@@ -866,7 +870,7 @@ public class AlterCarInfoActivity extends BaseActivity {
     private void selectModel() {
         if (!TextUtils.isEmpty(trixTv.getText())) {
             modelItems = new ArrayList<String>();
-            DlrApi.getModel(AlterCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, resp -> {
+            DlrApi.getModel(AlterCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, "二手车", resp -> {
                 if (resp != null && !resp.isEmpty()) {
                     mModelList = resp;
                     modelItems = new ArrayList<String>();

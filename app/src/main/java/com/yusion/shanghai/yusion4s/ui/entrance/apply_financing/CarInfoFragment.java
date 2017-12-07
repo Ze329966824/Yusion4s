@@ -661,7 +661,7 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectModel() {
         if (!TextUtils.isEmpty(trixTv.getText())) {
-            DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
+            DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, "新车", resp -> {
                 if (resp != null && !resp.isEmpty()) {
                     mModelList = resp;
                     modelItems = new ArrayList<String>();
@@ -779,6 +779,7 @@ public class CarInfoFragment extends BaseFragment {
             toast.show();
         } else {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
+            intent.putExtra("vehicle_cond", "新车");
             intent.putExtra("class", OrderCreateActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
@@ -798,7 +799,7 @@ public class CarInfoFragment extends BaseFragment {
 
 
         clearExceptCarInfo();
-        isRestCarinfo = true;
+        isRestCarinfo = false;
         billPriceTv.setEnabled(true);
     }
 

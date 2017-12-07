@@ -449,7 +449,7 @@
                         <LinearLayout style="@style/apply_info_item">
 
                             <TextView
-                                android:layout_width="110dp"
+                                android:layout_width="120dp"
                                 android:layout_height="match_parent"
                                 android:gravity="center_vertical"
                                 android:maxLines="1"
