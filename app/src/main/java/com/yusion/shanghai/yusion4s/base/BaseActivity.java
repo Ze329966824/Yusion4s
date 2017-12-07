@@ -47,6 +47,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         titleBar.setImmersive(false);
         titleBar.setTitle(title);
         titleBar.setLeftTextColor(R.color.black);
+        titleBar.setRightTextColor(R.color.black);
         titleBar.setLeftImageResource(R.mipmap.title_back_arrow);
         titleBar.setBackgroundResource(R.color.white);
         titleBar.setTitleColor(activity.getResources().getColor(R.color.black));
