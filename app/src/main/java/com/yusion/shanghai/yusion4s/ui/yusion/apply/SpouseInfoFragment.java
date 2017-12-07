@@ -179,7 +179,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 
     @BindView(id = R.id.spouse_info_education_tv, widgetName = "spouse_info_education_tv")
     private TextView spouse_info_education_tv;
-    
+
     @BindView(id = R.id.spouse_info_current_address_tv, widgetName = "spouse_info_current_address_tv")
     private TextView spouse_info_current_address_tv;
 
@@ -612,6 +612,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         spouse_info_from_self_group_lin = (LinearLayout) view.findViewById(R.id.spouse_info_from_self_group_lin);
         spouse_info_from_other_remark_edt = (EditText) view.findViewById(R.id.spouse_info_from_other_remark_edt);
         spouse_info_from_other_year_edt = (EditText) view.findViewById(R.id.spouse_info_from_other_year_edt);
+
         spouse_info_reg_lin = view.findViewById(R.id.spouse_info_reg_lin);
         spouse_info_education_lin = view.findViewById(R.id.spouse_info_education_lin);
         spouse_info_current_address_lin = view.findViewById(R.id.spouse_info_current_address_lin);

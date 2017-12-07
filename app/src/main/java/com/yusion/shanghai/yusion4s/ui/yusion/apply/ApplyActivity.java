@@ -16,6 +16,7 @@ import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 public class ApplyActivity extends BaseActivity {
     private AutonymCertifyFragment mAutonymCertifyFragment;       //征信信息
@@ -63,9 +64,9 @@ public class ApplyActivity extends BaseActivity {
                 .add(R.id.container, mAutonymCertifyFragment)
                 .add(R.id.container, mPersonalInfoFragment)
                 .add(R.id.container, mSpouseInfoFragment)
-                .hide(mAutonymCertifyFragment)
+//                .hide(mAutonymCertifyFragment)
                 .hide(mPersonalInfoFragment)
-//                .hide(mSpouseInfoFragment)
+                .hide(mSpouseInfoFragment)
                 .commit();
         mCurrentFragment = mAutonymCertifyFragment;
     }
