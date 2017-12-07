@@ -36,11 +36,11 @@ import java.util.List;
 /**
  * 进入该页面需要使用 startActivity 并用intent携带页面结束后需要跳转的 class 类对象
  * eg:  Intent intent = new Intent(this, CarSelectActivity.class);
- *      intent.putExtra("class", LoginActivity.class);//选择完车型后跳转到LoginActivity
- *      intent.putExtra("dlr_id", xxx);
- *      intent.putExtra("should_reset", true);//true表示重置该页面 默认false
- *      startActivity(intent);
- *
+ * intent.putExtra("class", LoginActivity.class);//选择完车型后跳转到LoginActivity
+ * intent.putExtra("dlr_id", xxx);
+ * intent.putExtra("should_reset", true);//true表示重置该页面 默认false
+ * startActivity(intent);
+ * <p>
  * 该class类对象启动模式必须是 singleTask
  * 选中品牌后会调用{@link CarSelectActivity#selectModel(GetModelResp)}将数据返回
  * 返回到之前的activity时会回调其 onNewIntent 方法
@@ -70,12 +70,14 @@ public class CarSelectActivity extends BaseActivity {
     private RecyclerView mEngGv;
     private EngGvAdapter engGvAdapter;
     private List<GetModelResp> rawModelList;
+    private GetTrixResp currentTrixResp;
+    private GetBrandResp currentBrandResp;
 
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        if (getIntent().getBooleanExtra("should_reset",false)) {
+        if (getIntent().getBooleanExtra("should_reset", false)) {
             drawerLayout2.closeDrawer(Gravity.RIGHT);
             drawerLayout1.closeDrawer(Gravity.RIGHT);
         }
@@ -209,11 +211,15 @@ public class CarSelectActivity extends BaseActivity {
         intent2.putExtra("modleResp", modelResp);
         setResult(RESULT_OK, intent2);
         intent2.setClass(this, toClass);
+        intent2.putExtra("brand_che300_id", currentBrandResp.che_300_id);
+        intent2.putExtra("trix_che300_id", currentTrixResp.che_300_id);
+        intent2.putExtra("why_come", "car_select");
         startActivity(intent2);
 //        finish();
     }
 
     private void showModelList(GetTrixResp trixResp) {
+        currentTrixResp = trixResp;
         DlrApi.getModel(this, trixResp.trix_id, modelResp -> {
             rawModelList = modelResp;
             if (modelResp == null) {
@@ -248,6 +254,7 @@ public class CarSelectActivity extends BaseActivity {
     }
 
     private void showTrixList(GetBrandResp brandResp) {
+        currentBrandResp = brandResp;
         DlrApi.getTrix(this, brandResp.brand_id, trixResp -> {
             if (trixResp == null) {
                 Toast.makeText(myApp, "返回数据为空", Toast.LENGTH_SHORT).show();
