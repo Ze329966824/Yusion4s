@@ -18,6 +18,7 @@ import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
+import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 
 public class ApplyActivity extends BaseActivity {
@@ -129,4 +130,5 @@ public class ApplyActivity extends BaseActivity {
         }
         transaction.commit();
     }
+
 }
