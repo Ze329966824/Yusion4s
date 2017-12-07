@@ -435,6 +435,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
                 resp.send_hand_mileage = resp.send_hand_mileage.substring(0, resp.send_hand_mileage.length() - 2);
                 Log.e("TAG", "onItemDataCallBack: " + resp.send_hand_mileage);
+                submit_model_id = resp.vehicle_model_id;
                 che_300_label = resp.che_300_label;
                 province_che_300_id = resp.province_che_300_id;
                 city_che_300_id = resp.city_che_300_id;
@@ -1006,7 +1007,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private void selectModel() {
         if (!TextUtils.isEmpty(trixTv.getText())) {
             modelItems = new ArrayList<String>();
-            DlrApi.getModel(AlterOldCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, resp -> {
+            DlrApi.getModel(AlterOldCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, "二手车", resp -> {
                 if (resp != null && !resp.isEmpty()) {
                     mModelList = resp;
                     btn_reset.setEnabled(true);
@@ -1463,6 +1464,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             toast.show();
         } else {
             Intent intent = new Intent(this, CarSelectActivity.class);
+            intent.putExtra("vehicle_cond", "二手车");
             intent.putExtra("class", AlterOldCarInfoActivity.class);
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false

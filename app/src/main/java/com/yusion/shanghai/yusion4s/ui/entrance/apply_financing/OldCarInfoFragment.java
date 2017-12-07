@@ -723,7 +723,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         req.vehicle_cond = cartype;
                         req.vehicle_price = oldcar_business_price_tv.getText().toString();
                         req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
-                        req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString()+"-01";
+                        req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString() + "-01";
                         req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                         req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
                         req.plate_reg_addr = plateRegAddrTv.getText().toString();
@@ -879,7 +879,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void selectModel() {
         if (!TextUtils.isEmpty(trixTv.getText())) {
-            DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, resp -> {
+            DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, "二手车", resp -> {
                 if (resp != null && !resp.isEmpty()) {
                     mModelList = resp;
                     modelItems = new ArrayList<String>();
@@ -1180,7 +1180,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
         look_guess_img_btn.setEnabled(false);
         btn_fast_valuation.setEnabled(false);
-        isRestCarinfo = true;
+        isRestCarinfo = false;
 
         if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText())) {
             btn_fast_valuation.setEnabled(true);
@@ -1196,6 +1196,7 @@ public class OldCarInfoFragment extends BaseFragment {
         } else {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("class", OrderCreateActivity.class);
+            intent.putExtra("vehicle_cond", "二手车");
             intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             isRestCarinfo = false;
