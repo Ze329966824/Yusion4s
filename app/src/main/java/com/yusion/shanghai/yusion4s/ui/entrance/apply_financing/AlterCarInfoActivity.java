@@ -743,6 +743,10 @@ public class AlterCarInfoActivity extends BaseActivity {
         model_id = modleResp.model_id;
         car_info_tv.setText(modleResp.model_name);
         guidePriceTv.setText(modleResp.msrp + "");
+
+        clearExceptCarInfo();
+        isRestCarinfo = true;
+        billPriceTv.setEnabled(true);
     }
 
     private void selectPlateAddr() {
@@ -993,6 +997,8 @@ public class AlterCarInfoActivity extends BaseActivity {
                 mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
                 WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
+                    car_info_tv.setText("");
+                    isRestCarinfo = true;
                     isAlterCarInfoChange = false;
                     mBrandList.clear();
                     mBrandIndex = 0;
