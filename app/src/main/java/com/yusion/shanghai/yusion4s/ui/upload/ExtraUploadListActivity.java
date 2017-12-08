@@ -411,7 +411,7 @@ public class ExtraUploadListActivity extends BaseActivity {
     private void onImgCountChange(boolean hasImg) {
         if (hasImg) {
             mEditTv.setEnabled(true);
-            mEditTv.setTextColor(Color.parseColor("#ffffff"));
+            mEditTv.setTextColor(Color.parseColor("#FF000000"));
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
