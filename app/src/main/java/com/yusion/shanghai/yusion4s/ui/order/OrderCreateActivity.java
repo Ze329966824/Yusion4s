@@ -87,8 +87,8 @@ public class OrderCreateActivity extends BaseActivity {
                 .commit();
         if (cartype.equals("新车")) {
             getSupportFragmentManager().beginTransaction()
-//                    .hide(mCreditInfoFragment)
-                    .hide(mCarInfoFragment)
+                    .hide(mCreditInfoFragment)
+//                    .hide(mCarInfoFragment)
                     .hide(mOldCarInfoFragment)
                     .commit();
             mCurrentFragment = mCarInfoFragment;
