@@ -378,6 +378,9 @@ public class AlterCarInfoActivity extends BaseActivity {
         OrderApi.getRawCarInfo(AlterCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
+                if (resp==null){
+                    return;
+                }
                 model_id = resp.vehicle_model_id;
                 vehicle_owner_lender_relation = resp.vehicle_owner_lender_relation;
                 min_reg_year = resp.min_reg_year;
@@ -740,7 +743,6 @@ public class AlterCarInfoActivity extends BaseActivity {
     }
 
     public void getCarInfo(Intent data) {
-
         GetModelResp modleResp = (GetModelResp) data.getSerializableExtra("modleResp");
         if (modleResp != null) {
             model_id = modleResp.model_id;

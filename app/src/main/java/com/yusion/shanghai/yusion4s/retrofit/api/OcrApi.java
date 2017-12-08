@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.retrofit.api;
 
+import android.app.Dialog;
 import android.util.Log;
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
@@ -19,8 +20,10 @@ import retrofit2.Response;
  */
 
 public class OcrApi {
-    public static void requestOcr(OcrReq req, final OnItemDataCallBack<OcrResp> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
-        Api.getOcrService().requestOcr(req).enqueue(new Callback<BaseResult<OcrResp>>() {
+    public static void requestOcr(OcrReq req, Dialog dialog,final OnItemDataCallBack<OcrResp> onSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
+        Call<BaseResult<OcrResp>> call = Api.getOcrService().requestOcr(req);
+        if (dialog!=null) dialog.setOnCancelListener(v ->call.cancel());
+        call.enqueue(new Callback<BaseResult<OcrResp>>() {
             @Override
             public void onResponse(Call<BaseResult<OcrResp>> call, Response<BaseResult<OcrResp>> response) {
                 Log.e("API", "onResponse: " + response.body());

@@ -324,6 +324,11 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             applyActivity.mClientInfo.spouse.gender = spouse_info_gender_tv.getText().toString();
             applyActivity.mClientInfo.spouse.mobile = spouse_info_mobile_edt.getText().toString();
             applyActivity.mClientInfo.child_num = spouse_info_child_count_edt.getText().toString();
+            if (TextUtils.isEmpty(ocrResp.addr)){
+                applyActivity.mClientInfo.spouse.reg_addr_details = "";
+            }else {
+                applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
+            }
             if (!TextUtils.isEmpty(spouse_info_reg_tv.getText().toString())) {
                 applyActivity.mClientInfo.spouse.reg_addr.province = spouse_info_reg_tv.getText().toString().trim().split("/")[0];
                 applyActivity.mClientInfo.spouse.reg_addr.city = spouse_info_reg_tv.getText().toString().trim().split("/")[1];
@@ -667,6 +672,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             intent.putExtra("ocrResp", ocrResp);
             intent.putExtra("imgUrl", idBackImgUrl);
             intent.putExtra("objectKey", ID_BACK_FID);
+            intent.putExtra("for_spouse", true);
             startActivityForResult(intent, Constants.REQUEST_DOCUMENT);
         });
 

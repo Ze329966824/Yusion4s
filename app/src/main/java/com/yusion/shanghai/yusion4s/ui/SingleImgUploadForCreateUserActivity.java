@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -65,6 +66,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
     private SearchClientResp searchResp;
 
     private IntentData intentData;
+    private Boolean for_spouse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,6 +77,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
         //getIntent.getBooleanExtra("needLoadImgFromServer", false);
         //getIntent.getBooleanExtra("isCanEdit", true);
         getIntent = getIntent();
+        for_spouse = getIntent.getBooleanExtra("for_spouse",false);
         intentData = new IntentData();
         intentData.needUploadImgFidToServer = getIntent.getBooleanExtra("needUploadImgFidToServer", true);
         intentData.needLoadImgFromServer = getIntent.getBooleanExtra("needLoadImgFromServer", false);
@@ -265,7 +268,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
     private void onImageCountChange() {
         if (!TextUtils.isEmpty(imgUrl)) {
             mEditTv.setEnabled(true);
-            mEditTv.setTextColor(Color.parseColor("#ffffff"));
+            mEditTv.setTextColor(Color.parseColor("#FF000000"));
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
@@ -283,9 +286,16 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
             if (intentData.type.equals(Constants.FileLabelType.ID_BACK)) {
-                OcrUtil.requestOcr(this, localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), "id_card", (ocrResp, objectKey) -> {
-
-                            mOcrResp = new OcrResp.ShowapiResBodyBean();
+                OcrUtil.requestOcr(this, dialog ,localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), "id_card", (ocrResp, objectKey) -> {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        if (isDestroyed()) {
+                            return;
+                        }
+                    }
+                    mOcrResp = new OcrResp.ShowapiResBodyBean();
 
                             if (ocrResp == null) {
                                 Toast.makeText(this, "识别失败", Toast.LENGTH_LONG).show();
@@ -294,9 +304,9 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
                             } else {
                                 Toast.makeText(this, "识别成功", Toast.LENGTH_LONG).show();
                                 mOcrResp = ocrResp.showapi_res_body;
-
-                                search(mOcrResp.idNo);
-
+                                if (!for_spouse) {
+                                    search(mOcrResp.idNo);
+                                }
                             }
 
                             onUploadOssSuccess(localPath, dialog, objectKey);
@@ -308,7 +318,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
                         }
                 );
             } else {
-                OssUtil.uploadOss(this, false, localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), objectKey -> {
+                OssUtil.uploadOss(this, dialog,localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), objectKey -> {
                     onUploadOssSuccess(localPath, dialog, objectKey);
                 }, data1 -> onUploadOssFailure(dialog));
             }
@@ -318,25 +328,28 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
     }
 
     private void search(String idNo) {
+
         OrderApi.searchClientExist(SingleImgUploadForCreateUserActivity.this, idNo, data -> {
             if (data != null && data.size() > 0) {
                 searchResp = data.get(0);
                 if (searchResp.auth_credit.lender.commited.equals("1")) {
-                    PopupDialogUtil.relevanceInfoDialog(
-                            SingleImgUploadForCreateUserActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", searchResp.clt_nm, searchResp.mobile, idNo, dialog -> {
-                                dialog.dismiss();
-                                Intent intent = getIntent();
-                                intent.setClass(SingleImgUploadForCreateUserActivity.this, OrderCreateActivity.class);
-                                checkAuthCreditExist(intent, searchResp);
-                                intent.putExtra("enable", true);
-                                intent.putExtra("name", searchResp.clt_nm);
-                                intent.putExtra("mobile", searchResp.mobile);
-                                intent.putExtra("sfz", searchResp.id_no);
-                                intent.putExtra("why_come", "create_user");
-                                startActivity(intent);
-                                finish();
 
-                            });
+                        PopupDialogUtil.relevanceInfoDialog(
+                                SingleImgUploadForCreateUserActivity.this, "系统检测到当前客户为已注册用户，可直接关联。", searchResp.clt_nm, searchResp.mobile, idNo, dialog -> {
+                                    dialog.dismiss();
+                                    Intent intent = getIntent();
+                                    intent.setClass(SingleImgUploadForCreateUserActivity.this, OrderCreateActivity.class);
+                                    checkAuthCreditExist(intent, searchResp);
+                                    intent.putExtra("enable", true);
+                                    intent.putExtra("name", searchResp.clt_nm);
+                                    intent.putExtra("mobile", searchResp.mobile);
+                                    intent.putExtra("sfz", searchResp.id_no);
+                                    intent.putExtra("why_come", "create_user");
+                                    startActivity(intent);
+                                    finish();
+
+                                });
+
                 }
             }
         });
@@ -401,7 +414,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
             default:
                 title = intentData.type;
         }
-        return initTitleBar(this, title).setLeftClickListener(v -> onBack()).setRightText("编辑").setRightTextColor(Color.parseColor("#ffffff")).setRightTextSize(16);
+        return initTitleBar(this, title).setLeftClickListener(v -> onBack()).setRightText("编辑").setRightTextSize(16);
     }
 
     public void onChooseChange(boolean hasChoose) {
