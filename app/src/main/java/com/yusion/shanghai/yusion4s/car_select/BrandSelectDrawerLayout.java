@@ -1464,7 +1464,7 @@ public class BrandSelectDrawerLayout extends ViewGroup {
                 if (mScrimOpacity > 0) {
                     final View child = mLeftDragger.findTopChildUnder((int) x, (int) y);
                     if (child != null && isContentView(child)) {
-                        interceptForTap = true;
+//                        interceptForTap = true;点击的是侧滑部分外的接收事件
                     }
                 }
                 mDisallowInterceptRequested = false;
@@ -1483,14 +1483,15 @@ public class BrandSelectDrawerLayout extends ViewGroup {
 
             case MotionEvent.ACTION_CANCEL:
             case MotionEvent.ACTION_UP: {
-                // TODO: 2017/12/4 拦截点击事件
+                //drawerlayout显示时候点击非侧滑部分不会调用 但会接收down事件 应该是子view消费了事件
                 closeDrawers(true);
                 mDisallowInterceptRequested = false;
                 mChildrenCanceledTouch = false;
             }
         }
 
-        return interceptForDrag || interceptForTap || hasPeekingDrawer() || mChildrenCanceledTouch;
+        boolean b = interceptForDrag || interceptForTap || hasPeekingDrawer() || mChildrenCanceledTouch;
+        return b;
     }
 
     @Override

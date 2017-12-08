@@ -52,7 +52,7 @@ public class ApplyActivity extends BaseActivity {
     private void initView() {
         mClientInfo = new ClientInfo();
         initTitleBar(this, "创建客户").setLeftImageResource(R.mipmap.create_finish_icon).setLeftClickListener(v ->
-                PopupDialogUtil.showTwoButtonsDialog(ApplyActivity.this, "您确定退出该页面返回首页", "确定退出", "取消退出?", dialog -> {
+                PopupDialogUtil.showTwoButtonsDialog(ApplyActivity.this, "您确定退出该页面返回首页", "确定退出", "取消退出", dialog -> {
                     dialog.dismiss();
                     finish();
                 }));

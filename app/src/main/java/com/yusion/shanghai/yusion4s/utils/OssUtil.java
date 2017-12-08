@@ -44,18 +44,15 @@ import retrofit2.Response;
 
 public class OssUtil {
 
-    public static void uploadOss(final Context context, boolean showDialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onOssSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
-        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        if (showDialog) {
-            dialog.show();
-        }
-
+    public static void uploadOss(final Context context,Dialog dialog, final String localPath, @NonNull OSSObjectKeyBean objectKeyBean, @NonNull final OnItemDataCallBack<String> onOssSuccessCallBack, final OnItemDataCallBack<Throwable> onFailureCallBack) {
         Map<String, String> body = new LinkedHashMap<>();
         body.put("duration_second", "1800");
         body.put("method", "put");
         body.put("timestamp", new Date().getTime() + "");
         body.put("signature", getSignature(body));
-        OssApi.ossService.getOSSToken(body).enqueue(new Callback<GetOssTokenBean>() {
+        Call<GetOssTokenBean> ossToken = OssApi.ossService.getOSSToken(body);
+        if (dialog!=null) dialog.setOnCancelListener(v ->ossToken.cancel());
+        ossToken.enqueue(new Callback<GetOssTokenBean>() {
             @Override
             public void onResponse(Call<GetOssTokenBean> call, Response<GetOssTokenBean> response) {
                 Log.e(Api.getTag(call.request()), "onResponse: " + response.body());
@@ -71,17 +68,11 @@ public class OssUtil {
                 oss.asyncPutObject(request, new OSSCompletedCallback<PutObjectRequest, PutObjectResult>() {
                     @Override
                     public void onSuccess(PutObjectRequest request, PutObjectResult result) {
-                        if (showDialog) {
-                            dialog.dismiss();
-                        }
                         onOssSuccessCallBack.onItemDataCallBack(request.getObjectKey());
                     }
 
                     @Override
                     public void onFailure(PutObjectRequest request, ClientException clientExcepion, ServiceException serviceException) {
-                        if (showDialog) {
-                            dialog.dismiss();
-                        }
                         if (clientExcepion != null) {
                             // 本地异常如网络异常等
                             clientExcepion.printStackTrace();
@@ -105,9 +96,6 @@ public class OssUtil {
 
             @Override
             public void onFailure(Call<GetOssTokenBean> call, Throwable t) {
-                if (showDialog) {
-                    dialog.dismiss();
-                }
                 if (onFailureCallBack != null) {
                     onFailureCallBack.onItemDataCallBack(t);
                 }

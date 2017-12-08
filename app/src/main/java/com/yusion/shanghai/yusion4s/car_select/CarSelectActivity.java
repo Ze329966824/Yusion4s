@@ -288,6 +288,7 @@ public class CarSelectActivity extends BaseActivity {
 
     private void showTrixList(GetBrandResp brandResp) {
         currentBrandResp = brandResp;
+        drawerLayout2.closeDrawer(Gravity.RIGHT);
         DlrApi.getTrix(this, brandResp.brand_id, trixResp -> {
             if (trixResp == null) {
                 Toast.makeText(myApp, "返回数据为空", Toast.LENGTH_SHORT).show();
