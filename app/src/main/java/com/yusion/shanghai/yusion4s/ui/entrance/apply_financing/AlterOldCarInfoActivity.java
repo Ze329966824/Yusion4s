@@ -433,6 +433,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         OrderApi.getRawCarInfo(AlterOldCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
+                if (resp==null){
+                    return;
+                }
                 resp.send_hand_mileage = resp.send_hand_mileage.substring(0, resp.send_hand_mileage.length() - 2);
                 Log.e("TAG", "onItemDataCallBack: " + resp.send_hand_mileage);
                 submit_model_id = resp.vehicle_model_id;
