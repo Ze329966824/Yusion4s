@@ -199,13 +199,13 @@ public class OrderDetailActivity extends BaseActivity {
         remark_tv1 = (TextView) findViewById(R.id.remark_tv1);
         remark_tv2 = (TextView) findViewById(R.id.remark_tv2);
 
-        title_lin.setBackgroundResource(R.mipmap.back_lin1);
-        title_img.setBackgroundResource(R.mipmap.back_img1);
-        title_tv.setText("进行中");
+//        title_lin.setBackgroundResource(R.mipmap.back_lin1);
+//        title_img.setBackgroundResource(R.mipmap.back_img1);
+//        title_tv.setText("进行中");
+//        remark_tv2.setText("我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小");
         title_tv.setTextColor(Color.parseColor("#FFFFFF"));
         remark_tv1.setTextColor(Color.parseColor("#FFFFFF"));
         remark_tv2.setTextColor(Color.parseColor("#FFFFFF"));
-        remark_tv2.setText("我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小");
 
 
 
@@ -370,6 +370,12 @@ public class OrderDetailActivity extends BaseActivity {
 //                    waitRel.setVisibility(View.VISIBLE);
 //                    passRel.setVisibility(View.GONE);
 //                    rejectRel.setVisibility(View.GONE);
+
+                    title_lin.setBackgroundResource(R.mipmap.back_lin1);
+                    title_img.setBackgroundResource(R.mipmap.back_img1);
+                    title_tv.setText("进行中");
+                    remark_tv2.setText("进行中的备注");
+
                     applyLin.setVisibility(View.VISIBLE);//visiable
                     replyLin.setVisibility(View.GONE);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
@@ -377,6 +383,11 @@ public class OrderDetailActivity extends BaseActivity {
 //                    passRel.setVisibility(View.VISIBLE);
 //                    waitRel.setVisibility(View.GONE);
 //                    rejectRel.setVisibility(View.GONE);
+
+                    title_lin.setBackgroundResource(R.mipmap.back_lin4);
+                    title_img.setBackgroundResource(R.mipmap.back_img4);
+                    title_tv.setText("通过");
+                    remark_tv2.setText("通过的备注");
                     applyLin.setVisibility(View.GONE);
                     replyLin.setVisibility(View.VISIBLE);
                     // orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
@@ -384,6 +395,10 @@ public class OrderDetailActivity extends BaseActivity {
 //                    passRel.setVisibility(View.VISIBLE);
 //                    waitRel.setVisibility(View.GONE);
 //                    rejectRel.setVisibility(View.GONE);
+                    title_lin.setBackgroundResource(R.mipmap.back_lin4);
+                    title_img.setBackgroundResource(R.mipmap.back_img4);
+                    title_tv.setText("通过");
+                    remark_tv2.setText("通过的备注");
                     applyLin.setVisibility(View.GONE);
                     replyLin.setVisibility(View.VISIBLE);
                     //orderDetailFinanceProgramLin.setVisibility(View.VISIBLE);
