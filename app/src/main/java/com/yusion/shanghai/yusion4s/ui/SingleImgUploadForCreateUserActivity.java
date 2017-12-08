@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -267,7 +268,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
     private void onImageCountChange() {
         if (!TextUtils.isEmpty(imgUrl)) {
             mEditTv.setEnabled(true);
-            mEditTv.setTextColor(Color.parseColor("#ffffff"));
+            mEditTv.setTextColor(Color.parseColor("#FF000000"));
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));
@@ -285,9 +286,16 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
             Dialog dialog = LoadingUtils.createLoadingDialog(this);
             dialog.show();
             if (intentData.type.equals(Constants.FileLabelType.ID_BACK)) {
-                OcrUtil.requestOcr(this, localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), "id_card", (ocrResp, objectKey) -> {
-
-                            mOcrResp = new OcrResp.ShowapiResBodyBean();
+                OcrUtil.requestOcr(this, dialog ,localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), "id_card", (ocrResp, objectKey) -> {
+                    if (isFinishing()) {
+                        return;
+                    }
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                        if (isDestroyed()) {
+                            return;
+                        }
+                    }
+                    mOcrResp = new OcrResp.ShowapiResBodyBean();
 
                             if (ocrResp == null) {
                                 Toast.makeText(this, "识别失败", Toast.LENGTH_LONG).show();
@@ -310,7 +318,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
                         }
                 );
             } else {
-                OssUtil.uploadOss(this, localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), objectKey -> {
+                OssUtil.uploadOss(this, dialog,localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), objectKey -> {
                     onUploadOssSuccess(localPath, dialog, objectKey);
                 }, data1 -> onUploadOssFailure(dialog));
             }
@@ -406,7 +414,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
             default:
                 title = intentData.type;
         }
-        return initTitleBar(this, title).setLeftClickListener(v -> onBack()).setRightText("编辑").setRightTextColor(R.color.black).setRightTextSize(16);
+        return initTitleBar(this, title).setLeftClickListener(v -> onBack()).setRightText("编辑").setRightTextSize(16);
     }
 
     public void onChooseChange(boolean hasChoose) {
