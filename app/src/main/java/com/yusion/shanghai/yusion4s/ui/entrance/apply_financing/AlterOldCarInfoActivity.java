@@ -191,6 +191,27 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     int sum4 = 0;
                     break;
                 case 5:
+                    mGuidePrice = 0;
+                    guidePriceTv.setText("");
+
+                    mLoanBankList.clear();
+                    mLoanBankIndex = 0;
+                    loanBankTv.setText(null);
+
+                    mProductTypeIndex = 0;
+                    productTypeTv.setText(null);
+
+                    billPriceTv.setText("");
+                    plateRegAddrTv.setText("");
+                    loanPeriodsTv.setText("");
+                    mLoanPeriodsIndex = 0;
+                    mManagementPriceIndex = 0;
+
+                    otherPriceTv.setText("");
+                    plateRegAddrTv.setText("");//上牌地选择
+                    loanPeriodsTv.setText("");//还款期限
+                    carInfoAlterTv.setText("");//修改理由
+
                     oldcar_guess_price_tv.setText("");
                     firstPriceTv.setText("");
                     carLoanPriceTv.setText("");
@@ -433,7 +454,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         OrderApi.getRawCarInfo(AlterOldCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
             @Override
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
-                if (resp==null){
+                if (resp == null) {
                     return;
                 }
                 resp.send_hand_mileage = resp.send_hand_mileage.substring(0, resp.send_hand_mileage.length() - 2);
@@ -1140,7 +1161,39 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             //if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
                             btn_fast_valuation.setEnabled(true);
                         }
+                        mGuidePrice = 0;
+                        guidePriceTv.setText("");
+
+                        mLoanBankList.clear();
+                        mLoanBankIndex = 0;
+                        loanBankTv.setText(null);
+
+                        mProductTypeIndex = 0;
+                        productTypeTv.setText(null);
+
+                        billPriceTv.setText("");
+
+                        plateRegAddrTv.setText("");
+
+                        loanPeriodsTv.setText("");
+                        mLoanPeriodsIndex = 0;
+                        mManagementPriceIndex = 0;
+
                         oldcar_guess_price_tv.setText("");
+                        //oldcar_dance_tv.setText("");
+                        // oldcar_addr_tv.setText("");
+                        // oldcar_addrtime_tv.setText("");
+                        firstPriceTv.setText("");
+                        carLoanPriceTv.setText("");
+                        managementPriceTv.setText("");
+                        totalLoanPriceTv.setText("");
+                        otherPriceTv.setText("");
+                        plateRegAddrTv.setText("");//上牌地选择
+                        loanPeriodsTv.setText("");//还款期限
+                        carInfoAlterTv.setText("");//修改理由
+
+
+                        // oldcar_guess_price_tv.setText("");
                         String array[] = city.split("/");
                         for (int i = 0; i < plateAddrlist.size(); i++) {
                             if (plateAddrlist.get(i).name.equals(array[0])) {
@@ -1153,7 +1206,10 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             }
                         }
                     }
+
+
                 }, oldCarcityJson);
+
             }
         });
     }
@@ -1294,7 +1350,39 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     btn_reset.setEnabled(true);
                     btn_fast_valuation.setEnabled(false);
                     look_guess_img_btn.setEnabled(false);
+
+
+                    mGuidePrice = 0;
+                    guidePriceTv.setText("");
+
+                    mLoanBankList.clear();
+                    mLoanBankIndex = 0;
+                    loanBankTv.setText(null);
+
+                    mProductTypeIndex = 0;
+                    productTypeTv.setText(null);
+
+                    billPriceTv.setText("");
+
+                    plateRegAddrTv.setText("");
+
+                    loanPeriodsTv.setText("");
+                    mLoanPeriodsIndex = 0;
+                    mManagementPriceIndex = 0;
+
                     oldcar_guess_price_tv.setText("");
+                    //  oldcar_dance_tv.setText("");
+                    //  oldcar_addr_tv.setText("");
+                    // oldcar_addrtime_tv.setText("");
+                    firstPriceTv.setText("");
+                    carLoanPriceTv.setText("");
+                    managementPriceTv.setText("");
+                    totalLoanPriceTv.setText("");
+                    otherPriceTv.setText("");
+                    plateRegAddrTv.setText("");//上牌地选择
+                    loanPeriodsTv.setText("");//还款期限
+                    carInfoAlterTv.setText("");//修改理由
+
                     String[] array = date.split("-");
                     plate_year = array[0];
                     plate_month = array[1];
