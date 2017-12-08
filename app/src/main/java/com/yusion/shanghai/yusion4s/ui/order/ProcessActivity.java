@@ -40,10 +40,12 @@ public class ProcessActivity extends BaseActivity {
         create_time = (TextView) findViewById(R.id.creat_time);
 
 
-
         OrderApi.getOrderProcess(this, "", new OnItemDataCallBack<ProcessReq>() {
             @Override
             public void onItemDataCallBack(ProcessReq data) {
+                if (data == null) {
+                    return;
+                }
                 list = data.list;
                 //data.st;
                 //data.time;
