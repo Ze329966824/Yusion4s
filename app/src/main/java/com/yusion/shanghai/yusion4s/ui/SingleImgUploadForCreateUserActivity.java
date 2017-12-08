@@ -310,7 +310,7 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
                         }
                 );
             } else {
-                OssUtil.uploadOss(this, false, localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), objectKey -> {
+                OssUtil.uploadOss(this, localPath, new OSSObjectKeyBean(intentData.role, intentData.type, ".png"), objectKey -> {
                     onUploadOssSuccess(localPath, dialog, objectKey);
                 }, data1 -> onUploadOssFailure(dialog));
             }
