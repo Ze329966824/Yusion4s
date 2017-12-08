@@ -1205,18 +1205,6 @@ public class OldCarInfoFragment extends BaseFragment {
     }
 
     private void clickResetBtn() {
-        mBrandList.clear();
-        mBrandIndex = 0;
-        brandTv.setText("");
-
-        mTrixList.clear();
-        mTrixIndex = 0;
-        trixTv.setText("");
-
-        mModelList.clear();
-        mModelIndex = 0;
-        modelTv.setText("");
-
         plateAddrlist.clear();
         oldcar_addr_tv.setText("");
 

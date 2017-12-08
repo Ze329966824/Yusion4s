@@ -73,11 +73,13 @@ public class CarSelectActivity extends BaseActivity {
     private List<GetModelResp> rawModelList;
     private GetTrixResp currentTrixResp;
     private GetBrandResp currentBrandResp;
+    private Class<?> toClass;
 
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        toClass = (Class<?>) intent.getExtras().get("class");
         if (intent.getBooleanExtra("should_reset", false)) {
             drawerLayout2.closeDrawer(Gravity.RIGHT);
             drawerLayout1.closeDrawer(Gravity.RIGHT);
@@ -88,7 +90,8 @@ public class CarSelectActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_select);
-        initTitleBar(this, "选择车型").setLeftClickListener(v -> startActivity(new Intent(this, (Class<?>) getIntent().getExtras().get("class"))));
+        toClass = (Class<?>) getIntent().getExtras().get("class");
+        initTitleBar(this, "选择车型").setLeftClickListener(v -> startActivity(new Intent(this, toClass)));
         Log.e("TAG", "onCreate: ");
 
         drawerLayout1 = findViewById(R.id.car_select_drawlayout1);
