@@ -181,6 +181,7 @@ public class ApplyFinancingFragment extends BaseFragment {
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
             Intent i3 = new Intent(mContext, ChangeDlrActivity.class);
             startActivityForResult(i3, Constants.REQUEST_CHANGE_DLR);
+            getActivity().overridePendingTransition(R.anim.pop_enter_anim, R.anim.stay);
         });
         //审核拒绝
         view.findViewById(R.id.apply_financing_lin1).setOnClickListener(v -> {

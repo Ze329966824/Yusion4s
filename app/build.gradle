@@ -124,6 +124,7 @@ dependencies {
     compile project(path: ':photoLibrary')
 
     compile 'com.github.promeg:tinypinyin:1.0.0'
+    compile 'com.facebook.rebound:rebound:0.3.8'
 //    compile 'com.orhanobut:logger:2.1.1'
 }
 
