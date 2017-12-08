@@ -10,6 +10,10 @@ import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
+import com.yusion.shanghai.yusion4s.utils.logger.Logger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.net.UnknownHostException;
 import java.util.Locale;
@@ -49,6 +53,12 @@ public abstract class CustomCodeAndMsgCallBack implements Callback<BaseResult> {
             return;
         }
 
+        try {
+            JSONObject object = new JSONObject(body.toString());
+            Logger.json(body.toString());
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
         Log.e(Api.getTag(call.request()), "onResponse: " + body);
 
         if (body.code < 0) {

@@ -24,6 +24,8 @@ import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.logger.AndroidLogAdapter;
+import com.yusion.shanghai.yusion4s.utils.logger.Logger;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -58,10 +60,11 @@ public class Yusion4sApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-        if (Settings.isOnline) {
-            CrashHandler crashHandler = CrashHandler.getInstance();
-            crashHandler.setCustomCrashHanler(this);
-        }
+
+        Logger.addLogAdapter(new AndroidLogAdapter());
+
+        CrashHandler crashHandler = CrashHandler.getInstance();
+        crashHandler.setCustomCrashHanler(this);
         initSentry();
 
         GrowingIO.startWithConfiguration(this, new Configuration().useID().trackAllFragments());
@@ -236,7 +239,7 @@ public class Yusion4sApp extends MultiDexApplication {
         @Override
         public void uncaughtException(Thread thread, Throwable ex) {
             //使用Toast进行提示
-            Log.e("TAG", "uncaughtException: " + ex.toString());
+            Logger.e(ex,"搞啥幺蛾子，又崩溃了！！！");
             showToast(mContext, "很抱歉，程序异常即将退出！");
             //延时退出
             try {

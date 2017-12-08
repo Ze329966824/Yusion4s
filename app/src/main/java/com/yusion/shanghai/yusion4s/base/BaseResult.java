@@ -1,5 +1,7 @@
 package com.yusion.shanghai.yusion4s.base;
 
+import com.google.gson.Gson;
+
 /**
  * Created by ice on 2017/8/3.
  */
@@ -11,10 +13,6 @@ public class BaseResult<T> {
 
     @Override
     public String toString() {
-        return "BaseResult{" +
-                "code=" + code +
-                ", msg='" + msg + '\'' +
-                ", data=" + data +
-                '}';
+        return new Gson().toJson(this);
     }
 }
