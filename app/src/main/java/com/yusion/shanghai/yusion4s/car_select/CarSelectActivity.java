@@ -87,6 +87,11 @@ public class CarSelectActivity extends BaseActivity {
     }
 
     @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, toClass));
+    }
+
+    @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_select);
@@ -238,8 +243,8 @@ public class CarSelectActivity extends BaseActivity {
 
 
     private void selectModel(GetModelResp modelResp) {
-        Intent intent = getIntent();
-        Class toClass = (Class) intent.getExtras().get("class");
+//        Intent intent = getIntent();
+//        Class toClass = (Class) intent.getExtras().get("class");
         Intent intent2 = new Intent();
         intent2.putExtra("modleResp", modelResp);
         setResult(RESULT_OK, intent2);

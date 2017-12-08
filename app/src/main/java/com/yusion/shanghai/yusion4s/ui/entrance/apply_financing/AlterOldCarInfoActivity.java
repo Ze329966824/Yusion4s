@@ -1351,6 +1351,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     btn_fast_valuation.setEnabled(false);
                     look_guess_img_btn.setEnabled(false);
 
+
                     mGuidePrice = 0;
                     guidePriceTv.setText("");
 
