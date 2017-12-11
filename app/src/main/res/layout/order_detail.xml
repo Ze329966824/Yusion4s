@@ -297,7 +297,6 @@
         style="@style/apply_info_item">
 
         <TextView
-            android:id="@+id/textView3"
             style="@style/apply_info_title"
             android:gravity="center_vertical"
             android:text="订单进度" />

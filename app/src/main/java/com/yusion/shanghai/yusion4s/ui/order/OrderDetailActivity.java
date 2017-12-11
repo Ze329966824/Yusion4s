@@ -170,6 +170,8 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView remark_tv1;
     private TextView remark_tv2;
 
+    private LinearLayout order_detail_schedule_lin;     //订单进度
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -213,7 +215,7 @@ public class OrderDetailActivity extends BaseActivity {
         title_tv = (TextView) findViewById(R.id.title_tv);
         remark_tv1 = (TextView) findViewById(R.id.remark_tv1);
         remark_tv2 = (TextView) findViewById(R.id.remark_tv2);
-
+        order_detail_schedule_lin = (LinearLayout) findViewById(R.id.order_detail_schedule_lin);
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mScrollView = (NestedScrollView) findViewById(R.id.scrollView_four);
         fab.setOnClickListener(v -> mScrollView.smoothScrollTo(0, 0));
@@ -346,6 +348,12 @@ public class OrderDetailActivity extends BaseActivity {
             startActivity(intent);
         });
 
+        order_detail_schedule_lin.setOnClickListener(v ->{
+            Intent intent = new Intent(OrderDetailActivity.this, OrderProcessActivity.class);
+            intent.putExtra("app_id", app_id);
+            startActivity(intent);
+        });
+
     }
 
     private void initData() {
@@ -384,8 +392,8 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 wait_title.setText(resp.client_status_code);
             } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
-                title_lin.setBackgroundResource(R.mipmap.back_lin4);
-                title_img.setBackgroundResource(R.mipmap.back_img4);
+                title_lin.setBackgroundResource(R.mipmap.back_lin1);
+                title_img.setBackgroundResource(R.mipmap.back_img1);
                 title_tv.setText("通过");
                 remark_tv2.setText("通过的备注");
                 passRel.setVisibility(View.VISIBLE);
@@ -395,8 +403,8 @@ public class OrderDetailActivity extends BaseActivity {
                 havere_financeLin.setVisibility(View.GONE);
                 pass_title.setText(resp.client_status_code);
             } else if (resp.status_st == 6) {//放款中      //有批复的
-                title_lin.setBackgroundResource(R.mipmap.back_lin4);
-                title_img.setBackgroundResource(R.mipmap.back_img4);
+                title_lin.setBackgroundResource(R.mipmap.back_lin1);
+                title_img.setBackgroundResource(R.mipmap.back_img1);
                 title_tv.setText("通过");
                 remark_tv2.setText("通过的备注");
                 passRel.setVisibility(View.VISIBLE);
@@ -409,6 +417,10 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 pass_title.setText(resp.client_status_code);
             } else if (resp.status_st == 3) {//审核失败
+                title_lin.setBackgroundResource(R.mipmap.back_lin2);
+                title_img.setBackgroundResource(R.mipmap.back_img2);
+                title_tv.setText("拒绝");
+                remark_tv2.setText("拒绝的备注");
                 waitLin.setVisibility(View.GONE);
                 passRel.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.VISIBLE);
@@ -416,6 +428,11 @@ public class OrderDetailActivity extends BaseActivity {
                     rejectReason.setText(resp.uw_detail.comments);
                 }
                 reject_title.setText(resp.client_status_code);
+            } else if (resp.status_st == 9) {
+                title_lin.setBackgroundResource(R.mipmap.back_lin3);
+                title_img.setBackgroundResource(R.mipmap.back_img3);
+                title_tv.setText("取消");
+                remark_tv2.setText("取消的备注");
             }
             //金融方案申请和批复
             if (resp.uw && resp.uw_detail != null) {
