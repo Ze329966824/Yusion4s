@@ -7,6 +7,10 @@ import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
+import com.yusion.shanghai.yusion4s.utils.logger.Logger;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.IOException;
 import java.net.UnknownHostException;
@@ -41,6 +45,12 @@ public abstract class CustomResponseBodyCallBack implements Callback<ResponseBod
         try {
             if (response != null) {
                 String body = response.body().string();
+                try {
+                    JSONObject object = new JSONObject(body.toString());
+                    Logger.json(body.toString());
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
                 Log.e(Api.getTag(call.request()), "onResponse: " + body);
                 onCustomResponse(body);
             }

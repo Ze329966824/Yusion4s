@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.base;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
@@ -46,8 +47,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         titleBar.setLeftClickListener(view -> activity.finish());
         titleBar.setImmersive(false);
         titleBar.setTitle(title);
-        titleBar.setLeftTextColor(R.color.black);
-        titleBar.setRightTextColor(R.color.black);
+        titleBar.setLeftTextColor(Color.BLACK);
+        titleBar.setRightTextColor(Color.BLACK);
         titleBar.setLeftImageResource(R.mipmap.title_back_arrow);
         titleBar.setBackgroundResource(R.color.white);
         titleBar.setTitleColor(activity.getResources().getColor(R.color.black));

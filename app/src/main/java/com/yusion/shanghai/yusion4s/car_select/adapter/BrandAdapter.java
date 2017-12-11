@@ -65,7 +65,8 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> 
                 onItemClickListener.onItemClick(v, brandResp);
             }
         });
-        GlideApp.with(mContext).load(brandResp.brand_image_url).circleCrop().into(holder.avatar);
+//        GlideApp.with(mContext).load(brandResp.brand_image_url).circleCrop().into(holder.avatar);
+        GlideApp.with(mContext).load(brandResp.brand_image_url).into(holder.avatar);
     }
 
     @Override
