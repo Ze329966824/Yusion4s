@@ -218,7 +218,14 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     totalLoanPriceTv.setText("");
                     managementPriceTv.setText("");
                     otherPriceTv.setText("");
+                    if (TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                        btn_fast_valuation.setEnabled(false);
+                    }
+                    btn_reset.setEnabled(true);
                     look_guess_img_btn.setEnabled(false);
+                    if (!TextUtils.isEmpty(car_info_tv.getText()) && !TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                        btn_fast_valuation.setEnabled(true);
+                    }
                     break;
                 default:
                     break;
@@ -882,6 +889,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 //                    req.brand = brandTv.getText().toString();
 //                    req.trix = trixTv.getText().toString();
 //                    req.model_name = modelTv.getText().toString();
+
                     req.vehicle_color = colorTv.getText().toString();
                     req.vehicle_price = oldcar_guess_price_tv.getText().toString();
                     req.vehicle_down_payment = firstPriceTv.getText().toString();
@@ -894,7 +902,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     req.msrp = guidePriceTv.getText().toString();
                     req.reason = carInfoAlterTv.getText().toString();
                     req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
-                    req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
+                    req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString() + "-01";
+                    //  req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
                     req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                     req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
 
