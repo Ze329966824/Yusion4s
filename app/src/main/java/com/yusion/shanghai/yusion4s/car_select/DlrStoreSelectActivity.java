@@ -1,11 +1,13 @@
-package com.yusion.shanghai.yusion4s.car_select.utils;
+package com.yusion.shanghai.yusion4s.car_select;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.RecyclerView;
 
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.base.BaseActivity;
 
-public class DlrStoreSelectActivity extends AppCompatActivity {
+public class DlrStoreSelectActivity extends BaseActivity {
+    private RecyclerView mDlrStoreRv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
