@@ -208,10 +208,6 @@ public class OrderDetailActivity extends BaseActivity {
         remark_tv2.setTextColor(Color.parseColor("#FFFFFF"));
 
 
-
-
-
-
         waitRel = (RelativeLayout) findViewById(R.id.order_detail_status_wait_layout);
         cancelRel = (RelativeLayout) findViewById(R.id.order_detail_status_cancel_layout);
         passRel = (RelativeLayout) findViewById(R.id.order_detail_status_pass_layout);

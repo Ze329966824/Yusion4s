@@ -12,10 +12,8 @@ import android.widget.TextView;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessReq;
-import com.yusion.shanghai.yusion4s.bean.order.ProcessTest;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 
 import java.util.List;
 
@@ -38,16 +36,18 @@ public class ProcessActivity extends BaseActivity {
         mLl_parent = (LinearLayout) findViewById(R.id.ll_parent);
         app_id = (TextView) findViewById(R.id.app_id);
         create_time = (TextView) findViewById(R.id.creat_time);
-
-
+        clt_nm = (TextView) findViewById(R.id.clt_nm);
 
         OrderApi.getOrderProcess(this, "", new OnItemDataCallBack<ProcessReq>() {
             @Override
             public void onItemDataCallBack(ProcessReq data) {
+                if (data == null) {
+                    return;
+                }
                 list = data.list;
-                //data.st;
-                //data.time;
-                //data.title;
+                clt_nm.setText(data.clt_nm);
+                app_id.setText(data.app_id);
+                create_time.setText(data.create_time);
 
                 for (int i = 0; i < list.size(); i++) {
                     ProcessReq.ListBean current = list.get(i);
@@ -74,20 +74,20 @@ public class ProcessActivity extends BaseActivity {
                     st = current.st;
                     if (before != null) {
                         st2 = before.st;
-                        if (st2.equals("1")) {
+                        if (st2.equals("ns")) {
                             topLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                         }
                     }
-                    if (st.equals("1")) {
+                    if (st.equals("ns")) {
                         bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                         dianImg.setImageResource(R.mipmap.test25);
-                    } else if (st.equals("2")) {
+                    } else if (st.equals("ns")) {
                         dianImg.setImageResource(R.mipmap.test24);
                     }
 
                     mLl_parent.addView(view);
                     LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
-                    //fill(current, ll_empty);
+                    fill(current, ll_empty);
 
 //            if (current.asyncProcessTestList.size() > 0) {
 //                for (int j = 0; j < current.asyncProcessTestList.size(); j++) {
@@ -223,15 +223,22 @@ public class ProcessActivity extends BaseActivity {
         */
     }
 
-    private void fill(ProcessTest current, LinearLayout ll_empty) {
-        if (current.asyncProcessTestList.size() == 0 && current.syncProcessTestList.size() == 0) {
+    private void fill(ProcessReq.ListBean current, LinearLayout ll_empty) {
+        if (current.seriesList.size() == 0 && current.parellelList.size() == 0) {
             //没有子view 直接设置title
             LinearLayout fillView = addViewFill();
-            fillView.addView(addViewFillContent());
+            View view = addViewFillContent();
+            TextView title = (TextView) view.findViewById(R.id.title);
+            TextView time = (TextView) view.findViewById(R.id.time);
+            time.setText(current.time);
+            title.setText(current.title);
+            fillView.addView(view);
             ll_empty.addView(fillView);
-        } else if (current.asyncProcessTestList.size() > 0) {
+        }
+        /*
+        else if (current.parellelList.size() > 0) {
             //多个异步块子view (需要白线隔离)
-            for (int j = 0; j < current.asyncProcessTestList.size(); j++) {
+            for (int j = 0; j < current.parellelList.size(); j++) {
                 LinearLayout fillView = addViewFill();
                 if (current.asyncProcessTestList.get(j).syncProcessTestList.size() > 0) {
                     //多个同步块子View
@@ -292,6 +299,8 @@ public class ProcessActivity extends BaseActivity {
 
             }
         }
+        */
+
     }
 
     private View addViewEmpty() {
