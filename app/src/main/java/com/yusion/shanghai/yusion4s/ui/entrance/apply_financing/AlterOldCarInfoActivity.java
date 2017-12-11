@@ -124,7 +124,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private String mile_age;
     private String guess_img;
     private int submit_model_id;
-    private boolean isRestCarinfo = false;
+    private boolean isRestCarinfo = true;
 
     private String oldCarcityJson;
 
@@ -218,7 +218,14 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     totalLoanPriceTv.setText("");
                     managementPriceTv.setText("");
                     otherPriceTv.setText("");
+                    if (TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                        btn_fast_valuation.setEnabled(false);
+                    }
+                    btn_reset.setEnabled(true);
                     look_guess_img_btn.setEnabled(false);
+                    if (!TextUtils.isEmpty(car_info_tv.getText()) && !TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
+                        btn_fast_valuation.setEnabled(true);
+                    }
                     break;
                 default:
                     break;
@@ -494,6 +501,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
                 mGuidePrice = Integer.valueOf(resp.msrp);
                 oldcar_addr_tv.setText(resp.origin_plate_reg_addr);//二手车上牌地
+                resp.send_hand_plate_time = resp.send_hand_plate_time.substring(0, resp.send_hand_plate_time.length() - 3);
+                Log.e("TAG", "onItemDataCallBack:" + resp.send_hand_plate_time);
                 oldcar_addrtime_tv.setText(resp.send_hand_plate_time);
                 car_info_tv.setText(resp.model_name);
                 String[] array = resp.send_hand_plate_time.split("-");
@@ -882,6 +891,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 //                    req.brand = brandTv.getText().toString();
 //                    req.trix = trixTv.getText().toString();
 //                    req.model_name = modelTv.getText().toString();
+
                     req.vehicle_color = colorTv.getText().toString();
                     req.vehicle_price = oldcar_guess_price_tv.getText().toString();
                     req.vehicle_down_payment = firstPriceTv.getText().toString();
@@ -894,7 +904,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     req.msrp = guidePriceTv.getText().toString();
                     req.reason = carInfoAlterTv.getText().toString();
                     req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
-                    req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
+                    req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString() + "-01";
+                    //  req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString();
                     req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                     req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
 
@@ -1402,7 +1413,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         min_reg_year = modleResp.min_reg_year;
         max_reg_year = modleResp.max_reg_year;
         submit_model_id = modleResp.model_id;
-        model_id = String.valueOf(modleResp.model_id);//用于车300估价使用
+        model_id = modleResp.che_300_id;//用于车300估价使用
         trix_id = data.getStringExtra("trix_che300_id");
         brand_id = data.getStringExtra("brand_che300_id");
         car_info_tv.setText(modleResp.model_name);
