@@ -25,6 +25,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.ui.order.ProcessActivity;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
@@ -47,6 +48,8 @@ public class LoginActivity extends BaseActivity {
     private ImageView mLoginPasswordEyeImg;
     private boolean isShowPassword = false;
     private TelephonyManager telephonyManager;
+    private Yusion4sApp yusion4sApp;
+    private Button button;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,15 @@ public class LoginActivity extends BaseActivity {
     }
 
     private void initView() {
+        findViewById(R.id.btnnnnnn).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, ProcessActivity.class);
+                startActivity(intent);
+            }
+        });
+        yusion4sApp = (Yusion4sApp) getApplication();
+        yusion4sApp.requestLocation(null);
         telephonyManager = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
 
         mLoginAccountTV = (EditText) findViewById(R.id.login_account_edt);

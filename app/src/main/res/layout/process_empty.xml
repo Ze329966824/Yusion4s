@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/rel_empty"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginRight="15dp"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="38dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/line_kuan"
+        android:layout_alignTop="@+id/ll_empty"
+        android:orientation="vertical">
+
+        <View
+            android:id="@+id/top_line"
+            android:layout_width="2dp"
+            android:layout_height="22.5dp"
+            android:layout_gravity="center"
+            android:background="#aaaab7"
+            android:paddingTop="15dp" />
+
+        <ImageView
+            android:id="@+id/st_dian_img"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:src="@mipmap/no_pass_left" />
+
+        <View
+            android:id="@+id/bottom_line"
+            android:layout_width="2dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:background="#aaaab7" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_empty"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="15dp"
+        android:background="@mipmap/ten_day"
+        android:orientation="vertical">
+
+    </LinearLayout>
+
+    <View
+        android:id="@+id/line_kuan"
+        android:layout_width="match_parent"
+        android:layout_height="15dp"
+        android:layout_below="@id/ll_empty"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="15dp"
+        android:background="@color/main_bg" />
+
+</RelativeLayout>

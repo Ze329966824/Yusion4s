@@ -9,6 +9,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -162,6 +163,13 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
     private LinearLayout oldcar_info_lin;//二手车的信息
 
+
+    private LinearLayout title_lin;
+    private ImageView title_img;
+    private TextView title_tv;
+    private TextView remark_tv1;
+    private TextView remark_tv2;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -200,6 +208,11 @@ public class OrderDetailActivity extends BaseActivity {
         havere_oldcar_applyBillPrice_lin = (LinearLayout) findViewById(R.id.havere_oldcar_applyBillPrice_lin);
         newcar_zhidaoAnd_billPrice_lin = (LinearLayout) findViewById(R.id.newcar_zhidaoAnd_billPrice_lin);
         oldcar_info_lin = (LinearLayout) findViewById(R.id.oldcar_info_lin);
+        title_lin = (LinearLayout) findViewById(R.id.title_lin);
+        title_img = (ImageView) findViewById(R.id.title_img);
+        title_tv = (TextView) findViewById(R.id.title_tv);
+        remark_tv1 = (TextView) findViewById(R.id.remark_tv1);
+        remark_tv2 = (TextView) findViewById(R.id.remark_tv2);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mScrollView = (NestedScrollView) findViewById(R.id.scrollView_four);
@@ -215,6 +228,10 @@ public class OrderDetailActivity extends BaseActivity {
         pass_title = (TextView) findViewById(R.id.order_detail_status_pass);
         reject_title = (TextView) findViewById(R.id.order_detail_status_reject);
         cancel_title = (TextView) findViewById(R.id.order_detail_status_cancel);
+        title_tv.setTextColor(Color.parseColor("#FFFFFF"));
+        remark_tv1.setTextColor(Color.parseColor("#FFFFFF"));
+        remark_tv2.setTextColor(Color.parseColor("#FFFFFF"));
+
 
         cancelReason = (TextView) findViewById(R.id.order_detail_status_cancel_reason);
         passReason = (TextView) findViewById(R.id.order_detail_status_pass_reason);
@@ -353,6 +370,11 @@ public class OrderDetailActivity extends BaseActivity {
 
             }
             if (resp.status_st == 2) {//待审核
+                title_lin.setBackgroundResource(R.mipmap.back_lin1);
+                title_img.setBackgroundResource(R.mipmap.back_img1);
+                title_tv.setText("进行中");
+                remark_tv2.setText("进行中的备注");
+
                 waitLin.setVisibility(View.VISIBLE);
                 passRel.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.GONE);
@@ -362,6 +384,10 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 wait_title.setText(resp.client_status_code);
             } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
+                title_lin.setBackgroundResource(R.mipmap.back_lin4);
+                title_img.setBackgroundResource(R.mipmap.back_img4);
+                title_tv.setText("通过");
+                remark_tv2.setText("通过的备注");
                 passRel.setVisibility(View.VISIBLE);
                 waitLin.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.GONE);
@@ -369,6 +395,10 @@ public class OrderDetailActivity extends BaseActivity {
                 havere_financeLin.setVisibility(View.GONE);
                 pass_title.setText(resp.client_status_code);
             } else if (resp.status_st == 6) {//放款中      //有批复的
+                title_lin.setBackgroundResource(R.mipmap.back_lin4);
+                title_img.setBackgroundResource(R.mipmap.back_img4);
+                title_tv.setText("通过");
+                remark_tv2.setText("通过的备注");
                 passRel.setVisibility(View.VISIBLE);
                 waitLin.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.GONE);
