@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.google.gson.JsonSyntaxException;
 import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
@@ -58,13 +59,14 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
             return;
         }
 
+        Log.e(Api.getTag(call.request()), "responseFor :" + call.request().url().toString());
         try {
             JSONObject object = new JSONObject(body.toString());
             Logger.json(body.toString());
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.e(Api.getTag(call.request()), "onResponse: " + body);
+        Log.w(Api.getTag(call.request()), "onResponse: " + body);
 
         if (body.code < 0) {
             if (Settings.isOnline) {
@@ -84,6 +86,7 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
 
     @Override
     public void onFailure(Call<BaseResult<T>> call, Throwable t) {
+        Log.e("API", call.request().url().toString() + ": " + t);
         if (dialog != null) {
             dialog.dismiss();
         }
@@ -91,6 +94,8 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
             Toast.makeText(context, "网络繁忙,请检查网络", Toast.LENGTH_SHORT).show();
         } else if (Settings.isOnline) {
             Toast.makeText(context, "接口调用失败,请稍后再试...", Toast.LENGTH_SHORT).show();
+        } else if (t instanceof JsonSyntaxException) {
+            Toast.makeText(context, "调用接口[" + call.request().url().toString() + "]发生Json数据解析异常,请记录下请求的url并找杨帅核实返回数据类型是否正确！！！", Toast.LENGTH_SHORT).show();
         } else {
             Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
         }
