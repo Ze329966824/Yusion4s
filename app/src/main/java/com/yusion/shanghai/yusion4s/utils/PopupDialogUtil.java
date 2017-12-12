@@ -161,7 +161,7 @@ public class PopupDialogUtil {
         View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
         TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
 //        mOK.setOnClickListener(okListener);
-        mOK.setText(leftMsg);
+        mOK.setText(rightMsg);
         mOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -171,7 +171,7 @@ public class PopupDialogUtil {
             }
         });
         TextView mCancel = (TextView) view.findViewById(R.id.popup_dialog_cancel);
-        mCancel.setText(rightMsg);
+        mCancel.setText(leftMsg);
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
