@@ -22,6 +22,7 @@ import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 
 /**
@@ -343,6 +344,9 @@ public class OrderDetailActivity extends BaseActivity {
 
         orderDetailReplaceBtn.setOnClickListener(v -> {
             // TODO: 2017/12/12   更换配偶作为主贷人点击 -> 弹窗 ->  {1.是 ->接口二 ①客户信息未完善 ②更换成功}    {2.取消 dismiss}
+
+//            PopupDialogUtil.showTwoButtonsDialog();
+
         });
 
     }

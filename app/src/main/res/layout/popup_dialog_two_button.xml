@@ -9,7 +9,14 @@
         android:layout_width="259dp"
         android:orientation="vertical"
         android:layout_height="141dp">
-
+        <TextView
+            android:id="@+id/popup_dialog_title"
+            android:layout_width="match_parent"
+            android:layout_height="99.04dp"
+            android:gravity="center"
+            android:text="是否退出？"
+            android:textColor="#FF222A36"
+            android:textSize="17dp" />
         <TextView
             android:id="@+id/popup_dialog_msg"
             android:layout_width="match_parent"
