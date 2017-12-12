@@ -149,6 +149,10 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView orderDetailChangeBtn;                      //修改资料(两个按钮)
     private TextView orderDetailUploadBtn;                      //提交资料(两个按钮)
 
+
+    private LinearLayout order_detail_replace_layout;            //更换配偶作为主贷人layout
+    private TextView orderDetailReplaceBtn;                     //更换配偶作为主贷人
+
     private FloatingActionButton fab;
     private NestedScrollView mScrollView;
     private String app_id;
@@ -310,10 +314,12 @@ public class OrderDetailActivity extends BaseActivity {
 
         order_detail_sign_layout = (LinearLayout) findViewById(R.id.order_detail_sign_layout);
         order_detail_change_layout = (LinearLayout) findViewById(R.id.order_detail_change_layout);
+        order_detail_replace_layout = (LinearLayout) findViewById(R.id.order_detail_replace_layout);
 
         orderDetailSignBtn = (Button) findViewById(R.id.order_detail_sign);
         orderDetailChangeBtn = (TextView) findViewById(R.id.order_detail_change_tv);
         orderDetailUploadBtn = (TextView) findViewById(R.id.order_detail_upload_tv);
+        orderDetailReplaceBtn = (TextView) findViewById(R.id.order_detail_replace_tv);
 
         havere_financeLin = (LinearLayout) findViewById(R.id.order_detail_havere_lin);
 
@@ -327,6 +333,16 @@ public class OrderDetailActivity extends BaseActivity {
             Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
             intent.putExtra("app_id", app_id);
             startActivity(intent);
+        });
+
+
+            // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
+        {
+            order_detail_replace_layout.setVisibility(View.VISIBLE);
+        }
+
+        orderDetailReplaceBtn.setOnClickListener(v -> {
+            // TODO: 2017/12/12   更换配偶作为主贷人点击 -> 弹窗 ->  {1.是 ->接口二 ①客户信息未完善 ②更换成功}    {2.取消 dismiss}
         });
 
     }
