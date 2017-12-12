@@ -161,6 +161,38 @@ public class PopupDialogUtil {
         View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
         TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
 //        mOK.setOnClickListener(okListener);
+        mOK.setText(leftMsg);
+        mOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickListener != null) {
+                    clickListener.onOkClick(dialog);
+                }
+            }
+        });
+        TextView mCancel = (TextView) view.findViewById(R.id.popup_dialog_cancel);
+        mCancel.setText(rightMsg);
+        mCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+        TextView mMsg = (TextView) view.findViewById(R.id.popup_dialog_msg);
+        mMsg.setText(content);
+        dialog.setContentView(view);
+        dialog.setCancelable(false);
+//
+//        dialog.getWindow().getAttributes().width = width;
+//        dialog.getWindow().getAttributes().height = height;
+        show();
+    }
+    public static void logoutDialog(Context context,String content,String leftMsg,String rightMsg,OnOkClickListener clickListener) {
+        mContext = context;
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_logout, null);
+        TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
+//        mOK.setOnClickListener(okListener);
         mOK.setText(rightMsg);
         mOK.setOnClickListener(new View.OnClickListener() {
             @Override
