@@ -220,6 +220,10 @@
                 </LinearLayout>
 
                 <!--身份证人像面-->
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -255,6 +259,7 @@
 
                     <View
                         android:layout_width="match_parent"
+                        android:layout_marginLeft="15dp"
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
 
@@ -284,6 +289,10 @@
                                 android:src="@mipmap/mine_arrow_right" />
                         </FrameLayout>
                     </LinearLayout>
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
 
                 </LinearLayout>
 
@@ -376,6 +385,7 @@
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/spouse_info_reg_lin"
                         style="@style/apply_info_item">
 
@@ -402,11 +412,7 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
@@ -433,13 +439,10 @@
                         </FrameLayout>
 
                     </LinearLayout>
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/spouse_info_education_lin"
                         style="@style/apply_info_item">
 
@@ -509,6 +512,7 @@
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -610,6 +614,7 @@
 
                     <!--是否与父母同住-->
                     <LinearLayout
+                        android:visibility="gone"
                         android:id="@+id/spouse_info_live_with_parent_lin"
                         style="@style/apply_info_item">
 
@@ -635,20 +640,7 @@
                         </FrameLayout>
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="10dp"
-                        android:background="@color/bg_color" />
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
 
                     <!--主要收入来源-->
                     <LinearLayout
@@ -1132,10 +1124,7 @@
                     </LinearLayout>
 
                     <!--额外收入来源-->
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+
 
                     <LinearLayout
                         android:id="@+id/spouse_info_extra_income_from_lin"
@@ -1387,6 +1376,7 @@
                     </LinearLayout>
 
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical"
@@ -1403,6 +1393,7 @@
                             android:background="@color/separate_line_color" />
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/spouse_info_house_type_lin"
                             style="@style/apply_info_item">
 
@@ -1434,7 +1425,9 @@
                             android:layout_marginLeft="15dp"
                             android:background="@color/separate_line_color" />
 
-                        <LinearLayout style="@style/apply_info_item">
+                        <LinearLayout
+                            android:visibility="gone"
+                            style="@style/apply_info_item">
 
                             <TextView
                                 style="@style/apply_info_title"
@@ -1456,7 +1449,9 @@
                             android:layout_marginLeft="15dp"
                             android:background="@color/separate_line_color" />
 
-                        <LinearLayout style="@style/apply_info_item">
+                        <LinearLayout
+                            android:visibility="gone"
+                            style="@style/apply_info_item">
 
                             <TextView
                                 style="@style/apply_info_title"
@@ -1476,6 +1471,7 @@
                             android:background="@color/separate_line_color" />
 
                         <LinearLayout
+                            android:visibility="gone"
                             android:id="@+id/spouse_info_house_owner_relation_lin"
                             style="@style/apply_info_item">
 
@@ -1507,6 +1503,7 @@
                             android:background="@color/separate_line_color" />
                     </LinearLayout>
                     <LinearLayout
+                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
