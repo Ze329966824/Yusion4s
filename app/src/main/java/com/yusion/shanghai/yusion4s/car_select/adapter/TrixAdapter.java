@@ -64,7 +64,7 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
                 onItemClickListener.onItemClick(v,trixResp);
             }
         });
-//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.avatar);
+//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.icon);
     }
 
     @Override
@@ -79,8 +79,8 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvCity = itemView.findViewById(R.id.tvCity);
-            avatar = itemView.findViewById(R.id.ivAvatar);
+            tvCity = itemView.findViewById(R.id.name);
+            avatar = itemView.findViewById(R.id.icon);
             avatar.setVisibility(View.GONE);
             content = itemView.findViewById(R.id.content);
         }
