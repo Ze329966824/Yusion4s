@@ -339,7 +339,7 @@ public class OrderDetailActivity extends BaseActivity {
 
             // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
         {
-            order_detail_replace_layout.setVisibility(View.VISIBLE);
+            order_detail_replace_layout.setVisibility(View.GONE);
         }
 
         orderDetailReplaceBtn.setOnClickListener(v -> {

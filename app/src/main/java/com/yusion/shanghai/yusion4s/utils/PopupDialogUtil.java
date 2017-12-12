@@ -65,6 +65,8 @@ public class PopupDialogUtil {
         show();
     }
 
+
+
     public static void relevanceInfoDialog(Context context, String title, String name, String mobile , String idno, OnOkClickListener clickListener ) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
@@ -115,14 +117,13 @@ public class PopupDialogUtil {
         dialog.show();
     }
 
-    public static void showOneButtonDialog(Context context, String title, String msg,
-                                           OnOkClickListener clickListener) {
+    public static void showOneButtonDialog(Context context, String title, String msg, OnOkClickListener clickListener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_one_button, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_one_hastitle_button, null);
         TextView mTitle = (TextView) view.findViewById(R.id.popup_dialog_title);
         mTitle.setText(title);
-        TextView mMessage = (TextView) view.findViewById(R.id.popup_dialog_message);
+        TextView mMessage = (TextView) view.findViewById(R.id.popup_dialog_msg);
         mMessage.setText(msg);
         TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
         mOK.setOnClickListener(new View.OnClickListener() {
@@ -133,27 +134,9 @@ public class PopupDialogUtil {
                 }
             }
         });
-//        mOK.setOnClickListener(clickListener);
-
-        ImageView mCancel = (ImageView) view.findViewById(R.id.btn_cancel);
-        mCancel.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dismiss();
-            }
-        });
         dialog.setContentView(view);
-
-
-//        int screenWidth = getWindowManager().getDefaultDisplay().getWidth(); // 屏幕宽
-//        int screenHeight = getWindowManager().getDefaultDisplay().getHeight(); // 屏幕高
-
-
-//        dialog.getWindow().getAttributes().width = 259;
-//        dialog.getWindow().getAttributes().height = 259;
         dialog.setCancelable(false);
-//        dialog.getWindow().getAttributes()
-        dialog.show();
+        show();
     }
     public static void showTwoButtonsDialog(Context context,String content,String leftMsg,String rightMsg,OnOkClickListener clickListener) {
         mContext = context;
@@ -187,13 +170,18 @@ public class PopupDialogUtil {
 //        dialog.getWindow().getAttributes().height = height;
         show();
     }
+
+    //更换配偶为主待人
     public static void showTwoButtonsDialog(Context context,String title,String content,String leftMsg,String rightMsg,OnOkClickListener clickListener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_hastitle_button, null);
+
+        TextView mTitle = view.findViewById(R.id.popup_dialog_title);
+        mTitle.setText(title);
         TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
 //        mOK.setOnClickListener(okListener);
-        mOK.setText(leftMsg);
+        mOK.setText(rightMsg);
         mOK.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -203,7 +191,7 @@ public class PopupDialogUtil {
             }
         });
         TextView mCancel = (TextView) view.findViewById(R.id.popup_dialog_cancel);
-        mCancel.setText(rightMsg);
+        mCancel.setText(leftMsg);
         mCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
