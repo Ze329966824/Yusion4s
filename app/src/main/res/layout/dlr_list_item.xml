@@ -17,7 +17,7 @@
             android:background="@drawable/textview_selector"
             android:ellipsize="end"
             android:maxLines="1"
-            android:text="此处显示门店名称"
+            android:text="此处显示经销商名称"
             android:textColor="#FF222A36"
             android:textSize="14dp" />
     </RelativeLayout>

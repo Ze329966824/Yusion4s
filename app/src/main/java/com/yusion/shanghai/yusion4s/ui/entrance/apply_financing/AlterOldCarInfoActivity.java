@@ -993,7 +993,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             });
 
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else if (TextUtils.isEmpty(loanBankTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
@@ -1021,7 +1021,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
             });
         } else {
-            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -1029,9 +1029,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private void selectMangerPrice() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
-        } else {//需要先请求最先的东西,也就是门店信息
+        } else {//需要先请求最先的东西,也就是经销商信息
             WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
@@ -1089,7 +1089,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             });
 
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else if (TextUtils.isEmpty(trixTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
@@ -1147,7 +1147,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             });
 
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else if (TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
@@ -1288,7 +1288,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 }
             });
         } else {
-            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -1303,7 +1303,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     dlrItems.add(item.dlr_nm);
                 }
                 mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
-                WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
+                WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择经销商", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
                     car_info_tv.setText("");
                     isRestCarinfo = true;
@@ -1595,7 +1595,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private void selectCarInfo() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(this, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else {
@@ -1712,7 +1712,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private boolean checkCanNextStep() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast.makeText(AlterOldCarInfoActivity.this, "门店不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(AlterOldCarInfoActivity.this, "经销商不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(car_info_tv.getText())) {
             Toast.makeText(AlterOldCarInfoActivity.this, "车型不能为空", Toast.LENGTH_SHORT).show();
         }

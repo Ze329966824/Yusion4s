@@ -83,7 +83,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
         overridePendingTransition(R.anim.stay, R.anim.pop_exit_anim);
     }
 
-    //显示门店列表
+    //显示经销商列表
     private void showDlr() {
         dlrItems = new ArrayList<>();
         dlrItemNums = new ArrayList<>();
