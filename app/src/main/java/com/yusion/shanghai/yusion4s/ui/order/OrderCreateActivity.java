@@ -47,6 +47,12 @@ public class OrderCreateActivity extends BaseActivity {
                 }
             } else if ("create_user".equals(why_come)) {
                 mCreditInfoFragment.relevance(intent);
+            } else if ("dlr_select".equals(why_come)) {
+                if (cartype.equals("新车")) {
+                    mCarInfoFragment.getDlrInfo(intent);
+                } else {
+                    // mOldCarInfoFragment.getDlrInfo(intent);
+                }
             }
         }
     }

@@ -3,13 +3,14 @@ package com.yusion.shanghai.yusion4s.bean.dlr;
 import com.google.gson.Gson;
 import com.yusion.shanghai.yusion4s.car_select.IndexBar.bean.BaseIndexPinyinBean;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
  * Created by aa on 2017/8/9.
  */
 
-public class GetDlrListByTokenResp extends BaseIndexPinyinBean {
+public class GetDlrListByTokenResp extends BaseIndexPinyinBean implements Serializable {
     /**
      * dlr_id : TEST0001
      * dlr_nm : 弘高融资租赁有限公司一部江伟

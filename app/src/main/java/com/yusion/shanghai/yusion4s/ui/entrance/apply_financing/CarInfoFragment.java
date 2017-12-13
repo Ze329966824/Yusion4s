@@ -28,6 +28,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
@@ -97,6 +98,8 @@ public class CarInfoFragment extends BaseFragment {
     private boolean isChangeCarInfoChange;
 
     private String cartype;
+    private String dlr_id;
+    private String aid_id;
 
     private boolean isRestCarinfo = true;
     private boolean isRestDlrinfo = true;
@@ -332,7 +335,6 @@ public class CarInfoFragment extends BaseFragment {
     }
 
 
-    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -571,7 +573,9 @@ public class CarInfoFragment extends BaseFragment {
                     } else if (checkCanNextStep()) {
 
                         SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
-                        req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                        //req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                        req.dlr_id = dlr_id;
+                        req.aid_id = aid_id;
                         req.vehicle_model_id = model_id;
                         req.vehicle_color = colorTv.getText().toString();
                         req.vehicle_down_payment = firstPriceTv.getText().toString();
@@ -786,10 +790,26 @@ public class CarInfoFragment extends BaseFragment {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("vehicle_cond", "新车");
             intent.putExtra("class", OrderCreateActivity.class);
-            intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            // intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            intent.putExtra("dlr_id", dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             startActivity(intent);
             isRestCarinfo = false;
+        }
+    }
+
+    public void getDlrInfo(Intent data) {
+        GetDlrListByTokenResp getDlrListByTokenResp = (GetDlrListByTokenResp) data.getSerializableExtra("Dlr");
+        GetStoreList getStoreList = (GetStoreList) data.getSerializableExtra("DlrStore");
+        if (getStoreList == null) {//二级为空
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+            //下面的隐藏
+        } else {
+            //下面的展示
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+
         }
     }
 

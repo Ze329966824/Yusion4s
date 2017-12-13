@@ -12,9 +12,7 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
-import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.car_select.IndexBar.widget.IndexBar;
@@ -114,7 +112,7 @@ public class DlrStoreSelectActivity extends BaseActivity {
         mDlrStoreAdapter.setOnItemClickListener(new DlrStoreAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, GetStoreList trixResp) {
-                selectModel(null, trixResp, null);
+                selectModel(currentBrandResp, trixResp);
             }
         });
         // mDlrStoreAdapter.setOnItemClickListener((v, trixResp) -> showModelList(trixResp));
@@ -181,14 +179,13 @@ public class DlrStoreSelectActivity extends BaseActivity {
     }
 
 
-    private void selectModel(GetModelResp modelResp, GetStoreList trixResp, GetBrandResp brandResp) {
+    private void selectModel(GetDlrListByTokenResp brandResp, GetStoreList trixResp) {
         Intent intent2 = new Intent();
-        intent2.putExtra("modleResp", modelResp);
+        intent2.putExtra("Dlr", brandResp);
+        intent2.putExtra("DlrStore", trixResp);
         setResult(RESULT_OK, intent2);
         intent2.setClass(this, toClass);
-        //intent2.putExtra("brand_che300_id", currentBrandResp.che_300_id);
-        intent2.putExtra("trix_che300_id", currentTrixResp.che_300_id);
-        intent2.putExtra("why_come", "car_select");
+        intent2.putExtra("why_come", "dlr_select");
         startActivity(intent2);
 
     }
@@ -211,7 +208,8 @@ public class DlrStoreSelectActivity extends BaseActivity {
             @Override
             public void onItemDataCallBack(List<GetStoreList> resp) {
                 if (resp == null) {
-
+                    selectModel(currentBrandResp, null);
+                    return;
                 }
                 trixList.clear();
                 trixList.addAll(resp);
