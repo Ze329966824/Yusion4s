@@ -30,12 +30,14 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetChePriceAndImageResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetCheUrlResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
+import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
@@ -109,12 +111,17 @@ public class OldCarInfoFragment extends BaseFragment {
     private String trix_id;
     private String model_id;
 
+    private String dlr_id;
+    private String aid_id;
+
     private String plate_year;
     private String plate_month;
     private String mile_age;
     private String guess_img;
     private int submit_model_id;
     private boolean isRestCarinfo = true;
+    private boolean isRestDlrinfo = true;
+
     Handler handler = new Handler() {
         @Override
         public void handleMessage(Message msg) {
@@ -537,7 +544,8 @@ public class OldCarInfoFragment extends BaseFragment {
          */
 //        view.findViewById(R.id.car_info_dlr_lin)
         carInfoDlrLin.setOnClickListener(v ->
-                selectDlrStore()
+//                selectDlrStore()
+                    selectDlrStore2()
         );
 
         //上牌地
@@ -740,7 +748,9 @@ public class OldCarInfoFragment extends BaseFragment {
                     } else if (checkCanNextStep()) {
 
                         SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
-                        req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+//                        req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                        req.dlr_id = dlr_id;
+                        req.aid_id = aid_id;
                         req.vehicle_model_id = submit_model_id;
                         //req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
                         req.vehicle_color = colorTv.getText().toString();
@@ -1125,6 +1135,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 }
                 WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择经销商", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
+
                     car_info_tv.setText("");
                     isRestCarinfo = true;
                     mBrandList.clear();
@@ -1293,7 +1304,7 @@ public class OldCarInfoFragment extends BaseFragment {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("class", OrderCreateActivity.class);
             intent.putExtra("vehicle_cond", "二手车");
-            intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            intent.putExtra("dlr_id", dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             startActivity(intent);
             isRestCarinfo = false;
@@ -1602,4 +1613,79 @@ public class OldCarInfoFragment extends BaseFragment {
         return sum;
     }
 
+    public void getDlrInfo(Intent data) {
+        GetDlrListByTokenResp getDlrListByTokenResp = (GetDlrListByTokenResp) data.getSerializableExtra("Dlr");
+        GetStoreList getStoreList = (GetStoreList) data.getSerializableExtra("DlrStore");
+        if (getStoreList == null) {//二级为空
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+            //下面的隐藏
+            distributorLin.setVisibility(View.GONE);
+            distributorTv.setText("");
+        } else {
+            //下面的展示
+            distributorLin.setVisibility(View.VISIBLE);
+            distributorTv.setText(getStoreList.dlr_nm);
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+            aid_id = getStoreList.id;
+        }
+        isRestDlrinfo = false;
+
+
+        car_info_tv.setText("");
+        isRestCarinfo = true;
+        mBrandList.clear();
+        mBrandIndex = 0;
+        brandTv.setText("");
+
+        mTrixList.clear();
+        mTrixIndex = 0;
+        trixTv.setText("");
+
+        mModelList.clear();
+        mModelIndex = 0;
+        modelTv.setText("");
+
+        mGuidePrice = 0;
+        guidePriceTv.setText("");
+
+        mLoanBankList.clear();
+        mLoanBankIndex = 0;
+        loanBankTv.setText(null);
+
+        mProductTypeIndex = 0;
+        productTypeTv.setText(null);
+
+        billPriceTv.setText("");
+
+        mManagementPriceIndex = 0;
+
+        oldcar_business_price_tv.setText("");
+        oldcar_guess_price_tv.setText("");
+        oldcar_dance_tv.setText("");
+        oldcar_addr_tv.setText("");
+        oldcar_addrtime_tv.setText("");
+
+        managementPriceTv.setText("");
+        totalLoanPriceTv.setText("");
+        otherPriceTv.setText("");
+        plateRegAddrTv.setText("");//上牌地选择
+        loanPeriodsTv.setText("");//还款期限
+
+        look_guess_img_btn.setEnabled(false);
+        btn_reset.setEnabled(false);
+        btn_fast_valuation.setEnabled(false);
+    }
+
+    private void selectDlrStore2() {
+
+        Intent intent = new Intent(mContext, DlrStoreSelectActivity.class);
+        intent.putExtra("vehicle_cond", "二手车");
+        intent.putExtra("class", OrderCreateActivity.class);
+        //intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+        intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
+        startActivity(intent);
+        isRestDlrinfo = false;
+    }
 }

@@ -51,7 +51,7 @@ public class OrderCreateActivity extends BaseActivity {
                 if (cartype.equals("新车")) {
                     mCarInfoFragment.getDlrInfo(intent);
                 } else {
-                    //mOldCarInfoFragment.getDlrInfo(intent);
+                    mOldCarInfoFragment.getDlrInfo(intent);
                 }
             }
         }
