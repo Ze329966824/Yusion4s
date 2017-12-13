@@ -51,7 +51,7 @@ public interface DlrService {
     @GET("/api/crm/dealer/other_fee_limit/")
     Call<BaseResult<String>> getOtherFeeLimit(@Query("vehicle_loan_amt") String vehicle_loan_amt);
 
-    //刷新首页的门店信息
+    //刷新首页的经销商信息
     @GET("/api/m/rest/dealer/{id}/dashboard/")
     Call<BaseResult<DlrNumResp>> getDlrNum(@Path("id") String id);
 

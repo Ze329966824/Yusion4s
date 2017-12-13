@@ -140,7 +140,7 @@
                         android:layout_marginBottom="7.5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="18dp"
-                        android:text="门店信息"
+                        android:text="经销商信息"
                         android:textColor="#666666"
                         android:textSize="11.5sp" />
 
@@ -157,7 +157,7 @@
 
                     <TextView
                         style="@style/apply_info_title"
-                        android:text="门店" />
+                        android:text="经销商" />
 
                     <TextView
                         android:id="@+id/car_info_dlr_tv"

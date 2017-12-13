@@ -332,7 +332,7 @@ public class OldCarInfoFragment extends BaseFragment {
     // "品牌选择", onClick = "selectBrand"
     private LinearLayout carInfoBrandLin;
 
-    // = "门店选择", onClick = "selectDlr
+    // = "经销商选择", onClick = "selectDlr
     private LinearLayout carInfoDlrLin;
 
 
@@ -528,7 +528,7 @@ public class OldCarInfoFragment extends BaseFragment {
         });
 
         /**
-         * 进行门店选择
+         * 进行经销商选择
          */
 //        view.findViewById(R.id.car_info_dlr_lin)
         carInfoDlrLin.setOnClickListener(v ->
@@ -833,7 +833,7 @@ public class OldCarInfoFragment extends BaseFragment {
             });
 
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else if (TextUtils.isEmpty(loanBankTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
@@ -861,7 +861,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
             });
         } else {
-            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -981,7 +981,7 @@ public class OldCarInfoFragment extends BaseFragment {
             });
 
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else if (TextUtils.isEmpty(trixTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
@@ -1038,7 +1038,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 });
             });
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else if (TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
@@ -1050,7 +1050,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void selectBrand() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            Log.e("!!!--门店-----", dlrTV.getText().toString());
+            Log.e("!!!--经销商-----", dlrTV.getText().toString());
             DlrApi.getBrand(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                 mBrandList = resp;
                 brandItems = new ArrayList<String>();
@@ -1104,7 +1104,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 });
             });
         } else {
-            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         }
@@ -1118,7 +1118,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 for (GetDlrListByTokenResp item : resp) {
                     dlrItems.add(item.dlr_nm);
                 }
-                WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择门店", (clickedView, selectedIndex) -> {
+                WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择经销商", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
                     car_info_tv.setText("");
                     isRestCarinfo = true;
@@ -1281,7 +1281,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void selectCarInfo() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
             toast.show();
         } else {
@@ -1398,7 +1398,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void clickManagentPriceLl() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成门店选择", Toast.LENGTH_LONG);
+            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
         } else {//(clickedView, selectedIndex) -> mManagementPriceIndex = selectedIndex)
             WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
@@ -1461,7 +1461,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private boolean checkCanNextStep() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast.makeText(mContext, "门店不能为空", Toast.LENGTH_SHORT).show();
+            Toast.makeText(mContext, "经销商不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(car_info_tv.getText())) {
             Toast.makeText(mContext, "车型不能为空", Toast.LENGTH_SHORT).show();
         }
