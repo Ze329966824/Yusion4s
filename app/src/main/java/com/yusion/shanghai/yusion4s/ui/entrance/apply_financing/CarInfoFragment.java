@@ -32,6 +32,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
+import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -98,7 +99,9 @@ public class CarInfoFragment extends BaseFragment {
     private String cartype;
 
     private boolean isRestCarinfo = true;
-
+    private boolean isRestDlrinfo = true;
+    private LinearLayout dlr_lin2;//用于选择经销商后是否显示下面的内容
+    private TextView car_info_dlr_tv2;//显示下面的内容
 
     Handler handler = new Handler() {
         @Override
@@ -315,7 +318,6 @@ public class CarInfoFragment extends BaseFragment {
     //门店选择
     private LinearLayout carInfoDlrLin;
 
-
     private LinearLayout personal_info_detail_home_address_lin;
 
 
@@ -371,12 +373,14 @@ public class CarInfoFragment extends BaseFragment {
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
         car_info_lin = view.findViewById(R.id.car_info_lin);
         car_info_tv = view.findViewById(R.id.car_info_tv);
+        dlr_lin2 = view.findViewById(R.id.dlr_lin2);
+        car_info_dlr_tv2 = view.findViewById(R.id.car_info_dlr_tv2);
 
         /**
          * 进行门店选择
          */
         carInfoDlrLin.setOnClickListener(v ->
-                selectDlrStore()
+                selectDlrStore2()
         );
         car_info_lin.setOnClickListener(v ->
                 selectCarInfo()
@@ -801,6 +805,17 @@ public class CarInfoFragment extends BaseFragment {
         clearExceptCarInfo();
         isRestCarinfo = false;
         billPriceTv.setEnabled(true);
+    }
+
+    private void selectDlrStore2() {
+
+        Intent intent = new Intent(mContext, DlrStoreSelectActivity.class);
+        intent.putExtra("vehicle_cond", "新车");
+        intent.putExtra("class", OrderCreateActivity.class);
+        //intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+        intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
+        startActivity(intent);
+        isRestDlrinfo = false;
     }
 
     private void selectDlrStore() {
