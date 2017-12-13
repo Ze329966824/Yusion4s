@@ -188,6 +188,9 @@ public class AlterCarInfoActivity extends BaseActivity {
     @BindView(id = R.id.car_info_dlr_tv, widgetName = "car_info_dlr_tv")
     private TextView dlrTV;
 
+    @BindView(id = R.id.car_info_dlr_tv2, widgetName = "ar_info_dlr_tv2")
+    private TextView distributorTv;
+
     @BindView(id = R.id.car_info_brand_tv, widgetName = "car_info_brand_tv")
     private TextView brandTv;
 
@@ -282,6 +285,7 @@ public class AlterCarInfoActivity extends BaseActivity {
     private LinearLayout carInfoTrixLin;
     private LinearLayout carInfoBrandLin;
     private LinearLayout carInfoDlrLin;
+    private LinearLayout distributorLin;
     private LinearLayout carInfoAlterLin;
     private TextView carInfoAlterTv;
 
@@ -359,6 +363,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         firstPriceTv = (EditText) findViewById(R.id.car_info_first_price_tv);//首付款
         carLoanPriceTv = (EditText) findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
         carInfoDlrLin = (LinearLayout) findViewById(R.id.car_info_dlr_lin);
+        distributorLin = (LinearLayout) findViewById(R.id.dlr_lin2);
         carInfoBrandLin = (LinearLayout) findViewById(R.id.car_info_brand_lin);
         carInfoTrixLin = (LinearLayout) findViewById(R.id.car_info_trix_lin);
         carInfoModelLin = (LinearLayout) findViewById(R.id.car_info_model_lin);

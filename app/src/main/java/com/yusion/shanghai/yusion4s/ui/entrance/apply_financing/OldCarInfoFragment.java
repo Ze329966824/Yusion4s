@@ -219,6 +219,9 @@ public class OldCarInfoFragment extends BaseFragment {
     @BindView(id = R.id.car_info_dlr_tv, widgetName = "car_info_dlr_tv")
     private TextView dlrTV;
 
+    @BindView(id = R.id.car_info_dlr_tv2, widgetName = "ar_info_dlr_tv2")
+    private TextView distributorTv;
+
     @BindView(id = R.id.car_info_brand_tv, widgetName = "car_info_brand_tv")
     private TextView brandTv;
 
@@ -334,6 +337,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
     // = "经销商选择", onClick = "selectDlr
     private LinearLayout carInfoDlrLin;
+    private LinearLayout distributorLin;
 
 
     private LinearLayout oldcar_info_lin;
@@ -396,6 +400,7 @@ public class OldCarInfoFragment extends BaseFragment {
         firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);//首付款
         carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
         carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
+        distributorLin = (LinearLayout) view.findViewById(R.id.dlr_lin2);
         carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
         carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);
         carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
