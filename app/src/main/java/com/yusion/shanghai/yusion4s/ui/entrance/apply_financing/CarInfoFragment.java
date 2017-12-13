@@ -244,6 +244,7 @@ public class CarInfoFragment extends BaseFragment {
     private ArrayList<String> brandItems;
     private ArrayList<String> trixItems;
     private ArrayList<String> modelItems;
+    private GetDlrListByTokenResp getDlrListByTokenResp;
 
 
     /**
@@ -611,8 +612,9 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
+            DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
 
-            DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
+                //  DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                 @Override
                 public void onItemDataCallBack(GetproductResp resp) {
                     if (resp == null) {
@@ -649,7 +651,9 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
+
+                //  DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
 
                 mLoanBankList = resp;//银行列表
                 List<String> items = new ArrayList<String>();
@@ -804,7 +808,7 @@ public class CarInfoFragment extends BaseFragment {
     }
 
     public void getDlrInfo(Intent data) {
-        GetDlrListByTokenResp getDlrListByTokenResp = (GetDlrListByTokenResp) data.getSerializableExtra("Dlr");
+        getDlrListByTokenResp = (GetDlrListByTokenResp) data.getSerializableExtra("Dlr");
         GetStoreList getStoreList = (GetStoreList) data.getSerializableExtra("DlrStore");
         if (getStoreList == null) {//二级为空
             dlrTV.setText(getDlrListByTokenResp.dlr_nm);
@@ -909,7 +913,8 @@ public class CarInfoFragment extends BaseFragment {
             Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
         } else {
-            WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(getDlrListByTokenResp.management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+                //   WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     mManagementPriceIndex = selectedIndex;
@@ -959,7 +964,9 @@ public class CarInfoFragment extends BaseFragment {
         Integer managementPrice = 0;
         Integer carLoanPrice = getPrice(carLoanPriceTv.getText().toString());
         if (isChoose) {
-            managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
+            // managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
+            managementPrice = getDlrListByTokenResp.management_fee.get(mManagementPriceIndex);
+
         } else {
             managementPrice = 0;
         }

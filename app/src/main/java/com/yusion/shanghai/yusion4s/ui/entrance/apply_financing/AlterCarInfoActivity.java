@@ -237,6 +237,7 @@ public class AlterCarInfoActivity extends BaseActivity {
     public List<String> modelItems;
     public List<String> bankItems;
     public List<String> productTypeItems;
+    public List<Integer> management_fee_price;
 
 
     private void writeOtherPrice(View view, boolean hasFocus) {
@@ -452,6 +453,7 @@ public class AlterCarInfoActivity extends BaseActivity {
                             dlrItems.add(item.dlr_nm);
                         }
                         mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
+                        management_fee_price = mDlrList.get(mDlrIndex).management_fee;
                         mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
                     }
                 });
@@ -774,6 +776,8 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     public void getDlrInfo(Intent data) {
         GetDlrListByTokenResp getDlrListByTokenResp = (GetDlrListByTokenResp) data.getSerializableExtra("Dlr");
+        management_fee_price = getDlrListByTokenResp.management_fee;
+        mManagementPriceIndex = 0;
         GetStoreList getStoreList = (GetStoreList) data.getSerializableExtra("DlrStore");
         if (getStoreList == null) {//二级为空
             dlrTV.setText(getDlrListByTokenResp.dlr_nm);
@@ -850,7 +854,8 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
-            DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
+            DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
+                //DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                 @Override
                 public void onItemDataCallBack(GetproductResp resp) {
                     if (resp == null) {
@@ -906,7 +911,8 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getLoanBank(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+            DlrApi.getLoanBank(AlterCarInfoActivity.this, dlr_id, resp -> {
+                //  DlrApi.getLoanBank(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                 mLoanBankList = resp;//银行列表
                 bankItems = new ArrayList<String>();
                 for (GetLoanBankResp getLoanBankResp : resp) {
@@ -933,7 +939,8 @@ public class AlterCarInfoActivity extends BaseActivity {
             Toast toast = Toast.makeText(AlterCarInfoActivity.this, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
         } else {//需要先请求最先的东西,也就是经销商信息
-            WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(management_fee_price, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+                //  WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     mManagementPriceIndex = selectedIndex;
@@ -1118,7 +1125,8 @@ public class AlterCarInfoActivity extends BaseActivity {
         Integer managementPrice = 0;
         Integer carLoanPrice = getPrice(carLoanPriceTv.getText().toString());
         if (isChoose) {
-            managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
+            //managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
+            managementPrice = management_fee_price.get(mManagementPriceIndex);
         } else {
             managementPrice = 0;
         }

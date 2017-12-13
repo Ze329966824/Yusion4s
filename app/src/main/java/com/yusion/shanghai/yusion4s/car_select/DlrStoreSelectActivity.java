@@ -55,6 +55,10 @@ public class DlrStoreSelectActivity extends BaseActivity {
         if (intent.getBooleanExtra("should_reset", false)) {
             //drawerLayout2.closeDrawer(Gravity.RIGHT);
             drawerLayout1.closeDrawer(Gravity.RIGHT);
+            for (GetDlrListByTokenResp brandResp : brandList) {
+                brandResp.has_select_by_user = false;
+            }
+            mBrandAdapter.notifyDataSetChanged();
         }
     }
 
