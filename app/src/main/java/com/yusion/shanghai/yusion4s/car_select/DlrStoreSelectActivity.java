@@ -208,6 +208,7 @@ public class DlrStoreSelectActivity extends BaseActivity {
             @Override
             public void onItemDataCallBack(List<GetStoreList> resp) {
                 if (resp == null || resp.size() == 0) {
+                    drawerLayout1.closeDrawer(Gravity.RIGHT);
                     selectModel(currentBrandResp, null);
                     return;
                 }
