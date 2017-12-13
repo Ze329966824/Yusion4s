@@ -27,12 +27,14 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetChePriceAndImageResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetCheUrlResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
+import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
@@ -125,6 +127,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private String guess_img;
     private int submit_model_id;
     private boolean isRestCarinfo = true;
+    private boolean isRestDlrinfo = false;
 
     private String oldCarcityJson;
 
@@ -366,11 +369,19 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private Dialog dialog;
     private LinearLayout car_info_lin;
     private TextView car_info_tv;
+    private String aid_id;
+    private String aid_dlr_nm;
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        getCarInfo(intent);
+        String why_come = intent.getStringExtra("why_come");
+        if ("car_select".equals(why_come)) {
+            getCarInfo(intent);
+        } else {
+            getDlrInfo(intent);
+        }
+        //getCarInfo(intent);
     }
 
     @Override
@@ -468,6 +479,15 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             public void onItemDataCallBack(GetRawCarInfoResp resp) {
                 if (resp == null) {
                     return;
+                }
+                aid_id = resp.aid_id;
+                aid_dlr_nm = resp.aid_dlr_nm;
+                if (aid_dlr_nm.equals("")) {
+                    distributorLin.setVisibility(View.GONE);
+                    distributorTv.setText("");
+                } else {
+                    distributorLin.setVisibility(View.VISIBLE);
+                    distributorTv.setText(aid_dlr_nm);
                 }
                 resp.send_hand_mileage = resp.send_hand_mileage.substring(0, resp.send_hand_mileage.length() - 2);
                 Log.e("TAG", "onItemDataCallBack: " + resp.send_hand_mileage);
@@ -881,7 +901,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     req.gps_fee = "0";
                     req.id_no = id_no;
                     req.clt_id = clt_id;
-                    req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                    // req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                    req.dlr_id = dlr_id;
+                    req.aid_id = aid_id;
                     //req.vehicle_model_id = mModelList.get(mModelIndex).model_id;
                     req.vehicle_model_id = submit_model_id;
 
@@ -1299,6 +1321,15 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         }
     }
 
+    private void selectDlrStore2() {
+        Intent intent = new Intent(this, DlrStoreSelectActivity.class);
+        intent.putExtra("vehicle_cond", "二手车");
+        intent.putExtra("class", AlterCarInfoActivity.class);
+        intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
+        startActivity(intent);
+        isRestDlrinfo = false;
+    }
+
     private void selectDlrStore() {
         DlrApi.getDlrListByToken(AlterOldCarInfoActivity.this, resp -> {
             if (resp != null && !resp.isEmpty()) {
@@ -1310,6 +1341,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
                 WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择经销商", (clickedView, selectedIndex) -> {
                     mDlrIndex = selectedIndex;
+
                     car_info_tv.setText("");
                     isRestCarinfo = true;
                     isAlterCarInfoChange = false;
@@ -1412,6 +1444,71 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    public void getDlrInfo(Intent data) {
+        GetDlrListByTokenResp getDlrListByTokenResp = (GetDlrListByTokenResp) data.getSerializableExtra("Dlr");
+        GetStoreList getStoreList = (GetStoreList) data.getSerializableExtra("DlrStore");
+        if (getStoreList == null) {//二级为空
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+            //下面的隐藏
+            distributorLin.setVisibility(View.GONE);
+            distributorTv.setText("");
+        } else {
+            //下面的展示
+            distributorLin.setVisibility(View.VISIBLE);
+            distributorTv.setText(getStoreList.dlr_nm);
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+            aid_id = getStoreList.id;
+        }
+        isRestDlrinfo = false;
+
+        car_info_tv.setText("");
+        isRestCarinfo = true;
+        isAlterCarInfoChange = false;
+        mBrandList.clear();
+        mBrandIndex = 0;
+        brandTv.setText("");//厂商指导价
+
+        mTrixList.clear();
+        mTrixIndex = 0;
+        trixTv.setText("");//选择车型
+
+        mModelList.clear();
+        mModelIndex = 0;
+        modelTv.setText("");
+
+        mGuidePrice = 0;
+        guidePriceTv.setText("");
+
+        mLoanBankList.clear();
+        mLoanBankIndex = 0;
+        loanBankTv.setText(null);
+
+        mProductTypeIndex = 0;
+        productTypeTv.setText(null);
+
+        billPriceTv.setText("");
+
+        mManagementPriceIndex = 0;
+
+        oldcar_guess_price_tv.setText("");
+        oldcar_dance_tv.setText("");
+        oldcar_addr_tv.setText("");
+        oldcar_addrtime_tv.setText("");
+        managementPriceTv.setText("");
+        totalLoanPriceTv.setText("");
+        otherPriceTv.setText("");
+        plateRegAddrTv.setText("");//上牌地选择
+        loanPeriodsTv.setText("");//还款期限
+        carInfoAlterTv.setText("");//修改理由
+
+        look_guess_img_btn.setEnabled(false);
+        btn_reset.setEnabled(false);
+        btn_fast_valuation.setEnabled(false);
+
     }
 
     public void getCarInfo(Intent data) {
@@ -1607,7 +1704,8 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             Intent intent = new Intent(this, CarSelectActivity.class);
             intent.putExtra("vehicle_cond", "二手车");
             intent.putExtra("class", AlterOldCarInfoActivity.class);
-            intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            // intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            intent.putExtra("dlr_id", dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             startActivity(intent);
             isRestCarinfo = false;
