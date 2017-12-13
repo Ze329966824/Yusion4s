@@ -65,6 +65,7 @@ public class DlrStoreSelectActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, toClass));
+        overridePendingTransition(R.anim.pop_car_select_exit_anim,R.anim.stay);
     }
 
     @Override
@@ -72,7 +73,10 @@ public class DlrStoreSelectActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_select);
         toClass = (Class<?>) getIntent().getExtras().get("class");
-        initTitleBar(this, "选择经销商").setLeftClickListener(v -> startActivity(new Intent(this, toClass)));
+        initTitleBar(this, "选择经销商").setLeftClickListener(v -> {
+            startActivity(new Intent(this, toClass));
+            overridePendingTransition(R.anim.pop_car_select_exit_anim,R.anim.stay);
+        });
         Log.e("TAG", "onCreate: ");
 
         drawerLayout1 = findViewById(R.id.car_select_drawlayout1);
@@ -191,6 +195,7 @@ public class DlrStoreSelectActivity extends BaseActivity {
         intent2.setClass(this, toClass);
         intent2.putExtra("why_come", "dlr_select");
         startActivity(intent2);
+        overridePendingTransition(R.anim.pop_car_select_exit_anim,R.anim.stay);
 
     }
 

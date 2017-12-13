@@ -1312,6 +1312,7 @@ public class OldCarInfoFragment extends BaseFragment {
             intent.putExtra("dlr_id", dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);
             isRestCarinfo = false;
         }
     }
@@ -1693,6 +1694,7 @@ public class OldCarInfoFragment extends BaseFragment {
         //intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
         intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
         startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);
         isRestDlrinfo = false;
     }
 }

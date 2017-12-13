@@ -47,6 +47,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static cn.jpush.android.api.JPushInterface.a.r;
 /**
  * {@link com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarI
  * {@link CarInfoFragment#writeOtherPrice(View, boolean)}获取 ()}
@@ -803,6 +805,7 @@ public class CarInfoFragment extends BaseFragment {
             intent.putExtra("dlr_id", dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);
             isRestCarinfo = false;
         }
     }
@@ -870,6 +873,7 @@ public class CarInfoFragment extends BaseFragment {
         //intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
         intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
         startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);
         isRestDlrinfo = false;
     }
 
