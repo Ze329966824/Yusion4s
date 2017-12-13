@@ -100,15 +100,11 @@
                     android:visibility="gone"
                     tools:visibility="visible">
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+
 
                     <LinearLayout
                         android:id="@+id/car_info_dlr_lin2"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item_extra">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -116,7 +112,7 @@
 
                         <TextView
                             android:id="@+id/car_info_dlr_tv2"
-                            style="@style/apply_info_content"
+                            style="@style/apply_info_content_extra"
                             android:hint="" />
 
                         <FrameLayout
