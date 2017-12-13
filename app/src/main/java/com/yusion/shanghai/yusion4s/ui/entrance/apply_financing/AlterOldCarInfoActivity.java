@@ -757,6 +757,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         changeFirstPriceByCode = true;
                         // firstPriceTv.setText(getPrice(oldcar_guess_price_tv) + "");
                         firstPriceTv.setText("");
+
                     }
                 } else {
                     if (changeCarLoanByCode) {
