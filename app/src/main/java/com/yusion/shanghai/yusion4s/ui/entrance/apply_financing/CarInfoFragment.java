@@ -339,7 +339,6 @@ public class CarInfoFragment extends BaseFragment {
     }
 
 
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -811,12 +810,37 @@ public class CarInfoFragment extends BaseFragment {
             dlrTV.setText(getDlrListByTokenResp.dlr_nm);
             dlr_id = getDlrListByTokenResp.dlr_id;
             //下面的隐藏
+            distributorLin.setVisibility(View.GONE);
+            distributorTv.setText("");
         } else {
             //下面的展示
+            distributorLin.setVisibility(View.VISIBLE);
+            distributorTv.setText(getStoreList.dlr_nm);
             dlrTV.setText(getDlrListByTokenResp.dlr_nm);
             dlr_id = getDlrListByTokenResp.dlr_id;
-
+            aid_id = getStoreList.id;
         }
+        isRestDlrinfo = false;
+
+        car_info_tv.setText("");
+        isRestCarinfo = true;
+
+        mBrandList.clear();
+        mBrandIndex = 0;
+        brandTv.setText("");//厂商指导价
+
+        mTrixList.clear();
+        mTrixIndex = 0;
+        trixTv.setText("");//选择车型
+
+        mModelList.clear();
+        mModelIndex = 0;
+        modelTv.setText("");
+
+        mGuidePrice = 0;
+        guidePriceTv.setText("");
+
+        clearExceptCarInfo();
     }
 
 

@@ -53,7 +53,7 @@ public class DlrStoreSelectActivity extends BaseActivity {
         super.onNewIntent(intent);
         toClass = (Class<?>) intent.getExtras().get("class");
         if (intent.getBooleanExtra("should_reset", false)) {
-            drawerLayout2.closeDrawer(Gravity.RIGHT);
+            //drawerLayout2.closeDrawer(Gravity.RIGHT);
             drawerLayout1.closeDrawer(Gravity.RIGHT);
         }
     }
@@ -204,10 +204,10 @@ public class DlrStoreSelectActivity extends BaseActivity {
 //            trixSuspensionDecoration.setmDatas(trixList);
 //            mDlrStoreAdapter.notifyDataSetChanged();
 //        });
-        DlrApi.getStore(this, brandResp.dlr_id, new OnItemDataCallBack<List<GetStoreList>>() {
+        DlrApi.getStore(this, brandResp.id, new OnItemDataCallBack<List<GetStoreList>>() {
             @Override
             public void onItemDataCallBack(List<GetStoreList> resp) {
-                if (resp == null) {
+                if (resp == null || resp.size() == 0) {
                     selectModel(currentBrandResp, null);
                     return;
                 }

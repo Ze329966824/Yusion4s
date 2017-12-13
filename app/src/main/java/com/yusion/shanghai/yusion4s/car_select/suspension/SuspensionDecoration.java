@@ -7,7 +7,6 @@ import android.graphics.Paint;
 import android.graphics.Rect;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -134,7 +133,7 @@ public class SuspensionDecoration extends RecyclerView.ItemDecoration {
         c.drawRect(left, child.getTop() - params.topMargin - mTitleHeight, right, child.getTop() - params.topMargin, mPaint);
         mPaint.setColor(COLOR_TITLE_FONT);
         String suspensionTag = mDatas.get(position).getSuspensionTag();
-        if (TextUtils.isEmpty(suspensionTag)) {
+        if (suspensionTag == null) {
             Toast.makeText(context, "数据残缺", Toast.LENGTH_SHORT).show();
             return;
         }

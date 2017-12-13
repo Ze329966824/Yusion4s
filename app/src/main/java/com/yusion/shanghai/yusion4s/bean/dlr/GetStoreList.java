@@ -9,14 +9,14 @@ import java.io.Serializable;
  * Created by aa on 2017/12/12.
  */
 
-public class GetStoreList implements ISuspensionInterface,Serializable {
+public class GetStoreList implements ISuspensionInterface, Serializable {
 
     public String dlr_id;
     public String dlr_nm;
     public String dtype;
     public int other_fee;
     public String id;
-    public String series_group_name;
+    public String group_name;
     public boolean has_select_by_user;
 
     @Override
@@ -31,6 +31,6 @@ public class GetStoreList implements ISuspensionInterface,Serializable {
 
     @Override
     public String getSuspensionTag() {
-        return series_group_name;
+        return group_name;
     }
 }
