@@ -3,7 +3,6 @@ package com.yusion.shanghai.yusion4s.ui.upload;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,7 +36,8 @@ public class UploadLabelListActivity extends BaseActivity {
         topItem = ((ListDealerLabelsResp) getIntent().getSerializableExtra("topItem"));
         app_id = getIntent().getStringExtra("app_id");
 
-        initTitleBar(this, topItem.name).setRightText("提交").setRightTextColor(Color.BLACK).setLeftClickListener(v -> onBack()).setRightClickListener(v -> submitLog());
+        initTitleBar(this, topItem.name);
+//                .setRightText("提交").setRightTextColor(Color.BLACK).setLeftClickListener(v -> onBack()).setRightClickListener(v -> submitLog());
 
         RecyclerView rv = findViewById(R.id.upload_label_list_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -61,19 +61,28 @@ public class UploadLabelListActivity extends BaseActivity {
     }
 
     private void onBack() {
+        //检查是否向服务器打log
+        boolean shouldUploadLog = false;
+        for (ListDealerLabelsResp.LabelListBean labelListBean : topItem.label_list) {
+            if (labelListBean.has_change) {
+                shouldUploadLog = true;
+            }
+        }
+        if (shouldUploadLog) {
+            UploadLogReq req;
+            req = new UploadLogReq();
+            req.app_id = app_id;
+            req.file_name = topItem.name;
+            req.file_value = topItem.value;
+            UploadApi.uploadLog(this, req, (code, msg) -> {
+            });
+        } else {
+        }
+
         Intent intent = new Intent(this, SubmitInformationActivity.class);
         intent.putExtra("app_id", app_id);
         startActivity(intent);
         finish();
-    }
-
-    private void submitLog() {
-        UploadLogReq req;
-        req = new UploadLogReq();
-        req.app_id = app_id;
-        req.file_name = topItem.name;
-        req.file_value = topItem.value;
-        UploadApi.uploadLog(this, req, (code, msg) -> finish());
     }
 
     @Override
