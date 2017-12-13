@@ -82,7 +82,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView customerIdTv;              //客户身份证号
     private TextView customerNameTv;            //客户姓名
 
-    private TextView dlrNameTv;                 //订单-门店
+    private TextView dlrNameTv;                 //订单-经销商
     private TextView brandTv;                   //订单-品牌
     private TextView trixTv;                    //订单-车系
     private TextView modelTv;                   //订单-车型
@@ -107,7 +107,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView OldcarbusnesspriceTv;//二手车交易价
 
 
-    private TextView beforeDlrNameTv;          //订单-门店(修改前)
+    private TextView beforeDlrNameTv;          //订单-经销商(修改前)
     private TextView beforeBrandTv;            //订单-品牌(修改前)
     private TextView beforeTrixTv;             //订单-车系(修改前)
     private TextView beforeModelTv;            //订单-车型(修改前)

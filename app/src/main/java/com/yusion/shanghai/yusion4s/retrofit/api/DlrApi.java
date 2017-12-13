@@ -29,7 +29,7 @@ public class DlrApi {
             @Override
             public void onCustomResponse(List<GetDlrListByTokenResp> data) {
                 if (data == null) {
-                    Toast.makeText(context, "获取门店列表信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "获取经销商列表信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
                 } else {
                     // onItemDataCallBack.callBack(data);
                     onItemDataCallBack.onItemDataCallBack(data);
@@ -43,7 +43,7 @@ public class DlrApi {
             @Override
             public void onCustomResponse(DlrNumResp data) {
                 if (data == null) {
-                    Toast.makeText(context, "获取门店订单信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "获取经销商订单信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
                 }else {
                     onItemDataCallBack.onItemDataCallBack(data);
                 }

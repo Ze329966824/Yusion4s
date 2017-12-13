@@ -87,7 +87,7 @@ public class UBTCollections {
     }
 
     static {
-        widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+        widgetNameMaps.put("car_info_dlr_tv", "经销商选择");
         widgetNameMaps.put("car_info_brand_tv", "品牌选择");
         widgetNameMaps.put("car_info_trix_tv", "车系选择");
         widgetNameMaps.put("car_info_model_tv", "车型选择");
@@ -253,7 +253,7 @@ public class UBTCollections {
     }
 
     static {
-        widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+        widgetNameMaps.put("car_info_dlr_tv", "经销商选择");
     }
 
     public static String getPageNm(String key) {
