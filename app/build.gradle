@@ -184,7 +184,8 @@ afterEvaluate {
         if (dx.additionalParameters == null) {
             dx.additionalParameters = []
         }
-        dx.additionalParameters += '--set-max-idx-number=48000'
+//        dx.additionalParameters += '--set-max-idx-number=48000'
+        dx.additionalParameters += '--multi-dex'
         dx.additionalParameters += "--main-dex-list=$projectDir/multidex.keep".toString()
     }
 }
