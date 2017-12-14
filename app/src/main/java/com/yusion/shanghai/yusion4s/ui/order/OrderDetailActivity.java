@@ -452,7 +452,7 @@ public class OrderDetailActivity extends BaseActivity {
             // 车辆原信息和修改信息
             if (resp.is_modify && resp.old_app != null) {
                 orderInfoTitleLin.setVisibility(View.VISIBLE);
-                beforeDlrNameTv.setText(resp.aid_dlr_nm+resp.old_app.dlr_nm);
+                beforeDlrNameTv.setText(resp.old_app.dlr_nm+resp.aid_dlr_nm);
                 beforeBrandTv.setText(resp.old_app.brand);
                 beforeTrixTv.setText(resp.old_app.trix);
                 beforeModelTv.setText(resp.old_app.model_name);
@@ -481,7 +481,7 @@ public class OrderDetailActivity extends BaseActivity {
 //                OldcardistancevTv.setText(resp.send_hand_mileage);
 //                OldcartimeTv.setText(resp.send_hand_plate_time);
 //                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
-                dlrNameTv.setText(resp.aid_dlr_nm+resp.new_app.dlr_nm);
+                dlrNameTv.setText(resp.new_app.dlr_nm+resp.aid_dlr_nm);
                 brandTv.setText(resp.new_app.brand);
                 trixTv.setText(resp.new_app.trix);
                 modelTv.setText(resp.new_app.model_name);
@@ -530,7 +530,7 @@ public class OrderDetailActivity extends BaseActivity {
             } else {
                 orderInfoTitleLin.setVisibility(View.GONE);
                 //车辆原订单信息
-                dlrNameTv.setText(resp.aid_dlr_nm+resp.dlr_nm);
+                dlrNameTv.setText(resp.dlr_nm+resp.aid_dlr_nm);
                 brandTv.setText(resp.brand);
                 trixTv.setText(resp.trix);
                 modelTv.setText(resp.model_name);
