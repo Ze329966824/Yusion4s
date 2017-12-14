@@ -233,7 +233,7 @@ public class ProcessActivity extends BaseActivity {
             TextView title = (TextView) view.findViewById(R.id.title);
             TextView time = (TextView) view.findViewById(R.id.time);
             ImageView passIcon = (ImageView) view.findViewById(R.id.st_icon);
-            if (current.st.equals("wait") || current.equals("ns")) {
+            if (current.st.equals("wait") || current.st.equals("ns")) {
                 passIcon.setVisibility(View.GONE);
             } else if (current.st.equals("reject")) {
                 passIcon.setImageResource(R.mipmap.reject_img);
