@@ -49,7 +49,7 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> 
     @Override
     public void onBindViewHolder(final BrandAdapter.ViewHolder holder, final int position) {
         final GetBrandResp brandResp = mDatas.get(position);
-        holder.tvCity.setText(brandResp.brand_name);
+        holder.name.setText(brandResp.brand_name);
         if (brandResp.has_select_by_user) {
             holder.itemView.setBackgroundColor(Color.parseColor("#d1d1d1"));
         } else {
@@ -65,8 +65,8 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> 
                 onItemClickListener.onItemClick(v, brandResp);
             }
         });
-//        GlideApp.with(mContext).load(brandResp.brand_image_url).circleCrop().into(holder.avatar);
-        GlideApp.with(mContext).load(brandResp.brand_image_url).into(holder.avatar);
+//        GlideApp.with(mContext).load(brandResp.brand_image_url).circleCrop().into(holder.icon);
+        GlideApp.with(mContext).load(brandResp.brand_image_url).into(holder.icon);
     }
 
     @Override
@@ -75,14 +75,14 @@ public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> 
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView tvCity;
-        ImageView avatar;
+        TextView name;
+        ImageView icon;
         View content;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvCity = itemView.findViewById(R.id.tvCity);
-            avatar = itemView.findViewById(R.id.ivAvatar);
+            name = itemView.findViewById(R.id.name);
+            icon = itemView.findViewById(R.id.icon);
             content = itemView.findViewById(R.id.content);
         }
     }
