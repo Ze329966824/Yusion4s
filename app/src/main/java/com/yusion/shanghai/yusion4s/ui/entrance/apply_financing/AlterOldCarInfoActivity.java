@@ -380,7 +380,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         String why_come = intent.getStringExtra("why_come");
         if ("car_select".equals(why_come)) {
             getCarInfo(intent);
-        } else {
+        } else if ("dlr_select".equals(why_come)) {
             getDlrInfo(intent);
         }
         //getCarInfo(intent);
@@ -1331,7 +1331,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     private void selectDlrStore2() {
         Intent intent = new Intent(this, DlrStoreSelectActivity.class);
         intent.putExtra("vehicle_cond", "二手车");
-        intent.putExtra("class", AlterCarInfoActivity.class);
+        intent.putExtra("class", AlterOldCarInfoActivity.class);
         intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
         startActivity(intent);
         isRestDlrinfo = false;
