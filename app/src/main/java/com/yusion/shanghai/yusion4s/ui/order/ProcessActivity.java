@@ -38,7 +38,7 @@ public class ProcessActivity extends BaseActivity {
         create_time = (TextView) findViewById(R.id.creat_time);
         clt_nm = (TextView) findViewById(R.id.clt_nm);
 
-        OrderApi.getOrderProcess(this, "", new OnItemDataCallBack<ProcessReq>() {
+        OrderApi.getOrderProcess(this, getIntent().getStringExtra("app_id"), new OnItemDataCallBack<ProcessReq>() {
             @Override
             public void onItemDataCallBack(ProcessReq data) {
                 if (data == null) {
