@@ -736,7 +736,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         });
 
         carInfoDlrLin.setOnClickListener(v ->
-                selectDlrStore()
+                selectDlrStore2()
         );
 
 //品牌
