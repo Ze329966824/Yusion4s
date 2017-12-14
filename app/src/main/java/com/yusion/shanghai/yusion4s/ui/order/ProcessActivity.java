@@ -26,6 +26,7 @@ public class ProcessActivity extends BaseActivity {
     private TextView app_id;
     private TextView create_time;
     private TextView clt_nm;
+    private boolean canceled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +45,7 @@ public class ProcessActivity extends BaseActivity {
                 if (data == null) {
                     return;
                 }
+                canceled = data.canceled;
                 list = data.list;
                 clt_nm.setText(data.clt_nm);
                 app_id.setText(data.app_id);
@@ -75,17 +77,26 @@ public class ProcessActivity extends BaseActivity {
                     st = current.st;
                     if (before != null) {
                         st2 = before.st;
-                        if (st2.equals("pass")) {
+                        if (st2.equals("pass") && !canceled) {
                             topLine.setBackgroundColor(Color.parseColor("#06b7a3"));//这个是绿色
+                        } else if (canceled) {
+                            topLine.setBackgroundColor(Color.parseColor("#aaaab7"));//这个是灰色
                         }
                     }//25 shi pass  24 shi wait
-                    if (st.equals("pass")) {
+                    if (st.equals("pass") && !canceled) {
                         bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                         dianImg.setImageResource(R.mipmap.test25);
-                    } else if (st.equals("wait")) {
+                    } else if (st.equals("pass") && canceled) {
+                        bottomLine.setBackgroundColor(Color.parseColor("#aaaab7"));
+                        dianImg.setImageResource(R.mipmap.cancel_pass_icon);
+                    } else if (st.equals("wait") && !canceled) {
                         dianImg.setImageResource(R.mipmap.test24);
-                    } else if (st.equals("reject")) {
+                    } else if (st.equals("wait") && canceled) {
+                        dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
+                    } else if (st.equals("reject") && !canceled) {
                         dianImg.setImageResource(R.mipmap.reject_icon);
+                    } else if (st.equals("reject") && canceled) {
+                        dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
                     }
                     mLl_parent.addView(view);
                     LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
@@ -237,6 +248,9 @@ public class ProcessActivity extends BaseActivity {
                 passIcon.setVisibility(View.GONE);
             } else if (current.st.equals("reject")) {
                 passIcon.setImageResource(R.mipmap.reject_img);
+            } else if (canceled && (current.st.equals("pass") || current.st.equals("reject") || current.st.equals("wait"))) {
+                passIcon.setVisibility(View.VISIBLE);
+                passIcon.setImageResource(R.mipmap.cancel_img);
             }
             time.setText(current.time);
             title.setText(current.title);
