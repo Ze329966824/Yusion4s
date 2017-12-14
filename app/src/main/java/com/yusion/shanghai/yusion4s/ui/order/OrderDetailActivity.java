@@ -561,6 +561,7 @@ public class OrderDetailActivity extends BaseActivity {
                 startActivity(intent);
             });
             findViewById(R.id.order_detail_sales_mobile_img).setOnClickListener(v -> {
+
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + resp.dlr_sales_mobile));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
