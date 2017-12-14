@@ -60,6 +60,6 @@ public interface OrderService {
     // 192.168.0.214:8000/api/application/app_progress/
     //获取订单进度
     @GET("/api/application/app_progress/")
-    Call<BaseResult<ProcessReq>> getOrderProcess();
-    //Call<BaseResult<ProcessReq>> getOrderProcess(@Query("app_id") String app_id);
+    //Call<BaseResult<ProcessReq>> getOrderProcess();
+    Call<BaseResult<ProcessReq>> getOrderProcess(@Query("app_id") String app_id);
 }

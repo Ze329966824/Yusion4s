@@ -65,26 +65,28 @@ public class ProcessActivity extends BaseActivity {
                     View bottomLine = view.findViewById(R.id.bottom_line);
                     ImageView dianImg = (ImageView) view.findViewById(R.id.st_dian_img);//左边状态点
 
+
                     if (before == null) {
                         topLine.setVisibility(View.INVISIBLE);
                     } else if (after == null) {
                         bottomLine.setVisibility(View.INVISIBLE);
                     }
-                    //设置线条颜色
+                    //设置线条颜色  st是当前 st2是上一个
                     st = current.st;
                     if (before != null) {
                         st2 = before.st;
-                        if (st2.equals("ns")) {
-                            topLine.setBackgroundColor(Color.parseColor("#06b7a3"));
+                        if (st2.equals("pass")) {
+                            topLine.setBackgroundColor(Color.parseColor("#06b7a3"));//这个是绿色
                         }
-                    }
-                    if (st.equals("ns")) {
+                    }//25 shi pass  24 shi wait
+                    if (st.equals("pass")) {
                         bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                         dianImg.setImageResource(R.mipmap.test25);
-                    } else if (st.equals("ns")) {
+                    } else if (st.equals("wait")) {
                         dianImg.setImageResource(R.mipmap.test24);
+                    } else if (st.equals("reject")) {
+                        dianImg.setImageResource(R.mipmap.reject_icon);
                     }
-
                     mLl_parent.addView(view);
                     LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
                     fill(current, ll_empty);
@@ -230,6 +232,12 @@ public class ProcessActivity extends BaseActivity {
             View view = addViewFillContent();
             TextView title = (TextView) view.findViewById(R.id.title);
             TextView time = (TextView) view.findViewById(R.id.time);
+            ImageView passIcon = (ImageView) view.findViewById(R.id.st_icon);
+            if (current.st.equals("wait") || current.equals("ns")) {
+                passIcon.setVisibility(View.GONE);
+            } else if (current.st.equals("reject")) {
+                passIcon.setImageResource(R.mipmap.reject_img);
+            }
             time.setText(current.time);
             title.setText(current.title);
             fillView.addView(view);

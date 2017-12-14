@@ -21,6 +21,8 @@ import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 
 import java.util.List;
 
+import static android.R.attr.data;
+
 /**
  * Created by aa on 2017/8/9.
  */
@@ -123,9 +125,9 @@ public class OrderApi {
 
     public static void getOrderProcess(final Context context, String app_id, final OnItemDataCallBack<ProcessReq> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getOrderService().getOrderProcess().enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
+       // Api.getOrderService().getOrderProcess().enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
 
-            // Api.getOrderService().getOrderProcess(app_id).enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
+             Api.getOrderService().getOrderProcess(app_id).enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
             @Override
             public void onCustomResponse(ProcessReq data) {
                 onItemDataCallBack.onItemDataCallBack(data);
