@@ -310,7 +310,7 @@ public class AlterCarInfoActivity extends BaseActivity {
         String why_come = intent.getStringExtra("why_come");
         if ("car_select".equals(why_come)) {
             getCarInfo(intent);
-        } else {
+        } else if ("dlr_select".equals(why_come)) {
             getDlrInfo(intent);
         }
 
