@@ -97,6 +97,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/fill_9906b7a3"
                 android:text="查看样张"
+                android:clickable="false"
                 android:textColor="#fff"
                 android:textSize="15.5sp"
                 android:visibility="gone"

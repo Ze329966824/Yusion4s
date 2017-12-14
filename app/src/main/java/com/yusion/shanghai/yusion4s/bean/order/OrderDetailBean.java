@@ -51,6 +51,7 @@ public class OrderDetailBean {
      * dlr_dfim_mobile : 15982172250
      * app_id : 11000105
      */
+    public String aid_dlr_nm;
     public String client_status_code;
     public boolean is_modify;
     public OldAppBean old_app;

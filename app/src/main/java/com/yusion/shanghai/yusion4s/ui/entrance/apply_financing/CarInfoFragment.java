@@ -28,10 +28,12 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
+import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -45,6 +47,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static cn.jpush.android.api.JPushInterface.a.r;
 /**
  * {@link com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarI
  * {@link CarInfoFragment#writeOtherPrice(View, boolean)}获取 ()}
@@ -96,9 +100,13 @@ public class CarInfoFragment extends BaseFragment {
     private boolean isChangeCarInfoChange;
 
     private String cartype;
+    private String dlr_id;
+    private String aid_id;
 
     private boolean isRestCarinfo = true;
-
+    private boolean isRestDlrinfo = true;
+    private LinearLayout dlr_lin2;//用于选择经销商后是否显示下面的内容
+    private TextView car_info_dlr_tv2;//显示下面的内容
 
     Handler handler = new Handler() {
         @Override
@@ -195,6 +203,9 @@ public class CarInfoFragment extends BaseFragment {
     @BindView(id = R.id.car_info_dlr_tv, widgetName = "car_info_dlr_tv")
     private TextView dlrTV;
 
+    @BindView(id = R.id.car_info_dlr_tv2, widgetName = "ar_info_dlr_tv2")
+    private TextView distributorTv;
+
     @BindView(id = R.id.car_info_brand_tv, widgetName = "car_info_brand_tv")
     private TextView brandTv;
 
@@ -235,6 +246,7 @@ public class CarInfoFragment extends BaseFragment {
     private ArrayList<String> brandItems;
     private ArrayList<String> trixItems;
     private ArrayList<String> modelItems;
+    private GetDlrListByTokenResp getDlrListByTokenResp;
 
 
     /**
@@ -314,7 +326,7 @@ public class CarInfoFragment extends BaseFragment {
 
     //经销商选择
     private LinearLayout carInfoDlrLin;
-
+    private LinearLayout distributorLin;
 
     private LinearLayout personal_info_detail_home_address_lin;
 
@@ -330,7 +342,6 @@ public class CarInfoFragment extends BaseFragment {
     }
 
 
-    
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -361,6 +372,7 @@ public class CarInfoFragment extends BaseFragment {
         firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);//首付款
         carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
         carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
+        distributorLin = (LinearLayout) view.findViewById(R.id.dlr_lin2);
         carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
         carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);
         carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
@@ -372,12 +384,14 @@ public class CarInfoFragment extends BaseFragment {
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
         car_info_lin = view.findViewById(R.id.car_info_lin);
         car_info_tv = view.findViewById(R.id.car_info_tv);
+        dlr_lin2 = view.findViewById(R.id.dlr_lin2);
+        car_info_dlr_tv2 = view.findViewById(R.id.car_info_dlr_tv2);
 
         /**
          * 进行经销商选择
          */
         carInfoDlrLin.setOnClickListener(v ->
-                selectDlrStore()
+                selectDlrStore2()
         );
         car_info_lin.setOnClickListener(v ->
                 selectCarInfo()
@@ -567,7 +581,9 @@ public class CarInfoFragment extends BaseFragment {
                     } else if (checkCanNextStep()) {
 
                         SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
-                        req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                        //req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
+                        req.dlr_id = dlr_id;
+                        req.aid_id = aid_id;
                         req.vehicle_model_id = model_id;
                         req.vehicle_color = colorTv.getText().toString();
                         req.vehicle_down_payment = firstPriceTv.getText().toString();
@@ -598,8 +614,9 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
+            DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
 
-            DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
+                //  DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                 @Override
                 public void onItemDataCallBack(GetproductResp resp) {
                     if (resp == null) {
@@ -636,7 +653,9 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
+
+                //  DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
 
                 mLoanBankList = resp;//银行列表
                 List<String> items = new ArrayList<String>();
@@ -782,11 +801,53 @@ public class CarInfoFragment extends BaseFragment {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("vehicle_cond", "新车");
             intent.putExtra("class", OrderCreateActivity.class);
-            intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            // intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+            intent.putExtra("dlr_id", dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             startActivity(intent);
+            getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);
             isRestCarinfo = false;
         }
+    }
+
+    public void getDlrInfo(Intent data) {
+        getDlrListByTokenResp = (GetDlrListByTokenResp) data.getSerializableExtra("Dlr");
+        GetStoreList getStoreList = (GetStoreList) data.getSerializableExtra("DlrStore");
+        if (getStoreList == null) {//二级为空
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+            //下面的隐藏
+            distributorLin.setVisibility(View.GONE);
+            distributorTv.setText("");
+        } else {
+            //下面的展示
+            distributorLin.setVisibility(View.VISIBLE);
+            distributorTv.setText(getStoreList.dlr_nm);
+            dlrTV.setText(getDlrListByTokenResp.dlr_nm);
+            dlr_id = getDlrListByTokenResp.dlr_id;
+            aid_id = getStoreList.id;
+        }
+        isRestDlrinfo = false;
+
+        car_info_tv.setText("");
+        isRestCarinfo = true;
+
+        mBrandList.clear();
+        mBrandIndex = 0;
+        brandTv.setText("");//厂商指导价
+
+        mTrixList.clear();
+        mTrixIndex = 0;
+        trixTv.setText("");//选择车型
+
+        mModelList.clear();
+        mModelIndex = 0;
+        modelTv.setText("");
+
+        mGuidePrice = 0;
+        guidePriceTv.setText("");
+
+        clearExceptCarInfo();
     }
 
 
@@ -802,6 +863,18 @@ public class CarInfoFragment extends BaseFragment {
         clearExceptCarInfo();
         isRestCarinfo = false;
         billPriceTv.setEnabled(true);
+    }
+
+    private void selectDlrStore2() {
+
+        Intent intent = new Intent(mContext, DlrStoreSelectActivity.class);
+        intent.putExtra("vehicle_cond", "新车");
+        intent.putExtra("class", OrderCreateActivity.class);
+        //intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
+        intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
+        startActivity(intent);
+        getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);
+        isRestDlrinfo = false;
     }
 
     private void selectDlrStore() {
@@ -844,7 +917,8 @@ public class CarInfoFragment extends BaseFragment {
             Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
         } else {
-            WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(getDlrListByTokenResp.management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
+                //   WheelViewUtil.showWheelView(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, managementPriceLl, managementPriceTv, "请选择档案管理费", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     mManagementPriceIndex = selectedIndex;
@@ -894,7 +968,9 @@ public class CarInfoFragment extends BaseFragment {
         Integer managementPrice = 0;
         Integer carLoanPrice = getPrice(carLoanPriceTv.getText().toString());
         if (isChoose) {
-            managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
+            // managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
+            managementPrice = getDlrListByTokenResp.management_fee.get(mManagementPriceIndex);
+
         } else {
             managementPrice = 0;
         }

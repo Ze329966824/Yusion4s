@@ -21,6 +21,12 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separate_line_height"
+                android:background="@color/separate_line_color" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -64,6 +70,7 @@
                     style="@style/apply_info_item">
 
                     <TextView
+                        android:id="@+id/textView3"
                         style="@style/apply_info_title"
                         android:text="经销商" />
 
@@ -84,13 +91,45 @@
                             android:src="@mipmap/select_arrow" />
                     </FrameLayout>
                 </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/dlr_lin2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+
+
+                    <LinearLayout
+                        android:id="@+id/car_info_dlr_lin2"
+                        style="@style/apply_info_item_extra">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/car_info_dlr_tv2"
+                            style="@style/apply_info_content_extra"
+                            android:hint="" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow"
+                                android:visibility="invisible" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </LinearLayout>
             </LinearLayout>
-
-
-            <View
-                android:layout_width="match_parent"
-                android:layout_height="@dimen/separate_line_height"
-                android:background="@color/separate_line_color" />
 
             <android.support.constraint.ConstraintLayout
                 android:layout_width="match_parent"

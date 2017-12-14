@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.yusion.shanghai.yusion4s.car_select.BrandSelectDrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/dlrstore_select_drawlayout2"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="7dp"
+            android:layout_height="match_parent"
+            android:background="@mipmap/shadow_v_line" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@color/white"
+            android:orientation="vertical">
+
+            <include
+                android:id="@+id/dlr_pack_up"
+                layout="@layout/pack_up" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/dlrStore_rv"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</com.yusion.shanghai.yusion4s.car_select.BrandSelectDrawerLayout>

@@ -89,6 +89,7 @@ public class CarSelectActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         startActivity(new Intent(this, toClass));
+        overridePendingTransition(R.anim.pop_car_select_exit_anim,R.anim.stay);
     }
 
     @Override
@@ -96,7 +97,10 @@ public class CarSelectActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car_select);
         toClass = (Class<?>) getIntent().getExtras().get("class");
-        initTitleBar(this, "选择车型").setLeftClickListener(v -> startActivity(new Intent(this, toClass)));
+        initTitleBar(this, "选择车型").setLeftClickListener(v -> {
+            startActivity(new Intent(this, toClass));
+            overridePendingTransition(R.anim.pop_car_select_exit_anim,R.anim.stay);
+        });
         Log.e("TAG", "onCreate: ");
 
         drawerLayout1 = findViewById(R.id.car_select_drawlayout1);
@@ -253,7 +257,8 @@ public class CarSelectActivity extends BaseActivity {
         intent2.putExtra("trix_che300_id", currentTrixResp.che_300_id);
         intent2.putExtra("why_come", "car_select");
         startActivity(intent2);
-//        finish();
+        overridePendingTransition(R.anim.pop_car_select_exit_anim,R.anim.stay);
+        //        finish();
     }
 
     private void showModelList(GetTrixResp trixResp) {
