@@ -349,7 +349,7 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
         order_detail_schedule_lin.setOnClickListener(v ->{
-            Intent intent = new Intent(OrderDetailActivity.this, OrderProcessActivity.class);
+            Intent intent = new Intent(OrderDetailActivity.this, ProcessActivity.class);
             intent.putExtra("app_id", app_id);
             startActivity(intent);
         });
