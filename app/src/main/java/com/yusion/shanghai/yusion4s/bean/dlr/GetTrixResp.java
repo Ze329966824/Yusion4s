@@ -20,4 +20,5 @@ public class GetTrixResp {
     public String trix_name;
     public Object trix_code;
     public String trix_id;
+    public String che_300_id;
 }

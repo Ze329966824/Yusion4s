@@ -40,7 +40,7 @@ public class GetRawCarInfoResp {
     public String loan_amt;//车辆总贷款额
     public String vehicle_loan_amt;//贷款额
     public String vehicle_down_payment;//车辆首付款
-    public int nper;//还款期限
+    public String nper;//还款期限
     public String management_fee;//管理费
     public String other_fee;//其他费用
     public String loan_bank; //贷款银行
@@ -52,6 +52,19 @@ public class GetRawCarInfoResp {
     public int vehicle_model_id;
     public String reason;
     public String trix_id;
+
+    public String origin_plate_reg_addr;// "二手车上牌地"
+    public String send_hand_plate_time;// '二手车上牌时间'
+    public String send_hand_mileage;//"里程数"
+    public String send_hand_valuation;//"二手车评估价"
+    public String max_reg_year;
+    public String min_reg_year;
+    public String province_che_300_id;
+    public String city_che_300_id;
+    public String vehicle_model_che_300_id;
+    public String trix_che_300_id;
+    public String brand_che_300_id;
+    public String che_300_label;
 
     @Override
     public String toString() {

@@ -4,12 +4,14 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.res.AssetManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,7 +29,10 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.InputStream;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,6 +58,10 @@ public class WheelViewUtil {
 
     public interface OnCitySubmitCallBack {
         void onCitySubmitCallBack(View clickedView, String city);
+    }
+
+    public interface OndateSubmitCallBack {
+        void OndateSubmitCallBack(View clickedView, String date);
     }
 
     private static <T> void showWheelView(final List<T> list, int selectedIndex, final TextView showView,
@@ -126,6 +135,128 @@ public class WheelViewUtil {
         mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mWheelViewDialog.show();
     }
+
+    public static String formateDate(Integer s) {
+        if (s < 10) {
+            return "0" + s;
+        } else {
+            return s + "";
+        }
+    }
+
+    public static void showDatePick(final View clickView, final TextView showView, final String title, String min_reg_year, String max_reg_year, final OndateSubmitCallBack ondateSubmitCallBack) {
+        clickView.setEnabled(false);
+        Context context = clickView.getContext();
+        View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.datepick_view_layout, null);
+        TextView textTitle = (TextView) wheelViewLayout.findViewById(R.id.select_title);
+        textTitle.setText(title);
+        DatePicker datePicker = (DatePicker) wheelViewLayout.findViewById(R.id.date_pick);
+        Button okBtn = (Button) wheelViewLayout.findViewById(R.id.select_ok);
+        Button cancelBtn = (Button) wheelViewLayout.findViewById(R.id.select_cancel);
+        String s = showView.getText().toString();
+        //char ss[] = s.toCharArray();
+        datePicker.setDescendantFocusability(DatePicker.FOCUS_BLOCK_DESCENDANTS);
+        Integer[] s1 = new Integer[1];
+        Integer[] s2 = new Integer[1];
+        Integer[] s3 = new Integer[1];
+        boolean[] ischang = {false};
+
+        String minTime = min_reg_year + "-" + "01-01";
+
+        String maxTime = max_reg_year + "-" + "12-31";
+
+        // SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        Date date = null;
+        Date date2 = null;
+        try {
+            date = simpleDateFormat.parse(minTime);
+            date2 = simpleDateFormat.parse(maxTime);
+            long mintime = date.getTime();
+            long maxteime = date2.getTime();
+            datePicker.setMinDate(mintime);
+            datePicker.setMaxDate(maxteime);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        //  Date date = new Date();
+
+        // datePicker.setMaxDate(time);
+
+
+        //2017年12月12日
+        if (!s.equals("")) {
+            //String[] array = s.split("年|月|日");
+            String[] array = s.split("-");
+            s1[0] = Integer.valueOf(array[0]);
+            s2[0] = Integer.valueOf(array[1]);
+            s3[0] = Integer.valueOf(array[2]);
+            Log.e("TAG", "showDatePick: sssss");
+            datePicker.init(s1[0], s2[0] - 1, s3[0], new DatePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    s1[0] = year;
+                    s2[0] = monthOfYear + 1;
+                    s3[0] = dayOfMonth;
+                    // s3[0] = dayOfMonth;
+                }
+            });
+
+        } else {
+            s1[0] = Integer.valueOf(min_reg_year);
+            s2[0] = 0;
+            s3[0] = 1;
+            datePicker.init(s1[0], s2[0], s3[0], new DatePicker.OnDateChangedListener() {
+                @Override
+                public void onDateChanged(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                    s1[0] = year;
+                    s2[0] = monthOfYear + 1;
+                    s3[0] = dayOfMonth;
+                    // s3[0] = dayOfMonth;
+                    ischang[0] = true;
+                }
+            });
+            if (!ischang[0]) {
+                s2[0] = 1;
+            }
+        }
+        okBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String result = s1[0] + "-" + formateDate(s2[0]) + "-" + formateDate(s3[0]);
+                showView.setText(result);
+                if (ondateSubmitCallBack != null) {
+                    ondateSubmitCallBack.OndateSubmitCallBack(clickView, result);
+                }
+                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                    mWheelViewDialog.dismiss();
+                    mWheelViewDialog = null;
+                }
+                clickView.setEnabled(true);
+            }
+        });
+
+        cancelBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                    mWheelViewDialog.dismiss();
+                    mWheelViewDialog = null;
+                }
+                clickView.setEnabled(true);
+            }
+        });
+        mWheelViewDialog = new Dialog(context, R.style.MyDialogStyle);
+        mWheelViewDialog.setContentView(wheelViewLayout);
+        mWheelViewDialog.setCanceledOnTouchOutside(false);
+        mWheelViewDialog.setOnCancelListener(dialog -> clickView.setEnabled(true));
+        mWheelViewDialog.getWindow().setWindowAnimations(R.style.dialogAnimationStyle);
+        mWheelViewDialog.getWindow().setGravity(Gravity.BOTTOM);
+        mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+        mWheelViewDialog.show();
+    }
+
 
     private static void showCityWheelView(String tag, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack) {
         showCityWheelView(tag, showView, showView, title, onCitySubmitCallBack);

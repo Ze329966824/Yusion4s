@@ -27,7 +27,7 @@ public class OcrResp implements Serializable {
                 '}';
     }
 
-    public static class ShowapiResBodyBean {
+    public static class ShowapiResBodyBean implements Serializable{
         /**
          * area : 宁夏回族自治区 吴忠市 利通区
          * idNo : 640302198809070033

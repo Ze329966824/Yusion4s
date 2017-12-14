@@ -2,6 +2,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:background="#FFF"
+    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical">
 
     <View
@@ -14,69 +15,89 @@
         android:layout_height="0.5dp"
         android:background="@color/main_driver" />
 
-    <RelativeLayout
+    <LinearLayout
+        android:orientation="horizontal"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dp">
-
-        <TextView
-            android:id="@+id/order_list_item_name_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
-            android:maxLines="1"
-            android:paddingBottom="5dp"
-            android:paddingTop="5dp"
-            android:text="付银海"
-            android:textColor="@color/text_normal"
-            android:textSize="14.5sp" />
+        android:layout_height="wrap_content">
 
         <ImageView
-            android:id="@+id/order_item_next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="15dp"
-            android:src="@mipmap/order_item_next" />
-
-        <TextView
-            android:id="@+id/order_list_item_st_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_centerVertical="true"
-            android:layout_marginRight="8dp"
-            android:layout_toLeftOf="@+id/order_item_next"
-            android:text="审批中"
-            android:textColor="@color/text_normal"
-            android:textSize="14.5sp" />
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingBottom="10dp">
-
-        <TextView
-            android:id="@+id/order_list_item_door_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:id="@+id/order_list_item_car_icon"
             android:layout_marginLeft="15dp"
-            android:text="@string/order_item_store"
-            android:textColor="@color/text_light_grey"
-            android:textSize="11.5sp" />
+            android:layout_gravity="center_vertical"
+            tools:src="@mipmap/old_car_icon"
+            android:layout_width="23dp"
+            android:layout_height="23dp" />
 
-        <TextView
-            android:id="@+id/order_list_item_time_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="15dp"
-            android:text="2017年07月27日13:59:09"
-            android:textColor="@color/text_light_grey"
-            android:textSize="11.5sp" />
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp">
 
-    </RelativeLayout>
+                <TextView
+                    android:id="@+id/order_list_item_name_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:maxLines="1"
+                    android:paddingBottom="5dp"
+                    android:paddingTop="5dp"
+                    android:text="付银海"
+                    android:textColor="@color/text_normal"
+                    android:textSize="14.5sp" />
+
+                <ImageView
+                    android:id="@+id/order_item_next"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="15dp"
+                    android:src="@mipmap/order_item_next" />
+
+                <TextView
+                    android:id="@+id/order_list_item_st_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_centerVertical="true"
+                    android:layout_marginRight="8dp"
+                    android:layout_toLeftOf="@+id/order_item_next"
+                    android:text="审批中"
+                    android:textColor="@color/text_normal"
+                    android:textSize="14.5sp" />
+            </RelativeLayout>
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingBottom="10dp">
+
+                <TextView
+                    android:id="@+id/order_list_item_door_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:text="@string/order_item_store"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="11.5sp" />
+
+                <TextView
+                    android:id="@+id/order_list_item_time_tv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_alignParentRight="true"
+                    android:layout_marginRight="15dp"
+                    android:text="2017年07月27日13:59:09"
+                    android:textColor="@color/text_light_grey"
+                    android:textSize="11.5sp" />
+
+            </RelativeLayout>
+        </LinearLayout>
+    </LinearLayout>
+
 
     <View
         android:layout_width="match_parent"
@@ -269,9 +290,26 @@
             android:visibility="visible"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="180dp">
-
+            >
             <TextView
+                android:id="@+id/order_list_item_upload_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="15dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_text"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="上传资料"
+                android:textColor="#FF06B7A3"
+                android:textSize="11dp" />
+            <TextView
+                android:layout_toLeftOf="@id/order_list_item_upload_tv"
+                tools:visibility="visible"
+                android:layout_marginRight="10dp"
                 android:id="@+id/order_list_item_change_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
@@ -286,22 +324,8 @@
                 android:textSize="11dp"
                 android:visibility="gone" />
 
-            <TextView
-                android:id="@+id/order_list_item_upload_tv"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginLeft="20dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
-                android:background="@drawable/shape_text"
-                android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
-                android:text="上传资料"
-                android:textColor="#FF06B7A3"
-                android:textSize="11dp" />
+
+
         </RelativeLayout>
 
         <ImageView

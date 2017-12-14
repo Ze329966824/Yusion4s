@@ -17,6 +17,7 @@ import com.yusion.shanghai.yusion4s.retrofit.service.ConfigService;
 import com.yusion.shanghai.yusion4s.retrofit.service.DlrService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OcrService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OrderService;
+import com.yusion.shanghai.yusion4s.retrofit.service.ProductService;
 import com.yusion.shanghai.yusion4s.retrofit.service.UploadService;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 
@@ -61,10 +62,12 @@ public class Api {
                 .readTimeout(1, TimeUnit.MINUTES)
                 .addInterceptor(chain -> {
                     Request request = chain.request();
-                    Request realRequest = request.newBuilder()
-                            .method(request.method(), request.body())
-                            .addHeader("authentication", String.format(Locale.CHINA, "token %s", TextUtils.isEmpty(Yusion4sApp.TOKEN) ? Settings.TEST_TOKEN : Yusion4sApp.TOKEN))
-                            .build();
+                    String token = request.header("authentication");
+                    Request.Builder builder = request.newBuilder().method(request.method(), request.body());
+                    if (TextUtils.isEmpty(token)) {
+                        builder.addHeader("authentication", String.format(Locale.CHINA, "token %s", TextUtils.isEmpty(Yusion4sApp.TOKEN) ? Settings.TEST_TOKEN : Yusion4sApp.TOKEN));
+                    }
+                    Request realRequest = builder.build();
                     Response response = chain.proceed(realRequest);
                     logRequestInfo(response.request());
                     return response;
@@ -72,6 +75,10 @@ public class Api {
                 .build();
         retrofit = createRetrofit(Settings.SERVER_URL);
 
+    }
+
+    public static ProductService getProductService() {
+        return retrofit.create(ProductService.class);
     }
 
     public static UploadService getUploadService() {
@@ -95,6 +102,10 @@ public class Api {
     }
 
     public static DlrService getDlrService() {
+        return retrofit.create(DlrService.class);
+    }
+
+    public static DlrService getDlrNum() {
         return retrofit.create(DlrService.class);
     }
 

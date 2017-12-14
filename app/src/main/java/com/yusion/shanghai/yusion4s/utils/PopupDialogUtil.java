@@ -24,6 +24,7 @@ public class PopupDialogUtil {
         PopupDialogUtil.onCancelClickListener = onCancelClickListener;
     }
 
+
     /**
      * 暴露给外界okListener实现隐藏对话框的方法
      */
@@ -73,12 +74,60 @@ public class PopupDialogUtil {
         show();
     }
 
+    public static void relevanceInfoDialog(Context context, String title, String name, String mobile , String idno, OnOkClickListener clickListener ) {
+        mContext = context;
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_relevance_user, null);
+        TextView mTitle = (TextView) view.findViewById(R.id.popup_dialog_title);
+        TextView mName = (TextView) view.findViewById(R.id.dialog_create_nm);
+        TextView mMobile = (TextView) view.findViewById(R.id.dialog_create_mobile);
+        TextView mIdno = (TextView) view.findViewById(R.id.dialog_create_idno);
+        TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
+        mTitle.setText(title);
+        mName.setText("• 姓名："+name);
+        mMobile.setText("• 电话："+mobile);
+        mIdno.setText("• 身份证："+idno);
+        mOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickListener != null) {
+                    clickListener.onOkClick(dialog);
+                }
+            }
+        });
+        dialog.setContentView(view);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
+    public static void checkInfoDialog(Context context, String reason1, String reason2 , String reason3, OnOkClickListener clickListener ) {
+        mContext = context;
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
+        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_check_user, null);
+        TextView mReason1 = (TextView) view.findViewById(R.id.dialog_relevance_reason1);
+        TextView mReason2 = (TextView) view.findViewById(R.id.dialog_relevance_reason2);
+        TextView mReason3 = (TextView) view.findViewById(R.id.dialog_relevance_reason3);
+        TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
+        mReason1.setText("1.："+reason1);
+        mReason2.setText("2.："+reason2);
+        mReason3.setText("3.："+reason3);
+        mOK.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (clickListener != null) {
+                    clickListener.onOkClick(dialog);
+                }
+            }
+        });
+        dialog.setContentView(view);
+        dialog.setCancelable(false);
+        dialog.show();
+    }
+
     public static void showOneButtonDialog(Context context, String title, String msg,
                                            OnOkClickListener clickListener) {
         mContext = context;
-        if (dialog == null) {
-            dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        }
+        dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_one_button, null);
         TextView mTitle = (TextView) view.findViewById(R.id.popup_dialog_title);
         mTitle.setText(title);
@@ -117,9 +166,7 @@ public class PopupDialogUtil {
     }
     public static void showTwoButtonsDialog(Context context,String content,String leftMsg,String rightMsg,OnOkClickListener clickListener) {
         mContext = context;
-//        if (dialog == null) {
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
-//        }
         View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
         TextView mOK = (TextView) view.findViewById(R.id.popup_dialog_ok);
 //        mOK.setOnClickListener(okListener);

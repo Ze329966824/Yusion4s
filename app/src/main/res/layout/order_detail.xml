@@ -23,11 +23,14 @@
         android:visibility="gone">
 
         <!--审核中-->
-        <RelativeLayout
+        <LinearLayout
+            android:orientation="vertical"
             android:id="@+id/order_detail_status_wait_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:background="@color/white"
+            tools:visibility="visible"
+            android:visibility="visible">
             android:visibility="gone"
             tools:visibility="visible">
 
@@ -65,11 +68,11 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:padding="15dp"
-                    android:text="征信审核中备注……"
+                    tools:text="征信审核中备注……"
                     android:textColor="#FFA400"
                     android:textSize="13.5sp" />
             </LinearLayout>
-        </RelativeLayout>
+        </LinearLayout>
 
         <!--审核通过-->
         <RelativeLayout
@@ -273,23 +276,57 @@
                 android:textSize="12dp" />
 
             <TextView
-                tools:text="我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小"
-                android:ellipsize="end"
                 android:id="@+id/remark_tv2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="3dp"
+                android:ellipsize="end"
                 android:maxLines="2"
-                android:textSize="12dp" />
+                android:textSize="12dp"
+                tools:text="我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小" />
 
         </LinearLayout>
 
     </LinearLayout>
 
+
+    <LinearLayout
+        android:gravity="center_vertical"
+        android:layout_below="@+id/title_lin"
+        android:id="@+id/order_detail_schedule_lin"
+        style="@style/apply_info_item">
+
+        <TextView
+            style="@style/apply_info_title"
+            android:gravity="center_vertical"
+            android:text="订单进度" />
+
+        <Space
+            style="@style/apply_info_content" />
+
+        <FrameLayout
+            android:layout_width="20dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="15dp">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="left|center_vertical"
+                android:src="@mipmap/select_arrow" />
+        </FrameLayout>
+    </LinearLayout>
+    <View
+        android:layout_below="@+id/order_detail_schedule_lin"
+        android:id="@+id/order_detail_separate"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separate_line_height"
+        android:background="@color/separate_line_color" />
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/title_lin">
+        android:layout_below="@+id/order_detail_separate">
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView_four"
@@ -328,7 +365,7 @@
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <Button
             android:id="@+id/order_detail_sign"

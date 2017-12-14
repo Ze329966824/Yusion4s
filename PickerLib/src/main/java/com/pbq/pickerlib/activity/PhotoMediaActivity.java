@@ -30,8 +30,6 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.HashMap;
 
-import static android.R.attr.x;
-
 /**
  * Created by pengbangqin on 16-08-21.
  * 图片选择和视频选择
@@ -99,6 +97,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
         setContentView(R.layout.photo_media_activity);
         initData();
         init();
+        maxCount = getIntent().getIntExtra("maxCount", 1);
         QupaiHttpFinal.getInstance().initOkHttpFinal();
     }
 

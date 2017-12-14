@@ -1,6 +1,5 @@
 package com.yusion.shanghai.yusion4s.retrofit.api;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -11,7 +10,6 @@ import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomResponseBodyCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
-import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import org.json.JSONArray;
@@ -31,7 +29,6 @@ public class ConfigApi {
      * 否则直接返回并存入缓存文件
      */
     public static void getConfigJson(final Context context, final OnVoidCallBack onVoidCallBack) {
-        Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getConfigService().getConfigJson().enqueue(new CustomResponseBodyCallBack(context) {
             @Override
             public void onCustomResponse(String body) {
@@ -61,17 +58,32 @@ public class ConfigApi {
         ConfigResp configResp = new ConfigResp();
         configResp.DELAY_MILLIS = jsonObject.optInt("lost_focus_delay");
         configResp.agreement_url = jsonObject.optString("agreement_url");
+        configResp.send_hand_base_material = jsonObject.optString("send_hand_base_material");
         configResp.contract_list_url = jsonObject.optString("contract_list_url");
+        configResp.Che300Url = jsonObject.optString("che_300_base_ulr");
         String ubt_limit = jsonObject.optString("ubt_limit");
         if (!TextUtils.isEmpty(ubt_limit)) {
             UBT.LIMIT = Integer.valueOf(ubt_limit);
         }
 
         fullConfigResp(jsonObject, "", configResp.carInfo_alter_key, configResp.carInfo_alter_value);
+
         fullConfigResp(jsonObject, "vehicle_owner_lender_relationship_list", configResp.owner_applicant_relation_key, configResp.owner_applicant_relation_value);
         fullConfigResp(jsonObject, "application_modify_reason_list", configResp.carInfo_alter_key, configResp.carInfo_alter_value);
         fullConfigResp(jsonObject, "label_list", configResp.label_list_key, configResp.label_list_value);
         fullConfigResp(jsonObject, "app_display", configResp.order_type_key, configResp.order_type_value);
+
+
+        fullConfigResp(jsonObject, "education_list", configResp.education_list_key, configResp.education_list_value);
+        fullConfigResp(jsonObject, "marriage", configResp.marriage_key, configResp.marriage_value);
+        fullConfigResp(jsonObject, "work_position", configResp.work_position_key, configResp.work_position_value);
+        fullConfigResp(jsonObject, "gender_list", configResp.gender_list_key, configResp.gender_list_value);
+        fullConfigResp(jsonObject, "house_type_list", configResp.house_type_list_key, configResp.house_type_list_value);
+        fullConfigResp(jsonObject, "house_relationship_list", configResp.house_relationship_list_key, configResp.house_relationship_list_value);
+        fullConfigResp(jsonObject, "urg_other_relationship_list", configResp.urg_other_relationship_list_key, configResp.urg_other_relationship_list_value);
+        fullConfigResp(jsonObject, "urg_rela_relationship_list", configResp.urg_rela_relationship_list_key, configResp.urg_rela_relationship_list_value);
+        fullConfigResp(jsonObject, "drv_lic_relationship_list", configResp.drv_lic_relationship_list_key, configResp.drv_lic_relationship_list_value);
+        fullConfigResp(jsonObject, "busi_type_list", configResp.busi_type_list_key, configResp.busi_type_list_value);
 
         JSONArray dealer_material = jsonObject.optJSONArray("dealer_material");
         configResp.dealer_material = dealer_material != null ? dealer_material.toString() : "";

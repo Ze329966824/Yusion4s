@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.base;
 
+import android.app.Activity;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
@@ -23,6 +24,15 @@ public class ActivityManager {
         list.remove(activity);
         activity.finish();
 
+    }
+
+    public static void exit(){
+        for (Activity activity : list) {
+            if (activity!=null) {
+                activity.finish();
+            }
+        }
+        System.exit(0);
     }
 
     public static String getPrevActivityName() {

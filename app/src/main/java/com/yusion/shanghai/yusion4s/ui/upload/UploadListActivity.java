@@ -24,6 +24,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.awen.photo.photopick.controller.PhotoPagerConfig;
 import com.bumptech.glide.Glide;
 import com.pbq.pickerlib.activity.PhotoMediaActivity;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
@@ -47,6 +48,7 @@ import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.URLEncoder;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.io.File;
@@ -80,14 +82,16 @@ public class UploadListActivity extends BaseActivity {
     private Button templateImgLook;
     private ImageView templateImg;
     private String detail_url;
-    private String sample_url;
     private View anchor;
     private ImageView templateVideoLook;
+    private ArrayList<String> url_list;
+    private TextView imgsSizeTv;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_upload_list);
+
         topItem = (ListDealerLabelsResp.LabelListBean) getIntent().getSerializableExtra("topItem");
         app_id = getIntent().getStringExtra("app_id");
         clt_id = getIntent().getStringExtra("clt_id");
@@ -163,6 +167,11 @@ public class UploadListActivity extends BaseActivity {
                     if (lists.get(i).hasChoose) indexList.add(i);
                 }
                 Collections.sort(indexList);
+
+                if (indexList.size() == 0) {
+                    //没有选中图片就不予点击删除按键
+                    return;
+                }
 
                 //没删除一个对象就该偏移+1
                 int offset = 0;
@@ -253,10 +262,11 @@ public class UploadListActivity extends BaseActivity {
         templateImg = (ImageView) findViewById(R.id.upload_list_template_img);
         templateImgLook = (Button) findViewById(R.id.upload_list_template_img_look);
         templateVideoLook = (ImageView) findViewById(R.id.upload_list_template_video_look);
+        imgsSizeTv = (TextView) findViewById(R.id.upload_list_template_imgs_size);
         if (isVideoPage) {
             templateVideoLook.setVisibility(View.VISIBLE);
             templateImgLook.setVisibility(View.GONE);
-        }else {
+        } else {
             templateImgLook.setVisibility(View.VISIBLE);
             templateVideoLook.setVisibility(View.GONE);
         }
@@ -279,16 +289,36 @@ public class UploadListActivity extends BaseActivity {
             if (isVideoPage) {
                 playVideo(detail_url);
             } else {
-                previewImg(anchor, detail_url, true);
+                previewImgs();
+//                previewImg(anchor, detail_url, true);
             }
         });
         templateImgLook.setOnClickListener(v -> {
             if (isVideoPage) {
                 playVideo(detail_url);
             } else {
-                previewImg(anchor, detail_url, true);
+                previewImgs();
+//                previewImg(anchor, detail_url, true);
             }
         });
+    }
+
+    private void previewImgs() {
+        if (url_list == null || url_list.size() == 0) {
+            Toast.makeText(myApp, "该文件暂无模板！！！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        ArrayList<String> showImgUrls = new ArrayList<>();
+        for (String url : url_list) {
+            showImgUrls.add(URLEncoder.encode(url));
+        }
+        new PhotoPagerConfig.Builder(this)
+                .setBigImageUrls(showImgUrls)
+//                .setSavaImage(true)
+//                        .setPosition(2)
+//                        .setSaveImageLocalPath("这里是你想保存的图片地址")
+                .build();
     }
 
     private void playVideo(UploadImgItemBean item) {
@@ -312,6 +342,10 @@ public class UploadListActivity extends BaseActivity {
     }
 
     private void playVideo(String url) {
+        if (TextUtils.isEmpty(url)) {
+            Toast.makeText(myApp, "未找到视频", Toast.LENGTH_SHORT).show();
+            return;
+        }
         Intent it = new Intent(Intent.ACTION_VIEW);
         Uri uri = Uri.parse(url);
         it.setDataAndType(uri, "video/mp4");
@@ -391,20 +425,33 @@ public class UploadListActivity extends BaseActivity {
         String id = topItem.id;
         Log.e("TAG", "initData: " + id);
         UploadApi.getTemplate(this, id, new OnItemDataCallBack<GetTemplateResp>() {
-
             @Override
             public void onItemDataCallBack(GetTemplateResp data) {
-                if (data != null) {
-                    templateLin.setVisibility(View.VISIBLE);
-                    templateContent.setText(Html.fromHtml(data.checker_item.description));
-                    sample_url = data.checker_item.sample_url;
-                    detail_url = data.checker_item.detail_url;
-                    if (!isFinishing()) {
-                        Glide.with(UploadListActivity.this).load(sample_url).into(templateImg);
-                    }
-                }
+                showTemplate(data);
             }
         });
+    }
+
+    private void showTemplate(GetTemplateResp data) {
+        if (data != null) {
+            templateLin.setVisibility(View.VISIBLE);
+            if (data.checker_item_ == null) {
+                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            templateContent.setText(Html.fromHtml(data.checker_item_.description));
+            url_list = data.checker_item_.url_list;
+            if (url_list == null || url_list.size() == 0) {
+                Toast.makeText(myApp, "该文件暂无模板!!!", Toast.LENGTH_SHORT).show();
+                return;
+            }
+            detail_url = data.checker_item_.url_list.get(0);
+
+            imgsSizeTv.setText(data.checker_item_.url_list.size() + "");
+            if (!isFinishing()) {
+                Glide.with(UploadListActivity.this).load(url_list.get(0)).into(templateImg);
+            }
+        }
     }
 
     private void onImgCountChange(boolean hasImg) {

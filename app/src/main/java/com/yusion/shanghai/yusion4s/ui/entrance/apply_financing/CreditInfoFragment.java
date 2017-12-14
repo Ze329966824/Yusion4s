@@ -1,16 +1,19 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.telephony.TelephonyManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -31,9 +34,11 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.ApplyFinancingFragment;
+import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -55,6 +60,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private TextView client_info_name;
     private TextView client_phoneNumber;
     private TextView client_ID_card;
+    private ImageView delete_icon;
+    private LinearLayout credit_info;
 
     //    @BindView(id = R.id.client_credit__book_lin1, widgetName = "上传申请人征信授权书", onClick = "uploadClientCreditBook")
     private LinearLayout client_credit__book_lin;  //申请人征信
@@ -104,9 +111,12 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private LinearLayout personal_info_group;
 
     private Button submitBtn;
+    private Button createBtn;
 
     //存放最后提交订单时需要上传的授权书url
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
+    //存放二手车的截图
+    private List<UploadFilesUrlReq.FileUrlBean> uploadOldCarImgUrlList = new ArrayList<>();
 
     //用于和 UploadSqsListActivity 类间交互
     private List<UploadImgItemBean> lenderList = new ArrayList<>();
@@ -215,6 +225,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
         submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
+        createBtn = (Button) view.findViewById(R.id.credit_info_create_btn);
         client_info_name = (TextView) view.findViewById(R.id.client_info_name);
         client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
         client_ID_card = (TextView) view.findViewById(R.id.client_ID_card);
@@ -247,6 +258,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         autonym_certify_id_back_tv3 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv3);
 
         personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
+        delete_icon = (ImageView) view.findViewById(R.id.delete_icon);
+        credit_info = (LinearLayout) view.findViewById(R.id.credit_info);
 
 //        credit_applicate_detail_lin.setOnClickListener(new View.OnClickListener() {
 //            @Override
@@ -256,6 +269,13 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                startActivity(intent);
 //            }
 //        });
+
+        delete_icon.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                deleteUserInfo();
+            }
+        });
 
         findTv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -269,6 +289,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         submitBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // startActivity(new Intent(mContext, MainActivity.class));
+                TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
                 if (Settings.isShameData) {
                     SubmitOrderReq req = new SubmitOrderReq();
                     req.bank_id = "1";
@@ -285,9 +307,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.vehicle_loan_amt = "150000";
                     req.vehicle_owner_lender_relation = "本人";
                     req.vehicle_price = "200000";
-                    req.nper = 24;
+                    req.nper = "24";
                     req.product_id = 1;
                     req.vehicle_model_id = 1128954;
+                    req.imei = telephonyManager.getDeviceId();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
@@ -314,14 +337,18 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     }
                                 });
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(new Intent(mContext, MainActivity.class));
+
                             }
                         }
                     });
                 } else if (checkCanSubmit()) {
-                    SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                    SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+                    // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
+                    req.imei = telephonyManager.getDeviceId();
                     OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                         @Override
                         public void onItemDataCallBack(SubmitOrderResp data) {
@@ -329,6 +356,18 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 return;
                             }
                             Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(mContext, MainActivity.class);
+                            intent.putExtra("app_id", data.app_id);
+                            intent.putExtra("cond", req.vehicle_cond);
+
+                            if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                                UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
+                                urlBean.label = ((OrderCreateActivity) getActivity()).label;
+                                urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
+                                urlBean.app_id = data.app_id;
+                                uploadOldCarImgUrlList.add(urlBean);
+                                // uploadFileUrlList.add(urlBean);
+                            }
                             if (uploadFileUrlList.size() > 0) {
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;
@@ -342,12 +381,30 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     public void callBack(int code, String msg) {
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+
+                                            if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                                                UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();
+                                                uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
+                                                uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
+                                                uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
+                                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
+                                                    @Override
+                                                    public void callBack(int code, String msg) {
+                                                        Log.e("TAG", uploadFilesUrlReq1.bucket);
+                                                        Log.e("TAG", uploadFilesUrlReq1.region);
+
+                                                    }
+                                                });
+                                            }
+                                            startActivity(intent);
+//                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
                                     }
                                 });
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
-                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                startActivity(intent);
                             }
                         }
                     });
@@ -355,6 +412,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
             }
         });
+
+        createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, ApplyActivity.class)));
     }
 
     @Override
@@ -373,6 +432,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 guarantorSpList.clear();
                 uploadFileUrlList.clear();
 
+                credit_info.setVisibility(View.VISIBLE);
                 personal_info_group.setVisibility(View.VISIBLE);
                 client_info_name.setText(data.getStringExtra("name"));
                 client_ID_card.setText(data.getStringExtra("sfz"));
@@ -521,6 +581,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
                         }
                         break;
+                    default:
+                        break;
                 }
             }
         }
@@ -529,9 +591,15 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
+        Intent intent = new Intent(mContext, UploadSqsListActivity.class);
+        //SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+
+
+        intent.putExtra("dlr_id", req.dlr_id);
+        intent.putExtra("bank_id", req.bank_id);
         switch (v.getId()) {
             case R.id.client_credit__book_lin1://申请人征信授权
-                Intent intent = new Intent(mContext, UploadSqsListActivity.class);
                 intent.putExtra("clt_id", lender_clt_id);
                 intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
                 intent.putExtra("role", Constants.PersonType.LENDER);
@@ -541,34 +609,31 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_spouse_credit__book_lin2://申请人配偶
-                Intent intent1 = new Intent(mContext, UploadSqsListActivity.class);
-                intent1.putExtra("clt_id", lender_sp_clt_id);
-                intent1.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                intent1.putExtra("role", Constants.PersonType.LENDER_SP);
-                intent1.putExtra("imgList", (Serializable) lenderSpList);
-                intent1.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                intent1.putExtra("title", "申请人配偶征信授权书");
-                startActivityForResult(intent1, Constants.REQUEST_MULTI_DOCUMENT);
+                intent.putExtra("clt_id", lender_sp_clt_id);
+                intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent.putExtra("role", Constants.PersonType.LENDER_SP);
+                intent.putExtra("imgList", (Serializable) lenderSpList);
+                intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent.putExtra("title", "申请人配偶征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.guarantor_credit_book_lin3://担保人征信授权
-                Intent intent2 = new Intent(mContext, UploadSqsListActivity.class);
-                intent2.putExtra("clt_id", guarantor_clt_id);
-                intent2.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                intent2.putExtra("role", Constants.PersonType.GUARANTOR);
-                intent2.putExtra("imgList", (Serializable) guarantorList);
-                intent2.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                intent2.putExtra("title", "担保人征信授权书");
-                startActivityForResult(intent2, Constants.REQUEST_MULTI_DOCUMENT);
+                intent.putExtra("clt_id", guarantor_clt_id);
+                intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent.putExtra("role", Constants.PersonType.GUARANTOR);
+                intent.putExtra("imgList", (Serializable) guarantorList);
+                intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent.putExtra("title", "担保人征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.guarantor_spouse_credit_book_lin4://担保人配偶征信授权
-                Intent intent3 = new Intent(mContext, UploadSqsListActivity.class);
-                intent3.putExtra("clt_id", guarantor_sp_clt_id);
-                intent3.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-                intent3.putExtra("role", Constants.PersonType.GUARANTOR_SP);
-                intent3.putExtra("imgList", (Serializable) guarantorSpList);
-                intent3.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-                intent3.putExtra("title", "担保人配偶征信授权书");
-                startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
+                intent.putExtra("clt_id", guarantor_sp_clt_id);
+                intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
+                intent.putExtra("role", Constants.PersonType.GUARANTOR_SP);
+                intent.putExtra("imgList", (Serializable) guarantorSpList);
+                intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
+                intent.putExtra("title", "担保人配偶征信授权书");
+                startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_relationship_lin://车主和申请人的关系
                 WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
@@ -583,6 +648,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
                             }
                         });
+                break;
+            default:
                 break;
         }
     }
@@ -602,5 +669,82 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             return true;
         }
         return false;
+    }
+
+
+    // 直接关联
+    public void deleteUserInfo() {
+        client_credit__book_lin.setVisibility(View.GONE);
+        client_spouse_credit__book_lin.setVisibility(View.GONE);
+        guarantor_credit_book_lin.setVisibility(View.GONE);
+        guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        personal_info_group.setVisibility(View.GONE);
+        credit_info.setVisibility(View.GONE);
+
+        lenderList.clear();
+        lenderSpList.clear();
+        guarantorList.clear();
+        guarantorSpList.clear();
+        uploadFileUrlList.clear();
+        submitBtn.setEnabled(false);
+    }
+
+    public void relevance(Intent data) {
+        //清空数据
+        client_credit__book_lin.setVisibility(View.GONE);
+        client_spouse_credit__book_lin.setVisibility(View.GONE);
+        guarantor_credit_book_lin.setVisibility(View.GONE);
+        guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        lenderList.clear();
+        lenderSpList.clear();
+        guarantorList.clear();
+        guarantorSpList.clear();
+        uploadFileUrlList.clear();
+
+        credit_info.setVisibility(View.VISIBLE);
+        personal_info_group.setVisibility(View.VISIBLE);
+        client_info_name.setText(data.getStringExtra("name"));
+        client_ID_card.setText(data.getStringExtra("sfz"));
+        client_phoneNumber.setText(data.getStringExtra("mobile"));
+
+        if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
+            client_credit__book_lin.setVisibility(View.VISIBLE);
+            lender_clt_id = data.getStringExtra("lender_clt_id");
+            autonym_certify_id_back_tv.setText("请上传");
+            autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            client_credit__book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isHasLender_sp").equals("1")) { //不等于空是1 等于空是2
+            client_spouse_credit__book_lin.setVisibility(View.VISIBLE);
+            lender_sp_clt_id = data.getStringExtra("lender_sp_clt_id");
+            autonym_certify_id_back_tv1.setText("请上传");
+            autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
+            //                }
+        } else {
+            client_spouse_credit__book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isGuarantor").equals("1")) { //不等于空是1 等于空是2
+            guarantor_credit_book_lin.setVisibility(View.VISIBLE);
+            guarantor_clt_id = data.getStringExtra("guarantor_clt_id");
+            autonym_certify_id_back_tv2.setText("请上传");
+            autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            guarantor_credit_book_lin.setVisibility(View.GONE);
+        }
+
+        if (data.getStringExtra("isGuarantor_sp").equals("1")) { //不等于空是1 等于空是2
+            guarantor_spouse_credit_book_lin.setVisibility(View.VISIBLE);
+            guarantor_sp_clt_id = data.getStringExtra("guarantor_sp_clt_id");
+            autonym_certify_id_back_tv3.setText("请上传");
+            autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
+        } else {
+            guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+        }
+
+        submitBtn.setEnabled(data.getBooleanExtra("enable", false));
+
     }
 }

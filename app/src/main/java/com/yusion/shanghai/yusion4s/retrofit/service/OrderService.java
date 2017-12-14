@@ -35,7 +35,7 @@ public interface OrderService {
 
     //获取订单列表
     @GET("/api/application/get_app_list/")
-    Call<BaseResult<List<GetAppListResp>>> getAppList(@Query("st") String st);
+    Call<BaseResult<List<GetAppListResp>>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond);
 
     //获取订单详情
     @GET("/api/application/get_app_details/")

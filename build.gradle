@@ -1,15 +1,28 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
 buildscript {
+
+    ext {
+        VersionName = "V1.5.5"
+        VersionCode = 34
+        isOnline = false
+        forAppium = false
+
+    }
+
+
     ext.kotlin_version = '1.1.3-2'
     repositories {
         jcenter()
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
-        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
+//        classpath "org.jetbrains.kotlin:kotlin-gradle-plugin:$kotlin_version"
         classpath 'me.tatarka:gradle-retrolambda:3.5.0'
+        classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 
+        classpath 'com.android.tools.build:gradle:1.5.0'
+        classpath 'com.growingio.android:vds-gradle-plugin:1.1.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -20,9 +33,10 @@ allprojects {
         jcenter()
         maven { url "https://jitpack.io" }//tabLayout
         maven { url "https://raw.githubusercontent.com/Pgyer/mvn_repo_pgyer/master" }//pgy
-        flatDir{
+        flatDir {
             dirs 'libs'
         }
+        maven { url "http://maven.aliyun.com/nexus/content/groups/public/" }
     }
 }
 

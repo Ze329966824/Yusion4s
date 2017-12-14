@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#F5F7F9"
+    android:orientation="vertical">
+
+    <com.yusion.shanghai.yusion4s.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <com.yusion.shanghai.yusion4s.widget.ProgressWebView
+            android:id="@+id/webView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+        <Button
+            android:id="@+id/car300_confirm"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_alignParentBottom="true"
+            android:background="@color/system_color"
+            android:text="确认并使用"
+            android:textColor="#fff"
+            android:textSize="17sp" />
+
+        <LinearLayout
+            android:id="@+id/car300_hint"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_above="@+id/car300_confirm"
+            android:background="#B2FF8A00"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="15dp"
+                android:text="点击确认并使用，系统将自动截取当前页面完整版长截图"
+                android:textColor="@color/white"
+                android:textSize="11.5dp" />
+
+            <Space
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1" />
+
+            <ImageView
+                android:id="@+id/car300_hint_close"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="15dp"
+                android:src="@mipmap/close_icon1" />
+        </LinearLayout>
+    </RelativeLayout>
+</LinearLayout>

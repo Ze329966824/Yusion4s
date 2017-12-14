@@ -1,0 +1,929 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.LinearLayoutCompat xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:focusableInTouchMode="true"
+    android:orientation="vertical">
+
+    <include
+        android:id="@+id/title_bar"
+        layout="@layout/base_titlebar" />
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="none">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:id="@+id/upload_label_list_tab_lin"
+                    android:layout_width="match_parent"
+                    android:layout_height="40dp"
+                    android:orientation="horizontal">
+
+                    <View
+                        android:layout_width="3dp"
+                        android:layout_height="11dp"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginStart="15dp"
+                        android:layout_marginTop="20dp"
+                        android:background="@drawable/fill_vertical_line" />
+
+
+                    <TextView
+                        android:id="@+id/upload_label_list_tab_name_tv"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginBottom="7.5dp"
+                        android:layout_marginLeft="5dp"
+                        android:layout_marginTop="18dp"
+                        android:text="门店信息"
+                        android:textColor="#666666"
+                        android:textSize="11.5sp" />
+
+                </LinearLayout>
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
+
+                <LinearLayout
+                    android:id="@+id/car_info_dlr_lin"
+                    style="@style/apply_info_item">
+
+                    <TextView
+                        style="@style/apply_info_title"
+                        android:text="门店" />
+
+                    <TextView
+                        android:id="@+id/car_info_dlr_tv"
+                        style="@style/apply_info_content"
+                        android:hint="请选择" />
+
+                    <FrameLayout
+                        android:layout_width="20dp"
+                        android:layout_height="match_parent"
+                        android:layout_marginLeft="15dp">
+
+                        <ImageView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="left|center_vertical"
+                            android:src="@mipmap/select_arrow" />
+                    </FrameLayout>
+                </LinearLayout>
+            </LinearLayout>
+
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="@dimen/separate_line_height"
+                android:background="@color/separate_line_color" />
+
+            <android.support.constraint.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:visibility="visible"
+                tools:visibility="visible">
+
+                <View
+                    android:layout_width="3dp"
+                    android:layout_height="11dp"
+                    android:layout_marginBottom="2dp"
+                    android:layout_marginLeft="15dp"
+                    android:layout_marginStart="15dp"
+                    android:background="@drawable/fill_vertical_line"
+                    app:layout_constraintBottom_toBottomOf="@+id/personal_info1"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+
+                <TextView
+                    android:id="@+id/personal_info1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_marginLeft="22dp"
+                    android:layout_marginStart="22dp"
+                    android:text="车辆情况"
+                    android:textColor="#666666"
+                    android:textSize="11.5sp"
+                    app:layout_constraintBottom_toTopOf="@+id/personal_info_group"
+                    app:layout_constraintLeft_toLeftOf="parent" />
+
+                <LinearLayout
+                    android:id="@+id/personal_info_group"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="38dp"
+                    android:background="@color/white"
+                    android:orientation="vertical"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_brand_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="品牌" />
+
+                        <TextView
+                            android:id="@+id/car_info_brand_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_trix_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="车系" />
+
+                        <TextView
+                            android:id="@+id/car_info_trix_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_model_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="车型" />
+
+                        <TextView
+                            android:id="@+id/car_info_model_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/oldcar_info_lin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="visible"
+                        tools:visibility="visible">
+
+                        <LinearLayout
+                            android:id="@+id/oldcar_addr_lin"
+                            style="@style/apply_info_item">
+
+                            <TextView
+                                style="@style/apply_info_title"
+                                android:text="城市" />
+
+                            <TextView
+                                android:id="@+id/oldcar_addr_tv"
+                                style="@style/apply_info_content"
+                                android:hint="请选择" />
+
+                            <FrameLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|center_vertical"
+                                    android:src="@mipmap/select_arrow" />
+                            </FrameLayout>
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:background="@color/separate_line_color" />
+
+                        <LinearLayout
+                            android:id="@+id/oldcar_addrtime_lin"
+                            style="@style/apply_info_item">
+
+                            <TextView
+                                style="@style/apply_info_title"
+                                android:text="原上牌时间" />
+
+                            <TextView
+                                android:id="@+id/oldcar_addrtime_tv"
+                                style="@style/apply_info_content"
+                                android:hint="请选择" />
+
+                            <FrameLayout
+                                android:layout_width="20dp"
+                                android:layout_height="match_parent"
+                                android:layout_marginLeft="15dp">
+
+                                <ImageView
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:layout_gravity="left|center_vertical"
+                                    android:src="@mipmap/select_arrow" />
+                            </FrameLayout>
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:background="@color/separate_line_color" />
+
+                        <LinearLayout style="@style/apply_info_item">
+
+                            <TextView
+                                android:layout_width="110dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:text="里程数(万公里)"
+                                android:textColor="#222A36"
+                                android:textSize="14.5sp" />
+
+                            <EditText
+                                android:id="@+id/oldcar_dance_tv"
+                                style="@style/apply_info_content"
+                                android:layout_marginRight="35dp"
+                                android:hint="请输入"
+                                android:maxLength="5"
+                                android:numeric="decimal" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:background="@color/separate_line_color" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="19dp"
+                            android:background="@color/white" />
+
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
+
+                        <RelativeLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:paddingBottom="15dp">
+
+                            <Button
+                                android:id="@+id/btn_reset"
+                                android:layout_width="110.5dp"
+                                android:layout_height="42dp"
+                                android:layout_marginLeft="15dp"
+                                android:background="@drawable/reset_butotn"
+                                android:enabled="false"
+                                android:text="重置"
+                                android:textColor="@color/reset_color"
+                                android:textSize="16.5sp" />
+
+                            <Button
+                                android:id="@+id/btn_fast_valuation"
+                                android:layout_width="211.5dp"
+                                android:layout_height="42dp"
+                                android:layout_alignParentRight="true"
+                                android:layout_marginLeft="10dp"
+                                android:layout_marginRight="15dp"
+                                android:layout_toRightOf="@+id/btn_reset"
+                                android:background="@drawable/submit_button"
+                                android:enabled="false"
+                                android:text="快速估值"
+                                android:textColor="#ffffff"
+                                android:textSize="16.5sp" />
+                        </RelativeLayout>
+
+                        <LinearLayout style="@style/apply_info_item">
+
+                            <TextView
+                                android:layout_width="110dp"
+                                android:layout_height="match_parent"
+                                android:gravity="center_vertical"
+                                android:maxLines="1"
+                                android:text="二手车评估价(元)"
+                                android:textColor="#222A36"
+                                android:textSize="14.5sp" />
+
+                            <EditText
+                                android:id="@+id/oldcar_guess_tv"
+                                style="@style/apply_info_content"
+                                android:layout_marginRight="35dp"
+                                android:enabled="false"
+                                android:hint="请先估价" />
+
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:background="@color/separate_line_color" />
+
+                        <Button
+                            android:id="@+id/look_guess_img_btn"
+                            android:layout_width="105dp"
+                            android:layout_height="30dp"
+                            android:layout_gravity="right"
+                            android:layout_marginBottom="10dp"
+                            android:layout_marginRight="15dp"
+                            android:layout_marginTop="10dp"
+                            android:background="@null"
+                            android:drawableRight="@drawable/guess_image_selector"
+                            android:enabled="false"
+                            android:text="查看估值截图"
+                            android:textColor="@color/guess_image_color" />
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:background="@color/separate_line_color" />
+
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+
+                    <LinearLayout style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="颜色" />
+
+                        <EditText
+                            android:id="@+id/car_info_color_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="35dp"
+                            android:hint="请输入" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="0.5dp"
+                        android:background="@color/separate_line_color" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
+
+                        <TextView
+                            android:id="@+id/textView6"
+                            style="@style/apply_info_title"
+                            android:text="市场指导价(元)" />
+
+                        <TextView
+                            android:id="@+id/car_info_guide_price_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="35dp"
+                            android:maxLength="9" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
+                        android:visibility="gone" />
+
+                    <LinearLayout
+                        android:id="@+id/oldcar_guess_and_jiaoyi_lin"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical"
+                        android:visibility="gone"
+                        tools:visibility="gone">
+
+                        <LinearLayout
+                            android:id="@+id/oldcar_guess_price_lin"
+                            style="@style/apply_info_item"
+                            tools:visibility="visible">
+
+                            <TextView
+                                style="@style/apply_info_title"
+                                android:text="二手车评估价(元)" />
+
+                            <EditText
+                                android:id="@+id/oldcar_guess_price_tv"
+                                style="@style/apply_info_content"
+                                android:layout_marginRight="35dp"
+                                android:enabled="false"
+                                android:hint="请输入"
+                                android:inputType="number"
+                                android:maxLength="9" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
+                            android:background="@color/separate_line_color" />
+
+                        <LinearLayout
+                            android:id="@+id/oldcar_business_price_lin"
+                            style="@style/apply_info_item"
+                            tools:visibility="visible">
+
+                            <TextView
+                                style="@style/apply_info_title"
+                                android:text="车辆交易价(元)" />
+
+                            <EditText
+                                android:id="@+id/oldcar_business_price_tv"
+                                style="@style/apply_info_content"
+                                android:layout_marginRight="35dp"
+                                android:enabled="false"
+                                android:hint="请输入"
+                                android:inputType="number"
+                                android:maxLength="9" />
+                        </LinearLayout>
+
+                        <View
+                            android:layout_width="match_parent"
+                            android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
+                            android:background="@color/separate_line_color" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:id="@+id/personal_info_detail_home_address_lin"
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="车辆开票价(元)" />
+
+                        <EditText
+                            android:id="@+id/car_info_bill_price_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="35dp"
+                            android:enabled="false"
+                            android:hint="请输入"
+                            android:inputType="number" />
+
+                    </LinearLayout>
+
+
+                    <View
+                        android:id="@+id/kaipiaojia_line"
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
+                        android:visibility="gone" />
+
+
+                    <LinearLayout style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="车辆贷款额(元)" />
+
+                        <EditText
+                            android:id="@+id/car_info_car_loan_price_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="35dp"
+                            android:enabled="true"
+                            android:hint="请输入"
+                            android:inputType="number"
+                            android:maxLength="9" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:layout_marginRight="15dp"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="车辆首付款(元)" />
+
+                        <EditText
+                            android:id="@+id/car_info_first_price_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="35dp"
+                            android:enabled="false"
+                            android:hint="请输入"
+                            android:inputType="number"
+                            android:maxLength="9" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_management_price_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="是否贷档案管理费" />
+
+                        <TextView
+                            android:id="@+id/car_info_management_price_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="3dp"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout style="@style/apply_info_item">
+
+                        <TextView
+                            android:layout_width="110dp"
+                            android:layout_height="match_parent"
+                            android:gravity="center_vertical"
+                            android:maxLines="1"
+                            android:text="其他费用(元)"
+                            android:textColor="#222A36"
+                            android:textSize="14.5sp" />
+
+                        <EditText
+                            android:id="@+id/car_info_other_price_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="35dp"
+                            android:enabled="false"
+                            android:hint="请输入"
+                            android:inputType="number"
+                            android:maxLength="4" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="总贷款额(元)" />
+
+                        <TextView
+                            android:id="@+id/car_info_total_loan_price_tv"
+                            style="@style/apply_info_content"
+                            android:layout_marginRight="35dp"
+                            android:maxLength="9" />
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_loan_bank_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="贷款银行" />
+
+                        <TextView
+                            android:id="@+id/car_info_loan_bank_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+
+                    <LinearLayout
+                        android:id="@+id/car_info_product_type_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="产品类型" />
+
+                        <TextView
+                            android:id="@+id/car_info_product_type_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+
+                    <LinearLayout
+                        android:id="@+id/car_info_loan_periods_lin"
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="还款期限" />
+
+                        <TextView
+                            android:id="@+id/car_info_loan_periods_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_plate_reg_addr_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="上牌地/预计上牌地" />
+
+                        <TextView
+                            android:id="@+id/car_info_plate_reg_addr_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="10dp"
+                        android:background="@color/bg_color" />
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+
+                    <LinearLayout
+                        android:id="@+id/car_info_alter_lin"
+                        style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="修改理由" />
+
+                        <TextView
+                            android:id="@+id/car_info_alter_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:background="@color/separate_line_color" />
+                </LinearLayout>
+
+            </android.support.constraint.ConstraintLayout>
+
+            <Button
+                android:id="@+id/car_info_alter_btn"
+                android:layout_width="match_parent"
+                android:layout_height="44dp"
+                android:layout_marginBottom="20dp"
+                android:layout_marginEnd="15dp"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="35dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/submit_button"
+                android:enabled="false"
+                android:gravity="center"
+                android:text="提交申请"
+                android:textColor="@color/white"
+                android:textSize="17sp" />
+        </LinearLayout>
+    </ScrollView>
+
+</android.support.v7.widget.LinearLayoutCompat>
