@@ -52,7 +52,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ViewHolder> 
                 onItemClickListener.onItemClick(v,modelResp);
             }
         });
-//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.avatar);
+//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.icon);
     }
 
     @Override
@@ -66,7 +66,7 @@ public class ModelAdapter extends RecyclerView.Adapter<ModelAdapter.ViewHolder> 
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvCity = itemView.findViewById(R.id.tvCity);
+            tvCity = itemView.findViewById(R.id.name);
             content = itemView.findViewById(R.id.content);
         }
     }
