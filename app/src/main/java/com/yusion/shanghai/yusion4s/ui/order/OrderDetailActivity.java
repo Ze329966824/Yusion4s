@@ -1,21 +1,28 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
+import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
+import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
@@ -157,6 +164,7 @@ public class OrderDetailActivity extends BaseActivity {
     private FloatingActionButton fab;
     private NestedScrollView mScrollView;
     private String app_id;
+    private String spouse_clt_id;
     private int status_st;
     private String cartype;
 
@@ -174,6 +182,7 @@ public class OrderDetailActivity extends BaseActivity {
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
+        spouse_clt_id = getIntent().getStringExtra("spouse_clt_id");
         //cartype = getIntent().getStringExtra("car_type");
         initView();
         // initTitleBar(this, "申请详情");
@@ -337,17 +346,66 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
 
-            // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
-        {
-            order_detail_replace_layout.setVisibility(View.GONE);
-        }
+        // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
+
 
         orderDetailReplaceBtn.setOnClickListener(v -> {
             // TODO: 2017/12/12   更换配偶作为主贷人点击 -> 弹窗 ->  {1.是 ->接口二 ①客户信息未完善 ②更换成功}    {2.取消 dismiss}
 
 //            PopupDialogUtil.showTwoButtonsDialog();
+            PopupDialogUtil.showTwoButtonsDialog(OrderDetailActivity.this, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
+
+                dialog.dismiss();
+                checkAndReplace();
+
+            });
 
         });
+
+    }
+
+    private void checkAndReplace() {
+
+        ReplaceSPReq replaceSPReq = new ReplaceSPReq();
+        replaceSPReq.clt_id = spouse_clt_id;
+        Log.e("TAG", "spouse_clt_id = "+spouse_clt_id);
+        //激活配偶登录
+        AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
+            if (data1 == null) {
+                return;
+            }
+            //检查配偶信息是否完善
+            AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
+                @Override
+                public void onItemDataCallBack(CheckInfoCompletedResp data) {
+                    if (data == null) {
+                        return;
+                    }
+                    //完善 - 提交成功
+                    if (data.info_completed) {
+                        Toast.makeText(OrderDetailActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                        //
+
+                    }
+                    //未完善
+                    else {
+                        PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog1 -> {
+
+                            PackageManager packageManager = OrderDetailActivity.this.getPackageManager();  // 当前Activity获得packageManager对象
+                            Intent intent = new Intent();
+                            try {
+                                intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
+                            } catch (Exception e) {
+                            }
+                            startActivity(intent);
+                            dialog1.dismiss();
+                        });
+
+                    }
+                }
+            });
+        });
+
 
     }
 
@@ -364,13 +422,21 @@ public class OrderDetailActivity extends BaseActivity {
             }
 
             showNeworOldcarinfolayout(cartype);
-            if (resp.modify_permission) {
-                order_detail_sign_layout.setVisibility(View.GONE);
-                order_detail_change_layout.setVisibility(View.VISIBLE);
-            } else {
-                order_detail_sign_layout.setVisibility(View.VISIBLE);
+            if (spouse_clt_id != null) {
+                order_detail_replace_layout.setVisibility(View.VISIBLE);
                 order_detail_change_layout.setVisibility(View.GONE);
+                order_detail_sign_layout.setVisibility(View.GONE);
+            } else {
+                order_detail_replace_layout.setVisibility(View.GONE);
 
+                if (resp.modify_permission) {
+                    order_detail_sign_layout.setVisibility(View.GONE);
+                    order_detail_change_layout.setVisibility(View.VISIBLE);
+                } else {
+                    order_detail_sign_layout.setVisibility(View.VISIBLE);
+                    order_detail_change_layout.setVisibility(View.GONE);
+
+                }
             }
             if (resp.status_st == 2) {//待审核
                 waitLin.setVisibility(View.VISIBLE);
@@ -472,7 +538,7 @@ public class OrderDetailActivity extends BaseActivity {
             // 车辆原信息和修改信息
             if (resp.is_modify && resp.old_app != null) {
                 orderInfoTitleLin.setVisibility(View.VISIBLE);
-                beforeDlrNameTv.setText(resp.old_app.dlr_nm+resp.aid_dlr_nm);
+                beforeDlrNameTv.setText(resp.old_app.dlr_nm + resp.aid_dlr_nm);
                 beforeBrandTv.setText(resp.old_app.brand);
                 beforeTrixTv.setText(resp.old_app.trix);
                 beforeModelTv.setText(resp.old_app.model_name);
@@ -501,7 +567,7 @@ public class OrderDetailActivity extends BaseActivity {
 //                OldcardistancevTv.setText(resp.send_hand_mileage);
 //                OldcartimeTv.setText(resp.send_hand_plate_time);
 //                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
-                dlrNameTv.setText(resp.new_app.dlr_nm+resp.aid_dlr_nm);
+                dlrNameTv.setText(resp.new_app.dlr_nm + resp.aid_dlr_nm);
                 brandTv.setText(resp.new_app.brand);
                 trixTv.setText(resp.new_app.trix);
                 modelTv.setText(resp.new_app.model_name);
@@ -550,7 +616,7 @@ public class OrderDetailActivity extends BaseActivity {
             } else {
                 orderInfoTitleLin.setVisibility(View.GONE);
                 //车辆原订单信息
-                dlrNameTv.setText(resp.dlr_nm+resp.aid_dlr_nm);
+                dlrNameTv.setText(resp.dlr_nm + resp.aid_dlr_nm);
                 brandTv.setText(resp.brand);
                 trixTv.setText(resp.trix);
                 modelTv.setText(resp.model_name);
