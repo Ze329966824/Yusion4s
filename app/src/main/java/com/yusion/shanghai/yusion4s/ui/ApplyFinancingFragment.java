@@ -32,7 +32,7 @@ import org.greenrobot.eventbus.EventBus;
 public class ApplyFinancingFragment extends BaseFragment {
 
     private PtrClassicFrameLayout ptr;
-    private TextView top_dlr;                  //顶部门店
+    private TextView top_dlr;                  //顶部经销商
     private TextView all_count;                //累计完成
     private TextView today_count;              //今日已申请
     private TextView dealing_count;            //进行中
@@ -187,7 +187,7 @@ public class ApplyFinancingFragment extends BaseFragment {
 //
 //            });
         });
-        //选择门店
+        //选择经销商
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
             Intent i3 = new Intent(mContext, ChangeDlrActivity.class);
             startActivityForResult(i3, Constants.REQUEST_CHANGE_DLR);

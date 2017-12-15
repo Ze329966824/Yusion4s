@@ -10,14 +10,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 
 import java.util.List;
 
 
-public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
+public class DlrStoreAdapter extends RecyclerView.Adapter<DlrStoreAdapter.ViewHolder> {
     protected Context mContext;
-    protected List<GetTrixResp> mDatas;
+    protected List<GetStoreList> mDatas;
     protected LayoutInflater mInflater;
     protected OnItemClickListener onItemClickListener;
 
@@ -25,46 +25,46 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public TrixAdapter(Context mContext, List<GetTrixResp> mDatas) {
+    public DlrStoreAdapter(Context mContext, List<GetStoreList> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mInflater = LayoutInflater.from(mContext);
     }
 
-    public List<GetTrixResp> getDatas() {
+    public List<GetStoreList> getDatas() {
         return mDatas;
     }
 
-    public TrixAdapter setDatas(List<GetTrixResp> datas) {
+    public DlrStoreAdapter setDatas(List<GetStoreList> datas) {
         mDatas = datas;
         return this;
     }
 
     @Override
-    public TrixAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(mInflater.inflate(R.layout.item_brand, parent, false));
+    public DlrStoreAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(mInflater.inflate(R.layout.item_dlr, parent, false));
     }
 
     @Override
-    public void onBindViewHolder(final TrixAdapter.ViewHolder holder, final int position) {
-        final GetTrixResp trixResp = mDatas.get(position);
-        holder.tvCity.setText(trixResp.trix_name);
+    public void onBindViewHolder(final DlrStoreAdapter.ViewHolder holder, final int position) {
+        final GetStoreList trixResp = mDatas.get(position);
+        holder.tvCity.setText(trixResp.dlr_nm);
         if (trixResp.has_select_by_user) {
             holder.itemView.setBackgroundColor(Color.parseColor("#d1d1d1"));
         } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
         }
         holder.itemView.setOnClickListener(v -> {
-            for (GetTrixResp resp : mDatas) {
+            for (GetStoreList resp : mDatas) {
                 resp.has_select_by_user = false;
             }
             trixResp.has_select_by_user = true;
             notifyDataSetChanged();
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v,trixResp);
+                onItemClickListener.onItemClick(v, trixResp);
             }
         });
-//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.icon);
+//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.avatar);
     }
 
     @Override
@@ -74,19 +74,19 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCity;
-        ImageView avatar;
-        View content;
+//        ImageView avatar;
+//        View content;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvCity = itemView.findViewById(R.id.name);
-            avatar = itemView.findViewById(R.id.icon);
-            avatar.setVisibility(View.GONE);
-            content = itemView.findViewById(R.id.content);
+            tvCity = itemView.findViewById(R.id.tvCity);
+//            avatar = itemView.findViewById(R.id.ivAvatar);
+//            avatar.setVisibility(View.GONE);
+//            content = itemView.findViewById(R.id.content);
         }
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(View v, GetTrixResp trixResp);
+    public interface OnItemClickListener {
+        void onItemClick(View v, GetStoreList trixResp);
     }
 }

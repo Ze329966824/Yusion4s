@@ -44,7 +44,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     public TitleBar initTitleBar(final Activity activity, String title) {
         TitleBar titleBar = (TitleBar) activity.findViewById(R.id.title_bar);
-        titleBar.setLeftClickListener(view -> activity.finish());
+        titleBar.setLeftClickListener(view -> onBackPressed());
         titleBar.setImmersive(false);
         titleBar.setTitle(title);
         titleBar.setLeftTextColor(Color.BLACK);

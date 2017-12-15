@@ -6,18 +6,20 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 
 import java.util.List;
 
+/**
+ * Created by aa on 2017/12/12.
+ */
 
-public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
+public class DlrAdapter extends RecyclerView.Adapter<DlrAdapter.ViewHolder> {
     protected Context mContext;
-    protected List<GetTrixResp> mDatas;
+    protected List<GetDlrListByTokenResp> mDatas;
     protected LayoutInflater mInflater;
     protected OnItemClickListener onItemClickListener;
 
@@ -25,46 +27,46 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
         this.onItemClickListener = onItemClickListener;
     }
 
-    public TrixAdapter(Context mContext, List<GetTrixResp> mDatas) {
+    public DlrAdapter(Context mContext, List<GetDlrListByTokenResp> mDatas) {
         this.mContext = mContext;
         this.mDatas = mDatas;
         mInflater = LayoutInflater.from(mContext);
     }
 
-    public List<GetTrixResp> getDatas() {
+    public List<GetDlrListByTokenResp> getDatas() {
         return mDatas;
     }
 
-    public TrixAdapter setDatas(List<GetTrixResp> datas) {
+    public DlrAdapter setDatas(List<GetDlrListByTokenResp> datas) {
         mDatas = datas;
         return this;
     }
 
     @Override
-    public TrixAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(mInflater.inflate(R.layout.item_brand, parent, false));
+    public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        return new ViewHolder(mInflater.inflate(R.layout.item_dlr, parent, false));
+
     }
 
     @Override
-    public void onBindViewHolder(final TrixAdapter.ViewHolder holder, final int position) {
-        final GetTrixResp trixResp = mDatas.get(position);
-        holder.tvCity.setText(trixResp.trix_name);
-        if (trixResp.has_select_by_user) {
+    public void onBindViewHolder(ViewHolder holder, int position) {
+        final GetDlrListByTokenResp getDlrListByTokenResp = mDatas.get(position);
+        holder.tvCity.setText(getDlrListByTokenResp.dlr_nm);
+        if (getDlrListByTokenResp.has_select_by_user) {
             holder.itemView.setBackgroundColor(Color.parseColor("#d1d1d1"));
         } else {
             holder.itemView.setBackgroundColor(Color.parseColor("#ffffff"));
         }
         holder.itemView.setOnClickListener(v -> {
-            for (GetTrixResp resp : mDatas) {
+            for (GetDlrListByTokenResp resp : mDatas) {
                 resp.has_select_by_user = false;
             }
-            trixResp.has_select_by_user = true;
+            getDlrListByTokenResp.has_select_by_user = true;
             notifyDataSetChanged();
             if (onItemClickListener != null) {
-                onItemClickListener.onItemClick(v,trixResp);
+                onItemClickListener.onItemClick(v, getDlrListByTokenResp);
             }
         });
-//        GlideApp.with(mContext).load(R.mipmap.ic_launcher).circleCrop().into(holder.icon);
     }
 
     @Override
@@ -74,19 +76,18 @@ public class TrixAdapter extends RecyclerView.Adapter<TrixAdapter.ViewHolder> {
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCity;
-        ImageView avatar;
+      //  ImageView avatar;
         View content;
 
         public ViewHolder(View itemView) {
             super(itemView);
-            tvCity = itemView.findViewById(R.id.name);
-            avatar = itemView.findViewById(R.id.icon);
-            avatar.setVisibility(View.GONE);
+            tvCity = itemView.findViewById(R.id.tvCity);
+          //  avatar = itemView.findViewById(R.id.ivAvatar);
             content = itemView.findViewById(R.id.content);
         }
     }
 
-    public interface OnItemClickListener{
-        void onItemClick(View v, GetTrixResp trixResp);
+    public interface OnItemClickListener {
+        void onItemClick(View v, GetDlrListByTokenResp getDlrListByTokenResp);
     }
 }

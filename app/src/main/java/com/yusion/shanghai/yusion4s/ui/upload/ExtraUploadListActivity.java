@@ -79,6 +79,8 @@ public class ExtraUploadListActivity extends BaseActivity {
     private ArrayList<String> url_list;
     private TextView imgsSizeTv;
 
+    private ArrayList<UploadImgItemBean> enterDataList = new ArrayList<>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,8 +90,7 @@ public class ExtraUploadListActivity extends BaseActivity {
         app_id = getIntent().getStringExtra("app_id");
         clt_id = getIntent().getStringExtra("clt_id");
 
-        // TODO: 2017/12/1 需要字段
-        isVideoPage = topItem.name.contains("视频");
+        isVideoPage = topItem.ftype.equals("video");
 
         initView();
         initData();
@@ -383,6 +384,8 @@ public class ExtraUploadListActivity extends BaseActivity {
             if (resp.list.size() != 0) {
                 lists.addAll(resp.list);
                 onImgCountChange(resp.list.size() > 0);
+                //记录页面初始数据
+                enterDataList.addAll(lists);
             }
         });
 
@@ -531,6 +534,19 @@ public class ExtraUploadListActivity extends BaseActivity {
     }
 
     private void onBack() {
+        boolean hasChange = false;
+        //检查数据源是否改变
+        if (lists.size() == enterDataList.size()) {
+            for (UploadImgItemBean uploadImgItemBean : enterDataList) {
+                if (!lists.contains(uploadImgItemBean)) {
+                    hasChange = true;
+                }
+            }
+        }else {
+            hasChange = true;
+        }
+        topItem.has_change = hasChange;
+
         topItem.has_img = lists.size();
         setResult(RESULT_OK, getIntent());
         finish();

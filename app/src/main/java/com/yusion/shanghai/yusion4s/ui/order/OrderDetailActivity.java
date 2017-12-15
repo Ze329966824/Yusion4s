@@ -83,7 +83,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView customerIdTv;              //客户身份证号
     private TextView customerNameTv;            //客户姓名
 
-    private TextView dlrNameTv;                 //订单-门店
+    private TextView dlrNameTv;                 //订单-经销商
     private TextView brandTv;                   //订单-品牌
     private TextView trixTv;                    //订单-车系
     private TextView modelTv;                   //订单-车型
@@ -108,7 +108,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView OldcarbusnesspriceTv;//二手车交易价
 
 
-    private TextView beforeDlrNameTv;          //订单-门店(修改前)
+    private TextView beforeDlrNameTv;          //订单-经销商(修改前)
     private TextView beforeBrandTv;            //订单-品牌(修改前)
     private TextView beforeTrixTv;             //订单-车系(修改前)
     private TextView beforeModelTv;            //订单-车型(修改前)
@@ -472,7 +472,7 @@ public class OrderDetailActivity extends BaseActivity {
             // 车辆原信息和修改信息
             if (resp.is_modify && resp.old_app != null) {
                 orderInfoTitleLin.setVisibility(View.VISIBLE);
-                beforeDlrNameTv.setText(resp.old_app.dlr_nm);
+                beforeDlrNameTv.setText(resp.old_app.dlr_nm+resp.aid_dlr_nm);
                 beforeBrandTv.setText(resp.old_app.brand);
                 beforeTrixTv.setText(resp.old_app.trix);
                 beforeModelTv.setText(resp.old_app.model_name);
@@ -501,7 +501,7 @@ public class OrderDetailActivity extends BaseActivity {
 //                OldcardistancevTv.setText(resp.send_hand_mileage);
 //                OldcartimeTv.setText(resp.send_hand_plate_time);
 //                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
-                dlrNameTv.setText(resp.new_app.dlr_nm);
+                dlrNameTv.setText(resp.new_app.dlr_nm+resp.aid_dlr_nm);
                 brandTv.setText(resp.new_app.brand);
                 trixTv.setText(resp.new_app.trix);
                 modelTv.setText(resp.new_app.model_name);
@@ -550,7 +550,7 @@ public class OrderDetailActivity extends BaseActivity {
             } else {
                 orderInfoTitleLin.setVisibility(View.GONE);
                 //车辆原订单信息
-                dlrNameTv.setText(resp.dlr_nm);
+                dlrNameTv.setText(resp.dlr_nm+resp.aid_dlr_nm);
                 brandTv.setText(resp.brand);
                 trixTv.setText(resp.trix);
                 modelTv.setText(resp.model_name);

@@ -42,7 +42,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-        debug{
+        debug {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
@@ -97,6 +97,12 @@ dependencies {
     compile(name: 'AliyunSdk-RC', ext: 'aar')
 //    compile files('libs/jcore-android-1.1.6.jar')
 //    compile files('libs/jpush-android-3.0.8.jar')
+    //    compile 'com.squareup.okhttp:okhttp:2.7.5'
+    //    compile 'com.squareup.retrofit2:retrofit:2.3.0'
+    compile project(path: ':PickerLib')
+    compile project(path: ':photoLibrary')
+
+    //    compile 'com.orhanobut:logger:2.1.1'
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -109,23 +115,17 @@ dependencies {
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'io.sentry:sentry-android:1.5.4'
-//    compile 'com.squareup.okhttp:okhttp:2.7.5'
     compile 'com.umeng.analytics:analytics:6.1.2'
     compile 'com.instabug.library:instabug:4.2.10'
     compile 'com.android.support:multidex:1.0.2'
     compile 'com.amap.api:location:3.6.1'
     compile 'com.shizhefei:LargeImageView:1.0.9'
-    testCompile 'junit:junit:4.12'
     compile 'com.squareup.okhttp3:okhttp:3.9.0'
-//    compile 'com.squareup.retrofit2:retrofit:2.3.0'
-    compile "io.reactivex.rxjava2:rxjava:2.1.6"
+    compile 'io.reactivex.rxjava2:rxjava:2.1.6'
     compile 'com.growingio.android:vds-android-agent:1.1.1@aar'
-    compile project(path: ':PickerLib')
-    compile project(path: ':photoLibrary')
-
     compile 'com.github.promeg:tinypinyin:1.0.0'
     compile 'com.facebook.rebound:rebound:0.3.8'
-//    compile 'com.orhanobut:logger:2.1.1'
+    testCompile 'junit:junit:4.12'
 }
 
 class BuildTimeListener implements TaskExecutionListener, BuildListener {
@@ -184,7 +184,8 @@ afterEvaluate {
         if (dx.additionalParameters == null) {
             dx.additionalParameters = []
         }
-        dx.additionalParameters += '--set-max-idx-number=48000'
+//        dx.additionalParameters += '--set-max-idx-number=48000'
+        dx.additionalParameters += '--multi-dex'
         dx.additionalParameters += "--main-dex-list=$projectDir/multidex.keep".toString()
     }
 }
