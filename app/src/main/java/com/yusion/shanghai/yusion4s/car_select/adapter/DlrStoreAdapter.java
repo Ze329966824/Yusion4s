@@ -42,7 +42,7 @@ public class DlrStoreAdapter extends RecyclerView.Adapter<DlrStoreAdapter.ViewHo
 
     @Override
     public DlrStoreAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        return new ViewHolder(mInflater.inflate(R.layout.item_brand, parent, false));
+        return new ViewHolder(mInflater.inflate(R.layout.item_dlr, parent, false));
     }
 
     @Override
@@ -74,15 +74,15 @@ public class DlrStoreAdapter extends RecyclerView.Adapter<DlrStoreAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvCity;
-        ImageView avatar;
-        View content;
+//        ImageView avatar;
+//        View content;
 
         public ViewHolder(View itemView) {
             super(itemView);
             tvCity = itemView.findViewById(R.id.tvCity);
-            avatar = itemView.findViewById(R.id.ivAvatar);
-            avatar.setVisibility(View.GONE);
-            content = itemView.findViewById(R.id.content);
+//            avatar = itemView.findViewById(R.id.ivAvatar);
+//            avatar.setVisibility(View.GONE);
+//            content = itemView.findViewById(R.id.content);
         }
     }
 
