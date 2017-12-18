@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -30,6 +31,7 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActi
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
 
 /**
@@ -369,12 +371,12 @@ public class OrderDetailActivity extends BaseActivity {
         ReplaceSPReq replaceSPReq = new ReplaceSPReq();
         replaceSPReq.clt_id = spouse_clt_id;
         Log.e("TAG", "spouse_clt_id = "+spouse_clt_id);
-        //激活配偶登录
+        //1.激活配偶登录
         AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
             if (data1 == null) {
                 return;
             }
-            //检查配偶信息是否完善
+            //2.检查配偶信息是否完善
             AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
                 @Override
                 public void onItemDataCallBack(CheckInfoCompletedResp data) {
@@ -383,9 +385,8 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                     //完善 - 提交成功
                     if (data.info_completed) {
-                        Toast.makeText(OrderDetailActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                        //
-
+//                        Toast.makeText(OrderDetailActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
+                        ToastUtil.showToast(OrderDetailActivity.this,"提交成功");
                     }
                     //未完善
                     else {
