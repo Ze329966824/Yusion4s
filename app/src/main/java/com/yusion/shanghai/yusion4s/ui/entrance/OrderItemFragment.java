@@ -213,6 +213,9 @@ public class OrderItemFragment extends BaseFragment {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st", item.status_st);
+                    if (item.can_switch_sp){
+                        intent.putExtra("spouse_clt_id",item.spouse_clt_id);
+                    }
 //                    intent.putExtra("modify_permission", item.modify_permission);
                     mContext.startActivity(intent);
                 }

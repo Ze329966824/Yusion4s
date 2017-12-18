@@ -414,16 +414,15 @@ public class OrderDetailActivity extends BaseActivity {
                                 intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
                             } catch (Exception e) {
                             }
-                            startActivity(intent);
+                            if (intent != null) {
+                                startActivity(intent);
+                            }
                             dialog1.dismiss();
                         });
-
                     }
                 }
             });
         });
-
-
     }
 
     private void initData() {
