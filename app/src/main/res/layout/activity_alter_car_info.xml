@@ -94,7 +94,6 @@
                     tools:visibility="visible">
 
 
-
                     <LinearLayout
                         android:id="@+id/car_info_dlr_lin2"
                         style="@style/apply_info_item_extra">
@@ -341,10 +340,6 @@
                         android:layout_height="10dp"
                         android:background="@color/bg_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
 
                     <LinearLayout
                         android:id="@+id/oldcar_info_lin"
@@ -583,7 +578,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout style="@style/apply_info_item">
@@ -760,13 +754,6 @@
                         </FrameLayout>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
-
 
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"
