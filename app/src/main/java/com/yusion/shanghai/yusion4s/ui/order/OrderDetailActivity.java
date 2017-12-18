@@ -21,6 +21,9 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -385,8 +388,21 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                     //完善 - 提交成功
                     if (data.info_completed) {
-//                        Toast.makeText(OrderDetailActivity.this, "提交成功", Toast.LENGTH_SHORT).show();
-                        ToastUtil.showToast(OrderDetailActivity.this,"提交成功");
+                        ReSubmitReq req = new ReSubmitReq();
+                        req.clt_id = spouse_clt_id;
+                        req.app_id = app_id;
+                        //3：重新提报
+                        OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
+                            if (data2 != null) {
+                                ToastUtil.showToast(OrderDetailActivity.this,"提交成功");
+                                app_id = data2.app_id;
+                                Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
+                                intent.putExtra("app_id", app_id);
+                                intent.putExtra("status_st", status_st);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
                     }
                     //未完善
                     else {
@@ -672,7 +688,6 @@ public class OrderDetailActivity extends BaseActivity {
                 i2.putExtra("app_id", app_id);
                 startActivity(i2);
             });
-
         });
     }
 

@@ -7,6 +7,8 @@ import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 
@@ -55,4 +57,8 @@ public interface OrderService {
     //获取金融方案详情
     @GET("/api/application/get_confirm_financial_plan/")
     Call<BaseResult<GetFinancePlanDetailResp>> getFinancePlanDetail(@Query("app_id") String app_id);
+
+    // 更换配偶重新提报
+    @POST("/api/application/resubmit_app/")
+    Call<BaseResult<ReSubmitResp>> reSubmit(@Body ReSubmitReq req);
 }

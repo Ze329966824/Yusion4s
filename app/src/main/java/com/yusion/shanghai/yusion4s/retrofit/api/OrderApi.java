@@ -9,6 +9,8 @@ import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
@@ -116,6 +118,15 @@ public class OrderApi {
             @Override
             public void onCustomResponse(int code, String msg) {
                 onCodeAndMsgCallBack.callBack(code, msg);
+            }
+        });
+    }
+
+    public static void reSubmit(final Context context, ReSubmitReq req, final OnItemDataCallBack<ReSubmitResp> onItemDataCallBack) {
+        Api.getOrderService().reSubmit(req).enqueue(new CustomCallBack<ReSubmitResp>(context) {
+            @Override
+            public void onCustomResponse(ReSubmitResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
             }
         });
     }
