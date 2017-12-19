@@ -24,6 +24,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
@@ -45,9 +46,7 @@ import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * A simple {@link Fragment} subclass.
- */
+
 public class OrderItemFragment extends BaseFragment {
 
     private Handler handler = new Handler();
@@ -214,6 +213,9 @@ public class OrderItemFragment extends BaseFragment {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st", item.status_st);
+                    if (item.can_switch_sp){
+                        intent.putExtra("spouse_clt_id",item.spouse_clt_id);
+                    }
 //                    intent.putExtra("modify_permission", item.modify_permission);
                     mContext.startActivity(intent);
                 }
@@ -246,10 +248,18 @@ public class OrderItemFragment extends BaseFragment {
             } else if (item.status_st == 9) {//已取消9
                 vh.st.setTextColor(Color.parseColor("#666666"));
             }
-            if (item.modify_permission) {
-                vh.change.setVisibility(View.VISIBLE);
-            } else {
-                vh.change.setVisibility(View.GONE);
+            if (item.can_switch_sp){
+                vh.oneBtnlibn.setVisibility(View.VISIBLE);
+                vh.twoBtnlibn.setVisibility(View.GONE);
+            }
+            else {
+                vh.twoBtnlibn.setVisibility(View.VISIBLE);
+                vh.oneBtnlibn.setVisibility(View.GONE);
+                if (item.modify_permission) {
+                    vh.change.setVisibility(View.VISIBLE);
+                } else {
+                    vh.change.setVisibility(View.GONE);
+                }
             }
 
             vh.st.setText(item.status_code);
@@ -302,33 +312,37 @@ public class OrderItemFragment extends BaseFragment {
                 }
             });
 
-            vh.change.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (item.vehicle_cond.equals("新车")) {
-                        Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
-                        i1.putExtra("app_id", item.app_id);
-                        i1.putExtra("car_type", item.vehicle_cond);
-                        Log.e("TAG", item.vehicle_cond);
-                        mContext.startActivity(i1);
-                    } else {
-                        Intent i1 = new Intent(mContext, AlterOldCarInfoActivity.class);
-                        i1.putExtra("app_id", item.app_id);
-                        i1.putExtra("car_type", item.vehicle_cond);
-                        Log.e("TAG", item.vehicle_cond);
-                        mContext.startActivity(i1);
-                    }
+            vh.change.setOnClickListener(v -> {
+                if (item.vehicle_cond.equals("新车")) {
+                    Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
+                    i1.putExtra("app_id", item.app_id);
+                    i1.putExtra("car_type", item.vehicle_cond);
+                    Log.e("TAG", item.vehicle_cond);
+                    mContext.startActivity(i1);
+                } else {
+                    Intent i1 = new Intent(mContext, AlterOldCarInfoActivity.class);
+                    i1.putExtra("app_id", item.app_id);
+                    i1.putExtra("car_type", item.vehicle_cond);
+                    Log.e("TAG", item.vehicle_cond);
+                    mContext.startActivity(i1);
+                }
 
 //                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
-                }
             });
-            vh.upload.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent i2 = new Intent(mContext, SubmitInformationActivity.class);
-                    i2.putExtra("app_id", item.app_id);
-                    mContext.startActivity(i2);
-                }
+            vh.upload.setOnClickListener(v -> {
+                Intent i2 = new Intent(mContext, SubmitInformationActivity.class);
+                i2.putExtra("app_id", item.app_id);
+                mContext.startActivity(i2);
+            });
+
+            vh.replace.setOnClickListener(v ->{
+                Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                intent.putExtra("app_id", item.app_id);
+                intent.putExtra("status_st", item.status_st);
+                intent.putExtra("spouse_clt_id",item.spouse_clt_id);
+//                Log.e("TAG", "spouse_clt_id:"+item.spouse_clt_id);
+                mContext.startActivity(intent);
+
             });
 
         }
@@ -353,7 +367,10 @@ public class OrderItemFragment extends BaseFragment {
             public TextView phone;
             public TextView change;
             public TextView upload;
+            public TextView replace;
             public ImageView car_icon;
+            public RelativeLayout oneBtnlibn;
+            public RelativeLayout twoBtnlibn;
 
             public VH(View itemView) {
                 super(itemView);
@@ -370,7 +387,10 @@ public class OrderItemFragment extends BaseFragment {
                 phone = ((TextView) itemView.findViewById(R.id.order_list_item_phone_img));
                 change = (TextView) itemView.findViewById(R.id.order_list_item_change_tv);
                 upload = (TextView) itemView.findViewById(R.id.order_list_item_upload_tv);
+                replace = (TextView) itemView.findViewById(R.id.order_list_item_replace_tv);
                 car_icon = (ImageView) itemView.findViewById(R.id.order_list_item_car_icon);
+                oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
+                twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
             }
         }
 

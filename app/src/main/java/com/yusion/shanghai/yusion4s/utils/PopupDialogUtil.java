@@ -66,7 +66,6 @@ public class PopupDialogUtil {
     }
 
 
-
     public static void relevanceInfoDialog(Context context, String title, String name, String mobile , String idno, OnOkClickListener clickListener ) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
@@ -171,7 +170,7 @@ public class PopupDialogUtil {
         show();
     }
 
-    //更换配偶为主待人
+    //更换配偶为主待人-重新提报
     public static void showTwoButtonsDialog(Context context,String title,String content,String leftMsg,String rightMsg,OnOkClickListener clickListener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);

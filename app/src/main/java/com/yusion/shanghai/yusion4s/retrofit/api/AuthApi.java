@@ -3,8 +3,10 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
+import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.auth.UpdateResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
@@ -73,6 +75,24 @@ public class AuthApi {
         Api.getAuthService().update(frontend).enqueue(new CustomCallBack<UpdateResp>(context,dialog) {
             @Override
             public void onCustomResponse(UpdateResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
+    public static void CheckInfoComplete(Context context, String clt_id, final OnItemDataCallBack<CheckInfoCompletedResp> onItemDataCallBack){
+        Api.getAuthService().CheckInfoComplete(clt_id).enqueue(new CustomCallBack<CheckInfoCompletedResp>(context) {
+            @Override
+            public void onCustomResponse(CheckInfoCompletedResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
+    public static void replaceSpToP(Context context, ReplaceSPReq replaceSPReq, final OnItemDataCallBack<LoginResp> onItemDataCallBack){
+        Api.getAuthService().replaceSpToP(replaceSPReq).enqueue(new CustomCallBack<LoginResp>(context) {
+            @Override
+            public void onCustomResponse(LoginResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
         });

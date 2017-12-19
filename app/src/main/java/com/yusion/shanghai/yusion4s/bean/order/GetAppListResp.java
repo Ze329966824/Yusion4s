@@ -30,6 +30,9 @@ public class GetAppListResp {
      * dlr_dfim_mobile : null
      */
 
+
+    public Boolean can_switch_sp;
+    public String spouse_clt_id;
     public String vehicle_price;
     public String loan_amt;
     public String vehicle_loan_amt;
