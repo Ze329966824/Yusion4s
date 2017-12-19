@@ -1659,7 +1659,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         CheApi.getChePriceAndImage(AlterOldCarInfoActivity.this, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
             @Override
             public void onItemDataCallBack(GetChePriceAndImageResp data) {
-                if (data == null || data.result == null) {
+                if (data == null || data.result == null || data.result.file_info == null) {
                     return;
                 }
                 SharedPrefsUtil.getInstance(AlterOldCarInfoActivity.this).putValue("priceAndImage", data.toString());
