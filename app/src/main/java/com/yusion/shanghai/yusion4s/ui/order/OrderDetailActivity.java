@@ -8,22 +8,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
-import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
-import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -373,7 +369,7 @@ public class OrderDetailActivity extends BaseActivity {
 
         ReplaceSPReq replaceSPReq = new ReplaceSPReq();
         replaceSPReq.clt_id = spouse_clt_id;
-        Log.e("TAG", "spouse_clt_id = "+spouse_clt_id);
+        Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
         //1.激活配偶登录
         AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
             if (data1 == null) {
@@ -394,7 +390,7 @@ public class OrderDetailActivity extends BaseActivity {
                         //3：重新提报
                         OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
                             if (data2 != null) {
-                                ToastUtil.showToast(OrderDetailActivity.this,"提交成功");
+                                ToastUtil.showToast(OrderDetailActivity.this, "提交成功");
                                 app_id = data2.app_id;
                                 Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
                                 intent.putExtra("app_id", app_id);
@@ -480,7 +476,18 @@ public class OrderDetailActivity extends BaseActivity {
                     passReason.setText(resp.uw_detail.comments);
                 }
                 pass_title.setText(resp.client_status_code);
-            } else if (resp.status_st == 3) {//审核失败
+            } else if (resp.status_st == 11) {//已完成
+                passRel.setVisibility(View.VISIBLE);
+                waitLin.setVisibility(View.GONE);
+                rejectRel.setVisibility(View.GONE);
+                nore_financeLin.setVisibility(View.GONE);
+                havere_financeLin.setVisibility(View.VISIBLE);
+                if (resp.uw) {
+                    passReason.setText(resp.uw_detail.comments);
+                }
+                pass_title.setText(resp.client_status_code);
+            }
+            else if (resp.status_st == 3) {//审核失败
                 waitLin.setVisibility(View.GONE);
                 passRel.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.VISIBLE);
