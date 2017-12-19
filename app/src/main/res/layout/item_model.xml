@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/content"
     android:layout_width="match_parent"
-    android:paddingLeft="15dp"
     android:layout_height="45dp"
-    android:paddingRight="15dp"
+    android:background="@drawable/selector_model"
     android:gravity="center_vertical"
-    android:orientation="horizontal">
+    android:orientation="horizontal"
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp">
 
 
     <TextView
