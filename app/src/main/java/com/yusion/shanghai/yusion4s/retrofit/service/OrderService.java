@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.retrofit.service;
 import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
+import com.yusion.shanghai.yusion4s.bean.order.ProcessReq;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
@@ -36,7 +37,7 @@ public interface OrderService {
 
     //获取订单列表
     @GET("/api/application/get_app_list/")
-    Call<BaseResult<List<GetAppListResp>>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond);
+    Call<BaseResult<List<GetAppListResp>>> getAppList(@Query("st") String st, @Query("vehicle_cond") String vehicle_cond);
 
     //获取订单详情
     @GET("/api/application/get_app_details/")
@@ -61,4 +62,8 @@ public interface OrderService {
     // 更换配偶重新提报
     @POST("/api/application/resubmit_app/")
     Call<BaseResult<ReSubmitResp>> reSubmit(@Body ReSubmitReq req);
+
+    //获取订单进度
+    @GET("/api/application/app_progress")
+    Call<BaseResult<ProcessReq>> getOrderProcess(@Query("app_id") String app_id);
 }
