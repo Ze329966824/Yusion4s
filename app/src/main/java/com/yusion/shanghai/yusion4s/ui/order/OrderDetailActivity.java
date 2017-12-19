@@ -1,28 +1,40 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
+import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
+import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
 
 /**
@@ -83,7 +95,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView customerIdTv;              //客户身份证号
     private TextView customerNameTv;            //客户姓名
 
-    private TextView dlrNameTv;                 //订单-门店
+    private TextView dlrNameTv;                 //订单-经销商
     private TextView brandTv;                   //订单-品牌
     private TextView trixTv;                    //订单-车系
     private TextView modelTv;                   //订单-车型
@@ -108,7 +120,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView OldcarbusnesspriceTv;//二手车交易价
 
 
-    private TextView beforeDlrNameTv;          //订单-门店(修改前)
+    private TextView beforeDlrNameTv;          //订单-经销商(修改前)
     private TextView beforeBrandTv;            //订单-品牌(修改前)
     private TextView beforeTrixTv;             //订单-车系(修改前)
     private TextView beforeModelTv;            //订单-车型(修改前)
@@ -150,9 +162,14 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView orderDetailChangeBtn;                      //修改资料(两个按钮)
     private TextView orderDetailUploadBtn;                      //提交资料(两个按钮)
 
+
+    private LinearLayout order_detail_replace_layout;            //更换配偶作为主贷人layout
+    private TextView orderDetailReplaceBtn;                     //更换配偶作为主贷人
+
     private FloatingActionButton fab;
     private NestedScrollView mScrollView;
     private String app_id;
+    private String spouse_clt_id;
     private int status_st;
     private String cartype;
 
@@ -163,15 +180,6 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
     private LinearLayout oldcar_info_lin;//二手车的信息
 
-
-    private LinearLayout title_lin;
-    private ImageView title_img;
-    private TextView title_tv;
-    private TextView remark_tv1;
-    private TextView remark_tv2;
-
-    private LinearLayout order_detail_schedule_lin;     //订单进度
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -179,6 +187,7 @@ public class OrderDetailActivity extends BaseActivity {
         UBT.bind(this);
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
+        spouse_clt_id = getIntent().getStringExtra("spouse_clt_id");
         //cartype = getIntent().getStringExtra("car_type");
         initView();
         // initTitleBar(this, "申请详情");
@@ -210,12 +219,7 @@ public class OrderDetailActivity extends BaseActivity {
         havere_oldcar_applyBillPrice_lin = (LinearLayout) findViewById(R.id.havere_oldcar_applyBillPrice_lin);
         newcar_zhidaoAnd_billPrice_lin = (LinearLayout) findViewById(R.id.newcar_zhidaoAnd_billPrice_lin);
         oldcar_info_lin = (LinearLayout) findViewById(R.id.oldcar_info_lin);
-        title_lin = (LinearLayout) findViewById(R.id.title_lin);
-        title_img = (ImageView) findViewById(R.id.title_img);
-        title_tv = (TextView) findViewById(R.id.title_tv);
-        remark_tv1 = (TextView) findViewById(R.id.remark_tv1);
-        remark_tv2 = (TextView) findViewById(R.id.remark_tv2);
-        order_detail_schedule_lin = (LinearLayout) findViewById(R.id.order_detail_schedule_lin);
+
         fab = (FloatingActionButton) findViewById(R.id.fab);
         mScrollView = (NestedScrollView) findViewById(R.id.scrollView_four);
         fab.setOnClickListener(v -> mScrollView.smoothScrollTo(0, 0));
@@ -230,10 +234,6 @@ public class OrderDetailActivity extends BaseActivity {
         pass_title = (TextView) findViewById(R.id.order_detail_status_pass);
         reject_title = (TextView) findViewById(R.id.order_detail_status_reject);
         cancel_title = (TextView) findViewById(R.id.order_detail_status_cancel);
-        title_tv.setTextColor(Color.parseColor("#FFFFFF"));
-        remark_tv1.setTextColor(Color.parseColor("#FFFFFF"));
-        remark_tv2.setTextColor(Color.parseColor("#FFFFFF"));
-
 
         cancelReason = (TextView) findViewById(R.id.order_detail_status_cancel_reason);
         passReason = (TextView) findViewById(R.id.order_detail_status_pass_reason);
@@ -329,10 +329,12 @@ public class OrderDetailActivity extends BaseActivity {
 
         order_detail_sign_layout = (LinearLayout) findViewById(R.id.order_detail_sign_layout);
         order_detail_change_layout = (LinearLayout) findViewById(R.id.order_detail_change_layout);
+        order_detail_replace_layout = (LinearLayout) findViewById(R.id.order_detail_replace_layout);
 
         orderDetailSignBtn = (Button) findViewById(R.id.order_detail_sign);
         orderDetailChangeBtn = (TextView) findViewById(R.id.order_detail_change_tv);
         orderDetailUploadBtn = (TextView) findViewById(R.id.order_detail_upload_tv);
+        orderDetailReplaceBtn = (TextView) findViewById(R.id.order_detail_replace_tv);
 
         havere_financeLin = (LinearLayout) findViewById(R.id.order_detail_havere_lin);
 
@@ -348,12 +350,79 @@ public class OrderDetailActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        order_detail_schedule_lin.setOnClickListener(v ->{
-            Intent intent = new Intent(OrderDetailActivity.this, ProcessActivity.class);
-            intent.putExtra("app_id", app_id);
-            startActivity(intent);
+
+        // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
+
+
+        orderDetailReplaceBtn.setOnClickListener(v -> {
+            // TODO: 2017/12/12   更换配偶作为主贷人点击 -> 弹窗 ->  {1.是 ->接口二 ①客户信息未完善 ②更换成功}    {2.取消 dismiss}
+
+//            PopupDialogUtil.showTwoButtonsDialog();
+            PopupDialogUtil.showTwoButtonsDialog(OrderDetailActivity.this, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
+
+                dialog.dismiss();
+                checkAndReplace();
+
+            });
+
         });
 
+    }
+
+    private void checkAndReplace() {
+
+        ReplaceSPReq replaceSPReq = new ReplaceSPReq();
+        replaceSPReq.clt_id = spouse_clt_id;
+        Log.e("TAG", "spouse_clt_id = "+spouse_clt_id);
+        //1.激活配偶登录
+        AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
+            if (data1 == null) {
+                return;
+            }
+            //2.检查配偶信息是否完善
+            AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
+                @Override
+                public void onItemDataCallBack(CheckInfoCompletedResp data) {
+                    if (data == null) {
+                        return;
+                    }
+                    //完善 - 提交成功
+                    if (data.info_completed) {
+                        ReSubmitReq req = new ReSubmitReq();
+                        req.clt_id = spouse_clt_id;
+                        req.app_id = app_id;
+                        //3：重新提报
+                        OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
+                            if (data2 != null) {
+                                ToastUtil.showToast(OrderDetailActivity.this,"提交成功");
+                                app_id = data2.app_id;
+                                Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
+                                intent.putExtra("app_id", app_id);
+                                intent.putExtra("status_st", status_st);
+                                startActivity(intent);
+                                finish();
+                            }
+                        });
+                    }
+                    //未完善
+                    else {
+                        PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog1 -> {
+
+                            PackageManager packageManager = OrderDetailActivity.this.getPackageManager();  // 当前Activity获得packageManager对象
+                            Intent intent = new Intent();
+                            try {
+                                intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
+                            } catch (Exception e) {
+                            }
+                            if (intent != null) {
+                                startActivity(intent);
+                            }
+                            dialog1.dismiss();
+                        });
+                    }
+                }
+            });
+        });
     }
 
     private void initData() {
@@ -369,20 +438,23 @@ public class OrderDetailActivity extends BaseActivity {
             }
 
             showNeworOldcarinfolayout(cartype);
-            if (resp.modify_permission) {
-                order_detail_sign_layout.setVisibility(View.GONE);
-                order_detail_change_layout.setVisibility(View.VISIBLE);
-            } else {
-                order_detail_sign_layout.setVisibility(View.VISIBLE);
+            if (spouse_clt_id != null) {
+                order_detail_replace_layout.setVisibility(View.VISIBLE);
                 order_detail_change_layout.setVisibility(View.GONE);
+                order_detail_sign_layout.setVisibility(View.GONE);
+            } else {
+                order_detail_replace_layout.setVisibility(View.GONE);
 
+                if (resp.modify_permission) {
+                    order_detail_sign_layout.setVisibility(View.GONE);
+                    order_detail_change_layout.setVisibility(View.VISIBLE);
+                } else {
+                    order_detail_sign_layout.setVisibility(View.VISIBLE);
+                    order_detail_change_layout.setVisibility(View.GONE);
+
+                }
             }
             if (resp.status_st == 2) {//待审核
-                title_lin.setBackgroundResource(R.mipmap.back_lin1);
-                title_img.setBackgroundResource(R.mipmap.back_img1);
-                title_tv.setText("进行中");
-                remark_tv2.setText("进行中的备注");
-
                 waitLin.setVisibility(View.VISIBLE);
                 passRel.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.GONE);
@@ -392,10 +464,6 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 wait_title.setText(resp.client_status_code);
             } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
-                title_lin.setBackgroundResource(R.mipmap.back_lin1);
-                title_img.setBackgroundResource(R.mipmap.back_img1);
-                title_tv.setText("通过");
-                remark_tv2.setText("通过的备注");
                 passRel.setVisibility(View.VISIBLE);
                 waitLin.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.GONE);
@@ -403,10 +471,6 @@ public class OrderDetailActivity extends BaseActivity {
                 havere_financeLin.setVisibility(View.GONE);
                 pass_title.setText(resp.client_status_code);
             } else if (resp.status_st == 6) {//放款中      //有批复的
-                title_lin.setBackgroundResource(R.mipmap.back_lin1);
-                title_img.setBackgroundResource(R.mipmap.back_img1);
-                title_tv.setText("通过");
-                remark_tv2.setText("通过的备注");
                 passRel.setVisibility(View.VISIBLE);
                 waitLin.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.GONE);
@@ -417,10 +481,6 @@ public class OrderDetailActivity extends BaseActivity {
                 }
                 pass_title.setText(resp.client_status_code);
             } else if (resp.status_st == 3) {//审核失败
-                title_lin.setBackgroundResource(R.mipmap.back_lin2);
-                title_img.setBackgroundResource(R.mipmap.back_img2);
-                title_tv.setText("拒绝");
-                remark_tv2.setText("拒绝的备注");
                 waitLin.setVisibility(View.GONE);
                 passRel.setVisibility(View.GONE);
                 rejectRel.setVisibility(View.VISIBLE);
@@ -428,11 +488,6 @@ public class OrderDetailActivity extends BaseActivity {
                     rejectReason.setText(resp.uw_detail.comments);
                 }
                 reject_title.setText(resp.client_status_code);
-            } else if (resp.status_st == 9) {
-                title_lin.setBackgroundResource(R.mipmap.back_lin3);
-                title_img.setBackgroundResource(R.mipmap.back_img3);
-                title_tv.setText("取消");
-                remark_tv2.setText("取消的备注");
             }
             //金融方案申请和批复
             if (resp.uw && resp.uw_detail != null) {
@@ -499,7 +554,7 @@ public class OrderDetailActivity extends BaseActivity {
             // 车辆原信息和修改信息
             if (resp.is_modify && resp.old_app != null) {
                 orderInfoTitleLin.setVisibility(View.VISIBLE);
-                beforeDlrNameTv.setText(resp.old_app.dlr_nm);
+                beforeDlrNameTv.setText(resp.old_app.dlr_nm + resp.aid_dlr_nm);
                 beforeBrandTv.setText(resp.old_app.brand);
                 beforeTrixTv.setText(resp.old_app.trix);
                 beforeModelTv.setText(resp.old_app.model_name);
@@ -528,7 +583,7 @@ public class OrderDetailActivity extends BaseActivity {
 //                OldcardistancevTv.setText(resp.send_hand_mileage);
 //                OldcartimeTv.setText(resp.send_hand_plate_time);
 //                OldcarAddrTV.setText(resp.origin_plate_reg_addr);
-                dlrNameTv.setText(resp.new_app.dlr_nm);
+                dlrNameTv.setText(resp.new_app.dlr_nm + resp.aid_dlr_nm);
                 brandTv.setText(resp.new_app.brand);
                 trixTv.setText(resp.new_app.trix);
                 modelTv.setText(resp.new_app.model_name);
@@ -577,7 +632,7 @@ public class OrderDetailActivity extends BaseActivity {
             } else {
                 orderInfoTitleLin.setVisibility(View.GONE);
                 //车辆原订单信息
-                dlrNameTv.setText(resp.dlr_nm);
+                dlrNameTv.setText(resp.dlr_nm + resp.aid_dlr_nm);
                 brandTv.setText(resp.brand);
                 trixTv.setText(resp.trix);
                 modelTv.setText(resp.model_name);
@@ -632,7 +687,6 @@ public class OrderDetailActivity extends BaseActivity {
                 i2.putExtra("app_id", app_id);
                 startActivity(i2);
             });
-
         });
     }
 
@@ -652,7 +706,6 @@ public class OrderDetailActivity extends BaseActivity {
             tv2.setTextColor(Color.parseColor("#CBA053"));
         }
     }
-
 
 
     @Override

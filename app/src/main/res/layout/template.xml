@@ -66,6 +66,7 @@
             android:textSize="11.5sp" />
 
         <RelativeLayout
+            android:id="@+id/upload_list_template_img_group"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginBottom="15dp"
@@ -96,6 +97,7 @@
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/fill_9906b7a3"
                 android:text="查看样张"
+                android:clickable="false"
                 android:textColor="#fff"
                 android:textSize="15.5sp"
                 android:visibility="gone"

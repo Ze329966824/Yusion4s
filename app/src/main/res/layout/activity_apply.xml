@@ -9,6 +9,7 @@
     <com.yusion.shanghai.yusion4s.widget.TitleBar
         android:id="@+id/title_bar"
         android:layout_width="0dp"
+        android:background="@color/bg_color"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"

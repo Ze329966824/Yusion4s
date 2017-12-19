@@ -843,7 +843,7 @@
         android:orientation="vertical"
         android:paddingBottom="20dp"
         android:visibility="visible"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <TextView
             android:layout_width="match_parent"
@@ -907,7 +907,7 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:gravity="left"
-                android:text="门店"
+                android:text="经销商"
                 android:textColor="@color/text_light_grey"
                 android:textSize="13.5sp" />
 

@@ -8,6 +8,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
@@ -29,7 +30,7 @@ public class DlrApi {
             @Override
             public void onCustomResponse(List<GetDlrListByTokenResp> data) {
                 if (data == null) {
-                    Toast.makeText(context, "获取门店列表信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "获取经销商列表信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
                 } else {
                     // onItemDataCallBack.callBack(data);
                     onItemDataCallBack.onItemDataCallBack(data);
@@ -37,20 +38,20 @@ public class DlrApi {
             }
         });
     }
-    public static void getDlr(final Context context,String id, final OnItemDataCallBack<DlrNumResp> onItemDataCallBack){
+
+    public static void getDlr(final Context context, String id, final OnItemDataCallBack<DlrNumResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getDlrNum().getDlrNum(id).enqueue(new CustomCallBack<DlrNumResp>(context,dialog) {
+        Api.getDlrNum().getDlrNum(id).enqueue(new CustomCallBack<DlrNumResp>(context, dialog) {
             @Override
             public void onCustomResponse(DlrNumResp data) {
                 if (data == null) {
-                    Toast.makeText(context, "获取门店订单信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(context, "获取经销商订单信息失败,请再试一次。", Toast.LENGTH_SHORT).show();
                 }else {
                     onItemDataCallBack.onItemDataCallBack(data);
                 }
             }
         });
     }
-
 
 
     public static void getLoanBank(final Context context, String dlr_id, final OnItemDataCallBack<List<GetLoanBankResp>> onItemDataCallBack) {
@@ -83,9 +84,9 @@ public class DlrApi {
         });
     }
 
-    public static void getModel(final Context context, String trix, final OnItemDataCallBack<List<GetModelResp>> onItemDataCallBack) {
+    public static void getModel(final Context context, String trix, String vehicle_cond, final OnItemDataCallBack<List<GetModelResp>> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getDlrService().getModel(trix).enqueue(new CustomCallBack<List<GetModelResp>>(context, dialog) {
+        Api.getDlrService().getModel(trix, vehicle_cond).enqueue(new CustomCallBack<List<GetModelResp>>(context, dialog) {
             @Override
             public void onCustomResponse(List<GetModelResp> data) {
                 onItemDataCallBack.onItemDataCallBack(data);
@@ -93,9 +94,9 @@ public class DlrApi {
         });
     }
 
-    public static void getProductType(final Context context, String bank_id, String dlr_id,String vehicle_cond, final OnItemDataCallBack<GetproductResp> onItemDataCallBack) {
+    public static void getProductType(final Context context, String bank_id, String dlr_id, String vehicle_cond, final OnItemDataCallBack<GetproductResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getDlrService().getProductType(bank_id, dlr_id,vehicle_cond).enqueue(new CustomCallBack<GetproductResp>(context, dialog) {
+        Api.getDlrService().getProductType(bank_id, dlr_id, vehicle_cond).enqueue(new CustomCallBack<GetproductResp>(context, dialog) {
             @Override
             public void onCustomResponse(GetproductResp resp) {
                 onItemDataCallBack.onItemDataCallBack(resp);
@@ -118,6 +119,16 @@ public class DlrApi {
         Api.getDlrService().getOldCarAddr().enqueue(new CustomCallBack<List<GetproductResp.SupportAreaBean>>(context, dialog) {
             @Override
             public void onCustomResponse(List<GetproductResp.SupportAreaBean> data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
+    public static void getStore(final Context context, String dlr_id, final OnItemDataCallBack<List<GetStoreList>> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getDlrService().getStore(dlr_id).enqueue(new CustomCallBack<List<GetStoreList>>(context, dialog) {
+            @Override
+            public void onCustomResponse(List<GetStoreList> data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
         });

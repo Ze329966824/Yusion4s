@@ -1,5 +1,6 @@
 package com.yusion.shanghai.yusion4s.glide;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import android.support.annotation.ColorRes;
 import android.support.annotation.IntDef;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.widget.ImageView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
@@ -124,6 +126,7 @@ public class ShapeImageView extends android.support.v7.widget.AppCompatImageView
     }
 
     // 绘制圆角
+    @SuppressLint("WrongConstant")
     private void drawDrawable(Canvas canvas, Bitmap bitmap) {
         Paint paint = new Paint();
         paint.setColor(0xffffffff);

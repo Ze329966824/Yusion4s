@@ -3,11 +3,9 @@ package com.yusion.shanghai.yusion4s.ui.upload;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,14 +17,15 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadLogReq;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 
 import java.util.List;
 
+/**
+ * 该页面和UploadListActivity联动
+ */
 public class UploadLabelListActivity extends BaseActivity {
     private ListDealerLabelsResp topItem;
     private RvAdapter adapter;
-    private UploadLogReq req;
     private String app_id;
 
     @Override
@@ -36,85 +35,56 @@ public class UploadLabelListActivity extends BaseActivity {
 
         topItem = ((ListDealerLabelsResp) getIntent().getSerializableExtra("topItem"));
         app_id = getIntent().getStringExtra("app_id");
-        initTitleBar(this, topItem.name).setRightText("提交").setRightClickListener(v -> onBack()).setRightTextColor(Color.WHITE).setLeftClickListener(v -> onBackFish());
 
+        initTitleBar(this, topItem.name).setLeftClickListener(v -> {
+            onBack();
+        });
+//                .setRightText("提交").setRightTextColor(Color.BLACK).setLeftClickListener(v -> onBack()).setRightClickListener(v -> submitLog());
 
-        RecyclerView rv = (RecyclerView) findViewById(R.id.upload_label_list_rv);
+        RecyclerView rv = findViewById(R.id.upload_label_list_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
         adapter = new UploadLabelListActivity.RvAdapter(this, topItem.label_list);
         rv.setAdapter(adapter);
-//        try {
-//            JSONArray jsonArray = new JSONArray(Yusion4sApp.getConfigResp().dealer_material);
-//            mItems.clear();
-//            for (int i = 0; i < jsonArray.length(); i++) {
-//                JSONObject jsonObject = jsonArray.getJSONObject(i);
-//                UploadLabelItemBean uploadLabelItemBean = new Gson().fromJson(jsonObject.toString(), UploadLabelItemBean.class);
-//                mItems.add(uploadLabelItemBean);
-//            }
-//        } catch (JSONException e) {
-//            e.printStackTrace();
-//        }
-//
-        adapter.setOnItemClick(new RvAdapter.OnItemClick() {
-            @Override
-            public void onItemClick(View v, ListDealerLabelsResp.LabelListBean item, int index) {
-                Intent intent = new Intent();
-                intent.setClass(UploadLabelListActivity.this, UploadListActivity.class);
-                intent.putExtra("topItem", item);
-                intent.putExtra("index", index);
-                intent.putExtra("app_id", getIntent().getStringExtra("app_id"));
-                intent.putExtra("clt_id", item.clt_id);
-                startActivityForResult(intent, 100);
-            }
+        adapter.setOnItemClick((v, item, index) -> {
+            Intent intent = new Intent();
+            intent.setClass(UploadLabelListActivity.this, ExtraUploadListActivity.class);
+
+            intent.putExtra("topItem", item);
+            intent.putExtra("index", index);
+            intent.putExtra("app_id", getIntent().getStringExtra("app_id"));
+            intent.putExtra("clt_id", item.clt_id);
+            startActivityForResult(intent, 100);
         });
     }
 
     @Override
     public void onBackPressed() {
-        onBackFish();
-    }
-
-    private void onBackFish() {
-        finish();
+        onBack();
     }
 
     private void onBack() {
-
-//        UploadApi.getLog(UploadLabelListActivity.this, new OnCodeAndMsgCallBack() {
-//            @Override
-//            public void callBack(int code, String msg) {
-//                Log.e("ssss",msg);
-//                ///征信授权书
-//                //
-//                //
-//                //
-//            }
-//        });
-
-        req = new UploadLogReq();
-        req.app_id = app_id;
-        req.file_name = topItem.name;
-        req.file_value = topItem.value;
-        Log.e("TAG", req.file_name);
-        Log.e("TAG", req.file_value);
-
-//        if (topItem.name.equals("征信授权书上传")) {
-//            req.file_label = "征信授权书上传";
-//        } else if (topItem.name.equals("基本资料上传")) {
-//            req.file_label = "基本资料上传";
-//        } else if (topItem.name.equals("提车资料上传")) {
-//            req.file_label = "提车资料上传";
-//        } else if (topItem.name.equals("抵押资料上传")) {
-//            req.file_label = "FILE_MORTGAGE_CHOICE";
-//        }
-        UploadApi.uploadLog(this, req, new OnCodeAndMsgCallBack() {
-            @Override
-            public void callBack(int code, String msg) {
-                finish();
+        //检查是否向服务器打log
+        boolean shouldUploadLog = false;
+        for (ListDealerLabelsResp.LabelListBean labelListBean : topItem.label_list) {
+            if (labelListBean.has_change) {
+                shouldUploadLog = true;
             }
-        });
+        }
+        if (shouldUploadLog) {
+            UploadLogReq req;
+            req = new UploadLogReq();
+            req.app_id = app_id;
+            req.file_name = topItem.name;
+            req.file_value = topItem.value;
+            UploadApi.uploadLog(this, req, (code, msg) -> {
+            });
+        } else {
+        }
 
-        //  finish();
+        Intent intent = new Intent(this, SubmitInformationActivity.class);
+        intent.putExtra("app_id", app_id);
+        startActivity(intent);
+        finish();
     }
 
     @Override
@@ -167,12 +137,7 @@ public class UploadLabelListActivity extends BaseActivity {
                 holder.status.setVisibility(View.GONE);
                 holder.icon.setVisibility(View.VISIBLE);
             }
-            holder.itemView.setOnClickListener(mOnItemClick == null ? null : new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    mOnItemClick.onItemClick(v, item, position);
-                }
-            });
+            holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item, position));
 
         }
 
@@ -198,10 +163,10 @@ public class UploadLabelListActivity extends BaseActivity {
 
             public VH(View itemView) {
                 super(itemView);
-                name = ((TextView) itemView.findViewById(R.id.upload_label_list_item_name_tv));
-                status = ((TextView) itemView.findViewById(R.id.upload_label_list_item_status_tv));
-                icon = ((ImageView) itemView.findViewById(R.id.upload_label_list_icon_img));
-                mark = ((TextView) itemView.findViewById(R.id.upload_label_list_item_mark_tv));
+                name = itemView.findViewById(R.id.upload_label_list_item_name_tv);
+                status = itemView.findViewById(R.id.upload_label_list_item_status_tv);
+                icon = itemView.findViewById(R.id.upload_label_list_icon_img);
+                mark = itemView.findViewById(R.id.upload_label_list_item_mark_tv);
             }
         }
     }

@@ -1,12 +1,14 @@
 package com.yusion.shanghai.yusion4s.bean.dlr;
 
+import com.google.gson.Gson;
+import com.yusion.shanghai.yusion4s.car_select.suspension.ISuspensionInterface;
+
 /**
  * Created by ice on 2017/7/28.
  */
 
-public class GetTrixResp {
-
-
+public class GetTrixResp implements ISuspensionInterface {
+//public class GetTrixResp {
     /**
      * superior : 307
      * level : 1
@@ -21,4 +23,23 @@ public class GetTrixResp {
     public Object trix_code;
     public String trix_id;
     public String che_300_id;
+    public boolean has_header;
+    public String header_name;
+    public String series_group_name;
+    public boolean has_select_by_user;
+
+    @Override
+    public String toString() {
+        return new Gson().toJson(this);
+    }
+
+    @Override
+    public boolean isShowSuspension() {
+        return true;
+    }
+
+    @Override
+    public String getSuspensionTag() {
+        return series_group_name;
+    }
 }

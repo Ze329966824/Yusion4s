@@ -7,9 +7,10 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
-import com.yusion.shanghai.yusion4s.bean.order.ProcessReq;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
@@ -20,8 +21,6 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 
 import java.util.List;
-
-import static android.R.attr.data;
 
 /**
  * Created by aa on 2017/8/9.
@@ -123,13 +122,10 @@ public class OrderApi {
         });
     }
 
-    public static void getOrderProcess(final Context context, String app_id, final OnItemDataCallBack<ProcessReq> onItemDataCallBack) {
-        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-       // Api.getOrderService().getOrderProcess().enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
-
-             Api.getOrderService().getOrderProcess(app_id).enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
+    public static void reSubmit(final Context context, ReSubmitReq req, final OnItemDataCallBack<ReSubmitResp> onItemDataCallBack) {
+        Api.getOrderService().reSubmit(req).enqueue(new CustomCallBack<ReSubmitResp>(context) {
             @Override
-            public void onCustomResponse(ProcessReq data) {
+            public void onCustomResponse(ReSubmitResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
         });

@@ -1,8 +1,10 @@
 package com.yusion.shanghai.yusion4s.retrofit.service;
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
+import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
+import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.auth.UpdateResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
@@ -37,4 +39,13 @@ public interface AuthService {
 
     @GET("/api/check_new_app/")
     Call<BaseResult<UpdateResp>> update(@Query("frontend") String frontend);
+
+    //检查用户信息是否完整
+    @GET("/api/client/check_client_info_completed/")
+    Call<BaseResult<CheckInfoCompletedResp>> CheckInfoComplete(@Query("clt_id") String clt_id);
+
+    //转换配偶为主带人
+    @POST("/api/client/enable_spouse_auth_account/")
+    Call<BaseResult<LoginResp>> replaceSpToP(@Body ReplaceSPReq replaceSPReq);
+
 }

@@ -35,12 +35,13 @@ import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
+import com.yusion.shanghai.yusion4s.ui.SingleImgUploadForCreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
+
 
 import org.greenrobot.eventbus.EventBus;
 
@@ -52,40 +53,37 @@ import static com.yusion.shanghai.yusion4s.R.layout.autonym_certify;
 public class AutonymCertifyFragment extends DoubleCheckFragment {
 
     private int _DIR_REL_INDEX = 0;
-
     private String ID_BACK_FID = "";
     private String ID_FRONT_FID = "";
     private String DRI_FID = "";
-
     private String drivingLicImgUrl = "";
     private String idBackImgUrl = "";
     private String idFrontImgUrl = "";
-
     private OcrResp.ShowapiResBodyBean ocrResp = new OcrResp.ShowapiResBodyBean();
 
     @BindView(id = R.id.autonym_certify_id_back_tv, widgetName = "autonym_certify_id_back_tv")
-    private TextView autonym_certify_id_back_tv;
+    private TextView autonym_certify_id_back_tv;          //身份证人像面上传状态
 
     @BindView(id = R.id.autonym_certify_id_front_tv, widgetName = "autonym_certify_id_front_tv")
-    private TextView autonym_certify_id_front_tv;
+    private TextView autonym_certify_id_front_tv;         //身份证国徽面上传状态
 
     @BindView(id = R.id.autonym_certify_name_tv, widgetName = "autonym_certify_name_tv")
-    private EditText autonym_certify_name_tv;
+    private EditText autonym_certify_name_tv;              //姓名
 
     @BindView(id = R.id.autonym_certify_id_number_tv, widgetName = "autonym_certify_id_number_tv")
-    private EditText autonym_certify_id_number_tv;
+    private EditText autonym_certify_id_number_tv;         //身份证号
 
     @BindView(id = R.id.autonym_certify_mobile_tv, widgetName = "autonym_certify_mobile_tv")
-    private EditText autonym_certify_mobile_tv;
+    private EditText autonym_certify_mobile_tv;            //手机号
 
     @BindView(id = R.id.autonym_certify_driving_license_tv, widgetName = "autonym_certify_driving_license_tv")
-    private TextView autonym_certify_driving_license_tv;
+    private TextView autonym_certify_driving_license_tv;     //驾驶证上传状态
 
     @BindView(id = R.id.autonym_certify_driving_license_rel_tv, widgetName = "autonym_certify_driving_license_rel_tv")
-    private TextView autonym_certify_driving_license_rel_tv;
+    private TextView autonym_certify_driving_license_rel_tv;   //驾驶证与本人关系
 
     @BindView(id = R.id.autonym_certify_next_btn, widgetName = "autonym_certify_next_btn", onClick = "submitAutonymCertify")
-    private Button autonym_certify_next_btn;
+    private Button autonym_certify_next_btn;                      //下一步
 
     private LinearLayout autonym_certify_warnning_lin;
     private LinearLayout autonym_certify_driving_license_rel_lin;
@@ -93,15 +91,10 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private LinearLayout autonym_certify_id_front_lin;
     private LinearLayout autonym_certify_driving_license_lin;
     private LinearLayout autonym_certify_id_number_lin;
-    //    private TextView personal_info_clt_nm_edt;
-//    private TextView personal_info_id_no_edt;
-//    private TextView personal_info_gender_tv;
-//    private TextView personal_info_reg_tv;
     private TextView step1;
     private TextView step2;
     private TextView step3;
     private ApplyActivity applyActivity;
-
 
     void submitAutonymCertify(View view) {
         autonym_certify_next_btn.setFocusable(true);
@@ -125,13 +118,10 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     };
 
     public AutonymCertifyFragment() {
-        // Required empty public constructor
     }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(autonym_certify, container, false);
     }
 
@@ -139,29 +129,48 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         initView(view);
-
-        onClick(view);
-
     }
 
-    private void onClick(View view) {
-        UBT.bind(this, view, ApplyActivity.class.getSimpleName());
-
-        autonym_certify_id_number_lin.setOnClickListener(new View.OnClickListener() {
+    //三要素校验
+    private void checkMobile(OnItemDataCallBack callBack) {
+        ProductApi.check3Elements(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, new OnItemDataCallBack<Check3ElementsResp>() {
             @Override
-            public void onClick(View v) {
-                if (!autonym_certify_id_number_tv.isEnabled()) {
-                    Toast.makeText(mContext, "请重新拍摄身份证人像面并识别成功！", Toast.LENGTH_SHORT).show();
+            public void onItemDataCallBack(Check3ElementsResp data) {
+                if (data != null) {
+                    if (data.match.equals("1")) {
+                        callBack.onItemDataCallBack(true);
+                    } else {
+                        PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", dialog -> {
+                            if (!applyActivity.isFinishing()) {
+                                dialog.dismiss();
+                            }
+                        });
+                    }
                 }
             }
         });
+    }
+
+    private void initView(View view) {
+        UBT.bind(this, view, ApplyActivity.class.getSimpleName());
+        applyActivity = (ApplyActivity) getActivity();
+        autonym_certify_warnning_lin = view.findViewById(R.id.autonym_certify_warnning_lin);
+        autonym_certify_driving_license_rel_lin = view.findViewById(R.id.autonym_certify_driving_license_rel_lin);
+        autonym_certify_id_back_lin = view.findViewById(R.id.autonym_certify_id_back_lin);
+        autonym_certify_id_front_lin = view.findViewById(R.id.autonym_certify_id_front_lin);
+        autonym_certify_driving_license_lin = view.findViewById(R.id.autonym_certify_driving_license_lin);
+        autonym_certify_id_number_lin = view.findViewById(R.id.autonym_certify_id_number_lin);
+        step1 = view.findViewById(R.id.step1);
+        step2 = view.findViewById(R.id.step2);
+        step3 = view.findViewById(R.id.step3);
+
+
         mDoubleCheckChangeBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
         });
-
+        //二次确认
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
-
             checkMobile(data -> {
                 ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, data1 -> {
                     if (data1 == null) {
@@ -174,19 +183,14 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                             applyActivity.mClientInfo.reg_addr_details = "";
                         } else {
                             applyActivity.mClientInfo.reg_addr_details = ocrResp.addr;
-
                         }
                         applyActivity.mClientInfo.reg_addr.province = ocrResp.province;
                         applyActivity.mClientInfo.reg_addr.city = ocrResp.city;
                         applyActivity.mClientInfo.reg_addr.district = ocrResp.town;
                     }
-
-
                     applyActivity.mClientInfo.drv_lic_relationship = ((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
                     Log.e("TAG", "mClientInfo: {" + applyActivity.mClientInfo.toString() + "}");
-
                     uploadUrl(data1.clt_id);
-//                nextStep()
                 });
             });
         });
@@ -194,12 +198,6 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         autonym_certify_next_btn.setOnFocusChangeListener((v, hasFocus) -> {
             if (hasFocus) {
                 autonym_certify_next_btn.clearFocus();
-
-//                if (!Settings.isOnline) {
-//                    nextStep();
-//                    return;
-//                }
-
                 if (checkCanNextStep()) {
                     clearDoubleCheckItems();
                     addDoubleCheckItem("姓名", autonym_certify_name_tv.getText().toString());
@@ -207,9 +205,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                     addDoubleCheckItem("手机号", autonym_certify_mobile_tv.getText().toString());
                     mDoubleCheckDialog.show();
                 }
-
             }
         });
+        //选择驾驶证与本人关系
         autonym_certify_driving_license_rel_lin.setOnClickListener(v -> {
             WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_key, _DIR_REL_INDEX, autonym_certify_driving_license_rel_lin, autonym_certify_driving_license_rel_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
@@ -219,8 +217,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             });
 
         });
+        //身份证人像面上传
         autonym_certify_id_back_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_BACK);
             intent.putExtra("role", Constants.PersonType.LENDER);
             intent.putExtra("imgUrl", idBackImgUrl);
@@ -229,8 +228,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             intent.putExtra("ocrResp", ocrResp);
             startActivityForResult(intent, Constants.REQUEST_DOCUMENT);
         });
+        //身份证国徽面上传
         autonym_certify_id_front_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_FRONT);
             intent.putExtra("role", Constants.PersonType.LENDER);
             intent.putExtra("imgUrl", idFrontImgUrl);
@@ -238,8 +238,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             intent.putExtra("objectKey", ID_FRONT_FID);
             startActivityForResult(intent, Constants.REQUEST_DOCUMENT);
         });
+        //驾驶证上传
         autonym_certify_driving_license_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.DRI_LIC);
             intent.putExtra("role", Constants.PersonType.LENDER);
             intent.putExtra("imgUrl", drivingLicImgUrl);
@@ -261,48 +262,10 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         }
 
         autonym_certify_warnning_lin.post(() -> handler.sendEmptyMessageDelayed(0, 2000));
-    }
-
-    private void checkMobile(OnItemDataCallBack callBack) {
-        ProductApi.check3Elements(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, new OnItemDataCallBack<Check3ElementsResp>() {
-            @Override
-            public void onItemDataCallBack(Check3ElementsResp data) {
-                if (data != null) {
-                    if (data.match.equals("1")) {
-                        callBack.onItemDataCallBack(true);
-                    } else {
-                        PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", dialog -> {
-                            if (!applyActivity.isFinishing()) {
-                                dialog.dismiss();
-                            }
-                        });
-                    }
-                }
-            }
-        });
 
     }
 
-    private void initView(View view) {
-        applyActivity = (ApplyActivity) getActivity();
-//        autonym_certify_id_number_tv = (EditText) view.findViewById(R.id.autonym_certify_id_number_tv);
-//        autonym_certify_name_tv = (EditText) view.findViewById(R.id.autonym_certify_name_tv);
-        autonym_certify_warnning_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_warnning_lin);
-        autonym_certify_driving_license_rel_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_driving_license_rel_lin);
-        autonym_certify_id_back_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_id_back_lin);
-        autonym_certify_id_front_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_id_front_lin);
-        autonym_certify_driving_license_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_driving_license_lin);
-        autonym_certify_id_number_lin = (LinearLayout) view.findViewById(R.id.autonym_certify_id_number_lin);
-        step1 = (TextView) view.findViewById(R.id.step1);
-        step2 = (TextView) view.findViewById(R.id.step2);
-        step3 = (TextView) view.findViewById(R.id.step3);
-
-//        personal_info_clt_nm_edt = (TextView) view.findViewById(R.id.personal_info_clt_nm_edt);
-//        personal_info_id_no_edt = (TextView) view.findViewById(R.id.personal_info_id_no_edt);
-//        personal_info_gender_tv = (TextView) view.findViewById(R.id.personal_info_gender_tv);
-//        personal_info_reg_tv = (TextView) view.findViewById(R.id.personal_info_reg_tv);
-    }
-
+    //上传图片
     private void uploadUrl(String cltId) {
         UploadFilesUrlReq.FileUrlBean idBackBean = new UploadFilesUrlReq.FileUrlBean();
         idBackBean.file_id = ID_BACK_FID;
@@ -337,7 +300,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
 
     }
 
-
+    //格式、判空校验
     private Boolean checkCanNextStep() {
         if (Settings.isShameData) {
             return true;
@@ -365,9 +328,9 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         }
         return false;
     }
-
+    //下一步
     private void nextStep() {
-        Log.e("TAG", "auto : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
+        Log.e("TAG", "auto : clientinfo = {" + applyActivity.mClientInfo.toString() + "}");
         EventBus.getDefault().post(ApplyActivityEvent.showPersonalInfoFragment);
     }
 
@@ -379,15 +342,6 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
             if (clientInfoBean == null) return;
             autonym_certify_name_tv.setText(clientInfoBean.clt_nm);
             autonym_certify_id_number_tv.setText(clientInfoBean.id_no);
-//            if (!TextUtils.isEmpty(clientInfoBean.gender)) {
-//                personal_info_gender_tv.setText(clientInfoBean.gender);
-//            }
-//            Boolean empty = !TextUtils.isEmpty(clientInfoBean.reg_addr.province);
-//            Boolean notEmpty = !TextUtils.isEmpty(clientInfoBean.reg_addr.city);
-//            Boolean notEmpty1 = !TextUtils.isEmpty(clientInfoBean.reg_addr.district);
-//            if (empty && notEmpty && notEmpty1) {
-//                personal_info_reg_tv.setText(clientInfoBean.reg_addr.province + "/" + clientInfoBean.reg_addr.city + "/" + clientInfoBean.reg_addr.district);
-//            }
         }
     }
 
@@ -397,10 +351,8 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         if (resultCode == Activity.RESULT_OK) {
             switch (requestCode) {
                 case Constants.REQUEST_DOCUMENT:
-
                     if (data != null) {
                         switch (data.getStringExtra("type")) {
-
                             case Constants.FileLabelType.ID_BACK:
                                 ID_BACK_FID = data.getStringExtra("objectKey");
                                 idBackImgUrl = data.getStringExtra("imgUrl");
@@ -414,11 +366,14 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.idNo)) {
                                     autonym_certify_id_number_tv.setText(ocrResp.idNo);
+                                } else {
+                                    autonym_certify_id_number_tv.setText("");
                                 }
                                 if (!TextUtils.isEmpty(ocrResp.name)) {
                                     autonym_certify_name_tv.setText(ocrResp.name);
-                                }else {
+                                } else {
                                     autonym_certify_name_tv.setText("");
+
                                 }
                                 break;
 
@@ -434,7 +389,6 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                 }
                                 break;
 
-
                             case Constants.FileLabelType.DRI_LIC:
                                 DRI_FID = data.getStringExtra("objectKey");
                                 drivingLicImgUrl = data.getStringExtra("imgUrl");
@@ -448,18 +402,12 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                                 break;
                             default:
                                 break;
-
                         }
                     }
-
                     break;
                 default:
                     break;
-
-
             }
         }
     }
-
-
 }

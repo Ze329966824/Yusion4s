@@ -33,10 +33,9 @@ public class WheelView extends ScrollView {
     private int itemHeight = 0;
     private int[] mSelectedAreaBorder; //两根横线的Y坐标
     private Paint mPaint;
-
-    public interface OnSelectedListener {
-        void onSelected(int selectedIndex, String item);
-    }
+    private int initialY;
+    private Runnable scrollerTask;
+    private int newCheck = 50;
 
     public WheelView(Context context) {
         this(context, null);
@@ -45,15 +44,10 @@ public class WheelView extends ScrollView {
     public WheelView(Context context, AttributeSet attrs) {
         this(context, attrs, 0);
     }
-
     public WheelView(Context context, AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
         init(context);
     }
-
-    private int initialY;
-    private Runnable scrollerTask;
-    private int newCheck = 50;
 
     private void initData() {
         mDisplayItemCount = mOffset * 2 + 1;
@@ -268,5 +262,9 @@ public class WheelView extends ScrollView {
 
     public void setOnSelectedListener(OnSelectedListener onSelectedListener) {
         this.mOnSelectedListener = onSelectedListener;
+    }
+
+    public interface OnSelectedListener {
+        void onSelected(int selectedIndex, String item);
     }
 }

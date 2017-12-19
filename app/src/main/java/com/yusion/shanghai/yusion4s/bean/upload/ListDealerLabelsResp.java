@@ -40,11 +40,13 @@ public class ListDealerLabelsResp implements Serializable{
         public String role;
         public String id;
         public String name;
+        public String ftype;
         public String value;
         public String clt_id;
         public int has_img;
         public int has_error;
         public List<String> label_list;
+        public boolean has_change;
 
         @Override
         public String toString() {

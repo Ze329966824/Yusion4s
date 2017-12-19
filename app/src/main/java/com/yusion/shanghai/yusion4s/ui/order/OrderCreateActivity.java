@@ -37,10 +37,24 @@ public class OrderCreateActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-//        setTitle();
-
-        mCreditInfoFragment.relevance(intent);
-
+        String why_come = intent.getStringExtra("why_come");
+        if (why_come != null) {
+            if ("car_select".equals(why_come)) {
+                if (cartype.equals("新车")) {
+                    mCarInfoFragment.getCarInfo(intent);
+                } else {
+                    mOldCarInfoFragment.getCarInfo(intent);
+                }
+            } else if ("create_user".equals(why_come)) {
+                mCreditInfoFragment.relevance(intent);
+            } else if ("dlr_select".equals(why_come)) {
+                if (cartype.equals("新车")) {
+                    mCarInfoFragment.getDlrInfo(intent);
+                } else {
+                    mOldCarInfoFragment.getDlrInfo(intent);
+                }
+            }
+        }
     }
 
     @Override

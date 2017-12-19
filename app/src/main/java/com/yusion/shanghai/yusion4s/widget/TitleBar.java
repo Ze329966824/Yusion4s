@@ -12,6 +12,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
+
 public class TitleBar extends ViewGroup {
 
     private static final int DEFAULT_MAIN_TEXT_SIZE = 18;
@@ -30,30 +31,15 @@ public class TitleBar extends ViewGroup {
     private View mDividerView;
 
     private boolean mImmersive;
-
-    public TextView getmLeftTextTv() {
-        return mLeftTextTv;
-    }
-
-    public void setmLeftTextTv(TextView mLeftTextTv) {
-        this.mLeftTextTv = mLeftTextTv;
-    }
-
     private int mScreenWidth;
     private int mStatusBarHeight;
     private int mActionPadding;
     private int mOutPadding;
     private int mHeight;
-
-    public interface OnRightViewClickListener {
-        void onRightViewClick(View v);
-    }
-
     public TitleBar(Context context) {
         super(context);
         init(context);
     }
-
     public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -62,6 +48,33 @@ public class TitleBar extends ViewGroup {
     public TitleBar(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
         init(context);
+    }
+
+    /**
+     * 计算状态栏高度高度
+     * getStatusBarHeight
+     *
+     * @return
+     */
+    public static int getStatusBarHeight() {
+        return getInternalDimensionSize(Resources.getSystem(), STATUS_BAR_HEIGHT_RES_NAME);
+    }
+
+    private static int getInternalDimensionSize(Resources res, String key) {
+        int result = 0;
+        int resourceId = res.getIdentifier(key, "dimen", "android");
+        if (resourceId > 0) {
+            result = res.getDimensionPixelSize(resourceId);
+        }
+        return result;
+    }
+
+    public TextView getmLeftTextTv() {
+        return mLeftTextTv;
+    }
+
+    public void setmLeftTextTv(TextView mLeftTextTv) {
+        this.mLeftTextTv = mLeftTextTv;
     }
 
     private void init(Context context) {
@@ -333,22 +346,7 @@ public class TitleBar extends ViewGroup {
         mDividerView.layout(0, getMeasuredHeight() - mDividerView.getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight());
     }
 
-    /**
-     * 计算状态栏高度高度
-     * getStatusBarHeight
-     *
-     * @return
-     */
-    public static int getStatusBarHeight() {
-        return getInternalDimensionSize(Resources.getSystem(), STATUS_BAR_HEIGHT_RES_NAME);
-    }
-
-    private static int getInternalDimensionSize(Resources res, String key) {
-        int result = 0;
-        int resourceId = res.getIdentifier(key, "dimen", "android");
-        if (resourceId > 0) {
-            result = res.getDimensionPixelSize(resourceId);
-        }
-        return result;
+    public interface OnRightViewClickListener {
+        void onRightViewClick(View v);
     }
 }

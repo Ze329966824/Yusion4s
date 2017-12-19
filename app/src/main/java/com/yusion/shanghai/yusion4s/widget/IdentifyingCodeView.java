@@ -46,7 +46,8 @@ public class IdentifyingCodeView extends RelativeLayout {
 
     //存储TextView的数据 数量由自定义控件的属性传入
     private TextView[] mTextViews;
-
+    // 输入完成 和 删除成功 的监听
+    private InputCompleteListener inputCompleteListener;
 
     public IdentifyingCodeView(Context context) {
         this(context, null);
@@ -87,7 +88,6 @@ public class IdentifyingCodeView extends RelativeLayout {
         setListener();
     }
 
-
     //初始化TextView
     private void initTextViews(Context context, int etNumber, int etWidth, Drawable etDividerDrawable, float etTextSize, int etTextColor) {
         // 设置 editText 的输入长度
@@ -125,7 +125,6 @@ public class IdentifyingCodeView extends RelativeLayout {
         }
     }
 
-
     private void setListener() {
         // 监听输入内容
         et.addTextChangedListener(new TextWatcher() {
@@ -161,7 +160,6 @@ public class IdentifyingCodeView extends RelativeLayout {
             }
         });
     }
-
 
     // 给TextView 设置文字
     public void setText(String inputContent) {
@@ -201,7 +199,6 @@ public class IdentifyingCodeView extends RelativeLayout {
         }
     }
 
-
     /**
      * 获取输入文本
      *
@@ -229,7 +226,6 @@ public class IdentifyingCodeView extends RelativeLayout {
         }
     }
 
-
     /**
      * 获取输入的位数
      *
@@ -238,9 +234,6 @@ public class IdentifyingCodeView extends RelativeLayout {
     public int getTextCount() {
         return mEtNumber;
     }
-
-    // 输入完成 和 删除成功 的监听
-    private InputCompleteListener inputCompleteListener;
 
     public void setInputCompleteListener(InputCompleteListener inputCompleteListener) {
         this.inputCompleteListener = inputCompleteListener;

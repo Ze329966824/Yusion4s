@@ -5,6 +5,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetLoanBankResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
+import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.bean.order.DlrNumResp;
@@ -43,7 +44,7 @@ public interface DlrService {
 
     //获取车型
     @GET("/api/crm/dealer/get_vehicle_model_list/")
-    Call<BaseResult<List<GetModelResp>>> getModel(@Query("trix_id") String trix);
+    Call<BaseResult<List<GetModelResp>>> getModel(@Query("trix_id") String trix, @Query("vehicle_cond") String vehicle_cond);
 
     //http://api.alpha.yusiontech.com:8000/api/crm/dealer/other_fee_limit/?vehicle_loan_amt=233300
 
@@ -51,12 +52,17 @@ public interface DlrService {
     @GET("/api/crm/dealer/other_fee_limit/")
     Call<BaseResult<String>> getOtherFeeLimit(@Query("vehicle_loan_amt") String vehicle_loan_amt);
 
-    //刷新首页的门店信息
+    //刷新首页的经销商信息
     @GET("/api/m/rest/dealer/{id}/dashboard/")
     Call<BaseResult<DlrNumResp>> getDlrNum(@Path("id") String id);
 
     //获取二手车的上牌地
     @GET("/api/crm/dealer/get_plate/")
     Call<BaseResult<List<GetproductResp.SupportAreaBean>>> getOldCarAddr();
+
+    //http://192.168.165:8000/api/crm/dealer/get_aid_list/?dealer_id=9
+    //获取商店二级
+    @GET("/api/crm/dealer/get_aid_list/")
+    Call<BaseResult<List<GetStoreList>>> getStore(@Query("dealer_id") String dlr_id);
 
 }
