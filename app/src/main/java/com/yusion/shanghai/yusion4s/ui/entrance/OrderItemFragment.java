@@ -4,6 +4,7 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -33,7 +34,11 @@ import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
+import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
@@ -41,10 +46,14 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoA
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 
 public class OrderItemFragment extends BaseFragment {
@@ -336,15 +345,78 @@ public class OrderItemFragment extends BaseFragment {
             });
 
             vh.replace.setOnClickListener(v ->{
-                Intent intent = new Intent(mContext, OrderDetailActivity.class);
-                intent.putExtra("app_id", item.app_id);
-                intent.putExtra("status_st", item.status_st);
-                intent.putExtra("spouse_clt_id",item.spouse_clt_id);
-//                Log.e("TAG", "spouse_clt_id:"+item.spouse_clt_id);
-                mContext.startActivity(intent);
+                PopupDialogUtil.showTwoButtonsDialog(mContext, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
+
+                    dialog.dismiss();
+                    checkAndReplace(item.app_id,item.spouse_clt_id,item.status_st);
+
+                });
+
+//
+//                Intent intent = new Intent(mContext, OrderDetailActivity.class);
+//                intent.putExtra("app_id", item.app_id);
+//                intent.putExtra("status_st", item.status_st);
+//                intent.putExtra("spouse_clt_id",item.spouse_clt_id);
+////                Log.e("TAG", "spouse_clt_id:"+item.spouse_clt_id);
+//                mContext.startActivity(intent);
 
             });
 
+        }
+
+        private void checkAndReplace(String app_id, String spouse_clt_id, int status_st) {
+
+            ReplaceSPReq replaceSPReq = new ReplaceSPReq();
+            replaceSPReq.clt_id = spouse_clt_id;
+            Log.e("TAG", "spouse_clt_id = "+spouse_clt_id);
+            //1.激活配偶登录
+            AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
+                if (data1 == null) {
+                    return;
+                }
+                //2.检查配偶信息是否完善
+                AuthApi.CheckInfoComplete(mContext, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
+                    @Override
+                    public void onItemDataCallBack(CheckInfoCompletedResp data) {
+                        if (data == null) {
+                            return;
+                        }
+                        //完善 - 提交成功
+                        if (data.info_completed) {
+                            ReSubmitReq req = new ReSubmitReq();
+                            req.clt_id = spouse_clt_id;
+                            req.app_id = app_id;
+                            //3：重新提报
+                            OrderApi.reSubmit(mContext, req, data2 -> {
+                                if (data2 != null) {
+                                    ToastUtil.showToast(mContext,"提交成功");
+                                    Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                                    intent.putExtra("app_id", data2.app_id);
+                                    intent.putExtra("status_st", status_st);
+                                    mContext.startActivity(intent);
+                                    finish();
+                                }
+                            });
+                        }
+                        //未完善
+                        else {
+                            PopupDialogUtil.showOneButtonDialog(mContext, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog1 -> {
+
+                                PackageManager packageManager = mContext.getPackageManager();  // 当前Activity获得packageManager对象
+                                Intent intent = new Intent();
+                                try {
+                                    intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
+                                } catch (Exception e) {
+                                }
+                                if (intent != null) {
+                                    mContext.startActivity(intent);
+                                }
+                                dialog1.dismiss();
+                            });
+                        }
+                    }
+                });
+            });
         }
 
         @Override
