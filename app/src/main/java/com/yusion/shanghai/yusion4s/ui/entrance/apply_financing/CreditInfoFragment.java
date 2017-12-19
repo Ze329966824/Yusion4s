@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -268,7 +270,14 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         delete_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteUserInfo();
+
+                PopupDialogUtil.showTwoButtonsDialog(mContext, "是否删除？", "删除", "取消", new PopupDialogUtil.OnOkClickListener() {
+                    @Override
+                    public void onOkClick(Dialog dialog) {
+                        dialog.dismiss();
+                        deleteUserInfo();
+                    }
+                });
             }
         });
 
