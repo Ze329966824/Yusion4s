@@ -51,8 +51,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
-
 /**
  * Created by aa on 2017/8/9.
  */
@@ -414,6 +412,20 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
                                 // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                                    UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();
+                                    uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
+                                    uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
+                                    uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
+                                    UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
+                                        @Override
+                                        public void callBack(int code, String msg) {
+                                            Log.e("TAG", uploadFilesUrlReq1.bucket);
+                                            Log.e("TAG", uploadFilesUrlReq1.region);
+
+                                        }
+                                    });
+                                }
                                 startActivity(intent);
                                 createActivity.finish();
                             }
