@@ -1133,6 +1133,9 @@ public class OldCarInfoFragment extends BaseFragment {
         CheApi.getChePriceAndImage(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
             @Override
             public void onItemDataCallBack(GetChePriceAndImageResp data) {
+                if (data == null || data.result == null) {
+                    return;
+                }
                 SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
                 Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
                 if (data.result != null) {
