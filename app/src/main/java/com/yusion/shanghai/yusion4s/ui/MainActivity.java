@@ -18,6 +18,8 @@ import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
+import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
+import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragmentEvent;
 
@@ -138,7 +140,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
-
+        ConfigApi.getConfigJson(MainActivity.this, null);
         AuthApi.checkUserInfo(this, data -> {
             if (data == null) {
                 return;

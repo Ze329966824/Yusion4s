@@ -57,7 +57,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         myApp.requestLocation(null);
         initView();
-        Log.e("TAG", "onCreate: ");
     }
 
     private void initView() {
@@ -68,10 +67,7 @@ public class LoginActivity extends BaseActivity {
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
         loginBtn = findViewById(R.id.login_submit_btn);
         loginBtn.setOnClickListener(v -> login());
-
-
         setTestAccount();
-
     }
 
     //测试账号
@@ -253,8 +249,11 @@ public class LoginActivity extends BaseActivity {
         Yusion4sApp.isLogin = false;
         myApp.clearUserData();
 
-        ConfigApi.getConfigJson(LoginActivity.this, null);
+        //清除存在sp的dlrid和订单状态数
+        removeDlrNums();
+    }
 
+    private void removeDlrNums() {
         String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
         if (dlr_nums != null) {
             String[] dlr_num = dlr_nums.split("/");
@@ -263,7 +262,6 @@ public class LoginActivity extends BaseActivity {
                 SharedPrefsUtil.getInstance(this).remove("dlr_nums");
             }
         }
-
     }
 
     @Override
