@@ -1,7 +1,6 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -24,6 +23,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
+import com.yusion.shanghai.yusion4s.ubt.service.UploadPersonInfoService;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -57,13 +57,7 @@ public class LoginActivity extends BaseActivity {
         myApp.requestLocation(null);
         initView();
         Log.e("TAG", "onCreate: ");
-        registerReceiver();
-    }
-
-    private void registerReceiver() {
-        IntentFilter filter = new IntentFilter();
-        filter.addAction(UPLOAD_RESULT);
-        registerReceiver(uploadImgReceiver, filter);
+        //  registerReceiver();
     }
 
     private void initView() {
@@ -133,6 +127,7 @@ public class LoginActivity extends BaseActivity {
         req.password = password;
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
         AuthApi.login(this, req, this::loginSuccess);
+
     }
 
 
@@ -163,7 +158,10 @@ public class LoginActivity extends BaseActivity {
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.ACCOUNT);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
             if (!Settings.forAppium) {
-                new Thread(this::uploadPersonAndDeviceInfo).start();
+                // new Thread(this::uploadPersonAndDeviceInfo).start();
+                Intent intent = new Intent(this, UploadPersonInfoService.class);
+                startService(intent);
+                //   startService(intent);
             }
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
@@ -276,4 +274,5 @@ public class LoginActivity extends BaseActivity {
     public void onBackPressed() {
         ActivityManager.exit();
     }
+
 }
