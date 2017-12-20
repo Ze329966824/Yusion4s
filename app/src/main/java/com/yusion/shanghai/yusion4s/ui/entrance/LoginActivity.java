@@ -20,7 +20,6 @@ import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
@@ -71,7 +70,6 @@ public class LoginActivity extends BaseActivity {
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
         loginBtn = findViewById(R.id.login_submit_btn);
         loginBtn.setOnClickListener(v -> login());
-
 
         setTestAccount();
 
@@ -129,9 +127,9 @@ public class LoginActivity extends BaseActivity {
         req.username = account;
         req.password = password;
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
-        AuthApi.login(this, req, this::loginSuccess);
 
         ApiUtil.requestUrl4Data(this, Api.getAuthService().login(req), (OnItemDataCallBack<LoginResp>) this::loginSuccess);
+
     }
 
 
