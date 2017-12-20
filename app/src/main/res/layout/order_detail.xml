@@ -173,7 +173,6 @@
             android:id="@+id/order_detail_status_cancel_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-
             android:background="@color/white"
             android:visibility="gone">
 
@@ -258,9 +257,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/white"
+
         android:elevation="2dp"
         android:orientation="horizontal"
+        tools:visibility="visible"
         android:visibility="gone">
 
         <Button
@@ -314,6 +314,8 @@
             android:visibility="gone" />
     </LinearLayout>
 
+
+
     <LinearLayout
         android:id="@+id/order_detail_change_layout"
         android:layout_width="match_parent"
@@ -347,5 +349,32 @@
 
 
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/order_detail_replace_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:background="@color/white"
+        android:elevation="2dp"
+        tools:visibility="gone"
+        android:orientation="horizontal"
+        android:visibility="gone">
+
+
+
+        <TextView
+            android:id="@+id/order_detail_replace_tv"
+            android:layout_width="0dp"
+            android:layout_height="44dp"
+            android:layout_weight="1"
+            android:background="#FF06B7A3"
+            android:gravity="center"
+            android:text="更换配偶作为主贷人"
+            android:textColor="#FFFFFFFF" />
+
+
+    </LinearLayout>
+
 
 </RelativeLayout>

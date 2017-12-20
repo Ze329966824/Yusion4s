@@ -137,7 +137,6 @@
                         android:id="@+id/upload_label_list_tab_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="7.5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="18dp"
                         android:text="经销商信息"
@@ -164,6 +163,7 @@
                         style="@style/apply_info_content"
                         android:hint="请选择" />
 
+                    <!--<include layout="@layout/jiantou_lay" />-->
                     <FrameLayout
                         android:layout_width="20dp"
                         android:layout_height="match_parent"
@@ -184,7 +184,6 @@
                     android:orientation="vertical"
                     android:visibility="gone"
                     tools:visibility="visible">
-
 
 
                     <LinearLayout
@@ -433,10 +432,6 @@
                         android:layout_height="10dp"
                         android:background="@color/bg_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
 
                     <LinearLayout
                         android:id="@+id/oldcar_info_lin"
@@ -676,7 +671,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout style="@style/apply_info_item">
@@ -854,13 +848,6 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
-
-
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"
                         style="@style/apply_info_item"
@@ -904,12 +891,6 @@
                         android:layout_height="@dimen/separate_line_height"
                         android:background="@color/separate_line_color" />
 
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
 
                     <LinearLayout
                         android:id="@+id/car_info_plate_reg_addr_lin"

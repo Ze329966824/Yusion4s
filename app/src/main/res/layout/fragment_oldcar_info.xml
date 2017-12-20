@@ -581,7 +581,7 @@
 
                         <Button
                             android:id="@+id/look_guess_img_btn"
-                            android:layout_width="105dp"
+                            android:layout_width="125dp"
                             android:layout_height="30dp"
                             android:layout_gravity="right"
                             android:layout_marginBottom="10dp"
@@ -771,7 +771,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout style="@style/apply_info_item">
@@ -949,13 +948,6 @@
 
                     </LinearLayout>
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
-
-
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"
                         style="@style/apply_info_item"
@@ -1000,11 +992,6 @@
                         android:background="@color/separate_line_color" />
 
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
 
                     <LinearLayout
                         android:id="@+id/car_info_plate_reg_addr_lin"

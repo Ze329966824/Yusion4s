@@ -23,6 +23,7 @@
     <color name="please_upload_color">#d1d1d1</color>
     <color name="select_in">#CDC9C9</color>
     <color name="select_off">#FFFFFF</color>
+    <color name="select_model">#f2f2f2</color>
     <color name="black">#FF000000</color>
     <color name="textColor">#222a36</color>
 

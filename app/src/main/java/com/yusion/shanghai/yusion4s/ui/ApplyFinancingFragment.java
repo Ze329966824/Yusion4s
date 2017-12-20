@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.ui;
 
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,6 +11,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -22,6 +24,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -170,12 +173,19 @@ public class ApplyFinancingFragment extends BaseFragment {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
             i1.putExtra("car_type", "新车");
             startActivity(i1);
+//            PopupDialogUtil.showTwoButtonsDialog(mContext, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
+//                Toast.makeText(mContext,"重新提报",Toast.LENGTH_SHORT).show();
+//            });
         });
         //二手车
         view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v -> {
             Intent i2 = new Intent(mContext, OrderCreateActivity.class);
             i2.putExtra("car_type", "二手车");
             startActivity(i2);
+//            PopupDialogUtil.showOneButtonDialog(mContext, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog -> {
+//                Toast.makeText(mContext,"客户信息未完善",Toast.LENGTH_SHORT).show();
+//
+//            });
         });
         //选择经销商
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {

@@ -101,7 +101,6 @@
                     tools:visibility="visible">
 
 
-
                     <LinearLayout
                         android:id="@+id/car_info_dlr_lin2"
                         style="@style/apply_info_item_extra">
@@ -219,9 +218,9 @@
                         android:visibility="gone" />
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/car_info_brand_lin"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -246,17 +245,17 @@
                     </LinearLayout>
 
                     <View
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
 
-                        android:background="@color/separate_line_color" />
+                        android:visibility="gone" />
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/car_info_trix_lin"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -281,17 +280,17 @@
                     </LinearLayout>
 
                     <View
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
 
-                        android:background="@color/separate_line_color" />
+                        android:visibility="gone" />
 
                     <LinearLayout
-                        android:visibility="gone"
                         android:id="@+id/car_info_model_lin"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -316,11 +315,11 @@
                     </LinearLayout>
 
                     <View
-                        android:visibility="gone"
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/oldcar_info_lin"
@@ -359,6 +358,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
                             android:background="@color/separate_line_color" />
 
                         <LinearLayout
@@ -366,6 +366,7 @@
                             style="@style/apply_info_item">
 
                             <TextView
+                                android:id="@+id/textView7"
                                 style="@style/apply_info_title"
                                 android:text="原上牌时间" />
 
@@ -391,6 +392,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
+                            android:layout_marginLeft="15dp"
                             android:background="@color/separate_line_color" />
 
                         <LinearLayout style="@style/apply_info_item">
@@ -684,7 +686,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout style="@style/apply_info_item">
@@ -861,13 +862,6 @@
                         </FrameLayout>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
-
 
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"

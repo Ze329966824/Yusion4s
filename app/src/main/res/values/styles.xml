@@ -8,7 +8,9 @@
         <!--<item name="colorPrimaryDark">@color/transparent</item>-->
         <item name="colorAccent">@color/colorAccent</item>
 
-        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">@android:color/transparent</item>
+        <item name="android:windowDrawsSystemBarBackgrounds" tools:targetApi="lollipop">
+            @android:color/transparent
+        </item>
     </style>
 
     <style name="MyDialogStyle" parent="Theme.AppCompat.Dialog">
@@ -155,7 +157,6 @@
     </declare-styleable>
 
 
-
     <style name="apply_info_content_type_mobile" parent="apply_info_content">
         <item name="android:digits">0123456789</item>
         <item name="android:maxLength">11</item>
@@ -166,6 +167,7 @@
         <item name="android:digits">0123456789</item>
         <item name="android:inputType">number</item>
     </style>
+
     <style name="apply_info_content_type_wrap">
         <item name="android:background">@null</item>
         <item name="android:layout_width">0dp</item>

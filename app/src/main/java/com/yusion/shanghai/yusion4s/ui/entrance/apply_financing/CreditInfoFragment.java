@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,6 +41,7 @@ import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -48,8 +50,6 @@ import org.greenrobot.eventbus.EventBus;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-
-import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 /**
  * Created by aa on 2017/8/9.
@@ -268,7 +268,14 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         delete_icon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                deleteUserInfo();
+
+                PopupDialogUtil.showTwoButtonsDialog(mContext, "是否删除？", "删除", "取消", new PopupDialogUtil.OnOkClickListener() {
+                    @Override
+                    public void onOkClick(Dialog dialog) {
+                        dialog.dismiss();
+                        deleteUserInfo();
+                    }
+                });
             }
         });
 
@@ -405,6 +412,20 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                             } else {
                                 // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                                    UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();
+                                    uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
+                                    uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
+                                    uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
+                                    UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
+                                        @Override
+                                        public void callBack(int code, String msg) {
+                                            Log.e("TAG", uploadFilesUrlReq1.bucket);
+                                            Log.e("TAG", uploadFilesUrlReq1.region);
+
+                                        }
+                                    });
+                                }
                                 startActivity(intent);
                                 createActivity.finish();
                             }

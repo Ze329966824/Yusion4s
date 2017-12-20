@@ -301,6 +301,8 @@
         <!--android:src="@mipmap/icon_item_phone" />-->
 
         <RelativeLayout
+            android:id="@+id/order_list_item_two_btn_lin"
+            tools:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:visibility="visible">
@@ -341,7 +343,32 @@
 
 
         </RelativeLayout>
+        <RelativeLayout
+            android:id="@+id/order_list_item_one_btn_lin"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:visibility="visible">
 
+
+
+            <TextView
+                android:id="@+id/order_list_item_replace_tv"
+                android:layout_alignParentRight="true"
+                android:layout_width="144.23dp"
+                android:layout_height="match_parent"
+                android:layout_marginBottom="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/shape_text"
+                android:gravity="center"
+                android:paddingLeft="10dp"
+                android:paddingRight="10dp"
+                android:text="更换配偶作为主贷人"
+                android:textColor="#FF06B7A3"
+                android:textSize="11dp" />
+
+
+        </RelativeLayout>
         <ImageView
             android:id="@+id/order_list_item_btns_img"
             android:layout_width="wrap_content"

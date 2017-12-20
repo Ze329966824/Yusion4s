@@ -4,6 +4,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.text.TextUtils;
 import android.util.Base64;
+import android.util.Log;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -30,6 +31,7 @@ public class Base64Util {
             write.write(decoderBytes);
             write.close();
         } catch (IOException e) {
+            Log.e("TAG", "saveBaseImage: "+e);
             e.printStackTrace();
         }
     }

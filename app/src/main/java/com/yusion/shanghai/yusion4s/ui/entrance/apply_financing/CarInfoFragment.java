@@ -47,8 +47,6 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static cn.jpush.android.api.JPushInterface.a.r;
 /**
  * {@link com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarI
  * {@link CarInfoFragment#writeOtherPrice(View, boolean)}获取 ()}
@@ -396,18 +394,7 @@ public class CarInfoFragment extends BaseFragment {
         car_info_lin.setOnClickListener(v ->
                 selectCarInfo()
         );
-        //品牌选择
-        carInfoBrandLin.setOnClickListener(v ->
-                selectBrand()
-        );
-        //     车系选择
-        carInfoTrixLin.setOnClickListener(v ->
-                selectTrix()
-        );
-        // 车型选择
-        carInfoModelLin.setOnClickListener(v ->
-                selectModel()
-        );
+
         //上牌地
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -679,39 +666,6 @@ public class CarInfoFragment extends BaseFragment {
         }
     }
 
-    private void selectModel() {
-        if (!TextUtils.isEmpty(trixTv.getText())) {
-            DlrApi.getModel(mContext, mTrixList.get(mTrixIndex).trix_id, "新车", resp -> {
-                if (resp != null && !resp.isEmpty()) {
-                    mModelList = resp;
-                    modelItems = new ArrayList<String>();
-                    for (GetModelResp modelResp : resp) {
-                        modelItems.add(modelResp.model_name);
-                    }
-                    WheelViewUtil.showWheelView(modelItems, mModelIndex, carInfoModelLin, modelTv, "请选择车型", (clickedView, selectedIndex) -> {
-                        mModelIndex = selectedIndex;
-                        mGuidePrice = (int) resp.get(mModelIndex).msrp;
-                        min_reg_year = resp.get(mModelIndex).min_reg_year;
-                        max_reg_year = resp.get(mModelIndex).max_reg_year;
-                        guidePriceTv.setText(mGuidePrice + "");
-                        billPriceTv.setEnabled(true);
-
-                        clearExceptCarInfo();
-                    });
-                }
-            });
-
-        } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        } else if (TextUtils.isEmpty(trixTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成车系选择", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        }
-    }
-
     private void clearExceptCarInfo() {
 
 
@@ -731,67 +685,6 @@ public class CarInfoFragment extends BaseFragment {
         loanPeriodsTv.setText("");//还款期限
     }
 
-    private void selectTrix() {
-        if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getTrix(mContext, mBrandList.get(mBrandIndex).brand_id, resp -> {
-                mTrixList = resp;
-                trixItems = new ArrayList<String>();
-                for (GetTrixResp trixResp : resp) {
-                    trixItems.add(trixResp.trix_name);
-                }
-                WheelViewUtil.showWheelView(trixItems, mTrixIndex, carInfoBrandLin, trixTv, "请选择车系", (clickedView, selectedIndex) -> {
-                    mTrixIndex = selectedIndex;
-
-                    mModelList.clear();
-                    mModelIndex = 0;
-                    modelTv.setText("");
-                    mGuidePrice = 0;
-                    guidePriceTv.setText("");
-                    clearExceptCarInfo();
-                });
-            });
-        } else if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        } else if (TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成品牌选择", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        }
-    }
-
-    private void selectBrand() {
-        if (!TextUtils.isEmpty(dlrTV.getText())) {
-            Log.e("!!!--经销商-----", dlrTV.getText().toString());
-            DlrApi.getBrand(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
-                mBrandList = resp;
-                brandItems = new ArrayList<String>();
-                for (GetBrandResp item : resp) {
-                    brandItems.add(item.brand_name);
-                }
-                Log.e("!!!----品牌---", brandItems.toString());
-                WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
-                    mBrandIndex = selectedIndex;
-                    mTrixList.clear();
-                    mTrixIndex = 0;
-                    trixTv.setText("");
-
-                    mModelList.clear();
-                    mModelIndex = 0;
-                    modelTv.setText("");
-                    mGuidePrice = 0;
-                    guidePriceTv.setText("");
-                    clearExceptCarInfo();
-                });
-            });
-        } else {
-            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
-        }
-    }
-
     private void selectCarInfo() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
             Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
@@ -801,7 +694,6 @@ public class CarInfoFragment extends BaseFragment {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("vehicle_cond", "新车");
             intent.putExtra("class", OrderCreateActivity.class);
-            // intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
             intent.putExtra("dlr_id", dlr_id);
             intent.putExtra("should_reset", isRestCarinfo);//true表示重置该页面 默认false
             startActivity(intent);
@@ -866,50 +758,13 @@ public class CarInfoFragment extends BaseFragment {
     }
 
     private void selectDlrStore2() {
-
         Intent intent = new Intent(mContext, DlrStoreSelectActivity.class);
         intent.putExtra("vehicle_cond", "新车");
         intent.putExtra("class", OrderCreateActivity.class);
-        //intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
         intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);
         isRestDlrinfo = false;
-    }
-
-    private void selectDlrStore() {
-        DlrApi.getDlrListByToken(mContext, resp -> {
-            if (resp != null && !resp.isEmpty()) {
-                mDlrList = resp;
-                dlrItems = new ArrayList<String>();
-                for (GetDlrListByTokenResp item : resp) {
-                    dlrItems.add(item.dlr_nm);
-                }
-                //dlrTV  经销商显示的textview
-                WheelViewUtil.showWheelView(dlrItems, mDlrIndex, carInfoDlrLin, dlrTV, "请选择经销商", (clickedView, selectedIndex) -> {
-                    mDlrIndex = selectedIndex;
-                    car_info_tv.setText("");
-                    isRestCarinfo = true;
-
-                    mBrandList.clear();
-                    mBrandIndex = 0;
-                    brandTv.setText("");//厂商指导价
-
-                    mTrixList.clear();
-                    mTrixIndex = 0;
-                    trixTv.setText("");//选择车型
-
-                    mModelList.clear();
-                    mModelIndex = 0;
-                    modelTv.setText("");
-
-                    mGuidePrice = 0;
-                    guidePriceTv.setText("");
-
-                    clearExceptCarInfo();
-                });
-            }
-        });
     }
 
     private void clickManagentPriceLl() {
