@@ -103,8 +103,7 @@ public class CarInfoFragment extends BaseFragment {
 
     private boolean isRestCarinfo = true;
     private boolean isRestDlrinfo = true;
-    private LinearLayout dlr_lin2;//用于选择经销商后是否显示下面的内容
-    private TextView car_info_dlr_tv2;//显示下面的内容
+
 
     Handler handler = new Handler() {
         @Override
@@ -382,8 +381,7 @@ public class CarInfoFragment extends BaseFragment {
         carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
         car_info_lin = view.findViewById(R.id.car_info_lin);
         car_info_tv = view.findViewById(R.id.car_info_tv);
-        dlr_lin2 = view.findViewById(R.id.dlr_lin2);
-        car_info_dlr_tv2 = view.findViewById(R.id.car_info_dlr_tv2);
+
 
         /**
          * 进行经销商选择
@@ -391,6 +389,9 @@ public class CarInfoFragment extends BaseFragment {
         carInfoDlrLin.setOnClickListener(v ->
                 selectDlrStore2()
         );
+        /**
+         * 车辆选择
+         */
         car_info_lin.setOnClickListener(v ->
                 selectCarInfo()
         );
