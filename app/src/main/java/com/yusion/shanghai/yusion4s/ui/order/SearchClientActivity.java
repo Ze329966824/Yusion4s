@@ -156,7 +156,7 @@ public class SearchClientActivity extends BaseActivity {
         private LayoutInflater mLayoutInflater;
         private List<SearchClientResp> mItems;
         private Context mContext;
-        //private onItemClick mOnItemClick;
+        //private onItemCheckedChange mOnItemClick;
 
         public SearchClientAdapter(Context context, List<SearchClientResp> items) {
             mContext = context;
@@ -215,11 +215,11 @@ public class SearchClientActivity extends BaseActivity {
             }
         }
 
-//        public interface onItemClick {
-//            void onItemClick(View v);
+//        public interface onItemCheckedChange {
+//            void onItemCheckedChange(View v);
 //        }
 //
-//        public void setOnItemClick(onItemClick mOnItemClick) {
+//        public void setOnItemClick(onItemCheckedChange mOnItemClick) {
 //
 //            this.mOnItemClick = mOnItemClick;
 //        }

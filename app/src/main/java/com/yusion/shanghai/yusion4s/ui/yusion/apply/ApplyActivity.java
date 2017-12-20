@@ -1,48 +1,36 @@
 package com.yusion.shanghai.yusion4s.ui.yusion.apply;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
+import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.CommitActivity;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
-
 public class ApplyActivity extends BaseActivity {
-    private AutonymCertifyFragment mAutonymCertifyFragment;
-    private PersonalInfoFragment mPersonalInfoFragment;
-    private SpouseInfoFragment mSpouseInfoFragment;
+    private AutonymCertifyFragment mAutonymCertifyFragment;       //征信信息
+    private PersonalInfoFragment mPersonalInfoFragment;           //个人信息
+    private SpouseInfoFragment mSpouseInfoFragment;               //配偶信息
     private Fragment mCurrentFragment;
-    OcrResp mOcrRespByAutonymCertify = new OcrResp();
-
-    public ClientInfo getMClientInfo() {
-        return mClientInfo;
-    }
-
-    public void setMClientInfo(ClientInfo mClientInfo) {
-        this.mClientInfo = mClientInfo;
-    }
-
-    public ClientInfo mClientInfo ;
+    public ClientInfo mClientInfo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply);
-
+        //启动动画
+        overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
         initView();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -50,32 +38,24 @@ public class ApplyActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {}
+    public void onBackPressed() {
+        if (mCurrentFragment == mAutonymCertifyFragment) {
+            Toast.makeText(this, "已经是第一页了！", Toast.LENGTH_SHORT).show();
+        } else if (mCurrentFragment == mPersonalInfoFragment) {
+            changeFragment(ApplyActivityEvent.showAutonymCertifyFragment);
+        } else {
+            changeFragment(ApplyActivityEvent.showPersonalInfoFragment);
+        }
+    }
+
 
     private void initView() {
         mClientInfo = new ClientInfo();
-        initTitleBar(this, "创建客户").setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                new AlertDialog.Builder(ApplyActivity.this).setMessage("您确定退出该页面返回首页?")
-                        .setPositiveButton("确定退出", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                                finish();
-                            }
-                        })
-                        .setNegativeButton("取消退出", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
-
-            }
-        });
-
+        initTitleBar(this, "创建客户").setLeftImageResource(R.mipmap.create_finish_icon).setLeftClickListener(v ->
+                PopupDialogUtil.showTwoButtonsDialog(ApplyActivity.this, "您确定退出该页面返回首页", "确定退出", "取消退出", dialog -> {
+                    dialog.dismiss();
+                    finish();
+                }));
         mAutonymCertifyFragment = new AutonymCertifyFragment();
         mPersonalInfoFragment = new PersonalInfoFragment();
         mSpouseInfoFragment = new SpouseInfoFragment();
@@ -99,6 +79,14 @@ public class ApplyActivity extends BaseActivity {
         }
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        //退出动画
+        overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
+    }
+
+    //填完所有信息二次确认后走这里
     public void requestSubmit() {
         Intent intent = getIntent();
         intent.setClass(ApplyActivity.this, CommitActivity.class);
@@ -120,8 +108,7 @@ public class ApplyActivity extends BaseActivity {
                 transaction.hide(mCurrentFragment).show(mPersonalInfoFragment);
                 mCurrentFragment = mPersonalInfoFragment;
                 break;
-
-            case showCommonRepaymentPeople:
+            case showSpouseInfoFragment:
                 transaction.hide(mCurrentFragment).show(mSpouseInfoFragment);
                 mCurrentFragment = mSpouseInfoFragment;
                 break;

@@ -33,7 +33,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.yusion.DocumentActivity;
+import com.yusion.shanghai.yusion4s.ui.SingleImgUploadForCreateUserActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.YusionUploadListActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
@@ -303,7 +303,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 //        spouse_info_submit_btn.requestFocusFromTouch();
 
         if (checkCanNextStep()) {
-            if (spouse_info_marriage_tv.getText().toString() .equals("已婚")) {
+            if (spouse_info_marriage_tv.getText().toString().equals("已婚")) {
                 clearDoubleCheckItems();
                 addDoubleCheckItem("姓名", spouse_info_clt_nm_edt.getText().toString());
                 addDoubleCheckItem("身份证号", spouse_info_id_no_edt.getText().toString());
@@ -319,39 +319,32 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         applyActivity.mClientInfo.marriage = spouse_info_marriage_tv.getText().toString();
         applyActivity.mClientInfo.spouse.marriage = spouse_info_marriage_tv.getText().toString();
         if ("已婚".equals(applyActivity.mClientInfo.marriage)) {
-//            applyActivity.mClientInfo.spouse.marriage = "已婚";
-            if (ocrResp != null) {
-                if (TextUtils.isEmpty(ocrResp.addr)) {
-                    applyActivity.mClientInfo.spouse.reg_addr_details = "";
-                } else {
-                    applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
-                }
-                Log.e("TAG", "ocrResp:    "+ocrResp.toString());
-//                applyActivity.mClientInfo.spouse.reg_addr.province = ocrResp.province;
-//                applyActivity.mClientInfo.spouse.reg_addr.city = ocrResp.city;
-//                applyActivity.mClientInfo.spouse.reg_addr.district = ocrResp.town;
-            }
             applyActivity.mClientInfo.spouse.clt_nm = spouse_info_clt_nm_edt.getText().toString();
             applyActivity.mClientInfo.spouse.id_no = spouse_info_id_no_edt.getText().toString();
             applyActivity.mClientInfo.spouse.gender = spouse_info_gender_tv.getText().toString();
             applyActivity.mClientInfo.spouse.mobile = spouse_info_mobile_edt.getText().toString();
             applyActivity.mClientInfo.child_num = spouse_info_child_count_edt.getText().toString();
-            if (!TextUtils.isEmpty(spouse_info_reg_tv.getText().toString())) {
-                applyActivity.mClientInfo.spouse.reg_addr.province = spouse_info_reg_tv.getText().toString().trim().split("/")[0];
-                applyActivity.mClientInfo.spouse.reg_addr.city = spouse_info_reg_tv.getText().toString().trim().split("/")[1];
-                applyActivity.mClientInfo.spouse.reg_addr.district = spouse_info_reg_tv.getText().toString().trim().split("/")[2];
+            if (TextUtils.isEmpty(ocrResp.addr)){
+                applyActivity.mClientInfo.spouse.reg_addr_details = "";
+            }else {
+                applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
             }
-            applyActivity.mClientInfo.spouse.edu = spouse_info_education_tv.getText().toString();
-
-            //现住地址
-            if (!TextUtils.isEmpty(spouse_info_current_address_tv.getText().toString())) {
-                applyActivity.mClientInfo.spouse.current_addr.province = spouse_info_current_address_tv.getText().toString().trim().split("/")[0];
-                applyActivity.mClientInfo.spouse.current_addr.city = spouse_info_current_address_tv.getText().toString().trim().split("/")[1];
-                applyActivity.mClientInfo.spouse.current_addr.district = spouse_info_current_address_tv.getText().toString().trim().split("/")[2];
-            }
-            applyActivity.mClientInfo.spouse.current_addr.address1 = (spouse_info_current_address1_tv.getText().toString());
-            applyActivity.mClientInfo.spouse.current_addr.address2 = (spouse_info_current_address2_tv.getText().toString());
-            applyActivity.mClientInfo.spouse.is_live_with_parent = (spouse_info_live_with_parent_tv.getText().toString());
+//            if (!TextUtils.isEmpty(spouse_info_reg_tv.getText().toString())) {
+//                applyActivity.mClientInfo.spouse.reg_addr.province = spouse_info_reg_tv.getText().toString().trim().split("/")[0];
+//                applyActivity.mClientInfo.spouse.reg_addr.city = spouse_info_reg_tv.getText().toString().trim().split("/")[1];
+//                applyActivity.mClientInfo.spouse.reg_addr.district = spouse_info_reg_tv.getText().toString().trim().split("/")[2];
+//            }
+//            applyActivity.mClientInfo.spouse.edu = spouse_info_education_tv.getText().toString();
+//
+//            //现住地址
+//            if (!TextUtils.isEmpty(spouse_info_current_address_tv.getText().toString())) {
+//                applyActivity.mClientInfo.spouse.current_addr.province = spouse_info_current_address_tv.getText().toString().trim().split("/")[0];
+//                applyActivity.mClientInfo.spouse.current_addr.city = spouse_info_current_address_tv.getText().toString().trim().split("/")[1];
+//                applyActivity.mClientInfo.spouse.current_addr.district = spouse_info_current_address_tv.getText().toString().trim().split("/")[2];
+//            }
+//            applyActivity.mClientInfo.spouse.current_addr.address1 = (spouse_info_current_address1_tv.getText().toString());
+//            applyActivity.mClientInfo.spouse.current_addr.address2 = (spouse_info_current_address2_tv.getText().toString());
+//            applyActivity.mClientInfo.spouse.is_live_with_parent = (spouse_info_live_with_parent_tv.getText().toString());
 
             //主要收入来源
             switch (spouse_info_income_from_tv.getText().toString()) {
@@ -422,17 +415,17 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             }
 
 
-            //房屋性质
-            applyActivity.mClientInfo.spouse.house_owner_name = spouse_info_house_owner_name_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.house_owner_relation = spouse_info_house_owner_relation_tv.getText().toString();
-            applyActivity.mClientInfo.spouse.house_type = spouse_info_house_type_tv.getText().toString();
-            applyActivity.mClientInfo.spouse.house_area = spouse_info_house_area_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.urg_contact1 = spouse_info_urg_contact1_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.urg_mobile1 = spouse_info_urg_mobile1_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.urg_relation1 = spouse_info_urg_relation1_tv.getText().toString();
-            applyActivity.mClientInfo.spouse.urg_contact2 = spouse_info_urg_contact2_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.urg_mobile2 = spouse_info_urg_mobile2_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.urg_relation2 = spouse_info_urg_relation2_tv.getText().toString();
+//            //房屋性质
+//            applyActivity.mClientInfo.spouse.house_owner_name = spouse_info_house_owner_name_edt.getText().toString();
+//            applyActivity.mClientInfo.spouse.house_owner_relation = spouse_info_house_owner_relation_tv.getText().toString();
+//            applyActivity.mClientInfo.spouse.house_type = spouse_info_house_type_tv.getText().toString();
+//            applyActivity.mClientInfo.spouse.house_area = spouse_info_house_area_edt.getText().toString();
+//            applyActivity.mClientInfo.spouse.urg_contact1 = spouse_info_urg_contact1_edt.getText().toString();
+//            applyActivity.mClientInfo.spouse.urg_mobile1 = spouse_info_urg_mobile1_edt.getText().toString();
+//            applyActivity.mClientInfo.spouse.urg_relation1 = spouse_info_urg_relation1_tv.getText().toString();
+//            applyActivity.mClientInfo.spouse.urg_contact2 = spouse_info_urg_contact2_edt.getText().toString();
+//            applyActivity.mClientInfo.spouse.urg_mobile2 = spouse_info_urg_mobile2_edt.getText().toString();
+//            applyActivity.mClientInfo.spouse.urg_relation2 = spouse_info_urg_relation2_tv.getText().toString();
         } else if ("离异".equals(applyActivity.mClientInfo.marriage)) {
             applyActivity.mClientInfo.child_num = spouse_info_divorced_child_count_edt.getText().toString();
         } else if ("丧偶".equals(applyActivity.mClientInfo.marriage)) {
@@ -474,25 +467,31 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 Toast.makeText(mContext, "身份证号有误", Toast.LENGTH_SHORT).show();
             } else if (spouse_info_gender_tv.getText().toString().isEmpty()) {
                 Toast.makeText(mContext, "性别不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_reg_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "户籍地不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_mobile_edt.getText().toString().isEmpty()) {
+            }
+//            else if (spouse_info_reg_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "户籍地不能为空", Toast.LENGTH_SHORT).show();
+//            }
+            else if (spouse_info_mobile_edt.getText().toString().isEmpty()) {
                 Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
             } else if (!CheckMobileUtil.checkMobile(spouse_info_mobile_edt.getText().toString())) {
                 Toast.makeText(mContext, "手机号码格式错误", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_education_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "学历不能为空", Toast.LENGTH_SHORT).show();
-            }  else if (spouse_info_child_count_edt.getText().toString().isEmpty()) {
+            }
+//            else if (spouse_info_education_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "学历不能为空", Toast.LENGTH_SHORT).show();
+//            }
+            else if (spouse_info_child_count_edt.getText().toString().isEmpty()) {
                 Toast.makeText(mContext, "子女数量不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_current_address_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "现住地址不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_current_address1_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "现住地址的详细地址不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_current_address2_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "现住地址的门牌号不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_live_with_parent_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "是否与父母同住不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_income_from_tv.getText().toString().isEmpty()) {
+            }
+//            else if (spouse_info_current_address_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "现住地址不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_current_address1_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "现住地址的详细地址不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_current_address2_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "现住地址的门牌号不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_live_with_parent_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "是否与父母同住不能为空", Toast.LENGTH_SHORT).show();
+//            }
+            else if (spouse_info_income_from_tv.getText().toString().isEmpty()) {
                 Toast.makeText(mContext, "主要收入来源不能为空", Toast.LENGTH_SHORT).show();
             } else if (spouse_info_income_from_tv.getText().toString().equals("工资") && spouse_info_from_income_year_edt.getText().toString().isEmpty()) {
                 Toast.makeText(mContext, "年收入不能为空", Toast.LENGTH_SHORT).show();
@@ -532,31 +531,33 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 Toast.makeText(mContext, "门牌号不能为空", Toast.LENGTH_SHORT).show();
             } else if (spouse_info_extra_income_from_tv.getText().toString().equals("工资") && spouse_info_extra_from_income_work_position_tv.getText().toString().isEmpty()) {
                 Toast.makeText(mContext, "职务不能为空", Toast.LENGTH_SHORT).show();
-            }else if (spouse_info_house_type_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "房屋性质不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_house_area_edt.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "房屋面积不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_house_owner_name_edt.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "房屋所有权人不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_house_owner_relation_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "房屋所有权人与申请人关系不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_urg_contact1_edt.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "紧急联系人人姓名不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_urg_mobile1_edt.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
-            } else if (!CheckMobileUtil.checkMobile(spouse_info_urg_mobile1_edt.getText().toString().toString())) {
-                Toast.makeText(mContext, "紧急联系人手机号格式错误", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_urg_relation1_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "紧急联系人与申请人关系不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_urg_contact2_edt.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "紧急联系人姓名不能为空", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_urg_mobile2_edt.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
-            } else if (!CheckMobileUtil.checkMobile(spouse_info_urg_mobile2_edt.getText().toString().toString())) {
-                Toast.makeText(mContext, "紧急联系人手机号格式错误", Toast.LENGTH_SHORT).show();
-            } else if (spouse_info_urg_relation2_tv.getText().toString().isEmpty()) {
-                Toast.makeText(mContext, "紧急联系人与申请人关系不能为空", Toast.LENGTH_SHORT).show();
-            } else {
+            }
+//             else if (spouse_info_house_type_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "房屋性质不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_house_area_edt.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "房屋面积不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_house_owner_name_edt.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "房屋所有权人不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_house_owner_relation_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "房屋所有权人与申请人关系不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_urg_contact1_edt.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "紧急联系人人姓名不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_urg_mobile1_edt.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (!CheckMobileUtil.checkMobile(spouse_info_urg_mobile1_edt.getText().toString().toString())) {
+//                Toast.makeText(mContext, "紧急联系人手机号格式错误", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_urg_relation1_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "紧急联系人与申请人关系不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_urg_contact2_edt.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "紧急联系人姓名不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_urg_mobile2_edt.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "手机号不能为空", Toast.LENGTH_SHORT).show();
+//            } else if (!CheckMobileUtil.checkMobile(spouse_info_urg_mobile2_edt.getText().toString().toString())) {
+//                Toast.makeText(mContext, "紧急联系人手机号格式错误", Toast.LENGTH_SHORT).show();
+//            } else if (spouse_info_urg_relation2_tv.getText().toString().isEmpty()) {
+//                Toast.makeText(mContext, "紧急联系人与申请人关系不能为空", Toast.LENGTH_SHORT).show();
+//            }
+            else {
                 return true;
             }
             return false;
@@ -624,18 +625,19 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         spouse_info_from_self_group_lin = (LinearLayout) view.findViewById(R.id.spouse_info_from_self_group_lin);
         spouse_info_from_other_remark_edt = (EditText) view.findViewById(R.id.spouse_info_from_other_remark_edt);
         spouse_info_from_other_year_edt = (EditText) view.findViewById(R.id.spouse_info_from_other_year_edt);
-        spouse_info_reg_lin = (LinearLayout) view.findViewById(R.id.spouse_info_reg_lin);
-        spouse_info_education_lin = (LinearLayout) view.findViewById(R.id.spouse_info_education_lin);
-        spouse_info_current_address_lin = (LinearLayout) view.findViewById(R.id.spouse_info_current_address_lin);
-        spouse_info_current_address1_lin = (LinearLayout) view.findViewById(R.id.spouse_info_current_address1_lin);
-        spouse_info_live_with_parent_lin = (LinearLayout) view.findViewById(R.id.spouse_info_live_with_parent_lin);
 
-        spouse_info_house_type_lin = (LinearLayout) view.findViewById(R.id.spouse_info_house_type_lin);
-        spouse_info_house_owner_relation_lin = (LinearLayout) view.findViewById(R.id.spouse_info_house_owner_relation_lin);
-        spouse_info_urg_relation1_lin = (LinearLayout) view.findViewById(R.id.spouse_info_urg_relation1_lin);
-        spouse_info_urg_relation2_lin = (LinearLayout) view.findViewById(R.id.spouse_info_urg_relation2_lin);
-        spouse_info_urg_mobile1_img = (ImageView) view.findViewById(R.id.spouse_info_urg_mobile1_img);
-        spouse_info_urg_mobile2_img = (ImageView) view.findViewById(R.id.spouse_info_urg_mobile2_img);
+        spouse_info_reg_lin = view.findViewById(R.id.spouse_info_reg_lin);
+        spouse_info_education_lin = view.findViewById(R.id.spouse_info_education_lin);
+        spouse_info_current_address_lin = view.findViewById(R.id.spouse_info_current_address_lin);
+        spouse_info_current_address1_lin = view.findViewById(R.id.spouse_info_current_address1_lin);
+        spouse_info_live_with_parent_lin = view.findViewById(R.id.spouse_info_live_with_parent_lin);
+
+        spouse_info_house_type_lin = view.findViewById(R.id.spouse_info_house_type_lin);
+        spouse_info_house_owner_relation_lin = view.findViewById(R.id.spouse_info_house_owner_relation_lin);
+        spouse_info_urg_relation1_lin = view.findViewById(R.id.spouse_info_urg_relation1_lin);
+        spouse_info_urg_relation2_lin = view.findViewById(R.id.spouse_info_urg_relation2_lin);
+        spouse_info_urg_mobile1_img = view.findViewById(R.id.spouse_info_urg_mobile1_img);
+        spouse_info_urg_mobile2_img = view.findViewById(R.id.spouse_info_urg_mobile2_img);
 
         step1 = (TextView) view.findViewById(R.id.step1);
         step2 = (TextView) view.findViewById(R.id.step2);
@@ -659,6 +661,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 //            }
 //        });
         spouse_info_mobile_img.setOnClickListener(v -> {
+            CURRENT_CLICKED_VIEW_FOR_CONTACT = v.getId();
             selectContact();
         });
 
@@ -670,18 +673,19 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             submit();
         });
         spouse_info_id_back_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_BACK);
             intent.putExtra("needUploadFidToServer", false);
             intent.putExtra("role", Constants.PersonType.LENDER_SP);
             intent.putExtra("ocrResp", ocrResp);
             intent.putExtra("imgUrl", idBackImgUrl);
             intent.putExtra("objectKey", ID_BACK_FID);
+            intent.putExtra("for_spouse", true);
             startActivityForResult(intent, Constants.REQUEST_DOCUMENT);
         });
 
         spouse_info_id_front_lin.setOnClickListener(v -> {
-            Intent intent = new Intent(mContext, DocumentActivity.class);
+            Intent intent = new Intent(mContext, SingleImgUploadForCreateUserActivity.class);
             intent.putExtra("type", Constants.FileLabelType.ID_FRONT);
             intent.putExtra("needUploadFidToServer", false);
             intent.putExtra("role", Constants.PersonType.LENDER_SP);
@@ -928,7 +932,6 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
 
-
     private void selectContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, Constants.REQUEST_CONTACTS);
@@ -1004,7 +1007,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
-        Log.e("TAG", "spouse : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
+        Log.e("TAG", "spouse : clientinfo = { " + applyActivity.mClientInfo.toString() + " }");
         applyActivity.requestSubmit();
     }
 
@@ -1019,7 +1022,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 if (contacts != null) {
                     System.arraycopy(contacts, 0, result, 0, contacts.length);
                 }
-                if (CURRENT_CLICKED_VIEW_FOR_CONTACT == spouse_info_mobile_edt.getId()) {
+                if (CURRENT_CLICKED_VIEW_FOR_CONTACT == spouse_info_mobile_img.getId()) {
                     spouse_info_mobile_edt.setText(result[1].replace(" ", ""));
                     UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_mobile_edt", ApplyActivity.class.getSimpleName(), "手机号");
                 }

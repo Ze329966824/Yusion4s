@@ -10,6 +10,8 @@ import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessReq;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
@@ -121,17 +123,23 @@ public class OrderApi {
         });
     }
 
+    public static void reSubmit(final Context context, ReSubmitReq req, final OnItemDataCallBack<ReSubmitResp> onItemDataCallBack) {
+        Api.getOrderService().reSubmit(req).enqueue(new CustomCallBack<ReSubmitResp>(context) {
+            @Override
+            public void onCustomResponse(ReSubmitResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
+
     public static void getOrderProcess(final Context context, String app_id, final OnItemDataCallBack<ProcessReq> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getOrderService().getOrderProcess().enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
-
-            // Api.getOrderService().getOrderProcess(app_id).enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
+        Api.getOrderService().getOrderProcess(app_id).enqueue(new CustomCallBack<ProcessReq>(context, dialog) {
             @Override
             public void onCustomResponse(ProcessReq data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
         });
     }
-
 
 }

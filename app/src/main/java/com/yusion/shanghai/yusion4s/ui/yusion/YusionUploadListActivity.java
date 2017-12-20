@@ -30,7 +30,7 @@ import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
-import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.ExtraPreviewActivity;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
@@ -221,7 +221,7 @@ public class YusionUploadListActivity extends BaseActivity {
     }
 
     private void previewImg(View previewAnchor, String imgUrl) {
-        Intent intent = new Intent(this, PreviewActivity.class);
+        Intent intent = new Intent(this, ExtraPreviewActivity.class);
         intent.putExtra("PreviewImg", imgUrl);
         ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
         ActivityCompat.startActivity(this, intent, compat.toBundle());
@@ -266,7 +266,7 @@ public class YusionUploadListActivity extends BaseActivity {
     private void onImgCountChange(boolean hasImg) {
         if (hasImg) {
             mEditTv.setEnabled(true);
-            mEditTv.setTextColor(Color.parseColor("#ffffff"));
+            mEditTv.setTextColor(Color.parseColor("#FF000000"));
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));

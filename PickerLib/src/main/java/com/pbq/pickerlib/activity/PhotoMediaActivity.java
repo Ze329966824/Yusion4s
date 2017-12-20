@@ -97,7 +97,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
         setContentView(R.layout.photo_media_activity);
         initData();
         init();
-        maxCount = getIntent().getIntExtra("maxCount", 1);
+        maxCount = getIntent().getIntExtra("maxCount", 9);
         QupaiHttpFinal.getInstance().initOkHttpFinal();
     }
 

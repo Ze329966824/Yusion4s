@@ -25,7 +25,13 @@
 #-renamesourcefileattribute SourceFile
 
 #gaode position
+-libraryjars libs/jcore-android-1.1.6.jar
+-libraryjars libs/jpush-android-3.0.8.jar
+-libraryjars libs/aliyun-oss-sdk-android-2.3.0.jar
+-libraryjars AliyunSdk-RC.aar
+-libraryjars pgyer_sdk_2.7.0.jar
 -keep class com.amap.api.location.** {*;}
 -keep class com.amap.api.fence.** {*;}
 -keep class com.autonavi.aps.amapapi.model.** {*;}
 -keep class com.huawei.hms.** {*;}
+-keep class com.huawei.hms.api.** {*;}

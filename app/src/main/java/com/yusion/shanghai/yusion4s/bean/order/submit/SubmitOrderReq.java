@@ -55,6 +55,7 @@ public class SubmitOrderReq {
 
     //public String product_type;
     public String vehicle_owner_lender_relation;
+    public String aid_id;
 
     @Override
     public String toString() {

@@ -101,6 +101,8 @@ public class UploadSqsListActivity extends BaseActivity {
         imgList = (List<UploadImgItemBean>) mGetIntent.getSerializableExtra("imgList");
         uploadFileUrlList = (List<UploadFilesUrlReq.FileUrlBean>) mGetIntent.getSerializableExtra("uploadFileUrlList");
 
+
+
         initView();
         initData();
     }
@@ -304,7 +306,7 @@ public class UploadSqsListActivity extends BaseActivity {
 //        intent.putExtra("breviary", true);
 //        startActivity(intent);
 
-        Intent intent = new Intent(this, PreviewActivity.class);
+        Intent intent = new Intent(this, ExtraPreviewActivity.class);
         intent.putExtra("PreviewImg", imgUrl);
         ActivityOptionsCompat compat = ActivityOptionsCompat.makeSceneTransitionAnimation(this, previewAnchor, "shareNames");
         ActivityCompat.startActivity(this, intent, compat.toBundle());
@@ -362,7 +364,7 @@ public class UploadSqsListActivity extends BaseActivity {
     private void onImgCountChange(boolean hasImg) {
         if (hasImg) {
             mEditTv.setEnabled(true);
-            mEditTv.setTextColor(Color.parseColor("#ffffff"));
+            mEditTv.setTextColor(Color.parseColor("#FF000000"));
         } else {
             mEditTv.setEnabled(false);
             mEditTv.setTextColor(Color.parseColor("#d1d1d1"));

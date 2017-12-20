@@ -6,7 +6,6 @@ import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,7 +24,6 @@ import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
-import com.yusion.shanghai.yusion4s.ui.order.ProcessActivity;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
@@ -43,13 +41,12 @@ import retrofit2.Response;
 
 public class LoginActivity extends BaseActivity {
 
-    private EditText mLoginAccountTV;
-    private EditText mLoginPasswordTV;
+    private EditText mLoginAccountTV;               // 账号
+    private EditText mLoginPasswordTV;              // 密码
     private ImageView mLoginPasswordEyeImg;
-    private boolean isShowPassword = false;
+    private Button loginBtn;
     private TelephonyManager telephonyManager;
-    private Yusion4sApp yusion4sApp;
-    private Button button;
+    private boolean isShowPassword = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,58 +54,62 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         myApp.requestLocation(null);
         initView();
-//        startActivity(new Intent(this, Car300WebViewActivity.class));
+        Log.e("TAG", "onCreate: ");
     }
 
     private void initView() {
-        findViewById(R.id.btnnnnnn).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(LoginActivity.this, ProcessActivity.class);
-                startActivity(intent);
-            }
-        });
-        yusion4sApp = (Yusion4sApp) getApplication();
-        yusion4sApp.requestLocation(null);
         telephonyManager = (TelephonyManager) this.getSystemService(TELEPHONY_SERVICE);
-
-        mLoginAccountTV = (EditText) findViewById(R.id.login_account_edt);
-        mLoginPasswordTV = (EditText) findViewById(R.id.login_password_edt);
-        mLoginPasswordEyeImg = (ImageView) findViewById(R.id.login_password_eye_img);
+        mLoginAccountTV = findViewById(R.id.login_account_edt);
+        mLoginPasswordTV = findViewById(R.id.login_password_edt);
+        mLoginPasswordEyeImg = findViewById(R.id.login_password_eye_img);
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
-        Button loginBtn = (Button) findViewById(R.id.login_submit_btn);
+        loginBtn = findViewById(R.id.login_submit_btn);
         loginBtn.setOnClickListener(v -> login());
+
+
+        setTestAccount();
+
+    }
+
+    //测试账号
+    private void setTestAccount() {
         if (!Settings.isOnline) {
             loginBtn.setOnLongClickListener(v -> {
                 mLoginAccountTV.setText("13333333333");
                 mLoginPasswordTV.setText("yujian");
                 return true;
             });
-            loginBtn.setOnTouchListener(new View.OnTouchListener() {
-                @Override
-                public boolean onTouch(View v, MotionEvent event) {
-                    int offset = 300;
-                    if (event.getAction() == MotionEvent.ACTION_UP) {
-                        Log.e("TAG", "x:" + event.getX() + " y:" + event.getY());
-                        Log.e("TAG", "rx:" + event.getRawX() + " ry:" + event.getRawY());
-                        Log.e("TAG", "bottom:" + v.getBottom() + " top:" + v.getTop());
-
-                        if (event.getRawY() > v.getBottom() + offset) {
-                            mLoginAccountTV.setText("19999999999");
-                            mLoginPasswordTV.setText("yujian");
-                        } else if (event.getRawY() < v.getTop() - offset) {
-                            mLoginAccountTV.setText("18888888888");
-                            mLoginPasswordTV.setText("yujian");
-                        }
+            loginBtn.setOnTouchListener((v, event) -> {
+                int offset = 300;
+                if (event.getAction() == MotionEvent.ACTION_UP) {
+                    if (event.getRawY() > v.getBottom() + offset) {
+                        mLoginAccountTV.setText("19999999999");
+                        mLoginPasswordTV.setText("yujian");
+                    } else if (event.getRawY() < v.getTop() - offset) {
+                        mLoginAccountTV.setText("18888888888");
+                        mLoginPasswordTV.setText("yujian");
                     }
-                    return false;
                 }
+                return false;
             });
         }
     }
 
+    //登录
     private void login() {
-        LoginReq req = new LoginReq();
+//        StringBuilder builder = new StringBuilder();
+//        for (int i1 = 0; i1 < "长城".length(); i1++) {
+//            //利用TinyPinyin将char转成拼音
+//            //查看源码，方法内 如果char为汉字，则返回大写拼音
+//            //如果c不是汉字，则返回String.valueOf(c)
+//            builder.append(Pinyin.toPinyin("长城".charAt(i1)).toUpperCase());
+//        }
+//        Log.e("TAG", "login: " + builder.toString());
+
+//        Intent intent = new Intent(this, CarSelectActivity.class);
+//        intent.putExtra("class", LoginActivity.class);
+//        intent.putExtra("should_reset", false);
+//        startActivity(intent);
         String account = mLoginAccountTV.getText().toString();
         String password = mLoginPasswordTV.getText().toString();
         if (TextUtils.isEmpty(account)) {
@@ -118,12 +119,15 @@ public class LoginActivity extends BaseActivity {
             Toast.makeText(myApp, "密码不能为空!", Toast.LENGTH_SHORT).show();
             return;
         }
+        LoginReq req = new LoginReq();
         req.username = account;
         req.password = password;
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
         AuthApi.login(this, req, this::loginSuccess);
     }
 
+
+    //    隐藏&显示密码
     private void clickPasswordEye() {
         if (isShowPassword) {
             //隐藏密码
@@ -137,6 +141,7 @@ public class LoginActivity extends BaseActivity {
         }
     }
 
+    //登陆成功
     private void loginSuccess(LoginResp resp) {
         if (resp != null) {
             Yusion4sApp.isLogin = true;
@@ -154,30 +159,6 @@ public class LoginActivity extends BaseActivity {
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
         }
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-
-        Yusion4sApp.isLogin = false;
-        myApp.clearUserData();
-
-        ConfigApi.getConfigJson(LoginActivity.this, null);
-
-        String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
-        if (dlr_nums != null) {
-
-
-            String[] dlr_num = dlr_nums.split("/");
-            for (String id : dlr_num) {
-                Log.e("TAG", "key: " + id);
-                Log.e("TAG", "valuse: " + SharedPrefsUtil.getInstance(this).getValue(id, null));
-                SharedPrefsUtil.getInstance(this).remove(id);
-                SharedPrefsUtil.getInstance(this).remove("dlr_nums");
-            }
-        }
-
     }
 
     private void uploadPersonAndDeviceInfo() {
@@ -260,6 +241,26 @@ public class LoginActivity extends BaseActivity {
                 }
             });
         });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        Yusion4sApp.isLogin = false;
+        myApp.clearUserData();
+
+        ConfigApi.getConfigJson(LoginActivity.this, null);
+
+        String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
+        if (dlr_nums != null) {
+            String[] dlr_num = dlr_nums.split("/");
+            for (String id : dlr_num) {
+                SharedPrefsUtil.getInstance(this).remove(id);
+                SharedPrefsUtil.getInstance(this).remove("dlr_nums");
+            }
+        }
+
     }
 
     @Override

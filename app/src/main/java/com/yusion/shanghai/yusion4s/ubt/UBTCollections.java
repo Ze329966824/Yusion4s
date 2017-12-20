@@ -13,9 +13,9 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragme
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.PreviewActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.ExtraPreviewActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.ExtraUploadListActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.UploadListActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.AutonymCertifyFragment;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.PersonalInfoFragment;
@@ -75,10 +75,10 @@ public class UBTCollections {
 //        pageNameMaps.put(DocmtActivity.class.getSimpleName(), new Pair<>("single_img_upload", "单张图片上传界面(身份证正反面,驾照)"));
 //        pageNameMaps.put(DocumentFromLabelListActivity.class.getSimpleName(), new Pair<>("multi_img_upload", "多张图片上传界面"));
 
-        pageNameMaps.put(PreviewActivity.class.getSimpleName(), new Pair<>("img_preview", "图片预览界面"));
+        pageNameMaps.put(ExtraPreviewActivity.class.getSimpleName(), new Pair<>("img_preview", "图片预览界面"));
 //        pageNameMaps.put(OnlyReadUploadListActivity.class.getSimpleName(), new Pair<>("img_authorization_book", "授权书查看页面"));
         pageNameMaps.put(UploadLabelListActivity.class.getSimpleName(), new Pair<>("upload_label_list", "上传影像件标签列表页面"));
-        pageNameMaps.put(UploadListActivity.class.getSimpleName(), new Pair<>("upload_img_list", "上传影像件列表页面"));
+        pageNameMaps.put(ExtraUploadListActivity.class.getSimpleName(), new Pair<>("upload_img_list", "上传影像件列表页面"));
         pageNameMaps.put(CommitActivity.class.getSimpleName(), new Pair<>("commit_apply_success", "提交申请成功页面"));
         pageNameMaps.put(AutonymCertifyFragment.class.getSimpleName(), new Pair<>("lender_apply_credit", "主贷人-征信信息页面"));
         pageNameMaps.put(PersonalInfoFragment.class.getSimpleName(), new Pair<>("lender_apply_personal", "主贷人-个人信息页面"));
@@ -87,7 +87,7 @@ public class UBTCollections {
     }
 
     static {
-        widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+        widgetNameMaps.put("car_info_dlr_tv", "经销商选择");
         widgetNameMaps.put("car_info_brand_tv", "品牌选择");
         widgetNameMaps.put("car_info_trix_tv", "车系选择");
         widgetNameMaps.put("car_info_model_tv", "车型选择");
@@ -253,7 +253,7 @@ public class UBTCollections {
     }
 
     static {
-        widgetNameMaps.put("car_info_dlr_tv", "门店选择");
+        widgetNameMaps.put("car_info_dlr_tv", "经销商选择");
     }
 
     public static String getPageNm(String key) {

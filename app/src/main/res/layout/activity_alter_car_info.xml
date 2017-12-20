@@ -48,7 +48,7 @@
                         android:layout_marginBottom="7.5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="18dp"
-                        android:text="门店信息"
+                        android:text="经销商信息"
                         android:textColor="#666666"
                         android:textSize="11.5sp" />
 
@@ -65,7 +65,7 @@
 
                     <TextView
                         style="@style/apply_info_title"
-                        android:text="门店" />
+                        android:text="经销商" />
 
                     <TextView
                         android:id="@+id/car_info_dlr_tv"
@@ -83,6 +83,43 @@
                             android:layout_gravity="left|center_vertical"
                             android:src="@mipmap/select_arrow" />
                     </FrameLayout>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/dlr_lin2"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:visibility="gone"
+                    tools:visibility="visible">
+
+
+                    <LinearLayout
+                        android:id="@+id/car_info_dlr_lin2"
+                        style="@style/apply_info_item_extra">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="" />
+
+                        <TextView
+                            android:id="@+id/car_info_dlr_tv2"
+                            style="@style/apply_info_content_extra"
+                            android:hint="" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow"
+                                android:visibility="invisible" />
+                        </FrameLayout>
+                    </LinearLayout>
                 </LinearLayout>
             </LinearLayout>
 
@@ -139,8 +176,44 @@
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout
-                        android:id="@+id/car_info_brand_lin"
+                        android:id="@+id/car_info_lin"
                         style="@style/apply_info_item">
+
+                        <TextView
+                            style="@style/apply_info_title"
+                            android:text="车型选择" />
+
+                        <TextView
+                            android:id="@+id/car_info_tv"
+                            style="@style/apply_info_content"
+                            android:hint="请选择"
+                            android:maxLines="2"
+                            android:singleLine="false" />
+
+                        <FrameLayout
+                            android:layout_width="20dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginLeft="15dp">
+
+                            <ImageView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:layout_gravity="left|center_vertical"
+                                android:src="@mipmap/select_arrow" />
+                        </FrameLayout>
+                    </LinearLayout>
+
+                    <View
+                        android:layout_width="match_parent"
+                        android:layout_height="@dimen/separate_line_height"
+                        android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color" />
+
+
+                    <LinearLayout
+                        android:id="@+id/car_info_brand_lin"
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -168,12 +241,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
 
-                        android:background="@color/separate_line_color" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/car_info_trix_lin"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -201,12 +276,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
 
-                        android:background="@color/separate_line_color" />
+                        android:visibility="gone" />
 
                     <LinearLayout
                         android:id="@+id/car_info_model_lin"
-                        style="@style/apply_info_item">
+                        style="@style/apply_info_item"
+                        android:visibility="gone">
 
                         <TextView
                             style="@style/apply_info_title"
@@ -234,8 +311,9 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
+                        android:background="@color/separate_line_color"
 
-                        android:background="@color/separate_line_color" />
+                        android:visibility="gone" />
 
                     <LinearLayout style="@style/apply_info_item">
 
@@ -262,10 +340,6 @@
                         android:layout_height="10dp"
                         android:background="@color/bg_color" />
 
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
 
                     <LinearLayout
                         android:id="@+id/oldcar_info_lin"
@@ -504,7 +578,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:layout_marginRight="15dp"
                         android:background="@color/separate_line_color" />
 
                     <LinearLayout style="@style/apply_info_item">
@@ -681,13 +754,6 @@
                         </FrameLayout>
 
                     </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
-
 
                     <LinearLayout
                         android:id="@+id/car_info_loan_periods_lin"

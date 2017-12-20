@@ -73,35 +73,39 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                 }
                 break;
             case R.id.main_setting_version_name_layout:
-                if (Settings.isOnline) {
-                    //product：调用oss接口更新
-                    AuthApi.update(this, "yusion4s", data -> {
-                        if (data != null) {
-                            int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(data.version));
-                            if (result < 0) {
-                                UpdateUtil.showUpdateDialog(SettingsActivity.this, data.change_log, false, data.download_url);
-                            } else {
-                                Toast.makeText(this, "已经是最新的版本啦！", Toast.LENGTH_SHORT).show();
-                            }
-                        } else {
-                            Toast.makeText(this, "已经是最新的版本啦！", Toast.LENGTH_SHORT).show();
-                        }
-                    });
-                } else {
-                    //alpha：蒲公英更新
-                    PgyUpdateManager.setIsForced(false); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
-                    PgyUpdateManager.register(this, null);
-                    //带回调更新
-                    //initUpdateListener();
-                }
+                changeServerURL();
                 break;
             default:
                 break;
         }
     }
 
+    private void changeServerURL() {
+        if (Settings.isOnline) {
+            //product：调用oss接口更新
+            AuthApi.update(this, "yusion4s", data -> {
+                if (data != null) {
+                    int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(data.version));
+                    if (result < 0) {
+                        UpdateUtil.showUpdateDialog(SettingsActivity.this, data.change_log, false, data.download_url);
+                    } else {
+                        Toast.makeText(this, "已经是最新的版本啦！", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(this, "已经是最新的版本啦！", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } else {
+            //alpha：蒲公英更新
+            PgyUpdateManager.setIsForced(false); //设置是否强制更新。true为强制更新；false为不强制更新（默认值）。
+            PgyUpdateManager.register(this, null);
+            //带回调更新
+            //initUpdateListener();
+        }
+    }
+
     private void showLogoutDialog() {
-        PopupDialogUtil.showTwoButtonsDialog(SettingsActivity.this, "是否退出登录？", "是", "否", new PopupDialogUtil.OnOkClickListener() {
+        PopupDialogUtil.logoutDialog(SettingsActivity.this, "是否退出登录？", "否", "是", new PopupDialogUtil.OnOkClickListener() {
             @Override
             public void onOkClick(Dialog dialog) {
                 dialog.dismiss();

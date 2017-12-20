@@ -16,7 +16,7 @@ public class ProcessReq {
      * create_time : 2017-12-06 12:12:12
      * list : [{"st":"pass","time":"","title":"提交申请","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"征信审核","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"确认金融方案","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"贷后追踪","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"放款","seriesList":[],"parellelList":[]},{"st":"ns","time":"","title":"放款审核","seriesList":[],"parellelList":[]}]
      */
-
+    public boolean canceled;
     public String clt_nm;
     public String app_id;
     public String create_time;

@@ -26,6 +26,7 @@ public class ProcessActivity extends BaseActivity {
     private TextView app_id;
     private TextView create_time;
     private TextView clt_nm;
+    private boolean canceled;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,12 +39,13 @@ public class ProcessActivity extends BaseActivity {
         create_time = (TextView) findViewById(R.id.creat_time);
         clt_nm = (TextView) findViewById(R.id.clt_nm);
 
-        OrderApi.getOrderProcess(this, "", new OnItemDataCallBack<ProcessReq>() {
+        OrderApi.getOrderProcess(this, getIntent().getStringExtra("app_id"), new OnItemDataCallBack<ProcessReq>() {
             @Override
             public void onItemDataCallBack(ProcessReq data) {
                 if (data == null) {
                     return;
                 }
+                canceled = data.canceled;
                 list = data.list;
                 clt_nm.setText(data.clt_nm);
                 app_id.setText(data.app_id);
@@ -65,26 +67,37 @@ public class ProcessActivity extends BaseActivity {
                     View bottomLine = view.findViewById(R.id.bottom_line);
                     ImageView dianImg = (ImageView) view.findViewById(R.id.st_dian_img);//左边状态点
 
+
                     if (before == null) {
                         topLine.setVisibility(View.INVISIBLE);
                     } else if (after == null) {
                         bottomLine.setVisibility(View.INVISIBLE);
                     }
-                    //设置线条颜色
+                    //设置线条颜色  st是当前 st2是上一个
                     st = current.st;
                     if (before != null) {
                         st2 = before.st;
-                        if (st2.equals("ns")) {
-                            topLine.setBackgroundColor(Color.parseColor("#06b7a3"));
+                        if (st2.equals("pass") && !canceled) {
+                            topLine.setBackgroundColor(Color.parseColor("#06b7a3"));//这个是绿色
+                        } else if (canceled) {
+                            topLine.setBackgroundColor(Color.parseColor("#aaaab7"));//这个是灰色
                         }
-                    }
-                    if (st.equals("ns")) {
+                    }//25 shi pass  24 shi wait
+                    if (st.equals("pass") && !canceled) {
                         bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                         dianImg.setImageResource(R.mipmap.test25);
-                    } else if (st.equals("ns")) {
+                    } else if (st.equals("pass") && canceled) {
+                        bottomLine.setBackgroundColor(Color.parseColor("#aaaab7"));
+                        dianImg.setImageResource(R.mipmap.cancel_pass_icon);
+                    } else if (st.equals("wait") && !canceled) {
                         dianImg.setImageResource(R.mipmap.test24);
+                    } else if (st.equals("wait") && canceled) {
+                        dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
+                    } else if (st.equals("reject") && !canceled) {
+                        dianImg.setImageResource(R.mipmap.reject_icon);
+                    } else if (st.equals("reject") && canceled) {
+                        dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
                     }
-
                     mLl_parent.addView(view);
                     LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
                     fill(current, ll_empty);
@@ -230,6 +243,15 @@ public class ProcessActivity extends BaseActivity {
             View view = addViewFillContent();
             TextView title = (TextView) view.findViewById(R.id.title);
             TextView time = (TextView) view.findViewById(R.id.time);
+            ImageView passIcon = (ImageView) view.findViewById(R.id.st_icon);
+            if (current.st.equals("wait") || current.st.equals("ns")) {
+                passIcon.setVisibility(View.GONE);
+            } else if (current.st.equals("reject")) {
+                passIcon.setImageResource(R.mipmap.reject_img);
+            } else if (canceled && (current.st.equals("pass") || current.st.equals("reject") || current.st.equals("wait"))) {
+                passIcon.setVisibility(View.VISIBLE);
+                passIcon.setImageResource(R.mipmap.cancel_img);
+            }
             time.setText(current.time);
             title.setText(current.title);
             fillView.addView(view);

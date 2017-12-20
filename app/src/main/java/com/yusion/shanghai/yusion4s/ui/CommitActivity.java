@@ -14,6 +14,7 @@ import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
 
 public class CommitActivity extends BaseActivity {
@@ -28,15 +29,19 @@ public class CommitActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_commit);
         initTitleBar(this, "提交成功");
+        intent = getIntent();
 
         switch (getIntent().getStringExtra("why_commit")) {
 
-            case "old_car":
+            case "old_car":             //二手车
                 fromOldCar();
                 break;
 
+            case "new_car":             //新车
+                fromNewCar();
+                break;
 
-            case "create_user":
+            case "create_user":         //创建用户
                 fromCreateUser();
                 break;
 
@@ -49,16 +54,34 @@ public class CommitActivity extends BaseActivity {
 
     private void fromUnknown() {
         ((TextView) findViewById(R.id.commit_title_tv)).setText("why come here?");
-        findViewById(R.id.commit_continue_layout).setVisibility(View.GONE);
-        findViewById(R.id.commit_return_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_oldcar_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_create_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_newcar_layout).setVisibility(View.GONE);
+    }
+
+    private void fromNewCar() {
+        findViewById(R.id.commit_oldcar_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_create_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_newcar_layout).setVisibility(View.VISIBLE);
+        ((TextView) findViewById(R.id.commit_title_tv)).setText("提交成功");
+        TextView submitBtn = findViewById(R.id.commit_newcar_btn);
+        submitBtn.setOnClickListener(v ->{
+//            intent.setClass(CommitActivity.this,MainActivity.class);
+            Intent i1 = new Intent(CommitActivity.this,MainActivity.class);
+            i1.putExtra("from_commit",true);
+            startActivity(i1);
+            finish();
+        });
+
+
     }
 
     private void fromCreateUser() {
         ((TextView) findViewById(R.id.commit_title_tv)).setText("客户创建成功");
-        findViewById(R.id.commit_continue_layout).setVisibility(View.GONE);
-        findViewById(R.id.commit_return_layout).setVisibility(View.VISIBLE);
-        TextView returnBtn = (TextView) findViewById(R.id.commit_return_btn);
-        intent = getIntent();
+        findViewById(R.id.commit_oldcar_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_newcar_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_create_layout).setVisibility(View.VISIBLE);
+        TextView returnBtn = (TextView) findViewById(R.id.commit_create_btn);
         intent.setClass(CommitActivity.this, OrderCreateActivity.class);
         returnBtn.setOnClickListener(v -> OrderApi.searchClientExist(CommitActivity.this, intent.getStringExtra("id_no"), data -> {
             if (data.size() == 1 && data.get(0) != null) {
@@ -66,19 +89,22 @@ public class CommitActivity extends BaseActivity {
                 intent.putExtra("name", data.get(0).clt_nm);
                 intent.putExtra("sfz", data.get(0).id_no);
                 intent.putExtra("mobile", data.get(0).mobile);
+                intent.putExtra("why_come", "create_user");
                 intent.putExtra("enable", true);
                 startActivity(intent);
+                finish();
             }
         }));
 
     }
 
     private void fromOldCar() {
-        findViewById(R.id.commit_return_layout).setVisibility(View.GONE);
-        findViewById(R.id.commit_continue_layout).setVisibility(View.VISIBLE);
+        findViewById(R.id.commit_create_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_newcar_layout).setVisibility(View.GONE);
+        findViewById(R.id.commit_oldcar_layout).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.commit_title_tv)).setText("还差最后一步!");
 
-        TextView submitBtn = (TextView) findViewById(R.id.commit_continue_btn);
+        TextView submitBtn = (TextView) findViewById(R.id.commit_oldcar_btn);
         submitBtn.setOnClickListener(v -> UploadApi.listDealerLabels(CommitActivity.this, getIntent().getStringExtra("app_id"), data -> {
             ListDealerLabelsResp item = null;
             for (ListDealerLabelsResp listDealerLabelsResp : data) {

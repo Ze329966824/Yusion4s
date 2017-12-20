@@ -65,6 +65,9 @@ public class GetRawCarInfoResp {
     public String trix_che_300_id;
     public String brand_che_300_id;
     public String che_300_label;
+    public String aid_id;
+    public String aid_dlr_nm;
+
 
     @Override
     public String toString() {

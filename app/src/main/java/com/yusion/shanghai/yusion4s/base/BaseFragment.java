@@ -26,8 +26,8 @@ public abstract class BaseFragment extends Fragment {
         titleBar.setBackgroundResource(R.color.system_color);
         titleBar.setImmersive(false);
         titleBar.setTitle(title);
-        titleBar.setTitleColor(view.getResources().getColor(R.color.title_bar_text_color));
-        titleBar.setDividerColor(view.getResources().getColor(R.color.system_color));
+        titleBar.setTitleColor(view.getResources().getColor(R.color.black));
+        titleBar.setDividerColor(view.getResources().getColor(R.color.separate_line_color));
         return titleBar;
     }
 
