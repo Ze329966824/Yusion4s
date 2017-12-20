@@ -350,6 +350,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan"
             />
+        <service android:name=".ubt.service.uploadPersonAndDeviceInfoService"/>
     </application>
 
 </manifest>

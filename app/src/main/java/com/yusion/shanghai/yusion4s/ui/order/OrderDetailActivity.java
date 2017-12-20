@@ -8,22 +8,18 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.widget.NestedScrollView;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
-import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
-import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -394,7 +390,7 @@ public class OrderDetailActivity extends BaseActivity {
                         //3：重新提报
                         OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
                             if (data2 != null) {
-                                ToastUtil.showToast(OrderDetailActivity.this,"提交成功");
+                                ToastUtil.showImageToast(OrderDetailActivity.this,"提交成功",R.mipmap.toast_success);
                                 app_id = data2.app_id;
                                 Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
                                 intent.putExtra("app_id", app_id);

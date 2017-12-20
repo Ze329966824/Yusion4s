@@ -105,7 +105,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     private void toApplicantDetailActivity(View view) {
         Intent intent = new Intent(mContext, ApplicantDetailActivity.class);
-        Log.e("TAG", "toApplicantDetailActivity: "+lender_clt_id);
+        Log.e("TAG", "toApplicantDetailActivity: " + lender_clt_id);
         intent.putExtra("clt_id", lender_clt_id);
         startActivity(intent);
     }
@@ -373,9 +373,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
                                 urlBean.app_id = data.app_id;
                                 uploadOldCarImgUrlList.add(urlBean);
-                                // uploadFileUrlList.add(urlBean);
                             }
-                            if (uploadFileUrlList.size() > 0) {
+                            if (uploadFileUrlList.size() > 0) {//有授权书还有二手册截图
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;
                                 }
@@ -389,43 +388,14 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
 
-                                            if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
-                                                UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();
-                                                uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
-                                                uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
-                                                uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
-                                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
-                                                    @Override
-                                                    public void callBack(int code, String msg) {
-                                                        Log.e("TAG", uploadFilesUrlReq1.bucket);
-                                                        Log.e("TAG", uploadFilesUrlReq1.region);
-
-                                                    }
-                                                });
-                                            }
+                                            uploadOldCarImg();
                                             startActivity(intent);
                                             createActivity.finish();
-//                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                         }
                                     }
                                 });
-//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-                            } else {
-                                // EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-                                if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
-                                    UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();
-                                    uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
-                                    uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
-                                    uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
-                                    UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
-                                        @Override
-                                        public void callBack(int code, String msg) {
-                                            Log.e("TAG", uploadFilesUrlReq1.bucket);
-                                            Log.e("TAG", uploadFilesUrlReq1.region);
-
-                                        }
-                                    });
-                                }
+                            } else {//没有授权书只有二手册截图
+                                uploadOldCarImg();
                                 startActivity(intent);
                                 createActivity.finish();
                             }
@@ -437,6 +407,22 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         });
 
         createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, ApplyActivity.class)));
+    }
+
+    private void uploadOldCarImg() {
+        if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+            UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();
+            uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
+            uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
+            uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
+            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
+                @Override
+                public void callBack(int code, String msg) {
+                    Log.e("TAG", uploadFilesUrlReq1.bucket);
+                    Log.e("TAG", uploadFilesUrlReq1.region);
+                }
+            });
+        }
     }
 
     @Override
@@ -736,7 +722,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
             client_credit__book_lin.setVisibility(View.VISIBLE);
             lender_clt_id = data.getStringExtra("lender_clt_id");
-            Log.e("TAG", "relevance: "+lender_clt_id);
+            Log.e("TAG", "relevance: " + lender_clt_id);
             autonym_certify_id_back_tv.setText("请上传");
             autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
         } else {

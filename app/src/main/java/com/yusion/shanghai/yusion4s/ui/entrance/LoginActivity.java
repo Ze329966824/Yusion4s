@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
@@ -26,6 +27,7 @@ import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -55,6 +57,13 @@ public class LoginActivity extends BaseActivity {
         myApp.requestLocation(null);
         initView();
         Log.e("TAG", "onCreate: ");
+        registerReceiver();
+    }
+
+    private void registerReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(UPLOAD_RESULT);
+        registerReceiver(uploadImgReceiver, filter);
     }
 
     private void initView() {
@@ -113,10 +122,10 @@ public class LoginActivity extends BaseActivity {
         String account = mLoginAccountTV.getText().toString();
         String password = mLoginPasswordTV.getText().toString();
         if (TextUtils.isEmpty(account)) {
-            Toast.makeText(myApp, "账号不能为空!", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShort(myApp, "账号不能为空");
             return;
         } else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(myApp, "密码不能为空!", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShort(myApp, "密码不能为空");
             return;
         }
         LoginReq req = new LoginReq();

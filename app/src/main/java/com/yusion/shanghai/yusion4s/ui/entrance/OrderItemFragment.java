@@ -11,7 +11,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -72,7 +71,7 @@ public class OrderItemFragment extends BaseFragment {
 
     public void setVehicle_cond(String vehicle_cond) {
         this.vehicle_cond = vehicle_cond;
-        if (myOrderListAdapter!=null) {
+        if (myOrderListAdapter != null) {
             myOrderListAdapter.setVehicle_cond(vehicle_cond);
             myOrderListAdapter.notifyDataSetChanged();
         }
@@ -87,7 +86,7 @@ public class OrderItemFragment extends BaseFragment {
         return fragment;
     }
 
-    public static OrderItemFragment newInstance(String s,String vehicle_cond) {
+    public static OrderItemFragment newInstance(String s, String vehicle_cond) {
 
         Bundle args = new Bundle();
         args.putString("st", s);
@@ -222,8 +221,8 @@ public class OrderItemFragment extends BaseFragment {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st", item.status_st);
-                    if (item.can_switch_sp){
-                        intent.putExtra("spouse_clt_id",item.spouse_clt_id);
+                    if (item.can_switch_sp) {
+                        intent.putExtra("spouse_clt_id", item.spouse_clt_id);
                     }
 //                    intent.putExtra("modify_permission", item.modify_permission);
                     mContext.startActivity(intent);
@@ -231,7 +230,7 @@ public class OrderItemFragment extends BaseFragment {
             });
             if (vehicle_cond.equals("二手车")) {
                 vh.car_icon.setImageResource(R.mipmap.old_car_icon);
-            }else {
+            } else {
                 vh.car_icon.setImageResource(R.mipmap.new_car_icon);
             }
             vh.name.setText(item.clt_nm);
@@ -257,11 +256,10 @@ public class OrderItemFragment extends BaseFragment {
             } else if (item.status_st == 9) {//已取消9
                 vh.st.setTextColor(Color.parseColor("#666666"));
             }
-            if (item.can_switch_sp){
+            if (item.can_switch_sp) {
                 vh.oneBtnlibn.setVisibility(View.VISIBLE);
                 vh.twoBtnlibn.setVisibility(View.GONE);
-            }
-            else {
+            } else {
                 vh.twoBtnlibn.setVisibility(View.VISIBLE);
                 vh.oneBtnlibn.setVisibility(View.GONE);
                 if (item.modify_permission) {
@@ -344,11 +342,11 @@ public class OrderItemFragment extends BaseFragment {
                 mContext.startActivity(i2);
             });
 
-            vh.replace.setOnClickListener(v ->{
+            vh.replace.setOnClickListener(v -> {
                 PopupDialogUtil.showTwoButtonsDialog(mContext, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
 
                     dialog.dismiss();
-                    checkAndReplace(item.app_id,item.spouse_clt_id,item.status_st);
+                    checkAndReplace(item.app_id, item.spouse_clt_id, item.status_st);
 
                 });
 
@@ -368,7 +366,7 @@ public class OrderItemFragment extends BaseFragment {
 
             ReplaceSPReq replaceSPReq = new ReplaceSPReq();
             replaceSPReq.clt_id = spouse_clt_id;
-            Log.e("TAG", "spouse_clt_id = "+spouse_clt_id);
+            Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
             //1.激活配偶登录
             AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
                 if (data1 == null) {
@@ -389,7 +387,7 @@ public class OrderItemFragment extends BaseFragment {
                             //3：重新提报
                             OrderApi.reSubmit(mContext, req, data2 -> {
                                 if (data2 != null) {
-                                    ToastUtil.showToast(mContext,"提交成功");
+                                    ToastUtil.showImageToast(mContext, "提交成功", R.mipmap.toast_success);
                                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
                                     intent.putExtra("app_id", data2.app_id);
                                     intent.putExtra("status_st", status_st);
