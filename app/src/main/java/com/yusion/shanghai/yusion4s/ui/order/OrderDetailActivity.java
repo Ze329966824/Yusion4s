@@ -451,7 +451,6 @@ public class OrderDetailActivity extends BaseActivity {
                 } else {
                     order_detail_sign_layout.setVisibility(View.VISIBLE);
                     order_detail_change_layout.setVisibility(View.GONE);
-
                 }
             }
             if (resp.status_st == 2) {//待审核
