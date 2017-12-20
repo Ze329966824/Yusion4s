@@ -15,8 +15,6 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
-import com.yusion.shanghai.yusion4s.ubt.UBT;
-import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
@@ -37,7 +35,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
         versionCode = Settings.isOnline ? BuildConfig.VERSION_NAME : Settings.SERVER_URL;
         versionCodeTv.setText(versionCode);
         initTitleBar(this, getResources().getString(R.string.main_setting_title));
-
+        //长按更改服务器地址
         findViewById(R.id.main_setting_logout_layout).setOnLongClickListener(v -> {
             if (!isOnline) {
                 EditText editText = new EditText(SettingsActivity.this);
@@ -50,38 +48,39 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
                             dialog.dismiss();
                             new AlertDialog.Builder(SettingsActivity.this)
                                     .setMessage("重启app生效")
-//                                    .setPositiveButton("确定", (dialog1, which1) -> ActivityManager.exit())
                                     .setPositiveButton("确定", (dialog1, which1) -> reOpenApp())
                                     .show();
                         }).show();
             }
             return true;
         });
-
     }
 
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
+            //用户协议
             case R.id.main_setting_agreement_layout:
                 Intent intent = new Intent(SettingsActivity.this, WebViewActivity.class);
                 intent.putExtra("type", "Agreement");
                 startActivity(intent);
                 break;
+            //退出登录
             case R.id.main_setting_logout_layout:
                 if (!isFinishing()) {
                     showLogoutDialog();
                 }
                 break;
+            //版本号
             case R.id.main_setting_version_name_layout:
-                changeServerURL();
+                checkServerUrl();
                 break;
             default:
                 break;
         }
     }
 
-    private void changeServerURL() {
+    private void checkServerUrl() {
         if (Settings.isOnline) {
             //product：调用oss接口更新
             AuthApi.update(this, "yusion4s", data -> {
@@ -110,37 +109,11 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onOkClick(Dialog dialog) {
                 dialog.dismiss();
-               AppUtils. logout();
-                finishByLoginOut  = true;
+                AppUtils.logout(SettingsActivity.this, getClass().getSimpleName());
+                finish();
+                finishByLoginOut = true;
             }
         });
-    }
-
-    private void logout() {
-        Toast.makeText(this, "正在退出，请稍等...", Toast.LENGTH_SHORT).show();
-        UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
-        UBT.sendAllUBTEvents(this, () -> finishByLoginOut = true);
-        myApp.clearUserData();
-        Intent intent = new Intent(SettingsActivity.this, LoginActivity.class);
-        startActivity(intent);
-        finish();
-    }
-
-    private void initUpdateListener() {
-//        PgyUpdateManager.register(SettingsActivity.this, null, new UpdateManagerListener() {
-//            @Override
-//            public void onNoUpdateAvailable() {
-//                Toast.makeText(SettingsActivity.this, "已经是最新版本，不需要更新", Toast.LENGTH_SHORT).show();
-//            }
-//
-//            @Override
-//            public void onUpdateAvailable(String s) {
-//                final AppBean appBean = getAppBeanFromString(s);
-//                desc = appBean.getReleaseNote();
-//                url = appBean.getDownloadURL();
-//                UpdateManagerListener.updateLocalBuildNumber(s);
-//            }
-//        });
     }
 
     private String splitVersion(String s) {
