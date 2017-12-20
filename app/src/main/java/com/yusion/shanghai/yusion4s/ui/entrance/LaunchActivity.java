@@ -126,10 +126,10 @@ public class LaunchActivity extends BaseActivity {
     }
 
     private String splitVersion(String s) {
-        String ss = null;
+        String splitVersion = null;
         char[] str = s.toCharArray();
-        ss = String.valueOf(str[0]) + String.valueOf(str[2]) + String.valueOf(str[4]);
-        return ss;
+        splitVersion = String.valueOf(str[0]) + String.valueOf(str[2]) + String.valueOf(str[4]);
+        return splitVersion;
     }
 
 }

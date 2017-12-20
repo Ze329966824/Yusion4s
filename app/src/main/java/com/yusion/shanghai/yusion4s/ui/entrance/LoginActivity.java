@@ -20,16 +20,17 @@ import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
+import com.yusion.shanghai.yusion4s.ubt.service.UploadPersonInfoService;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -58,6 +59,8 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         myApp.requestLocation(null);
         initView();
+        Log.e("TAG", "onCreate: ");
+        //  registerReceiver();
     }
 
     private void initView() {
@@ -68,7 +71,9 @@ public class LoginActivity extends BaseActivity {
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
         loginBtn = findViewById(R.id.login_submit_btn);
         loginBtn.setOnClickListener(v -> login());
+
         setTestAccount();
+
     }
 
     //测试账号
@@ -113,17 +118,19 @@ public class LoginActivity extends BaseActivity {
         String account = mLoginAccountTV.getText().toString();
         String password = mLoginPasswordTV.getText().toString();
         if (TextUtils.isEmpty(account)) {
-            Toast.makeText(myApp, "账号不能为空!", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShort(myApp, "账号不能为空");
             return;
         } else if (TextUtils.isEmpty(password)) {
-            Toast.makeText(myApp, "密码不能为空!", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShort(myApp, "密码不能为空");
             return;
         }
         LoginReq req = new LoginReq();
         req.username = account;
         req.password = password;
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
+
         ApiUtil.requestUrl4Data(this, Api.getAuthService().login(req), (OnItemDataCallBack<LoginResp>) this::loginSuccess);
+
     }
 
 
@@ -154,7 +161,10 @@ public class LoginActivity extends BaseActivity {
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.ACCOUNT);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
             if (!Settings.forAppium) {
-                new Thread(this::uploadPersonAndDeviceInfo).start();
+                // new Thread(this::uploadPersonAndDeviceInfo).start();
+                Intent intent = new Intent(this, UploadPersonInfoService.class);
+                startService(intent);
+                //   startService(intent);
             }
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
             Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
