@@ -62,8 +62,7 @@ public class ChangeDlrActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_change_dealer);
-//        启动动画
-//        overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
+
         intent = getIntent();
         init();
         showDlr();

@@ -2,16 +2,15 @@ package com.yusion.shanghai.yusion4s.ui;
 
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -20,16 +19,19 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
-import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
-public class ApplyFinancingFragment extends BaseFragment {
+import static android.R.attr.data;
+
+public class HomeFragment extends BaseFragment {
 
     private PtrClassicFrameLayout ptr;
     private TextView top_dlr;                  //顶部经销商
@@ -51,26 +53,23 @@ public class ApplyFinancingFragment extends BaseFragment {
     public String dlr_id;
     private MainActivity activity;
 
-    public static ApplyFinancingFragment newInstance() {
+    public static HomeFragment newInstance() {
         Bundle args = new Bundle();
-        ApplyFinancingFragment fragment = new ApplyFinancingFragment();
+        HomeFragment fragment = new HomeFragment();
         fragment.setArguments(args);
         return fragment;
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_apply_financing, container, false);
     }
-
-
+    
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        activity = (MainActivity) getActivity();
         initView(view);
-
+        activity = (MainActivity) getActivity();
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -94,9 +93,9 @@ public class ApplyFinancingFragment extends BaseFragment {
 
     //刷新首页订单数量
     void refresh(String id) {
-        DlrApi.getDlr(mContext, id, data -> {
+        ApiUtil.requestUrl4Data(mContext, Api.getDlrNum().getDlrNum(id),dlrNumResp -> {
             ptr.refreshComplete();
-            if (data != null) {
+            if (dlrNumResp != null) {
 
                 //取出存在sp的订单状态 eg： 1-2-5-1
                 String values = SharedPrefsUtil.getInstance(mContext).getValue(id, null);
@@ -128,30 +127,30 @@ public class ApplyFinancingFragment extends BaseFragment {
                 }
                 //之前没有存过
                 else {
-                    if (data.reject_count.equals("0")) {
+                    if (dlrNumResp.reject_count.equals("0")) {
                         reject_img.setVisibility(View.VISIBLE);
                     }
-                    if (data.to_be_confirm_count.equals("0")) {
+                    if (dlrNumResp.to_be_confirm_count.equals("0")) {
                         to_be_confirm_img.setVisibility(View.VISIBLE);
                     }
-                    if (data.to_loan_count.equals("0")) {
+                    if (dlrNumResp.to_loan_count.equals("0")) {
                         to_loan_img.setVisibility(View.VISIBLE);
                     }
-                    if (data.to_be_upload_count.equals("0")) {
+                    if (dlrNumResp.to_be_upload_count.equals("0")) {
                         to_be_upload_img.setVisibility(View.VISIBLE);
                     }
                 }
-                all_count.setText(data.all_count);
-                today_count.setText(data.today_count);
-                dealing_count.setText(data.dealing_count);
-                reject_count.setText(data.reject_count);
-                to_be_confirm_count.setText(data.to_be_confirm_count);
-                to_loan_count.setText(data.to_loan_count);
-                to_be_upload_count.setText(data.to_be_upload_count);
+                all_count.setText(dlrNumResp.all_count);
+                today_count.setText(dlrNumResp.today_count);
+                dealing_count.setText(dlrNumResp.dealing_count);
+                reject_count.setText(dlrNumResp.reject_count);
+                to_be_confirm_count.setText(dlrNumResp.to_be_confirm_count);
+                to_loan_count.setText(dlrNumResp.to_loan_count);
+                to_be_upload_count.setText(dlrNumResp.to_be_upload_count);
 
                 SharedPrefsUtil.getInstance(mContext).putValue("dlr_nums", dlr_id + "/");
                 SharedPrefsUtil.getInstance(mContext).putValue
-                        (id, data.reject_count + "-" + data.to_be_confirm_count + "-" + data.to_loan_count + "-" + data.to_be_upload_count);
+                        (id, dlrNumResp.reject_count + "-" + dlrNumResp.to_be_confirm_count + "-" + dlrNumResp.to_loan_count + "-" + dlrNumResp.to_be_upload_count);
                 dlr = null;
             }
         });
@@ -172,7 +171,7 @@ public class ApplyFinancingFragment extends BaseFragment {
         to_loan_img = view.findViewById(R.id.to_loan_img);
         to_be_upload_img = view.findViewById(R.id.to_be_upload_img);
 
-
+        // TODO: 2017/12/20 添加按下效果  找ui要图
         //新车
         view.findViewById(R.id.apply_financing_cteate_newcar_btn).setOnClickListener(v -> {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
@@ -189,7 +188,7 @@ public class ApplyFinancingFragment extends BaseFragment {
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
             Intent i3 = new Intent(mContext, ChangeDlrActivity.class);
             startActivityForResult(i3, Constants.REQUEST_CHANGE_DLR);
-            getActivity().overridePendingTransition(R.anim.pop_enter_anim, R.anim.stay);
+            activity.overridePendingTransition(R.anim.pop_enter_anim, R.anim.stay);
         });
         //审核拒绝
         view.findViewById(R.id.apply_financing_lin1).setOnClickListener(v -> {
@@ -231,19 +230,13 @@ public class ApplyFinancingFragment extends BaseFragment {
             if (resultCode == Activity.RESULT_OK) {
                 dlr = data.getStringExtra("dlr");
                 dlr_id = data.getStringExtra("dlr_id");
-                if (dlr != null) {
+                if (!TextUtils.isEmpty(dlr)) {
                     top_dlr.setText(dlr);
                 }
                 refresh(dlr_id);
             }
         }
     }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
-
 
     //移除new小图标
     public void removeImg(int position) {
