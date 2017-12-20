@@ -18,6 +18,7 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.UpdateUtil;
@@ -109,13 +110,14 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
             @Override
             public void onOkClick(Dialog dialog) {
                 dialog.dismiss();
-                logout();
+               AppUtils. logout();
+                finishByLoginOut  = true;
             }
         });
     }
 
     private void logout() {
-        Toast.makeText(myApp, "正在退出，请稍等...", Toast.LENGTH_SHORT).show();
+        Toast.makeText(this, "正在退出，请稍等...", Toast.LENGTH_SHORT).show();
         UBT.addPageEvent(this, "page_hidden", "activity", getClass().getSimpleName());
         UBT.sendAllUBTEvents(this, () -> finishByLoginOut = true);
         myApp.clearUserData();

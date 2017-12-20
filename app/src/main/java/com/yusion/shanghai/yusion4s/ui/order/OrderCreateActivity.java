@@ -105,11 +105,6 @@ public class OrderCreateActivity extends BaseActivity {
                     .commit();
             mCurrentFragment = mOldCarInfoFragment;
         }
-
-
-        //mCurrentFragment = mCreditInfoFragment;
-
-
     }
 
     private void setTitle() {
@@ -194,12 +189,9 @@ public class OrderCreateActivity extends BaseActivity {
     }
 
     private void back() {
-        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", new PopupDialogUtil.OnOkClickListener() {
-            @Override
-            public void onOkClick(Dialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
+        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", dialog -> {
+            dialog.dismiss();
+            finish();
         });
     }
 }
