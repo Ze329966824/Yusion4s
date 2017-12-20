@@ -8,7 +8,7 @@ import java.util.List;
  * Created by aa on 2017/12/5.
  */
 
-public class ProcessReq {
+public class ProcessResp {
 
     /**
      * clt_nm : xxx
