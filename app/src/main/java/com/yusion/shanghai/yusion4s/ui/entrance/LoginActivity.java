@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -27,6 +26,7 @@ import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ubt.service.UploadPersonInfoService;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
+import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
@@ -58,8 +58,6 @@ public class LoginActivity extends BaseActivity {
         setContentView(R.layout.activity_login);
         myApp.requestLocation(null);
         initView();
-        Log.e("TAG", "onCreate: ");
-        //  registerReceiver();
     }
 
     private void initView() {
@@ -69,10 +67,8 @@ public class LoginActivity extends BaseActivity {
         mLoginPasswordEyeImg = findViewById(R.id.login_password_eye_img);
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
         loginBtn = findViewById(R.id.login_submit_btn);
-        loginBtn.setOnClickListener(v -> login());
-
+        loginBtn.setOnClickListener(v -> requestLogin());
         setTestAccount();
-
     }
 
     //测试账号
@@ -100,7 +96,7 @@ public class LoginActivity extends BaseActivity {
     }
 
     //登录
-    private void login() {
+    private void requestLogin() {
 //        StringBuilder builder = new StringBuilder();
 //        for (int i1 = 0; i1 < "长城".length(); i1++) {
 //            //利用TinyPinyin将char转成拼音
@@ -108,7 +104,7 @@ public class LoginActivity extends BaseActivity {
 //            //如果c不是汉字，则返回String.valueOf(c)
 //            builder.append(Pinyin.toPinyin("长城".charAt(i1)).toUpperCase());
 //        }
-//        Log.e("TAG", "login: " + builder.toString());
+//        Log.e("TAG", "requestLogin: " + builder.toString());
 
 //        Intent intent = new Intent(this, CarSelectActivity.class);
 //        intent.putExtra("class", LoginActivity.class);
@@ -127,9 +123,7 @@ public class LoginActivity extends BaseActivity {
         req.username = account;
         req.password = password;
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
-
         ApiUtil.requestUrl4Data(this, Api.getAuthService().login(req), (OnItemDataCallBack<LoginResp>) this::loginSuccess);
-
     }
 
 
@@ -166,90 +160,8 @@ public class LoginActivity extends BaseActivity {
                 //   startService(intent);
             }
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            Toast.makeText(LoginActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
+            ToastUtil.showShort(LoginActivity.this,"登陆成功");
         }
-    }
-
-    private void uploadPersonAndDeviceInfo() {
-        UBTData req = new UBTData(this);
-        String imei = telephonyManager.getDeviceId();
-        String imsi = telephonyManager.getSubscriberId();
-        req.imei = imei;
-        req.imsi = imsi;
-        req.app = "Yusion4s";
-        req.token = SharedPrefsUtil.getInstance(this).getValue("token", null);
-        req.mobile = SharedPrefsUtil.getInstance(this).getValue("account", null);
-        JSONArray contactJsonArray = MobileDataUtil.getUserData(this, "contact");
-        List<UBTData.DataBean.ContactBean> contactBeenList = new ArrayList<>();
-
-        for (int i = 0; i < contactJsonArray.length(); i++) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = contactJsonArray.getJSONObject(i);
-                UBTData.DataBean.ContactBean contactListBean = new UBTData.DataBean.ContactBean();
-
-                contactListBean.data1 = jsonObject.optString("data1");
-                contactListBean.display_name = jsonObject.optString("display_name");
-
-                contactBeenList.add(contactListBean);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        UBTData.DataBean contactBean = new UBTData.DataBean();
-        contactBean.category = "contact";
-        req.data.add(contactBean);
-        if (contactBeenList.size() > 0 && !contactBeenList.isEmpty()) {
-            contactBean.contact_list = contactBeenList;
-        }
-
-        JSONArray smsJsonArray = MobileDataUtil.getUserData(this, "sms");
-        List<UBTData.DataBean.SmsBean> smsList = new ArrayList<>();
-        for (int i = 0; i < smsJsonArray.length(); i++) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = smsJsonArray.getJSONObject(i);
-                UBTData.DataBean.SmsBean smsListBean = new UBTData.DataBean.SmsBean();
-                String type = jsonObject.optString("type");
-                if (type.equals("1")) {
-                    smsListBean.from = jsonObject.optString("address");
-                    smsListBean.content = jsonObject.optString("body");
-                    smsListBean.type = "recv";
-                    smsListBean.ts = jsonObject.optString("date");
-                } else if (type.equals("2")) {
-                    smsListBean.to = jsonObject.optString("address");
-                    smsListBean.content = jsonObject.optString("body");
-                    smsListBean.type = "snd";
-                    smsListBean.ts = jsonObject.optString("date");//date
-                }
-                smsList.add(smsListBean);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        UBTData.DataBean simBean = new UBTData.DataBean();
-        simBean.category = "sms";
-        req.data.add(simBean);
-        if (smsList.size() > 0 && !smsList.isEmpty()) {
-            simBean.sms_list = smsList;
-        }
-
-        AuthApi.checkUserInfo(this, data -> {
-            contactBean.clt_nm = data.name;
-            contactBean.mobile = data.mobile;
-            simBean.clt_nm = data.name;
-            simBean.mobile = data.mobile;
-            PersonApi.uploadPersonAndDeviceInfo(req, new Callback() {
-                @Override
-                public void onResponse(Call call, Response response) {
-                }
-
-                @Override
-                public void onFailure(Call call, Throwable t) {
-                }
-            });
-        });
     }
 
     @Override
@@ -276,6 +188,6 @@ public class LoginActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        ActivityManager.exit();
+        AppUtils.exit();
     }
 }

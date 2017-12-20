@@ -348,7 +348,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 } else if (checkCanSubmit()) {
                     OrderCreateActivity createActivity = (OrderCreateActivity) getActivity();
                     SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
-                    // SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+                    // SubmitOrderReq req = ((HomeFragment) getParentFragment()).req;
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
                     req.imei = telephonyManager.getDeviceId();
@@ -601,7 +601,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     @Override
     public void onClick(View v) {
         Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-        //SubmitOrderReq req = ((ApplyFinancingFragment) getParentFragment()).req;
+        //SubmitOrderReq req = ((HomeFragment) getParentFragment()).req;
         SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
 
 

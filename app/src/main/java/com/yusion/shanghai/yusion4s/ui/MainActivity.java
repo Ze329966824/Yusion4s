@@ -13,22 +13,21 @@ import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.Yusion4sApp;
-import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
-import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragmentEvent;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
+import com.yusion.shanghai.yusion4s.utils.AppUtils;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
 public class MainActivity extends BaseActivity implements View.OnClickListener {
 
-    private ApplyFinancingFragment mApplyFinancingFragment; //申请融资
+    private HomeFragment mHomeFragment; //申请融资
     private OrderManagerFragment mOrderManagerFragment;     //申请
     private MineFragment mMineFragment;                     //我的
     private Fragment mCurrentFragment;                      //当前的
@@ -43,8 +42,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
-        Yusion4sApp.isLogin = true;
+        EventBus.getDefault().register(this);
         springSystem = SpringSystem.create();
         init();
     }
@@ -54,19 +52,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         applyOrderRb = findViewById(R.id.main_tab_order_apply);
         orderListRb = findViewById(R.id.main_tab_order);
         mineRb = findViewById(R.id.main_tab_mine);
-        mApplyFinancingFragment = ApplyFinancingFragment.newInstance();
+        mHomeFragment = HomeFragment.newInstance();
         mMineFragment = MineFragment.newInstance();
         mOrderManagerFragment = OrderManagerFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction()
-                .add(R.id.main_container, mApplyFinancingFragment)
+                .add(R.id.main_container, mHomeFragment)
                 .add(R.id.main_container, mMineFragment)
                 .add(R.id.main_container, mOrderManagerFragment)
                 .hide(mMineFragment)
                 .hide(mOrderManagerFragment)
                 .commit();
-        mCurrentFragment = mApplyFinancingFragment;
-        EventBus.getDefault().register(this);
+        mCurrentFragment = mHomeFragment;
     }
 
     @Override
@@ -79,7 +76,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     @Override
     public void onBackPressed() {
-        ActivityManager.exit();
+        AppUtils.exit();
     }
 
     @Override
@@ -87,8 +84,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         FragmentTransaction transaction = mFragmentManager.beginTransaction();
         switch (v.getId()) {
             case R.id.main_tab_order_apply:
-                transaction.hide(mCurrentFragment).show(mApplyFinancingFragment);
-                mCurrentFragment = mApplyFinancingFragment;
+                transaction.hide(mCurrentFragment).show(mHomeFragment);
+                mCurrentFragment = mHomeFragment;
                 break;
             case R.id.main_tab_order:
                 transaction.hide(mCurrentFragment).show(mOrderManagerFragment);
@@ -141,19 +138,17 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     protected void onResume() {
         super.onResume();
         ConfigApi.getConfigJson(MainActivity.this, null);
-        AuthApi.checkUserInfo(this, data -> {
-            if (data == null) {
-                return;
-            }
-            mMineFragment.refresh(data);
-        });
-        mApplyFinancingFragment.firstLogin();
+
+        ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(),data -> mMineFragment.refresh(data));
+
+        // 第一次登陆时  取出列表里第一个门店展示出来 （首页）
+        mHomeFragment.firstLogin();
     }
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        //
+        //  从 commitActivity返回时 触发  跳转到 申请列表
         if (intent.getBooleanExtra("from_commit", false)) {
             changeFragment(MainActivityEvent.showOrderManager);
         }
@@ -167,8 +162,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 if (event.position == -1) {
                     break;
                 } else {
+                    // 跳转到申请列表的指定状态页面
                     OrderManagerFragmentEvent.showFragment.position = event.position;
-                    mApplyFinancingFragment.removeImg(event.position);
+                    mHomeFragment.removeImg(event.position);
                     EventBus.getDefault().post(OrderManagerFragmentEvent.showFragment);
                     break;
                 }

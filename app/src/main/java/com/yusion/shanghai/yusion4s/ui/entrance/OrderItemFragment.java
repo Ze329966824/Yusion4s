@@ -399,16 +399,15 @@ public class OrderItemFragment extends BaseFragment {
                         //未完善
                         else {
                             PopupDialogUtil.showOneButtonDialog(mContext, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog1 -> {
-
-                                PackageManager packageManager = mContext.getPackageManager();  // 当前Activity获得packageManager对象
-                                Intent intent = new Intent();
-                                try {
-                                    intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
-                                } catch (Exception e) {
-                                }
-                                if (intent != null) {
-                                    mContext.startActivity(intent);
-                                }
+//                                PackageManager packageManager = mContext.getPackageManager();  // 当前Activity获得packageManager对象
+//                                Intent intent = new Intent();
+//                                try {
+//                                    intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
+//                                } catch (Exception e) {
+//                                }
+//                                if (intent != null) {
+//                                    mContext.startActivity(intent);
+//                                }
                                 dialog1.dismiss();
                             });
                         }
