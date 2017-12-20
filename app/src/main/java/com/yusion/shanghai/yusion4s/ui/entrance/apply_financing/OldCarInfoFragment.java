@@ -1414,6 +1414,7 @@ public class OldCarInfoFragment extends BaseFragment {
         if (guess_img != null) {
             Intent intent = new Intent(mContext, AppraisalvalueActivity.class);
             intent.putExtra("guess_img", guess_img);
+            intent.putExtra("guess_img2", false);
             startActivity(intent);
         }
     }

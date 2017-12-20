@@ -1,10 +1,10 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.os.Environment;
-import android.provider.MediaStore;
 import android.util.Log;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -19,7 +19,6 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.Base64Util;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -52,15 +51,24 @@ public class AppraisalvalueActivity extends BaseActivity {
     private void initView() {
         appraisal_value_img = (LargeImageView) findViewById(R.id.appraisal_value_img);
         appraisal_download_tv = (TextView) findViewById(R.id.appraisal_download_tv);
-        baseStr = getIntent().getStringExtra("guess_img");
+        Intent intent = getIntent();
+        baseStr = intent.getStringExtra("guess_img");
+        Log.e("TAG", "initView: " + baseStr);
 
+//        appraisal_download_tv.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                Log.e("TAG", "onClick: " + intent.getStringExtra("guess_img"));
+//                Log.e("TAG", "onClick: " + baseStr);
+//            }
+//        });
         appraisal_download_tv.setOnClickListener(v -> {
             Date date = new Date();
             DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
             String time = format.format(date);
             String name = time + ".png";
-            if (baseStr != null) {
-                Base64Util.saveBaseImage(baseStr, Environment.getExternalStorageDirectory().getPath() + "/yusion/", name);
+            if (intent.getStringExtra("guess_img") != null) {
+                Base64Util.saveBaseImage(intent.getStringExtra("guess_img"), Environment.getExternalStorageDirectory().getPath() + "/yusion/", name);
                 Log.e("TAG", "path : " + Environment.getExternalStorageDirectory().getPath());
             }else {
                 saveImage(name);

@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.utils;
 
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.text.TextUtils;
 import android.util.Base64;
 
 import java.io.File;
@@ -20,6 +21,9 @@ public class Base64Util {
      * @param imgName 存放的名称 eg:xxx.png
      */
     public static void saveBaseImage(String base64, String path, String imgName) {
+        if (TextUtils.isEmpty(base64)) {
+            throw new IllegalArgumentException("base64没有读取到！！！");
+        }
         try {
             FileOutputStream write = new FileOutputStream(new File(path + imgName));
             byte[] decoderBytes = Base64.decode(base64, Base64.DEFAULT);
