@@ -185,6 +185,7 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView remark_tv1;
     private TextView remark_tv2;
 
+    private String comments;   // 备注
     private LinearLayout order_detail_schedule_lin;     //订单进度
 
     @Override
@@ -450,6 +451,7 @@ public class OrderDetailActivity extends BaseActivity {
                 return;
             }
             cartype = resp.vehicle_cond;
+            comments = resp.uw_detail.comments;
             if (cartype.equals("新车")) {
                 initTitleBar(this, "新车申请详情");
             } else {
@@ -477,7 +479,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
-                remark_tv2.setText("进行中的备注");
+                remark_tv2.setText(comments);
 //                waitLin.setVisibility(View.VISIBLE);
 //                passRel.setVisibility(View.GONE);
 //                rejectRel.setVisibility(View.GONE);
@@ -490,7 +492,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
-                remark_tv2.setText("进行中的备注");
+                remark_tv2.setText(comments);
 //                passRel.setVisibility(View.VISIBLE);
 //                waitLin.setVisibility(View.GONE);
 //                rejectRel.setVisibility(View.GONE);
@@ -510,7 +512,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
-                remark_tv2.setText("进行中的备注");
+                remark_tv2.setText(comments);
             } else if (resp.status_st == 11) {//已完成
 //                passRel.setVisibility(View.VISIBLE);
 //                waitLin.setVisibility(View.GONE);
@@ -524,7 +526,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
-                remark_tv2.setText("进行中的备注");
+                remark_tv2.setText(comments);
             }
             else if (resp.status_st == 3) {//审核失败
 //                waitLin.setVisibility(View.GONE);
@@ -537,18 +539,18 @@ public class OrderDetailActivity extends BaseActivity {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("拒绝");
-                remark_tv2.setText("拒绝的备注");
+                remark_tv2.setText(comments);
             }
             else if (resp.status_st == 9) {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin3);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img3);
                 title_tv.setText("取消");
-                remark_tv2.setText("取消的备注");
+                remark_tv2.setText(comments);
             }else if(resp.status_st == 11){
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("完成");
-                remark_tv2.setText("完成的备注");
+                remark_tv2.setText(comments);
             }
             //金融方案申请和批复
             if (resp.uw && resp.uw_detail != null) {
