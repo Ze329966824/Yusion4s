@@ -11,7 +11,7 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.order.ProcessReq;
+import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 
@@ -20,9 +20,9 @@ import java.util.List;
 public class ProcessActivity extends BaseActivity {
     private LinearLayout mLl_parent;
     private Context mContext;
-    private List<ProcessReq.ListBean> list;
-    private String st;
-    private String st2;
+    private List<ProcessResp.ListBean> list;
+    private String current_st;
+    private String before_st;
     private TextView app_id;
     private TextView create_time;
     private TextView clt_nm;
@@ -39,9 +39,9 @@ public class ProcessActivity extends BaseActivity {
         create_time = (TextView) findViewById(R.id.creat_time);
         clt_nm = (TextView) findViewById(R.id.clt_nm);
 
-        OrderApi.getOrderProcess(this, getIntent().getStringExtra("app_id"), new OnItemDataCallBack<ProcessReq>() {
+        OrderApi.getOrderProcess(this, getIntent().getStringExtra("app_id"), new OnItemDataCallBack<ProcessResp>() {
             @Override
-            public void onItemDataCallBack(ProcessReq data) {
+            public void onItemDataCallBack(ProcessResp data) {
                 if (data == null) {
                     return;
                 }
@@ -52,11 +52,10 @@ public class ProcessActivity extends BaseActivity {
                 create_time.setText(data.create_time);
 
                 for (int i = 0; i < list.size(); i++) {
-                    ProcessReq.ListBean current = list.get(i);
-                    //  ProcessTest current = list.get(i);
+                    ProcessResp.ListBean current = list.get(i);
 
-                    ProcessReq.ListBean before;
-                    ProcessReq.ListBean after;
+                    ProcessResp.ListBean before;
+                    ProcessResp.ListBean after;
 
                     before = i == 0 ? null : list.get(i - 1);
 
@@ -74,28 +73,28 @@ public class ProcessActivity extends BaseActivity {
                         bottomLine.setVisibility(View.INVISIBLE);
                     }
                     //设置线条颜色  st是当前 st2是上一个
-                    st = current.st;
+                    current_st = current.st;
                     if (before != null) {
-                        st2 = before.st;
-                        if (st2.equals("pass") && !canceled) {
+                        before_st = before.st;
+                        if (before_st.equals("pass") && !canceled) {
                             topLine.setBackgroundColor(Color.parseColor("#06b7a3"));//这个是绿色
                         } else if (canceled) {
                             topLine.setBackgroundColor(Color.parseColor("#aaaab7"));//这个是灰色
                         }
                     }//25 shi pass  24 shi wait
-                    if (st.equals("pass") && !canceled) {
+                    if (current_st.equals("pass") && !canceled) {
                         bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                         dianImg.setImageResource(R.mipmap.test25);
-                    } else if (st.equals("pass") && canceled) {
+                    } else if (current_st.equals("pass") && canceled) {
                         bottomLine.setBackgroundColor(Color.parseColor("#aaaab7"));
                         dianImg.setImageResource(R.mipmap.cancel_pass_icon);
-                    } else if (st.equals("wait") && !canceled) {
+                    } else if (current_st.equals("wait") && !canceled) {
                         dianImg.setImageResource(R.mipmap.test24);
-                    } else if (st.equals("wait") && canceled) {
+                    } else if (current_st.equals("wait") && canceled) {
                         dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
-                    } else if (st.equals("reject") && !canceled) {
+                    } else if (current_st.equals("reject") && !canceled) {
                         dianImg.setImageResource(R.mipmap.reject_icon);
-                    } else if (st.equals("reject") && canceled) {
+                    } else if (current_st.equals("reject") && canceled) {
                         dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
                     }
                     mLl_parent.addView(view);
@@ -129,17 +128,17 @@ public class ProcessActivity extends BaseActivity {
 //        ProcessTest processTest1 = new ProcessTest();
 //        processTest1.title = "填订单信息";
 //        processTest1.time = "2016-07-05  14:32";
-//        processTest1.st = "1";
+//        processTest1.current_st = "1";
 //        list.add(processTest1);
 //
 //        ProcessTest processTest2 = new ProcessTest();
 //        processTest2.time = "DW UW";
 //        processTest2.title = "2016-07-05  14:32";
-//        processTest2.st = "2";
+//        processTest2.current_st = "2";
 //        list.add(processTest2);
 //
 //        ProcessTest processTest3 = new ProcessTest();
-//        processTest3.st = "3";
+//        processTest3.current_st = "3";
 //        processTest3.asyncProcessTestList = new ArrayList<>();
 //        processTest3.syncProcessTestList = new ArrayList<>();
 //        ProcessTest processTest31 = new ProcessTest();
@@ -159,7 +158,7 @@ public class ProcessActivity extends BaseActivity {
 //
 //
 //        ProcessTest processTest = new ProcessTest();
-//        processTest.st = "3";
+//        processTest.current_st = "3";
 //        processTest.asyncProcessTestList = new ArrayList<>();
 //
 //        processTest.title = "征信影像审核";
@@ -174,11 +173,11 @@ public class ProcessActivity extends BaseActivity {
 
         /*
         for (int i = 0; i < list.size(); i++) {
-            ProcessReq.ListBean current = list.get(i);
+            ProcessResp.ListBean current = list.get(i);
             //  ProcessTest current = list.get(i);
 
-            ProcessReq.ListBean before;
-            ProcessReq.ListBean after;
+            ProcessResp.ListBean before;
+            ProcessResp.ListBean after;
 
             before = i == 0 ? null : list.get(i - 1);
 
@@ -195,17 +194,17 @@ public class ProcessActivity extends BaseActivity {
                 bottomLine.setVisibility(View.INVISIBLE);
             }
             //设置线条颜色
-            st = current.st;
+            current_st = current.current_st;
             if (before != null) {
-                st2 = before.st;
-                if (st2.equals("1")) {
+                before_st = before.current_st;
+                if (before_st.equals("1")) {
                     topLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                 }
             }
-            if (st.equals("1")) {
+            if (current_st.equals("1")) {
                 bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
                 dianImg.setImageResource(R.mipmap.test25);
-            } else if (st.equals("2")) {
+            } else if (current_st.equals("2")) {
                 dianImg.setImageResource(R.mipmap.test24);
             }
 
@@ -236,7 +235,7 @@ public class ProcessActivity extends BaseActivity {
         */
     }
 
-    private void fill(ProcessReq.ListBean current, LinearLayout ll_empty) {
+    private void fill(ProcessResp.ListBean current, LinearLayout ll_empty) {
         if (current.seriesList.size() == 0 && current.parellelList.size() == 0) {
             //没有子view 直接设置title
             LinearLayout fillView = addViewFill();
