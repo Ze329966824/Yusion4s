@@ -512,6 +512,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
+
                 handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
 
                 if (!TextUtils.isEmpty(car_info_tv.getText())
@@ -522,6 +523,8 @@ public class OldCarInfoFragment extends BaseFragment {
                     btn_reset.setEnabled(true);
                     btn_fast_valuation.setEnabled(true);
                 }
+
+
             }
         });
         //上牌时间
@@ -1118,40 +1121,48 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void clickFastValuationBtn() {
         mile_age = oldcar_dance_tv.getText().toString();
-        CheApi.getCheUrl(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetCheUrlResp>() {
-            @Override
-            public void onItemDataCallBack(GetCheUrlResp data) {
-                if (data != null) {
-                    cheUrl = data.url;
-                    Intent intent = new Intent(mContext, Car300WebViewActivity.class);
-                    intent.putExtra("cheUrl", cheUrl);
-                    startActivityForResult(intent, 100);
-                }
-            }
-        });
-
-        CheApi.getChePriceAndImage(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
-            @Override
-            public void onItemDataCallBack(GetChePriceAndImageResp data) {
-                SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
-                Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
-                if (data.result != null) {
-                    oldcar_guess_price_tv.setText(data.result.price + "");
-                    oldcar_business_price_tv.setText(data.result.price + "");
-                    if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
-                        carLoanPriceTv.setEnabled(true);
-                        look_guess_img_btn.setEnabled(true);
+        if (mile_age.equals("0")) {
+            Toast.makeText(mContext, "里程数不能为0，请重新输入", Toast.LENGTH_LONG).show();
+            oldcar_dance_tv.setText("");
+        } else {
+            CheApi.getCheUrl(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetCheUrlResp>() {
+                @Override
+                public void onItemDataCallBack(GetCheUrlResp data) {
+                    if (data != null) {
+                        cheUrl = data.url;
+                        Intent intent = new Intent(mContext, Car300WebViewActivity.class);
+                        intent.putExtra("cheUrl", cheUrl);
+                        startActivityForResult(intent, 100);
                     }
-                    dialog.dismiss();
-                    guess_img = "";
-                    guess_img = data.result.img;
-                    ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
-                    ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
-                    ((OrderCreateActivity) getActivity()).bucket = data.result.file_info.bucket;
-                    ((OrderCreateActivity) getActivity()).region = data.result.file_info.region;
                 }
-            }
-        });
+            });
+
+            CheApi.getChePriceAndImage(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+                @Override
+                public void onItemDataCallBack(GetChePriceAndImageResp data) {
+                    if (data == null || data.result == null || data.result.file_info == null) {
+                        return;
+                    }
+                    SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
+                    Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
+                    if (data.result != null) {
+                        oldcar_guess_price_tv.setText(data.result.price + "");
+                        oldcar_business_price_tv.setText(data.result.price + "");
+                        if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+                            carLoanPriceTv.setEnabled(true);
+                            look_guess_img_btn.setEnabled(true);
+                        }
+                        dialog.dismiss();
+                        guess_img = "";
+                        guess_img = data.result.img;
+                        ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
+                        ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
+                        ((OrderCreateActivity) getActivity()).bucket = data.result.file_info.bucket;
+                        ((OrderCreateActivity) getActivity()).region = data.result.file_info.region;
+                    }
+                }
+            });
+        }
     }
 
     private void clickLookImgBtn() {
@@ -1161,6 +1172,7 @@ public class OldCarInfoFragment extends BaseFragment {
         if (guess_img != null) {
             Intent intent = new Intent(mContext, AppraisalvalueActivity.class);
             intent.putExtra("guess_img", guess_img);
+            intent.putExtra("guess_img2", false);
             startActivity(intent);
         }
     }

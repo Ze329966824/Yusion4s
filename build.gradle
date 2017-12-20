@@ -3,7 +3,7 @@
 buildscript {
 
     ext {
-        VersionName = "V1.5.7"
+        VersionName = "V1.5.8"
         VersionCode = 35
         isOnline = false
         forAppium = false
