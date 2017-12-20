@@ -86,7 +86,6 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         if (body.data == null) {
             onEmptyDataResponse();
         }else {
-            //body.data()可能为空
             onCustomResponse(body.data);
         }
     }
