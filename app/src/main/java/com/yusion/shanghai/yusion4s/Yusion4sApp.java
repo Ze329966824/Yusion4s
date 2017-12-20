@@ -49,7 +49,7 @@ public class Yusion4sApp extends MultiDexApplication {
 
     public static boolean isForeground;
 
-    public static boolean isLogin;
+    public static boolean isLogin;    //判断用户是否在登录状态
     private static String reg_id;
 
 

@@ -18,13 +18,16 @@ import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ubt.service.UploadPersonInfoService;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
@@ -128,6 +131,7 @@ public class LoginActivity extends BaseActivity {
         req.reg_id = SharedPrefsUtil.getInstance(LoginActivity.this).getValue("reg_id", "");
         AuthApi.login(this, req, this::loginSuccess);
 
+        ApiUtil.requestUrl4Data(this, Api.getAuthService().login(req), (OnItemDataCallBack<LoginResp>) this::loginSuccess);
     }
 
 
@@ -257,8 +261,11 @@ public class LoginActivity extends BaseActivity {
         Yusion4sApp.isLogin = false;
         myApp.clearUserData();
 
-        ConfigApi.getConfigJson(LoginActivity.this, null);
+        //清除存在sp的dlrid和订单状态数
+        removeDlrNums();
+    }
 
+    private void removeDlrNums() {
         String dlr_nums = SharedPrefsUtil.getInstance(this).getValue("dlr_nums", null);
         if (dlr_nums != null) {
             String[] dlr_num = dlr_nums.split("/");
@@ -267,12 +274,10 @@ public class LoginActivity extends BaseActivity {
                 SharedPrefsUtil.getInstance(this).remove("dlr_nums");
             }
         }
-
     }
 
     @Override
     public void onBackPressed() {
         ActivityManager.exit();
     }
-
 }
