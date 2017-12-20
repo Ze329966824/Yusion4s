@@ -97,43 +97,48 @@ public class ApplyFinancingFragment extends BaseFragment {
         DlrApi.getDlr(mContext, id, data -> {
             ptr.refreshComplete();
             if (data != null) {
+
+                //取出存在sp的订单状态 eg： 1-2-5-1
                 String values = SharedPrefsUtil.getInstance(mContext).getValue(id, null);
+                //之前存过
                 if (values != null) {
                     String[] value = values.split("-");
                     if (value.length == 4) {
-                        if ((reject_count.getText().toString().compareTo(value[0]) == -1)) {
+                        if ((reject_count.getText().toString().compareTo(value[0]) == 1)) {
                             reject_img.setVisibility(View.VISIBLE);
                         } else {
                             reject_img.setVisibility(View.GONE);
                         }
-                        if ((to_be_confirm_count.getText().toString().compareTo(value[1]) == -1)) {
+                        if ((to_be_confirm_count.getText().toString().compareTo(value[1]) == 1)) {
                             to_be_confirm_img.setVisibility(View.VISIBLE);
                         } else {
                             to_be_confirm_img.setVisibility(View.GONE);
                         }
-                        if ((to_loan_count.getText().toString().compareTo(value[2]) == -1)) {
+                        if ((to_loan_count.getText().toString().compareTo(value[2]) == 1)) {
                             to_loan_img.setVisibility(View.VISIBLE);
                         } else {
                             to_loan_img.setVisibility(View.GONE);
                         }
-                        if ((to_be_upload_count.getText().toString().compareTo(value[3]) == -1)) {
+                        if ((to_be_upload_count.getText().toString().compareTo(value[3]) == 1)) {
                             to_be_upload_img.setVisibility(View.VISIBLE);
                         } else {
                             to_be_upload_img.setVisibility(View.GONE);
                         }
                     }
-                } else {
+                }
+                //之前没有存过
+                else {
                     if (data.reject_count.equals("0")) {
-                        reject_img.setVisibility(View.GONE);
+                        reject_img.setVisibility(View.VISIBLE);
                     }
                     if (data.to_be_confirm_count.equals("0")) {
-                        to_be_confirm_img.setVisibility(View.GONE);
+                        to_be_confirm_img.setVisibility(View.VISIBLE);
                     }
                     if (data.to_loan_count.equals("0")) {
-                        to_loan_img.setVisibility(View.GONE);
+                        to_loan_img.setVisibility(View.VISIBLE);
                     }
                     if (data.to_be_upload_count.equals("0")) {
-                        to_be_upload_img.setVisibility(View.GONE);
+                        to_be_upload_img.setVisibility(View.VISIBLE);
                     }
                 }
                 all_count.setText(data.all_count);
@@ -173,19 +178,12 @@ public class ApplyFinancingFragment extends BaseFragment {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
             i1.putExtra("car_type", "新车");
             startActivity(i1);
-//            PopupDialogUtil.showTwoButtonsDialog(mContext, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
-//                Toast.makeText(mContext,"重新提报",Toast.LENGTH_SHORT).show();
-//            });
         });
         //二手车
         view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v -> {
             Intent i2 = new Intent(mContext, OrderCreateActivity.class);
             i2.putExtra("car_type", "二手车");
             startActivity(i2);
-//            PopupDialogUtil.showOneButtonDialog(mContext, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog -> {
-//                Toast.makeText(mContext,"客户信息未完善",Toast.LENGTH_SHORT).show();
-//
-//            });
         });
         //选择经销商
         view.findViewById(R.id.apply_financing_dlr_lin).setOnClickListener(v -> {
