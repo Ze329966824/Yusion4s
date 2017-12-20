@@ -11,6 +11,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -176,6 +177,16 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
     private LinearLayout oldcar_info_lin;//二手车的信息
 
+
+
+    private LinearLayout title_lin;
+    private ImageView title_img;
+    private TextView title_tv;
+    private TextView remark_tv1;
+    private TextView remark_tv2;
+
+    private LinearLayout order_detail_schedule_lin;     //订单进度
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -197,6 +208,12 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void initView() {
+        title_lin = (LinearLayout) findViewById(R.id.title_lin);
+        title_img = (ImageView) findViewById(R.id.title_img);
+        title_tv = (TextView) findViewById(R.id.title_tv);
+        remark_tv1 = (TextView) findViewById(R.id.remark_tv1);
+        remark_tv2 = (TextView) findViewById(R.id.remark_tv2);
+        order_detail_schedule_lin = (LinearLayout) findViewById(R.id.order_detail_schedule_lin);
         OldcarbusnesspriceTv = (TextView) findViewById(R.id.order_detail_busnessprice_tv);
         beforebusnesspriceTv = (TextView) findViewById(R.id.oldcar_before_busnessprice_tv);
         beforeguesspriceTv = (TextView) findViewById(R.id.oldcar_before_guessprice_tv);
@@ -347,6 +364,12 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
 
+        order_detail_schedule_lin.setOnClickListener(v ->{
+            Intent intent = new Intent(OrderDetailActivity.this, ProcessActivity.class);
+            intent.putExtra("app_id", app_id);
+            startActivity(intent);
+        });
+
         // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
 
 
@@ -451,50 +474,81 @@ public class OrderDetailActivity extends BaseActivity {
                 }
             }
             if (resp.status_st == 2) {//待审核
-                waitLin.setVisibility(View.VISIBLE);
-                passRel.setVisibility(View.GONE);
-                rejectRel.setVisibility(View.GONE);
-                nore_financeLin.setVisibility(View.VISIBLE);
-                if (resp.uw) {
-                    waitReason.setText(resp.uw_detail.comments);
-                }
-                wait_title.setText(resp.client_status_code);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
+                title_tv.setText("进行中");
+                remark_tv2.setText("进行中的备注");
+//                waitLin.setVisibility(View.VISIBLE);
+//                passRel.setVisibility(View.GONE);
+//                rejectRel.setVisibility(View.GONE);
+//                nore_financeLin.setVisibility(View.VISIBLE);
+//                if (resp.uw) {
+//                    waitReason.setText(resp.uw_detail.comments);
+//                }
+//                wait_title.setText(resp.client_status_code);
             } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
-                passRel.setVisibility(View.VISIBLE);
-                waitLin.setVisibility(View.GONE);
-                rejectRel.setVisibility(View.GONE);
-                nore_financeLin.setVisibility(View.GONE);
-                havere_financeLin.setVisibility(View.GONE);
-                pass_title.setText(resp.client_status_code);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
+                title_tv.setText("进行中");
+                remark_tv2.setText("进行中的备注");
+//                passRel.setVisibility(View.VISIBLE);
+//                waitLin.setVisibility(View.GONE);
+//                rejectRel.setVisibility(View.GONE);
+//                nore_financeLin.setVisibility(View.GONE);
+//                havere_financeLin.setVisibility(View.GONE);
+//                pass_title.setText(resp.client_status_code);
             } else if (resp.status_st == 6) {//放款中      //有批复的
-                passRel.setVisibility(View.VISIBLE);
-                waitLin.setVisibility(View.GONE);
-                rejectRel.setVisibility(View.GONE);
-                nore_financeLin.setVisibility(View.GONE);
-                havere_financeLin.setVisibility(View.VISIBLE);
-                if (resp.uw) {
-                    passReason.setText(resp.uw_detail.comments);
-                }
-                pass_title.setText(resp.client_status_code);
+//                passRel.setVisibility(View.VISIBLE);
+//                waitLin.setVisibility(View.GONE);
+//                rejectRel.setVisibility(View.GONE);
+//                nore_financeLin.setVisibility(View.GONE);
+//                havere_financeLin.setVisibility(View.VISIBLE);
+//                if (resp.uw) {
+//                    passReason.setText(resp.uw_detail.comments);
+//                }
+//                pass_title.setText(resp.client_status_code);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
+                title_tv.setText("进行中");
+                remark_tv2.setText("进行中的备注");
             } else if (resp.status_st == 11) {//已完成
-                passRel.setVisibility(View.VISIBLE);
-                waitLin.setVisibility(View.GONE);
-                rejectRel.setVisibility(View.GONE);
-                nore_financeLin.setVisibility(View.GONE);
-                havere_financeLin.setVisibility(View.VISIBLE);
-                if (resp.uw) {
-                    passReason.setText(resp.uw_detail.comments);
-                }
-                pass_title.setText(resp.client_status_code);
+//                passRel.setVisibility(View.VISIBLE);
+//                waitLin.setVisibility(View.GONE);
+//                rejectRel.setVisibility(View.GONE);
+//                nore_financeLin.setVisibility(View.GONE);
+//                havere_financeLin.setVisibility(View.VISIBLE);
+//                if (resp.uw) {
+//                    passReason.setText(resp.uw_detail.comments);
+//                }
+//                pass_title.setText(resp.client_status_code);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
+                title_tv.setText("进行中");
+                remark_tv2.setText("进行中的备注");
             }
             else if (resp.status_st == 3) {//审核失败
-                waitLin.setVisibility(View.GONE);
-                passRel.setVisibility(View.GONE);
-                rejectRel.setVisibility(View.VISIBLE);
-                if (resp.uw) {
-                    rejectReason.setText(resp.uw_detail.comments);
-                }
-                reject_title.setText(resp.client_status_code);
+//                waitLin.setVisibility(View.GONE);
+//                passRel.setVisibility(View.GONE);
+//                rejectRel.setVisibility(View.VISIBLE);
+//                if (resp.uw) {
+//                    rejectReason.setText(resp.uw_detail.comments);
+//                }
+//                reject_title.setText(resp.client_status_code);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
+                title_tv.setText("拒绝");
+                remark_tv2.setText("拒绝的备注");
+            }
+            else if (resp.status_st == 9) {
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin3);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img3);
+                title_tv.setText("取消");
+                remark_tv2.setText("取消的备注");
+            }else if(resp.status_st == 11){
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
+                title_tv.setText("完成");
+                remark_tv2.setText("完成的备注");
             }
             //金融方案申请和批复
             if (resp.uw && resp.uw_detail != null) {
