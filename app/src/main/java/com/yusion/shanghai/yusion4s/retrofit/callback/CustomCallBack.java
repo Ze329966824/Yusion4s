@@ -28,6 +28,9 @@ import retrofit2.Response;
  * Created by ice on 2017/8/3.
  */
 
+/**
+ * 该CallBack不暴露code&msg两个字段
+ */
 public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
     private Dialog dialog;
     private Context context;
@@ -80,8 +83,12 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
                 return;
             }
         }
-        //body.data()可能为空
-        onCustomResponse(body.data);
+        if (body.data == null) {
+            onEmptyDataResponse();
+        }else {
+            //body.data()可能为空
+            onCustomResponse(body.data);
+        }
     }
 
     @Override
@@ -100,5 +107,9 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
             Toast.makeText(context, t.toString(), Toast.LENGTH_LONG).show();
         }
         Sentry.capture(t);
+    }
+
+    protected void onEmptyDataResponse(){
+
     }
 }

@@ -55,6 +55,8 @@ public class LoginActivity extends BaseActivity {
         myApp.requestLocation(null);
         initView();
         Log.e("TAG", "onCreate: ");
+
+        AuthApi.requestUrl4Data(this, null);
     }
 
     private void initView() {

@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.retrofit.api;
 import android.app.Dialog;
 import android.content.Context;
 
+import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
@@ -13,8 +14,12 @@ import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.bean.token.CheckTokenResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCodeAndMsgCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
+
+import retrofit2.Call;
 
 /**
  * Created by Administrator on 2017/8/9.
@@ -33,7 +38,7 @@ public class AuthApi {
 
     public static void login(final Context context, LoginReq req, final OnItemDataCallBack<LoginResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getAuthService().login(req).enqueue(new CustomCallBack<LoginResp>(context,dialog) {
+        Api.getAuthService().login(req).enqueue(new CustomCallBack<LoginResp>(context, dialog) {
             @Override
             public void onCustomResponse(LoginResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
@@ -43,7 +48,7 @@ public class AuthApi {
 
     public static void yusionLogin(final Context context, LoginReq req, final OnItemDataCallBack<LoginResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getAuthService().yusionLogin(req).enqueue(new CustomCallBack<LoginResp>(context,dialog) {
+        Api.getAuthService().yusionLogin(req).enqueue(new CustomCallBack<LoginResp>(context, dialog) {
             @Override
             public void onCustomResponse(LoginResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
@@ -60,6 +65,7 @@ public class AuthApi {
             }
         });
     }
+
     public static void checkUserInfo(Context context, final OnItemDataCallBack<CheckUserInfoResp> onItemDataCallBack) {
         //Dialog dialog = LoadingUtils.createLoadingDialog(context);
         Api.getAuthService().checkUserInfo().enqueue(new CustomCallBack<CheckUserInfoResp>(context) {
@@ -72,7 +78,7 @@ public class AuthApi {
 
     public static void update(Context context, String frontend, final OnItemDataCallBack<UpdateResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getAuthService().update(frontend).enqueue(new CustomCallBack<UpdateResp>(context,dialog) {
+        Api.getAuthService().update(frontend).enqueue(new CustomCallBack<UpdateResp>(context, dialog) {
             @Override
             public void onCustomResponse(UpdateResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
@@ -80,7 +86,7 @@ public class AuthApi {
         });
     }
 
-    public static void CheckInfoComplete(Context context, String clt_id, final OnItemDataCallBack<CheckInfoCompletedResp> onItemDataCallBack){
+    public static void CheckInfoComplete(Context context, String clt_id, final OnItemDataCallBack<CheckInfoCompletedResp> onItemDataCallBack) {
         Api.getAuthService().CheckInfoComplete(clt_id).enqueue(new CustomCallBack<CheckInfoCompletedResp>(context) {
             @Override
             public void onCustomResponse(CheckInfoCompletedResp data) {
@@ -89,7 +95,7 @@ public class AuthApi {
         });
     }
 
-    public static void replaceSpToP(Context context, ReplaceSPReq replaceSPReq, final OnItemDataCallBack<LoginResp> onItemDataCallBack){
+    public static void replaceSpToP(Context context, ReplaceSPReq replaceSPReq, final OnItemDataCallBack<LoginResp> onItemDataCallBack) {
         Api.getAuthService().replaceSpToP(replaceSPReq).enqueue(new CustomCallBack<LoginResp>(context) {
             @Override
             public void onCustomResponse(LoginResp data) {
