@@ -248,14 +248,14 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
-            if (item.status_st == 1 || item.status_st == 2 || item.status_st == 0) {//待审核2
-                vh.st.setTextColor(Color.parseColor("#FFA400"));
-            } else if (item.status_st == 5 || item.status_st == 6 || item.status_st == 7 || item.status_st == 8) {//4审核失败
-                vh.st.setTextColor(Color.parseColor("#FF3F00"));
-            } else if (item.status_st == 3 || item.status_st == 4) {//放款中
-                vh.st.setTextColor(Color.parseColor("#06B7A3"));
-            } else if (item.status_st == 9) {//已取消9
-                vh.st.setTextColor(Color.parseColor("#666666"));
+            if (item.status_st == 3) {                  //拒绝
+                vh.st.setTextColor(Color.parseColor("#FFFF3F00"));
+            } else if (item.status_st == 9) {           //已取消9
+                vh.st.setTextColor(Color.parseColor("#FF666666"));
+            } else if (item.status_st == 11){           //已完成
+                vh.st.setTextColor(Color.parseColor("#FF06B7A3"));
+            }else {                                     //进行中
+                vh.st.setTextColor(Color.parseColor("#FFFFA400"));
             }
             if (item.can_switch_sp){
                 vh.oneBtnlibn.setVisibility(View.VISIBLE);

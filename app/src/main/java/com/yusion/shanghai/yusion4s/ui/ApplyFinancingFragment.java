@@ -86,7 +86,9 @@ public class ApplyFinancingFragment extends BaseFragment {
                 if (resp != null && !resp.isEmpty()) {
                     top_dlr.setText(resp.get(0).dlr_nm);
                     dlr_id = resp.get(0).id;
-                    refresh(dlr_id);
+                    if (dlr_id != null) {
+                        refresh(dlr_id);
+                    }
                 }
             });
         }
@@ -94,62 +96,67 @@ public class ApplyFinancingFragment extends BaseFragment {
 
     //刷新首页订单数量
     void refresh(String id) {
-        DlrApi.getDlr(mContext, id, data -> {
-            ptr.refreshComplete();
-            if (data != null) {
-                String values = SharedPrefsUtil.getInstance(mContext).getValue(id, null);
-                if (values != null) {
-                    String[] value = values.split("-");
-                    if (value.length == 4) {
-                        if ((reject_count.getText().toString().compareTo(value[0]) == -1)) {
-                            reject_img.setVisibility(View.VISIBLE);
-                        } else {
+        if (id != null) {
+            DlrApi.getDlr(mContext, id, data -> {
+                ptr.refreshComplete();
+                if (data != null) {
+                    String values = SharedPrefsUtil.getInstance(mContext).getValue(id, null);
+                    if (values != null) {
+                        String[] value = values.split("-");
+                        if (value.length == 4) {
+                            if ((reject_count.getText().toString().compareTo(value[0]) == -1)) {
+                                reject_img.setVisibility(View.VISIBLE);
+                            } else {
+                                reject_img.setVisibility(View.GONE);
+                            }
+                            if ((to_be_confirm_count.getText().toString().compareTo(value[1]) == -1)) {
+                                to_be_confirm_img.setVisibility(View.VISIBLE);
+                            } else {
+                                to_be_confirm_img.setVisibility(View.GONE);
+                            }
+                            if ((to_loan_count.getText().toString().compareTo(value[2]) == -1)) {
+                                to_loan_img.setVisibility(View.VISIBLE);
+                            } else {
+                                to_loan_img.setVisibility(View.GONE);
+                            }
+                            if ((to_be_upload_count.getText().toString().compareTo(value[3]) == -1)) {
+                                to_be_upload_img.setVisibility(View.VISIBLE);
+                            } else {
+                                to_be_upload_img.setVisibility(View.GONE);
+                            }
+                        }
+                    } else {
+                        if (data.reject_count.equals("0")) {
                             reject_img.setVisibility(View.GONE);
                         }
-                        if ((to_be_confirm_count.getText().toString().compareTo(value[1]) == -1)) {
-                            to_be_confirm_img.setVisibility(View.VISIBLE);
-                        } else {
+                        if (data.to_be_confirm_count.equals("0")) {
                             to_be_confirm_img.setVisibility(View.GONE);
                         }
-                        if ((to_loan_count.getText().toString().compareTo(value[2]) == -1)) {
-                            to_loan_img.setVisibility(View.VISIBLE);
-                        } else {
+                        if (data.to_loan_count.equals("0")) {
                             to_loan_img.setVisibility(View.GONE);
                         }
-                        if ((to_be_upload_count.getText().toString().compareTo(value[3]) == -1)) {
-                            to_be_upload_img.setVisibility(View.VISIBLE);
-                        } else {
+                        if (data.to_be_upload_count.equals("0")) {
                             to_be_upload_img.setVisibility(View.GONE);
                         }
                     }
-                } else {
-                    if (data.reject_count.equals("0")) {
-                        reject_img.setVisibility(View.GONE);
-                    }
-                    if (data.to_be_confirm_count.equals("0")) {
-                        to_be_confirm_img.setVisibility(View.GONE);
-                    }
-                    if (data.to_loan_count.equals("0")) {
-                        to_loan_img.setVisibility(View.GONE);
-                    }
-                    if (data.to_be_upload_count.equals("0")) {
-                        to_be_upload_img.setVisibility(View.GONE);
-                    }
-                }
-                all_count.setText(data.all_count);
-                today_count.setText(data.today_count);
-                dealing_count.setText(data.dealing_count);
-                reject_count.setText(data.reject_count);
-                to_be_confirm_count.setText(data.to_be_confirm_count);
-                to_loan_count.setText(data.to_loan_count);
-                to_be_upload_count.setText(data.to_be_upload_count);
+                    all_count.setText(data.all_count);
+                    today_count.setText(data.today_count);
+                    dealing_count.setText(data.dealing_count);
+                    reject_count.setText(data.reject_count);
+                    to_be_confirm_count.setText(data.to_be_confirm_count);
+                    to_loan_count.setText(data.to_loan_count);
+                    to_be_upload_count.setText(data.to_be_upload_count);
 
-                SharedPrefsUtil.getInstance(mContext).putValue("dlr_nums", dlr_id + "/");
-                SharedPrefsUtil.getInstance(mContext).putValue
-                        (id, data.reject_count + "-" + data.to_be_confirm_count + "-" + data.to_loan_count + "-" + data.to_be_upload_count);
-                dlr = null;
-            }
-        });
+                    SharedPrefsUtil.getInstance(mContext).putValue("dlr_nums", dlr_id + "/");
+                    SharedPrefsUtil.getInstance(mContext).putValue
+                            (id, data.reject_count + "-" + data.to_be_confirm_count + "-" + data.to_loan_count + "-" + data.to_be_upload_count);
+                    dlr = null;
+                }
+            });
+        }else {
+            ptr.refreshComplete();
+            Toast.makeText(mContext,"么得门店",Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void initView(View view) {

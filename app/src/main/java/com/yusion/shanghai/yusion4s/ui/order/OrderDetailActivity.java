@@ -480,6 +480,9 @@ public class OrderDetailActivity extends BaseActivity {
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
                 remark_tv2.setText(comments);
+                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
 //                waitLin.setVisibility(View.VISIBLE);
 //                passRel.setVisibility(View.GONE);
 //                rejectRel.setVisibility(View.GONE);
@@ -493,6 +496,9 @@ public class OrderDetailActivity extends BaseActivity {
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
                 remark_tv2.setText(comments);
+                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
 //                passRel.setVisibility(View.VISIBLE);
 //                waitLin.setVisibility(View.GONE);
 //                rejectRel.setVisibility(View.GONE);
@@ -513,6 +519,9 @@ public class OrderDetailActivity extends BaseActivity {
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
                 remark_tv2.setText(comments);
+                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
             } else if (resp.status_st == 11) {//已完成
 //                passRel.setVisibility(View.VISIBLE);
 //                waitLin.setVisibility(View.GONE);
@@ -527,6 +536,9 @@ public class OrderDetailActivity extends BaseActivity {
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
                 remark_tv2.setText(comments);
+                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
             }
             else if (resp.status_st == 3) {//审核失败
 //                waitLin.setVisibility(View.GONE);
@@ -540,17 +552,26 @@ public class OrderDetailActivity extends BaseActivity {
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("拒绝");
                 remark_tv2.setText(comments);
+                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
             }
             else if (resp.status_st == 9) {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin3);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img3);
                 title_tv.setText("取消");
                 remark_tv2.setText(comments);
+                title_tv.setTextColor(Color.parseColor("#FF666666"));
+                remark_tv1.setTextColor(Color.parseColor("#FF666666"));
+                remark_tv2.setTextColor(Color.parseColor("#FF666666"));
             }else if(resp.status_st == 11){
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("完成");
                 remark_tv2.setText(comments);
+                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
+                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
             }
             //金融方案申请和批复
             if (resp.uw && resp.uw_detail != null) {
