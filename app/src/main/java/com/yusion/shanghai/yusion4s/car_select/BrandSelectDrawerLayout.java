@@ -98,7 +98,7 @@ import static android.support.annotation.RestrictTo.Scope.LIBRARY_GROUP;
  * This preserves the same navigation left, actions right structure present in the Action Bar
  * and elsewhere.</p>
  * <p>
- * <p>For more information about1 how to use DrawerLayout, read <a
+ * <p>For more information about how to use DrawerLayout, read <a
  * href="{@docRoot}training/implementing-navigation/nav-drawer.html">Creating a Navigation
  * Drawer</a>.</p>
  */
@@ -261,7 +261,7 @@ public class BrandSelectDrawerLayout extends ViewGroup {
     private final ArrayList<View> mNonDrawerViews;
 
     /**
-     * Listener for monitoring events about1 drawers.
+     * Listener for monitoring events about drawers.
      */
     public interface DrawerListener {
         /**
@@ -298,7 +298,7 @@ public class BrandSelectDrawerLayout extends ViewGroup {
 
     /**
      * Stub/no-op implementations of all methods of {@link DrawerListener}.
-     * Override this if you only care about1 a few of the available callback methods.
+     * Override this if you only care about a few of the available callback methods.
      */
     public abstract static class SimpleDrawerListener implements DrawerListener {
         @Override
