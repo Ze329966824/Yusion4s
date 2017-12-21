@@ -197,12 +197,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             @Override
             public void onClick(View v) {
 
-                PopupDialogUtil.showTwoButtonsDialog(mContext, "是否删除？", "删除", "取消", new PopupDialogUtil.OnOkClickListener() {
-                    @Override
-                    public void onOkClick(Dialog dialog) {
-                        dialog.dismiss();
-                        deleteUserInfo();
-                    }
+                PopupDialogUtil.showTwoButtonsDialog(mContext, "是否删除？", "删除", "取消", dialog -> {
+                    dialog.dismiss();
+                    deleteUserInfo();
                 });
             }
         });
