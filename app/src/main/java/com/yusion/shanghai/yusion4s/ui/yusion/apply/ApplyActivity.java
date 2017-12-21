@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -12,11 +11,10 @@ import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
-
-import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 public class ApplyActivity extends BaseActivity {
     private AutonymCertifyFragment mAutonymCertifyFragment;       //征信信息
@@ -40,7 +38,7 @@ public class ApplyActivity extends BaseActivity {
     @Override
     public void onBackPressed() {
         if (mCurrentFragment == mAutonymCertifyFragment) {
-            Toast.makeText(this, "已经是第一页了！", Toast.LENGTH_SHORT).show();
+            ToastUtil.showLong(this, "已经是第一页了");
         } else if (mCurrentFragment == mPersonalInfoFragment) {
             changeFragment(ApplyActivityEvent.showAutonymCertifyFragment);
         } else {
@@ -83,6 +81,7 @@ public class ApplyActivity extends BaseActivity {
     public void finish() {
         super.finish();
         //退出动画
+        //// TODO: 2017/12/21  检查退出动画
         overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
     }
 

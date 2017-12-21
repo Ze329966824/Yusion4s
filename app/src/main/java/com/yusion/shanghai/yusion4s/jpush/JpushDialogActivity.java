@@ -76,7 +76,7 @@ public class JpushDialogActivity extends BaseActivity {
     void popJpushDialog() {
         if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
-                case "login":
+                case "login"://抢登
                     PopupDialogUtil.showOneButtonDialog(this, content, dialog -> {
                         myApp.clearUserData();
                         startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
@@ -104,9 +104,7 @@ public class JpushDialogActivity extends BaseActivity {
                             break;
                     }
 
-
                     break;
-
 
                 default:
                     new AlertDialog.Builder(JpushDialogActivity.this)
@@ -240,7 +238,6 @@ public class JpushDialogActivity extends BaseActivity {
                     Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
                     intent.putExtra("app_id", app_id);
                     startActivity(intent);
-
                     finish();
                     break;
                 default:

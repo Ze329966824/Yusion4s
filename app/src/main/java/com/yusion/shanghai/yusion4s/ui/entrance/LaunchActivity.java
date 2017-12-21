@@ -60,7 +60,7 @@ public class LaunchActivity extends BaseActivity {
 
     private void checkVersion() {
         String versionCode = BuildConfig.VERSION_NAME;
-        AuthApi.update(this, "yusion4s", data -> {
+        AuthApi.update(this, this.getResources().getString(R.string.app_name), data -> {
             if (data != null) {
                 int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(data.version));
                 if (result < 0) {

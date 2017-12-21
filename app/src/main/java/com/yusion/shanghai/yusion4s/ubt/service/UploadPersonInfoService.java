@@ -112,7 +112,7 @@ public class UploadPersonInfoService extends IntentService {
         if (smsList.size() > 0 && !smsList.isEmpty()) {
             simBean.sms_list = smsList;
         }
-        ApiUtil.requestUrl4Data(context, Api.getAuthService().checkUserInfo(), (OnItemDataCallBack<CheckUserInfoResp>) data -> {
+        ApiUtil.requestUrl4Data(context, Api.getAuthService().checkUserInfo(), true, (OnItemDataCallBack<CheckUserInfoResp>) data -> {
             if (data == null) {
                 return;
             }

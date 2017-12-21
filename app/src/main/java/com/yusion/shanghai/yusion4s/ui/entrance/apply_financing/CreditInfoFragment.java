@@ -115,7 +115,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private LinearLayout personal_info_group;
 
     private Button submitBtn;
-    private Button createBtn;
+    private Button createUserBtn;
 
     //存放最后提交订单时需要上传的授权书url
     private List<UploadFilesUrlReq.FileUrlBean> uploadFileUrlList = new ArrayList<>();
@@ -157,7 +157,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
         submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
-        createBtn = (Button) view.findViewById(R.id.credit_info_create_btn);
+        createUserBtn = (Button) view.findViewById(R.id.credit_info_create_btn);
         client_info_name = (TextView) view.findViewById(R.id.client_info_name);
         client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
         client_ID_card = (TextView) view.findViewById(R.id.client_ID_card);
@@ -334,7 +334,11 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             }
         });
 
-        createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, ApplyActivity.class)));
+        createUserBtn.setOnClickListener(v -> {
+            //// TODO: 2017/12/21  检查一下跳转动画
+            startActivity(new Intent(mContext, ApplyActivity.class));
+            //getActivity().overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
+        });
     }
 
     /**

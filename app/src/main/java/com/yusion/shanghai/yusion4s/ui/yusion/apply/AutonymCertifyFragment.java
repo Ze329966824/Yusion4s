@@ -42,14 +42,15 @@ import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
-
 import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
 import static android.graphics.Typeface.createFromAsset;
-import static com.yusion.shanghai.yusion4s.R.layout.autonym_certify;
 
+/**
+ * 客户征信信息页面
+ */
 public class AutonymCertifyFragment extends DoubleCheckFragment {
 
     private int _DIR_REL_INDEX = 0;
@@ -122,7 +123,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(autonym_certify, container, false);
+        return inflater.inflate(R.layout.autonym_certify, container, false);
     }
 
     @Override
@@ -328,6 +329,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         }
         return false;
     }
+
     //下一步
     private void nextStep() {
         Log.e("TAG", "auto : clientinfo = {" + applyActivity.mClientInfo.toString() + "}");
