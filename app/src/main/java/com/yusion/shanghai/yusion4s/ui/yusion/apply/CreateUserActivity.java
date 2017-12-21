@@ -16,7 +16,7 @@ import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import org.greenrobot.eventbus.EventBus;
 import org.greenrobot.eventbus.Subscribe;
 
-public class ApplyActivity extends BaseActivity {
+public class CreateUserActivity extends BaseActivity {
     private AutonymCertifyFragment mAutonymCertifyFragment;       //征信信息
     private PersonalInfoFragment mPersonalInfoFragment;           //个人信息
     private SpouseInfoFragment mSpouseInfoFragment;               //配偶信息
@@ -27,8 +27,7 @@ public class ApplyActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apply);
-        //启动动画
-        overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
+
         initView();
         if (!EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().register(this);
@@ -50,9 +49,10 @@ public class ApplyActivity extends BaseActivity {
     private void initView() {
         mClientInfo = new ClientInfo();
         initTitleBar(this, "创建客户").setLeftImageResource(R.mipmap.create_finish_icon).setLeftClickListener(v ->
-                PopupDialogUtil.showTwoButtonsDialog(ApplyActivity.this, "您确定退出该页面返回首页", "确定退出", "取消退出", dialog -> {
+                PopupDialogUtil.showTwoButtonsDialog(CreateUserActivity.this, "您确定退出该页面返回首页", "确定退出", "取消退出", dialog -> {
                     dialog.dismiss();
                     finish();
+                    overridePendingTransition(0, R.anim.activity_close);
                 }));
         mAutonymCertifyFragment = new AutonymCertifyFragment();
         mPersonalInfoFragment = new PersonalInfoFragment();
@@ -77,18 +77,10 @@ public class ApplyActivity extends BaseActivity {
         }
     }
 
-    @Override
-    public void finish() {
-        super.finish();
-        //退出动画
-        //// TODO: 2017/12/21  检查退出动画
-        overridePendingTransition(R.anim.pop_enter_anim, R.anim.pop_exit_anim);
-    }
-
     //填完所有信息二次确认后走这里
     public void requestSubmit() {
         Intent intent = getIntent();
-        intent.setClass(ApplyActivity.this, CommitActivity.class);
+        intent.setClass(CreateUserActivity.this, CommitActivity.class);
         intent.putExtra("why_commit", "create_user");
         intent.putExtra("id_no", mClientInfo.id_no);
         startActivity(intent);

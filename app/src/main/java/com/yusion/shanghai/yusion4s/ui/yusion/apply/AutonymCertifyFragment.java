@@ -95,7 +95,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     private TextView step1;
     private TextView step2;
     private TextView step3;
-    private ApplyActivity applyActivity;
+    private CreateUserActivity createUserActivity;
 
     void submitAutonymCertify(View view) {
         autonym_certify_next_btn.setFocusable(true);
@@ -143,7 +143,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                         callBack.onItemDataCallBack(true);
                     } else {
                         PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", dialog -> {
-                            if (!applyActivity.isFinishing()) {
+                            if (!createUserActivity.isFinishing()) {
                                 dialog.dismiss();
                             }
                         });
@@ -154,8 +154,8 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     }
 
     private void initView(View view) {
-        UBT.bind(this, view, ApplyActivity.class.getSimpleName());
-        applyActivity = (ApplyActivity) getActivity();
+        UBT.bind(this, view, CreateUserActivity.class.getSimpleName());
+        createUserActivity = (CreateUserActivity) getActivity();
         autonym_certify_warnning_lin = view.findViewById(R.id.autonym_certify_warnning_lin);
         autonym_certify_driving_license_rel_lin = view.findViewById(R.id.autonym_certify_driving_license_rel_lin);
         autonym_certify_id_back_lin = view.findViewById(R.id.autonym_certify_id_back_lin);
@@ -173,7 +173,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         //二次确认
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
-
+            //// TODO: 2017/12/21  
             checkMobile(data -> {
                 //获取用户信息
                 ApiUtil.requestUrl4Data(mContext, Api.getProductService().getClientInfo(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString(), Yusion4sApp.TOKEN), data1 -> {
@@ -181,20 +181,20 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
                     if (data1 == null) {
                         return;
                     }
-                    applyActivity.mClientInfo = data1;
+                    createUserActivity.mClientInfo = data1;
                     if (ocrResp != null) {
-                        applyActivity.mClientInfo.gender = ocrResp.sex;
+                        createUserActivity.mClientInfo.gender = ocrResp.sex;
                         if (TextUtils.isEmpty(ocrResp.addr)) {
-                            applyActivity.mClientInfo.reg_addr_details = "";
+                            createUserActivity.mClientInfo.reg_addr_details = "";
                         } else {
-                            applyActivity.mClientInfo.reg_addr_details = ocrResp.addr;
+                            createUserActivity.mClientInfo.reg_addr_details = ocrResp.addr;
                         }
-                        applyActivity.mClientInfo.reg_addr.province = ocrResp.province;
-                        applyActivity.mClientInfo.reg_addr.city = ocrResp.city;
-                        applyActivity.mClientInfo.reg_addr.district = ocrResp.town;
+                        createUserActivity.mClientInfo.reg_addr.province = ocrResp.province;
+                        createUserActivity.mClientInfo.reg_addr.city = ocrResp.city;
+                        createUserActivity.mClientInfo.reg_addr.district = ocrResp.town;
                     }
-                    applyActivity.mClientInfo.drv_lic_relationship = ((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
-                    Log.e("TAG", "mClientInfo: {" + applyActivity.mClientInfo.toString() + "}");
+                    createUserActivity.mClientInfo.drv_lic_relationship = ((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().drv_lic_relationship_list_value.get(_DIR_REL_INDEX);
+                    Log.e("TAG", "mClientInfo: {" + createUserActivity.mClientInfo.toString() + "}");
                     uploadUrl(data1.clt_id);
                 });
             });
@@ -214,7 +214,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         });
         //选择驾驶证与本人关系
         autonym_certify_driving_license_rel_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().drv_lic_relationship_list_key, _DIR_REL_INDEX, autonym_certify_driving_license_rel_lin, autonym_certify_driving_license_rel_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().drv_lic_relationship_list_key, _DIR_REL_INDEX, autonym_certify_driving_license_rel_lin, autonym_certify_driving_license_rel_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _DIR_REL_INDEX = selectedIndex;
@@ -345,7 +345,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
 
     //下一步
     private void nextStep() {
-        Log.e("TAG", "auto : clientinfo = {" + applyActivity.mClientInfo.toString() + "}");
+        Log.e("TAG", "auto : clientinfo = {" + createUserActivity.mClientInfo.toString() + "}");
         EventBus.getDefault().post(ApplyActivityEvent.showPersonalInfoFragment);
     }
 
@@ -353,7 +353,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            ClientInfo clientInfoBean = applyActivity.mClientInfo;
+            ClientInfo clientInfoBean = createUserActivity.mClientInfo;
             if (clientInfoBean == null) return;
             autonym_certify_name_tv.setText(clientInfoBean.clt_nm);
             autonym_certify_id_number_tv.setText(clientInfoBean.id_no);

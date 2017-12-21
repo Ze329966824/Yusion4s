@@ -1,6 +1,5 @@
 package com.yusion.shanghai.yusion4s.ui.order;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -15,6 +14,7 @@ import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.OldCarInfoFragment;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -93,11 +93,12 @@ public class OrderCreateActivity extends BaseActivity {
                 .commit();
         if (cartype.equals("新车")) {
             getSupportFragmentManager().beginTransaction()
-                    .hide(mCreditInfoFragment)
-//                    .hide(mCarInfoFragment)
+                    //.hide(mCreditInfoFragment)
+                                       .hide(mCarInfoFragment)
                     .hide(mOldCarInfoFragment)
                     .commit();
-            mCurrentFragment = mCarInfoFragment;
+            //mCurrentFragment = mCarInfoFragment;
+              mCurrentFragment =  mCreditInfoFragment;
         } else {
             getSupportFragmentManager().beginTransaction()
                     .hide(mCreditInfoFragment)
@@ -193,5 +194,10 @@ public class OrderCreateActivity extends BaseActivity {
             dialog.dismiss();
             finish();
         });
+    }
+
+    public void anima() {
+        startActivity(new Intent(this, CreateUserActivity.class));
+        overridePendingTransition(R.anim.activity_enter, R.anim.stay);
     }
 }

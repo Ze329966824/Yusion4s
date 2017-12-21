@@ -123,7 +123,7 @@ public class JpushDialogActivity extends BaseActivity {
         }
     }
 
-
+//// TODO: 2017/12/21  可以继承dialog。 
     private class JpushDialogPass implements View.OnClickListener {
         private Context mContext;
         private Dialog mDialog;
