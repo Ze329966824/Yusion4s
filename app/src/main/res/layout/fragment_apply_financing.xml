@@ -373,6 +373,7 @@
                     android:orientation="horizontal">
 
                     <Button
+                        android:drawableTop="@drawable/new_car_selector"
                         android:id="@+id/apply_financing_cteate_newcar_btn"
                         android:layout_width="0dp"
                         android:layout_height="42dp"

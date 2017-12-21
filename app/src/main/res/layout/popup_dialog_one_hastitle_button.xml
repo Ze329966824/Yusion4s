@@ -26,7 +26,7 @@ android:orientation="vertical">
             android:textSize="17dp" />
 
         <TextView
-            android:id="@+id/popup_dialog_msg"
+            android:id="@+id/pop_dialog_title_tv"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="28.85dp"
@@ -48,7 +48,7 @@ android:orientation="vertical">
 
 
         <TextView
-            android:id="@+id/popup_dialog_ok"
+            android:id="@+id/pop_dialog_ok_tv"
             android:layout_width="0dp"
             android:layout_height="match_parent"
             android:layout_weight="1"

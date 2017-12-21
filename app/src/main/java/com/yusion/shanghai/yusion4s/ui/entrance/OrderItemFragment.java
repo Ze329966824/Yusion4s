@@ -4,7 +4,6 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -343,8 +342,7 @@ public class OrderItemFragment extends BaseFragment {
             });
 
             vh.replace.setOnClickListener(v -> {
-                PopupDialogUtil.showTwoButtonsDialog(mContext, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
-
+                PopupDialogUtil.showTwoButtonsDialog(mContext, R.layout.popup_dialog_two_hastitle_button, dialog -> {
                     dialog.dismiss();
                     checkAndReplace(item.app_id, item.spouse_clt_id, item.status_st);
 

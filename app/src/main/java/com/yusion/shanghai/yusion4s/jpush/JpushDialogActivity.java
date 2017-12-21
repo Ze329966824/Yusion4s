@@ -77,7 +77,7 @@ public class JpushDialogActivity extends BaseActivity {
         if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
                 case "login"://抢登
-                    PopupDialogUtil.showOneButtonDialog(this, content, dialog -> {
+                    PopupDialogUtil.showOneButtonDialog(this, content,"好的", dialog -> {
                         myApp.clearUserData();
                         startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
                         finish();
