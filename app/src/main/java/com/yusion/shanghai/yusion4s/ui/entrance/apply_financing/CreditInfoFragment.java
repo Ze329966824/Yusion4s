@@ -151,187 +151,172 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         UBT.bind(this, view, getClass().getSimpleName());
-        TextView step1 = (TextView) view.findViewById(R.id.step1);
+        TextView step1 = view.findViewById(R.id.step1);
         step1.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
         step1.setOnClickListener(v -> EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCarInfo));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
-        submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
-        createBtn = (Button) view.findViewById(R.id.credit_info_create_btn);
-        client_info_name = (TextView) view.findViewById(R.id.client_info_name);
-        client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
-        client_ID_card = (TextView) view.findViewById(R.id.client_ID_card);
+        submitBtn = view.findViewById(R.id.credit_info_submit_btn);
+        createBtn = view.findViewById(R.id.credit_info_create_btn);
+        client_info_name = view.findViewById(R.id.client_info_name);
+        client_phoneNumber = view.findViewById(R.id.client_phoneNumber);
+        client_ID_card = view.findViewById(R.id.client_ID_card);
         // findTv = (TextView) view.findViewById(R.id.tv_find);
 
         //申请人征信
-        client_credit__book_lin = (LinearLayout) view.findViewById(R.id.client_credit__book_lin1);
+        client_credit__book_lin = view.findViewById(R.id.client_credit__book_lin1);
         client_credit__book_lin.setOnClickListener(this);
         //申请人配偶
-        client_spouse_credit__book_lin = (LinearLayout) view.findViewById(R.id.client_spouse_credit__book_lin2);
+        client_spouse_credit__book_lin = view.findViewById(R.id.client_spouse_credit__book_lin2);
         client_spouse_credit__book_lin.setOnClickListener(this);
         //用户详情
-        credit_applicate_detail_lin = (LinearLayout) view.findViewById(R.id.credit_applicate_detail_lin);
+        credit_applicate_detail_lin = view.findViewById(R.id.credit_applicate_detail_lin);
 //        credit_applicate_detail_lin.setOnClickListener(this);
         //担保人授权
-        guarantor_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_credit_book_lin3);
+        guarantor_credit_book_lin = view.findViewById(R.id.guarantor_credit_book_lin3);
         guarantor_credit_book_lin.setOnClickListener(this);
         //担保人配偶
-        guarantor_spouse_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_spouse_credit_book_lin4);
+        guarantor_spouse_credit_book_lin = view.findViewById(R.id.guarantor_spouse_credit_book_lin4);
         guarantor_spouse_credit_book_lin.setOnClickListener(this);
         //车主与申请人关系
-        client_relationship_lin = (LinearLayout) view.findViewById(R.id.client_relationship_lin);
+        client_relationship_lin = view.findViewById(R.id.client_relationship_lin);
         client_relationship_lin.setOnClickListener(this);
-        chooseRelationTv = (TextView) view.findViewById(R.id.choose_relation);
-        mobile_sfz_lin = (LinearLayout) view.findViewById(R.id.mobile_sfz_lin);
+        chooseRelationTv = view.findViewById(R.id.choose_relation);
+        mobile_sfz_lin = view.findViewById(R.id.mobile_sfz_lin);
 
-        autonym_certify_id_back_tv = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv);
-        autonym_certify_id_back_tv1 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv1);
-        autonym_certify_id_back_tv2 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv2);
-        autonym_certify_id_back_tv3 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv3);
+        autonym_certify_id_back_tv = view.findViewById(R.id.autonym_certify_id_back_tv);
+        autonym_certify_id_back_tv1 = view.findViewById(R.id.autonym_certify_id_back_tv1);
+        autonym_certify_id_back_tv2 = view.findViewById(R.id.autonym_certify_id_back_tv2);
+        autonym_certify_id_back_tv3 = view.findViewById(R.id.autonym_certify_id_back_tv3);
 
-        personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
-        delete_icon = (ImageView) view.findViewById(R.id.delete_icon);
-        credit_info = (LinearLayout) view.findViewById(R.id.credit_info);
+        personal_info_group = view.findViewById(R.id.personal_info_group);
+        delete_icon = view.findViewById(R.id.delete_icon);
+        credit_info = view.findViewById(R.id.credit_info);
 
-        delete_icon.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+        delete_icon.setOnClickListener(v -> PopupDialogUtil.showTwoButtonsDialog(mContext, "是否删除？", "删除", "取消", dialog -> {
+            dialog.dismiss();
+            deleteUserInfo();
+        }));
 
-                PopupDialogUtil.showTwoButtonsDialog(mContext, "是否删除？", "删除", "取消", new PopupDialogUtil.OnOkClickListener() {
+        findTv.setOnClickListener(v -> {
+            //点击跳转  到 检索页面 并 返回 数据 进行 展示。
+            Intent intent = new Intent(mContext, SearchClientActivity.class);
+            startActivityForResult(intent, 2000);
+        });
+
+        submitBtn.setOnClickListener(v -> {
+            TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
+            // startActivity(new Intent(mContext, MainActivity.class));
+            if (Settings.isShameData) {
+                SubmitOrderReq req = new SubmitOrderReq();
+                req.bank_id = "1";
+                req.clt_id = "d90be890acd411e79f4a0242ac110002";
+                req.dlr_id = "YJCS0001";
+                req.gps_fee = "0";
+                req.loan_amt = "152000";
+                req.management_fee = "0";
+                req.other_fee = "2000";
+                req.plate_reg_addr = "北京/北京市/东城区";
+                req.vehicle_color = "ujj";
+                req.vehicle_cond = "新车";
+                req.vehicle_down_payment = "50000";
+                req.vehicle_loan_amt = "150000";
+                req.vehicle_owner_lender_relation = "本人";
+                req.vehicle_price = "200000";
+                req.nper = "24";
+                req.product_id = 1;
+                req.vehicle_model_id = 1128954;
+                req.imei = telephonyManager.getDeviceId();
+                OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
                     @Override
-                    public void onOkClick(Dialog dialog) {
-                        dialog.dismiss();
-                        deleteUserInfo();
+                    public void onItemDataCallBack(SubmitOrderResp data) {
+                        if (data == null) {
+                            return;
+                        }
+                        Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                        Log.e("TAG", "uploadFileUrlList: " + uploadFileUrlList);
+                        if (uploadFileUrlList.size() > 0) {
+                            for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
+                                urlBean.app_id = data.app_id;
+                            }
+                            UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+                            uploadFilesUrlReq.files = uploadFileUrlList;
+                            uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
+                            uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
+                            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
+                                @Override
+                                public void callBack(int code, String msg) {
+                                    if (code > -1) {
+                                        Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+                                        EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                                    }
+                                }
+                            });
+                        } else {
+//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
+                            startActivity(new Intent(mContext, MainActivity.class));
+
+                        }
+                    }
+                });
+            } else if (checkCanSubmit()) {
+                OrderCreateActivity createActivity = (OrderCreateActivity) getActivity();
+                SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
+                // SubmitOrderReq req = ((HomeFragment) getParentFragment()).req;
+                req.clt_id = lender_clt_id;
+                req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
+                req.imei = telephonyManager.getDeviceId();
+                OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
+                    @Override
+                    public void onItemDataCallBack(SubmitOrderResp data) {
+                        if (data == null) {
+                            return;
+                        }
+                        Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, CommitActivity.class);
+                        if (req.vehicle_cond.equals("二手车")) {
+                            intent.putExtra("app_id", data.app_id);
+                            intent.putExtra("why_commit", "old_car");
+                        } else {
+                            intent.putExtra("why_commit", "new_car");
+                        }
+
+                        if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                            UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
+                            urlBean.label = ((OrderCreateActivity) getActivity()).label;
+                            urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
+                            urlBean.app_id = data.app_id;
+                            uploadOldCarImgUrlList.add(urlBean);
+                        }
+                        if (uploadFileUrlList.size() > 0) {//有授权书还有二手车截图
+                            for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
+                                urlBean.app_id = data.app_id;
+                            }
+                            UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+                            uploadFilesUrlReq.files = uploadFileUrlList;
+                            uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
+                            uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
+                            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
+                                @Override
+                                public void callBack(int code, String msg) {
+                                    if (code > -1) {
+                                        Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+
+                                        uploadOldCarImg();
+                                        startActivity(intent);
+                                        createActivity.finish();
+                                    }
+                                }
+                            });
+                        } else {//没有授权书只有二手册截图
+                            uploadOldCarImg();
+                            startActivity(intent);
+                            createActivity.finish();
+                        }
                     }
                 });
             }
-        });
 
-        findTv.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //点击跳转  到 检索页面 并 返回 数据 进行 展示。
-                Intent intent = new Intent(mContext, SearchClientActivity.class);
-                startActivityForResult(intent, 2000);
-            }
-        });
-
-        submitBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-                // startActivity(new Intent(mContext, MainActivity.class));
-                if (Settings.isShameData) {
-                    SubmitOrderReq req = new SubmitOrderReq();
-                    req.bank_id = "1";
-                    req.clt_id = "d90be890acd411e79f4a0242ac110002";
-                    req.dlr_id = "YJCS0001";
-                    req.gps_fee = "0";
-                    req.loan_amt = "152000";
-                    req.management_fee = "0";
-                    req.other_fee = "2000";
-                    req.plate_reg_addr = "北京/北京市/东城区";
-                    req.vehicle_color = "ujj";
-                    req.vehicle_cond = "新车";
-                    req.vehicle_down_payment = "50000";
-                    req.vehicle_loan_amt = "150000";
-                    req.vehicle_owner_lender_relation = "本人";
-                    req.vehicle_price = "200000";
-                    req.nper = "24";
-                    req.product_id = 1;
-                    req.vehicle_model_id = 1128954;
-                    req.imei = telephonyManager.getDeviceId();
-                    OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
-                        @Override
-                        public void onItemDataCallBack(SubmitOrderResp data) {
-                            if (data == null) {
-                                return;
-                            }
-                            Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                            Log.e("TAG", "uploadFileUrlList: " + uploadFileUrlList);
-                            if (uploadFileUrlList.size() > 0) {
-                                for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
-                                    urlBean.app_id = data.app_id;
-                                }
-                                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                                uploadFilesUrlReq.files = uploadFileUrlList;
-                                uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
-                                uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
-                                    @Override
-                                    public void callBack(int code, String msg) {
-                                        if (code > -1) {
-                                            Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-                                        }
-                                    }
-                                });
-                            } else {
-//                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-                                startActivity(new Intent(mContext, MainActivity.class));
-
-                            }
-                        }
-                    });
-                } else if (checkCanSubmit()) {
-                    OrderCreateActivity createActivity = (OrderCreateActivity) getActivity();
-                    SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
-                    // SubmitOrderReq req = ((HomeFragment) getParentFragment()).req;
-                    req.clt_id = lender_clt_id;
-                    req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
-                    req.imei = telephonyManager.getDeviceId();
-                    OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
-                        @Override
-                        public void onItemDataCallBack(SubmitOrderResp data) {
-                            if (data == null) {
-                                return;
-                            }
-                            Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(mContext, CommitActivity.class);
-                            if (req.vehicle_cond.equals("二手车")) {
-                                intent.putExtra("app_id", data.app_id);
-                                intent.putExtra("why_commit", "old_car");
-                            } else {
-                                intent.putExtra("why_commit", "new_car");
-                            }
-
-                            if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
-                                UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
-                                urlBean.label = ((OrderCreateActivity) getActivity()).label;
-                                urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
-                                urlBean.app_id = data.app_id;
-                                uploadOldCarImgUrlList.add(urlBean);
-                            }
-                            if (uploadFileUrlList.size() > 0) {//有授权书还有二手车截图
-                                for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
-                                    urlBean.app_id = data.app_id;
-                                }
-                                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                                uploadFilesUrlReq.files = uploadFileUrlList;
-                                uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
-                                uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
-                                    @Override
-                                    public void callBack(int code, String msg) {
-                                        if (code > -1) {
-                                            Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-
-                                            uploadOldCarImg();
-                                            startActivity(intent);
-                                            createActivity.finish();
-                                        }
-                                    }
-                                });
-                            } else {//没有授权书只有二手册截图
-                                uploadOldCarImg();
-                                startActivity(intent);
-                                createActivity.finish();
-                            }
-                        }
-                    });
-                }
-
-            }
         });
 
         createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, ApplyActivity.class)));

@@ -11,7 +11,7 @@
         android:orientation="vertical">
 
         <TextView
-            android:id="@+id/popup_dialog_msg"
+            android:id="@+id/pop_dialog_title_tv"
             android:layout_width="match_parent"
             android:layout_height="99.04dp"
             android:gravity="center"
@@ -31,7 +31,7 @@
 
 
             <TextView
-                android:id="@+id/popup_dialog_cancel"
+                android:id="@+id/pop_dialog_cancel_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
@@ -42,7 +42,7 @@
 
 
             <TextView
-                android:id="@+id/popup_dialog_ok"
+                android:id="@+id/pop_dialog_ok_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
