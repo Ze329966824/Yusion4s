@@ -82,15 +82,6 @@ public class JpushDialogActivity extends BaseActivity {
                         startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
                         finish();
                     });
-//                    new AlertDialog.Builder(JpushDialogActivity.this)
-//                            .setCancelable(false)
-//                            .setMessage(content)
-//                            .setPositiveButton("确定", (dialog, which) -> {
-//                                startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
-//                                myApp.clearUserData();
-//                                finish();
-//                            })
-//                            .show();
                     break;
                 case "application":
                     switch (order_state) {
@@ -113,15 +104,6 @@ public class JpushDialogActivity extends BaseActivity {
                             break;
                     }
 
-//                    new AlertDialog.Builder(JpushDialogActivity.this)
-//                            .setCancelable(false)
-//                            .setTitle(title)
-//                            .setMessage(content)
-//                            .setPositiveButton("知道啦", (dialog, which) -> {
-//                                dialog.dismiss();
-//                                finish();
-//                            })
-//                            .show();
 
                     break;
 
@@ -143,27 +125,6 @@ public class JpushDialogActivity extends BaseActivity {
         }
     }
 
-    private static JpushDialogPass mJpushDialogPass;
-    private static JpushDialogRefuse mJpushDialogRefuse;
-
-//    public static void showJpushDialog(Context context, String state, String title, String message) {
-//        switch (state) {
-//            case "pass":
-//                if (mJpushDialogPass == null) {
-//                    mJpushDialogPass = new JpushDialogPass(context, title, message);
-//                    mJpushDialogPass.show();
-//                }
-//                break;
-//            case "refuse":
-//                if (mJpushDialogRefuse == null) {
-//                    mJpushDialogRefuse = new JpushDialogRefuse(context, title, message);
-//                    mJpushDialogRefuse.show();
-//                }
-//                break;
-//            default:
-//                break;
-//        }
-//    }
 
     private class JpushDialogPass implements View.OnClickListener {
         private Context mContext;
@@ -185,10 +146,8 @@ public class JpushDialogActivity extends BaseActivity {
             mView.findViewById(R.id.btn_ok).setOnClickListener(this);
 
             mDialog = new Dialog(mContext, R.style.MyDialogStyle);
-//            mDialog.setContentView(mView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             mDialog.setCancelable(false);
-//            mDialog.getWindow().getAttributes().width = 900;
-//            mDialog.getWindow().getAttributes().height = 1200;
+
             mDialog.setContentView(mView);
             mDialog.setCanceledOnTouchOutside(false);
             mDialog.show();
@@ -215,7 +174,6 @@ public class JpushDialogActivity extends BaseActivity {
                     break;
                 case R.id.btn_ok:
                     dismiss();
-//                    Log.e("TAG", "onClick-------------"+ActivityManager.getPrevActivityName().toString() );
                     Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
                     intent.putExtra("app_id", app_id);
                     startActivity(intent);
@@ -251,10 +209,8 @@ public class JpushDialogActivity extends BaseActivity {
             mView.findViewById(R.id.btn_calltocustomer).setOnClickListener(this);
 
             mDialog = new Dialog(mContext, R.style.MyDialogStyle);
-//            mDialog.setContentView(mView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT));
             mDialog.setCancelable(false);
-//            mDialog.getWindow().getAttributes().width = 900;
-//            mDialog.getWindow().getAttributes().height = 1200;
+
             mDialog.setContentView(mView);
             mDialog.setCanceledOnTouchOutside(false);
             mDialog.show();
@@ -291,9 +247,6 @@ public class JpushDialogActivity extends BaseActivity {
                     dismiss();
                     break;
             }
-//            Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
-//            intent.putExtra("app_id", item.app_id);
-//            mContext.startActivity(intent);
         }
     }
 
