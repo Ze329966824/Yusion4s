@@ -41,6 +41,7 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -297,6 +298,7 @@ public class CarInfoFragment extends BaseFragment {
 
     //上牌地选择
     private LinearLayout plateRegAddrLin;
+
     //还款期限选择
     private LinearLayout carInfoLoanPeriodsLin;
 
@@ -350,35 +352,35 @@ public class CarInfoFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
         UBT.bind(this, view, getClass().getSimpleName());
         DELAY_MILLIS = ((Yusion4sApp) getActivity().getApplication()).getConfigResp().DELAY_MILLIS;
-        totalLoanPriceTv = (TextView) view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
-        colorTv = (EditText) view.findViewById(R.id.car_info_color_tv);//车辆颜色
-        plateRegAddrLin = (LinearLayout) view.findViewById(R.id.car_info_plate_reg_addr_lin);
-        plateRegAddrTv = (TextView) view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
-        dlrTV = (TextView) view.findViewById(R.id.car_info_dlr_tv);
-        brandTv = (TextView) view.findViewById(R.id.car_info_brand_tv);
-        trixTv = (TextView) view.findViewById(R.id.car_info_trix_tv);
-        guidePriceTv = (TextView) view.findViewById(R.id.car_info_guide_price_tv);
-        modelTv = (TextView) view.findViewById(R.id.car_info_model_tv);
-        loanPeriodsTv = (TextView) view.findViewById(R.id.car_info_loan_periods_tv);
-        carInfoLoanPeriodsLin = (LinearLayout) view.findViewById(R.id.car_info_loan_periods_lin);
-        managementPriceTv = (TextView) view.findViewById(R.id.car_info_management_price_tv);
-        managementPriceLl = (LinearLayout) view.findViewById(R.id.car_info_management_price_lin);
-        loanBankTv = (TextView) view.findViewById(R.id.car_info_loan_bank_tv);
-        productTypeTv = (TextView) view.findViewById(R.id.car_info_product_type_tv);
-        billPriceTv = (EditText) view.findViewById(R.id.car_info_bill_price_tv);//开票价
-        firstPriceTv = (EditText) view.findViewById(R.id.car_info_first_price_tv);//首付款
-        carLoanPriceTv = (EditText) view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
-        carInfoDlrLin = (LinearLayout) view.findViewById(R.id.car_info_dlr_lin);
-        distributorLin = (LinearLayout) view.findViewById(R.id.dlr_lin2);
-        carInfoBrandLin = (LinearLayout) view.findViewById(R.id.car_info_brand_lin);
-        carInfoTrixLin = (LinearLayout) view.findViewById(R.id.car_info_trix_lin);
-        carInfoModelLin = (LinearLayout) view.findViewById(R.id.car_info_model_lin);
-        carInfoLoanBankLin = (LinearLayout) view.findViewById(R.id.car_info_loan_bank_lin);
-        carInfoProductTypeLin = (LinearLayout) view.findViewById(R.id.car_info_product_type_lin);
-        personal_info_detail_home_address_lin = (LinearLayout) view.findViewById(R.id.personal_info_detail_home_address_lin);//车辆开票价a
+        totalLoanPriceTv = view.findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
+        colorTv = view.findViewById(R.id.car_info_color_tv);//车辆颜色
+        plateRegAddrLin = view.findViewById(R.id.car_info_plate_reg_addr_lin);
+        plateRegAddrTv = view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
+        dlrTV = view.findViewById(R.id.car_info_dlr_tv);
+        brandTv = view.findViewById(R.id.car_info_brand_tv);
+        trixTv = view.findViewById(R.id.car_info_trix_tv);
+        guidePriceTv = view.findViewById(R.id.car_info_guide_price_tv);
+        modelTv = view.findViewById(R.id.car_info_model_tv);
+        loanPeriodsTv = view.findViewById(R.id.car_info_loan_periods_tv);
+        carInfoLoanPeriodsLin = view.findViewById(R.id.car_info_loan_periods_lin);
+        managementPriceTv = view.findViewById(R.id.car_info_management_price_tv);
+        managementPriceLl = view.findViewById(R.id.car_info_management_price_lin);
+        loanBankTv = view.findViewById(R.id.car_info_loan_bank_tv);
+        productTypeTv = view.findViewById(R.id.car_info_product_type_tv);
+        billPriceTv = view.findViewById(R.id.car_info_bill_price_tv);//开票价
+        firstPriceTv = view.findViewById(R.id.car_info_first_price_tv);//首付款
+        carLoanPriceTv = view.findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
+        carInfoDlrLin = view.findViewById(R.id.car_info_dlr_lin);
+        distributorLin = view.findViewById(R.id.dlr_lin2);
+        carInfoBrandLin = view.findViewById(R.id.car_info_brand_lin);
+        carInfoTrixLin = view.findViewById(R.id.car_info_trix_lin);
+        carInfoModelLin = view.findViewById(R.id.car_info_model_lin);
+        carInfoLoanBankLin = view.findViewById(R.id.car_info_loan_bank_lin);
+        carInfoProductTypeLin = view.findViewById(R.id.car_info_product_type_lin);
+        personal_info_detail_home_address_lin = view.findViewById(R.id.personal_info_detail_home_address_lin);//车辆开票价a
         kaipiaojia_line = view.findViewById(R.id.kaipiaojia_line);
         cartype = getActivity().getIntent().getStringExtra("car_type");
-        carInfoNextBtn = (Button) view.findViewById(R.id.car_info_next_btn);
+        carInfoNextBtn = view.findViewById(R.id.car_info_next_btn);
         car_info_lin = view.findViewById(R.id.car_info_lin);
         car_info_tv = view.findViewById(R.id.car_info_tv);
 
@@ -386,45 +388,22 @@ public class CarInfoFragment extends BaseFragment {
         /**
          * 进行经销商选择
          */
-        carInfoDlrLin.setOnClickListener(v ->
-                selectDlrStore2()
-        );
+        carInfoDlrLin.setOnClickListener(v -> selectDlrStore());
         /**
          * 车辆选择
          */
-        car_info_lin.setOnClickListener(v ->
-                selectCarInfo()
-        );
+        car_info_lin.setOnClickListener(v -> selectCarInfo());
 
         //上牌地
-        plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickPlateRegAddrLin();
-            }
-        });
+        plateRegAddrLin.setOnClickListener(v -> clickPlateRegAddrLin());
         //档案管理费
-        managementPriceLl.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickManagentPriceLl();
-            }
-        });
+        managementPriceLl.setOnClickListener(v -> clickManagentPriceLl());
         //产品期限
-        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickLoanPeriods();
-            }
-        });
+        carInfoLoanPeriodsLin.setOnClickListener(v -> clickLoanPeriods());
         //选择银行
-        carInfoLoanBankLin.setOnClickListener(v ->
-                selectBank()
-        );
+        carInfoLoanBankLin.setOnClickListener(v -> selectBank());
         // 选择产品类型
-        carInfoProductTypeLin.setOnClickListener(v ->
-                selectProductType()
-        );
+        carInfoProductTypeLin.setOnClickListener(v -> selectProductType());
         //车辆开票价
         billPriceTv.addTextChangedListener(new TextWatcher() {
             @Override
@@ -688,9 +667,8 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectCarInfo() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
-            toast.setGravity(Gravity.CENTER, 0, 0);
-            toast.show();
+            ToastUtil.customToastGravity(mContext,"请您先完成经销商选择",Gravity.CENTER,0,0);
+
         } else {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
             intent.putExtra("vehicle_cond", "新车");
@@ -758,7 +736,7 @@ public class CarInfoFragment extends BaseFragment {
         billPriceTv.setEnabled(true);
     }
 
-    private void selectDlrStore2() {
+    private void selectDlrStore() {
         Intent intent = new Intent(mContext, DlrStoreSelectActivity.class);
         intent.putExtra("vehicle_cond", "新车");
         intent.putExtra("class", OrderCreateActivity.class);

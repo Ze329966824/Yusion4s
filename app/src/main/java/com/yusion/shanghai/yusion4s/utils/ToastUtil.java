@@ -107,10 +107,10 @@ public class ToastUtil {
      * @param xoffset
      * @param yoffset
      */
-    public static void customToastGravity(Context context, CharSequence message, int duration, int gravity, int xoffset, int yoffset) {
+    public static void customToastGravity(Context context, CharSequence message,int gravity, int xoffset, int yoffset) {
         if (isShow) {
             if (mToast == null) {
-                mToast = Toast.makeText(context, message, duration);
+                mToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
             } else {
                 mToast.setText(message);
             }
