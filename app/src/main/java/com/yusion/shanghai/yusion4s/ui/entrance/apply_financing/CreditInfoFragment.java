@@ -134,78 +134,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     private String guarantor_clt_id;
     private String guarantor_sp_clt_id;
 
-//    private void searchClient(View view) {
-//        //点击跳转  到 检索页面 并 返回 数据 进行 展示。
-//        Intent intent = new Intent(mContext, SearchClientActivity.class);
-//        startActivityForResult(intent, 2000);
-//    }
-//
-//    private void uploadClientCreditBook(View view) {
-//        Intent intent = new Intent(mContext, UploadSqsListActivity.class);
-//        intent.putExtra("clt_id", lender_clt_id);
-//        intent.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-//        intent.putExtra("role", Constants.PersonType.LENDER);
-//        intent.putExtra("imgList", (Serializable) lenderList);
-//        intent.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-//        intent.putExtra("title", "申请人征信授权书");
-//        startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
-//    }
-//
-//    private void uploadClientSpouseCreditBook(View view) {
-//        Intent intent1 = new Intent(mContext, UploadSqsListActivity.class);
-//        intent1.putExtra("clt_id", lender_sp_clt_id);
-//        intent1.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-//        intent1.putExtra("role", Constants.PersonType.LENDER_SP);
-//        intent1.putExtra("imgList", (Serializable) lenderSpList);
-//        intent1.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-//        intent1.putExtra("title", "申请人配偶征信授权书");
-//        startActivityForResult(intent1, Constants.REQUEST_MULTI_DOCUMENT);
-//    }
-//
-//    private void uploadGuarantorCreditBook(View view) {
-//        Intent intent2 = new Intent(mContext, UploadSqsListActivity.class);
-//        intent2.putExtra("clt_id", guarantor_clt_id);
-//        intent2.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-//        intent2.putExtra("role", Constants.PersonType.GUARANTOR);
-//        intent2.putExtra("imgList", (Serializable) guarantorList);
-//        intent2.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-//        intent2.putExtra("title", "担保人征信授权书");
-//        startActivityForResult(intent2, Constants.REQUEST_MULTI_DOCUMENT);
-//    }
-//
-//    private void uploadGuarantorSpouseCreditBook(View view) {
-//        Intent intent3 = new Intent(mContext, UploadSqsListActivity.class);
-//        intent3.putExtra("clt_id", guarantor_sp_clt_id);
-//        intent3.putExtra("type", Constants.FileLabelType.AUTH_CREDIT);
-//        intent3.putExtra("role", Constants.PersonType.GUARANTOR_SP);
-//        intent3.putExtra("imgList", (Serializable) guarantorSpList);
-//        intent3.putExtra("uploadFileUrlList", (Serializable) uploadFileUrlList);
-//        intent3.putExtra("title", "担保人配偶征信授权书");
-//        startActivityForResult(intent3, Constants.REQUEST_MULTI_DOCUMENT);
-//    }
-//
-//    private void chooseRelationship(View view) {
-//        WheelViewUtil.showWheelView(Yusion4sApp.getConfigResp().owner_applicant_relation_key,
-//                CLIENT_RELATIONSHIP_POSITION_INDEX,
-//                client_relationship_lin,
-//                chooseRelationTv,
-//                "请选择",
-//                new WheelViewUtil.OnSubmitCallBack() {
-//                    @Override
-//                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
-//                        CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
-//                        chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
-//                    }
-//                });
-//    }
-//
-//    private void lookClientDetail(View view) {
-//        Intent intent = new Intent(mContext, ApplicantDetailActivity.class);
-//        intent.putExtra("clt_id", lender_clt_id);
-//        startActivity(intent);
-//    }
-
-
     public static CreditInfoFragment newInstance() {
         Bundle args = new Bundle();
         CreditInfoFragment fragment = new CreditInfoFragment();
@@ -409,6 +337,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         createBtn.setOnClickListener(v -> startActivity(new Intent(mContext, ApplyActivity.class)));
     }
 
+    /**
+     * 上传二手车截图
+     */
     private void uploadOldCarImg() {
         if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
             UploadFilesUrlReq uploadFilesUrlReq1 = new UploadFilesUrlReq();

@@ -60,17 +60,13 @@ import java.util.List;
  */
 
 public class CarInfoFragment extends BaseFragment {
-    public String min_reg_year;
-    public String max_reg_year;
     public static int DELAY_MILLIS;
     private String otherLimit;
     private List<GetLoanBankResp> mLoanBankList = new ArrayList<>();
     private List<GetproductResp.ProductListBean> mProductList = new ArrayList<>();
-    private List<GetDlrListByTokenResp> mDlrList = new ArrayList<>();
     private List<GetModelResp> mModelList = new ArrayList<>();
     private List<GetBrandResp> mBrandList = new ArrayList<>();
     private List<GetTrixResp> mTrixList = new ArrayList<>();
-    private int mDlrIndex = 0;
     private int mLoanPeriodsIndex = 0;
     private int mLoanBankIndex = 0;
     private int mBrandIndex = 0;
@@ -81,8 +77,8 @@ public class CarInfoFragment extends BaseFragment {
     private int mGuidePrice = 0;
     private int model_id;
 
-    private int mChangeLoanAndFirstPriceCount = 0;
-    private boolean ischangeBillPriceBySys = false;
+    //private int mChangeLoanAndFirstPriceCount = 0;
+    //private boolean ischangeBillPriceBySys = false;
 
     private boolean changeCarLoanByCode = false;
 
@@ -416,8 +412,8 @@ public class CarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                ischangeBillPriceBySys = true;
-                mChangeLoanAndFirstPriceCount = 2;
+//                ischangeBillPriceBySys = true;
+//                mChangeLoanAndFirstPriceCount = 2;
 
                 changeFirstPriceByCode = true;
                 changeCarLoanByCode = true;
@@ -546,9 +542,7 @@ public class CarInfoFragment extends BaseFragment {
                     if (Settings.isShameData) {
                         EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
                     } else if (checkCanNextStep()) {
-
                         SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
-                        //req.dlr_id = mDlrList.get(mDlrIndex).dlr_id;
                         req.dlr_id = dlr_id;
                         req.aid_id = aid_id;
                         req.vehicle_model_id = model_id;
@@ -621,8 +615,6 @@ public class CarInfoFragment extends BaseFragment {
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
             DlrApi.getLoanBank(mContext, dlr_id, resp -> {
-
-                //  DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
 
                 mLoanBankList = resp;//银行列表
                 List<String> items = new ArrayList<String>();
@@ -802,9 +794,7 @@ public class CarInfoFragment extends BaseFragment {
         Integer managementPrice = 0;
         Integer carLoanPrice = getPrice(carLoanPriceTv.getText().toString());
         if (isChoose) {
-            // managementPrice = mDlrList.get(mDlrIndex).management_fee.get(mManagementPriceIndex);
             managementPrice = getDlrListByTokenResp.management_fee.get(mManagementPriceIndex);
-
         } else {
             managementPrice = 0;
         }
@@ -817,15 +807,7 @@ public class CarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "经销商不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(car_info_tv.getText())) {
             Toast.makeText(mContext, "车型不能为空", Toast.LENGTH_SHORT).show();
-        }
-//        else if (TextUtils.isEmpty(brandTv.getText())) {
-//            Toast.makeText(mContext, "品牌不能为空", Toast.LENGTH_SHORT).show();
-//        } else if (TextUtils.isEmpty(trixTv.getText())) {
-//            Toast.makeText(mContext, "车系不能为空", Toast.LENGTH_SHORT).show();
-//        } else if (TextUtils.isEmpty(modelTv.getText())) {
-//            Toast.makeText(mContext, "车型不能为空", Toast.LENGTH_SHORT).show();
-//        }
-        else if (TextUtils.isEmpty(colorTv.getText())) {
+        } else if (TextUtils.isEmpty(colorTv.getText())) {
             Toast.makeText(mContext, "颜色不能为空", Toast.LENGTH_SHORT).show();
         } else if (cartype.equals("新车") && TextUtils.isEmpty(billPriceTv.getText())) {
             Toast.makeText(mContext, "开票价不能为空", Toast.LENGTH_SHORT).show();
