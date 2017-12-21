@@ -27,7 +27,7 @@ import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.user.ClientInfo;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
@@ -297,11 +297,20 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
 
-        UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
-            if (code >= 0) {
-                nextStep();
+        ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, new OnCodeAndMsgCallBack() {
+            @Override
+            public void callBack(int code, String msg) {
+                if (code > -1) {
+                    nextStep();
+                }
             }
         });
+//
+//        UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
+//            if (code >= 0) {
+//                nextStep();
+//            }
+//        });
 
     }
 

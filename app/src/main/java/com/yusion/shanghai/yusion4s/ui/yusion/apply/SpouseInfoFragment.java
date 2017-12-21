@@ -28,13 +28,14 @@ import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
-import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.SingleImgUploadForCreateUserActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.YusionUploadListActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.utils.ContactsUtil;
@@ -324,9 +325,9 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             applyActivity.mClientInfo.spouse.gender = spouse_info_gender_tv.getText().toString();
             applyActivity.mClientInfo.spouse.mobile = spouse_info_mobile_edt.getText().toString();
             applyActivity.mClientInfo.child_num = spouse_info_child_count_edt.getText().toString();
-            if (TextUtils.isEmpty(ocrResp.addr)){
+            if (TextUtils.isEmpty(ocrResp.addr)) {
                 applyActivity.mClientInfo.spouse.reg_addr_details = "";
-            }else {
+            } else {
                 applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
             }
 //            if (!TextUtils.isEmpty(spouse_info_reg_tv.getText().toString())) {
@@ -439,7 +440,9 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         FileUtil.saveLog(applyActivity.mClientInfo.toString());
         TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
         applyActivity.mClientInfo.spouse.imei = telephonyManager.getDeviceId();
-        ProductApi.updateClientInfo(mContext, applyActivity.mClientInfo, data1 -> {
+
+        ApiUtil.requestUrl4Data(mContext, Api.getProductService().updateClientInfo(applyActivity.mClientInfo), data1 -> {
+            //ProductApi.updateClientInfo(mContext, applyActivity.mClientInfo, data1 -> {
             if (data1 != null && data1.commited.equals("1")) {
                 applyActivity.mClientInfo = data1;
                 uploadUrl(applyActivity.mClientInfo.clt_id, applyActivity.mClientInfo.spouse.clt_id);
@@ -923,11 +926,13 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step2.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
         step3.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
     }
+
     //选择通讯录的手机号
     private void selectContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, Constants.REQUEST_CONTACTS);
     }
+
     //选择详细地址
     private void requestPOI(String city) {
         if (city != null) {
@@ -942,6 +947,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             }
         }
     }
+
     //上传影像件
     private void uploadUrl(String cltId, String spouseCltId) {
         ArrayList<UploadFilesUrlReq.FileUrlBean> files = new ArrayList<>();
@@ -987,15 +993,25 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         uploadFilesUrlReq.files = files;
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-        UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
-            if (code >= 0) {
-                nextStep();
-                UBT.sendAllUBTEvents(mContext, () -> {
+        ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, new OnCodeAndMsgCallBack() {
+            @Override
+            public void callBack(int code, String msg) {
+                if (code > -1) {
+                    nextStep();
+                    UBT.sendAllUBTEvents(mContext, () -> {
 
-                });
-//                nextStep()
+                    });
+                }
             }
         });
+//        UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
+//            if (code >= 0) {
+//                nextStep();
+//                UBT.sendAllUBTEvents(mContext, () -> {
+//
+//                });
+//            }
+//        });
     }
 
     private void nextStep() {
