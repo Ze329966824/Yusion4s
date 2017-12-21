@@ -931,7 +931,6 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step3.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
     }
 
-
     private void selectContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, Constants.REQUEST_CONTACTS);

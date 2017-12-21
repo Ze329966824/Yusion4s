@@ -10,9 +10,6 @@ import android.util.Log;
 import cn.jpush.android.api.JPushInterface;
 import io.sentry.Sentry;
 
-/**
- * Created by LX on 2017/8/14.
- */
 
 public class JpushReceiver extends BroadcastReceiver {
     @Override
@@ -20,7 +17,6 @@ public class JpushReceiver extends BroadcastReceiver {
         Bundle bundle = intent.getExtras();
         if (bundle != null) {
             Intent i = new Intent(context, JpushDialogActivity.class);
-
             String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
             if (TextUtils.isEmpty(string)) {
                 return;
@@ -29,7 +25,6 @@ public class JpushReceiver extends BroadcastReceiver {
                 String content = bundle.getString(JPushInterface.EXTRA_ALERT);
                 JPushInterface.clearNotificationById(context, notificationID);
             }
-            Log.e("EXTRA_EXTRA", string);
             Sentry.capture(string);
             i.putExtra("jsonObject", string);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
