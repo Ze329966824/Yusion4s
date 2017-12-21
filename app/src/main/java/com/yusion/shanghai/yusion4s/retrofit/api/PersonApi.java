@@ -17,7 +17,7 @@ import retrofit2.Retrofit;
 public class PersonApi {
     public static Retrofit retrofit = Api.createRetrofit(Settings.UBT_SERVER_URL);
 
-    private static PersonInfoService getPersonInfoService() {
+    public static PersonInfoService getPersonInfoService() {
         return retrofit.create(PersonInfoService.class);
     }
 

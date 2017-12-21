@@ -374,7 +374,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 urlBean.app_id = data.app_id;
                                 uploadOldCarImgUrlList.add(urlBean);
                             }
-                            if (uploadFileUrlList.size() > 0) {//有授权书还有二手册截图
+                            if (uploadFileUrlList.size() > 0) {//有授权书还有二手车截图
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                     urlBean.app_id = data.app_id;
                                 }
