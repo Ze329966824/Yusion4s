@@ -29,6 +29,7 @@ import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -133,14 +134,14 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
     }
 
     //三要素校验
-    private void checkMobile(OnItemDataCallBack callBack) {
+    private void checkMobile(OnVoidCallBack callBack) {
         ApiUtil.requestUrl4Data(mContext, Api.getProductService().check3Elements(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString(), Yusion4sApp.TOKEN), new OnItemDataCallBack<Check3ElementsResp>() {
             // ProductApi.check3Elements(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, new OnItemDataCallBack<Check3ElementsResp>() {
             @Override
             public void onItemDataCallBack(Check3ElementsResp data) {
                 if (data != null) {
                     if (data.match.equals("1")) {
-                        callBack.onItemDataCallBack(true);
+                        callBack.callBack();
                     } else {
                         PopupDialogUtil.checkInfoDialog(mContext, "手机号未实名", "手机号码不存在", "手机号用户与身份证不匹配", dialog -> {
                             if (!createUserActivity.isFinishing()) {
@@ -173,8 +174,8 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         //二次确认
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
-            //// TODO: 2017/12/21  
-            checkMobile(data -> {
+
+            checkMobile(() -> {
                 //获取用户信息
                 ApiUtil.requestUrl4Data(mContext, Api.getProductService().getClientInfo(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString(), Yusion4sApp.TOKEN), data1 -> {
                     //ProductApi.getClientInfo(mContext, new GetClientInfoReq(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString()), Yusion4sApp.TOKEN, data1 -> {

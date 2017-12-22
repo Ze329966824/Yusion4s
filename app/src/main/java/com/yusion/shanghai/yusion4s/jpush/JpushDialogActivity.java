@@ -86,10 +86,34 @@ public class JpushDialogActivity extends BaseActivity {
                 case "application":
                     switch (order_state) {
                         case "pass":
-                            new JpushDialogPass(this, title, content).show();
+                            JpushApproveDialog approvePassDialog = new JpushApproveDialog(this,title,content,R.layout.dialog_approval_pass);
+                            approvePassDialog.setYesOnclickListener(() ->{
+                                approvePassDialog.dismiss();
+                                Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
+                                intent.putExtra("app_id", app_id);
+                                startActivity(intent);
+                                finish();
+                            });
+                            approvePassDialog.setNoOnclickListener(() -> {
+                                approvePassDialog.dismiss();
+                                finish();
+                            });
+                            approvePassDialog.show();
                             break;
                         case "refuse":
-                            new JpushDialogRefuse(this, title, content).show();
+                            JpushApproveDialog approveRefuseDialog = new JpushApproveDialog(this,title,content,R.layout.dialog_approval_refuse);
+                            approveRefuseDialog.setYesOnclickListener(() ->{
+                                approveRefuseDialog.dismiss();
+                                Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
+                                intent.putExtra("app_id", app_id);
+                                startActivity(intent);
+                                finish();
+                            });
+                            approveRefuseDialog.setNoOnclickListener(() -> {
+                                approveRefuseDialog.dismiss();
+                                finish();
+                            });
+                            approveRefuseDialog.show();
                             break;
                         default:
                             new AlertDialog.Builder(JpushDialogActivity.this)
@@ -123,129 +147,101 @@ public class JpushDialogActivity extends BaseActivity {
         }
     }
 
-//// TODO: 2017/12/21  可以继承dialog。 
-    private class JpushDialogPass implements View.OnClickListener {
+
+
+    // pass 和 refuse  一个dialog  传入不同的布局即可
+    private static class JpushApproveDialog extends Dialog {
         private Context mContext;
-        private Dialog mDialog;
-        private View mView;
         private TextView mMessage;
         private TextView mTitle;
+        private String titleStr;
+        private String messageStr;
+        private int resID;
 
-        JpushDialogPass(Context context, String title, String message) {
-            mContext = context;
-            mView = LayoutInflater.from(mContext).inflate(R.layout.dialog_approval_pass, null);
-
-            mTitle = (TextView) mView.findViewById(R.id.dialog_approve_pass_title);
-            mTitle.setText(title);
-            mMessage = (TextView) mView.findViewById(R.id.dialog_approve_pass_message);
-            mMessage.setText(message);
-
-            mView.findViewById(btn_cancel).setOnClickListener(this);
-            mView.findViewById(R.id.btn_ok).setOnClickListener(this);
-
-            mDialog = new Dialog(mContext, R.style.MyDialogStyle);
-            mDialog.setCancelable(false);
-
-            mDialog.setContentView(mView);
-            mDialog.setCanceledOnTouchOutside(false);
-            mDialog.show();
+        public JpushApproveDialog(Context context) {
+            super(context);
         }
 
-        void show() {
-            if (mDialog != null) {
-                mDialog.show();
-            }
+        private onNoOnclickListener noOnclickListener;//取消按钮被点击了的监听器
+        private onYesOnclickListener yesOnclickListener;//确定按钮被点击了的监听器
+
+        public interface onYesOnclickListener {
+            void onYesClick();
         }
 
-        void dismiss() {
-            if (mDialog != null) {
-                mDialog.dismiss();
-            }
+        public interface onNoOnclickListener {
+            void onNoClick();
+        }
+
+        public void setNoOnclickListener(onNoOnclickListener onNoOnclickListener) {
+            this.noOnclickListener = onNoOnclickListener;
+        }
+
+        public void setYesOnclickListener(onYesOnclickListener onYesOnclickListener) {
+            this.yesOnclickListener = onYesOnclickListener;
         }
 
         @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case btn_cancel:
-                    dismiss();
-                    finish();
-                    break;
-                case R.id.btn_ok:
-                    dismiss();
-                    Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
-                    intent.putExtra("app_id", app_id);
-                    startActivity(intent);
+        protected void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+//            setContentView(R.layout.dialog_approval_pass);
+            setContentView(resID);
+            setCanceledOnTouchOutside(false);
+            setCancelable(false);
+            //初始化
+            initView();
+            //填充自定义的title和msg
+            initData();
+            //点击事件
+            initEvent();
+        }
 
-                    finish();
-                    break;
-                default:
-                    dismiss();
-                    break;
+        private void initEvent() {
+            findViewById(R.id.btn_cancel).setOnClickListener(v -> {
+                if (yesOnclickListener != null) {
+                    yesOnclickListener.onYesClick();
+                }
+            });
+            findViewById(R.id.btn_ok).setOnClickListener(v -> {
+                if (noOnclickListener != null) {
+                    noOnclickListener.onNoClick();
+                }
+            });
+        }
+
+        private void initData() {
+            //用户自定了title和message
+            if (mTitle != null) {
+                mTitle.setText(titleStr);
+            }
+            if (messageStr != null) {
+                mMessage.setText(messageStr);
             }
         }
-    }
 
-    private class JpushDialogRefuse implements View.OnClickListener {
-        private Context mContext;
-        private Dialog mDialog;
-        private View mView;
-        private TextView mMessage;
-        private TextView mTitle;
-        private TextView mCall;
+        private void initView() {
+            mTitle = findViewById(R.id.dialog_approve_title);
+            mMessage = findViewById(R.id.dialog_approve_message);
+        }
 
-        JpushDialogRefuse(Context context, String title, String message) {
+        public void setMessage(String message) {
+            messageStr = message;
+        }
+
+        public void setTitle(String title) {
+            titleStr = title;
+        }
+
+        public JpushApproveDialog(Context context, String title, String message, int resid) {
+            super(context);
             mContext = context;
-            mView = LayoutInflater.from(mContext).inflate(R.layout.dialog_approval_refuse, null);
-
-            mTitle = (TextView) mView.findViewById(R.id.dialog_approve_refuse_title);
-            mTitle.setText(title);
-            mMessage = (TextView) mView.findViewById(R.id.dialog_approve_refuse_message);
-            mMessage.setText(message);
-            mCall = (TextView) mView.findViewById(R.id.btn_calltocustomer);
-
-            mView.findViewById(btn_cancel).setOnClickListener(this);
-            mView.findViewById(R.id.btn_calltocustomer).setOnClickListener(this);
-
-            mDialog = new Dialog(mContext, R.style.MyDialogStyle);
-            mDialog.setCancelable(false);
-
-            mDialog.setContentView(mView);
-            mDialog.setCanceledOnTouchOutside(false);
-            mDialog.show();
-        }
-
-        void show() {
-            if (mDialog != null) {
-                mDialog.show();
-            }
-        }
-
-        void dismiss() {
-            if (mDialog != null) {
-                mDialog.dismiss();
-            }
-        }
-
-        @Override
-        public void onClick(View v) {
-            switch (v.getId()) {
-                case btn_cancel:
-                    dismiss();
-                    finish();
-                    break;
-                case R.id.btn_calltocustomer:
-                    dismiss();
-                    Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
-                    intent.putExtra("app_id", app_id);
-                    startActivity(intent);
-                    finish();
-                    break;
-                default:
-                    dismiss();
-                    break;
-            }
+            titleStr = title;
+            messageStr = message;
+            resID = resid;
         }
     }
+
+
 
 
 }
