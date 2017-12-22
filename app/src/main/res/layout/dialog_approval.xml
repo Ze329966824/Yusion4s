@@ -28,7 +28,7 @@
 </RelativeLayout>
 
     <TextView
-        android:id="@+id/dialog_approve_pass_title"
+        android:id="@+id/dialog_approve_title"
         android:layout_gravity="center"
         android:gravity="center"
         android:textSize="18dp"
@@ -40,7 +40,7 @@
         />
 
     <TextView
-        android:id="@+id/dialog_approve_pass_message"
+        android:id="@+id/dialog_approve_message"
         android:layout_marginTop="10dp"
         android:textColor="#FF999999"
         android:layout_width="wrap_content"

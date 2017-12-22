@@ -1133,32 +1133,32 @@ public class OldCarInfoFragment extends BaseFragment {
                         Intent intent = new Intent(mContext, Car300WebViewActivity.class);
                         intent.putExtra("cheUrl", cheUrl);
                         startActivityForResult(intent, 100);
-                    }
-                }
-            });
 
-            CheApi.getChePriceAndImage(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
-                @Override
-                public void onItemDataCallBack(GetChePriceAndImageResp data) {
-                    if (data == null || data.result == null || data.result.file_info == null) {
-                        return;
-                    }
-                    SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
-                    Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
-                    if (data.result != null) {
-                        oldcar_guess_price_tv.setText(data.result.price + "");
-                        oldcar_business_price_tv.setText(data.result.price + "");
-                        if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
-                            carLoanPriceTv.setEnabled(true);
-                            look_guess_img_btn.setEnabled(true);
-                        }
-                        dialog.dismiss();
-                        guess_img = "";
-                        guess_img = data.result.img;
-                        ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
-                        ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
-                        ((OrderCreateActivity) getActivity()).bucket = data.result.file_info.bucket;
-                        ((OrderCreateActivity) getActivity()).region = data.result.file_info.region;
+                        CheApi.getChePriceAndImage(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+                            @Override
+                            public void onItemDataCallBack(GetChePriceAndImageResp data) {
+                                if (data == null || data.result == null || data.result.file_info == null) {
+                                    return;
+                                }
+                                SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
+                                Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
+                                if (data.result != null) {
+                                    oldcar_guess_price_tv.setText(data.result.price + "");
+                                    oldcar_business_price_tv.setText(data.result.price + "");
+                                    if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+                                        carLoanPriceTv.setEnabled(true);
+                                        look_guess_img_btn.setEnabled(true);
+                                    }
+                                    dialog.dismiss();
+                                    guess_img = "";
+                                    guess_img = data.result.img;
+                                    ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
+                                    ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
+                                    ((OrderCreateActivity) getActivity()).bucket = data.result.file_info.bucket;
+                                    ((OrderCreateActivity) getActivity()).region = data.result.file_info.region;
+                                }
+                            }
+                        });
                     }
                 }
             });

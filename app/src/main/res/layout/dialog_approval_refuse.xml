@@ -34,7 +34,7 @@
         </RelativeLayout>
 
         <TextView
-            android:id="@+id/dialog_approve_refuse_title"
+            android:id="@+id/dialog_approve_title"
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -46,7 +46,7 @@
 
 
         <TextView
-            android:id="@+id/dialog_approve_refuse_message"
+            android:id="@+id/dialog_approve_message"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
@@ -64,7 +64,7 @@
 
 
             <TextView
-                android:id="@+id/btn_calltocustomer"
+                android:id="@+id/btn_ok"
                 android:layout_width="0dp"
                 android:layout_height="40dp"
                 android:layout_gravity="bottom"
