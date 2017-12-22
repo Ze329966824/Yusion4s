@@ -77,7 +77,7 @@ public class JpushDialogActivity extends BaseActivity {
         if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
                 case "login"://抢登
-                    PopupDialogUtil.showOneButtonDialog(this, content, dialog -> {
+                    PopupDialogUtil.showOneButtonDialog(this, content,"好的", dialog -> {
                         myApp.clearUserData();
                         startActivity(new Intent(JpushDialogActivity.this, LoginActivity.class));
                         finish();
@@ -123,7 +123,7 @@ public class JpushDialogActivity extends BaseActivity {
         }
     }
 
-
+//// TODO: 2017/12/21  可以继承dialog。 
     private class JpushDialogPass implements View.OnClickListener {
         private Context mContext;
         private Dialog mDialog;

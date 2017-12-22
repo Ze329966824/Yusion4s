@@ -381,15 +381,11 @@ public class CarInfoFragment extends BaseFragment {
         car_info_tv = view.findViewById(R.id.car_info_tv);
 
 
-        /**
-         * 进行经销商选择
-         */
-        carInfoDlrLin.setOnClickListener(v -> selectDlrStore());
-        /**
-         * 车辆选择
-         */
-        car_info_lin.setOnClickListener(v -> selectCarInfo());
 
+        //进行经销商选择
+        carInfoDlrLin.setOnClickListener(v -> selectDlrStore());
+        //车辆选择
+        car_info_lin.setOnClickListener(v -> selectCarInfo());
         //上牌地
         plateRegAddrLin.setOnClickListener(v -> clickPlateRegAddrLin());
         //档案管理费

@@ -353,9 +353,7 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailReplaceBtn.setOnClickListener(v -> {
             // TODO: 2017/12/12   更换配偶作为主贷人点击 -> 弹窗 ->  {1.是 ->接口二 ①客户信息未完善 ②更换成功}    {2.取消 dismiss}
 
-//            PopupDialogUtil.showTwoButtonsDialog();
-            PopupDialogUtil.showTwoButtonsDialog(OrderDetailActivity.this, "重新提报订单！", "是否更换配偶作为主贷人，并重新提报订单？", "取消", "重新提报", dialog -> {
-
+            PopupDialogUtil.showTwoButtonsDialog(OrderDetailActivity.this,R.layout.popup_dialog_two_hastitle_button, dialog -> {
                 dialog.dismiss();
                 checkAndReplace();
 

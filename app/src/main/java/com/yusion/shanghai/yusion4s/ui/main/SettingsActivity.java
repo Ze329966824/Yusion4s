@@ -15,6 +15,7 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
+import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
@@ -105,11 +106,12 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void showLogoutDialog() {
-        PopupDialogUtil.logoutDialog(SettingsActivity.this, "是否退出登录？", "否", "是", new PopupDialogUtil.OnOkClickListener() {
+        PopupDialogUtil.showTwoButtonsDialog(SettingsActivity.this,R.layout.popup_dialog_logout, new PopupDialogUtil.OnPopupClickListener() {
             @Override
             public void onOkClick(Dialog dialog) {
                 dialog.dismiss();
-                AppUtils.logout(SettingsActivity.this, getClass().getSimpleName());
+                AppUtils.logout(SettingsActivity.this);
+                UBT.addPageEvent(SettingsActivity.this, "page_hidden", "activity", getClass().getSimpleName());
                 finish();
                 finishByLoginOut = true;
             }

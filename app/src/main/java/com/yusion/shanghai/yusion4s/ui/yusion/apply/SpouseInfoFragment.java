@@ -28,13 +28,14 @@ import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.event.ApplyActivityEvent;
-import com.yusion.shanghai.yusion4s.retrofit.api.ProductApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.SingleImgUploadForCreateUserActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.YusionUploadListActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckIdCardValidUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.utils.ContactsUtil;
@@ -91,7 +92,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         add("否");
     }};
 
-    private ApplyActivity applyActivity;
+    private CreateUserActivity createUserActivity;
 
     private ImageView spouse_info_mobile_img;
     private LinearLayout spouse_info_id_back_lin;
@@ -316,77 +317,77 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
     }
 
     private void submit() {
-        applyActivity.mClientInfo.marriage = spouse_info_marriage_tv.getText().toString();
-        applyActivity.mClientInfo.spouse.marriage = spouse_info_marriage_tv.getText().toString();
-        if ("已婚".equals(applyActivity.mClientInfo.marriage)) {
-            applyActivity.mClientInfo.spouse.clt_nm = spouse_info_clt_nm_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.id_no = spouse_info_id_no_edt.getText().toString();
-            applyActivity.mClientInfo.spouse.gender = spouse_info_gender_tv.getText().toString();
-            applyActivity.mClientInfo.spouse.mobile = spouse_info_mobile_edt.getText().toString();
-            applyActivity.mClientInfo.child_num = spouse_info_child_count_edt.getText().toString();
-            if (TextUtils.isEmpty(ocrResp.addr)){
-                applyActivity.mClientInfo.spouse.reg_addr_details = "";
-            }else {
-                applyActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
+        createUserActivity.mClientInfo.marriage = spouse_info_marriage_tv.getText().toString();
+        createUserActivity.mClientInfo.spouse.marriage = spouse_info_marriage_tv.getText().toString();
+        if ("已婚".equals(createUserActivity.mClientInfo.marriage)) {
+            createUserActivity.mClientInfo.spouse.clt_nm = spouse_info_clt_nm_edt.getText().toString();
+            createUserActivity.mClientInfo.spouse.id_no = spouse_info_id_no_edt.getText().toString();
+            createUserActivity.mClientInfo.spouse.gender = spouse_info_gender_tv.getText().toString();
+            createUserActivity.mClientInfo.spouse.mobile = spouse_info_mobile_edt.getText().toString();
+            createUserActivity.mClientInfo.child_num = spouse_info_child_count_edt.getText().toString();
+            if (TextUtils.isEmpty(ocrResp.addr)) {
+                createUserActivity.mClientInfo.spouse.reg_addr_details = "";
+            } else {
+                createUserActivity.mClientInfo.spouse.reg_addr_details = ocrResp.addr;
             }
 //            if (!TextUtils.isEmpty(spouse_info_reg_tv.getText().toString())) {
-//                applyActivity.mClientInfo.spouse.reg_addr.province = spouse_info_reg_tv.getText().toString().trim().split("/")[0];
-//                applyActivity.mClientInfo.spouse.reg_addr.city = spouse_info_reg_tv.getText().toString().trim().split("/")[1];
-//                applyActivity.mClientInfo.spouse.reg_addr.district = spouse_info_reg_tv.getText().toString().trim().split("/")[2];
+//                createUserActivity.mClientInfo.spouse.reg_addr.province = spouse_info_reg_tv.getText().toString().trim().split("/")[0];
+//                createUserActivity.mClientInfo.spouse.reg_addr.city = spouse_info_reg_tv.getText().toString().trim().split("/")[1];
+//                createUserActivity.mClientInfo.spouse.reg_addr.district = spouse_info_reg_tv.getText().toString().trim().split("/")[2];
 //            }
-//            applyActivity.mClientInfo.spouse.edu = spouse_info_education_tv.getText().toString();
+//            createUserActivity.mClientInfo.spouse.edu = spouse_info_education_tv.getText().toString();
 //
 //            //现住地址
 //            if (!TextUtils.isEmpty(spouse_info_current_address_tv.getText().toString())) {
-//                applyActivity.mClientInfo.spouse.current_addr.province = spouse_info_current_address_tv.getText().toString().trim().split("/")[0];
-//                applyActivity.mClientInfo.spouse.current_addr.city = spouse_info_current_address_tv.getText().toString().trim().split("/")[1];
-//                applyActivity.mClientInfo.spouse.current_addr.district = spouse_info_current_address_tv.getText().toString().trim().split("/")[2];
+//                createUserActivity.mClientInfo.spouse.current_addr.province = spouse_info_current_address_tv.getText().toString().trim().split("/")[0];
+//                createUserActivity.mClientInfo.spouse.current_addr.city = spouse_info_current_address_tv.getText().toString().trim().split("/")[1];
+//                createUserActivity.mClientInfo.spouse.current_addr.district = spouse_info_current_address_tv.getText().toString().trim().split("/")[2];
 //            }
-//            applyActivity.mClientInfo.spouse.current_addr.address1 = (spouse_info_current_address1_tv.getText().toString());
-//            applyActivity.mClientInfo.spouse.current_addr.address2 = (spouse_info_current_address2_tv.getText().toString());
-//            applyActivity.mClientInfo.spouse.is_live_with_parent = (spouse_info_live_with_parent_tv.getText().toString());
+//            createUserActivity.mClientInfo.spouse.current_addr.address1 = (spouse_info_current_address1_tv.getText().toString());
+//            createUserActivity.mClientInfo.spouse.current_addr.address2 = (spouse_info_current_address2_tv.getText().toString());
+//            createUserActivity.mClientInfo.spouse.is_live_with_parent = (spouse_info_live_with_parent_tv.getText().toString());
 
             //主要收入来源
             switch (spouse_info_income_from_tv.getText().toString()) {
                 case "工资":
-                    applyActivity.mClientInfo.spouse.major_income_type = "工资";
-                    applyActivity.mClientInfo.spouse.major_income = spouse_info_from_income_year_edt.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_company_name = spouse_info_from_income_company_name_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_income_type = "工资";
+                    createUserActivity.mClientInfo.spouse.major_income = spouse_info_from_income_year_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_company_name = spouse_info_from_income_company_name_edt.getText().toString();
                     if (!TextUtils.isEmpty(spouse_info_from_income_company_address_tv.getText().toString())) {
-                        applyActivity.mClientInfo.spouse.major_company_addr.province = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                        applyActivity.mClientInfo.spouse.major_company_addr.city = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                        applyActivity.mClientInfo.spouse.major_company_addr.district = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                        createUserActivity.mClientInfo.spouse.major_company_addr.province = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                        createUserActivity.mClientInfo.spouse.major_company_addr.city = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                        createUserActivity.mClientInfo.spouse.major_company_addr.district = spouse_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
                     } else {
-                        applyActivity.mClientInfo.spouse.major_company_addr.province = "";
-                        applyActivity.mClientInfo.spouse.major_company_addr.city = "";
-                        applyActivity.mClientInfo.spouse.major_company_addr.district = "";
+                        createUserActivity.mClientInfo.spouse.major_company_addr.province = "";
+                        createUserActivity.mClientInfo.spouse.major_company_addr.city = "";
+                        createUserActivity.mClientInfo.spouse.major_company_addr.district = "";
                     }
-                    applyActivity.mClientInfo.spouse.major_company_addr.address1 = spouse_info_from_income_company_address1_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_company_addr.address2 = spouse_info_from_income_company_address2_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_work_position = spouse_info_from_income_work_position_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_work_phone_num = spouse_info_from_income_work_phone_num_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_company_addr.address1 = spouse_info_from_income_company_address1_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_company_addr.address2 = spouse_info_from_income_company_address2_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_work_position = spouse_info_from_income_work_position_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_work_phone_num = spouse_info_from_income_work_phone_num_edt.getText().toString();
                     break;
                 case "自营":
-                    applyActivity.mClientInfo.spouse.major_income_type = "自营";
-                    applyActivity.mClientInfo.spouse.major_income = spouse_info_from_self_year_edt.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_busi_type = spouse_info_from_self_type_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_company_name = spouse_info_from_self_company_name_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_income_type = "自营";
+                    createUserActivity.mClientInfo.spouse.major_income = spouse_info_from_self_year_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_busi_type = spouse_info_from_self_type_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_company_name = spouse_info_from_self_company_name_edt.getText().toString();
                     if (TextUtils.isEmpty(spouse_info_from_self_company_address_tv.getText())) {
-                        applyActivity.mClientInfo.spouse.major_company_addr.province = "";
-                        applyActivity.mClientInfo.spouse.major_company_addr.city = "";
-                        applyActivity.mClientInfo.spouse.major_company_addr.district = "";
+                        createUserActivity.mClientInfo.spouse.major_company_addr.province = "";
+                        createUserActivity.mClientInfo.spouse.major_company_addr.city = "";
+                        createUserActivity.mClientInfo.spouse.major_company_addr.district = "";
                     } else {
-                        applyActivity.mClientInfo.spouse.major_company_addr.province = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
-                        applyActivity.mClientInfo.spouse.major_company_addr.city = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
-                        applyActivity.mClientInfo.spouse.major_company_addr.district = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
+                        createUserActivity.mClientInfo.spouse.major_company_addr.province = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
+                        createUserActivity.mClientInfo.spouse.major_company_addr.city = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
+                        createUserActivity.mClientInfo.spouse.major_company_addr.district = spouse_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
                     }
-                    applyActivity.mClientInfo.spouse.major_company_addr.address1 = spouse_info_from_self_company_address1_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_company_addr.address2 = spouse_info_from_self_company_address2_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_company_addr.address1 = spouse_info_from_self_company_address1_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_company_addr.address2 = spouse_info_from_self_company_address2_tv.getText().toString();
                     break;
                 case "其他":
-                    applyActivity.mClientInfo.spouse.major_income_type = "其他";
-                    applyActivity.mClientInfo.spouse.major_income = spouse_info_from_other_year_edt.getText().toString();
-                    applyActivity.mClientInfo.spouse.major_remark = spouse_info_from_other_remark_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_income_type = "其他";
+                    createUserActivity.mClientInfo.spouse.major_income = spouse_info_from_other_year_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.major_remark = spouse_info_from_other_remark_edt.getText().toString();
 
                     break;
                 default:
@@ -395,19 +396,19 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             //额外收入来源
             switch (spouse_info_extra_income_from_tv.getText().toString()) {
                 case "工资":
-                    applyActivity.mClientInfo.spouse.extra_income_type = "工资";
-                    applyActivity.mClientInfo.spouse.extra_income = spouse_info_extra_from_income_year_edt.getText().toString();
-                    applyActivity.mClientInfo.spouse.extra_company_name = spouse_info_extra_from_income_company_name_edt.getText().toString();
-                    applyActivity.mClientInfo.spouse.extra_company_addr.province = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                    applyActivity.mClientInfo.spouse.extra_company_addr.city = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                    applyActivity.mClientInfo.spouse.extra_company_addr.district = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
-                    applyActivity.mClientInfo.spouse.extra_company_addr.address1 = spouse_info_extra_from_income_company_address1_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.extra_company_addr.address2 = spouse_info_extra_from_income_company_address2_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.extra_work_position = spouse_info_extra_from_income_work_position_tv.getText().toString();
-                    applyActivity.mClientInfo.spouse.extra_work_phone_num = spouse_info_extra_from_income_work_phone_num_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.extra_income_type = "工资";
+                    createUserActivity.mClientInfo.spouse.extra_income = spouse_info_extra_from_income_year_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.extra_company_name = spouse_info_extra_from_income_company_name_edt.getText().toString();
+                    createUserActivity.mClientInfo.spouse.extra_company_addr.province = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                    createUserActivity.mClientInfo.spouse.extra_company_addr.city = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                    createUserActivity.mClientInfo.spouse.extra_company_addr.district = spouse_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                    createUserActivity.mClientInfo.spouse.extra_company_addr.address1 = spouse_info_extra_from_income_company_address1_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.extra_company_addr.address2 = spouse_info_extra_from_income_company_address2_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.extra_work_position = spouse_info_extra_from_income_work_position_tv.getText().toString();
+                    createUserActivity.mClientInfo.spouse.extra_work_phone_num = spouse_info_extra_from_income_work_phone_num_edt.getText().toString();
                     break;
                 case "无":
-                    applyActivity.mClientInfo.spouse.extra_income_type = "无";
+                    createUserActivity.mClientInfo.spouse.extra_income_type = "无";
                     break;
                 default:
                     break;
@@ -415,28 +416,36 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 
 
 //            //房屋性质
-//            applyActivity.mClientInfo.spouse.house_owner_name = spouse_info_house_owner_name_edt.getText().toString();
-//            applyActivity.mClientInfo.spouse.house_owner_relation = spouse_info_house_owner_relation_tv.getText().toString();
-//            applyActivity.mClientInfo.spouse.house_type = spouse_info_house_type_tv.getText().toString();
-//            applyActivity.mClientInfo.spouse.house_area = spouse_info_house_area_edt.getText().toString();
-//            applyActivity.mClientInfo.spouse.urg_contact1 = spouse_info_urg_contact1_edt.getText().toString();
-//            applyActivity.mClientInfo.spouse.urg_mobile1 = spouse_info_urg_mobile1_edt.getText().toString();
-//            applyActivity.mClientInfo.spouse.urg_relation1 = spouse_info_urg_relation1_tv.getText().toString();
-//            applyActivity.mClientInfo.spouse.urg_contact2 = spouse_info_urg_contact2_edt.getText().toString();
-//            applyActivity.mClientInfo.spouse.urg_mobile2 = spouse_info_urg_mobile2_edt.getText().toString();
-//            applyActivity.mClientInfo.spouse.urg_relation2 = spouse_info_urg_relation2_tv.getText().toString();
-        } else if ("离异".equals(applyActivity.mClientInfo.marriage)) {
-            applyActivity.mClientInfo.child_num = spouse_info_divorced_child_count_edt.getText().toString();
-        } else if ("丧偶".equals(applyActivity.mClientInfo.marriage)) {
-            applyActivity.mClientInfo.child_num = spouse_info_die_child_count_edt.getText().toString();
+//            createUserActivity.mClientInfo.spouse.house_owner_name = spouse_info_house_owner_name_edt.getText().toString();
+//            createUserActivity.mClientInfo.spouse.house_owner_relation = spouse_info_house_owner_relation_tv.getText().toString();
+//            createUserActivity.mClientInfo.spouse.house_type = spouse_info_house_type_tv.getText().toString();
+//            createUserActivity.mClientInfo.spouse.house_area = spouse_info_house_area_edt.getText().toString();
+//            createUserActivity.mClientInfo.spouse.urg_contact1 = spouse_info_urg_contact1_edt.getText().toString();
+//            createUserActivity.mClientInfo.spouse.urg_mobile1 = spouse_info_urg_mobile1_edt.getText().toString();
+//            createUserActivity.mClientInfo.spouse.urg_relation1 = spouse_info_urg_relation1_tv.getText().toString();
+//            createUserActivity.mClientInfo.spouse.urg_contact2 = spouse_info_urg_contact2_edt.getText().toString();
+//            createUserActivity.mClientInfo.spouse.urg_mobile2 = spouse_info_urg_mobile2_edt.getText().toString();
+//            createUserActivity.mClientInfo.spouse.urg_relation2 = spouse_info_urg_relation2_tv.getText().toString();
+        } else if ("离异".equals(createUserActivity.mClientInfo.marriage)) {
+            createUserActivity.mClientInfo.child_num = spouse_info_divorced_child_count_edt.getText().toString();
+        } else if ("丧偶".equals(createUserActivity.mClientInfo.marriage)) {
+            createUserActivity.mClientInfo.child_num = spouse_info_die_child_count_edt.getText().toString();
         }
+        Log.e("current_addr2--------", createUserActivity.mClientInfo.current_addr.province);
+        Log.e("current_addr2--------", createUserActivity.mClientInfo.current_addr.city);
+        Log.e("current_addr2--------", createUserActivity.mClientInfo.current_addr.district);
+        Log.e("current_addr2--------", createUserActivity.mClientInfo.current_addr.address1);
+        Log.e("current_addr2--------", createUserActivity.mClientInfo.current_addr.address2);
 
+        FileUtil.saveLog(createUserActivity.mClientInfo.toString());
         TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        applyActivity.mClientInfo.spouse.imei = telephonyManager.getDeviceId();
-        ProductApi.updateClientInfo(mContext, applyActivity.mClientInfo, data1 -> {
+        createUserActivity.mClientInfo.spouse.imei = telephonyManager.getDeviceId();
+
+        ApiUtil.requestUrl4Data(mContext, Api.getProductService().updateClientInfo(createUserActivity.mClientInfo), data1 -> {
+            //ProductApi.updateClientInfo(mContext, createUserActivity.mClientInfo, data1 -> {
             if (data1 != null && data1.commited.equals("1")) {
-                applyActivity.mClientInfo = data1;
-                uploadUrl(applyActivity.mClientInfo.clt_id, applyActivity.mClientInfo.spouse.clt_id);
+                createUserActivity.mClientInfo = data1;
+                uploadUrl(createUserActivity.mClientInfo.clt_id, createUserActivity.mClientInfo.spouse.clt_id);
             }
         });
 
@@ -590,7 +599,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
 
     private void initView(View view) {
         UBT.bind(this, view, getClass().getSimpleName());
-        applyActivity = (ApplyActivity) getActivity();
+        createUserActivity = (CreateUserActivity) getActivity();
         spouse_info_mobile_img = view.findViewById(R.id.spouse_info_mobile_img);
         spouse_info_id_back_lin = view.findViewById(R.id.spouse_info_id_back_lin);
         spouse_info_id_front_lin = view.findViewById(R.id.spouse_info_id_front_lin);
@@ -672,21 +681,21 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //婚否
         spouse_info_marriage_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_key, _MARRIAGE_INDEX, spouse_info_marriage_lin, spouse_info_marriage_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().marriage_key, _MARRIAGE_INDEX, spouse_info_marriage_lin, spouse_info_marriage_tv, "请选择", (clickedView, selectedIndex) -> {
                 _MARRIAGE_INDEX = selectedIndex;
-                if ("已婚".equals(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
+                if ("已婚".equals(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
                     spouse_info_marriage_group_lin.setVisibility(View.VISIBLE);
                 } else {
                     spouse_info_marriage_group_lin.setVisibility(View.GONE);
                 }
 
-                if ("离异".equals(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
+                if ("离异".equals(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
                     spouse_info_divorced_group_lin.setVisibility(View.VISIBLE);
                 } else {
                     spouse_info_divorced_group_lin.setVisibility(View.GONE);
                 }
 
-                if ("丧偶".equals(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
+                if ("丧偶".equals(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().marriage_value.get(_MARRIAGE_INDEX))) {
                     spouse_info_die_group_lin.setVisibility(View.VISIBLE);
                 } else {
                     spouse_info_die_group_lin.setVisibility(View.GONE);
@@ -746,7 +755,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //性别
         spouse_info_gender_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().gender_list_key, _GENDER_INDEX, spouse_info_gender_lin, spouse_info_gender_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().gender_list_key, _GENDER_INDEX, spouse_info_gender_lin, spouse_info_gender_tv, "请选择", (clickedView, selectedIndex) -> {
                 _GENDER_INDEX = selectedIndex;
             });
         });
@@ -767,7 +776,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //工资 职务
         spouse_info_from_income_work_position_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().work_position_key, _FROM_INCOME_WORK_POSITION_INDEX, spouse_info_from_income_work_position_lin, spouse_info_from_income_work_position_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().work_position_key, _FROM_INCOME_WORK_POSITION_INDEX, spouse_info_from_income_work_position_lin, spouse_info_from_income_work_position_tv, "请选择", (clickedView, selectedIndex) -> {
                 _FROM_INCOME_WORK_POSITION_INDEX = selectedIndex;
             });
         });
@@ -787,9 +796,9 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //自营业务类型
         spouse_info_from_self_type_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().busi_type_list_key, _FROM_SELF_TYPE_INDEX, spouse_info_from_self_type_lin, spouse_info_from_self_type_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().busi_type_list_key, _FROM_SELF_TYPE_INDEX, spouse_info_from_self_type_lin, spouse_info_from_self_type_tv, "请选择", (clickedView, selectedIndex) -> {
                 _FROM_SELF_TYPE_INDEX = selectedIndex;
-                if ("其他".equals(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().busi_type_list_value.get(_FROM_SELF_TYPE_INDEX))) {
+                if ("其他".equals(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().busi_type_list_value.get(_FROM_SELF_TYPE_INDEX))) {
                     EditText editText = new EditText(mContext);
                     new AlertDialog.Builder(mContext)
                             .setTitle("请输入业务类型")
@@ -827,7 +836,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //额外工资职务
         spouse_info_extra_from_income_work_position_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().work_position_key, _FROM_EXTRA_WORK_POSITION_INDEX, spouse_info_extra_from_income_work_position_lin, spouse_info_extra_from_income_work_position_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().work_position_key, _FROM_EXTRA_WORK_POSITION_INDEX, spouse_info_extra_from_income_work_position_lin, spouse_info_extra_from_income_work_position_tv, "请选择", (clickedView, selectedIndex) -> {
                 _FROM_EXTRA_WORK_POSITION_INDEX = selectedIndex;
             });
         });
@@ -838,7 +847,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //学历
         spouse_info_education_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().education_list_key, _EDUCATION_INDEX, spouse_info_education_lin, spouse_info_education_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().education_list_key, _EDUCATION_INDEX, spouse_info_education_lin, spouse_info_education_tv, "请选择", (clickedView, selectedIndex) -> {
                 _EDUCATION_INDEX = selectedIndex;
             });
         });
@@ -864,7 +873,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //房屋性质
         spouse_info_house_type_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().house_type_list_key, _HOUSE_TYPE_INDEX, spouse_info_house_type_lin, spouse_info_house_type_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().house_type_list_key, _HOUSE_TYPE_INDEX, spouse_info_house_type_lin, spouse_info_house_type_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _HOUSE_TYPE_INDEX = selectedIndex;
@@ -873,7 +882,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //房屋与主贷人关系
         spouse_info_house_owner_relation_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().house_relationship_list_key, _HOUSE_OWNER_RELATION_INDEX, spouse_info_house_owner_relation_lin, spouse_info_house_owner_relation_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().house_relationship_list_key, _HOUSE_OWNER_RELATION_INDEX, spouse_info_house_owner_relation_lin, spouse_info_house_owner_relation_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _HOUSE_OWNER_RELATION_INDEX = selectedIndex;
@@ -882,7 +891,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //紧急联系人1与主贷人关系
         spouse_info_urg_relation1_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().urg_rela_relationship_list_key, _URG_RELATION_INDEX1, spouse_info_urg_relation1_lin, spouse_info_urg_relation1_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().urg_rela_relationship_list_key, _URG_RELATION_INDEX1, spouse_info_urg_relation1_lin, spouse_info_urg_relation1_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _URG_RELATION_INDEX1 = selectedIndex;
@@ -892,7 +901,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         });
         //紧急联系人2与主贷人关系
         spouse_info_urg_relation2_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().urg_other_relationship_list_key, _URG_RELATION_INDEX2, spouse_info_urg_relation2_lin, spouse_info_urg_relation2_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().urg_other_relationship_list_key, _URG_RELATION_INDEX2, spouse_info_urg_relation2_lin, spouse_info_urg_relation2_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _URG_RELATION_INDEX2 = selectedIndex;
@@ -917,11 +926,13 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         step2.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
         step3.setTypeface(createFromAsset(mContext.getAssets(), "yj.ttf"));
     }
+
     //选择通讯录的手机号
     private void selectContact() {
         Intent intent = new Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI);
         startActivityForResult(intent, Constants.REQUEST_CONTACTS);
     }
+
     //选择详细地址
     private void requestPOI(String city) {
         if (city != null) {
@@ -936,10 +947,11 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
             }
         }
     }
+
     //上传影像件
     private void uploadUrl(String cltId, String spouseCltId) {
         ArrayList<UploadFilesUrlReq.FileUrlBean> files = new ArrayList<>();
-        switch (applyActivity.mClientInfo.marriage) {
+        switch (createUserActivity.mClientInfo.marriage) {
             case "离异":
 
                 for (UploadImgItemBean divorceItem : divorceImgsList) {
@@ -981,20 +993,30 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         uploadFilesUrlReq.files = files;
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-        UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
-            if (code >= 0) {
-                nextStep();
-                UBT.sendAllUBTEvents(mContext, () -> {
+        ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, new OnCodeAndMsgCallBack() {
+            @Override
+            public void callBack(int code, String msg) {
+                if (code > -1) {
+                    nextStep();
+                    UBT.sendAllUBTEvents(mContext, () -> {
 
-                });
-//                nextStep()
+                    });
+                }
             }
         });
+//        UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
+//            if (code >= 0) {
+//                nextStep();
+//                UBT.sendAllUBTEvents(mContext, () -> {
+//
+//                });
+//            }
+//        });
     }
 
     private void nextStep() {
-        Log.e("TAG", "spouse : clientinfo = { " + applyActivity.mClientInfo.toString() + " }");
-        applyActivity.requestSubmit();
+        Log.e("TAG", "spouse : clientinfo = { " + createUserActivity.mClientInfo.toString() + " }");
+        createUserActivity.requestSubmit();
     }
 
     @Override
@@ -1010,17 +1032,17 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 }
                 if (CURRENT_CLICKED_VIEW_FOR_CONTACT == spouse_info_mobile_img.getId()) {
                     spouse_info_mobile_edt.setText(result[1].replace(" ", ""));
-                    UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_mobile_edt", ApplyActivity.class.getSimpleName(), "手机号");
+                    UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_mobile_edt", CreateUserActivity.class.getSimpleName(), "手机号");
                 }
                 if (CURRENT_CLICKED_VIEW_FOR_CONTACT == spouse_info_urg_mobile1_img.getId()) {
                     spouse_info_urg_contact1_edt.setText(result[0]);
                     spouse_info_urg_mobile1_edt.setText(result[1].replace(" ", ""));
-                    UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_urg_mobile1_edt", ApplyActivity.class.getSimpleName(), "手机号");
+                    UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_urg_mobile1_edt", CreateUserActivity.class.getSimpleName(), "手机号");
                 }
                 if (CURRENT_CLICKED_VIEW_FOR_CONTACT == spouse_info_urg_mobile2_img.getId()) {
                     spouse_info_urg_contact2_edt.setText(result[0]);
                     spouse_info_urg_mobile2_edt.setText(result[1].replace(" ", ""));
-                    UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_urg_mobile2_edt", ApplyActivity.class.getSimpleName(), "手机号");
+                    UBT.addEvent(mContext, "text_change", "edit_text", "spouse_info_urg_mobile2_edt", CreateUserActivity.class.getSimpleName(), "手机号");
                 }
             } else if (requestCode == Constants.REQUEST_DOCUMENT) {
                 switch (data.getStringExtra("type")) {

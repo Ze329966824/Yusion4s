@@ -26,9 +26,8 @@ import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 public class AppUtils {
 
-    public static void logout(Context context, String pageName) {
+    public static void logout(Context context) {
         Toast.makeText(context, "正在退出，请稍等...", Toast.LENGTH_SHORT).show();
-        UBT.addPageEvent(context, "page_hidden", "activity", pageName);
         UBT.sendAllUBTEvents(context, () -> {
         });
         Yusion4sApp.getInstance().clearUserData();
@@ -48,19 +47,5 @@ public class AppUtils {
     }
 
 
-    public static void awaken(Context context) {
-        try {
-            PackageManager packageManager = context.getPackageManager();  // 当前Activity获得packageManager对象
-
-            if (packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion") != null) {
-                PopupDialogUtil.showTwoButtonsDialog(context, "是否打开Yusion", "打开", "取消", dialog -> {
-                    Intent intent = new Intent();
-                    intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
-                    context.startActivity(intent);
-                });
-            }
-        } catch (Exception e) {
-        }
-    }
 
 }

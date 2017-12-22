@@ -395,12 +395,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         cartype = getIntent().getStringExtra("car_type");
         dialog = LoadingUtils.createLoadingDialog(AlterOldCarInfoActivity.this);
 
-        initTitleBar(this, "修改二手车订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                back();
-            }
-        });
+        initTitleBar(this, "修改二手车订单").setLeftText(" 返回").setLeftTextSize(17).setLeftClickListener(v -> back());
 
         initView();
         initData();
@@ -408,12 +403,9 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     }
 
     private void back() {
-        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", new PopupDialogUtil.OnOkClickListener() {
-            @Override
-            public void onOkClick(Dialog dialog) {
-                dialog.dismiss();
-                finish();
-            }
+        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", dialog1 -> {
+            dialog1.dismiss();
+            finish();
         });
     }
 
@@ -424,52 +416,52 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private void initView() {
 
-        totalLoanPriceTv = (TextView) findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
-        otherPriceTv = (EditText) findViewById(R.id.car_info_other_price_tv);//其他费用
-        colorTv = (EditText) findViewById(R.id.car_info_color_tv);//车辆颜色
-        plateRegAddrLin = (LinearLayout) findViewById(R.id.car_info_plate_reg_addr_lin);
-        plateRegAddrTv = (TextView) findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
+        totalLoanPriceTv = findViewById(R.id.car_info_total_loan_price_tv);//总贷款费用
+        otherPriceTv = findViewById(R.id.car_info_other_price_tv);//其他费用
+        colorTv = findViewById(R.id.car_info_color_tv);//车辆颜色
+        plateRegAddrLin = findViewById(R.id.car_info_plate_reg_addr_lin);
+        plateRegAddrTv = findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
 
-        dlrTV = (TextView) findViewById(R.id.car_info_dlr_tv);
-        brandTv = (TextView) findViewById(R.id.car_info_brand_tv);
-        trixTv = (TextView) findViewById(R.id.car_info_trix_tv);
-        guidePriceTv = (TextView) findViewById(R.id.car_info_guide_price_tv);
-        modelTv = (TextView) findViewById(R.id.car_info_model_tv);
-        loanPeriodsTv = (TextView) findViewById(R.id.car_info_loan_periods_tv);
-        carInfoLoanPeriodsLin = (LinearLayout) findViewById(R.id.car_info_loan_periods_lin);
-        managementPriceTv = (TextView) findViewById(R.id.car_info_management_price_tv);
-        managementPriceLl = (LinearLayout) findViewById(R.id.car_info_management_price_lin);
-        loanBankTv = (TextView) findViewById(R.id.car_info_loan_bank_tv);
-        productTypeTv = (TextView) findViewById(R.id.car_info_product_type_tv);
-        billPriceTv = (EditText) findViewById(R.id.car_info_bill_price_tv);//开票价
-        firstPriceTv = (EditText) findViewById(R.id.car_info_first_price_tv);//首付款
-        carLoanPriceTv = (EditText) findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
-        carInfoDlrLin = (LinearLayout) findViewById(R.id.car_info_dlr_lin);
-        distributorLin = (LinearLayout) findViewById(R.id.dlr_lin2);
-        carInfoBrandLin = (LinearLayout) findViewById(R.id.car_info_brand_lin);
-        carInfoTrixLin = (LinearLayout) findViewById(R.id.car_info_trix_lin);
-        carInfoModelLin = (LinearLayout) findViewById(R.id.car_info_model_lin);
-        carInfoLoanBankLin = (LinearLayout) findViewById(R.id.car_info_loan_bank_lin);
-        carInfoProductTypeLin = (LinearLayout) findViewById(R.id.car_info_product_type_lin);
-        carInfoNextBtn = (Button) findViewById(R.id.car_info_alter_btn);
-        carInfoAlterLin = (LinearLayout) findViewById(R.id.car_info_alter_lin);
-        carInfoAlterTv = (TextView) findViewById(R.id.car_info_alter_tv);
+        dlrTV = findViewById(R.id.car_info_dlr_tv);
+        brandTv = findViewById(R.id.car_info_brand_tv);
+        trixTv = findViewById(R.id.car_info_trix_tv);
+        guidePriceTv = findViewById(R.id.car_info_guide_price_tv);
+        modelTv = findViewById(R.id.car_info_model_tv);
+        loanPeriodsTv = findViewById(R.id.car_info_loan_periods_tv);
+        carInfoLoanPeriodsLin = findViewById(R.id.car_info_loan_periods_lin);
+        managementPriceTv = findViewById(R.id.car_info_management_price_tv);
+        managementPriceLl = findViewById(R.id.car_info_management_price_lin);
+        loanBankTv = findViewById(R.id.car_info_loan_bank_tv);
+        productTypeTv = findViewById(R.id.car_info_product_type_tv);
+        billPriceTv = findViewById(R.id.car_info_bill_price_tv);//开票价
+        firstPriceTv = findViewById(R.id.car_info_first_price_tv);//首付款
+        carLoanPriceTv = findViewById(R.id.car_info_car_loan_price_tv);//车辆贷款额
+        carInfoDlrLin = findViewById(R.id.car_info_dlr_lin);
+        distributorLin = findViewById(R.id.dlr_lin2);
+        carInfoBrandLin = findViewById(R.id.car_info_brand_lin);
+        carInfoTrixLin = findViewById(R.id.car_info_trix_lin);
+        carInfoModelLin = findViewById(R.id.car_info_model_lin);
+        carInfoLoanBankLin = findViewById(R.id.car_info_loan_bank_lin);
+        carInfoProductTypeLin = findViewById(R.id.car_info_product_type_lin);
+        carInfoNextBtn = findViewById(R.id.car_info_alter_btn);
+        carInfoAlterLin = findViewById(R.id.car_info_alter_lin);
+        carInfoAlterTv = findViewById(R.id.car_info_alter_tv);
 
-        oldcar_info_lin = (LinearLayout) findViewById(R.id.oldcar_info_lin);//二手车上牌地 时间 里程数
-        oldcar_guess_price_lin = (LinearLayout) findViewById(R.id.oldcar_guess_price_lin);//二手车评估价
-        oldcar_business_price_lin = (LinearLayout) findViewById(R.id.oldcar_business_price_lin);//二手车交易价
-        personal_info_detail_home_address_lin = (LinearLayout) findViewById(R.id.personal_info_detail_home_address_lin);//车辆开票价a
-        oldcar_addr_tv = (TextView) findViewById(R.id.oldcar_addr_tv);//二手车原上牌地
-        oldcar_addrtime_tv = (TextView) findViewById(R.id.oldcar_addrtime_tv);//二手车原上牌时间
-        oldcar_dance_tv = (EditText) findViewById(R.id.oldcar_dance_tv);//二手车里程数
-        oldcar_guess_price_tv = (EditText) findViewById(R.id.oldcar_guess_tv);//二手车预估价
-        oldcar_guess_and_jiaoyi_lin = (LinearLayout) findViewById(R.id.oldcar_guess_and_jiaoyi_lin);//预估价和交易价的lin
-        oldcar_addr_lin = (LinearLayout) findViewById(R.id.oldcar_addr_lin);
-        oldcar_addrtime_lin = (LinearLayout) findViewById(R.id.oldcar_addrtime_lin);
+        oldcar_info_lin = findViewById(R.id.oldcar_info_lin);//二手车上牌地 时间 里程数
+        oldcar_guess_price_lin = findViewById(R.id.oldcar_guess_price_lin);//二手车评估价
+        oldcar_business_price_lin = findViewById(R.id.oldcar_business_price_lin);//二手车交易价
+        personal_info_detail_home_address_lin = findViewById(R.id.personal_info_detail_home_address_lin);//车辆开票价a
+        oldcar_addr_tv = findViewById(R.id.oldcar_addr_tv);//二手车原上牌地
+        oldcar_addrtime_tv = findViewById(R.id.oldcar_addrtime_tv);//二手车原上牌时间
+        oldcar_dance_tv = findViewById(R.id.oldcar_dance_tv);//二手车里程数
+        oldcar_guess_price_tv = findViewById(R.id.oldcar_guess_tv);//二手车预估价
+        oldcar_guess_and_jiaoyi_lin = findViewById(R.id.oldcar_guess_and_jiaoyi_lin);//预估价和交易价的lin
+        oldcar_addr_lin = findViewById(R.id.oldcar_addr_lin);
+        oldcar_addrtime_lin = findViewById(R.id.oldcar_addrtime_lin);
         kaipiaojia_line = findViewById(R.id.kaipiaojia_line);
-        btn_reset = (Button) findViewById(R.id.btn_reset); //重置
-        btn_fast_valuation = (Button) findViewById(R.id.btn_fast_valuation);//快速估值
-        look_guess_img_btn = (Button) findViewById(R.id.look_guess_img_btn);//查看估值截图
+        btn_reset = findViewById(R.id.btn_reset); //重置
+        btn_fast_valuation = findViewById(R.id.btn_fast_valuation);//快速估值
+        look_guess_img_btn = findViewById(R.id.look_guess_img_btn);//查看估值截图
         car_info_lin = findViewById(R.id.car_info_lin);
         car_info_tv = findViewById(R.id.car_info_tv);
     }

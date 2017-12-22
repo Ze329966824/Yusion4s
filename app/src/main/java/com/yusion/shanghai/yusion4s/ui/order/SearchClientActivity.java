@@ -24,7 +24,7 @@ import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
-import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
@@ -106,7 +106,7 @@ public class SearchClientActivity extends BaseActivity {
         search_create_user_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(SearchClientActivity.this, ApplyActivity.class));
+                startActivity(new Intent(SearchClientActivity.this, CreateUserActivity.class));
             }
         });
 

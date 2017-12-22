@@ -11,7 +11,7 @@
         android:layout_height="141dp">
 
         <TextView
-            android:id="@+id/dialog_login_msg"
+            android:id="@+id/pop_dialog_title_tv"
             android:layout_width="match_parent"
             android:layout_height="99.04dp"
             android:gravity="center"
@@ -30,7 +30,7 @@
 
 
             <TextView
-                android:id="@+id/dialog_login_ok"
+                android:id="@+id/pop_dialog_ok_tv"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
