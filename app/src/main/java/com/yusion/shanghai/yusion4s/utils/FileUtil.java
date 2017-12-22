@@ -18,6 +18,9 @@ import java.util.Date;
 
 public class FileUtil {
 
+    /**
+     * @param callBack 下载完成后子线程回调
+     */
     public static void saveImg(InputStream inputStream, String desPath, OnVoidCallBack callBack) throws IOException {
         File file = new File(desPath);
         FileOutputStream outputStream = new FileOutputStream(file);
@@ -33,6 +36,9 @@ public class FileUtil {
         }
     }
 
+    /**
+     * 自动开启子线程记录log
+     */
     public static void saveLog(String log) {
         new Thread(() -> {
             String fileName = new SimpleDateFormat("MM-dd").format(new Date()) + ".txt";
@@ -41,7 +47,6 @@ public class FileUtil {
                 dir.mkdir();
             }
             File desFile = new File(dir, fileName);
-//                Log.e("path", ""+Environment.getExternalStorageDirectory());
             try {
                 FileOutputStream fos = new FileOutputStream(desFile, true);
                 fos.write("\r\n".getBytes());
@@ -49,7 +54,7 @@ public class FileUtil {
                 fos.write("\r\n".getBytes());
                 fos.flush();
                 fos.close();
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }).start();
     }
@@ -71,7 +76,6 @@ public class FileUtil {
                 }
             }
         }
-
         return null;
     }
 
@@ -90,14 +94,13 @@ public class FileUtil {
                 inputStream.close();
             }
         }
-
         return bytesToHex(b);
     }
 
     /**
      * 将字节数组转换成16进制字符串
      */
-    public static String bytesToHex(byte[] src) {
+    private static String bytesToHex(byte[] src) {
         StringBuilder stringBuilder = new StringBuilder("");
         if (src == null || src.length <= 0) {
             return null;

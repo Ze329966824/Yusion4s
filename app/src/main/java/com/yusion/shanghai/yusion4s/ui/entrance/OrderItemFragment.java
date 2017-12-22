@@ -4,7 +4,6 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -43,7 +42,7 @@ import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
@@ -337,7 +336,7 @@ public class OrderItemFragment extends BaseFragment {
 //                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
             });
             vh.upload.setOnClickListener(v -> {
-                Intent i2 = new Intent(mContext, SubmitInformationActivity.class);
+                Intent i2 = new Intent(mContext, SubmitMaterialActivity.class);
                 i2.putExtra("app_id", item.app_id);
                 mContext.startActivity(i2);
             });

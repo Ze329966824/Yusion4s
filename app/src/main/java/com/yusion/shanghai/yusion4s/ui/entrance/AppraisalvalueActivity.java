@@ -78,7 +78,7 @@ public class AppraisalvalueActivity extends BaseActivity {
         });
 
         if (baseStr != null) {
-            Bitmap bitmap = Base64Util.stringtoBitmap(baseStr);
+            Bitmap bitmap = Base64Util.string2Bitmap(baseStr);
             appraisal_value_img.setImage(bitmap);
             baseStr = "";
         } else {

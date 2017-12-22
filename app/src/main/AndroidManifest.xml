@@ -290,7 +290,7 @@
             android:screenOrientation="portrait"
             android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
-            android:name=".ui.upload.SubmitInformationActivity"
+            android:name=".ui.upload.SubmitMaterialActivity"
             android:screenOrientation="portrait"
             android:launchMode="singleTask"
             android:windowSoftInputMode="stateHidden|adjustPan" />

@@ -430,13 +430,7 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
         } else if ("丧偶".equals(applyActivity.mClientInfo.marriage)) {
             applyActivity.mClientInfo.child_num = spouse_info_die_child_count_edt.getText().toString();
         }
-        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.province);
-        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.city);
-        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.district);
-        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.address1);
-        Log.e("current_addr2--------", applyActivity.mClientInfo.current_addr.address2);
 
-        FileUtil.saveLog(applyActivity.mClientInfo.toString());
         TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
         applyActivity.mClientInfo.spouse.imei = telephonyManager.getDeviceId();
         ProductApi.updateClientInfo(mContext, applyActivity.mClientInfo, data1 -> {

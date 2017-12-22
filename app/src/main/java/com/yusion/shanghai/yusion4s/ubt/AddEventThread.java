@@ -21,9 +21,8 @@ public class AddEventThread implements Runnable {
     private String action_value;
     private boolean isPageEvent;
     private boolean isAppEvent;
-    private String object;
+    private String objectType;
     private Context context;
-    private String viewName;
     private String TAG = "UBT-DETAIL";
 
     public AddEventThread(Context context, String action, View view, String pageName, String action_value, String widget) {
@@ -34,12 +33,13 @@ public class AddEventThread implements Runnable {
         this.view = view;
         this.widget = widget;
     }
-    public AddEventThread(Context context, String action, String viewName, String pageName, String action_value, String widget) {
+
+    public AddEventThread(Context context, String action, String objectType, String pageName, String action_value, String widget) {
         this.context = context;
         this.action = action;
         this.pageName = pageName;
         this.action_value = action_value;
-        this.viewName = viewName;
+        this.objectType = objectType;
         this.widget = widget;
     }
 
@@ -47,7 +47,7 @@ public class AddEventThread implements Runnable {
         this.context = context;
         this.action = action;
         this.pageName = pageName;
-        this.object = object;
+        this.objectType = object;
         isPageEvent = true;
     }
 
@@ -61,20 +61,21 @@ public class AddEventThread implements Runnable {
     public void run() {
         ContentValues values = new ContentValues();
         if (isPageEvent) {
-            values.put("object", object);
+            values.put("objectType", objectType);
         } else if (isAppEvent) {
-            values.put("object", "");
+            values.put("objectType", "");
         } else {
-            String object = "";
-            if (!TextUtils.isEmpty(viewName)) {
-                object = viewName;
+            //控件事件
+            String object;
+            if (!TextUtils.isEmpty(objectType)) {
+                object = objectType;
             } else if (view instanceof EditText) {
                 object = "edit_text";
             } else if (view instanceof Button) {
                 object = "button";
-            }else if (view instanceof TextView) {
+            } else if (view instanceof TextView) {
                 object = "text_view";
-            }else {
+            } else {
                 object = view.getClass().getSimpleName();
             }
             values.put("object", object);
@@ -97,11 +98,16 @@ public class AddEventThread implements Runnable {
             values.put("widget_cn", UBTCollections.getWidgetNmCn(widget));
         }
 
-        for (String s : values.keySet()) {
-            Log.i(TAG, "run: " + values.get(s));
+        StringBuilder builder = new StringBuilder();
+        builder.append("{");
+        for (String key : values.keySet()) {
+            builder.append(key + ":" + values.get(key) + ",");
         }
+        builder.deleteCharAt(builder.length() - 1);
+        builder.append("}");
+        Log.e("TAG", "插入数据数据为: " + builder);
+
         SqlLiteUtil.insert(values);
-        Log.i(TAG, "run: 插入成功 ----- " + AddEventThread.this.toString());
         UBT.sendUBTEvents(context, UBT.LIMIT);
     }
 
@@ -115,7 +121,7 @@ public class AddEventThread implements Runnable {
                 ", action_value='" + action_value + '\'' +
                 ", isPageEvent=" + isPageEvent +
                 ", isAppEvent=" + isAppEvent +
-                ", object='" + object + '\'' +
+                ", objectType='" + objectType + '\'' +
                 ", context=" + context +
                 '}';
     }

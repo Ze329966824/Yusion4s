@@ -10,35 +10,24 @@ package com.yusion.shanghai.yusion4s.ubt;
 import android.content.Context;
 import android.database.Cursor;
 import android.support.v7.app.AppCompatActivity;
-import android.telephony.TelephonyManager;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.UBTApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ubt.bean.UBTData;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
 import com.yusion.shanghai.yusion4s.ubt.sql.UBTEvent;
-import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
-
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.io.IOException;
 import java.lang.annotation.Annotation;
@@ -49,10 +38,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * 1.在application中调用SqlLiteUtil.init(this);
@@ -88,105 +73,6 @@ import retrofit2.Response;
  */
 public class UBT {
 
-    public static void uploadPersonAndDeviceInfo(Context context) {
-        TelephonyManager telephonyManager;
-        telephonyManager = (TelephonyManager) context.getSystemService(Context.TELEPHONY_SERVICE);
-        UBTData req = new UBTData(context);
-        String imei = telephonyManager.getDeviceId();
-        String imsi = telephonyManager.getSubscriberId();
-        req.imei = imei;
-        req.imsi = imsi;
-        req.app = "Yusion4s";
-        req.token = SharedPrefsUtil.getInstance(context).getValue("token", null);
-        req.mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
-
-        JSONArray contactJsonArray = MobileDataUtil.getUserData(context, "contact");
-        List<UBTData.DataBean.ContactBean> contactBeenList = new ArrayList<>();
-        //List<String> raw_list = new ArrayList<>();
-        for (int i = 0; i < contactJsonArray.length(); i++) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = contactJsonArray.getJSONObject(i);
-                UBTData.DataBean.ContactBean contactListBean = new UBTData.DataBean.ContactBean();
-
-                contactListBean.data1 = jsonObject.optString("data1");
-                contactListBean.display_name = jsonObject.optString("display_name");
-
-                contactBeenList.add(contactListBean);
-                //raw_list.add(jsonObject.toString());
-
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-        UBTData.DataBean contactBean = new UBTData.DataBean();
-        contactBean.category = "contact";
-        req.data.add(contactBean);
-        if (contactBeenList.size() > 0 && !contactBeenList.isEmpty()) {
-            contactBean.contact_list = contactBeenList;
-        }
-//        else {
-//            contactBean.raw_data = raw_list;
-//        }
-
-        JSONArray smsJsonArray = MobileDataUtil.getUserData(context, "sms");
-        List<UBTData.DataBean.SmsBean> smsList = new ArrayList<>();
-        for (int i = 0; i < smsJsonArray.length(); i++) {
-            JSONObject jsonObject = null;
-            try {
-                jsonObject = smsJsonArray.getJSONObject(i);
-                UBTData.DataBean.SmsBean smsListBean = new UBTData.DataBean.SmsBean();
-                String type = jsonObject.optString("type");
-                if (type.equals("1")) {
-                    smsListBean.from = jsonObject.optString("address");
-                    smsListBean.content = jsonObject.optString("body");
-                    smsListBean.type = "recv";
-                    smsListBean.ts = jsonObject.optString("date");
-                } else if (type.equals("2")) {
-                    smsListBean.to = jsonObject.optString("address");
-                    smsListBean.content = jsonObject.optString("body");
-                    smsListBean.type = "snd";
-                    smsListBean.ts = jsonObject.optString("date");//date
-                }
-                smsList.add(smsListBean);
-            } catch (JSONException e) {
-                e.printStackTrace();
-            }
-        }
-
-        UBTData.DataBean simBean = new UBTData.DataBean();
-        simBean.category = "sms";
-        req.data.add(simBean);
-        if (smsList.size() > 0 && !smsList.isEmpty()) {
-            simBean.sms_list = smsList;
-        }
-
-        AuthApi.checkUserInfo(context, new OnItemDataCallBack<CheckUserInfoResp>() {
-            @Override
-            public void onItemDataCallBack(CheckUserInfoResp data) {
-                contactBean.clt_nm = data.name;
-                contactBean.mobile = data.mobile;
-                simBean.clt_nm = data.name;
-                simBean.mobile = data.mobile;
-                //PersonApi.uploadPersonAndDeviceInfo(req);
-                PersonApi.uploadPersonAndDeviceInfo(req, new Callback() {
-                    @Override
-                    public void onResponse(Call call, Response response) {
-//                        Intent intent = new Intent(LoginActivity.this, MainActivity.class);
-//                        startActivity(intent);
-//                        finish();
-                    }
-
-                    @Override
-                    public void onFailure(Call call, Throwable t) {
-
-                    }
-                });
-            }
-        });
-    }
-
-
     public static int LIMIT;
 
     static {
@@ -200,11 +86,11 @@ public class UBT {
     private static ExecutorService singleThreadPool = Executors.newSingleThreadExecutor();
 
     public static void sendAllUBTEvents(Context context) {
-        sendUBTEvents(context, 0, null);
+        sendUBTEvents(context, -1, null);
     }
 
     public static void sendAllUBTEvents(Context context, OnVoidCallBack callBack) {
-        sendUBTEvents(context, 0, callBack);
+        sendUBTEvents(context, -1, callBack);
     }
 
     public static void sendUBTEvents(Context context, int limit) {
@@ -212,70 +98,75 @@ public class UBT {
     }
 
     /**
-     * @param context
-     * @param limit   limit为0时发送所有数据 不为0时若数据数量大于limit条则发送limit条
+     * @param limit limit为负数时发送所有数据 否则只有当数据数量大于limit条才发送limit条
+     * @param callBack 发送成功后的回调
      */
     public static void sendUBTEvents(Context context, int limit, OnVoidCallBack callBack) {
-        singleThreadPool.execute(new Runnable() {
-            @Override
-            public void run() {
-                String TAG = "UBT-DETAIL";
-                //没有token和account的数据暂不发送
-                if (TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("token", ""))
-                        || TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("account", ""))) {
-                    Log.i(TAG, "run: account或token为空 禁止发送");
-                    return;
-                }
-                Cursor cursor = SqlLiteUtil.query(null, null, null, null);
-                int count = cursor.getCount();
-                if (count > limit) {
-                    Log.i(TAG, "run:共有 " + count);
-                    Cursor query;
-                    if (limit == 0) {
-                        query = SqlLiteUtil.query(null, null, null, null);
-                    } else {
-                        query = SqlLiteUtil.query(null, null, null, String.valueOf(UBT.LIMIT));
-                    }
-                    Log.i(TAG, "run:要删除的 " + query.getCount());
-                    query.moveToFirst();
-                    List<Long> tss = new ArrayList<>();
-                    List<UBTEvent> data = new ArrayList<>();
-                    while (query.moveToNext()) {
-                        tss.add(query.getLong(query.getColumnIndex("ts")));
-                        UBTEvent ubtEvent = new UBTEvent();
-                        ubtEvent.object = query.getString(query.getColumnIndex("object"));
-                        ubtEvent.action = query.getString(query.getColumnIndex("action"));
-                        ubtEvent.page = query.getString(query.getColumnIndex("page"));
-                        ubtEvent.page_cn = query.getString(query.getColumnIndex("page_cn"));
-                        ubtEvent.ts = query.getLong(query.getColumnIndex("ts"));
-                        ubtEvent.widget = query.getString(query.getColumnIndex("widget"));
-                        ubtEvent.widget_cn = query.getString(query.getColumnIndex("widget_cn"));
-                        ubtEvent.action_value = query.getString(query.getColumnIndex("action_value"));
-                        data.add(ubtEvent);
-                    }
-                    Log.i(TAG, "run: " + tss);
+        singleThreadPool.execute(() -> {
+            String TAG = "UBT-DETAIL";
 
-                    //发送
-                    UBTData req = new UBTData(context);
-                    UBTData.DataBean dataBean = new UBTData.DataBean();
-                    dataBean.category = "ubt";
-                    dataBean.mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
-                    dataBean.ubt_list = data;
-                    req.data.add(dataBean);
-                    Log.i(TAG, "run: 正在发送");
-                    try {
-                        if (UBTApi.getUBTService().postUBTData(req).execute().isSuccessful()) {
-                            Log.i(TAG, "run: 发送成功");
-                            for (Long aLong : tss) {
-                                SqlLiteUtil.delete("ts = ?", new String[]{String.valueOf(aLong)});
-                            }
-                            if (callBack != null) {
-                                callBack.callBack();
-                            }
+            if (limit == 0) {
+                Log.i(TAG, "你想要我发什么数据？🙂");
+                return;
+            }
+            //没有token和account的数据暂不发送
+            if (TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("token", "")) ||
+                    TextUtils.isEmpty(SharedPrefsUtil.getInstance(context).getValue("account", ""))) {
+                Log.i(TAG, "account或token为空 数据暂不发送至服务端");
+                return;
+            }
+
+            Cursor cursor = SqlLiteUtil.query(null, null, null, null);
+            int count = cursor.getCount();
+            if (count > limit) {
+                Log.i(TAG, "数据库有 " + count + " 条待发送的数据");
+                Cursor query;
+                if (limit > 0) {
+                    query = SqlLiteUtil.query(null, null, null, String.valueOf(UBT.LIMIT));
+                } else {
+                    query = SqlLiteUtil.query(null, null, null, null);
+                }
+                Log.i(TAG, "本次有 " + query.getCount() + " 条要发送的数据");
+                query.moveToFirst();
+                //将检索出来的数据的ts记录下来 方便后期从数据库删除
+                List<Long> tss = new ArrayList<>();
+                List<UBTEvent> data = new ArrayList<>();
+                while (query.moveToNext()) {
+                    tss.add(query.getLong(query.getColumnIndex("ts")));
+                    UBTEvent ubtEvent = new UBTEvent();
+                    ubtEvent.object = query.getString(query.getColumnIndex("object"));
+                    ubtEvent.action = query.getString(query.getColumnIndex("action"));
+                    ubtEvent.page = query.getString(query.getColumnIndex("page"));
+                    ubtEvent.page_cn = query.getString(query.getColumnIndex("page_cn"));
+                    ubtEvent.ts = query.getLong(query.getColumnIndex("ts"));
+                    ubtEvent.widget = query.getString(query.getColumnIndex("widget"));
+                    ubtEvent.widget_cn = query.getString(query.getColumnIndex("widget_cn"));
+                    ubtEvent.action_value = query.getString(query.getColumnIndex("action_value"));
+                    data.add(ubtEvent);
+                }
+                if (!query.isClosed()) {
+                    query.close();
+                }
+
+                //发送
+                UBTData req = new UBTData(context);
+                UBTData.DataBean dataBean = new UBTData.DataBean();
+                dataBean.category = "ubt";
+                dataBean.mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
+                dataBean.ubt_list = data;
+                req.data.add(dataBean);
+                try {
+                    if (UBTApi.ubtService.postUBTData(req).execute().isSuccessful()) {
+                        Log.i(TAG, "发送成功！！！😀");
+                        for (Long ts : tss) {
+                            SqlLiteUtil.delete("ts = ?", new String[]{String.valueOf(ts)});
                         }
-                    } catch (IOException e) {
-                        Log.i(TAG, "run: " + e);
+                        if (callBack != null) {
+                            callBack.callBack();
+                        }
                     }
+                } catch (IOException e) {
+                    Log.i(TAG, "发送失败🙄: " + e);
                 }
             }
         });
@@ -287,18 +178,16 @@ public class UBT {
             if (annotations.length == 0) {
                 continue;
             }
-
             for (Annotation annotation : annotations) {
-
                 if (annotation instanceof BindView) {
+
                     BindView viewAnnotation = (BindView) annotation;
                     String widgetName = ((BindView) annotation).widgetName();
                     View view = sourceView.findViewById(viewAnnotation.id());
                     if (view == null) {
-                        throw new NullPointerException(widgetName + "控件未找到");
+                        throw new NullPointerException(widgetName + "控件未找到,你确定在调用bind方法时传入的布局中有该控件？");
                     }
                     view.setTag(R.id.UBT_WIDGET, widgetName);
-
 
                     try {
                         field.setAccessible(true);
@@ -306,22 +195,19 @@ public class UBT {
                     } catch (IllegalAccessException e) {
                         e.printStackTrace();
                     }
-                    //按钮才监听点击事件
+
+                    //监听按钮点击事件
                     if (view instanceof Button) {
                         processorOnClick(object, viewAnnotation.onClick(), view, pageName);
                     }
+                    //监听输入框焦点事件
                     if (view instanceof EditText) {
                         processorOnFocusChange(object, viewAnnotation.onFocusChange(), view, pageName);
                     }
-//                    if (view instanceof CompoundButton) {
-//                        processorOnCheckedChange(object, viewAnnotation.onCheckedChanged(), (CompoundButton) view, pageName);
-//                    }
-                    //只有最原生的textview才有文本改变事件
-                    //edittext没有文本改变事件
+                    //监听textview的文本改变事件 但不监听edittext的文本改变事件
                     if (view instanceof TextView && !(view instanceof EditText)) {
                         processorOnTextChange((TextView) view, pageName);
                     }
-//                    processorOnTouch(object, viewAnnotation.onTouch(), view, pageName);
                 }
             }
         }
@@ -353,6 +239,8 @@ public class UBT {
     private static void processorOnFocusChange(final Object object, final String methodName, final View view, final String pageName) {
         view.setOnFocusChangeListener((v, hasFocus) -> {
             try {
+                String action = hasFocus ? "focus_in" : "focus_out";
+                addEvent(view.getContext(), action, view, pageName, ((EditText) view).getText().toString());
                 try {
                     final Method method = object.getClass().getDeclaredMethod(methodName, View.class, boolean.class);
                     method.setAccessible(true);
@@ -360,9 +248,6 @@ public class UBT {
                 } catch (NoSuchMethodException e) {
                     e.printStackTrace();
                 }
-
-                String action = hasFocus ? "focus_in" : "focus_out";
-                addEvent(view.getContext(), action, view, pageName, ((EditText) view).getText().toString());
             } catch (IllegalAccessException e) {
                 e.printStackTrace();
             } catch (InvocationTargetException e) {
@@ -392,27 +277,27 @@ public class UBT {
         });
     }
 
-    private static void processorOnCheckedChange(final Object object, final String methodName, final CompoundButton view, final String pageName) {
-        view.setOnCheckedChangeListener((buttonView, isChecked) -> {
-            try {
-                addEvent(view.getContext(), "checked_change", view, pageName, isChecked ? "checked" : "unchecked");
-                try {
-                    final Method method = object.getClass().getDeclaredMethod(methodName, View.class, boolean.class);
-                    method.setAccessible(true);
-                    method.invoke(object, view, isChecked);
-                } catch (NoSuchMethodException e) {
-                    e.printStackTrace();
-                }
-            } catch (IllegalAccessException e) {
-                e.printStackTrace();
-            } catch (InvocationTargetException e) {
-                e.printStackTrace();
-            }
-        });
-    }
+//    private static void processorOnCheckedChange(final Object object, final String methodName, final CompoundButton view, final String pageName) {
+//        view.setOnCheckedChangeListener((buttonView, isChecked) -> {
+//            try {
+//                addEvent(view.getContext(), "checked_change", view, pageName, isChecked ? "checked" : "unchecked");
+//                try {
+//                    final Method method = object.getClass().getDeclaredMethod(methodName, View.class, boolean.class);
+//                    method.setAccessible(true);
+//                    method.invoke(object, view, isChecked);
+//                } catch (NoSuchMethodException e) {
+//                    e.printStackTrace();
+//                }
+//            } catch (IllegalAccessException e) {
+//                e.printStackTrace();
+//            } catch (InvocationTargetException e) {
+//                e.printStackTrace();
+//            }
+//        });
+//    }
 
-    private static void processorOnTouch(final Object object, final String methodName, final View view, final String pageName) {
-        view.setOnTouchListener((v, event) -> {
+//    private static void processorOnTouch(final Object object, final String methodName, final View view, final String pageName) {
+//        view.setOnTouchListener((v, event) -> {
 //                String operation;
 //                if (event.getAction() == MotionEvent.ACTION_DOWN) {
 //                    operation = "down";
@@ -444,9 +329,9 @@ public class UBT {
 //                } catch (IllegalAccessException e) {
 //                    e.printStackTrace();
 //                }
-            return false;
-        });
-    }
+//            return false;
+//        });
+//    }
 
     private static void addEvent(Context context, String action, View view, final String pageName) {
         addEvent(context, action, view, pageName, null);

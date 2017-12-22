@@ -42,7 +42,7 @@ import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
-import com.yusion.shanghai.yusion4s.utils.URLEncoder;
+import com.yusion.shanghai.yusion4s.utils.ExtraURLEncoder;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.io.File;
@@ -318,7 +318,7 @@ public class ExtraUploadNotUploadServerImgActivity extends BaseActivity {
 
         ArrayList<String> showImgUrls = new ArrayList<>();
         for (String url : url_list) {
-            showImgUrls.add(URLEncoder.encode(url));
+            showImgUrls.add(ExtraURLEncoder.encode(url));
         }
         new PhotoPagerConfig.Builder(this)
                 .setBigImageUrls(showImgUrls)
