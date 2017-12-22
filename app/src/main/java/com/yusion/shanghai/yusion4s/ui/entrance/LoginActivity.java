@@ -144,7 +144,7 @@ public class LoginActivity extends BaseActivity {
                 //   startService(intent);
             }
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
-            ToastUtil.showShort(LoginActivity.this,"登陆成功");
+            ToastUtil.showShort(LoginActivity.this, "登陆成功");
         }
     }
 
