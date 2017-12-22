@@ -8,12 +8,12 @@ import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
-import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.UpdateUtil;
@@ -45,7 +45,10 @@ public class LaunchActivity extends BaseActivity {
                         SharedPrefsUtil.getInstance(LaunchActivity.this).putValue("SERVER_URL", "");
                         new AlertDialog.Builder(LaunchActivity.this)
                                 .setMessage("重启app生效")
-                                .setPositiveButton("确定", (dialog1, which1) -> ActivityManager.exit())
+                                .setPositiveButton("确定", (dialog1, which1) ->
+                                        //ActivityManager.exit()
+                                        AppUtils.exit()
+                                )
                                 .show();
                     }, dialog -> {
                         Settings.SERVER_URL = str;
