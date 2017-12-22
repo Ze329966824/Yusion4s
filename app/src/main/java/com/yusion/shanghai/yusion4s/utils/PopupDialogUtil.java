@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.utils;
 
 import android.app.Dialog;
 import android.content.Context;
+import android.support.annotation.LayoutRes;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -45,8 +46,9 @@ public class PopupDialogUtil {
      * 只传入布局，最普通的一个按钮的弹窗，
      *
      * @param msg 弹窗title
+     *            
      */
-    public static void showOneButtonDialog(Context context, int resID) {
+    public static void showOneButtonDialog(Context context, @LayoutRes int resID) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(resID, null);
@@ -75,7 +77,7 @@ public class PopupDialogUtil {
      * @param resID         自定义布局
      * @param clickListener 自定义监听
      */
-    public static void showOneButtonDialog(Context context, int resID, OnPopupClickListener clickListener) {
+    public static void showOneButtonDialog(Context context, @LayoutRes int resID, OnPopupClickListener clickListener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(resID, null);
@@ -140,7 +142,7 @@ public class PopupDialogUtil {
      * @param resID         自定义布局
      * @param clickListener 自定义监听
      */
-    public static void showOneButtonDialog(Context context, String title, String okText, int resID, OnPopupClickListener clickListener) {
+    public static void showOneButtonDialog(Context context, String title, String okText, @LayoutRes int resID, OnPopupClickListener clickListener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
 
@@ -235,7 +237,7 @@ public class PopupDialogUtil {
      * @param resID         自定义布局
      * @param clickListener 右侧按钮的监听
      */
-    public static void showTwoButtonsDialog(Context context, int resID, OnPopupClickListener clickListener) {
+    public static void showTwoButtonsDialog(Context context, @LayoutRes int resID, OnPopupClickListener clickListener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(resID, null);
@@ -306,7 +308,7 @@ public class PopupDialogUtil {
      * @param leftMsg       左侧按钮
      * @param clickListener 右侧按钮的监听
      */
-    public static void showTwoButtonsDialog(Context context, int resID, String title, String rightMsg, String leftMsg, OnPopupClickListener clickListener) {
+    public static void showTwoButtonsDialog(Context context, @LayoutRes int resID, String title, String rightMsg, String leftMsg, OnPopupClickListener clickListener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(resID, null);
