@@ -75,7 +75,7 @@ public class OrderCreateActivity extends BaseActivity {
             mCarInfoFragment = CarInfoFragment.newInstance();
         } else if (cartype.equals("二手车")) {
             mOldCarInfoFragment = OldCarInfoFragment.newInstance();
-        }
+    }
         mCreditInfoFragment = CreditInfoFragment.newInstance();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
