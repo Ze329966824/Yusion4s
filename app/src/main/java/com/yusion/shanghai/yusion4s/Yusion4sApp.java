@@ -23,6 +23,7 @@ import com.yusion.shanghai.yusion4s.bean.config.ConfigResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.sql.SqlLiteUtil;
+import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.logger.AndroidLogAdapter;
 import com.yusion.shanghai.yusion4s.utils.logger.Logger;
@@ -247,7 +248,8 @@ public class Yusion4sApp extends MultiDexApplication {
             //延时退出
             try {
                 Thread.sleep(2000);
-                System.exit(0);
+                AppUtils.exit();
+//                System.exit(0);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
