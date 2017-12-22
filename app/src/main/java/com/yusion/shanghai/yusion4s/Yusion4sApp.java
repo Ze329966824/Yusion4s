@@ -40,6 +40,9 @@ import io.sentry.android.AndroidSentryClientFactory;
 /**
  * Created by ice on 2017/8/9.
  */
+
+// TODO: 2017/12/21 手机信息之类设备理应启动时线程获取 不应该每次取都调api
+// TODO: 2017/12/21  有些库可以在LaunchActivity初始化 注意LaunchActivity销毁时间
 public class Yusion4sApp extends MultiDexApplication {
 
     private static Yusion4sApp myApplication = null;

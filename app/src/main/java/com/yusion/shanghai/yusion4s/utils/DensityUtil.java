@@ -8,7 +8,6 @@ import android.view.WindowManager;
 public class DensityUtil {
     /**
      * 获取屏幕的宽度
-     *
      * @return 屏幕的宽度
      */
     public static int getDisplayWidth(Context context) {
@@ -20,7 +19,6 @@ public class DensityUtil {
 
     /**
      * 获取屏幕的高度
-     *
      * @return 屏幕的高度
      */
     public static int getDisplayHeight(Context context) {
@@ -29,6 +27,7 @@ public class DensityUtil {
         windowManager.getDefaultDisplay().getMetrics(dm);
         return dm.heightPixels;
     }
+
     private DensityUtil() {
         throw new UnsupportedOperationException("DensityUtil cannot be instantiated");
     }

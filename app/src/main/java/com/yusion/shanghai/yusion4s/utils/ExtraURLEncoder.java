@@ -12,7 +12,10 @@ import java.util.BitSet;
  * Created by ice on 2017/11/17.
  */
 
-public class URLEncoder {
+/**
+ * 这个类调用{@link ExtraURLEncoder#encode(String)}不会对':'进行编码
+ */
+public class ExtraURLEncoder {
     static BitSet dontNeedEncoding;
     static final int caseDiff = ('a' - 'A');
     static String dfltEncName = null;
@@ -83,7 +86,7 @@ public class URLEncoder {
     /**
      * You can't call the constructor.
      */
-    private URLEncoder() {
+    private ExtraURLEncoder() {
     }
 
     /**

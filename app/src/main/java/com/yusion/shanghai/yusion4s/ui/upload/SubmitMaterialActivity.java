@@ -15,12 +15,17 @@ import android.widget.TextView;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubmitInformationActivity extends BaseActivity {
+/**
+ * 提交资料页面
+ */
+public class SubmitMaterialActivity extends BaseActivity {
 
     private RvAdapter mAdapter;
     private List<ListDealerLabelsResp> lists = new ArrayList<>();
@@ -30,33 +35,41 @@ public class SubmitInformationActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_submit_information);
+        initView();
+        initData();
+    }
 
+    private void initData() {
         initTitleBar(this, "提交资料");
-
         app_id = getIntent().getStringExtra("app_id");
+    }
 
+    private void initView() {
         RecyclerView rv = findViewById(R.id.submit_info_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvAdapter(this, lists);
         rv.setAdapter(mAdapter);
+        mAdapter.setOnItemClick((v, item) -> onLabelClick(item));
+    }
 
-        mAdapter.setOnItemClick((v, item) -> {
-            Intent intent = new Intent();
-            intent.setClass(SubmitInformationActivity.this, UploadLabelListActivity.class);
-            intent.putExtra("topItem", item);
-            intent.putExtra("app_id", app_id);
-            startActivity(intent);
-        });
+    private void onLabelClick(ListDealerLabelsResp item) {
+        Intent intent = new Intent();
+        intent.setClass(SubmitMaterialActivity.this, UploadLabelListActivity.class);
+        intent.putExtra("topItem", item);
+        intent.putExtra("app_id", app_id);
+        startActivity(intent);
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        UploadApi.listDealerLabels(this, app_id, data -> {
-            lists.clear();
-            lists.addAll(data);
-            mAdapter.notifyDataSetChanged();
-        });
+        //每次回到该页面都要获取最新数据
+        ApiUtil.requestUrl4Data(this, Api.getUploadService().listDealerLabels(app_id),
+                (OnItemDataCallBack<List<ListDealerLabelsResp>>) listDealerLabelsResp -> {
+                    lists.clear();
+                    lists.addAll(listDealerLabelsResp);
+                    mAdapter.notifyDataSetChanged();
+                });
     }
 
     public static class RvAdapter extends RecyclerView.Adapter<RvAdapter.VH> {
@@ -82,12 +95,20 @@ public class SubmitInformationActivity extends BaseActivity {
             ListDealerLabelsResp item = mItems.get(position);
             holder.name.setText(item.name);
             holder.icon.setVisibility(View.GONE);
+            setLabelStatus(holder, item);
+            holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item));
+        }
+
+        /**
+         * 设置label的状态 是否有错误,待完善,请上传,已上传
+         */
+        private void setLabelStatus(VH holder, ListDealerLabelsResp item) {
             boolean hasImgForOneItem = false;
             boolean hasEmptyImgForOneItem = false;
             for (ListDealerLabelsResp.LabelListBean labelListBean : item.label_list) {
-                if (labelListBean.has_img>0) {
+                if (labelListBean.has_img > 0) {
                     hasImgForOneItem = true;
-                }else {
+                } else {
                     hasEmptyImgForOneItem = true;
                 }
                 if (labelListBean.has_error > 0) {
@@ -110,8 +131,6 @@ public class SubmitInformationActivity extends BaseActivity {
             if (holder.icon.getVisibility() == View.VISIBLE) {
                 holder.status.setVisibility(View.GONE);
             }
-
-            holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item));
         }
 
         @Override

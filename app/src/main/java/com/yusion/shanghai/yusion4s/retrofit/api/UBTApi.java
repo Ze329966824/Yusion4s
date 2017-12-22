@@ -10,7 +10,5 @@ import retrofit2.Retrofit;
 public class UBTApi {
 
     public static Retrofit retrofit = Api.createRetrofit(Settings.UBT_SERVER_URL);
-    public static UBTService getUBTService() {
-        return retrofit.create(UBTService.class);
-    }
+    public static UBTService ubtService = retrofit.create(UBTService.class);
 }

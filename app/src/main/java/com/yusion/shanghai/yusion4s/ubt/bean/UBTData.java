@@ -19,22 +19,23 @@ import static android.content.Context.TELEPHONY_SERVICE;
  */
 
 public class UBTData {
-
     /**
-     * imei :
-     * imsi :
-     * mac :
-     * app : Yusion/Yusion4s
-     * gps :
-     * token :
-     * mobile : 13892839048
-     * fingerprint : 同盾设备指纹
-     * system : 手机系统
-     * factory : 厂家
-     * model : 型号
-     * brand : 手机品牌
-     * os_version : 操作系统版本
-     * contact : {"name":"姓名","mobile":"手机号","contact_list":[{"display_name":"老哥","data1":"13323432354"},{"display_name":"老马","data1":"13823432354"}]}
+     * account : 19999999999
+     * app : Yusion4s
+     * brand : samsung
+     * data : [{"category":"ubt","clt_nm":null,"contact_list":[],"mobile":"19999999999","sms_list":[],"ubt_list":[{"action":"app_awake","action_value":null,"object":"","page":"","page_cn":"","ts":1513840875198,"widget":null,"widget_cn":null},{"action":"page_show","action_value":null,"object":"activity","page":"launch","page_cn":"启动页面","ts":1513840875210,"widget":null,"widget_cn":null},{"action":"app_pause","action_value":null,"object":"","page":"","page_cn":"","ts":1513840875635,"widget":null,"widget_cn":null},{"action":"page_hidden","action_value":null,"object":"activity","page":"launch","page_cn":"启动页面","ts":1513840875641,"widget":null,"widget_cn":null},{"action":"page_show","action_value":null,"object":"activity","page":"home_order_mine","page_cn":"首页-订单-我的页面","ts":1513840875947,"widget":null,"widget_cn":null},{"action":"app_pause","action_value":null,"object":"","page":"","page_cn":"","ts":1513840877200,"widget":null,"widget_cn":null},{"action":"page_hidden","action_value":null,"object":"activity","page":"home_order_mine","page_cn":"首页-订单-我的页面","ts":1513840877228,"widget":null,"widget_cn":null},{"action":"app_pause","action_value":null,"object":"","page":"","page_cn":"","ts":1513840877844,"widget":null,"widget_cn":null},{"action":"app_awake","action_value":null,"object":"","page":"","page_cn":"","ts":1513840892335,"widget":null,"widget_cn":null}]}]
+     * factory : samsung
+     * fingerprint : null
+     * gps : {"latitude":"31.211603","longitude":"121.62609"}
+     * imei : 990004798048900
+     * imsi : 460028217607025
+     * mac : null
+     * mobile : 19999999999
+     * model : SM-G9250
+     * os_version : 6.0.1
+     * rooted : true
+     * system : android
+     * token : 11f88cfb37c9cef11633111500000000
      */
 
     public String imei;

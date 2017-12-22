@@ -19,7 +19,7 @@ import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
-import com.yusion.shanghai.yusion4s.ui.yusion.apply.ApplyActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.widget.IdentifyingCodeView;
 
@@ -56,7 +56,7 @@ public class VerificationCodeActivity extends BaseActivity {
         findViewById(R.id.syz_tessssssssst_btn).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(VerificationCodeActivity.this, ApplyActivity.class);
+                Intent intent = new Intent(VerificationCodeActivity.this, CreateUserActivity.class);
                 intent.putExtra("mobile", "mobile");
                 startActivity(intent);
             }
@@ -82,7 +82,7 @@ public class VerificationCodeActivity extends BaseActivity {
                                 icv.clearAllText();
                             } else {
                                 Toast.makeText(myApp, "授权成功", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(VerificationCodeActivity.this, ApplyActivity.class);
+                                Intent intent = new Intent(VerificationCodeActivity.this, CreateUserActivity.class);
                                 intent.putExtra("mobile", mobileTV.getText().toString());
                                 intent.putExtra("token", data.token);
                                 startActivity(intent);

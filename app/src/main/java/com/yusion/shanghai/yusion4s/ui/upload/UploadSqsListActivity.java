@@ -38,7 +38,7 @@ import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.utils.URLEncoder;
+import com.yusion.shanghai.yusion4s.utils.ExtraURLEncoder;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
@@ -320,7 +320,7 @@ public class UploadSqsListActivity extends BaseActivity {
 
         ArrayList<String> showImgUrls = new ArrayList<>();
         for (String url : url_list) {
-            showImgUrls.add(URLEncoder.encode(url));
+            showImgUrls.add(ExtraURLEncoder.encode(url));
         }
         new PhotoPagerConfig.Builder(this)
                 .setBigImageUrls(showImgUrls)

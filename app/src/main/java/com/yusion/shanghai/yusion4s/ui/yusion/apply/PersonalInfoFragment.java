@@ -233,7 +233,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
     private TextView step1;
     private TextView step2;
     private TextView step3;
-    private ApplyActivity applyActivity;
+    private CreateUserActivity createUserActivity;
 
     void submitPersonalInfo(View view) {
         if (checkCanNextStep()) {
@@ -243,66 +243,66 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
 
     private void submit() {
         if (!TextUtils.isEmpty(personal_info_reg_tv.getText().toString())) {
-            applyActivity.mClientInfo.reg_addr.province = personal_info_reg_tv.getText().toString().trim().split("/")[0];
-            applyActivity.mClientInfo.reg_addr.city = personal_info_reg_tv.getText().toString().trim().split("/")[1];
-            applyActivity.mClientInfo.reg_addr.district = personal_info_reg_tv.getText().toString().trim().split("/")[2];
+            createUserActivity.mClientInfo.reg_addr.province = personal_info_reg_tv.getText().toString().trim().split("/")[0];
+            createUserActivity.mClientInfo.reg_addr.city = personal_info_reg_tv.getText().toString().trim().split("/")[1];
+            createUserActivity.mClientInfo.reg_addr.district = personal_info_reg_tv.getText().toString().trim().split("/")[2];
         }
-        applyActivity.mClientInfo.gender = personal_info_gender_tv.getText().toString();
-        applyActivity.mClientInfo.mobile = personal_info_mobile_edt.getText().toString();
-        applyActivity.mClientInfo.edu = personal_info_education_tv.getText().toString();
+        createUserActivity.mClientInfo.gender = personal_info_gender_tv.getText().toString();
+        createUserActivity.mClientInfo.mobile = personal_info_mobile_edt.getText().toString();
+        createUserActivity.mClientInfo.edu = personal_info_education_tv.getText().toString();
 
         //现住地址
         if (!TextUtils.isEmpty(personal_info_current_address_tv.getText().toString())) {
-            applyActivity.mClientInfo.current_addr.province = personal_info_current_address_tv.getText().toString().trim().split("/")[0];
-            applyActivity.mClientInfo.current_addr.city = personal_info_current_address_tv.getText().toString().trim().split("/")[1];
-            applyActivity.mClientInfo.current_addr.district = personal_info_current_address_tv.getText().toString().trim().split("/")[2];
+            createUserActivity.mClientInfo.current_addr.province = personal_info_current_address_tv.getText().toString().trim().split("/")[0];
+            createUserActivity.mClientInfo.current_addr.city = personal_info_current_address_tv.getText().toString().trim().split("/")[1];
+            createUserActivity.mClientInfo.current_addr.district = personal_info_current_address_tv.getText().toString().trim().split("/")[2];
         }
-        applyActivity.mClientInfo.current_addr.address1 = (personal_info_current_address1_tv.getText().toString());
-        applyActivity.mClientInfo.current_addr.address2 = (personal_info_current_address2_tv.getText().toString());
-        applyActivity.mClientInfo.is_live_with_parent = (personal_info_live_with_parent_tv.getText().toString());
-        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.province);
-        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.city);
-        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.district);
-        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address1);
-        Log.e("current_addr1--------", applyActivity.mClientInfo.current_addr.address2);
+        createUserActivity.mClientInfo.current_addr.address1 = (personal_info_current_address1_tv.getText().toString());
+        createUserActivity.mClientInfo.current_addr.address2 = (personal_info_current_address2_tv.getText().toString());
+        createUserActivity.mClientInfo.is_live_with_parent = (personal_info_live_with_parent_tv.getText().toString());
+        Log.e("current_addr1--------", createUserActivity.mClientInfo.current_addr.province);
+        Log.e("current_addr1--------", createUserActivity.mClientInfo.current_addr.city);
+        Log.e("current_addr1--------", createUserActivity.mClientInfo.current_addr.district);
+        Log.e("current_addr1--------", createUserActivity.mClientInfo.current_addr.address1);
+        Log.e("current_addr1--------", createUserActivity.mClientInfo.current_addr.address2);
 
 
         //主要收入来源
         switch (personal_info_income_from_tv.getText().toString()) {
             case "工资":
-                applyActivity.mClientInfo.major_income_type = "工资";
-                applyActivity.mClientInfo.major_income = personal_info_from_income_year_edt.getText().toString();
-                applyActivity.mClientInfo.major_company_name = personal_info_from_income_company_name_edt.getText().toString();
-                applyActivity.mClientInfo.major_company_addr.province = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                applyActivity.mClientInfo.major_company_addr.city = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                applyActivity.mClientInfo.major_company_addr.district = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
-                applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_income_company_address1_tv.getText().toString();
-                applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_income_company_address2_tv.getText().toString();
-                applyActivity.mClientInfo.major_work_position = personal_info_from_income_work_position_tv.getText().toString();
-                applyActivity.mClientInfo.major_work_phone_num = personal_info_from_income_work_phone_num_edt.getText().toString();
+                createUserActivity.mClientInfo.major_income_type = "工资";
+                createUserActivity.mClientInfo.major_income = personal_info_from_income_year_edt.getText().toString();
+                createUserActivity.mClientInfo.major_company_name = personal_info_from_income_company_name_edt.getText().toString();
+                createUserActivity.mClientInfo.major_company_addr.province = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                createUserActivity.mClientInfo.major_company_addr.city = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                createUserActivity.mClientInfo.major_company_addr.district = personal_info_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                createUserActivity.mClientInfo.major_company_addr.address1 = personal_info_from_income_company_address1_tv.getText().toString();
+                createUserActivity.mClientInfo.major_company_addr.address2 = personal_info_from_income_company_address2_tv.getText().toString();
+                createUserActivity.mClientInfo.major_work_position = personal_info_from_income_work_position_tv.getText().toString();
+                createUserActivity.mClientInfo.major_work_phone_num = personal_info_from_income_work_phone_num_edt.getText().toString();
                 break;
 
             case "自营":
-                applyActivity.mClientInfo.major_income_type = "自营";
-                applyActivity.mClientInfo.major_income = personal_info_from_self_year_edt.getText().toString();
-                applyActivity.mClientInfo.major_busi_type = personal_info_from_self_type_tv.getText().toString();
-                applyActivity.mClientInfo.major_company_name = personal_info_from_self_company_name_edt.getText().toString();
+                createUserActivity.mClientInfo.major_income_type = "自营";
+                createUserActivity.mClientInfo.major_income = personal_info_from_self_year_edt.getText().toString();
+                createUserActivity.mClientInfo.major_busi_type = personal_info_from_self_type_tv.getText().toString();
+                createUserActivity.mClientInfo.major_company_name = personal_info_from_self_company_name_edt.getText().toString();
                 if (TextUtils.isEmpty(personal_info_from_self_company_address_tv.getText().toString())) {
-                    applyActivity.mClientInfo.major_company_addr.province = "";
-                    applyActivity.mClientInfo.major_company_addr.city = "";
-                    applyActivity.mClientInfo.major_company_addr.district = "";
+                    createUserActivity.mClientInfo.major_company_addr.province = "";
+                    createUserActivity.mClientInfo.major_company_addr.city = "";
+                    createUserActivity.mClientInfo.major_company_addr.district = "";
                 } else {
-                    applyActivity.mClientInfo.major_company_addr.province = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
-                    applyActivity.mClientInfo.major_company_addr.city = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
-                    applyActivity.mClientInfo.major_company_addr.district = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
+                    createUserActivity.mClientInfo.major_company_addr.province = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[0];
+                    createUserActivity.mClientInfo.major_company_addr.city = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[1];
+                    createUserActivity.mClientInfo.major_company_addr.district = personal_info_from_self_company_address_tv.getText().toString().trim().split("/")[2];
                 }
-                applyActivity.mClientInfo.major_company_addr.address1 = personal_info_from_self_company_address1_tv.getText().toString();
-                applyActivity.mClientInfo.major_company_addr.address2 = personal_info_from_self_company_address2_tv.getText().toString();
+                createUserActivity.mClientInfo.major_company_addr.address1 = personal_info_from_self_company_address1_tv.getText().toString();
+                createUserActivity.mClientInfo.major_company_addr.address2 = personal_info_from_self_company_address2_tv.getText().toString();
                 break;
             case "其他":
-                applyActivity.mClientInfo.major_income_type = "其他";
-                applyActivity.mClientInfo.major_income = personal_info_from_other_year_edt.getText().toString();
-                applyActivity.mClientInfo.major_remark = personal_info_from_other_remark_edt.getText().toString();
+                createUserActivity.mClientInfo.major_income_type = "其他";
+                createUserActivity.mClientInfo.major_income = personal_info_from_other_year_edt.getText().toString();
+                createUserActivity.mClientInfo.major_remark = personal_info_from_other_remark_edt.getText().toString();
                 break;
             default:
                 break;
@@ -311,37 +311,37 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         //额外收入来源
         switch (personal_info_extra_income_from_tv.getText().toString()) {
             case "工资":
-                applyActivity.mClientInfo.extra_income_type = "工资";
-                applyActivity.mClientInfo.extra_income = personal_info_extra_from_income_year_edt.getText().toString();
-                applyActivity.mClientInfo.extra_company_name = personal_info_extra_from_income_company_name_edt.getText().toString();
-                applyActivity.mClientInfo.extra_company_addr.province = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
-                applyActivity.mClientInfo.extra_company_addr.city = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
-                applyActivity.mClientInfo.extra_company_addr.district = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
-                applyActivity.mClientInfo.extra_company_addr.address1 = personal_info_extra_from_income_company_address1_tv.getText().toString();
-                applyActivity.mClientInfo.extra_company_addr.address2 = personal_info_extra_from_income_company_address2_tv.getText().toString();
-                applyActivity.mClientInfo.extra_work_position = personal_info_extra_from_income_work_position_tv.getText().toString();
-                applyActivity.mClientInfo.extra_work_phone_num = personal_info_extra_from_income_work_phone_num_edt.getText().toString();
+                createUserActivity.mClientInfo.extra_income_type = "工资";
+                createUserActivity.mClientInfo.extra_income = personal_info_extra_from_income_year_edt.getText().toString();
+                createUserActivity.mClientInfo.extra_company_name = personal_info_extra_from_income_company_name_edt.getText().toString();
+                createUserActivity.mClientInfo.extra_company_addr.province = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[0];
+                createUserActivity.mClientInfo.extra_company_addr.city = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[1];
+                createUserActivity.mClientInfo.extra_company_addr.district = personal_info_extra_from_income_company_address_tv.getText().toString().trim().split("/")[2];
+                createUserActivity.mClientInfo.extra_company_addr.address1 = personal_info_extra_from_income_company_address1_tv.getText().toString();
+                createUserActivity.mClientInfo.extra_company_addr.address2 = personal_info_extra_from_income_company_address2_tv.getText().toString();
+                createUserActivity.mClientInfo.extra_work_position = personal_info_extra_from_income_work_position_tv.getText().toString();
+                createUserActivity.mClientInfo.extra_work_phone_num = personal_info_extra_from_income_work_phone_num_edt.getText().toString();
                 break;
             case "无":
-                applyActivity.mClientInfo.extra_income_type = "无";
+                createUserActivity.mClientInfo.extra_income_type = "无";
                 break;
             default:
                 break;
         }
 
         //房屋性质
-        applyActivity.mClientInfo.house_owner_name = personal_info_house_owner_name_edt.getText().toString();
-        applyActivity.mClientInfo.house_owner_relation = personal_info_house_owner_relation_tv.getText().toString();
-        applyActivity.mClientInfo.house_type = personal_info_house_type_tv.getText().toString();
-        applyActivity.mClientInfo.house_area = personal_info_house_area_edt.getText().toString();
-        applyActivity.mClientInfo.urg_contact1 = personal_info_urg_contact1_edt.getText().toString();
-        applyActivity.mClientInfo.urg_mobile1 = personal_info_urg_mobile1_edt.getText().toString();
-        applyActivity.mClientInfo.urg_relation1 = personal_info_urg_relation1_tv.getText().toString();
-        applyActivity.mClientInfo.urg_contact2 = personal_info_urg_contact2_edt.getText().toString();
-        applyActivity.mClientInfo.urg_mobile2 = personal_info_urg_mobile2_edt.getText().toString();
-        applyActivity.mClientInfo.urg_relation2 = personal_info_urg_relation2_tv.getText().toString();
+        createUserActivity.mClientInfo.house_owner_name = personal_info_house_owner_name_edt.getText().toString();
+        createUserActivity.mClientInfo.house_owner_relation = personal_info_house_owner_relation_tv.getText().toString();
+        createUserActivity.mClientInfo.house_type = personal_info_house_type_tv.getText().toString();
+        createUserActivity.mClientInfo.house_area = personal_info_house_area_edt.getText().toString();
+        createUserActivity.mClientInfo.urg_contact1 = personal_info_urg_contact1_edt.getText().toString();
+        createUserActivity.mClientInfo.urg_mobile1 = personal_info_urg_mobile1_edt.getText().toString();
+        createUserActivity.mClientInfo.urg_relation1 = personal_info_urg_relation1_tv.getText().toString();
+        createUserActivity.mClientInfo.urg_contact2 = personal_info_urg_contact2_edt.getText().toString();
+        createUserActivity.mClientInfo.urg_mobile2 = personal_info_urg_mobile2_edt.getText().toString();
+        createUserActivity.mClientInfo.urg_relation2 = personal_info_urg_relation2_tv.getText().toString();
         TelephonyManager telephonyManager = (TelephonyManager) mContext.getSystemService(Context.TELEPHONY_SERVICE);
-        applyActivity.mClientInfo.imei = telephonyManager.getDeviceId();
+        createUserActivity.mClientInfo.imei = telephonyManager.getDeviceId();
         nextStep();
     }
 
@@ -356,7 +356,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
     public void onHiddenChanged(boolean hidden) {
         super.onHiddenChanged(hidden);
         if (!hidden) {
-            ClientInfo clientInfoBean = applyActivity.mClientInfo;
+            ClientInfo clientInfoBean = createUserActivity.mClientInfo;
             personal_info_clt_nm_edt.setText(clientInfoBean.clt_nm);
             personal_info_id_no_edt.setText(clientInfoBean.id_no);
             personal_info_mobile_edt.setText(clientInfoBean.mobile);
@@ -392,12 +392,12 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
                 if (CURRENT_CLICKED_VIEW_FOR_CONTACT == personal_info_urg_mobile1_img.getId()) {
                     personal_info_urg_contact1_edt.setText(result[0]);
                     personal_info_urg_mobile1_edt.setText(result[1].replace(" ", ""));
-                    UBT.addEvent(mContext, "text_change", "edit_text", "personal_info_urg_mobile1_edt", ApplyActivity.class.getSimpleName(), "手机号");
+                    UBT.addEvent(mContext, "text_change", "edit_text", "personal_info_urg_mobile1_edt", CreateUserActivity.class.getSimpleName(), "手机号");
                 }
                 if (CURRENT_CLICKED_VIEW_FOR_CONTACT == personal_info_urg_mobile2_img.getId()) {
                     personal_info_urg_contact2_edt.setText(result[0]);
                     personal_info_urg_mobile2_edt.setText(result[1].replace(" ", ""));
-                    UBT.addEvent(mContext, "text_change", "edit_text", "personal_info_urg_mobile2_edt", ApplyActivity.class.getSimpleName(), "手机号");
+                    UBT.addEvent(mContext, "text_change", "edit_text", "personal_info_urg_mobile2_edt", CreateUserActivity.class.getSimpleName(), "手机号");
                 }
             } else if (requestCode == Constants.REQUEST_ADDRESS) {
                 if (CURRENT_CLICKED_VIEW_FOR_ADDRESS == personal_info_current_address1_lin.getId()) {
@@ -417,8 +417,8 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
     }
 
     private void initView(View view) {
-        UBT.bind(this, view, ApplyActivity.class.getSimpleName());
-        applyActivity = (ApplyActivity) getActivity();
+        UBT.bind(this, view, CreateUserActivity.class.getSimpleName());
+        createUserActivity = (CreateUserActivity) getActivity();
         personal_info_clt_nm_edt = view.findViewById(R.id.personal_info_clt_nm_edt);
         personal_info_id_no_edt = view.findViewById(R.id.personal_info_id_no_edt);
         personal_info_from_other_year_edt = view.findViewById(R.id.personal_info_from_other_year_edt);
@@ -459,7 +459,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
             mDoubleCheckDialog.dismiss();
         });
         personal_info_gender_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().gender_list_key, _GENDER_INDEX, personal_info_gender_lin, personal_info_gender_tv, "请选择", (clickedView, selectedIndex) -> _GENDER_INDEX = selectedIndex);
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().gender_list_key, _GENDER_INDEX, personal_info_gender_lin, personal_info_gender_tv, "请选择", (clickedView, selectedIndex) -> _GENDER_INDEX = selectedIndex);
 
         });
         //主要收入来源
@@ -505,7 +505,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //学历
         personal_info_education_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().education_list_key, _EDUCATION_INDEX, personal_info_education_lin, personal_info_education_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().education_list_key, _EDUCATION_INDEX, personal_info_education_lin, personal_info_education_tv, "请选择", (clickedView, selectedIndex) -> {
                 _EDUCATION_INDEX = selectedIndex;
             });
         });
@@ -538,7 +538,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //工资 职位
         personal_info_from_income_work_position_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().work_position_key, _FROM_INCOME_WORK_POSITION_INDEX, personal_info_from_income_work_position_lin, personal_info_from_income_work_position_tv, "请选择", (clickedView, index) ->
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().work_position_key, _FROM_INCOME_WORK_POSITION_INDEX, personal_info_from_income_work_position_lin, personal_info_from_income_work_position_tv, "请选择", (clickedView, index) ->
                     _FROM_INCOME_WORK_POSITION_INDEX = index);
         });
 
@@ -548,9 +548,9 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //自营业务类型
         personal_info_from_self_type_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().busi_type_list_key, _FROM_SELF_TYPE_INDEX, personal_info_from_self_type_lin, personal_info_from_self_type_tv, "请选择", (clickedView, selectedIndex) -> {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().busi_type_list_key, _FROM_SELF_TYPE_INDEX, personal_info_from_self_type_lin, personal_info_from_self_type_tv, "请选择", (clickedView, selectedIndex) -> {
                 _FROM_SELF_TYPE_INDEX = selectedIndex;
-                if (((Yusion4sApp) applyActivity.getApplication()).getConfigResp().busi_type_list_value.get(_FROM_SELF_TYPE_INDEX).equals("其他")) {
+                if (((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().busi_type_list_value.get(_FROM_SELF_TYPE_INDEX).equals("其他")) {
                     EditText editText = new EditText(mContext);
                     new AlertDialog.Builder(mContext)
                             .setTitle("请输入业务类型")
@@ -599,7 +599,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //额外公司职务
         personal_info_extra_from_income_work_position_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().work_position_key, _FROM_EXTRA_WORK_POSITION_INDEX, personal_info_extra_from_income_work_position_lin, personal_info_extra_from_income_work_position_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().work_position_key, _FROM_EXTRA_WORK_POSITION_INDEX, personal_info_extra_from_income_work_position_lin, personal_info_extra_from_income_work_position_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _FROM_EXTRA_WORK_POSITION_INDEX = selectedIndex;
@@ -609,7 +609,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //房屋性质
         personal_info_house_type_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().house_type_list_key, _HOUSE_TYPE_INDEX, personal_info_house_type_lin, personal_info_house_type_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().house_type_list_key, _HOUSE_TYPE_INDEX, personal_info_house_type_lin, personal_info_house_type_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _HOUSE_TYPE_INDEX = selectedIndex;
@@ -618,7 +618,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //房屋与主贷人关系
         personal_info_house_owner_relation_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().house_relationship_list_key, _HOUSE_OWNER_RELATION_INDEX, personal_info_house_owner_relation_lin, personal_info_house_owner_relation_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().house_relationship_list_key, _HOUSE_OWNER_RELATION_INDEX, personal_info_house_owner_relation_lin, personal_info_house_owner_relation_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _HOUSE_OWNER_RELATION_INDEX = selectedIndex;
@@ -627,7 +627,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //紧急联系人1与主贷人关系
         personal_info_urg_relation1_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().urg_rela_relationship_list_key, _URG_RELATION_INDEX1, personal_info_urg_relation1_lin, personal_info_urg_relation1_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().urg_rela_relationship_list_key, _URG_RELATION_INDEX1, personal_info_urg_relation1_lin, personal_info_urg_relation1_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _URG_RELATION_INDEX1 = selectedIndex;
@@ -637,7 +637,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
         });
         //紧急联系人2与主贷人关系
         personal_info_urg_relation2_lin.setOnClickListener(v -> {
-            WheelViewUtil.showWheelView(((Yusion4sApp) applyActivity.getApplication()).getConfigResp().urg_other_relationship_list_key, _URG_RELATION_INDEX2, personal_info_urg_relation2_lin, personal_info_urg_relation2_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+            WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().urg_other_relationship_list_key, _URG_RELATION_INDEX2, personal_info_urg_relation2_lin, personal_info_urg_relation2_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
                 public void onSubmitCallBack(View clickedView, int selectedIndex) {
                     _URG_RELATION_INDEX2 = selectedIndex;
@@ -664,7 +664,7 @@ public class PersonalInfoFragment extends DoubleCheckFragment {
     }
 
     private void nextStep() {
-        Log.e("TAG", "personal : clientinfo = {"+applyActivity.mClientInfo.toString()+"}");
+        Log.e("TAG", "personal : clientinfo = {"+ createUserActivity.mClientInfo.toString()+"}");
         EventBus.getDefault().post(ApplyActivityEvent.showSpouseInfoFragment);
     }
     //选择详细地址

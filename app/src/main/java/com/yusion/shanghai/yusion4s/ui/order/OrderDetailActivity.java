@@ -28,7 +28,7 @@ import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.SubmitInformationActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
@@ -341,7 +341,7 @@ public class OrderDetailActivity extends BaseActivity {
             startActivity(intent);
         });
         orderDetailUploadBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+            Intent intent = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
             intent.putExtra("app_id", app_id);
             startActivity(intent);
         });
@@ -675,7 +675,7 @@ public class OrderDetailActivity extends BaseActivity {
                 }
             });
             orderDetailUploadBtn.setOnClickListener(v -> {
-                Intent i2 = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+                Intent i2 = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
                 i2.putExtra("car_type", cartype);
                 i2.putExtra("app_id", app_id);
                 startActivity(i2);
@@ -684,7 +684,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void submitMaterial(View view) {
-        Intent intent = new Intent(OrderDetailActivity.this, SubmitInformationActivity.class);
+        Intent intent = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
         intent.putExtra("app_id", app_id);
         startActivity(intent);
     }

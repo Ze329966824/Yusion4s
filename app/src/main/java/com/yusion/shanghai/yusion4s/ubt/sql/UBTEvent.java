@@ -11,7 +11,8 @@ public class UBTEvent {
     //eg:onClick onResume
     public String action;
     public long ts;
-    public String page; //eg:LoginActivity
+    //eg:LoginActivity
+    public String page;
     public String page_cn;
     public String widget;
     public String widget_cn;
