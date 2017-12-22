@@ -61,9 +61,9 @@ public class AddEventThread implements Runnable {
     public void run() {
         ContentValues values = new ContentValues();
         if (isPageEvent) {
-            values.put("objectType", objectType);
+            values.put("object", objectType);
         } else if (isAppEvent) {
-            values.put("objectType", "");
+            values.put("object", "");
         } else {
             //控件事件
             String object;

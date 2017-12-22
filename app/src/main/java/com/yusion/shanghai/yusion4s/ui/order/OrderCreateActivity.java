@@ -62,54 +62,41 @@ public class OrderCreateActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_order_create);
         EventBus.getDefault().register(this);
-
+        cartype = getIntent().getStringExtra("car_type");
         setTitle();
 
         //initTitleBar(this, "申请融资");
 
-
-        mCarInfoFragment = CarInfoFragment.newInstance();
-        mCreditInfoFragment = CreditInfoFragment.newInstance();
-        mOldCarInfoFragment = OldCarInfoFragment.newInstance();
-
-         /*   测试时改变了显示的fragment  将mCreditInfoFragment显示，隐藏mCarInfoFragment
-         *
-         * 后续记得改回来
-         */
-
-//        getSupportFragmentManager()
-//                .beginTransaction()
-//                .add(R.id.order_create_container, mCarInfoFragment)
-//                .add(R.id.order_create_container, mCreditInfoFragment)
-//                .add(R.id.order_create_container, mOldCarInfoFragment)
-//                //.hide(mCarInfoFragment)
-//                .hide(mCreditInfoFragment)
-//                .commit();
-//        mCurrentFragment = mCarInfoFragment;
-        getSupportFragmentManager().beginTransaction()
-                .add(R.id.order_create_container, mCarInfoFragment)
-                .add(R.id.order_create_container, mCreditInfoFragment)
-                .add(R.id.order_create_container, mOldCarInfoFragment)
-                .commit();
-        if (cartype.equals("新车")) {
-            getSupportFragmentManager().beginTransaction()
-                    //.hide(mCreditInfoFragment)
-                                       .hide(mCarInfoFragment)
-                    .hide(mOldCarInfoFragment)
-                    .commit();
-            //mCurrentFragment = mCarInfoFragment;
-              mCurrentFragment =  mCreditInfoFragment;
-        } else {
-            getSupportFragmentManager().beginTransaction()
-                    .hide(mCreditInfoFragment)
-                    .hide(mCarInfoFragment)
-                    .commit();
-            mCurrentFragment = mOldCarInfoFragment;
-        }
+        initView();
     }
 
+    private void initView() {
+        if (cartype.equals("新车")) {
+            mCarInfoFragment = CarInfoFragment.newInstance();
+        } else if (cartype.equals("二手车")) {
+            mOldCarInfoFragment = OldCarInfoFragment.newInstance();
+    }
+        mCreditInfoFragment = CreditInfoFragment.newInstance();
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+
+        transaction.add(R.id.order_create_container, mCreditInfoFragment);
+
+        if (cartype.equals("新车")) {
+            transaction.add(R.id.order_create_container, mCarInfoFragment)
+                    .hide(mCreditInfoFragment);
+            mCurrentFragment = mCarInfoFragment;
+        } else {
+            transaction.add(R.id.order_create_container, mOldCarInfoFragment)
+                    .hide(mCreditInfoFragment);
+            mCurrentFragment = mOldCarInfoFragment;
+        }
+        transaction.commit();
+    }
+
+
     private void setTitle() {
-        cartype = getIntent().getStringExtra("car_type");
+
         if (cartype.equals("二手车")) {
             initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
                 @Override

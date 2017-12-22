@@ -35,12 +35,14 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -381,7 +383,6 @@ public class CarInfoFragment extends BaseFragment {
         car_info_tv = view.findViewById(R.id.car_info_tv);
 
 
-
         //进行经销商选择
         carInfoDlrLin.setOnClickListener(v -> selectDlrStore());
         //车辆选择
@@ -571,7 +572,14 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
-            DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
+            ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getProductType(mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype), new OnItemDataCallBack<GetproductResp>() {
+//                @Override
+//                public void onItemDataCallBack(GetproductResp data) {
+//
+//                }
+//            });
+
+                // DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
 
                 //  DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                 @Override
@@ -655,7 +663,7 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectCarInfo() {
         if (TextUtils.isEmpty(dlrTV.getText())) {
-            ToastUtil.customToastGravity(mContext,"请您先完成经销商选择",Gravity.CENTER,0,0);
+            ToastUtil.customToastGravity(mContext, "请您先完成经销商选择", Gravity.CENTER, 0, 0);
 
         } else {
             Intent intent = new Intent(mContext, CarSelectActivity.class);
