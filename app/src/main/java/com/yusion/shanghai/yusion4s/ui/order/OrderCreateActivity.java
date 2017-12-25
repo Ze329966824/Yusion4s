@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -14,7 +13,6 @@ import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.OldCarInfoFragment;
-import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -33,27 +31,63 @@ public class OrderCreateActivity extends BaseActivity {
     public String label;
     public String region;
     public String bucket;
+    private String why_come;
 
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
-        String why_come = intent.getStringExtra("why_come");
-        if (why_come != null) {
-            if ("car_select".equals(why_come)) {
-                if (cartype.equals("新车")) {
-                    mCarInfoFragment.getCarInfo(intent);
-                } else {
-                    mOldCarInfoFragment.getCarInfo(intent);
+        why_come = intent.getStringExtra("why_come");
+//        if (why_come != null) {
+//            if ("car_select".equals(why_come)) {
+//                if (cartype.equals("新车")) {
+//                    mCarInfoFragment.getCarInfo(intent);
+//                } else {
+//                    mOldCarInfoFragment.getCarInfo(intent);
+//                }
+//            } else if ("create_user".equals(why_come)) {
+//                mCreditInfoFragment.relevance(intent);
+//            } else if ("dlr_select".equals(why_come)) {
+//                if (cartype.equals("新车")) {
+//                    mCarInfoFragment.getDlrInfo(intent);
+//                } else {
+//                    mOldCarInfoFragment.getDlrInfo(intent);
+//                }
+//            }
+//        }
+        switch (cartype) {
+            case "新车":
+                switch (why_come) {
+                    case "car_select":
+                        mCarInfoFragment.getCarInfo(intent);
+                        break;
+                    case "dlr_select":
+                        mCarInfoFragment.getDlrInfo(intent);
+                        break;
+                    case "create_user":
+                        mCreditInfoFragment.relevance(intent);
+                        break;
+
+                    default:
+                        break;
                 }
-            } else if ("create_user".equals(why_come)) {
-                mCreditInfoFragment.relevance(intent);
-            } else if ("dlr_select".equals(why_come)) {
-                if (cartype.equals("新车")) {
-                    mCarInfoFragment.getDlrInfo(intent);
-                } else {
-                    mOldCarInfoFragment.getDlrInfo(intent);
+                break;
+            case "二手车":
+                switch (why_come) {
+                    case "car_select":
+                        mOldCarInfoFragment.getCarInfo(intent);
+                        break;
+                    case "dlr_select":
+                        mOldCarInfoFragment.getDlrInfo(intent);
+                        break;
+                    case "create_user":
+                        mCreditInfoFragment.relevance(intent);
+                        break;
+                    default:
+                        break;
                 }
-            }
+                break;
+            default:
+                break;
         }
     }
 
@@ -75,7 +109,7 @@ public class OrderCreateActivity extends BaseActivity {
             mCarInfoFragment = CarInfoFragment.newInstance();
         } else if (cartype.equals("二手车")) {
             mOldCarInfoFragment = OldCarInfoFragment.newInstance();
-    }
+        }
         mCreditInfoFragment = CreditInfoFragment.newInstance();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -86,6 +120,8 @@ public class OrderCreateActivity extends BaseActivity {
             transaction.add(R.id.order_create_container, mCarInfoFragment)
                     .hide(mCreditInfoFragment);
             mCurrentFragment = mCarInfoFragment;
+            // mCurrentFragment = mCreditInfoFragment;
+
         } else {
             transaction.add(R.id.order_create_container, mOldCarInfoFragment)
                     .hide(mCreditInfoFragment);
@@ -96,21 +132,10 @@ public class OrderCreateActivity extends BaseActivity {
 
 
     private void setTitle() {
-
         if (cartype.equals("二手车")) {
-            initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back();
-                }
-            });
+            initTitleBar(this, "二手车申请");
         } else {
-            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back();
-                }
-            });
+            initTitleBar(this, "新车申请");
         }
     }
 
@@ -172,19 +197,9 @@ public class OrderCreateActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        //super.onBackPressed();
-        back();
-    }
-
-    private void back() {
-        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃本次编辑？", "放弃", "取消", dialog -> {
+        PopupDialogUtil.showTwoButtonsDialog(this, "是否放弃此次编辑？", "放弃", "取消", dialog -> {
             dialog.dismiss();
             finish();
         });
-    }
-
-    public void anima() {
-        startActivity(new Intent(this, CreateUserActivity.class));
-        overridePendingTransition(R.anim.activity_enter, R.anim.stay);
     }
 }

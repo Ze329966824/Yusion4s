@@ -49,6 +49,7 @@ public class SubmitMaterialActivity extends BaseActivity {
         rv.setLayoutManager(new LinearLayoutManager(this));
         mAdapter = new RvAdapter(this, lists);
         rv.setAdapter(mAdapter);
+
         mAdapter.setOnItemClick((v, item) -> onLabelClick(item));
     }
 
