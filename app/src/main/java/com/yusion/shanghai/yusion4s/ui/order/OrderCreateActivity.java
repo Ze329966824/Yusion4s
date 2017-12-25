@@ -37,6 +37,7 @@ public class OrderCreateActivity extends BaseActivity {
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
+        // TODO: 2017/12/22  
         String why_come = intent.getStringExtra("why_come");
         if (why_come != null) {
             if ("car_select".equals(why_come)) {
@@ -75,7 +76,7 @@ public class OrderCreateActivity extends BaseActivity {
             mCarInfoFragment = CarInfoFragment.newInstance();
         } else if (cartype.equals("二手车")) {
             mOldCarInfoFragment = OldCarInfoFragment.newInstance();
-    }
+        }
         mCreditInfoFragment = CreditInfoFragment.newInstance();
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -97,6 +98,7 @@ public class OrderCreateActivity extends BaseActivity {
 
     private void setTitle() {
 
+        // TODO: 2017/12/22  
         if (cartype.equals("二手车")) {
             initTitleBar(this, "二手车申请").setLeftClickListener(new View.OnClickListener() {
                 @Override
@@ -104,13 +106,18 @@ public class OrderCreateActivity extends BaseActivity {
                     back();
                 }
             });
+            initTitleBar(this, "sss").setLeftClickListener(this);
         } else {
-            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    back();
-                }
-            });
+//            initTitleBar(this, "新车申请").setLeftClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View v) {
+//                    back();
+//                }
+//            });
+            // initTitleBar(this, "sss").setLeftClickListener(view -> onBackPressed());
+            initTitleBar(this, "新车申请");
+
+
         }
     }
 
@@ -183,6 +190,7 @@ public class OrderCreateActivity extends BaseActivity {
         });
     }
 
+    // TODO: 2017/12/22  
     public void anima() {
         startActivity(new Intent(this, CreateUserActivity.class));
         overridePendingTransition(R.anim.activity_enter, R.anim.stay);
