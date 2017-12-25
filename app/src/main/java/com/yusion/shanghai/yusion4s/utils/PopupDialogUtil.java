@@ -248,7 +248,7 @@ public class PopupDialogUtil {
      * @param title         弹窗标题
      * @param rightMsg      右侧按钮
      * @param leftMsg       左侧按钮
-     * @param clickListener 右侧按钮的监听
+     * @param listener 右侧按钮的监听
      */
     public static void showTwoButtonsDialog(Context context, @LayoutRes int resID, String title, String rightMsg, String leftMsg, OnPopupClickListener... listener) {
         mContext = context;
