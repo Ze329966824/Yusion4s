@@ -24,12 +24,16 @@ import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
 
 import static android.R.attr.data;
+import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 public class HomeFragment extends BaseFragment {
 
@@ -64,7 +68,7 @@ public class HomeFragment extends BaseFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_apply_financing, container, false);
     }
-    
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -93,7 +97,7 @@ public class HomeFragment extends BaseFragment {
 
     //刷新首页订单数量
     void refresh(String id) {
-        ApiUtil.requestUrl4Data(mContext, Api.getDlrNum().getDlrNum(id),dlrNumResp -> {
+        ApiUtil.requestUrl4Data(mContext, Api.getDlrNum().getDlrNum(id), dlrNumResp -> {
             ptr.refreshComplete();
             if (dlrNumResp != null) {
 
@@ -171,7 +175,6 @@ public class HomeFragment extends BaseFragment {
         to_loan_img = view.findViewById(R.id.to_loan_img);
         to_be_upload_img = view.findViewById(R.id.to_be_upload_img);
 
-        // TODO: 2017/12/20 添加按下效果  找ui要图
         //新车
         view.findViewById(R.id.apply_financing_cteate_newcar_btn).setOnClickListener(v -> {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);

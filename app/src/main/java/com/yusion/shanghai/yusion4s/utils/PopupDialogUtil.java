@@ -9,6 +9,8 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 
+import static com.yusion.shanghai.yusion4s.R.layout.popup_dialog_two_button;
+
 
 public class PopupDialogUtil {
     private static Dialog dialog;
@@ -45,20 +47,10 @@ public class PopupDialogUtil {
     /**
      * 只传入布局，最普通的一个按钮的弹窗，
      *
-     * @param msg 弹窗title
-     *            
+     *
      */
     public static void showOneButtonDialog(Context context, @LayoutRes int resID) {
-        mContext = context;
-        dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(resID, null);
-        TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setOnClickListener(v -> {
-            dismiss();
-        });
-        dialog.setContentView(view);
-        dialog.setCancelable(false);
-        show();
+        showOneButtonDialog(context,resID,null);
     }
 
 
@@ -78,18 +70,7 @@ public class PopupDialogUtil {
      * @param clickListener 自定义监听
      */
     public static void showOneButtonDialog(Context context, @LayoutRes int resID, OnPopupClickListener clickListener) {
-        mContext = context;
-        dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(resID, null);
-        TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setOnClickListener(v -> {
-            if (clickListener != null) {
-                clickListener.onOkClick(dialog);
-            }
-        });
-        dialog.setContentView(view);
-        dialog.setCancelable(false);
-        show();
+        showOneButtonDialog(context,null,null,resID,clickListener);
     }
 
 
@@ -110,21 +91,7 @@ public class PopupDialogUtil {
      * @param clickListener 自定义监听
      */
     public static void showOneButtonDialog(Context context, String title, String okText, OnPopupClickListener clickListener) {
-        mContext = context;
-        dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.dialog_login, null);
-        TextView mMessage = view.findViewById(R.id.pop_dialog_title_tv);
-        mMessage.setText(title);
-        TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setText(okText);
-        mOK.setOnClickListener(v -> {
-            if (clickListener != null) {
-                clickListener.onOkClick(dialog);
-            }
-        });
-        dialog.setContentView(view);
-        dialog.setCancelable(false);
-        show();
+        showOneButtonDialog(context,title,okText,R.layout.dialog_login,clickListener);
     }
 
 
@@ -149,12 +116,18 @@ public class PopupDialogUtil {
         View view = LayoutInflater.from(mContext).inflate(resID, null);
 
         TextView mMessage = view.findViewById(R.id.pop_dialog_title_tv);
-        mMessage.setText(title);
+        if (title != null) {
+            mMessage.setText(title);
+        }
         TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setText(okText);
+        if (okText != null) {
+            mOK.setText(okText);
+        }
         mOK.setOnClickListener(v -> {
             if (clickListener != null) {
                 clickListener.onOkClick(dialog);
+            }else {
+                dismiss();
             }
         });
         dialog.setContentView(view);
@@ -238,21 +211,7 @@ public class PopupDialogUtil {
      * @param clickListener 右侧按钮的监听
      */
     public static void showTwoButtonsDialog(Context context, @LayoutRes int resID, OnPopupClickListener clickListener) {
-        mContext = context;
-        dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(resID, null);
-        TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setOnClickListener(v -> {
-            if (clickListener != null) {
-                clickListener.onOkClick(dialog);
-            }
-        });
-        TextView mCancel = view.findViewById(R.id.pop_dialog_cancel_tv);
-        mCancel.setOnClickListener(v -> dismiss());
-        TextView mMsg = view.findViewById(R.id.pop_dialog_title_tv);
-        dialog.setContentView(view);
-        dialog.setCancelable(false);
-        show();
+        showTwoButtonsDialog(context,resID,null,null,null,clickListener);
     }
 
 
@@ -271,25 +230,8 @@ public class PopupDialogUtil {
      * @param leftMsg       左侧按钮
      * @param clickListener 右侧按钮的监听
      */
-    public static void showTwoButtonsDialog(Context context, String title, String rightMsg, String leftMsg, OnPopupClickListener clickListener) {
-        mContext = context;
-        dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
-        TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setText(rightMsg);
-        mOK.setOnClickListener(v -> {
-            if (clickListener != null) {
-                clickListener.onOkClick(dialog);
-            }
-        });
-        TextView mCancel = view.findViewById(R.id.pop_dialog_cancel_tv);
-        mCancel.setText(leftMsg);
-        mCancel.setOnClickListener(v -> dismiss());
-        TextView mTitle = view.findViewById(R.id.pop_dialog_title_tv);
-        mTitle.setText(title);
-        dialog.setContentView(view);
-        dialog.setCancelable(false);
-        show();
+    public static void showTwoButtonsDialog(Context context, String title, String rightMsg, String leftMsg, OnPopupClickListener... clickListener) {
+        showTwoButtonsDialog(context,R.layout.popup_dialog_two_button,title,rightMsg,leftMsg,clickListener);
     }
 
 
@@ -308,99 +250,32 @@ public class PopupDialogUtil {
      * @param leftMsg       左侧按钮
      * @param clickListener 右侧按钮的监听
      */
-    public static void showTwoButtonsDialog(Context context, @LayoutRes int resID, String title, String rightMsg, String leftMsg, OnPopupClickListener clickListener) {
+    public static void showTwoButtonsDialog(Context context, @LayoutRes int resID, String title, String rightMsg, String leftMsg, OnPopupClickListener... listener) {
         mContext = context;
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(resID, null);
         TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
         mOK.setText(rightMsg);
         mOK.setOnClickListener(v -> {
-            if (clickListener != null) {
-                clickListener.onOkClick(dialog);
+            if (listener != null && listener.length > 0) {
+                listener[0].onOkClick(dialog);
             }
         });
         TextView mCancel = view.findViewById(R.id.pop_dialog_cancel_tv);
         mCancel.setText(leftMsg);
-        mCancel.setOnClickListener(v -> dismiss());
+        mCancel.setOnClickListener(v -> {
+            if (listener != null && listener.length > 1) {
+                listener[1].onOkClick(dialog);
+            }else {
+                dismiss();
+            }
+        });
         TextView mTitle = view.findViewById(R.id.pop_dialog_title_tv);
         mTitle.setText(title);
         dialog.setContentView(view);
         dialog.setCancelable(false);
         show();
     }
-
-
-
-
-
-
-
-
-
-
-    /**
-     * 监听多个按钮的弹窗
-     * @param title         弹窗标题
-     * @param rightMsg      右侧按钮
-     * @param leftMsg       左侧按钮
-     * @param listener      按钮们的监听 listener[0]是右侧按钮  listener[1]是左侧按钮  等等...
-     */
-    public static void showTwoButtonsDialog(Context context, String leftMsg, String rightMsg, String title, OnPopupClickListener... listener) {
-        mContext = context;
-        dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
-        TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setText(leftMsg);
-        mOK.setOnClickListener(v -> {
-            if (listener != null && listener.length > 0) {
-                listener[0].onOkClick(dialog);
-            }
-        });
-        TextView mCancel = view.findViewById(R.id.pop_dialog_cancel_tv);
-        mCancel.setText(rightMsg);
-        mCancel.setOnClickListener(v -> {
-            if (listener != null && listener.length > 1) {
-                listener[1].onOkClick(dialog);
-            }
-        });
-        TextView mMsg = view.findViewById(R.id.pop_dialog_title_tv);
-        mMsg.setText(title);
-        dialog.setContentView(view);
-        dialog.setCancelable(false);
-        show();
-    }
-
-
-
-
-
-
-    /**
-     * 传入宽高 内容无法更改
-     * @param width         自定义宽度
-     * @param height        自定义高度
-     * @param clickListener 右侧按钮的监听
-     */
-    public static void showTwoButtonsDialog(Context context, int width, int height, OnPopupClickListener clickListener) {
-        mContext = context;
-        dialog = new Dialog(mContext, R.style.MyDialogStyle);
-        View view = LayoutInflater.from(mContext).inflate(R.layout.popup_dialog_two_button, null);
-        TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setOnClickListener(v -> {
-            if (clickListener != null) {
-                clickListener.onOkClick(dialog);
-            }
-        });
-        TextView mCancel = view.findViewById(R.id.pop_dialog_cancel_tv);
-        mCancel.setOnClickListener(v -> dismiss());
-        dialog.setContentView(view);
-        dialog.setCancelable(false);
-        dialog.getWindow().getAttributes().width = width;
-        dialog.getWindow().getAttributes().height = height;
-        show();
-    }
-
-
 
 
 

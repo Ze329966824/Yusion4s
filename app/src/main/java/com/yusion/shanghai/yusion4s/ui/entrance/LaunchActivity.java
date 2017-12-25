@@ -39,21 +39,24 @@ public class LaunchActivity extends BaseActivity {
     private void checkServerUrl() {
         String str = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
         if (!isOnline && !TextUtils.isEmpty(str)) {
-            PopupDialogUtil.showTwoButtonsDialog(this, "还原", "确定", "服务器地址为：\n" + str, dialog -> {
-                        Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
-                        dialog.dismiss();
-                        SharedPrefsUtil.getInstance(LaunchActivity.this).putValue("SERVER_URL", "");
-                        new AlertDialog.Builder(LaunchActivity.this)
-                                .setMessage("重启app生效")
-                                .setPositiveButton("确定", (dialog1, which1) ->
-                                        //ActivityManager.exit()
-                                        AppUtils.exit()
-                                )
-                                .show();
-                    }, dialog -> {
+            PopupDialogUtil.showTwoButtonsDialog(this,"服务器地址为：\n" + str, "确定", "还原", dialog -> {
                         Settings.SERVER_URL = str;
                         dialog.dismiss();
                         getConfigJson();
+                    }, dialog -> {
+                        Settings.SERVER_URL = "http://api.alpha.yusiontech.com:8000/";
+                        dialog.dismiss();
+                        SharedPrefsUtil.getInstance(LaunchActivity.this).putValue("SERVER_URL", "");
+//                        new AlertDialog.Builder(LaunchActivity.this)
+//                                .setMessage("重启app生效")
+//                                .setPositiveButton("确定", (dialog1, which1) ->
+//                                        //ActivityManager.exit()
+//                                        AppUtils.exit()
+//                                )
+//                                .show();
+                        PopupDialogUtil.showOneButtonDialog(LaunchActivity.this, "重启app生效", "确定", dialog1 -> {
+                            AppUtils.exit();
+                        });
                     }
             );
         } else {

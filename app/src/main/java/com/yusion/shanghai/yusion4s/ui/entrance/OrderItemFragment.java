@@ -396,7 +396,7 @@ public class OrderItemFragment extends BaseFragment {
                         }
                         //未完善
                         else {
-                            PopupDialogUtil.showOneButtonDialog(mContext, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog1 -> {
+                            PopupDialogUtil.showOneButtonDialog(mContext, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
 //                                PackageManager packageManager = mContext.getPackageManager();  // 当前Activity获得packageManager对象
 //                                Intent intent = new Intent();
 //                                try {

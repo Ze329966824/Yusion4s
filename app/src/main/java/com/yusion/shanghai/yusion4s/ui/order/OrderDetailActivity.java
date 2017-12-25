@@ -347,13 +347,9 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
 
-        // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
-
-
         orderDetailReplaceBtn.setOnClickListener(v -> {
-            // TODO: 2017/12/12   更换配偶作为主贷人点击 -> 弹窗 ->  {1.是 ->接口二 ①客户信息未完善 ②更换成功}    {2.取消 dismiss}
-
-            PopupDialogUtil.showTwoButtonsDialog(OrderDetailActivity.this,R.layout.popup_dialog_two_hastitle_button, dialog -> {
+            //   更换配偶作为主贷人 ： 接口一 激活配偶用户端登录 --> 接口二 更换配偶为主贷人  --> 接口三 获取新的订单详情
+            PopupDialogUtil.showTwoButtonsDialog(OrderDetailActivity.this, R.layout.popup_dialog_two_hastitle_button, dialog -> {
                 dialog.dismiss();
                 checkAndReplace();
 
@@ -367,7 +363,7 @@ public class OrderDetailActivity extends BaseActivity {
 
         ReplaceSPReq replaceSPReq = new ReplaceSPReq();
         replaceSPReq.clt_id = spouse_clt_id;
-        Log.e("TAG", "spouse_clt_id = "+spouse_clt_id);
+        Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
         //1.激活配偶登录
         AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
             if (data1 == null) {
@@ -388,7 +384,7 @@ public class OrderDetailActivity extends BaseActivity {
                         //3：重新提报
                         OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
                             if (data2 != null) {
-                                ToastUtil.showImageToast(OrderDetailActivity.this,"提交成功",R.mipmap.toast_success);
+                                ToastUtil.showImageToast(OrderDetailActivity.this, "提交成功", R.mipmap.toast_success);
                                 app_id = data2.app_id;
                                 Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
                                 intent.putExtra("app_id", app_id);
@@ -400,7 +396,7 @@ public class OrderDetailActivity extends BaseActivity {
                     }
                     //未完善
                     else {
-                        PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, "客户信息未完善！", "客户个人信息尚未完善，请引导客户登录用户端补全信息", dialog1 -> {
+                        PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
 
                             PackageManager packageManager = OrderDetailActivity.this.getPackageManager();  // 当前Activity获得packageManager对象
                             Intent intent = new Intent();
