@@ -174,7 +174,6 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         //二次确认
         mDoubleCheckSubmitBtn.setOnClickListener(v -> {
             mDoubleCheckDialog.dismiss();
-
             checkMobile(() -> {
                 //获取用户信息
                 ApiUtil.requestUrl4Data(mContext, Api.getProductService().getClientInfo(autonym_certify_id_number_tv.getText().toString(), autonym_certify_name_tv.getText().toString(), autonym_certify_mobile_tv.getText().toString(), Yusion4sApp.TOKEN), data1 -> {

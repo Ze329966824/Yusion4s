@@ -8,6 +8,7 @@ import android.webkit.WebResourceRequest;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
+import android.widget.RelativeLayout;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseWebViewActivity;
@@ -18,6 +19,7 @@ import com.yusion.shanghai.yusion4s.widget.TitleBar;
 public class Car300WebViewActivity extends BaseWebViewActivity {
 
     private ProgressWebView webView;
+    private RelativeLayout bottom_rel;
     private String url;
     private TitleBar titleBar;
     private int retryTime = 3;
@@ -29,6 +31,7 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
         url = getIntent().getStringExtra("cheUrl");
         //url = "https://m.che300.com/estimate/result/1/1/1/1/1/1-1/1/1/null/";
         webView = (ProgressWebView) findViewById(R.id.webView);
+        bottom_rel = findViewById(R.id.bottom_rel);
         WebSettings settings = webView.getSettings();
         settings.setJavaScriptEnabled(true);
         settings.setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
@@ -39,8 +42,9 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
                 if (retryTime > 0) {
                     retryTime = retryTime - 1;
                     webView.loadUrl(url);
-                }else {
-                    ToastUtil.showShort(Car300WebViewActivity.this,"网络繁忙");
+                } else {
+                    bottom_rel.setVisibility(View.GONE);
+                    ToastUtil.showShort(Car300WebViewActivity.this, "网络繁忙");
                 }
             }
         });
