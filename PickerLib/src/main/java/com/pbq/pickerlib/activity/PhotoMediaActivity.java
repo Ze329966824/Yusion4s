@@ -1,5 +1,6 @@
 package com.pbq.pickerlib.activity;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.database.Cursor;
 import android.graphics.Color;
@@ -22,13 +23,20 @@ import com.aliyun.common.httpfinal.QupaiHttpFinal;
 import com.pbq.pickerlib.R;
 import com.pbq.pickerlib.adapter.PhotoMediaAdapter;
 import com.pbq.pickerlib.entity.PhotoVideoDir;
+import com.pbq.pickerlib.luban.Luban;
+import com.pbq.pickerlib.luban.OnCompressListener;
 import com.pbq.pickerlib.util.PhoneInfoUtil;
 import com.pbq.pickerlib.video.AlibabaStandardActivity;
 import com.pbq.pickerlib.view.ImageFolderPopWindow;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+
 
 /**
  * Created by pengbangqin on 16-08-21.
@@ -429,11 +437,80 @@ public class PhotoMediaActivity extends AppCompatActivity {
         //在相册选择中拍照返回事件
         if (requestCode == REQUEST_CODE_CAMERA) {
             if (cameraFile != null && cameraFile.exists()) {
-                updateGalleray(cameraFile.getPath());
-                currentDir.selectedFiles.add(cameraFile.getPath());
-               currentDir.files.add(0, cameraFile.getPath());
-                loadImages(currentDir);
-                updateNext();
+
+                File source = new File(cameraFile.getAbsolutePath());
+                if (source.length() <= (500 << 10)) {
+                    //小于500kb不需要压缩
+                    updateGalleray(cameraFile.getPath());
+                    currentDir.selectedFiles.add(cameraFile.getPath());
+                    currentDir.files.add(0, cameraFile.getPath());
+                    loadImages(currentDir);
+                    updateNext();
+                }else {
+                    final ProgressDialog dialog = new ProgressDialog(this);
+                    dialog.setMessage("正在压缩图片...");
+                    dialog.show();
+                    Luban.with(this).load(cameraFile).ignoreBy(500).setTargetDir(cameraFile.getParent()).setCompressListener(new OnCompressListener() {
+                        @Override
+                        public void onStart() {
+
+                        }
+
+                        @Override
+                        public void onSuccess(File file) {
+                            Toast.makeText(PhotoMediaActivity.this, "图片压缩成功", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            if (file.getAbsolutePath().equals(cameraFile.getAbsolutePath())) {
+                                //图片太小没有压缩
+                                updateGalleray(cameraFile.getPath());
+                                currentDir.selectedFiles.add(cameraFile.getPath());
+                                currentDir.files.add(0, cameraFile.getPath());
+                                loadImages(currentDir);
+                                updateNext();
+                            } else {
+                                //替换图片
+                                try {
+                                    FileOutputStream outputStream = new FileOutputStream(cameraFile);
+                                    FileInputStream inputStream = new FileInputStream(file);
+                                    byte[] bytes = new byte[inputStream.available()];
+                                    inputStream.read(bytes);
+                                    outputStream.write(bytes);
+                                    inputStream.close();
+                                    outputStream.close();
+                                    file.delete();
+//
+                                    updateGalleray(cameraFile.getPath());
+                                    currentDir.selectedFiles.add(cameraFile.getPath());
+                                    currentDir.files.add(0, cameraFile.getPath());
+                                    loadImages(currentDir);
+                                    updateNext();
+                                } catch (FileNotFoundException e) {
+                                    e.printStackTrace();
+                                } catch (IOException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onError(Throwable e) {
+                            Toast.makeText(PhotoMediaActivity.this, "图片压缩失败", Toast.LENGTH_SHORT).show();
+                            dialog.dismiss();
+                            updateGalleray(cameraFile.getPath());
+                            currentDir.selectedFiles.add(cameraFile.getPath());
+                            currentDir.files.add(0, cameraFile.getPath());
+                            loadImages(currentDir);
+                            updateNext();
+                        }
+                    }).launch();
+                }
+
+
+//                updateGalleray(cameraFile.getPath());
+//                currentDir.selectedFiles.add(cameraFile.getPath());
+//                currentDir.files.add(0, cameraFile.getPath());
+//                loadImages(currentDir);
+//                updateNext();
             }
         }
         if (requestCode == REQUEST_TAKE_VIDEO) {
@@ -464,7 +541,6 @@ public class PhotoMediaActivity extends AppCompatActivity {
                 updateGalleray(cameraFile.getPath());
                 currentDir.selectedFiles.add(cameraFile.getPath());
                 currentDir.files.add(0, cameraFile.getPath());
-                //loadVideoImages(currentDir);
                 loadVideosList();
                 updateNext();
             }
