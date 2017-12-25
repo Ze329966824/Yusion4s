@@ -1,7 +1,6 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
 import android.app.Activity;
-import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
@@ -40,6 +39,7 @@ import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
+import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
@@ -331,27 +331,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
         });
 
         createUserBtn.setOnClickListener(v -> {
-            //// TODO: 2017/12/21  检查一下跳转动画
-//            Intent intent = new Intent(getActivity(), CreateUserActivity.class);
-//            startActivity(intent);
-            //getActivity().overridePendingTransition(R.anim.activity_enter,R.anim.stay);
-
-
-            OrderCreateActivity activity = (OrderCreateActivity) getActivity();
-//            getActivity().startActivity(new Intent(mContext, CreateUserActivity.class));
-            activity.anima();
-            // 一个是新启动的activity进入时的动画，另一个是当前activity消失时的动画
-            //getActivity().overridePendingTransition(0, R.anim.activity_enter);
+            startActivity(new Intent(mContext, CreateUserActivity.class));
+            getActivity().overridePendingTransition(R.anim.activity_enter, R.anim.stay);
         });
     }
-
-//    @Override
-//    public Animation onCreateAnimation(int transit, boolean enter, int nextAnim) {
-//        //return super.onCreateAnimation(transit, enter, nextAnim);
-//        if (!enter) {
-//            return onCreateAnimation()
-//        }
-//    }
 
     /**
      * 上传二手车截图
