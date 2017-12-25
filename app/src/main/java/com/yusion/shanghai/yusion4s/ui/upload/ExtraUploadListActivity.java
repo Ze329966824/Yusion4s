@@ -63,7 +63,7 @@ public class ExtraUploadListActivity extends BaseActivity {
     private TextView errorTv;
     private LinearLayout errorLin;
     private RvAdapter adapter;
-    private List<UploadImgItemBean> lists = new ArrayList<>();
+    private List<UploadImgItemBean> imgList = new ArrayList<>();
     private List<UploadImgItemBean> hasUploadOSSLists = new ArrayList<>();
 
     private String app_id;
@@ -122,7 +122,7 @@ public class ExtraUploadListActivity extends BaseActivity {
         //加载图片列表
         RecyclerView rv = findViewById(R.id.upload_list_rv);
         rv.setLayoutManager(new GridLayoutManager(this, 3));
-        adapter = new RvAdapter(this, lists, isVideoPage);
+        adapter = new RvAdapter(this, imgList, isVideoPage);
         rv.setAdapter(adapter);
         adapter.setOnItemClick(new RvAdapter.OnItemClick() {
             @Override
@@ -213,17 +213,27 @@ public class ExtraUploadListActivity extends BaseActivity {
                     imgUrl = item.raw_url;
                 }
 
+                //https://yusiontech-test.oss-cn-hangzhou.aliyuncs.com/CUSTOMER/19999999999/lender/id_card_copy/1514181347146.png?OSSAccessKeyId=STS.CnHYMco6ZAz3XGU7ERnaJiNCQ&security-token=CAIS9AF1q6Ft5B2yfSjIoq39EvfXgul79rjYWmHk00UHYu5mhovoszz2IHxOfnBtAekbsPo%2FlWBZ6PYclqN6U4cATkjFYM1stkHBVYxBJ9ivgde8yJBZor%2FHcDHhJnyW9cvWZPqDP7G5U%2FyxalfCuzZuyL%2FhD1uLVECkNpv74vwOLK5gPG%2BCYCFBGc1dKyZ7tcYeLgGxD%2Fu2NQPwiWeiZygB%2BCgE0Dwjt%2Fnun5LCsUOP0AGrkdV4%2FdqhfsKWCOB3J4p6XtuP2%2Bh7S7HMyiY46WIRqP0s1fEcoGqZ4IHMUwgPs0ucUOPM6phoNxQ8aaUmCzu4ZDBEbRgTGoABAyF1tXk9Mnvt966OzQ0PX6RMWg7Td5Nmpj2VJTZQK%2BT4NGrtimboZWDwYJNNxwlTlUNzzF9ZvhcavgZzV06VkpZwI8AkQZHdyXrjV0ufT1W6BJ%2BD%2FR5304B8DoHa5N%2BRIIe%2FfVi4DcTy42SM52qh%2BWxmk8Cou5I7UyUpI9XaeLM%3D&Expires=1514192939&Signature=8jpFpWoHVFVnlkZeE9L6UtquUTY%3D
+//                预览方式1：可以有加载进度,但是没有放大拖拽等功能
                 Intent intent = new Intent(ExtraUploadListActivity.this, ExtraPreviewActivity.class);
                 intent.putExtra("PreviewImg", imgUrl);
                 startActivity(intent);
                 overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
+
+//                预览方式1：可以有加载进度,也有放大拖拽等功能 但是加载oss图片失败
+//                ArrayList<String> showImgUrls = new ArrayList<>();
+//                for (String url : url_list) {
+//                    showImgUrls.add(ExtraURLEncoder.encode(imgUrl));
+//                }
+//                PreviewImgUtil.showImg(this, showImgUrls);
+//                overridePendingTransition(R.anim.center_zoom_in, R.anim.stay);
             }
         }
     }
 
     private void onSelectTextClick() {
         if (selectTv.getText().toString().equals("全选")) {
-            for (UploadImgItemBean itemBean : lists) {
+            for (UploadImgItemBean itemBean : imgList) {
                 itemBean.hasChoose = true;
             }
             selectTv.setText("取消全选");
@@ -231,7 +241,7 @@ public class ExtraUploadListActivity extends BaseActivity {
             delTv.setTextColor(Color.RED);
             adapter.notifyDataSetChanged();
         } else if (selectTv.getText().toString().equals("取消全选")) {
-            for (UploadImgItemBean itemBean : lists) {
+            for (UploadImgItemBean itemBean : imgList) {
                 itemBean.hasChoose = false;
             }
             selectTv.setText("全选");
@@ -273,8 +283,8 @@ public class ExtraUploadListActivity extends BaseActivity {
 
         //要删除的索引集合
         List<Integer> indexList = new ArrayList<>();
-        for (int i = 0; i < lists.size(); i++) {
-            if (lists.get(i).hasChoose) indexList.add(i);
+        for (int i = 0; i < imgList.size(); i++) {
+            if (imgList.get(i).hasChoose) indexList.add(i);
         }
         Collections.sort(indexList);
 
@@ -284,7 +294,7 @@ public class ExtraUploadListActivity extends BaseActivity {
         }
 
         ArrayList<UploadImgItemBean> tempList = new ArrayList<>();
-        tempList.addAll(lists);
+        tempList.addAll(imgList);
         //每删除一个对象就该偏移+1
         int offset = 0;
         for (int i = 0; i < indexList.size(); i++) {
@@ -306,10 +316,10 @@ public class ExtraUploadListActivity extends BaseActivity {
                     delTv.setText("删除");
                     delTv.setTextColor(Color.parseColor("#d1d1d1"));
 
-                    lists.clear();
-                    lists.addAll(tempList);
+                    imgList.clear();
+                    imgList.addAll(tempList);
 
-                    onImgCountChange(lists.size() > 0);
+                    onImgCountChange(imgList.size() > 0);
                 }
             });
         }
@@ -399,10 +409,10 @@ public class ExtraUploadListActivity extends BaseActivity {
                     }
 
                     if (listImgsResp.list.size() != 0) {
-                        lists.addAll(listImgsResp.list);
+                        imgList.addAll(listImgsResp.list);
                         onImgCountChange(listImgsResp.list.size() > 0);
                         //记录页面初始数据
-                        enterDataList.addAll(lists);
+                        enterDataList.addAll(imgList);
                     }
 
                     ApiUtil.requestUrl4Data(this, Api.getUploadService().getTemplate(topItem.id),
@@ -440,7 +450,7 @@ public class ExtraUploadListActivity extends BaseActivity {
 
     private int getCurrentChooseItemCount() {
         int totalCount = 0;
-        for (UploadImgItemBean itemBean : lists) {
+        for (UploadImgItemBean itemBean : imgList) {
             if (itemBean.hasChoose) {
                 totalCount++;
             }
@@ -490,8 +500,8 @@ public class ExtraUploadListActivity extends BaseActivity {
                 } else {
                     Toast.makeText(myApp, "上传成功", Toast.LENGTH_SHORT).show();
                 }
-                lists.addAll(relToAddList);
-                onImgCountChange(lists.size() > 0);
+                imgList.addAll(relToAddList);
+                onImgCountChange(imgList.size() > 0);
             })));
         }
     }
@@ -538,9 +548,9 @@ public class ExtraUploadListActivity extends BaseActivity {
     public void onBackPressed() {
         boolean hasChange = false;
         //检查数据源是否改变
-        if (lists.size() == enterDataList.size()) {
+        if (imgList.size() == enterDataList.size()) {
             for (UploadImgItemBean uploadImgItemBean : enterDataList) {
-                if (!lists.contains(uploadImgItemBean)) {
+                if (!imgList.contains(uploadImgItemBean)) {
                     hasChange = true;
                 }
             }
@@ -549,7 +559,7 @@ public class ExtraUploadListActivity extends BaseActivity {
         }
         topItem.has_change = hasChange;
 
-        topItem.has_img = lists.size();
+        topItem.has_img = imgList.size();
         setResult(RESULT_OK, getIntent());
         finish();
     }

@@ -38,7 +38,7 @@ import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.UploadSqsListActivity;
+import com.yusion.shanghai.yusion4s.ui.upload.ExtraNotUploadServerImgActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -530,7 +530,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 
     @Override
     public void onClick(View v) {
-        Intent intent = new Intent(mContext, UploadSqsListActivity.class);
+        Intent intent = new Intent(mContext, ExtraNotUploadServerImgActivity.class);
         //SubmitOrderReq req = ((HomeFragment) getParentFragment()).req;
         SubmitOrderReq req = ((OrderCreateActivity) getActivity()).req;
 

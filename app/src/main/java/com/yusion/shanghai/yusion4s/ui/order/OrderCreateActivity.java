@@ -119,8 +119,9 @@ public class OrderCreateActivity extends BaseActivity {
         if (cartype.equals("新车")) {
             transaction.add(R.id.order_create_container, mCarInfoFragment)
                     .hide(mCreditInfoFragment);
+//                    .hide(mCarInfoFragment);
             mCurrentFragment = mCarInfoFragment;
-            // mCurrentFragment = mCreditInfoFragment;
+//            mCurrentFragment = mCreditInfoFragment;
 
         } else {
             transaction.add(R.id.order_create_container, mOldCarInfoFragment)
