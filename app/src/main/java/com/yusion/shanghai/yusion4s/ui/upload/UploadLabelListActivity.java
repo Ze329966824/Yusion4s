@@ -81,13 +81,11 @@ public class UploadLabelListActivity extends BaseActivity {
         if (shouldUploadLog) {
             if (isShowDialog) {
                 //左上角或返回键
-                Log.e("TAG", "uploadAndFinish: " +"返回");
                 PopupDialogUtil.showOneButtonDialog(this, "您已修改了影像件，请点击提交按钮", "知道了", dialog -> {
                     dialog.dismiss();
                 });
             } else {
                 //提交
-                Log.e("TAG", "uploadAndFinish: " +"提交");
                 UploadLogReq req;
                 req = new UploadLogReq();
                 req.app_id = app_id;
@@ -95,13 +93,9 @@ public class UploadLabelListActivity extends BaseActivity {
                 req.file_value = topItem.value;
                 UploadApi.uploadLog(this, req, (code, msg) -> {
                 });
-
                 toSubmitMaterial();
-
             }
-
         }else {
-            Log.e("TAG", "uploadAndFinish: " +"  ");
             toSubmitMaterial();
         }
 
