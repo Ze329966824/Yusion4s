@@ -300,6 +300,7 @@ public class WheelViewUtil {
 
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
         clickedView.setEnabled(false);
+        //// TODO: 2017/12/26
         if (mCityWheelViewUtil == null) {
             mCityWheelViewUtil = new CityWheelViewUtil();
         }
