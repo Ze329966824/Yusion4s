@@ -26,9 +26,14 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.chanven.lib.cptr.PtrClassicDefaultHeader;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.PtrUIHandler;
+import com.chanven.lib.cptr.header.MaterialHeader;
+import com.chanven.lib.cptr.header.StoreHouseHeader;
+import com.chanven.lib.cptr.indicator.PtrIndicator;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
@@ -122,6 +127,11 @@ public class OrderItemFragment extends BaseFragment {
         adapter = new RecyclerAdapterWithHF(myOrderListAdapter);
         rv.setAdapter(adapter);
         ptr = (PtrClassicFrameLayout) view.findViewById(R.id.my_order_ptr);
+        StoreHouseHeader header = new StoreHouseHeader(mContext);
+        header.initWithString("this is a refresh.");
+
+        ptr.setHeaderView(header);
+        ptr.addPtrUIHandler(header);
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {

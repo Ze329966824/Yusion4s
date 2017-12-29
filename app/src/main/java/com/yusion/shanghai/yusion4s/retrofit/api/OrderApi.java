@@ -72,8 +72,8 @@ public class OrderApi {
 //    }
 
     public static void getAppList(final Context context, String st, String vehicle_cond, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
-        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getOrderService().getAppList(st, vehicle_cond).enqueue(new CustomCallBack<List<GetAppListResp>>(context, dialog) {
+//        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getAppList(st, vehicle_cond).enqueue(new CustomCallBack<List<GetAppListResp>>(context) {
             @Override
             public void onCustomResponse(List<GetAppListResp> data) {
                 onItemDataCallBack.onItemDataCallBack(data);
