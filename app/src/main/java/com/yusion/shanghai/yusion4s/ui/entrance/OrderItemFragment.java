@@ -34,6 +34,7 @@ import com.chanven.lib.cptr.PtrUIHandler;
 import com.chanven.lib.cptr.header.MaterialHeader;
 import com.chanven.lib.cptr.header.StoreHouseHeader;
 import com.chanven.lib.cptr.indicator.PtrIndicator;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
@@ -41,6 +42,7 @@ import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.glide.RefreshHeader;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -127,8 +129,10 @@ public class OrderItemFragment extends BaseFragment {
         adapter = new RecyclerAdapterWithHF(myOrderListAdapter);
         rv.setAdapter(adapter);
         ptr = (PtrClassicFrameLayout) view.findViewById(R.id.my_order_ptr);
-        StoreHouseHeader header = new StoreHouseHeader(mContext);
-        header.initWithString("this is a refresh.");
+
+
+        RefreshHeader header = new RefreshHeader(mContext);
+        ptr.autoRefresh(true);
 
         ptr.setHeaderView(header);
         ptr.addPtrUIHandler(header);
@@ -136,12 +140,25 @@ public class OrderItemFragment extends BaseFragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 refresh();
+//                adapter.notifyDataSetChanged();
+//                ptr.setLoadMoreEnable(true);
+
             }
 
             //改掉RecyclerView 吃 item 问题。
             @Override
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, rv, header);
+            }
+        });
+
+
+
+        ptr.setOnLoadMoreListener(new OnLoadMoreListener() {
+            @Override
+            public void loadMore() {
+                ToastUtil.showShort(mContext, "xxxxx");
+                refresh();
             }
         });
 
