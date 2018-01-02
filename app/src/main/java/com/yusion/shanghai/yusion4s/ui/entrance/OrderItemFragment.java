@@ -10,6 +10,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
+import android.support.annotation.UiThread;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -26,6 +27,7 @@ import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import com.awen.photo.photopick.data.Data;
 import com.chanven.lib.cptr.PtrClassicDefaultHeader;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
@@ -41,6 +43,7 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
+import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
 import com.yusion.shanghai.yusion4s.glide.RefreshHeader;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
@@ -58,13 +61,15 @@ import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.R.attr.data;
 import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
+import static org.jcodec.codecs.h264.H264Const.run;
 
 
 public class OrderItemFragment extends BaseFragment {
 
     private Handler handler = new Handler();
-    private List<GetAppListResp> items;
+    private List<RefreshAppList.DataBean> items;
     private int page;
     private RecyclerAdapterWithHF adapter;
     private PtrClassicFrameLayout ptr;
@@ -74,6 +79,8 @@ public class OrderItemFragment extends BaseFragment {
     private TextView order_list_item_update_tv;
     private String vehicle_cond = "新车";
     private MyOrderListAdapter myOrderListAdapter;
+    private int current_page = 1;
+    private int total_page;
 
     public void setVehicle_cond(String vehicle_cond) {
         this.vehicle_cond = vehicle_cond;
@@ -162,20 +169,43 @@ public class OrderItemFragment extends BaseFragment {
             }
         });
 
-//        ptr.setLoadMoreEnable(true);
-//        ptr.setOnLoadMoreListener(new OnLoadMoreListener() {
-//            @Override
-//            public void loadMore() {
-//                handler.postDelayed(new Runnable() {
+
+        ptr.setLoadMoreEnable(true);
+        ptr.setOnLoadMoreListener(() -> {
+
+
+            if (page < total_page) {
+                OrderApi.refreshAppList(mContext, st, vehicle_cond, ++page, data -> {
+                    if (data != null) {
+                        if (data.total_page == 0 || data.total_page == 1) {
+                            ptr.setLoadMoreEnable(false);
+                        }
+                    }
+                });
+            }
+//                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
-//                        OrderItemFragment.this.adapter.notifyDataSetChanged();
-//                        ptr.loadMoreComplete(true);
-//                        page++;
+//                        try {
+//                            Thread.sleep(1000);
+//                        } catch (InterruptedException e) {
+//                            e.printStackTrace();
+//                        }
+//                        getActivity().runOnUiThread(new Runnable() {
+//                            @Override
+//                            public void run() {
+//                                ToastUtil.showShort(mContext,"xxxx");
+//                                ptr.loadMoreComplete(true);
+//                            }
+//                        });
+//
 //                    }
-//                }, 1000);
-//            }
-//        });
+//                }).start();
+
+
+        });
+
+
     }
 
     @Override
@@ -185,30 +215,46 @@ public class OrderItemFragment extends BaseFragment {
     }
 
     public void refresh() {
-        OrderApi.getAppList(mContext, st, vehicle_cond, new OnItemDataCallBack<List<GetAppListResp>>() {
-            @Override
-            public void onItemDataCallBack(List<GetAppListResp> resp) {
-                if (resp != null && resp.size() > 0) {
+//        OrderApi.getAppList(mContext, st, vehicle_cond, new OnItemDataCallBack<List<GetAppListResp>>() {
+//            @Override
+//            public void onItemDataCallBack(List<GetAppListResp> resp) {
+//                if (resp != null && resp.size() > 0) {
+//                    ptr.setVisibility(View.VISIBLE);
+//                    rv.setVisibility(View.VISIBLE);
+//                    llyt.setVisibility(View.GONE);
+//                    items.clear();
+//                    items.addAll(resp);
+//                    adapter.notifyDataSetChanged();
+//                    ptr.refreshComplete();
+//                } else {
+//                    ptr.refreshComplete();
+//                    rv.setVisibility(View.GONE);
+//                    llyt.setVisibility(View.VISIBLE);
+//                    ptr.setVisibility(View.VISIBLE);
+//                }
+//            }
+//        });
+
+        OrderApi.refreshAppList(mContext, st,vehicle_cond, 1, resp -> {
+            if (resp != null) {
+                if (resp.total_page ==0 || resp.total_page ==1){
+                    ptr.setLoadMoreEnable(false);
+                }
+                if (resp.data.size() > 0) {
                     ptr.setVisibility(View.VISIBLE);
                     rv.setVisibility(View.VISIBLE);
                     llyt.setVisibility(View.GONE);
                     items.clear();
-                    items.addAll(resp);
+                    items.add(resp.data);
                     adapter.notifyDataSetChanged();
                     ptr.refreshComplete();
-                } else {
+                }
+                else {
                     ptr.refreshComplete();
                     rv.setVisibility(View.GONE);
                     llyt.setVisibility(View.VISIBLE);
                     ptr.setVisibility(View.VISIBLE);
-                    //ptr.setVisibility(View.GONE);
-
                 }
-// else ptr.refreshComplete();
-//                //       else {//添加空的view
-//////                            // llyt.setVisibility(View.VISIBLE);
-//////                            //ptr.setVisibility(View.GONE);
-//////                        }
             }
         });
     }

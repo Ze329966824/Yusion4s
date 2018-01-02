@@ -1,1 +1,1 @@
-include ':app', ':PickerLib', ':photoLibrary'
+include ':app', ':PickerLib', ':photoLibrary','cptr'

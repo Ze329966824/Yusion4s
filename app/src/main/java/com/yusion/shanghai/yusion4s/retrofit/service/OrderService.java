@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.retrofit.service;
 import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
+import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
@@ -37,6 +38,10 @@ public interface OrderService {
     //获取订单列表
     @GET("/api/application/get_app_list/")
     Call<BaseResult<List<GetAppListResp>>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond);
+
+    //新·获取订单列表
+    @GET("/api/application/get_app_list/")
+    Call<BaseResult<RefreshAppList>> refreshAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond, @Query("page") int page);
 
     //获取订单详情
     @GET("/api/application/get_app_details/")
