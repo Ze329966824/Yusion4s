@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadLogReq;
 import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import java.util.List;
 
@@ -28,6 +30,7 @@ public class UploadLabelListActivity extends BaseActivity {
     private ListDealerLabelsResp topItem;
     private RvAdapter adapter;
     private String app_id;
+    private boolean shouldUploadLog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +39,12 @@ public class UploadLabelListActivity extends BaseActivity {
 
         topItem = ((ListDealerLabelsResp) getIntent().getSerializableExtra("topItem"));
         app_id = getIntent().getStringExtra("app_id");
-        initTitleBar(this, topItem.name);
+
+
+        initTitleBar(this, topItem.name).setRightText("提交").setRightClickListener(v -> {
+            uploadAndFinish(false);
+
+        });
 
         RecyclerView rv = findViewById(R.id.upload_label_list_rv);
         rv.setLayoutManager(new LinearLayoutManager(this));
@@ -58,27 +66,50 @@ public class UploadLabelListActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
+        uploadAndFinish(true);
+    }
+
+
+    private void uploadAndFinish(boolean isShowDialog) {
         //检查是否需要向服务器打log
-        boolean shouldUploadLog = false;
+        shouldUploadLog = false;
         for (ListDealerLabelsResp.LabelListBean labelListBean : topItem.label_list) {
             if (labelListBean.has_change) {
                 shouldUploadLog = true;
             }
         }
         if (shouldUploadLog) {
-            UploadLogReq req;
-            req = new UploadLogReq();
-            req.app_id = app_id;
-            req.file_name = topItem.name;
-            req.file_value = topItem.value;
-            UploadApi.uploadLog(this, req, (code, msg) -> {});
+            if (isShowDialog) {
+                //左上角或返回键
+                PopupDialogUtil.showOneButtonDialog(this, "您已修改了影像件，请点击提交按钮", "知道了", dialog -> {
+                    dialog.dismiss();
+                });
+            } else {
+                //提交
+                UploadLogReq req;
+                req = new UploadLogReq();
+                req.app_id = app_id;
+                req.file_name = topItem.name;
+                req.file_value = topItem.value;
+                UploadApi.uploadLog(this, req, (code, msg) -> {
+                });
+                toSubmitMaterial();
+            }
+        }else {
+            toSubmitMaterial();
         }
 
+
+    }
+
+    private void toSubmitMaterial() {
         Intent intent = new Intent(this, SubmitMaterialActivity.class);
         intent.putExtra("app_id", app_id);
         startActivity(intent);
         finish();
     }
+
+
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
