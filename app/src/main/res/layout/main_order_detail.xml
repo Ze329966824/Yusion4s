@@ -862,12 +862,16 @@
             android:id="@+id/order_detail_order_info_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="9dp"
-            android:background="#F7F7F7"
-            android:orientation="horizontal">
 
+            android:layout_marginTop="9dp"
+            android:background="#F7F7F7">
+            <LinearLayout
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"
+                >
             <TextView
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
@@ -891,6 +895,7 @@
                 android:gravity="right|center_vertical"
                 android:text="修改后"
                 android:textSize="11.5sp" />
+            </LinearLayout>
 
         </LinearLayout>
 
