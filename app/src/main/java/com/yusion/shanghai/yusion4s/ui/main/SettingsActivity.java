@@ -106,7 +106,7 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     }
 
     private void showLogoutDialog() {
-        PopupDialogUtil.showTwoButtonsDialog(SettingsActivity.this,R.layout.popup_dialog_logout, new PopupDialogUtil.OnPopupClickListener() {
+        PopupDialogUtil.showTwoButtonsDialog(SettingsActivity.this,R.layout.popup_dialog_logout,"是否退出？","是","否", new PopupDialogUtil.OnPopupClickListener() {
             @Override
             public void onOkClick(Dialog dialog) {
                 dialog.dismiss();

@@ -250,9 +250,9 @@ public class OrderItemFragment extends BaseFragment {
                 vh.st.setTextColor(Color.parseColor("#FFFF3F00"));
             } else if (item.status_st == 9) {           //已取消9
                 vh.st.setTextColor(Color.parseColor("#FF666666"));
-            } else if (item.status_st == 11){           //已完成
+            } else if (item.status_st == 11) {           //已完成
                 vh.st.setTextColor(Color.parseColor("#FF06B7A3"));
-            }else {                                     //进行中
+            } else {                                     //进行中
                 vh.st.setTextColor(Color.parseColor("#FFFFA400"));
             }
             if (item.can_switch_sp) {
