@@ -35,13 +35,13 @@ public interface OrderService {
     @GET("/api/client/structure_all_client/")
     Call<BaseResult<GetApplicateDetailResp>> getApplicateDetail(@Query("clt_id") String clt_id);
 
-    //获取订单列表
-    @GET("/api/application/get_app_list/")
-    Call<BaseResult<List<GetAppListResp>>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond);
+//    //获取订单列表
+//    @GET("/api/application/get_app_list/")
+//    Call<BaseResult<GetAppListResp>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond);
 
     //新·获取订单列表
     @GET("/api/application/get_app_list/")
-    Call<BaseResult<RefreshAppList>> refreshAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond, @Query("page") int page);
+    Call<BaseResult<GetAppListResp>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond, @Query("page") int page);
 
     //获取订单详情
     @GET("/api/application/get_app_details/")

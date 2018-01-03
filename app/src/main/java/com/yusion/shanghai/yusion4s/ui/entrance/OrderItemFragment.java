@@ -69,7 +69,7 @@ import static org.jcodec.codecs.h264.H264Const.run;
 public class OrderItemFragment extends BaseFragment {
 
     private Handler handler = new Handler();
-    private List<RefreshAppList.DataBean> items;
+    private List<GetAppListResp.DataBean> items;
     private int page;
     private RecyclerAdapterWithHF adapter;
     private PtrClassicFrameLayout ptr;
@@ -175,10 +175,18 @@ public class OrderItemFragment extends BaseFragment {
 
 
             if (page < total_page) {
-                OrderApi.refreshAppList(mContext, st, vehicle_cond, ++page, data -> {
-                    if (data != null) {
-                        if (data.total_page == 0 || data.total_page == 1) {
+                OrderApi.getAppList(mContext, st, vehicle_cond, ++page, resp -> {
+                    if (resp != null) {
+                        if (resp.total_page == 0 || resp.total_page == 1) {
                             ptr.setLoadMoreEnable(false);
+                        }
+                        for (GetAppListResp.DataBean dataBean : resp.data) {
+                            items.add(dataBean);
+                            ptr.setVisibility(View.VISIBLE);
+                            rv.setVisibility(View.VISIBLE);
+                            llyt.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                            ptr.loadMoreComplete(true);
                         }
                     }
                 });
@@ -235,7 +243,7 @@ public class OrderItemFragment extends BaseFragment {
 //            }
 //        });
 
-        OrderApi.refreshAppList(mContext, st,vehicle_cond, 1, resp -> {
+        OrderApi.getAppList(mContext, st,vehicle_cond, 1, resp -> {
             if (resp != null) {
                 if (resp.total_page ==0 || resp.total_page ==1){
                     ptr.setLoadMoreEnable(false);
@@ -245,7 +253,10 @@ public class OrderItemFragment extends BaseFragment {
                     rv.setVisibility(View.VISIBLE);
                     llyt.setVisibility(View.GONE);
                     items.clear();
-                    items.add(resp.data);
+
+
+                    items = resp.data;
+                    Log.e("TAG", "refresh: items = "+items.size());
                     adapter.notifyDataSetChanged();
                     ptr.refreshComplete();
                 }
@@ -264,17 +275,18 @@ public class OrderItemFragment extends BaseFragment {
         private LayoutInflater mLayoutInflater;
         private Context mContext;
         private OnItemClick mOnItemClick;
-        private List<GetAppListResp> mItems;
+        private List<GetAppListResp.DataBean> mItems;
         private String vehicle_cond;
 
         public void setVehicle_cond(String vehicle_cond) {
             this.vehicle_cond = vehicle_cond;
         }
 
-        public MyOrderListAdapter(Context context, List<GetAppListResp> items) {
+        public MyOrderListAdapter(Context context, List<GetAppListResp.DataBean> items) {
             mContext = context;
             mLayoutInflater = LayoutInflater.from(mContext);
             mItems = items;
+            Log.e("TAG", "Adapter: items = "+mItems.size());
         }
 
         @Override
@@ -286,7 +298,8 @@ public class OrderItemFragment extends BaseFragment {
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
             Log.e("TAG", "onBindViewHolder: " + vehicle_cond);
             VH vh = (VH) holder;
-            GetAppListResp item = mItems.get(position);
+            GetAppListResp.DataBean item = mItems.get(position);
+            Log.e("TAG", "onBindViewHolder: items = "+mItems.size());
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -72,27 +72,27 @@ public class OrderApi {
 //
 //    }
 
-    public static void refreshAppList(final Context context, String st, String vehicle_cond, int page, final OnItemDataCallBack<RefreshAppList> onItemDataCallBack) {
+    public static void getAppList(final Context context, String st, String vehicle_cond, int page, final OnItemDataCallBack<GetAppListResp> onItemDataCallBack) {
 //        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getOrderService().refreshAppList(st,vehicle_cond, page).enqueue(new CustomCallBack<RefreshAppList>(context) {
+        Api.getOrderService().getAppList(st,vehicle_cond, page).enqueue(new CustomCallBack<GetAppListResp>(context) {
             @Override
-            public void onCustomResponse(RefreshAppList data) {
+            public void onCustomResponse(GetAppListResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
         });
 
     }
 
-    public static void getAppList(final Context context, String st, String vehicle_cond, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
-//        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getOrderService().getAppList(st, vehicle_cond).enqueue(new CustomCallBack<List<GetAppListResp>>(context) {
-            @Override
-            public void onCustomResponse(List<GetAppListResp> data) {
-                onItemDataCallBack.onItemDataCallBack(data);
-            }
-        });
-
-    }
+//    public static void getAppList(final Context context, String st, String vehicle_cond, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
+////        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+//        Api.getOrderService().getAppList(st, vehicle_cond).enqueue(new CustomCallBack<List<GetAppListResp>>(context) {
+//            @Override
+//            public void onCustomResponse(List<GetAppListResp> data) {
+//                onItemDataCallBack.onItemDataCallBack(data);
+//            }
+//        });
+//
+//    }
 
     public static void getAppDetails(final Context context, String app_id, final OnItemDataCallBack<OrderDetailBean> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);

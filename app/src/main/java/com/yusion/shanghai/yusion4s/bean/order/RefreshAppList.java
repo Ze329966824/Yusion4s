@@ -62,9 +62,9 @@ public class RefreshAppList {
         public boolean uw;
         public int uw_confirmed;
         public boolean can_switch_sp;
-        public Object spouse_clt_id;
+        public String spouse_clt_id;
         public String app_id;
-        public String status_st;
+        public int status_st;
         public String status_code;
         public String client_status_code;
         public String dlr_sales_nm;
