@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
 
-import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.PersonApi;
@@ -122,7 +121,7 @@ public class UploadPersonInfoService extends IntentService {
             simBean.mobile = data.mobile;
             req.imei = telephonyManager.getDeviceId();
             req.imsi = telephonyManager.getSubscriberId();
-            req.app = context.getResources().getString(R.string.app_name);
+            req.app = "Yusion4s";
             req.token = SharedPrefsUtil.getInstance(context).getValue("token", null);
             req.mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);
             PersonApi.uploadPersonAndDeviceInfo(req, new Callback() {
