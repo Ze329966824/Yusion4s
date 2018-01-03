@@ -191,6 +191,9 @@ public class OrderItemFragment extends BaseFragment {
                     }
                 });
             }
+            else {
+                ToastUtil.showShort(mContext,"到底了刷不了");
+            }
 //                new Thread(new Runnable() {
 //                    @Override
 //                    public void run() {
@@ -247,6 +250,8 @@ public class OrderItemFragment extends BaseFragment {
             if (resp != null) {
                 if (resp.total_page ==0 || resp.total_page ==1){
                     ptr.setLoadMoreEnable(false);
+                }else {
+                    total_page = resp.total_page;
                 }
                 if (resp.data.size() > 0) {
                     ptr.setVisibility(View.VISIBLE);
@@ -254,8 +259,7 @@ public class OrderItemFragment extends BaseFragment {
                     llyt.setVisibility(View.GONE);
                     items.clear();
 
-
-                    items = resp.data;
+                    items.addAll(resp.data);
                     Log.e("TAG", "refresh: items = "+items.size());
                     adapter.notifyDataSetChanged();
                     ptr.refreshComplete();
@@ -502,7 +506,8 @@ public class OrderItemFragment extends BaseFragment {
 
         @Override
         public int getItemCount() {
-            return mItems == null ? 0 : mItems.size();
+            int size = mItems.size();
+            return mItems == null ? 0 : size;
         }
 
         protected class VH extends RecyclerView.ViewHolder {
