@@ -193,24 +193,24 @@ public class HomeFragment extends BaseFragment {
             startActivityForResult(i3, Constants.REQUEST_CHANGE_DLR);
             activity.overridePendingTransition(R.anim.pop_enter_anim, R.anim.stay);
         });
-        //审核拒绝
+        //放款审核
         view.findViewById(R.id.apply_financing_lin1).setOnClickListener(v -> {
-            MainActivityEvent.showOrderManager.position = 8;
-            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
-        });
-        //待确认金融方案
-        view.findViewById(R.id.apply_financing_lin2).setOnClickListener(v -> {
             MainActivityEvent.showOrderManager.position = 2;
             EventBus.getDefault().post(MainActivityEvent.showOrderManager);
         });
-        //放款中
-        view.findViewById(R.id.apply_financing_lin3).setOnClickListener(v -> {
+        //放款
+        view.findViewById(R.id.apply_financing_lin2).setOnClickListener(v -> {
             MainActivityEvent.showOrderManager.position = 3;
             EventBus.getDefault().post(MainActivityEvent.showOrderManager);
         });
-        //待提贷后资料
+        //贷后追踪
+        view.findViewById(R.id.apply_financing_lin3).setOnClickListener(v -> {
+            MainActivityEvent.showOrderManager.position = 4;
+            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+        });
+        //已拒绝
         view.findViewById(R.id.apply_financing_lin4).setOnClickListener(v -> {
-            MainActivityEvent.showOrderManager.position = 5;
+            MainActivityEvent.showOrderManager.position = 8;
             EventBus.getDefault().post(MainActivityEvent.showOrderManager);
         });
     }

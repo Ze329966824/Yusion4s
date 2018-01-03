@@ -317,15 +317,21 @@
     </LinearLayout>
     <View
         android:layout_below="@+id/order_detail_schedule_lin"
-        android:id="@+id/order_detail_separate"
+        android:id="@+id/order_detail_separate1"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/separate_line_height"
+        android:layout_marginBottom="10dp"
+        android:background="@color/separate_line_color" />
+    <View
+        android:layout_below="@+id/order_detail_separate1"
+        android:id="@+id/order_detail_separate2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separate_line_height"
         android:background="@color/separate_line_color" />
-
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/order_detail_separate">
+        android:layout_below="@+id/order_detail_separate2">
 
         <android.support.v4.widget.NestedScrollView
             android:id="@+id/scrollView_four"
