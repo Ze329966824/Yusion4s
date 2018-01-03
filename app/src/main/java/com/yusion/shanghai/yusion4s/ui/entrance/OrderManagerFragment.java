@@ -93,7 +93,8 @@ public class OrderManagerFragment extends BaseFragment {
         //Yusion4sApp.getConfigResp().order_type_value;
         List<String> mTabTitle = ((Yusion4sApp) getActivity().getApplication()).getConfigResp().order_type_value;
         List<String> mStCode = ((Yusion4sApp) getActivity().getApplication()).getConfigResp().order_type_key;
-
+        Log.e("TAG", "mTabTitle: "+mTabTitle.toString());
+        Log.e("TAG", "mStCode: "+mStCode.toString());
         //String[] mTabTitle = {"全部", "待审核", "审核失败", "待确认金融方案", "放款中", "放款成功", "已取消"};
         //String[] mStCode = {"0", "2", "3", "4", "6", "7", "9"};
 //        for (int i = 0; i < mTabTitle.length; i++) {
@@ -204,7 +205,6 @@ public class OrderManagerFragment extends BaseFragment {
         Log.e("TAG", "changeFragment: "+event);
         switch (event){
             case showFragment:
-                Log.e("TAG", "changeFragment: 2222222");
                 viewPager.setCurrentItem(event.position);
                 break;
             default:

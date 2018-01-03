@@ -11,7 +11,6 @@
         android:id="@+id/order_detail_finance_lin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
         android:background="@color/white"
         android:orientation="vertical"
         android:paddingBottom="20dp"
@@ -1869,6 +1868,7 @@
             android:background="@color/main_driver" />
 
         <RelativeLayout
+            android:id="@+id/order_detail_sales_mobile_rel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"
@@ -1937,6 +1937,7 @@
             android:background="@color/main_driver" />
 
         <RelativeLayout
+            android:id="@+id/order_detail_customer_mobile_rel"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:paddingLeft="15dp"

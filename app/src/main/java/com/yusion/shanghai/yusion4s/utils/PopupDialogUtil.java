@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.utils;
 import android.app.Dialog;
 import android.content.Context;
 import android.support.annotation.LayoutRes;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.TextView;
@@ -255,14 +256,23 @@ public class PopupDialogUtil {
         dialog = new Dialog(mContext, R.style.MyDialogStyle);
         View view = LayoutInflater.from(mContext).inflate(resID, null);
         TextView mOK = view.findViewById(R.id.pop_dialog_ok_tv);
-        mOK.setText(rightMsg);
+        TextView mTitle = view.findViewById(R.id.pop_dialog_title_tv);
+        if (title != null) {
+            mTitle.setText(title);
+        }
+        if (rightMsg != null) {
+            mOK.setText(rightMsg);
+        }
         mOK.setOnClickListener(v -> {
             if (listener != null && listener.length > 0) {
                 listener[0].onOkClick(dialog);
             }
         });
         TextView mCancel = view.findViewById(R.id.pop_dialog_cancel_tv);
-        mCancel.setText(leftMsg);
+        if (leftMsg != null) {
+            Log.e("TAG", "showTwoButtonsDialog: "+leftMsg);
+            mCancel.setText(leftMsg);
+        }
         mCancel.setOnClickListener(v -> {
             if (listener != null && listener.length > 1) {
                 listener[1].onOkClick(dialog);
@@ -270,8 +280,6 @@ public class PopupDialogUtil {
                 dismiss();
             }
         });
-        TextView mTitle = view.findViewById(R.id.pop_dialog_title_tv);
-        mTitle.setText(title);
         dialog.setContentView(view);
         dialog.setCancelable(false);
         show();
