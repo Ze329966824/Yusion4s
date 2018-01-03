@@ -30,6 +30,7 @@
     <color name="new_car_pressed">#FF05A492</color>
     <color name="old_car_normal">#FFFF8867</color>
     <color name="old_car_pressed">#FFE57A5C</color>
+    <color name="change_dlr_pressed">#FFF3F4F5</color>
 
 
 </resources>

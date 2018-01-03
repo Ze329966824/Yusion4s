@@ -37,7 +37,7 @@
                 android:id="@+id/app_id"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="SSDFGHJK"
+                android:text=""
                 android:textColor="#222036"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -60,7 +60,7 @@
                 android:id="@+id/clt_nm"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="张小姐"
+                android:text=""
                 android:textColor="#222036"
                 android:textSize="14sp" />
         </LinearLayout>
@@ -83,7 +83,7 @@
                 android:id="@+id/creat_time"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="2016-07-05 14:32"
+                android:text=""
                 android:textColor="#222036"
                 android:textSize="14sp" />
         </LinearLayout>

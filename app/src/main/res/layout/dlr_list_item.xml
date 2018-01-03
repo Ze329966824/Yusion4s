@@ -5,6 +5,7 @@
     android:orientation="vertical">
 
     <RelativeLayout
+        android:background="@drawable/change_dlr_selector"
         android:layout_width="match_parent"
         android:layout_height="46dp">
 
@@ -14,7 +15,7 @@
             android:layout_height="wrap_content"
             android:layout_centerVertical="true"
             android:layout_marginLeft="15dp"
-            android:background="@drawable/textview_selector"
+            android:background="@null"
             android:ellipsize="end"
             android:maxLines="1"
             android:text="此处显示经销商名称"

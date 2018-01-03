@@ -371,7 +371,6 @@ public class OrderDetailActivity extends BaseActivity {
             startActivity(intent);
         });
 
-        // TODO: 2017/12/12   接口一： 是否显示 更换配偶作为主贷人 按钮
 
 
         orderDetailReplaceBtn.setOnClickListener(v -> {
@@ -699,12 +698,12 @@ public class OrderDetailActivity extends BaseActivity {
 
             }
 
-            findViewById(R.id.order_detail_customer_mobile_img).setOnClickListener(v -> {
+            findViewById(R.id.order_detail_customer_mobile_rel).setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + resp.mobile));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
             });
-            findViewById(R.id.order_detail_sales_mobile_img).setOnClickListener(v -> {
+            findViewById(R.id.order_detail_sales_mobile_rel).setOnClickListener(v -> {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + resp.dlr_sales_mobile));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 startActivity(intent);
