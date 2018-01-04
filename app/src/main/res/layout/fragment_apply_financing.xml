@@ -177,7 +177,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="8dp"
-                        android:text="审核拒绝"
+                        android:text="放款审核"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
 
@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="8dp"
-                        android:text="待确认金融方案"
+                        android:text="放款"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
 
@@ -280,7 +280,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="8dp"
-                        android:text="放款中"
+                        android:text="贷后追踪"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
 
@@ -326,7 +326,7 @@
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
                         android:layout_marginRight="8dp"
-                        android:text="待提贷后资料"
+                        android:text="已拒绝"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
 
