@@ -9,10 +9,12 @@ import android.widget.Toast;
 import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -66,18 +68,14 @@ public class LaunchActivity extends BaseActivity {
 
     private void checkVersion() {
         String versionCode = BuildConfig.VERSION_NAME;
-        AuthApi.update(this, this.getResources().getString(R.string.app_name), data -> {
-            if (data != null) {
-                int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(data.version));
-                if (result < 0) {
-                    UpdateUtil.showUpdateDialog(LaunchActivity.this, data.change_log, true, data.download_url);
-                } else {
-                    getConfigJson();
-                }
+        ApiUtil.requestUrl4Data(this, Api.getAuthService().update("yusion4s"), updateResp -> {
+            int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(updateResp.version));
+            if (result < 0) {
+                UpdateUtil.showUpdateDialog(LaunchActivity.this, updateResp.change_log, true, updateResp.download_url);
             } else {
                 getConfigJson();
             }
-        });
+        }, data -> getConfigJson());
     }
 
 

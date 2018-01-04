@@ -4,7 +4,6 @@ import android.content.Context;
 import android.telephony.TelephonyManager;
 
 import com.google.gson.Gson;
-import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.ubt.sql.UBTEvent;
 import com.yusion.shanghai.yusion4s.utils.MobileDataUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -69,7 +68,7 @@ public class UBTData {
         TelephonyManager telephonyManager = (TelephonyManager) context.getSystemService(TELEPHONY_SERVICE);
         imei = telephonyManager.getDeviceId();
         imsi = telephonyManager.getSubscriberId();
-        app = context.getResources().getString(R.string.app_name);
+        app = "Yusion4s";
         token = SharedPrefsUtil.getInstance(context).getValue("token", null);
         account = SharedPrefsUtil.getInstance(context).getValue("account", null);
         mobile = SharedPrefsUtil.getInstance(context).getValue("mobile", null);

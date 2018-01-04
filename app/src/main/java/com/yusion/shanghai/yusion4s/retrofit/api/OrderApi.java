@@ -7,6 +7,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
+import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
 import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
@@ -143,5 +144,14 @@ public class OrderApi {
         });
     }
 
+    public static void getOrderProcess(final Context context, String app_id, final OnItemDataCallBack<ProcessResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getOrderProcess(app_id).enqueue(new CustomCallBack<ProcessResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(ProcessResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
 
 }

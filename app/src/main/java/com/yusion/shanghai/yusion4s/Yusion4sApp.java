@@ -93,9 +93,11 @@ public class Yusion4sApp extends MultiDexApplication {
 
     private void initSentry() {
         if (BuildConfig.isOnline) {
-            Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
+//            Sentry.init("http://99c65c10b5564f8280e1d8230cb97880:18d30de1e6c64542837a7d82bbd33e9c@116.62.161.180:9002/6", new AndroidSentryClientFactory(this));
+            Sentry.init("http://3e8017d34adc4a879ca37aee52c90e0f:4c3334620ee44517ba063dda2698fceb@api.alpha.yusiontech.com:9002/6", new AndroidSentryClientFactory(this));
         } else {
-            Sentry.init("http://a38b78ed9d104631998185e97f1465ff:d7046f67331d4f8d860d922b0e02bc55@116.62.161.180:9002/8", new AndroidSentryClientFactory(this));
+//            Sentry.init("http://a38b78ed9d104631998185e97f1465ff:d7046f67331d4f8d860d922b0e02bc55@116.62.161.180:9002/8", new AndroidSentryClientFactory(this));
+            Sentry.init("http://8b5802dd07ba4f3184fcae8a9ba7c519:baa73593644a49c5b512b9222a0ca5ca@api.alpha.yusiontech.com:9002/5", new AndroidSentryClientFactory(this));
         }
     }
 
