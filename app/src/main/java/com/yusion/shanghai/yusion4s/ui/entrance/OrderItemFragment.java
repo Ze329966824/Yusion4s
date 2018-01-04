@@ -49,6 +49,7 @@ import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
 import com.yusion.shanghai.yusion4s.glide.RefreshFooter;
 import com.yusion.shanghai.yusion4s.glide.RefreshHeader;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -56,6 +57,7 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActi
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
@@ -65,6 +67,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.R.attr.data;
+import static cn.jpush.android.a.f;
 import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 import static org.jcodec.codecs.h264.H264Const.run;
 
@@ -129,8 +132,8 @@ public class OrderItemFragment extends BaseFragment {
 //        }
         st = getArguments().getString("st");
         vehicle_cond = getArguments().getString("vehicle_cond");
-        llyt = (LinearLayout) view.findViewById(R.id.my_order_llyt);
-        rv = (RecyclerView) view.findViewById(R.id.my_order_rv);
+        llyt = view.findViewById(R.id.my_order_llyt);
+        rv = view.findViewById(R.id.my_order_rv);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
         rv.addItemDecoration(new RecyclerViewDivider(mContext, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(getActivity(), 10), ContextCompat.getColor(getActivity(), R.color.main_bg)));
         items = new ArrayList<>();
@@ -138,14 +141,14 @@ public class OrderItemFragment extends BaseFragment {
         myOrderListAdapter.setVehicle_cond(vehicle_cond);
         adapter = new RecyclerAdapterWithHF(myOrderListAdapter);
         rv.setAdapter(adapter);
-        ptr = (PtrClassicFrameLayout) view.findViewById(R.id.my_order_ptr);
+        ptr = view.findViewById(R.id.my_order_ptr);
 
 
-        RefreshHeader header = new RefreshHeader(mContext);
+//        RefreshHeader header = new RefreshHeader(mContext);
         ptr.autoRefresh(true);
 
-        ptr.setHeaderView(header);
-        ptr.addPtrUIHandler(header);
+//        ptr.setHeaderView(header);
+//        ptr.addPtrUIHandler(header);
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
@@ -160,15 +163,10 @@ public class OrderItemFragment extends BaseFragment {
         });
 
 
-
-        RefreshFooter footer = new RefreshFooter();
-
         ptr.setLoadMoreEnable(true);
         ptr.setOnLoadMoreListener(() -> {
-
-
             if (page < total_page) {
-                OrderApi.getAppList(mContext, st, vehicle_cond, ++page, resp -> {
+                ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, vehicle_cond, ++page), (OnItemDataCallBack<GetAppListResp>) resp -> {
                     if (resp != null) {
                         if (resp.total_page == 0 || resp.total_page == 1) {
                             ptr.setLoadMoreEnable(false);
@@ -183,35 +181,10 @@ public class OrderItemFragment extends BaseFragment {
                         }
                     }
                 });
+            } else {
+                ptr.loadMoreComplete(false);
             }
-            else {
-                ToastUtil.showShort(mContext,"到底了刷不了");
-                ptr.loadMoreComplete(true);
-
-            }
-//                new Thread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        try {
-//                            Thread.sleep(1000);
-//                        } catch (InterruptedException e) {
-//                            e.printStackTrace();
-//                        }
-//                        getActivity().runOnUiThread(new Runnable() {
-//                            @Override
-//                            public void run() {
-//                                ToastUtil.showShort(mContext,"xxxx");
-//                                ptr.loadMoreComplete(true);
-//                            }
-//                        });
-//
-//                    }
-//                }).start();
-
-
         });
-
-
     }
 
     @Override
@@ -221,32 +194,12 @@ public class OrderItemFragment extends BaseFragment {
     }
 
     public void refresh() {
-//        OrderApi.getAppList(mContext, st, vehicle_cond, new OnItemDataCallBack<List<GetAppListResp>>() {
-//            @Override
-//            public void onItemDataCallBack(List<GetAppListResp> resp) {
-//                if (resp != null && resp.size() > 0) {
-//                    ptr.setVisibility(View.VISIBLE);
-//                    rv.setVisibility(View.VISIBLE);
-//                    llyt.setVisibility(View.GONE);
-//                    items.clear();
-//                    items.addAll(resp);
-//                    adapter.notifyDataSetChanged();
-//                    ptr.refreshComplete();
-//                } else {
-//                    ptr.refreshComplete();
-//                    rv.setVisibility(View.GONE);
-//                    llyt.setVisibility(View.VISIBLE);
-//                    ptr.setVisibility(View.VISIBLE);
-//                }
-//            }
-//        });
-
-        OrderApi.getAppList(mContext, st,vehicle_cond,1 , resp -> {
-            page = 1;
+        page = 1;
+        ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, vehicle_cond, page), (OnItemDataCallBack<GetAppListResp>) resp -> {
             if (resp != null) {
-                if (resp.total_page ==0 || resp.total_page ==1){
+                if (resp.total_page == 0 || resp.total_page == 1) {
                     ptr.setLoadMoreEnable(false);
-                }else {
+                } else {
                     total_page = resp.total_page;
                 }
                 if (resp.data.size() > 0) {
@@ -256,11 +209,11 @@ public class OrderItemFragment extends BaseFragment {
                     items.clear();
 
                     items.addAll(resp.data);
-                    Log.e("TAG", "refresh: items = "+items.size());
+                    Log.e("TAG", "refresh: items = " + items.size());
                     adapter.notifyDataSetChanged();
                     ptr.refreshComplete();
-                }
-                else {
+                    ptr.setLoadMoreEnable(true);
+                } else {
                     ptr.refreshComplete();
                     rv.setVisibility(View.GONE);
                     llyt.setVisibility(View.VISIBLE);
@@ -286,7 +239,7 @@ public class OrderItemFragment extends BaseFragment {
             mContext = context;
             mLayoutInflater = LayoutInflater.from(mContext);
             mItems = items;
-            Log.e("TAG", "Adapter: items = "+mItems.size());
+            Log.e("TAG", "Adapter: items = " + mItems.size());
         }
 
         @Override
@@ -299,7 +252,7 @@ public class OrderItemFragment extends BaseFragment {
             Log.e("TAG", "onBindViewHolder: " + vehicle_cond);
             VH vh = (VH) holder;
             GetAppListResp.DataBean item = mItems.get(position);
-            Log.e("TAG", "onBindViewHolder: items = "+mItems.size());
+            Log.e("TAG", "onBindViewHolder: items = " + mItems.size());
             vh.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -370,7 +323,7 @@ public class OrderItemFragment extends BaseFragment {
                     popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
                     popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
                     View contentView = LayoutInflater.from(mContext).inflate(R.layout.btns_group, null);
-                    ((Button) contentView.findViewById(R.id.btn1)).setOnClickListener(v1 -> {
+                    contentView.findViewById(R.id.btn1).setOnClickListener(v1 -> {
 //                        UploadLabelListActivity.start(mContext, item.app_id);
                         popupWindow.dismiss();
                     });
@@ -528,21 +481,21 @@ public class OrderItemFragment extends BaseFragment {
 
             public VH(View itemView) {
                 super(itemView);
-                btns = ((ImageView) itemView.findViewById(R.id.order_list_item_btns_img));
-                name = ((TextView) itemView.findViewById(R.id.order_list_item_name_tv));
-                st = ((TextView) itemView.findViewById(R.id.order_list_item_st_tv));
-                door = ((TextView) itemView.findViewById(R.id.order_list_item_door_tv));
-                time = ((TextView) itemView.findViewById(R.id.order_list_item_time_tv));
-                model = ((TextView) itemView.findViewById(R.id.order_list_item_model_tv));
-                brand = ((TextView) itemView.findViewById(R.id.order_item_brand));
-                trix = ((TextView) itemView.findViewById(R.id.order_list_item_trix_tv));
-                loan = ((TextView) itemView.findViewById(R.id.order_list_item_total_loan_tv));
-                periods = ((TextView) itemView.findViewById(R.id.order_list_item_periods_tv));
-                phone = ((TextView) itemView.findViewById(R.id.order_list_item_phone_img));
-                change = (TextView) itemView.findViewById(R.id.order_list_item_change_tv);
-                upload = (TextView) itemView.findViewById(R.id.order_list_item_upload_tv);
-                replace = (TextView) itemView.findViewById(R.id.order_list_item_replace_tv);
-                car_icon = (ImageView) itemView.findViewById(R.id.order_list_item_car_icon);
+                btns = itemView.findViewById(R.id.order_list_item_btns_img);
+                name = itemView.findViewById(R.id.order_list_item_name_tv);
+                st = itemView.findViewById(R.id.order_list_item_st_tv);
+                door = itemView.findViewById(R.id.order_list_item_door_tv);
+                time = itemView.findViewById(R.id.order_list_item_time_tv);
+                model = itemView.findViewById(R.id.order_list_item_model_tv);
+                brand = itemView.findViewById(R.id.order_item_brand);
+                trix = itemView.findViewById(R.id.order_list_item_trix_tv);
+                loan = itemView.findViewById(R.id.order_list_item_total_loan_tv);
+                periods = itemView.findViewById(R.id.order_list_item_periods_tv);
+                phone = itemView.findViewById(R.id.order_list_item_phone_img);
+                change = itemView.findViewById(R.id.order_list_item_change_tv);
+                upload = itemView.findViewById(R.id.order_list_item_upload_tv);
+                replace = itemView.findViewById(R.id.order_list_item_replace_tv);
+                car_icon = itemView.findViewById(R.id.order_list_item_car_icon);
                 oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
                 twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
             }

@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.chanven.lib.cptr.R;
 
@@ -72,7 +73,7 @@ public class DefaultLoadMoreViewFooter implements ILoadMoreViewFactory {
 
         @Override
         public void showNomore() {
-            footerTv.setText("已经加载完毕");
+            footerTv.setText("我是有底线的！");
             footerBar.setVisibility(View.GONE);
             footerView.setOnClickListener(null);
         }
