@@ -68,7 +68,7 @@ public class LaunchActivity extends BaseActivity {
 
     private void checkVersion() {
         String versionCode = BuildConfig.VERSION_NAME;
-        ApiUtil.requestUrl4Data(this, Api.getAuthService().update("Yusion4s"), updateResp -> {
+        ApiUtil.requestUrl4Data(this, Api.getAuthService().update("yusion4s"), updateResp -> {
             int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(updateResp.version));
             if (result < 0) {
                 UpdateUtil.showUpdateDialog(LaunchActivity.this, updateResp.change_log, true, updateResp.download_url);
