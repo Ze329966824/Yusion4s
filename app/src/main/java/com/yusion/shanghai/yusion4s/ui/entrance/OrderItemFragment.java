@@ -36,6 +36,8 @@ import com.chanven.lib.cptr.PtrUIHandler;
 import com.chanven.lib.cptr.header.MaterialHeader;
 import com.chanven.lib.cptr.header.StoreHouseHeader;
 import com.chanven.lib.cptr.indicator.PtrIndicator;
+import com.chanven.lib.cptr.loadmore.DefaultLoadMoreViewFooter;
+import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory;
 import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
@@ -45,6 +47,7 @@ import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
+import com.yusion.shanghai.yusion4s.glide.RefreshFooter;
 import com.yusion.shanghai.yusion4s.glide.RefreshHeader;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
@@ -147,9 +150,6 @@ public class OrderItemFragment extends BaseFragment {
             @Override
             public void onRefreshBegin(PtrFrameLayout frame) {
                 refresh();
-//                adapter.notifyDataSetChanged();
-//                ptr.setLoadMoreEnable(true);
-
             }
 
             //改掉RecyclerView 吃 item 问题。
@@ -161,14 +161,7 @@ public class OrderItemFragment extends BaseFragment {
 
 
 
-        ptr.setOnLoadMoreListener(new OnLoadMoreListener() {
-            @Override
-            public void loadMore() {
-                ToastUtil.showShort(mContext, "xxxxx");
-                refresh();
-            }
-        });
-
+        RefreshFooter footer = new RefreshFooter();
 
         ptr.setLoadMoreEnable(true);
         ptr.setOnLoadMoreListener(() -> {
@@ -193,6 +186,8 @@ public class OrderItemFragment extends BaseFragment {
             }
             else {
                 ToastUtil.showShort(mContext,"到底了刷不了");
+                ptr.loadMoreComplete(true);
+
             }
 //                new Thread(new Runnable() {
 //                    @Override
@@ -246,7 +241,8 @@ public class OrderItemFragment extends BaseFragment {
 //            }
 //        });
 
-        OrderApi.getAppList(mContext, st,vehicle_cond, 1, resp -> {
+        OrderApi.getAppList(mContext, st,vehicle_cond,1 , resp -> {
+            page = 1;
             if (resp != null) {
                 if (resp.total_page ==0 || resp.total_page ==1){
                     ptr.setLoadMoreEnable(false);
