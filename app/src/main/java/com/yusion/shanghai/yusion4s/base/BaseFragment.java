@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.base;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -26,11 +27,12 @@ public abstract class BaseFragment extends Fragment {
 
     public TitleBar initTitleBar(final View view, String title) {
         TitleBar titleBar = (TitleBar) view.findViewById(R.id.title_bar);
-        titleBar.setBackgroundResource(R.color.system_color);
-        titleBar.setImmersive(false);
         titleBar.setTitle(title);
-        titleBar.setTitleColor(view.getResources().getColor(R.color.black));
-        titleBar.setDividerColor(view.getResources().getColor(R.color.separate_line_color));
+        titleBar.setLeftTextColor(Color.BLACK);
+        titleBar.setRightTextColor(Color.BLACK);
+        titleBar.setBackgroundResource(R.color.white);
+        titleBar.setTitleColor(activity.getResources().getColor(R.color.black));
+        titleBar.setDividerColor(activity.getResources().getColor(R.color.separate_line_color));
         return titleBar;
     }
 
