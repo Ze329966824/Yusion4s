@@ -66,7 +66,7 @@ public class SearchOrderActivity extends BaseActivity {
     private NoEmptyEditText search_et;
     private ImageView poi_delete_img;
     private Button search_btn;
-    private List<GetAppListResp> items;
+    private List<GetAppListResp.DataBean> items;
     private int page;
     private RecyclerAdapterWithHF adapter;
     private MyOrderListAdapter myOrderListAdapter;
@@ -254,17 +254,17 @@ public class SearchOrderActivity extends BaseActivity {
         if (TextUtils.isEmpty(search_et.getText())) {
             ToastUtil.showLong(this, "请输入用户姓名");
         } else {
-            ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), 1), new OnItemDataCallBack<List<GetAppListResp>>() {
+            ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), 1), new OnItemDataCallBack<GetAppListResp>() {
                 @Override
-                public void onItemDataCallBack(List<GetAppListResp> resp) {
-                    if (resp != null && resp.size() > 0) {
+                public void onItemDataCallBack(GetAppListResp resp) {
+                    if (resp != null && resp.data.size() > 0 && resp.data != null) {
                         saveSearchHistory();
                         //  my_search_order_ptr.setEnabled(true);
                         my_search_order_ptr.setVisibility(View.VISIBLE);
                         my_order_rv.setVisibility(View.VISIBLE);
                         my_search_order_llyt.setVisibility(View.GONE);
                         items.clear();
-                        items.addAll(resp);
+                        items.addAll(resp.data);
                         adapter.notifyDataSetChanged();
                         my_search_order_ptr.refreshComplete();
                     } else {
@@ -285,14 +285,14 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater mLayoutInflater;
     private Context mContext;
     private OnItemClick mOnItemClick;
-    private List<GetAppListResp> mItems;
+    private List<GetAppListResp.DataBean> mItems;
     private String vehicle_cond;
 
     public void setVehicle_cond(String vehicle_cond) {
         this.vehicle_cond = vehicle_cond;
     }
 
-    public MyOrderListAdapter(Context context, List<GetAppListResp> Items) {
+    public MyOrderListAdapter(Context context, List<GetAppListResp.DataBean> Items) {
         mContext = context;
         mItems = Items;
         mLayoutInflater = LayoutInflater.from(mContext);
@@ -307,7 +307,8 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         Log.e("TAG", "onBindViewHolder: " + vehicle_cond);
         VH vh = (VH) holder;
-        GetAppListResp item = mItems.get(position);
+        GetAppListResp.DataBean item = mItems.get(position);
+
         vh.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
