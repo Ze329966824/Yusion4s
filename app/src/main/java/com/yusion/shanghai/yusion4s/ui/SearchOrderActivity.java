@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
+import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -67,7 +68,6 @@ public class SearchOrderActivity extends BaseActivity {
     private ImageView poi_delete_img;
     private Button search_btn;
     private List<GetAppListResp.DataBean> items;
-    private int page;
     private RecyclerAdapterWithHF adapter;
     private MyOrderListAdapter myOrderListAdapter;
     private RecyclerView hisRecyclerView;
@@ -79,6 +79,9 @@ public class SearchOrderActivity extends BaseActivity {
     private HistoryAdapter historyAdapter;
     private RecyclerAdapterWithHF hisAdapter;
     private LinearLayout history_lin;
+
+    private int page = 1;
+    private int total_page;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -149,17 +152,39 @@ public class SearchOrderActivity extends BaseActivity {
         historyAdapter.notifyDataSetChanged();
 
 
-        my_search_order_ptr.setPtrHandler(new PtrDefaultHandler() {
-            @Override
-            public void onRefreshBegin(PtrFrameLayout frame) {
-                refresh();
-            }
-
-            @Override
-            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-                return PtrDefaultHandler.checkContentCanBePulledDown(frame, my_order_rv, header);
+//        my_search_order_ptr.setPtrHandler(new PtrDefaultHandler() {
+//            @Override
+//            public void onRefreshBegin(PtrFrameLayout frame) {
+//                refresh();
+//            }
+//
+//            @Override
+//            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+//                return PtrDefaultHandler.checkContentCanBePulledDown(frame, my_order_rv, header);
+//            }
+//        });
+        my_search_order_ptr.setOnLoadMoreListener(() -> {
+            if (page < total_page) {
+                ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), ++page), (OnItemDataCallBack<GetAppListResp>) resp -> {
+                    if (resp != null) {
+                        if (resp.total_page == 0 || resp.total_page == 1) {
+                            my_search_order_ptr.setLoadMoreEnable(false);
+                        }
+                        for (GetAppListResp.DataBean dataBean : resp.data) {
+                            items.add(dataBean);
+                            my_search_order_ptr.setVisibility(View.VISIBLE);
+                            my_order_rv.setVisibility(View.VISIBLE);
+                            my_search_order_llyt.setVisibility(View.GONE);
+                            adapter.notifyDataSetChanged();
+                            my_search_order_ptr.loadMoreComplete(true);
+                        }
+                    }
+                });
+            } else {
+                my_search_order_ptr.loadMoreComplete(false);
             }
         });
+
         back_img.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -254,25 +279,32 @@ public class SearchOrderActivity extends BaseActivity {
         if (TextUtils.isEmpty(search_et.getText())) {
             ToastUtil.showLong(this, "请输入用户姓名");
         } else {
-            ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), 1), new OnItemDataCallBack<GetAppListResp>() {
-                @Override
-                public void onItemDataCallBack(GetAppListResp resp) {
-                    if (resp != null && resp.data.size() > 0 && resp.data != null) {
-                        saveSearchHistory();
-                        //  my_search_order_ptr.setEnabled(true);
-                        my_search_order_ptr.setVisibility(View.VISIBLE);
-                        my_order_rv.setVisibility(View.VISIBLE);
-                        my_search_order_llyt.setVisibility(View.GONE);
-                        items.clear();
-                        items.addAll(resp.data);
-                        adapter.notifyDataSetChanged();
-                        my_search_order_ptr.refreshComplete();
+            page = 1;
+            ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), page), (OnItemDataCallBack<GetAppListResp>) resp -> {
+                if (resp != null && resp.data.size() > 0 && resp.data != null) {
+                    if (resp.total_page == 0 || resp.total_page == 1) {
+                        my_search_order_ptr.setLoadMoreEnable(false);
                     } else {
-                        my_search_order_ptr.refreshComplete();
-                        my_order_rv.setVisibility(View.GONE);
-                        my_search_order_llyt.setVisibility(View.VISIBLE);
-                        my_search_order_ptr.setVisibility(View.VISIBLE);
+                        total_page = resp.total_page;
                     }
+                    saveSearchHistory();
+                    my_search_order_ptr.setVisibility(View.VISIBLE);
+                    my_order_rv.setVisibility(View.VISIBLE);
+                    my_search_order_llyt.setVisibility(View.GONE);
+                    items.clear();
+                    items.addAll(resp.data);
+                    adapter.notifyDataSetChanged();
+                    my_search_order_ptr.refreshComplete();
+
+                    if (my_search_order_ptr.isLoadMoreEnable()) {
+                        my_search_order_ptr.setLoadMoreEnable(true);
+                    }
+
+                } else {
+                    my_search_order_ptr.refreshComplete();
+                    my_order_rv.setVisibility(View.GONE);
+                    my_search_order_llyt.setVisibility(View.VISIBLE);
+                    my_search_order_ptr.setVisibility(View.VISIBLE);
                 }
             });
         }
