@@ -18,19 +18,17 @@
         cube_ptr:ptr_pull_to_fresh="false"
         cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
         cube_ptr:ptr_resistance="1.7">
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent">
+
         <LinearLayout
             android:background="@color/bg_color"
             android:orientation="vertical"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="wrap_content">
 
         <LinearLayout
             android:id="@+id/apply_financing_dlr_lin"
             android:layout_width="match_parent"
-            android:layout_height="42dp"
+            android:layout_height="@dimen/y127"
             android:background="#FF2D2F3B"
             android:gravity="center"
             android:orientation="horizontal">
@@ -61,7 +59,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="235dp"
+            android:layout_height="@dimen/y662"
             android:background="@mipmap/apply_financing_back"
             android:gravity="center_horizontal"
             android:orientation="vertical">
@@ -71,15 +69,16 @@
                 android:id="@+id/all_count"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="36dp"
+                android:layout_marginTop="@dimen/y109"
                 android:gravity="center_horizontal"
                 android:textColor="#FFA0B4B1"
+                tools:text="1"
                 android:textSize="58dp" />
 
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
+                android:layout_marginTop="@dimen/y6"
                 android:gravity="center_horizontal"
                 android:text="累积完成(单)"
                 android:textColor="#FF9FB3B1"
@@ -88,7 +87,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="7dp"
+                android:layout_marginTop="@dimen/y84"
                 android:orientation="horizontal">
 
                 <LinearLayout
@@ -149,10 +148,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
+            android:layout_height="@dimen/y288"
+            android:layout_marginLeft="@dimen/y43"
+            android:layout_marginRight="@dimen/y43"
+            android:layout_marginTop="@dimen/y43"
             android:orientation="horizontal">
 
 
@@ -168,7 +167,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/y49"
                     android:orientation="horizontal">
 
                     <TextView
@@ -176,7 +175,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginRight="@dimen/y26"
                         android:text="放款审核"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
@@ -214,7 +213,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/y49"
                     android:orientation="horizontal">
 
                     <TextView
@@ -222,7 +221,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginRight="@dimen/y26"
                         android:text="放款"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
@@ -254,9 +253,10 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="96dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
+            android:layout_height="@dimen/y288"
+            android:layout_marginTop="@dimen/y29"
+            android:layout_marginLeft="@dimen/y43"
+            android:layout_marginRight="@dimen/y43"
             android:orientation="horizontal">
 
 
@@ -271,7 +271,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/y49"
                     android:orientation="horizontal">
 
                     <TextView
@@ -279,7 +279,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginRight="@dimen/y26"
                         android:text="贷后追踪"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
@@ -317,7 +317,7 @@
                 <RelativeLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="15dp"
+                    android:layout_marginTop="@dimen/y49"
                     android:orientation="horizontal">
 
                     <TextView
@@ -325,7 +325,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_centerInParent="true"
-                        android:layout_marginRight="8dp"
+                        android:layout_marginRight="@dimen/y26"
                         android:text="已拒绝"
                         android:textColor="#FF9FB2B9"
                         android:textSize="13.46dp" />
@@ -358,25 +358,25 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="200dp"
-                android:layout_marginTop="14.62dp"
+                android:layout_height="@dimen/y400"
+                android:layout_marginTop="@dimen/y43"
                 android:background="#FFFFFFFF"
                 android:orientation="vertical">
 
                 <LinearLayout
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="14.42dp"
-                    android:layout_marginRight="14.42dp"
-                    android:layout_marginTop="10dp"
+                    android:layout_height="@dimen/y126"
+                    android:layout_marginLeft="@dimen/y43"
+                    android:layout_marginRight="@dimen/y43"
+                    android:layout_marginTop="@dimen/y29"
                     android:orientation="horizontal">
 
                     <Button
                         android:background="@drawable/new_car_selector"
                         android:id="@+id/apply_financing_cteate_newcar_btn"
                         android:layout_width="0dp"
-                        android:layout_height="42dp"
-                        android:layout_marginRight="10dp"
+                        android:layout_height="@dimen/y127"
+                        android:layout_marginRight="@dimen/y26"
                         android:layout_weight="1"
                         android:text="新车"
                         android:textColor="#FFFFFF"
@@ -385,7 +385,7 @@
                     <Button
                         android:id="@+id/apply_financing_cteate_oldcar_btn"
                         android:layout_width="0dp"
-                        android:layout_height="42dp"
+                        android:layout_height="@dimen/y127"
                         android:layout_weight="1"
                         android:background="@drawable/old_car_selector"
                         android:text="二手车"
@@ -394,15 +394,11 @@
 
                 </LinearLayout>
 
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="35dp"
-                    android:gravity="bottom" />
 
 
             </LinearLayout>
 
         </LinearLayout>
-    </ScrollView>
+
     </com.chanven.lib.cptr.PtrClassicFrameLayout>
 </LinearLayout>
