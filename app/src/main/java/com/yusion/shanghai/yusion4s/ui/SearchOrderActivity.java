@@ -73,6 +73,7 @@ public class SearchOrderActivity extends BaseActivity {
     private RecyclerView hisRecyclerView;
     private String history = "";
     private ImageView back_img;
+    private ImageView lajitong;//垃圾桶
 
     //用于展示历史记录
     private List<String> mDates;
@@ -88,6 +89,7 @@ public class SearchOrderActivity extends BaseActivity {
     }
 
     private void initView() {
+        lajitong = findViewById(R.id.lajitong);
         back_img = findViewById(R.id.back_img);
         history_lin = findViewById(R.id.history_lin);
         hisRecyclerView = findViewById(R.id.recyclerView);
@@ -160,6 +162,13 @@ public class SearchOrderActivity extends BaseActivity {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, my_order_rv, header);
             }
         });
+        lajitong.setOnClickListener(v -> {
+            SharedPrefsUtil.getInstance(this).putValue("history", "");
+//            mDates = new ArrayList<String>();
+            mDates.clear();
+            Log.e("TAG", "initView: " + mDates);
+            historyAdapter.notifyDataSetChanged();
+        });
         back_img.setOnClickListener(v -> {
             onBackPressed();
         });
@@ -187,12 +196,12 @@ public class SearchOrderActivity extends BaseActivity {
 
         search_btn.setOnClickListener(v -> {
             refresh();
-            if (TextUtils.isEmpty(search_et.getText())) {
-                ToastUtil.showLong(this, "sss");
-            } else {
-                //  history = search_et.getText().toString() + "#" + history;
-                saveSearchHistory();
-            }
+//            if (TextUtils.isEmpty(search_et.getText())) {
+//                ToastUtil.showLong(this, "sss");
+//            } else {
+//                //  history = search_et.getText().toString() + "#" + history;
+//                saveSearchHistory();
+//            }
         });
 
 
@@ -268,6 +277,7 @@ public class SearchOrderActivity extends BaseActivity {
                         adapter.notifyDataSetChanged();
                         my_search_order_ptr.refreshComplete();
                     } else {
+                        history_lin.setVisibility(View.GONE);
                         my_search_order_ptr.refreshComplete();
                         my_order_rv.setVisibility(View.GONE);
                         my_search_order_llyt.setVisibility(View.VISIBLE);
