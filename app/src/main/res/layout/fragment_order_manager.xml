@@ -1,10 +1,12 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context="com.yusion.shanghai.yusion4s.ui.OrderManagerFragment">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:focusable="true"
+              android:focusableInTouchMode="true"
+              android:orientation="vertical"
+              tools:context="com.yusion.shanghai.yusion4s.ui.OrderManagerFragment">
 
     <!--<include-->
     <!--android:id="@+id/title_bar"-->
@@ -13,6 +15,17 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="44.5dp">
+
+        <ImageView
+            android:id="@+id/btn_test"
+            android:layout_width="23dp"
+            android:layout_height="23dp"
+            android:layout_alignParentRight="true"
+            android:layout_alignTop="@+id/button"
+            android:layout_marginTop="5dp"
+            android:layout_toRightOf="@+id/button"
+            android:src="@mipmap/insearch2"
+            />
 
         <RelativeLayout
             android:id="@+id/button"
@@ -23,7 +36,7 @@
             <com.yusion.shanghai.yusion4s.widget.SwitchButton
                 android:id="@+id/order_manager_sb"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -37,7 +50,7 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="新车"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"/>
 
                 <TextView
                     android:id="@+id/order_manager_old_car"
@@ -46,31 +59,32 @@
                     android:layout_weight="1"
                     android:gravity="center"
                     android:text="二手车"
-                    android:textSize="15dp" />
+                    android:textSize="15dp"/>
 
             </LinearLayout>
         </RelativeLayout>
+
     </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/separate_line_height"
-        android:background="@color/separate_line_color" />
+        android:background="@color/separate_line_color"/>
 
     <net.lucode.hackware.magicindicator.MagicIndicator
         android:id="@+id/tab_layout"
         android:layout_width="match_parent"
         android:layout_height="40dp"
-        android:background="#ffffff" />
+        android:background="#ffffff"/>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="@dimen/separate_line_height"
-        android:background="@color/separate_line_color" />
+        android:background="@color/separate_line_color"/>
 
     <android.support.v4.view.ViewPager
         android:id="@+id/view_pager"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#ffffff" />
+        android:background="#ffffff"/>
 </LinearLayout>

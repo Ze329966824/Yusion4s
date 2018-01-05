@@ -2,6 +2,7 @@ package com.yusion.shanghai.yusion4s.ui.entrance;
 
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -13,11 +14,13 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
+import com.yusion.shanghai.yusion4s.ui.SearchOrderActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 import com.yusion.shanghai.yusion4s.widget.SwitchButton;
@@ -37,6 +40,7 @@ import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import java.util.List;
 
+
 /**
  * A simple {@link Fragment} subclass.
  */
@@ -47,6 +51,8 @@ public class OrderManagerFragment extends BaseFragment {
     private Fragment mCurrentFragment;
     private ViewPager viewPager;
     private ArrayList<OrderItemFragment> mFragments;
+    private OrderItemFragment fragment;
+    private ImageView btn_test;
 
     public static OrderManagerFragment newInstance() {
 
@@ -59,8 +65,7 @@ public class OrderManagerFragment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_order_manager, container, false);
 
@@ -75,7 +80,7 @@ public class OrderManagerFragment extends BaseFragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        if(EventBus.getDefault().isRegistered(this)){
+        if (EventBus.getDefault().isRegistered(this)) {
             EventBus.getDefault().unregister(this);
         }
     }
@@ -87,6 +92,15 @@ public class OrderManagerFragment extends BaseFragment {
         //setBackHide();
 
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
+        btn_test = view.findViewById(R.id.btn_test);
+
+        btn_test.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(mContext, SearchOrderActivity.class));
+            }
+        });
+
         mFragments = new ArrayList<>();
         //网络请求，映射的应该是key value
         //WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
@@ -100,12 +114,12 @@ public class OrderManagerFragment extends BaseFragment {
 //            mFragments.add(OrderItemFragment.newInstance(mStCode[i]));
 //        }
         for (int i = 0; i < mTabTitle.size(); i++) {
-            OrderItemFragment fragment = OrderItemFragment.newInstance(mStCode.get(i),"新车");
+            fragment = OrderItemFragment.newInstance(mStCode.get(i), "新车");
 //            fragment.setVehicle_cond("新车");
             mFragments.add(fragment);
         }
         viewPager.setAdapter(new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments));
-       // viewPager.setCurrentItem(1);
+        //((OrderItemFragment) new OrderFragmentPagerAdapter(getChildFragmentManager(), mFragments).getItem(0)).ref();
         MagicIndicator mMagicIndicator = (MagicIndicator) view.findViewById(R.id.tab_layout);
         CommonNavigator commonNavigator = new CommonNavigator(mContext);
         commonNavigator.setAdjustMode(false);
@@ -199,10 +213,11 @@ public class OrderManagerFragment extends BaseFragment {
         }
 
     }
+
     @Subscribe
-    public void changeFragment(OrderManagerFragmentEvent event){
-        Log.e("TAG", "changeFragment: "+event);
-        switch (event){
+    public void changeFragment(OrderManagerFragmentEvent event) {
+        Log.e("TAG", "changeFragment: " + event);
+        switch (event) {
             case showFragment:
                 Log.e("TAG", "changeFragment: 2222222");
                 viewPager.setCurrentItem(event.position);

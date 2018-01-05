@@ -5,9 +5,11 @@
               android:background="@color/bg_color"
               android:orientation="vertical">
 
+    <include layout="@layout/search"/>
+
     <com.chanven.lib.cptr.PtrClassicFrameLayout
         xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/my_order_ptr"
+        android:id="@+id/my_search_order_ptr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/bg_color"
@@ -34,7 +36,7 @@
                 tools:visibility="gone"/>
 
             <LinearLayout
-                android:id="@+id/my_order_llyt"
+                android:id="@+id/my_search_order_llyt"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_marginTop="80dp"
@@ -48,7 +50,7 @@
                     android:layout_width="115dp"
                     android:layout_height="115dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/icon_noapply"/>
+                    android:src="@mipmap/no_history"/>
 
                 <TextView
                     android:layout_width="match_parent"

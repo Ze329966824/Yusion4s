@@ -59,7 +59,7 @@ public class OrderApi {
     }
 
 
-//    public static void getAppList(final Context context, String st, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
+    //    public static void getAppList(final Context context, String st, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
 //        Dialog dialog = LoadingUtils.createLoadingDialog(context);
 //        Api.getOrderService().getAppList(st).enqueue(new CustomCallBack<List<GetAppListResp>>(context, dialog) {
 //            @Override
@@ -70,6 +70,16 @@ public class OrderApi {
 //        });
 //
 //    }
+    public static void getSearchAppList(final Context context, String st, String clt_nm, int page, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getSearchAppList(st, clt_nm, page).enqueue(new CustomCallBack<List<GetAppListResp>>(context, dialog) {
+            @Override
+            public void onCustomResponse(List<GetAppListResp> data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+
+    }
 
     public static void getAppList(final Context context, String st, String vehicle_cond, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);

@@ -20,6 +20,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
@@ -62,6 +63,9 @@ public class OrderItemFragment extends BaseFragment {
     private RecyclerAdapterWithHF adapter;
     private PtrClassicFrameLayout ptr;
     private LinearLayout llyt;
+    private EditText search_et;
+    private Button search_btn;
+    private ImageView poi_delete_img;
     private String st;
     private RecyclerView rv;
     private TextView order_list_item_update_tv;
@@ -97,8 +101,7 @@ public class OrderItemFragment extends BaseFragment {
 
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         //Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_order_item, container, false);
 
@@ -112,6 +115,9 @@ public class OrderItemFragment extends BaseFragment {
 //        }
         st = getArguments().getString("st");
         vehicle_cond = getArguments().getString("vehicle_cond");
+        search_et = view.findViewById(R.id.search_et);
+        search_btn = view.findViewById(R.id.search_btn);
+        poi_delete_img = view.findViewById(R.id.poi_delete);
         llyt = (LinearLayout) view.findViewById(R.id.my_order_llyt);
         rv = (RecyclerView) view.findViewById(R.id.my_order_rv);
         rv.setLayoutManager(new LinearLayoutManager(mContext));
@@ -135,6 +141,7 @@ public class OrderItemFragment extends BaseFragment {
             }
         });
 
+
 //        ptr.setLoadMoreEnable(true);
 //        ptr.setOnLoadMoreListener(new OnLoadMoreListener() {
 //            @Override
@@ -157,6 +164,7 @@ public class OrderItemFragment extends BaseFragment {
         refresh();
     }
 
+
     public void refresh() {
         OrderApi.getAppList(mContext, st, vehicle_cond, new OnItemDataCallBack<List<GetAppListResp>>() {
             @Override
@@ -175,7 +183,6 @@ public class OrderItemFragment extends BaseFragment {
                     llyt.setVisibility(View.VISIBLE);
                     ptr.setVisibility(View.VISIBLE);
                     //ptr.setVisibility(View.GONE);
-
                 }
 // else ptr.refreshComplete();
 //                //       else {//添加空的view
