@@ -8,7 +8,6 @@ import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
-import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
@@ -61,7 +60,7 @@ public class OrderApi {
     }
 
 
-//    public static void getAppList(final Context context, String st, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
+    //    public static void getAppList(final Context context, String st, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
 //        Dialog dialog = LoadingUtils.createLoadingDialog(context);
 //        Api.getOrderService().getAppList(st).enqueue(new CustomCallBack<List<GetAppListResp>>(context, dialog) {
 //            @Override
@@ -72,6 +71,16 @@ public class OrderApi {
 //        });
 //
 //    }
+    public static void getSearchAppList(final Context context, String st, String clt_nm, int page, final OnItemDataCallBack<GetAppListResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getSearchAppList(st, clt_nm, page).enqueue(new CustomCallBack<GetAppListResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(GetAppListResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+
+    }
 
     public static void getAppList(final Context context, String st, String vehicle_cond, int page, final OnItemDataCallBack<GetAppListResp> onItemDataCallBack) {
 //        Dialog dialog = LoadingUtils.createLoadingDialog(context);

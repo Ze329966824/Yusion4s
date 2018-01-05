@@ -2,12 +2,11 @@ package com.yusion.shanghai.yusion4s.retrofit.service;
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
-import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
-import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
-import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
-import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
+import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
+import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
+import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
@@ -43,6 +42,10 @@ public interface OrderService {
     //新·获取订单列表
     @GET("/api/application/get_app_list/")
     Call<BaseResult<GetAppListResp>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond, @Query("page") int page);
+
+    //获取搜索列表
+    @GET("/api/application/get_app_list/")
+    Call<BaseResult<GetAppListResp>> getSearchAppList(@Query("st") String st, @Query("clt_nm") String clt_nm, @Query("page") int page);
 
     //获取订单详情
     @GET("/api/application/get_app_details/")
