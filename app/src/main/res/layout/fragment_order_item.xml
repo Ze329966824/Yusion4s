@@ -1,12 +1,11 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/bg_color"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
 
-    <com.chanven.lib.cptr.PtrClassicFrameLayout
-        xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
+    <com.chanven.lib.cptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
         android:id="@+id/my_order_ptr"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -21,9 +20,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:focusable="true"
-            android:focusableInTouchMode="true"
+            android:layout_height="wrap_content"
             android:orientation="vertical">
 
             <android.support.v7.widget.RecyclerView
@@ -48,7 +45,7 @@
                     android:layout_width="115dp"
                     android:layout_height="115dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/icon_noapply"/>
+                    android:src="@mipmap/icon_noapply" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -57,8 +54,9 @@
                     android:gravity="center_horizontal"
                     android:text="还没有申请"
                     android:textColor="#999999"
-                    android:textSize="17.5sp"/>
+                    android:textSize="17.5sp" />
             </LinearLayout>
+
         </LinearLayout>
     </com.chanven.lib.cptr.PtrClassicFrameLayout>
 

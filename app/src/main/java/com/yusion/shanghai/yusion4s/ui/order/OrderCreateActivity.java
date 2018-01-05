@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
+import android.text.TextUtils;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -37,57 +38,42 @@ public class OrderCreateActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);
         why_come = intent.getStringExtra("why_come");
-//        if (why_come != null) {
-//            if ("car_select".equals(why_come)) {
-//                if (cartype.equals("新车")) {
-//                    mCarInfoFragment.getCarInfo(intent);
-//                } else {
-//                    mOldCarInfoFragment.getCarInfo(intent);
-//                }
-//            } else if ("create_user".equals(why_come)) {
-//                mCreditInfoFragment.relevance(intent);
-//            } else if ("dlr_select".equals(why_come)) {
-//                if (cartype.equals("新车")) {
-//                    mCarInfoFragment.getDlrInfo(intent);
-//                } else {
-//                    mOldCarInfoFragment.getDlrInfo(intent);
-//                }
-//            }
-//        }
-        switch (cartype) {
-            case "新车":
-                switch (why_come) {
-                    case "car_select":
-                        mCarInfoFragment.getCarInfo(intent);
-                        break;
-                    case "dlr_select":
-                        mCarInfoFragment.getDlrInfo(intent);
-                        break;
-                    case "create_user":
-                        mCreditInfoFragment.relevance(intent);
-                        break;
+        if (!TextUtils.isEmpty(why_come)) {
+            switch (cartype) {
+                case "新车":
+                    switch (why_come) {
+                        case "car_select":
+                            mCarInfoFragment.getCarInfo(intent);
+                            break;
+                        case "dlr_select":
+                            mCarInfoFragment.getDlrInfo(intent);
+                            break;
+                        case "create_user":
+                            mCreditInfoFragment.relevance(intent);
+                            break;
 
-                    default:
-                        break;
-                }
-                break;
-            case "二手车":
-                switch (why_come) {
-                    case "car_select":
-                        mOldCarInfoFragment.getCarInfo(intent);
-                        break;
-                    case "dlr_select":
-                        mOldCarInfoFragment.getDlrInfo(intent);
-                        break;
-                    case "create_user":
-                        mCreditInfoFragment.relevance(intent);
-                        break;
-                    default:
-                        break;
-                }
-                break;
-            default:
-                break;
+                        default:
+                            break;
+                    }
+                    break;
+                case "二手车":
+                    switch (why_come) {
+                        case "car_select":
+                            mOldCarInfoFragment.getCarInfo(intent);
+                            break;
+                        case "dlr_select":
+                            mOldCarInfoFragment.getDlrInfo(intent);
+                            break;
+                        case "create_user":
+                            mCreditInfoFragment.relevance(intent);
+                            break;
+                        default:
+                            break;
+                    }
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

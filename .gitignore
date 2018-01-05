@@ -13,3 +13,4 @@ gradlew.bat
 /app/build
 /app/src/androidTest
 /app/src/test
+build/

@@ -7,6 +7,8 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
+import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
+import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
@@ -81,16 +83,27 @@ public class OrderApi {
 
     }
 
-    public static void getAppList(final Context context, String st, String vehicle_cond, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
-        Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getOrderService().getAppList(st, vehicle_cond).enqueue(new CustomCallBack<List<GetAppListResp>>(context, dialog) {
+    public static void getAppList(final Context context, String st, String vehicle_cond, int page, final OnItemDataCallBack<GetAppListResp> onItemDataCallBack) {
+//        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getAppList(st,vehicle_cond, page).enqueue(new CustomCallBack<GetAppListResp>(context) {
             @Override
-            public void onCustomResponse(List<GetAppListResp> data) {
+            public void onCustomResponse(GetAppListResp data) {
                 onItemDataCallBack.onItemDataCallBack(data);
             }
         });
 
     }
+
+//    public static void getAppList(final Context context, String st, String vehicle_cond, final OnItemDataCallBack<List<GetAppListResp>> onItemDataCallBack) {
+////        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+//        Api.getOrderService().getAppList(st, vehicle_cond).enqueue(new CustomCallBack<List<GetAppListResp>>(context) {
+//            @Override
+//            public void onCustomResponse(List<GetAppListResp> data) {
+//                onItemDataCallBack.onItemDataCallBack(data);
+//            }
+//        });
+//
+//    }
 
     public static void getAppDetails(final Context context, String app_id, final OnItemDataCallBack<OrderDetailBean> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
@@ -141,5 +154,14 @@ public class OrderApi {
         });
     }
 
+    public static void getOrderProcess(final Context context, String app_id, final OnItemDataCallBack<ProcessResp> onItemDataCallBack) {
+        Dialog dialog = LoadingUtils.createLoadingDialog(context);
+        Api.getOrderService().getOrderProcess(app_id).enqueue(new CustomCallBack<ProcessResp>(context, dialog) {
+            @Override
+            public void onCustomResponse(ProcessResp data) {
+                onItemDataCallBack.onItemDataCallBack(data);
+            }
+        });
+    }
 
 }

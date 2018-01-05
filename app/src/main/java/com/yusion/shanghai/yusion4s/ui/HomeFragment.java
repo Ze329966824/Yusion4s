@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,6 +106,7 @@ public class HomeFragment extends BaseFragment {
                 String values = SharedPrefsUtil.getInstance(mContext).getValue(id, null);
                 //之前存过
                 if (values != null) {
+                    Log.e("TAG", "refresh: "+values);
                     String[] value = values.split("-");
                     if (value.length == 4) {
                         if ((reject_count.getText().toString().compareTo(value[0]) == 1)) {
@@ -147,14 +149,15 @@ public class HomeFragment extends BaseFragment {
                 all_count.setText(dlrNumResp.all_count);
                 today_count.setText(dlrNumResp.today_count);
                 dealing_count.setText(dlrNumResp.dealing_count);
-                reject_count.setText(dlrNumResp.reject_count);
-                to_be_confirm_count.setText(dlrNumResp.to_be_confirm_count);
-                to_loan_count.setText(dlrNumResp.to_loan_count);
-                to_be_upload_count.setText(dlrNumResp.to_be_upload_count);
+
+                reject_count.setText(dlrNumResp.to_be_confirm_count);   //1
+                to_be_confirm_count.setText(dlrNumResp.to_loan_count);  //2
+                to_loan_count.setText(dlrNumResp.to_be_upload_count);   //3
+                to_be_upload_count.setText(dlrNumResp.reject_count);    //4
 
                 SharedPrefsUtil.getInstance(mContext).putValue("dlr_nums", dlr_id + "/");
                 SharedPrefsUtil.getInstance(mContext).putValue
-                        (id, dlrNumResp.reject_count + "-" + dlrNumResp.to_be_confirm_count + "-" + dlrNumResp.to_loan_count + "-" + dlrNumResp.to_be_upload_count);
+                        (id, dlrNumResp.to_be_confirm_count + "-" + dlrNumResp.to_loan_count + "-" + dlrNumResp.to_be_upload_count + "-" + dlrNumResp.reject_count);
                 dlr = null;
             }
         });
@@ -165,10 +168,12 @@ public class HomeFragment extends BaseFragment {
         all_count = view.findViewById(R.id.all_count);
         today_count = view.findViewById(R.id.today_count);
         dealing_count = view.findViewById(R.id.dealing_count);
+
         reject_count = view.findViewById(R.id.reject_count);
         to_be_confirm_count = view.findViewById(R.id.to_be_confirm_count);
         to_loan_count = view.findViewById(R.id.to_loan_count);
         to_be_upload_count = view.findViewById(R.id.to_be_upload_count);
+
         ptr = view.findViewById(R.id.dlr_num_ptr);
         reject_img = view.findViewById(R.id.reject_img);
         to_be_confirm_img = view.findViewById(R.id.to_be_confirm_img);
@@ -193,24 +198,24 @@ public class HomeFragment extends BaseFragment {
             startActivityForResult(i3, Constants.REQUEST_CHANGE_DLR);
             activity.overridePendingTransition(R.anim.pop_enter_anim, R.anim.stay);
         });
-        //审核拒绝
+        //放款审核
         view.findViewById(R.id.apply_financing_lin1).setOnClickListener(v -> {
-            MainActivityEvent.showOrderManager.position = 8;
-            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
-        });
-        //待确认金融方案
-        view.findViewById(R.id.apply_financing_lin2).setOnClickListener(v -> {
             MainActivityEvent.showOrderManager.position = 2;
             EventBus.getDefault().post(MainActivityEvent.showOrderManager);
         });
-        //放款中
-        view.findViewById(R.id.apply_financing_lin3).setOnClickListener(v -> {
+        //放款
+        view.findViewById(R.id.apply_financing_lin2).setOnClickListener(v -> {
             MainActivityEvent.showOrderManager.position = 3;
             EventBus.getDefault().post(MainActivityEvent.showOrderManager);
         });
-        //待提贷后资料
+        //贷后追踪
+        view.findViewById(R.id.apply_financing_lin3).setOnClickListener(v -> {
+            MainActivityEvent.showOrderManager.position = 4;
+            EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+        });
+        //已拒绝
         view.findViewById(R.id.apply_financing_lin4).setOnClickListener(v -> {
-            MainActivityEvent.showOrderManager.position = 5;
+            MainActivityEvent.showOrderManager.position = 8;
             EventBus.getDefault().post(MainActivityEvent.showOrderManager);
         });
     }
@@ -244,16 +249,16 @@ public class HomeFragment extends BaseFragment {
     //移除new小图标
     public void removeImg(int position) {
         switch (position) {
-            case 8:
+            case 2:
                 reject_img.setVisibility(View.GONE);
                 break;
-            case 2:
+            case 3:
                 to_be_confirm_img.setVisibility(View.GONE);
                 break;
-            case 3:
+            case 4:
                 to_loan_img.setVisibility(View.GONE);
                 break;
-            case 5:
+            case 8:
                 to_be_upload_img.setVisibility(View.GONE);
                 break;
             default:
