@@ -152,17 +152,16 @@ public class SearchOrderActivity extends BaseActivity {
         historyAdapter.notifyDataSetChanged();
 
 
-//        my_search_order_ptr.setPtrHandler(new PtrDefaultHandler() {
-//            @Override
-//            public void onRefreshBegin(PtrFrameLayout frame) {
-//                refresh();
-//            }
-//
-//            @Override
-//            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
-//                return PtrDefaultHandler.checkContentCanBePulledDown(frame, my_order_rv, header);
-//            }
-//        });
+        my_search_order_ptr.setPtrHandler(new PtrDefaultHandler() {
+            @Override
+            public void onRefreshBegin(PtrFrameLayout frame) {
+            }
+
+            @Override
+            public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
+                return false;
+            }
+        });
         my_search_order_ptr.setOnLoadMoreListener(() -> {
             if (page < total_page) {
                 ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), ++page), (OnItemDataCallBack<GetAppListResp>) resp -> {
@@ -212,12 +211,12 @@ public class SearchOrderActivity extends BaseActivity {
 
         search_btn.setOnClickListener(v -> {
             refresh();
-            if (TextUtils.isEmpty(search_et.getText())) {
-                ToastUtil.showLong(this, "sss");
-            } else {
-                //  history = search_et.getText().toString() + "#" + history;
-                saveSearchHistory();
-            }
+//            if (TextUtils.isEmpty(search_et.getText())) {
+//                ToastUtil.showLong(this, "sss");
+//            } else {
+//                //  history = search_et.getText().toString() + "#" + history;
+//                saveSearchHistory();
+//            }
         });
 
 
@@ -296,9 +295,8 @@ public class SearchOrderActivity extends BaseActivity {
                     adapter.notifyDataSetChanged();
                     my_search_order_ptr.refreshComplete();
 
-                    if (my_search_order_ptr.isLoadMoreEnable()) {
-                        my_search_order_ptr.setLoadMoreEnable(true);
-                    }
+                    my_search_order_ptr.setLoadMoreEnable(true);
+
 
                 } else {
                     my_search_order_ptr.refreshComplete();

@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetBrandResp;
+import com.yusion.shanghai.yusion4s.glide.progress.GlideApp;
 
 import java.util.List;
 
