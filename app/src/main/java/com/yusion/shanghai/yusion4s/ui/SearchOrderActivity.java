@@ -168,6 +168,7 @@ public class SearchOrderActivity extends BaseActivity {
                     if (resp != null) {
                         if (resp.total_page == 0 || resp.total_page == 1) {
                             my_search_order_ptr.setLoadMoreEnable(false);
+                            my_search_order_ptr.loadMoreComplete(false);
                         }
                         for (GetAppListResp.DataBean dataBean : resp.data) {
                             items.add(dataBean);
@@ -282,7 +283,8 @@ public class SearchOrderActivity extends BaseActivity {
             ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), page), (OnItemDataCallBack<GetAppListResp>) resp -> {
                 if (resp != null && resp.data.size() > 0 && resp.data != null) {
                     if (resp.total_page == 0 || resp.total_page == 1) {
-                        my_search_order_ptr.setLoadMoreEnable(false);
+                        my_search_order_ptr.setLoadMoreEnable(true);
+                        my_search_order_ptr.loadMoreComplete(false);
                     } else {
                         total_page = resp.total_page;
                     }

@@ -170,6 +170,7 @@ public class OrderItemFragment extends BaseFragment {
                     if (resp != null) {
                         if (resp.total_page == 0 || resp.total_page == 1) {
                             ptr.setLoadMoreEnable(false);
+                            ptr.loadMoreComplete(false);
                         }
                         for (GetAppListResp.DataBean dataBean : resp.data) {
                             items.add(dataBean);
@@ -198,7 +199,8 @@ public class OrderItemFragment extends BaseFragment {
         ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, vehicle_cond, page), (OnItemDataCallBack<GetAppListResp>) resp -> {
             if (resp != null) {
                 if (resp.total_page == 0 || resp.total_page == 1) {
-                    ptr.setLoadMoreEnable(false);
+                    ptr.setLoadMoreEnable(true);
+                    ptr.loadMoreComplete(false);
                 } else {
                     total_page = resp.total_page;
                 }
