@@ -68,28 +68,29 @@ public class UpdateUtil {
         private Dialog mDialog;
 
         private TextView content;
-        private RelativeLayout close;
-        private LinearLayout ok;
+        private TextView close;
+        private TextView ok;
         private View mDialogView;
 
         UpdateDialog(Context context, String message, boolean isForce, String url) {
             mContext = context;
             mUrl = url;
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            mDialogView = inflater.inflate(R.layout.dialog_update, null);
+//            mDialogView = inflater.inflate(R.layout.dialog_update, null);
+            mDialogView = inflater.inflate(R.layout.dialog_app_update, null);
 
-            content = (TextView) mDialogView.findViewById(R.id.update_content);
+            content = mDialogView.findViewById(R.id.update_content);
             content.setText(message);
 
-            close = (RelativeLayout) mDialogView.findViewById(R.id.update_close);
+            close =  mDialogView.findViewById(R.id.update_close);
             close.setOnClickListener(this);
 
-            ok = (LinearLayout) mDialogView.findViewById(R.id.update_ok);
+            ok = mDialogView.findViewById(R.id.update_ok);
             ok.setOnClickListener(this);
 
-            if (isForce) {
-                close.setVisibility(View.GONE);
-            }
+//            if (isForce) {
+//                close.setVisibility(View.GONE);
+//            }
 
             mDialog = new Dialog(mContext, R.style.MyDialogStyle);
             mDialog.setContentView(mDialogView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
