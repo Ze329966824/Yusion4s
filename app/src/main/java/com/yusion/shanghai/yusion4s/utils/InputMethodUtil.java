@@ -22,4 +22,10 @@ public class InputMethodUtil {
             imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
         }
     }
+    public static void showInputMethod(Context context) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        if (imm.isActive()) {
+            imm.toggleSoftInput(0,InputMethodManager.SHOW_FORCED);
+        }
+    }
 }

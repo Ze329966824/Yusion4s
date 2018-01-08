@@ -4,21 +4,23 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -29,7 +31,6 @@ import android.widget.TextView;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -47,12 +48,11 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoA
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
-import com.yusion.shanghai.yusion4s.utils.DensityUtil;
+import com.yusion.shanghai.yusion4s.utils.InputMethodUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.widget.NoEmptyEditText;
-import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -73,6 +73,7 @@ public class SearchOrderActivity extends BaseActivity {
     private RecyclerView hisRecyclerView;
     private String history = "";
     private ImageView back_img;
+    private ImageView lajitong;//垃圾桶
 
     //用于展示历史记录
     private List<String> mDates;
@@ -91,6 +92,7 @@ public class SearchOrderActivity extends BaseActivity {
     }
 
     private void initView() {
+        lajitong = findViewById(R.id.lajitong);
         back_img = findViewById(R.id.back_img);
         history_lin = findViewById(R.id.history_lin);
         hisRecyclerView = findViewById(R.id.recyclerView);
@@ -101,7 +103,14 @@ public class SearchOrderActivity extends BaseActivity {
         poi_delete_img = findViewById(R.id.poi_delete);
         search_btn = findViewById(R.id.search_btn);
         my_order_rv.setLayoutManager(new LinearLayoutManager(this));
-        my_order_rv.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this, 10), ContextCompat.getColor(this, R.color.main_bg)));
+//        my_order_rv.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this, 10), ContextCompat.getColor(this, R.color.main_bg)));
+        my_order_rv.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.bottom = 10;
+            }
+        });
         items = new ArrayList<>();
         myOrderListAdapter = new MyOrderListAdapter(this, items);
         //myOrderListAdapter.setVehicle_cond(vehicle_cond);
@@ -136,11 +145,6 @@ public class SearchOrderActivity extends BaseActivity {
         Log.e("TAG", mDates.size() + "");
         history = SharedPrefsUtil.getInstance(this).getValue("history", "");
 
-        Log.e("TAG", "initView: " + mDates.size());
-        Log.e("TAG", "initView: " + mDates.toString());
-//        mDates.add("1");
-//        mDates.add("1");
-//        mDates.add("1");
         String[] ssss = history.split("#");
 
         for (int j = 0; j < ssss.length; j++) {
@@ -148,7 +152,6 @@ public class SearchOrderActivity extends BaseActivity {
                 mDates.add(ssss[j]);
             }
         }
-        //mDates.addAll(Arrays.asList(sss.split("#")));
         historyAdapter.notifyDataSetChanged();
 
 
@@ -161,6 +164,14 @@ public class SearchOrderActivity extends BaseActivity {
             public boolean checkCanDoRefresh(PtrFrameLayout frame, View content, View header) {
                 return false;
             }
+        });
+        lajitong.setOnClickListener(v -> {
+            SharedPrefsUtil.getInstance(this).putValue("history", "");
+//            mDates = new ArrayList<String>();
+            mDates.clear();
+            Log.e("TAG", "initView: " + mDates);
+            historyAdapter.notifyDataSetChanged();
+            history_lin.setVisibility(View.GONE);
         });
         my_search_order_ptr.setOnLoadMoreListener(() -> {
             if (page < total_page) {
@@ -188,9 +199,20 @@ public class SearchOrderActivity extends BaseActivity {
         back_img.setOnClickListener(v -> {
             onBackPressed();
         });
+        search_et.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                    refresh();
+                }
+                return false;
+            }
+        });
+        search_et.setOnClickListener(v -> search_et.setCursorVisible(true));
         search_et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                search_et.setCursorVisible(true);
             }
 
             @Override
@@ -206,7 +228,24 @@ public class SearchOrderActivity extends BaseActivity {
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) {
                     poi_delete_img.setVisibility(View.GONE);
+                    my_search_order_llyt.setVisibility(View.GONE);
+                    my_search_order_ptr.setVisibility(View.GONE);
+                    my_order_rv.setVisibility(View.GONE);
+                    if (mDates.size() > 0) {
+                        history_lin.setVisibility(View.VISIBLE);
+                    }
                 }
+            }
+        });
+        poi_delete_img.setOnClickListener(v -> {
+            InputMethodUtil.showInputMethod(this);
+            search_et.setText("");
+            search_et.setCursorVisible(true);
+            my_search_order_llyt.setVisibility(View.GONE);
+            my_search_order_ptr.setVisibility(View.GONE);
+            my_order_rv.setVisibility(View.GONE);
+            if (mDates.size() > 0) {
+                history_lin.setVisibility(View.VISIBLE);
             }
         });
 
@@ -282,6 +321,7 @@ public class SearchOrderActivity extends BaseActivity {
             page = 1;
             ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), page), (OnItemDataCallBack<GetAppListResp>) resp -> {
                 if (resp != null && resp.data.size() > 0 && resp.data != null) {
+                    search_et.setCursorVisible(false);
                     if (resp.total_page == 0 || resp.total_page == 1) {
                         my_search_order_ptr.setLoadMoreEnable(true);
                         my_search_order_ptr.loadMoreComplete(false);
@@ -302,6 +342,7 @@ public class SearchOrderActivity extends BaseActivity {
 
                 } else {
                     my_search_order_ptr.refreshComplete();
+                    history_lin.setVisibility(View.GONE);
                     my_order_rv.setVisibility(View.GONE);
                     my_search_order_llyt.setVisibility(View.VISIBLE);
                     my_search_order_ptr.setVisibility(View.VISIBLE);
