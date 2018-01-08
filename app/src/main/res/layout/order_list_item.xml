@@ -7,7 +7,7 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="10dp"
+        android:layout_height="@dimen/y30"
         android:background="@color/main_bg" />
 
     <View
@@ -22,10 +22,10 @@
 
         <ImageView
             android:id="@+id/order_list_item_car_icon"
-            android:layout_width="23dp"
-            android:layout_height="23dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginTop="8.65dp"
+            android:layout_width="@dimen/x69"
+            android:layout_height="@dimen/y69"
+            android:layout_marginLeft="@dimen/x43"
+            android:layout_marginTop="@dimen/y26"
             tools:src="@mipmap/old_car_icon" />
 
         <LinearLayout
@@ -34,21 +34,21 @@
             android:orientation="vertical">
 
             <RelativeLayout
+                android:layout_marginTop="@dimen/y35"
+
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="5dp">
+                >
 
                 <TextView
                     android:id="@+id/order_list_item_name_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/x17"
                     android:maxLines="1"
-                    android:paddingBottom="5dp"
-                    android:paddingTop="5dp"
                     android:text="付银海"
                     android:textColor="@color/text_normal"
-                    android:textSize="14.5sp" />
+                    android:textSize="@dimen/y43" />
 
                 <ImageView
                     android:id="@+id/order_item_next"
@@ -56,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="@dimen/x47"
                     android:src="@mipmap/order_item_next" />
 
                 <TextView
@@ -64,36 +64,37 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerVertical="true"
-                    android:layout_marginRight="8dp"
+                    android:layout_marginRight="@dimen/x20"
                     android:layout_toLeftOf="@+id/order_item_next"
                     android:text="审批中"
                     android:textColor="@color/text_normal"
-                    android:textSize="14.5sp" />
+                    android:textSize="@dimen/y43" />
             </RelativeLayout>
 
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:paddingBottom="10dp">
+                android:layout_marginTop="@dimen/y17"
+               >
 
                 <TextView
                     android:id="@+id/order_list_item_door_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="5dp"
+                    android:layout_marginLeft="@dimen/x17"
                     android:text="@string/order_item_store"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="11.5sp" />
+                    android:textSize="@dimen/y35" />
 
                 <TextView
                     android:id="@+id/order_list_item_time_tv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_alignParentRight="true"
-                    android:layout_marginRight="15dp"
+                    android:layout_marginRight="@dimen/x43"
                     android:text="2017年07月27日13:59:09"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="11.5sp" />
+                    android:textSize="@dimen/y35" />
 
             </RelativeLayout>
         </LinearLayout>
@@ -101,6 +102,7 @@
 
 
     <View
+        android:layout_marginTop="@dimen/y43"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="15dp"
@@ -109,7 +111,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/y43"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -121,11 +123,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="@dimen/y43"
                 android:lines="1"
                 android:text="品牌 : "
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
 
             <TextView
                 android:id="@+id/order_item_brand"
@@ -136,7 +138,7 @@
                 android:lines="1"
                 android:text="品牌名称"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
 
         </LinearLayout>
 
@@ -152,7 +154,7 @@
                 android:lines="1"
                 android:text="贷款总额 : "
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
 
             <TextView
                 android:id="@+id/order_list_item_total_loan_tv"
@@ -163,7 +165,7 @@
                 android:lines="1"
                 android:text="车款名称"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
         </LinearLayout>
 
     </LinearLayout>
@@ -171,14 +173,14 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/y43"
         android:orientation="horizontal">
 
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="@dimen/x43"
             android:layout_weight="1"
             android:orientation="horizontal">
 
@@ -189,7 +191,7 @@
                 android:lines="1"
                 android:text="车系 : "
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
 
             <TextView
                 android:id="@+id/order_list_item_trix_tv"
@@ -199,7 +201,7 @@
                 android:lines="1"
                 android:text="子品牌名称"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
         </LinearLayout>
 
         <LinearLayout
@@ -215,7 +217,7 @@
                 android:lines="1"
                 android:text="期数 : "
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
 
             <TextView
                 android:id="@+id/order_list_item_periods_tv"
@@ -226,14 +228,14 @@
                 android:lines="1"
                 android:text="@string/order_item_price_get"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
         </LinearLayout>
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="@dimen/y43"
         android:orientation="horizontal">
 
         <LinearLayout
@@ -246,11 +248,11 @@
                 android:id="@+id/order_item_type_disable"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="15dp"
+                android:layout_marginLeft="@dimen/x43"
                 android:lines="1"
                 android:text="车型 : "
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
 
             <TextView
                 android:id="@+id/order_list_item_model_tv"
@@ -260,7 +262,7 @@
                 android:lines="1"
                 android:text="车型名称"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40" />
         </LinearLayout>
 
     </LinearLayout>
@@ -268,8 +270,8 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
-        android:layout_marginLeft="15dp"
-        android:layout_marginTop="10dp"
+        android:layout_marginLeft="@dimen/x43"
+        android:layout_marginTop="@dimen/y43"
         android:background="@color/main_driver" />
 
     <LinearLayout
@@ -282,14 +284,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
+            android:layout_marginLeft="@dimen/x43"
             android:drawableLeft="@mipmap/icon_item_phone"
-            android:drawablePadding="6dp"
-            android:paddingBottom="15dp"
-            android:paddingTop="15dp"
+            android:drawablePadding="@dimen/x18"
+            android:paddingBottom="@dimen/y49"
+            android:paddingTop="@dimen/y49"
             android:text="联系客户"
             android:textColor="#999999"
-            android:textSize="13.5dp" />
+            android:textSize="@dimen/y40" />
 
         <!--<ImageView-->
         <!--android:layout_width="wrap_content"-->
@@ -302,9 +304,10 @@
 
         <RelativeLayout
             android:id="@+id/order_list_item_two_btn_lin"
-            tools:visibility="gone"
+            tools:visibility="visible"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="@dimen/y86"
             android:visibility="visible">
 
             <TextView
@@ -312,41 +315,39 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="15dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/x43"
                 android:background="@drawable/shape_text"
                 android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="@dimen/x26"
+                android:paddingRight="@dimen/x26"
                 android:text="上传资料"
                 android:textColor="#FF06B7A3"
-                android:textSize="11dp" />
+                android:textSize="@dimen/y40" />
 
             <TextView
                 android:id="@+id/order_list_item_change_tv"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/x29"
                 android:layout_toLeftOf="@id/order_list_item_upload_tv"
                 android:background="@drawable/shape_text"
                 android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="@dimen/x26"
+                android:paddingRight="@dimen/x26"
                 android:text="修改资料"
                 android:textColor="#FF06B7A3"
-                android:textSize="11dp"
+                android:textSize="@dimen/y40"
                 android:visibility="gone"
                 tools:visibility="visible" />
 
 
         </RelativeLayout>
         <RelativeLayout
+            tools:visibility="gone"
             android:id="@+id/order_list_item_one_btn_lin"
             android:layout_width="wrap_content"
-            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:layout_height="@dimen/y86"
             android:visibility="visible">
 
 
@@ -356,16 +357,14 @@
                 android:layout_alignParentRight="true"
                 android:layout_width="144.23dp"
                 android:layout_height="match_parent"
-                android:layout_marginBottom="10dp"
-                android:layout_marginRight="10dp"
-                android:layout_marginTop="10dp"
+                android:layout_marginRight="@dimen/x29"
                 android:background="@drawable/shape_text"
                 android:gravity="center"
-                android:paddingLeft="10dp"
-                android:paddingRight="10dp"
+                android:paddingLeft="@dimen/x26"
+                android:paddingRight="@dimen/x26"
                 android:text="更换配偶作为主贷人"
                 android:textColor="#FF06B7A3"
-                android:textSize="11dp" />
+                android:textSize="@dimen/y40" />
 
 
         </RelativeLayout>
