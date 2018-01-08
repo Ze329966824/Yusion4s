@@ -25,16 +25,10 @@ import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
-import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
-import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
-import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
 import org.greenrobot.eventbus.EventBus;
-
-import static android.R.attr.data;
-import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 public class HomeFragment extends BaseFragment {
 
@@ -67,7 +61,7 @@ public class HomeFragment extends BaseFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_apply_financing, container, false);
+        return inflater.inflate(R.layout.fragment_home, container, false);
     }
 
     @Override

@@ -1,0 +1,38 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical"
+    tools:context="com.yusion.shanghai.yusion4s.ui.MsgCenterFragment">
+
+    <com.yusion.shanghai.yusion4s.widget.TitleBar
+        android:id="@+id/title_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentTop="true" />
+    
+    <LinearLayout
+        android:id="@+id/msg_center_empty_lin"
+        android:layout_marginTop="@dimen/y366"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:orientation="vertical">
+        
+        <ImageView
+            android:src="@mipmap/msg_center_empty"
+            android:layout_width="@dimen/x346"
+            android:layout_height="@dimen/y346"
+            />
+
+        <TextView
+            android:layout_marginTop="@dimen/y32"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/y52"
+            android:text="您还没有消息哦"/>
+        
+    </LinearLayout>
+
+</LinearLayout>
