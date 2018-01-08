@@ -48,6 +48,7 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoA
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
+import com.yusion.shanghai.yusion4s.utils.InputMethodUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
@@ -206,15 +207,17 @@ public class SearchOrderActivity extends BaseActivity {
                 return false;
             }
         });
+        search_et.setOnClickListener(v -> search_et.setCursorVisible(true));
         search_et.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                search_et.setCursorVisible(true);
             }
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 if (count > 0) {
-                    poi_delete_img.setVisibility(View.GONE);
+                    poi_delete_img.setVisibility(View.VISIBLE);
                 } else if (s.equals("")) {
                     poi_delete_img.setVisibility(View.GONE);
                 }
@@ -231,6 +234,17 @@ public class SearchOrderActivity extends BaseActivity {
                         history_lin.setVisibility(View.VISIBLE);
                     }
                 }
+            }
+        });
+        poi_delete_img.setOnClickListener(v -> {
+            InputMethodUtil.showInputMethod(this);
+            search_et.setText("");
+            search_et.setCursorVisible(true);
+            my_search_order_llyt.setVisibility(View.GONE);
+            my_search_order_ptr.setVisibility(View.GONE);
+            my_order_rv.setVisibility(View.GONE);
+            if (mDates.size() > 0) {
+                history_lin.setVisibility(View.VISIBLE);
             }
         });
 
@@ -306,6 +320,7 @@ public class SearchOrderActivity extends BaseActivity {
             page = 1;
             ApiUtil.requestUrl4Data(this, Api.getOrderService().getSearchAppList("0", search_et.getText().toString(), page), (OnItemDataCallBack<GetAppListResp>) resp -> {
                 if (resp != null && resp.data.size() > 0 && resp.data != null) {
+                    search_et.setCursorVisible(false);
                     if (resp.total_page == 0 || resp.total_page == 1) {
                         my_search_order_ptr.setLoadMoreEnable(false);
                     } else {
@@ -325,6 +340,7 @@ public class SearchOrderActivity extends BaseActivity {
 
                 } else {
                     my_search_order_ptr.refreshComplete();
+                    history_lin.setVisibility(View.GONE);
                     my_order_rv.setVisibility(View.GONE);
                     my_search_order_llyt.setVisibility(View.VISIBLE);
                     my_search_order_ptr.setVisibility(View.VISIBLE);
