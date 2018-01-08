@@ -120,6 +120,7 @@ public class UpdateUtil {
             }
         }
 
+
         private void toWebUpdate() {
             Intent intent =new Intent();
             intent.setAction(Intent.ACTION_VIEW);
