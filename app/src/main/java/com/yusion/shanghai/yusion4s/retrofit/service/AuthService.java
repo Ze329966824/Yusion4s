@@ -1,9 +1,13 @@
 package com.yusion.shanghai.yusion4s.retrofit.service;
 
 import com.yusion.shanghai.yusion4s.base.BaseResult;
+import com.yusion.shanghai.yusion4s.bean.auth.BindingReq;
+import com.yusion.shanghai.yusion4s.bean.auth.BindingResp;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckUserInfoResp;
 import com.yusion.shanghai.yusion4s.bean.auth.GetVCodeResp;
+import com.yusion.shanghai.yusion4s.bean.auth.OpenIdReq;
+import com.yusion.shanghai.yusion4s.bean.auth.OpenIdResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.auth.UpdateResp;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
@@ -48,4 +52,12 @@ public interface AuthService {
     @POST("/api/client/enable_spouse_auth_account/")
     Call<BaseResult<LoginResp>> replaceSpToP(@Body ReplaceSPReq replaceSPReq);
 
+    @POST("/api/auth/auth_open_id/")
+    Call<BaseResult<OpenIdResp>> openId(@Body OpenIdReq req);
+
+    @GET("/api/auth/auth_open_id/")
+    Call<BaseResult<Integer>>   checkOpenID(@Query("mobile") String mobile,@Query("source") String source);
+
+    @POST("/api/auth/auth_user_login/")
+    Call<BaseResult<BindingResp>> binding(@Body BindingReq req);
 }

@@ -19,6 +19,7 @@ import com.yusion.shanghai.yusion4s.retrofit.service.OcrService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OrderService;
 import com.yusion.shanghai.yusion4s.retrofit.service.ProductService;
 import com.yusion.shanghai.yusion4s.retrofit.service.UploadService;
+import com.yusion.shanghai.yusion4s.retrofit.service.WXService;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 
 import java.io.IOException;
@@ -42,6 +43,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class Api {
     private static Retrofit retrofit;
     private static OkHttpClient logClient;
+    private static Retrofit wxRetrofit;
 
     public static Retrofit createRetrofit(String serverUrl) {
         return new Retrofit.Builder()
@@ -74,6 +76,7 @@ public class Api {
                 })
                 .build();
         retrofit = createRetrofit(Settings.SERVER_URL);
+        wxRetrofit = createRetrofit(Settings.WX_SERVER_URL);
 
     }
 
@@ -107,6 +110,10 @@ public class Api {
 
     public static DlrService getDlrNum() {
         return retrofit.create(DlrService.class);
+    }
+
+    public static WXService getWXService() {
+        return wxRetrofit.create(WXService.class);
     }
 
 

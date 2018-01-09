@@ -9,6 +9,8 @@ import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -26,7 +28,8 @@ import java.util.List;
  */
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
-
+    public static final String WX_APP_ID = "wxf2c47c30395cfb84";
+    public IWXAPI api;
     protected Yusion4sApp myApp;
     public int WIDTH;
     public int HEIGHT;
@@ -42,6 +45,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (!Settings.isOnline) {
             ToastUtil.showShort(this,getClass().getSimpleName());
         }
+
+        api = WXAPIFactory.createWXAPI(this, WX_APP_ID, false);
+        api.registerApp(WX_APP_ID);
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
 //        UBT.bind(this);

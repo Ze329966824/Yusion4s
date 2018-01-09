@@ -126,6 +126,7 @@ dependencies {
     compile 'com.github.promeg:tinypinyin:1.0.0'
     compile 'com.facebook.rebound:rebound:0.3.8'
     compile 'com.android.support:support-v4:26.+'
+    compile 'com.tencent.mm.opensdk:wechat-sdk-android-with-mta:+'
     testCompile 'junit:junit:4.12'
 }
 

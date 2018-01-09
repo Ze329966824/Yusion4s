@@ -5,11 +5,14 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
+import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.tencent.mm.opensdk.modelmsg.SendAuth;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
@@ -31,6 +34,7 @@ public class LoginActivity extends BaseActivity {
     private EditText mLoginAccountTV;               // 账号
     private EditText mLoginPasswordTV;              // 密码
     private ImageView mLoginPasswordEyeImg;
+    private ImageView wxBtn;
     private Button loginBtn;
     private TelephonyManager telephonyManager;
     private boolean isShowPassword = false;
@@ -51,7 +55,22 @@ public class LoginActivity extends BaseActivity {
         mLoginPasswordEyeImg.setOnClickListener(v -> clickPasswordEye());
         loginBtn = findViewById(R.id.login_submit_btn);
         loginBtn.setOnClickListener(v -> requestLogin());
+        wxBtn = findViewById(R.id.btn_wx);
+        wxBtn.setOnClickListener(v -> wxLogin());
         setTestAccount();
+    }
+
+    private void wxLogin() {
+        if (!api.isWXAppInstalled()) {
+            Toast.makeText(this, "您还未安装微信客户端！", Toast.LENGTH_SHORT).show();
+            return;
+        }
+        // 应用的作用域，获取个人信息®
+        SendAuth.Req req = new SendAuth.Req();
+        /**  用于保持请求和回调的状态，授权请求后原样带回给第三方  * 为了防止csrf攻击（跨站请求伪造攻击），后期改为随机数加session来校验   */
+        req.scope = "snsapi_userinfo";
+        req.state = "diandi_wx_login";
+        api.sendReq(req);
     }
 
     //测试账号
