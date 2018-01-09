@@ -48,7 +48,9 @@ import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.Car300WebViewActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.AppraisalvalueActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
+import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -56,6 +58,8 @@ import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.yusion.shanghai.yusion4s.R.id.oldcar_guess_tv;
 
 /**
  * Created by aa on 2017/8/9.
@@ -153,9 +157,9 @@ public class OldCarInfoFragment extends BaseFragment {
                 case 2://车辆首付款
                     firstPriceChange = false;
                     changeFirstPriceByCode = false;//jht
-                    if (getPrice(firstPriceTv) > getPrice(oldcar_business_price_tv)) {
-                        firstPriceTv.setText(getPrice(oldcar_business_price_tv));
-                        firstPriceTv.setSelection((getPrice(oldcar_business_price_tv) + "").length());
+                    if (getPrice(firstPriceTv) > getPrice(oldcar_guess_price_tv)) {
+                        firstPriceTv.setText(getPrice(oldcar_guess_price_tv));
+                        firstPriceTv.setSelection((getPrice(oldcar_guess_price_tv) + "").length());
                     }
                     break;
                 case 3://贷款额
@@ -178,7 +182,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     break;
                 case 4://
                     billPriceChange = false;
-                    oldcar_business_price_tv.setText(oldcar_business_price_tv.getText());
+//                    oldcar_business_price_tv.setText(oldcar_business_price_tv.getText());
                     break;
                 case 5:
                     mGuidePrice = 0;
@@ -356,7 +360,7 @@ public class OldCarInfoFragment extends BaseFragment {
     private TextView oldcar_addrtime_tv;
     private EditText oldcar_dance_tv;
     private EditText oldcar_guess_price_tv;
-    private EditText oldcar_business_price_tv;
+    // private EditText oldcar_business_price_tv;
     private LinearLayout oldcar_guess_and_jiaoyi_lin;
     private LinearLayout oldcar_addr_lin;
     private LinearLayout oldcar_addrtime_lin;
@@ -364,7 +368,6 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private Button btn_reset; //重置
     private Button btn_fast_valuation;//快速估值
-    private EditText oldcar_guess_tv;//二手车评估价
     private Button look_guess_img_btn;//查看估值截图
     //车型选择
     private LinearLayout car_info_lin;
@@ -421,8 +424,9 @@ public class OldCarInfoFragment extends BaseFragment {
         oldcar_addr_tv = (TextView) view.findViewById(R.id.oldcar_addr_tv);//二手车原上牌地
         oldcar_addrtime_tv = (TextView) view.findViewById(R.id.oldcar_addrtime_tv);//二手车原上牌时间
         oldcar_dance_tv = (EditText) view.findViewById(R.id.oldcar_dance_tv);//二手车里程数
-        oldcar_guess_price_tv = (EditText) view.findViewById(R.id.oldcar_guess_tv);//二手车预估价
-        oldcar_business_price_tv = (EditText) view.findViewById(R.id.oldcar_business_price_tv);//二手车交易价
+
+        oldcar_guess_price_tv = (EditText) view.findViewById(oldcar_guess_tv);//二手车预估价
+
         oldcar_guess_and_jiaoyi_lin = (LinearLayout) view.findViewById(R.id.oldcar_guess_and_jiaoyi_lin);//预估价和交易价的lin
         oldcar_addr_lin = (LinearLayout) view.findViewById(R.id.oldcar_addr_lin);
         oldcar_addrtime_lin = (LinearLayout) view.findViewById(R.id.oldcar_addrtime_lin);
@@ -436,9 +440,7 @@ public class OldCarInfoFragment extends BaseFragment {
         car_info_lin = view.findViewById(R.id.car_info_lin);
         car_info_tv = view.findViewById(R.id.car_info_tv);
 
-        car_info_lin.setOnClickListener(v ->
-                selectCarInfo()
-        );
+        car_info_lin.setOnClickListener(v -> selectCarInfo());
 
         look_guess_img_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -478,7 +480,6 @@ public class OldCarInfoFragment extends BaseFragment {
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 btn_fast_valuation.setEnabled(false);
                 look_guess_img_btn.setEnabled(false);
-                oldcar_business_price_tv.setText("");
                 oldcar_guess_price_tv.setText("");
                 btn_reset.setEnabled(true);
                 if (s.toString().length() == 3 && !s.toString().contains(".")) {
@@ -488,8 +489,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 }
                 if (s.toString().contains(".")) {
                     if (s.length() - 1 - s.toString().indexOf(".") > 2) {
-                        s = s.toString().subSequence(0,
-                                s.toString().indexOf(".") + 3);
+                        s = s.toString().subSequence(0, s.toString().indexOf(".") + 3);
                         oldcar_dance_tv.setText(s);
                         oldcar_dance_tv.setSelection(s.length());
                     }
@@ -500,8 +500,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     oldcar_dance_tv.setSelection(2);
                 }
 
-                if (s.toString().startsWith("0")
-                        && s.toString().trim().length() > 1) {
+                if (s.toString().startsWith("0") && s.toString().trim().length() > 1) {
                     if (!s.toString().substring(1, 2).equals(".")) {
                         oldcar_dance_tv.setText(s.subSequence(0, 1));
                         oldcar_dance_tv.setSelection(1);
@@ -515,11 +514,7 @@ public class OldCarInfoFragment extends BaseFragment {
 
                 handler.sendEmptyMessageDelayed(5, DELAY_MILLIS);
 
-                if (!TextUtils.isEmpty(car_info_tv.getText())
-                        && !TextUtils.isEmpty(oldcar_addr_tv.getText())
-                        && !TextUtils.isEmpty(oldcar_dance_tv.getText())
-                        && !TextUtils.isEmpty(oldcar_addrtime_tv.getText())
-                        ) {
+                if (!TextUtils.isEmpty(car_info_tv.getText()) && !TextUtils.isEmpty(oldcar_addr_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(oldcar_addrtime_tv.getText())) {
                     btn_reset.setEnabled(true);
                     btn_fast_valuation.setEnabled(true);
                 }
@@ -541,8 +536,7 @@ public class OldCarInfoFragment extends BaseFragment {
 //        view.findViewById(R.id.car_info_dlr_lin)
         carInfoDlrLin.setOnClickListener(v ->
 //                selectDlrStore()
-                        selectDlrStore2()
-        );
+                selectDlrStore2());
 
         //上牌地
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
@@ -558,9 +552,7 @@ public class OldCarInfoFragment extends BaseFragment {
             }
         });
 
-        oldcar_addr_lin.setOnClickListener(v ->
-                selectCarOldAddr()
-        );
+        oldcar_addr_lin.setOnClickListener(v -> selectCarOldAddr());
 
         oldcar_guess_price_tv.addTextChangedListener(new TextWatcher() {
             @Override
@@ -575,62 +567,41 @@ public class OldCarInfoFragment extends BaseFragment {
 
             @Override
             public void afterTextChanged(Editable s) {
-                oldcar_business_price_tv.setText("");
+                if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+                    carLoanPriceTv.setEnabled(true);
+                }
                 carLoanPriceTv.setText("");
                 firstPriceTv.setText("");
-            }
-        });
-        //车辆交易价
-        oldcar_business_price_tv.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                mGuidePrice = 0;
+                guidePriceTv.setText("");
 
-            }
+                mLoanBankList.clear();
+                mLoanBankIndex = 0;
+                loanBankTv.setText(null);
 
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mProductTypeIndex = 0;
+                productTypeTv.setText(null);
 
-            }
+                billPriceTv.setText("");
+                plateRegAddrTv.setText("");
+                loanPeriodsTv.setText("");
+                mLoanPeriodsIndex = 0;
+                mManagementPriceIndex = 0;
 
-            @Override
-            public void afterTextChanged(Editable s) {
-                ischangeBillPriceBySys = true;
-                mChangeLoanAndFirstPriceCount = 2;
+                otherPriceTv.setText("");
+                plateRegAddrTv.setText("");//上牌地选择
+                loanPeriodsTv.setText("");//还款期限
 
-                changeFirstPriceByCode = true;
-                changeCarLoanByCode = true;
-                if (!isChangeCarInfoChange) {
-                    firstPriceTv.setText("");
-                    carLoanPriceTv.setText("");
-                } else {
-                    isChangeCarInfoChange = false;
-                }
-
-                if (billPriceChange) {
-                    if (handler.hasMessages(4)) {
-                        handler.removeMessages(4);
-                    }
-                    handler.sendEmptyMessageDelayed(4, DELAY_MILLIS);
-                    firstPriceTv.setEnabled(false);
-                    if (!TextUtils.isEmpty(oldcar_business_price_tv.getText().toString()) && !TextUtils.isEmpty(oldcar_guess_price_tv.getText().toString())) {
-                        carLoanPriceTv.setEnabled(true);
-                    }
-                } else {
-                    billPriceChange = true;
-                }
-                if (TextUtils.isEmpty(s)) {
-                    handler.removeMessages(4);
-                }
+                totalLoanPriceTv.setText("");
+                managementPriceTv.setText("");
+                otherPriceTv.setText("");
             }
         });
 
         carInfoLoanBankLin.setOnClickListener(v -> //选择银行列表
-                selectBank()
-        );
+                selectBank());
 //        view.findViewById(R.id.car_info_product_type_lin)
-        carInfoProductTypeLin.setOnClickListener(v ->
-                selectProductType()
-        );
+        carInfoProductTypeLin.setOnClickListener(v -> selectProductType());
         carLoanPriceTv.addTextChangedListener(new TextWatcher() {//车辆贷款
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -668,7 +639,7 @@ public class OldCarInfoFragment extends BaseFragment {
                             carLoanPriceChange = true;
                         }
                         changeFirstPriceByCode = true;
-                        firstPriceTv.setText(getPrice(oldcar_business_price_tv) - getPrice(carLoanPriceTv) + "");
+                        firstPriceTv.setText(getPrice(oldcar_guess_price_tv) - getPrice(carLoanPriceTv) + "");
 
                     }
                 }
@@ -748,7 +719,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         req.product_id = mProductList.get(mProductTypeIndex).product_id;
                         req.nper = loanPeriodsTv.getText().toString();
                         req.vehicle_cond = cartype;
-                        req.vehicle_price = oldcar_business_price_tv.getText().toString();
+                        req.vehicle_price = oldcar_guess_price_tv.getText().toString();
                         req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
                         req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString() + "-01";
                         req.send_hand_mileage = oldcar_dance_tv.getText().toString();
@@ -785,7 +756,7 @@ public class OldCarInfoFragment extends BaseFragment {
                     req.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
                     req.product_id = mProductList.get(mProductTypeIndex).product_id;
                     req.nper = loanPeriodsTv.getText().toString();
-                    req.vehicle_price = oldcar_business_price_tv.getText().toString();
+                    req.vehicle_price = oldcar_guess_price_tv.getText().toString();
                     req.vehicle_cond = cartype;
                     req.origin_plate_reg_addr = oldcar_addr_tv.getText().toString();
                     req.send_hand_plate_time = oldcar_addrtime_tv.getText().toString() + "-01";
@@ -889,7 +860,6 @@ public class OldCarInfoFragment extends BaseFragment {
                         if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(car_info_tv.getText())) {
                             btn_fast_valuation.setEnabled(true);
                         }
-                        oldcar_business_price_tv.setText("");
                         oldcar_guess_price_tv.setText("");
 
                         mGuidePrice = 0;
@@ -952,7 +922,6 @@ public class OldCarInfoFragment extends BaseFragment {
                     btn_reset.setEnabled(true);
                     btn_fast_valuation.setEnabled(false);
                     look_guess_img_btn.setEnabled(false);
-                    oldcar_business_price_tv.setText("");
                     oldcar_guess_price_tv.setText("");
                     if (!TextUtils.isEmpty(oldcar_addr_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(car_info_tv.getText())) {
                         btn_fast_valuation.setEnabled(true);
@@ -976,9 +945,6 @@ public class OldCarInfoFragment extends BaseFragment {
                     mManagementPriceIndex = 0;
 
                     oldcar_guess_price_tv.setText("");
-                    //  oldcar_dance_tv.setText("");
-                    //  oldcar_addr_tv.setText("");
-                    // oldcar_addrtime_tv.setText("");
                     firstPriceTv.setText("");
                     carLoanPriceTv.setText("");
                     managementPriceTv.setText("");
@@ -1028,7 +994,6 @@ public class OldCarInfoFragment extends BaseFragment {
 
         mManagementPriceIndex = 0;
 
-        oldcar_business_price_tv.setText("");
         oldcar_guess_price_tv.setText("");
         oldcar_dance_tv.setText("");
         oldcar_addr_tv.setText("");
@@ -1100,7 +1065,6 @@ public class OldCarInfoFragment extends BaseFragment {
 
         mManagementPriceIndex = 0;
 
-        oldcar_business_price_tv.setText("");
         oldcar_guess_price_tv.setText("");
         oldcar_dance_tv.setText("");
         oldcar_addr_tv.setText("");
@@ -1125,6 +1089,7 @@ public class OldCarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "里程数不能为0，请重新输入", Toast.LENGTH_LONG).show();
             oldcar_dance_tv.setText("");
         } else {
+
             CheApi.getCheUrl(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetCheUrlResp>() {
                 @Override
                 public void onItemDataCallBack(GetCheUrlResp data) {
@@ -1133,6 +1098,45 @@ public class OldCarInfoFragment extends BaseFragment {
                         Intent intent = new Intent(mContext, Car300WebViewActivity.class);
                         intent.putExtra("cheUrl", cheUrl);
                         startActivityForResult(intent, 100);
+
+                        ApiUtil.requestUrl4Data(mContext, CheApi.getCheInfoService().getChePriceAndImage(province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age), false, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+                            @Override
+                            public void onItemDataCallBack(GetChePriceAndImageResp data) {
+                                if (data != null && data.result != null && data.result.file_info != null) {
+                                    SharedPrefsUtil.getInstance(mContext).putValue("priceAndImage", data.toString());
+                                    Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
+                                    if (data.result != null) {
+                                        oldcar_guess_price_tv.setText(data.result.price + "");
+                                        if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
+                                            carLoanPriceTv.setEnabled(true);
+                                            look_guess_img_btn.setEnabled(true);
+                                        }
+                                        dialog.dismiss();
+                                        guess_img = "";
+                                        guess_img = data.result.img;
+                                        ((OrderCreateActivity) getActivity()).file_id = data.result.file_info.file_id;
+                                        ((OrderCreateActivity) getActivity()).label = data.result.file_info.label;
+                                        ((OrderCreateActivity) getActivity()).bucket = data.result.file_info.bucket;
+                                        ((OrderCreateActivity) getActivity()).region = data.result.file_info.region;
+                                    }
+                                }
+                            }
+                        }, new OnItemDataCallBack<GetChePriceAndImageResp>() {
+                            @Override
+                            public void onItemDataCallBack(GetChePriceAndImageResp data) {
+                                if (data == null || data.result == null || data.result.file_info == null) {
+                                    PopupDialogUtil.showOneButtonDialog(mContext, "由于网络问题，请手动输入二手车评估价", "好的", new PopupDialogUtil.OnPopupClickListener() {
+                                        @Override
+                                        public void onOkClick(Dialog dialog) {
+                                            oldcar_guess_price_tv.setEnabled(true);
+                                            btn_fast_valuation.setEnabled(false);
+                                            look_guess_img_btn.setEnabled(false);
+                                        }
+                                    });
+
+                                }
+                            }
+                        });
 
                         CheApi.getChePriceAndImage(mContext, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
                             @Override
@@ -1144,7 +1148,6 @@ public class OldCarInfoFragment extends BaseFragment {
                                 Log.e("SP", SharedPrefsUtil.getInstance(mContext).getValue("priceAndImage", ""));
                                 if (data.result != null) {
                                     oldcar_guess_price_tv.setText(data.result.price + "");
-                                    oldcar_business_price_tv.setText(data.result.price + "");
                                     if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                                         carLoanPriceTv.setEnabled(true);
                                         look_guess_img_btn.setEnabled(true);
@@ -1275,8 +1278,6 @@ public class OldCarInfoFragment extends BaseFragment {
             Toast.makeText(mContext, "二手车里程数不能为空", Toast.LENGTH_LONG).show();
         } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
             Toast.makeText(mContext, "二手车评估价不能为空", Toast.LENGTH_LONG).show();
-        } else if (cartype.equals("二手车") && TextUtils.isEmpty(oldcar_business_price_tv.getText())) {
-            Toast.makeText(mContext, "二手车交易价不能为空", Toast.LENGTH_LONG).show();
         } else if (TextUtils.isEmpty(firstPriceTv.getText())) {
             Toast.makeText(mContext, "首付款不能为空", Toast.LENGTH_SHORT).show();
         } else if (TextUtils.isEmpty(managementPriceTv.getText())) {
@@ -1308,11 +1309,11 @@ public class OldCarInfoFragment extends BaseFragment {
     }
 
     private boolean checkFirstPriceValid() {
-        return getPrice(firstPriceTv) * 100 >= getPrice(oldcar_guess_price_tv) * 30 && getPrice(firstPriceTv) <= getPrice(oldcar_business_price_tv);
+        return getPrice(firstPriceTv) * 100 >= getPrice(oldcar_guess_price_tv) * 30 && getPrice(firstPriceTv) <= getPrice(oldcar_guess_price_tv);
     }
 
     private boolean checkCarLoanPriceValid() {
-        return getPrice(carLoanPriceTv) * 100 <= getPrice(oldcar_business_price_tv) * 80 && getPrice(carLoanPriceTv) >= 0;
+        return getPrice(carLoanPriceTv) * 100 <= getPrice(oldcar_guess_price_tv) * 80 && getPrice(carLoanPriceTv) >= 0;
     }
 
     @Override
@@ -1428,7 +1429,6 @@ public class OldCarInfoFragment extends BaseFragment {
 
         mManagementPriceIndex = 0;
 
-        oldcar_business_price_tv.setText("");
         oldcar_guess_price_tv.setText("");
         oldcar_dance_tv.setText("");
         oldcar_addr_tv.setText("");
@@ -1450,7 +1450,6 @@ public class OldCarInfoFragment extends BaseFragment {
         Intent intent = new Intent(mContext, DlrStoreSelectActivity.class);
         intent.putExtra("vehicle_cond", "二手车");
         intent.putExtra("class", OrderCreateActivity.class);
-        //intent.putExtra("dlr_id", mDlrList.get(mDlrIndex).dlr_id);
         intent.putExtra("should_reset", isRestDlrinfo);//true表示重置该页面 默认false
         startActivity(intent);
         getActivity().overridePendingTransition(R.anim.pop_car_select_enter_anim, R.anim.stay);

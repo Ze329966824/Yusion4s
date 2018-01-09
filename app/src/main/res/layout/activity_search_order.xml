@@ -57,7 +57,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="25dp"
                     android:gravity="center_horizontal"
-                    android:text="还没有申请"
+                    android:text="未搜到相关申请"
                     android:textColor="#999999"
                     android:textSize="17.5sp"/>
             </LinearLayout>

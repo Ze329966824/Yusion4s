@@ -42,6 +42,7 @@ import com.yusion.shanghai.yusion4s.ui.upload.ExtraNotUploadServerImgActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
+import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -141,8 +142,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_credit_info, container, false);
     }
 
@@ -345,13 +345,19 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
             uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
             uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
-            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
-                @Override
-                public void callBack(int code, String msg) {
-                    Log.e("TAG", uploadFilesUrlReq1.bucket);
-                    Log.e("TAG", uploadFilesUrlReq1.region);
-                }
-            });
+            if (uploadOldCarImgUrlList.size() > 0) {
+                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
+                    @Override
+                    public void callBack(int code, String msg) {
+                        if (code < 0) {
+                            ToastUtil.showLong(mContext, "网络问题,上传二手车截图失败");
+                            return;
+                        }
+                        Log.e("TAG", uploadFilesUrlReq1.bucket);
+                        Log.e("TAG", uploadFilesUrlReq1.region);
+                    }
+                });
+            }
         }
     }
 
@@ -576,18 +582,13 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_relationship_lin://车主和申请人的关系
-                WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
-                        CLIENT_RELATIONSHIP_POSITION_INDEX,
-                        client_relationship_lin,
-                        chooseRelationTv,
-                        "请选择",
-                        new WheelViewUtil.OnSubmitCallBack() {
-                            @Override
-                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                                CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
-                                chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
-                            }
-                        });
+                WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key, CLIENT_RELATIONSHIP_POSITION_INDEX, client_relationship_lin, chooseRelationTv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+                    @Override
+                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                        CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
+                        chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
+                    }
+                });
                 break;
             default:
                 break;

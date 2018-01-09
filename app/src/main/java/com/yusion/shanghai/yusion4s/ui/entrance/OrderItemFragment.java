@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,35 +19,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.awen.photo.photopick.data.Data;
-import com.chanven.lib.cptr.PtrClassicDefaultHeader;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.PtrUIHandler;
-import com.chanven.lib.cptr.header.MaterialHeader;
-import com.chanven.lib.cptr.header.StoreHouseHeader;
-import com.chanven.lib.cptr.indicator.PtrIndicator;
-import com.chanven.lib.cptr.loadmore.DefaultLoadMoreViewFooter;
-import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
-import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
-import com.yusion.shanghai.yusion4s.glide.RefreshFooter;
-import com.yusion.shanghai.yusion4s.glide.RefreshHeader;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
@@ -66,10 +52,7 @@ import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.data;
-import static cn.jpush.android.a.f;
 import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
-import static org.jcodec.codecs.h264.H264Const.run;
 
 
 public class OrderItemFragment extends BaseFragment {
@@ -257,6 +240,7 @@ public class OrderItemFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                    intent.putExtra("come_from","orderitem");
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st", item.status_st);
                     if (item.can_switch_sp) {
@@ -426,6 +410,7 @@ public class OrderItemFragment extends BaseFragment {
                                 if (data2 != null) {
                                     ToastUtil.showImageToast(mContext, "提交成功", R.mipmap.toast_success);
                                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                                    intent.putExtra("come_from","orderitem");
                                     intent.putExtra("app_id", data2.app_id);
                                     intent.putExtra("status_st", status_st);
                                     mContext.startActivity(intent);
