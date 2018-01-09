@@ -171,9 +171,7 @@ public class SearchOrderActivity extends BaseActivity {
             SharedPrefsUtil.getInstance(this).putValue("history", "");
             history = "";
 
-//            mDates = new ArrayList<String>();
             mDates.clear();
-
             historyAdapter.notifyDataSetChanged();
             history_lin.setVisibility(View.GONE);
         });
