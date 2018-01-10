@@ -1,12 +1,9 @@
 package com.yusion.shanghai.yusion4s.ui;
 
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -17,11 +14,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
-import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -34,10 +27,7 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
-import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
@@ -213,16 +203,14 @@ public class MsgCenterFragment extends BaseFragment {
 
         @Override
         public VH onCreateViewHolder(ViewGroup parent, int viewType) {
-            return new VH(mLayoutInflater.inflate(R.layout.order_list_item, parent, false));
+            return new VH(mLayoutInflater.inflate(R.layout.info_list_item, parent, false));
         }
 
         @Override
         public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            Log.e("TAG", "onBindViewHolder: " + vehicle_cond);
             VH vh = (VH) holder;
             GetAppListResp.DataBean item = mItems.get(position);
-            Log.e("TAG", "onBindViewHolder: items = " + mItems.size());
-            vh.itemView.setOnClickListener(new View.OnClickListener() {
+            vh.look_detail_rel.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
@@ -234,120 +222,24 @@ public class MsgCenterFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
-            if (vehicle_cond.equals("二手车")) {
-                vh.car_icon.setImageResource(R.mipmap.old_car_icon);
-            } else {
-                vh.car_icon.setImageResource(R.mipmap.new_car_icon);
-            }
-            vh.name.setText(item.clt_nm);
-            vh.door.setText(item.dlr_nm);
-            vh.brand.setText(item.brand);
-            vh.model.setText(item.model_name);
-            vh.trix.setText(item.trix);
-            vh.time.setText(item.app_ts);
-            vh.phone.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + item.mobile));
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                    mContext.startActivity(intent);
-                }
-            });
+            vh.ceceive_time.setText(item.clt_nm);
+            vh.state_tv.setText(item.dlr_nm);
+            vh.user_info_tv.setText(item.brand);
+            vh.sell_person_tv.setText(item.model_name);
+            vh.second_sell_tv.setText(item.trix);
+            vh.model_tv.setText(item.app_ts);
+            vh.total_loan_tv.setText(item.status_code);
             if (item.status_st == 3) {                  //拒绝
-                vh.st.setTextColor(Color.parseColor("#FFFF3F00"));
+                vh.state_tv.setTextColor(Color.parseColor("#FFFF3F00"));
             } else if (item.status_st == 9) {           //已取消9
-                vh.st.setTextColor(Color.parseColor("#FF666666"));
+                vh.state_tv.setTextColor(Color.parseColor("#FF666666"));
             } else if (item.status_st == 11) {           //已完成
-                vh.st.setTextColor(Color.parseColor("#FF06B7A3"));
+                vh.state_tv.setTextColor(Color.parseColor("#FF06B7A3"));
             } else {                                     //进行中
-                vh.st.setTextColor(Color.parseColor("#FFFFA400"));
+                vh.state_tv.setTextColor(Color.parseColor("#FFFFA400"));
             }
-            if (item.can_switch_sp) {
-                vh.oneBtnlibn.setVisibility(View.VISIBLE);
-                vh.twoBtnlibn.setVisibility(View.GONE);
-            } else {
-                vh.twoBtnlibn.setVisibility(View.VISIBLE);
-                vh.oneBtnlibn.setVisibility(View.GONE);
-                if (item.modify_permission) {
-                    vh.change.setVisibility(View.VISIBLE);
-                } else {
-                    vh.change.setVisibility(View.GONE);
-                }
-            }
-
-            vh.st.setText(item.status_code);
-            vh.periods.setText(item.nper);
-            vh.loan.setText(item.loan_amt);
-            vh.btns.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-
-                    Window window = ((Activity) mContext).getWindow();
-                    WindowManager.LayoutParams lp = window.getAttributes();
-                    lp.alpha = 0.5f;
-                    window.setAttributes(lp);
-
-                    PopupWindow popupWindow = new PopupWindow(mContext);
-                    popupWindow.setWidth(ViewGroup.LayoutParams.WRAP_CONTENT);
-                    popupWindow.setHeight(ViewGroup.LayoutParams.WRAP_CONTENT);
-                    View contentView = LayoutInflater.from(mContext).inflate(R.layout.btns_group, null);
-                    contentView.findViewById(R.id.btn1).setOnClickListener(v1 -> {
-//                        UploadLabelListActivity.start(mContext, item.app_id);
-                        popupWindow.dismiss();
-                    });
-                    /**
-                     * 添加取消订单的功能，暂时用popupWindow.dismiss 替代
-                     */
-                    contentView.findViewById(R.id.btn2).setOnClickListener(v2 -> {
-                        //popupWindow.dismiss();
-//                        OrderApi.getCancelInfo(mContext, "取消订单", new CancelOrderReq(item.app_id), new OnDataCallBack() {
-//                            @Override
-//                            public void callBack(Object resp) {
-//                                //eventbus 发送请求
-//                                EventBus.getDefault().post(OrderItemFragmentEvent.refresh);
-//                            }
-//                        });
-                        popupWindow.dismiss();
-
-                    });
-                    popupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            lp.alpha = 1f;
-                            window.setAttributes(lp);
-                        }
-                    });
-                    popupWindow.setContentView(contentView);
-                    popupWindow.setBackgroundDrawable(new ColorDrawable(0x00000000));
-                    popupWindow.setOutsideTouchable(true);
-                    popupWindow.setFocusable(true);
-                    popupWindow.showAsDropDown(v);
-                }
-            });
-
-            vh.change.setOnClickListener(v -> {
-                if (item.vehicle_cond.equals("新车")) {
-                    Intent i1 = new Intent(mContext, AlterCarInfoActivity.class);
-                    i1.putExtra("app_id", item.app_id);
-                    i1.putExtra("car_type", item.vehicle_cond);
-                    Log.e("TAG", item.vehicle_cond);
-                    mContext.startActivity(i1);
-                } else {
-                    Intent i1 = new Intent(mContext, AlterOldCarInfoActivity.class);
-                    i1.putExtra("app_id", item.app_id);
-                    i1.putExtra("car_type", item.vehicle_cond);
-                    Log.e("TAG", item.vehicle_cond);
-                    mContext.startActivity(i1);
-                }
-
-            });
-            vh.upload.setOnClickListener(v -> {
-                Intent i2 = new Intent(mContext, SubmitMaterialActivity.class);
-                i2.putExtra("app_id", item.app_id);
-                mContext.startActivity(i2);
-            });
-
         }
+
         @Override
         public int getItemCount() {
             int size = mItems.size();
@@ -356,43 +248,25 @@ public class MsgCenterFragment extends BaseFragment {
 
         protected class VH extends RecyclerView.ViewHolder {
 
-            public ImageView btns;
-            public TextView name;
-            public TextView st;
-            public TextView door;
-            public TextView time;
-            public TextView model;
-            public TextView brand;
-            public TextView trix;
-            public TextView loan;
-            public TextView periods;
-            public TextView phone;
-            public TextView change;
-            public TextView upload;
-            public TextView replace;
-            public ImageView car_icon;
-            public RelativeLayout oneBtnlibn;
-            public RelativeLayout twoBtnlibn;
+            public TextView ceceive_time;
+            public TextView state_tv;
+            public TextView user_info_tv;
+            public TextView sell_person_tv;
+            public TextView second_sell_tv;
+            public TextView model_tv;
+            public TextView total_loan_tv;
+            public RelativeLayout look_detail_rel;
 
             public VH(View itemView) {
                 super(itemView);
-                btns = itemView.findViewById(R.id.order_list_item_btns_img);
-                name = itemView.findViewById(R.id.order_list_item_name_tv);
-                st = itemView.findViewById(R.id.order_list_item_st_tv);
-                door = itemView.findViewById(R.id.order_list_item_door_tv);
-                time = itemView.findViewById(R.id.order_list_item_time_tv);
-                model = itemView.findViewById(R.id.order_list_item_model_tv);
-                brand = itemView.findViewById(R.id.order_item_brand);
-                trix = itemView.findViewById(R.id.order_list_item_trix_tv);
-                loan = itemView.findViewById(R.id.order_list_item_total_loan_tv);
-                periods = itemView.findViewById(R.id.order_list_item_periods_tv);
-                phone = itemView.findViewById(R.id.order_list_item_phone_img);
-                change = itemView.findViewById(R.id.order_list_item_change_tv);
-                upload = itemView.findViewById(R.id.order_list_item_upload_tv);
-                replace = itemView.findViewById(R.id.order_list_item_replace_tv);
-                car_icon = itemView.findViewById(R.id.order_list_item_car_icon);
-                oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
-                twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
+                ceceive_time = itemView.findViewById(R.id.ceceive_time);
+                state_tv = itemView.findViewById(R.id.state_tv);
+                user_info_tv = itemView.findViewById(R.id.user_info_tv);
+                sell_person_tv = itemView.findViewById(R.id.sell_person_tv);
+                second_sell_tv = itemView.findViewById(R.id.second_sell_tv);
+                model_tv = itemView.findViewById(R.id.model_tv);
+                total_loan_tv = itemView.findViewById(R.id.total_loan_tv);
+                look_detail_rel = itemView.findViewById(R.id.look_detail_rel);
             }
         }
 
