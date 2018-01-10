@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.pbq.pickerlib.video.CustomCameraActivity">
+
+
+    <com.pbq.pickerlib.video.MyGlSurfaceView
+        android:id="@+id/preview"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <com.pbq.pickerlib.video.RecordTimelineView
+        android:id="@+id/record_timeline"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y17" />
+
+    <TextView
+        android:id="@+id/record_time"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/record_timeline"
+        android:layout_marginTop="@dimen/y60"
+        android:gravity="center"
+        android:textColor="#ffffff"
+        android:textSize="@dimen/y49" />
+
+    <RelativeLayout
+        android:background="#80000000"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/y354"
+        android:layout_alignParentBottom="true">
+
+        <ImageView
+            android:id="@+id/record_btn"
+            android:layout_width="@dimen/y216"
+            android:visibility="gone"
+            android:layout_height="@dimen/y216"
+            android:layout_centerInParent="true"
+            android:background="@mipmap/start_record" />
+    </RelativeLayout>
+</RelativeLayout>

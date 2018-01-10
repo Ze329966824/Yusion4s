@@ -406,10 +406,6 @@ public class AlibabaStandardActivity extends Activity implements View.OnClickLis
             cameraProxyField.setAccessible(true);
             final Object cameraProxy = cameraProxyField.get(aliyunCamera);
 
-//            final Field currentParamsField = cameraProxy.getClass().getDeclaredField("currentParams");
-//            currentParamsField.setAccessible(true);
-//            final Camera.Parameters[] currentParams = {(Camera.Parameters) currentParamsField.get(cameraProxy)};
-
             Field cameraField = cameraProxy.getClass().getDeclaredField("camera");
             cameraField.setAccessible(true);
             final Camera[] camera = {(Camera) cameraField.get(cameraProxy)};
