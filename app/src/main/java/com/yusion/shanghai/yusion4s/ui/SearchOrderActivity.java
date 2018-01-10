@@ -101,6 +101,7 @@ public class SearchOrderActivity extends BaseActivity {
         my_order_rv = findViewById(R.id.my_order_rv);
         my_search_order_llyt = findViewById(R.id.my_search_order_llyt);
         search_et = findViewById(R.id.search_et);
+        search_et.setHintTextColor(Color.parseColor("#d1d1d1"));
         poi_delete_img = findViewById(R.id.poi_delete);
         search_btn = findViewById(R.id.search_btn);
         my_order_rv.setLayoutManager(new LinearLayoutManager(this));
@@ -240,7 +241,7 @@ public class SearchOrderActivity extends BaseActivity {
             }
         });
         poi_delete_img.setOnClickListener(v -> {
-            InputMethodUtil.showInputMethod(this);
+            InputMethodUtil.showInputMethod(this,search_et);
             search_et.setText("");
             search_et.setCursorVisible(true);
             my_search_order_llyt.setVisibility(View.GONE);
