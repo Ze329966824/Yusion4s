@@ -43,7 +43,7 @@ public class CustomCameraActivity extends AppCompatActivity {
     private boolean isRecording = false;
     private boolean hasRecorded = false;
 
-    private int maxDuration = 5 * 1000;//最多5分钟
+    private int maxDuration = 5 * 1000 * 60;//最多5分钟
     private boolean isOpenFailed = false;
     public static final int RESOLUTION_360P = 0;
     public static final int RESOLUTION_480P = 1;

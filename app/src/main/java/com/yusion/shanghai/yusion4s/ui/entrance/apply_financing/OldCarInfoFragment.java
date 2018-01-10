@@ -1137,7 +1137,6 @@ public class OldCarInfoFragment extends BaseFragment {
                                         oldcar_guess_price_tv.setEnabled(true);
                                         btn_fast_valuation.setEnabled(false);
                                         look_guess_img_btn.setEnabled(false);
-
                                     }
                                 });
                             }

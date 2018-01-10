@@ -1415,7 +1415,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                         totalLoanPriceTv.setText("");
                                         managementPriceTv.setText("");
                                         otherPriceTv.setText("");
-
                                         if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
                                             carLoanPriceTv.setEnabled(true);
                                             look_guess_img_btn.setEnabled(true);
