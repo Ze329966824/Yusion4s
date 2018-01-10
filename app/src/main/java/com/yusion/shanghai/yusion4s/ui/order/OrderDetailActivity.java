@@ -18,18 +18,16 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
@@ -391,58 +389,59 @@ public class OrderDetailActivity extends BaseActivity {
         replaceSPReq.clt_id = spouse_clt_id;
         Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
         //1.激活配偶登录
-        AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
+        ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getAuthService().replaceSpToP(replaceSPReq),data1 -> {
+//        AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
             if (data1 == null) {
                 return;
             }
             //2.检查配偶信息是否完善
-            AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
-                @Override
-                public void onItemDataCallBack(CheckInfoCompletedResp data) {
-                    if (data == null) {
-                        return;
-                    }
-                    //完善 - 提交成功
-                    if (data.info_completed) {
-                        ReSubmitReq req = new ReSubmitReq();
-                        req.clt_id = spouse_clt_id;
-                        req.app_id = app_id;
-                        //3：重新提报
-                        OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
-                            if (data2 != null) {
-                                ToastUtil.showImageToast(OrderDetailActivity.this, "提交成功", R.mipmap.toast_success);
-                                app_id = data2.app_id;
-                                Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
-                                intent.putExtra("app_id", app_id);
-                                intent.putExtra("status_st", status_st);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                    }
-                    //未完善
-                    else {
-                        PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
+            ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getAuthService().CheckInfoComplete(spouse_clt_id),data ->{
+//            AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, data -> {
+                if (data == null) {
+                    return;
+                }
+                //完善 - 提交成功
+                if (data.info_completed) {
+                    ReSubmitReq req = new ReSubmitReq();
+                    req.clt_id = spouse_clt_id;
+                    req.app_id = app_id;
+                    //3：重新提报
+                    ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getOrderService().reSubmit(req),data2 -> {
+//                        OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
+                        if (data2 != null) {
+                            ToastUtil.showImageToast(OrderDetailActivity.this, "提交成功", R.mipmap.toast_success);
+                            app_id = data2.app_id;
+                            Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
+                            intent.putExtra("app_id", app_id);
+                            intent.putExtra("status_st", status_st);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }
+                //未完善
+                else {
+                    PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
 
-                            PackageManager packageManager = OrderDetailActivity.this.getPackageManager();  // 当前Activity获得packageManager对象
-                            Intent intent = new Intent();
-                            try {
-                                intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
-                            } catch (Exception e) {
-                            }
-                            if (intent != null) {
-                                startActivity(intent);
-                            }
-                            dialog1.dismiss();
-                        });
-                    }
+                        PackageManager packageManager = OrderDetailActivity.this.getPackageManager();  // 当前Activity获得packageManager对象
+                        Intent intent = new Intent();
+                        try {
+                            intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
+                        } catch (Exception e) {
+                        }
+                        if (intent != null) {
+                            startActivity(intent);
+                        }
+                        dialog1.dismiss();
+                    });
                 }
             });
         });
     }
 
     private void initData() {
-        OrderApi.getAppDetails(this, app_id, resp -> {
+        ApiUtil.requestUrl4Data(this, Api.getOrderService().getAppDetails2(app_id),resp ->{
+//        OrderApi.getAppDetails(this, app_id, resp -> {
             if (resp == null) {
                 return;
             }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,7 +16,8 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadLogReq;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import java.util.List;
@@ -91,7 +91,8 @@ public class UploadLabelListActivity extends BaseActivity {
                 req.app_id = app_id;
                 req.file_name = topItem.name;
                 req.file_value = topItem.value;
-                UploadApi.uploadLog(this, req, (code, msg) -> {
+                ApiUtil.requestUrl4CodeAndMsg(this, Api.getUploadService().uploadLog(req),(code, msg) -> {
+//                UploadApi.uploadLog(this, req, (code, msg) -> {
                 });
                 toSubmitMaterial();
             }

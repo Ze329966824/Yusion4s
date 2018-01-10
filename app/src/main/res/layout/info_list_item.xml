@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/ceceive_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        tools:text="刚刚"
+        />
+
+    <LinearLayout
+        android:layout_width="@dimen/x994"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="@dimen/x43"
+        android:layout_marginRight="@dimen/x43"
+        android:layout_marginTop="@dimen/x23"
+        android:background="@drawable/btn_bian"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/state_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x46"
+            android:layout_marginTop="@dimen/x40"
+            android:textSize="@dimen/x63"
+            tools:text="状态"
+            />
+
+        <TextView
+            android:id="@+id/time_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x46"
+            android:layout_marginTop="@dimen/x14"
+            android:textSize="@dimen/x35"
+            tools:text="时间"
+            />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/x43"
+            android:layout_marginRight="@dimen/x43"
+            android:layout_marginTop="@dimen/x26"
+            android:background="#e1e3e6"
+            />
+
+        <LinearLayout
+            style="@style/receive_info_item"
+            android:layout_marginTop="@dimen/x43"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x43"
+                tools:text="客户信息:"
+                />
+
+            <TextView
+                android:id="@+id/user_info_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:textSize="@dimen/x40"
+                tools:text="我了个去 15678"
+                />
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/receive_info_item"
+            android:layout_marginTop="@dimen/x35">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x43"
+                tools:text="经销商:"
+                />
+
+            <TextView
+                android:id="@+id/sell_person_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:textSize="@dimen/x40"
+                tools:text="我了个去 15678"
+                />
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/second_sell_tv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x200"
+            android:text="我了个去"
+            android:textSize="@dimen/x40"
+            />
+
+        <LinearLayout
+            style="@style/receive_info_item"
+            android:layout_marginTop="@dimen/x35">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x43"
+                tools:text="车型信息:"
+                />
+
+            <TextView
+                android:id="@+id/model_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:textSize="@dimen/x40"
+                tools:text="我了个去 15678"/>
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            style="@style/receive_info_item"
+            android:layout_marginTop="@dimen/x35">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x43"
+                tools:text="贷款总额:"
+                />
+
+            <TextView
+                android:id="@+id/total_loan_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="@dimen/x15"
+                android:textSize="@dimen/x40"
+                tools:text="我了个去 15678"
+                />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_marginLeft="@dimen/x43"
+            android:layout_marginRight="@dimen/x43"
+            android:layout_marginTop="@dimen/x40"
+            android:background="#e1e3e6"
+            />
+
+        <RelativeLayout
+            android:id="@+id/look_detail_rel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="@dimen/x43"
+            android:layout_marginRight="@dimen/x43"
+            android:paddingBottom="@dimen/x37"
+            android:paddingTop="@dimen/x29"
+            >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/x57"
+                tools:text="查看详情"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
+                android:src="@mipmap/select_arrow"
+                />
+
+        </RelativeLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
