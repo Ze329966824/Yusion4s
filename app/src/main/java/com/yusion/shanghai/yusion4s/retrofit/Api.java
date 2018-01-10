@@ -15,6 +15,7 @@ import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.retrofit.service.AuthService;
 import com.yusion.shanghai.yusion4s.retrofit.service.ConfigService;
 import com.yusion.shanghai.yusion4s.retrofit.service.DlrService;
+import com.yusion.shanghai.yusion4s.retrofit.service.MsgCenterService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OcrService;
 import com.yusion.shanghai.yusion4s.retrofit.service.OrderService;
 import com.yusion.shanghai.yusion4s.retrofit.service.ProductService;
@@ -105,8 +106,8 @@ public class Api {
         return retrofit.create(DlrService.class);
     }
 
-    public static DlrService getDlrNum() {
-        return retrofit.create(DlrService.class);
+    public static MsgCenterService getMsgCenterService() {
+        return retrofit.create(MsgCenterService.class);
     }
 
 

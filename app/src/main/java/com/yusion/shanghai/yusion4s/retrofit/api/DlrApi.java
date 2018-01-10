@@ -41,7 +41,7 @@ public class DlrApi {
 
     public static void getDlr(final Context context, String id, final OnItemDataCallBack<DlrNumResp> onItemDataCallBack) {
         Dialog dialog = LoadingUtils.createLoadingDialog(context);
-        Api.getDlrNum().getDlrNum(id).enqueue(new CustomCallBack<DlrNumResp>(context, dialog) {
+        Api.getDlrService().getDlrNum(id).enqueue(new CustomCallBack<DlrNumResp>(context, dialog) {
             @Override
             public void onCustomResponse(DlrNumResp data) {
                 if (data == null) {

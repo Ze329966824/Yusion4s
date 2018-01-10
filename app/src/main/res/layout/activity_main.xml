@@ -62,6 +62,7 @@
         </RadioGroup>
 
         <ImageView
+            android:id="@+id/red_point"
             android:layout_width="@dimen/y35"
             android:layout_height="@dimen/y35"
             android:layout_alignParentRight="true"

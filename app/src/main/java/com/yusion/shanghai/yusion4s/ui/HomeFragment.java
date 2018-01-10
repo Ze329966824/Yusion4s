@@ -92,7 +92,7 @@ public class HomeFragment extends BaseFragment {
 
     //刷新首页订单数量
     void refresh(String id) {
-        ApiUtil.requestUrl4Data(mContext, Api.getDlrNum().getDlrNum(id), dlrNumResp -> {
+        ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getDlrNum(id), dlrNumResp -> {
             ptr.refreshComplete();
             if (dlrNumResp != null) {
 
