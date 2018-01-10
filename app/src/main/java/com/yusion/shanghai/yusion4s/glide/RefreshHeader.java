@@ -2,7 +2,6 @@ package com.yusion.shanghai.yusion4s.glide;
 
 import android.content.Context;
 import android.graphics.drawable.AnimationDrawable;
-import android.widget.ImageView;
 
 import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.PtrUIHandler;
@@ -13,14 +12,13 @@ import com.yusion.shanghai.yusion4s.R;
  * Created by LX on 2017/12/29.
  */
 
-public class RefreshHeader extends ImageView implements PtrUIHandler {
+public class RefreshHeader extends android.support.v7.widget.AppCompatImageView implements PtrUIHandler {
+    private int ss;
+    private Context context;
 
     public RefreshHeader(Context context) {
         super(context);
-
-
     }
-
 
     @Override
     public void onUIReset(PtrFrameLayout frame) {

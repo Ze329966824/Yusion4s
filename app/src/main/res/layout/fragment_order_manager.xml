@@ -17,9 +17,8 @@
             android:layout_width="@dimen/x52"
             android:layout_height="@dimen/y52"
             android:layout_alignParentRight="true"
-            android:layout_marginLeft="@dimen/y219"
             android:layout_marginTop="@dimen/y37"
-            android:layout_toRightOf="@+id/button"
+            android:layout_marginRight="15dp"
             android:src="@mipmap/insearch2" />
 
 
