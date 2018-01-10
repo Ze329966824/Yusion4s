@@ -107,8 +107,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
         transaction.commit();
-        animateViewDirection(v, 0.8f, 1f, 100, 1);
-//        animateViewDirection(v, 0.8f, 1f, 20, 5);
+//        animateViewDirection(v, 0.8f, 1f, 100, 1);
+        animateViewDirection(v, 0.8f, 1f, 20, 5);
     }
 
     /**
