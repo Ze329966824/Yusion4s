@@ -42,7 +42,6 @@ import com.yusion.shanghai.yusion4s.ui.upload.ExtraNotUploadServerImgActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
-import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
 import org.greenrobot.eventbus.EventBus;
@@ -296,7 +295,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 urlBean.label = ((OrderCreateActivity) getActivity()).label;
                                 urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
                                 urlBean.app_id = data.app_id;
-                                uploadOldCarImgUrlList.add(urlBean);
+                                if (!urlBean.label.equals("") && !urlBean.file_id.equals("") && !urlBean.app_id.equals("")) {
+                                    uploadOldCarImgUrlList.add(urlBean);
+                                }
                             }
                             if (uploadFileUrlList.size() > 0) {//有授权书还有二手车截图
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
@@ -311,7 +312,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     public void callBack(int code, String msg) {
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-
                                             uploadOldCarImg();
                                             startActivity(intent);
                                             createActivity.finish();
@@ -350,7 +350,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void callBack(int code, String msg) {
                         if (code < 0) {
-                            ToastUtil.showLong(mContext, "网络问题,上传二手车截图失败");
+                            Toast.makeText(mContext,"网络问题,上传二手车截图失败",Toast.LENGTH_LONG).show();
                             return;
                         }
                         Log.e("TAG", uploadFilesUrlReq1.bucket);
