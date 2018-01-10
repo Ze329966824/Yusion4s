@@ -31,11 +31,11 @@
 
     <style name="apply_info_item">
         <item name="android:layout_width">match_parent</item>
-        <item name="android:layout_height">48dp</item>
+        <item name="android:layout_height">@dimen/y138</item>
         <item name="android:background">#FFF</item>
         <item name="android:orientation">horizontal</item>
-        <item name="android:paddingLeft">15dp</item>
-        <item name="android:paddingRight">15dp</item>
+        <item name="android:paddingLeft">@dimen/x43</item>
+        <item name="android:paddingRight">@dimen/y43</item>
     </style>
 
     <style name="apply_info_item_extra">
@@ -52,8 +52,8 @@
         <item name="android:layout_height">match_parent</item>
         <item name="android:gravity">center_vertical</item>
         <item name="android:maxLines">1</item>
-        <item name="android:textColor">#222A36</item>
-        <item name="android:textSize">14.5sp</item>
+        <item name="android:textColor">#FF222A36</item>
+        <item name="android:textSize">@dimen/y43</item>
     </style>
 
     <style name="apply_info_content">
@@ -64,10 +64,10 @@
         <item name="android:gravity">center_vertical|right</item>
         <item name="android:maxLines">1</item>
         <item name="android:singleLine">true</item>
-        <item name="android:paddingLeft">5dp</item>
+        <item name="android:paddingLeft">@dimen/x26</item>
         <item name="android:textColor">#222A36</item>
         <item name="android:textColorHint">@color/hint_text_color</item>
-        <item name="android:textSize">14.5sp</item>
+        <item name="android:textSize">@dimen/y43</item>
         <item name="android:textCursorDrawable">@null</item>
     </style>
 
