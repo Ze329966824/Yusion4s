@@ -12,6 +12,7 @@ import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
+import com.yusion.shanghai.yusion4s.retrofit.service.AMapService;
 import com.yusion.shanghai.yusion4s.retrofit.service.AuthService;
 import com.yusion.shanghai.yusion4s.retrofit.service.ConfigService;
 import com.yusion.shanghai.yusion4s.retrofit.service.DlrService;
@@ -107,6 +108,10 @@ public class Api {
 
     public static DlrService getDlrNum() {
         return retrofit.create(DlrService.class);
+    }
+
+    public static AMapService getMapService() {
+        return retrofit.create(AMapService.class);
     }
 
 

@@ -26,7 +26,10 @@ import com.yusion.shanghai.yusion4s.car_select.adapter.ModelAdapter;
 import com.yusion.shanghai.yusion4s.car_select.adapter.TrixAdapter;
 import com.yusion.shanghai.yusion4s.car_select.model.CityBean;
 import com.yusion.shanghai.yusion4s.car_select.suspension.SuspensionDecoration;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 
 import java.util.ArrayList;
@@ -263,7 +266,8 @@ public class CarSelectActivity extends BaseActivity {
 
     private void showModelList(GetTrixResp trixResp) {
         currentTrixResp = trixResp;
-        DlrApi.getModel(this, trixResp.trix_id, getIntent().getStringExtra("vehicle_cond"), modelResp -> {
+        ApiUtil.requestUrl4Data(this, Api.getDlrService().getModel(trixResp.trix_id, getIntent().getStringExtra("vehicle_cond")),modelResp ->{
+//            DlrApi.getModel(this, trixResp.trix_id, getIntent().getStringExtra("vehicle_cond"), modelResp -> {
             rawModelList = modelResp;
             if (modelResp == null) {
                 Toast.makeText(myApp, "返回数据为空", Toast.LENGTH_SHORT).show();
@@ -299,7 +303,8 @@ public class CarSelectActivity extends BaseActivity {
     private void showTrixList(GetBrandResp brandResp) {
         currentBrandResp = brandResp;
         drawerLayout2.closeDrawer(Gravity.RIGHT);
-        DlrApi.getTrix(this, brandResp.brand_id, trixResp -> {
+        ApiUtil.requestUrl4Data(this,Api.getDlrService().getTrix(brandResp.brand_id),trixResp ->{
+//        DlrApi.getTrix(this, brandResp.brand_id, trixResp -> {
             if (trixResp == null) {
                 Toast.makeText(myApp, "返回数据为空", Toast.LENGTH_SHORT).show();
                 return;
@@ -317,7 +322,8 @@ public class CarSelectActivity extends BaseActivity {
         if (TextUtils.isEmpty(dlr_id)) {
             dlr_id = "YJCS0001";
         }
-        DlrApi.getBrand(this, dlr_id, getBrandResp -> {
+        ApiUtil.requestUrl4Data(this, Api.getDlrService().getBrand(dlr_id), getBrandResp ->{
+//            DlrApi.getBrand(this, dlr_id, getBrandResp -> {
             if (getBrandResp == null) {
                 Toast.makeText(myApp, "返回数据为空", Toast.LENGTH_SHORT).show();
                 return;

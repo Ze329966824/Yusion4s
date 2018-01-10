@@ -1,6 +1,5 @@
 package com.yusion.shanghai.yusion4s.ui.entrance.apply_financing;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -31,12 +30,10 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
-import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
 
@@ -254,17 +251,15 @@ public class AlterCarInfoActivity extends BaseActivity {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
-                Log.e("TAG", "writeOtherPrice: 1");
-                DlrApi.getOtherFeeLimit(AlterCarInfoActivity.this, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
-                    @Override
-                    public void onItemDataCallBack(String data) {
-                        Log.e("TAG", "onItemDataCallBack: 2 " + data);
-                        if (!TextUtils.isEmpty(data)) {
-                            otherLimit = data;
-                            Toast toast = Toast.makeText(AlterCarInfoActivity.this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        }
+//                Log.e("TAG", "writeOtherPrice: 1");
+                ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), data -> {
+//                    DlrApi.getOtherFeeLimit(AlterCarInfoActivity.this, carLoanPriceTv.getText().toString(), data -> {
+                    Log.e("TAG", "onItemDataCallBack: 2 " + data);
+                    if (!TextUtils.isEmpty(data)) {
+                        otherLimit = data;
+                        Toast toast = Toast.makeText(AlterCarInfoActivity.this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }
                 });
             }
@@ -390,70 +385,67 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void initData() {
         //网络请求11000005
-        OrderApi.getRawCarInfo(AlterCarInfoActivity.this, app_id, new OnItemDataCallBack<GetRawCarInfoResp>() {
-            @Override
-            public void onItemDataCallBack(GetRawCarInfoResp resp) {
-                if (resp == null) {
-                    return;
-                }
-                aid_id = resp.aid_id;
-                aid_dlr_nm = resp.aid_dlr_nm;
-                if (aid_dlr_nm.equals("")) {
-                    distributorLin.setVisibility(View.GONE);
-                    distributorTv.setText("");
-                } else {
-                    distributorLin.setVisibility(View.VISIBLE);
-                    distributorTv.setText(aid_dlr_nm);
-                }
-                model_id = resp.vehicle_model_id;
-                vehicle_owner_lender_relation = resp.vehicle_owner_lender_relation;
-                min_reg_year = resp.min_reg_year;
-                max_reg_year = resp.max_reg_year;
-                clt_id = resp.clt_id;
-                brand_id = resp.brand_id;
-                id_no = resp.id_no;
-                dlr_id = resp.dlr_id;
-                dlrTV.setText(resp.dlr_nm);
-                brandTv.setText(resp.brand);
-                trixTv.setText(resp.trix);
-                modelTv.setText(resp.model_name);
-                colorTv.setText(resp.vehicle_color);
-                guidePriceTv.setText(resp.msrp);//市场指导价
-                billPriceTv.setText(resp.vehicle_price);//开票价
-                carLoanPriceTv.setText(resp.vehicle_loan_amt);//车辆贷款额
-                firstPriceTv.setText(resp.vehicle_down_payment);//首付款
-                managementPriceTv.setText(resp.management_fee);//档案管理费
-                otherPriceTv.setText(resp.other_fee);//其他费用
-                totalLoanPriceTv.setText(resp.loan_amt);//总贷款额
-                loanBankTv.setText(resp.loan_bank);//贷款银行
-                productTypeTv.setText(resp.product_name);//产品类型
-                loanPeriodsTv.setText(resp.nper + "");//还款期限
-                loanPeriodsTv.setText(String.valueOf(resp.nper));
-                plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
-                car_info_tv.setText(resp.model_name);
-                mGuidePrice = Integer.valueOf(resp.msrp);
+        ApiUtil.requestUrl4Data(AlterCarInfoActivity.this,Api.getOrderService().getRawCarInfo(app_id),resp ->{
+//        OrderApi.getRawCarInfo(AlterCarInfoActivity.this, app_id, resp -> {
+            if (resp == null) {
+                return;
+            }
+            aid_id = resp.aid_id;
+            aid_dlr_nm = resp.aid_dlr_nm;
+            if (aid_dlr_nm.equals("")) {
+                distributorLin.setVisibility(View.GONE);
+                distributorTv.setText("");
+            } else {
+                distributorLin.setVisibility(View.VISIBLE);
+                distributorTv.setText(aid_dlr_nm);
+            }
+            model_id = resp.vehicle_model_id;
+            vehicle_owner_lender_relation = resp.vehicle_owner_lender_relation;
+            min_reg_year = resp.min_reg_year;
+            max_reg_year = resp.max_reg_year;
+            clt_id = resp.clt_id;
+            brand_id = resp.brand_id;
+            id_no = resp.id_no;
+            dlr_id = resp.dlr_id;
+            dlrTV.setText(resp.dlr_nm);
+            brandTv.setText(resp.brand);
+            trixTv.setText(resp.trix);
+            modelTv.setText(resp.model_name);
+            colorTv.setText(resp.vehicle_color);
+            guidePriceTv.setText(resp.msrp);//市场指导价
+            billPriceTv.setText(resp.vehicle_price);//开票价
+            carLoanPriceTv.setText(resp.vehicle_loan_amt);//车辆贷款额
+            firstPriceTv.setText(resp.vehicle_down_payment);//首付款
+            managementPriceTv.setText(resp.management_fee);//档案管理费
+            otherPriceTv.setText(resp.other_fee);//其他费用
+            totalLoanPriceTv.setText(resp.loan_amt);//总贷款额
+            loanBankTv.setText(resp.loan_bank);//贷款银行
+            productTypeTv.setText(resp.product_name);//产品类型
+            loanPeriodsTv.setText(resp.nper + "");//还款期限
+            loanPeriodsTv.setText(String.valueOf(resp.nper));
+            plateRegAddrTv.setText(resp.plate_reg_addr);//上牌地
+            car_info_tv.setText(resp.model_name);
+            mGuidePrice = Integer.valueOf(resp.msrp);
 
-                isChangeCarInfoChange = true;
-                isChangeOldCarInfo = true;
-                isChangeOldCarOther = true;
+            isChangeCarInfoChange = true;
+            isChangeOldCarInfo = true;
+            isChangeOldCarOther = true;
 
-                if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
-                    billPriceTv.setEnabled(true);
+            if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
+                billPriceTv.setEnabled(true);
+            }
+            isChoose = true;
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getDlrListByToken(), resp1 -> {
+//                DlrApi.getDlrListByToken(AlterCarInfoActivity.this, resp1 -> {
+                mDlrList = resp1;
+                dlrItems = new ArrayList<String>();
+                for (GetDlrListByTokenResp item : resp1) {
+                    dlrItems.add(item.dlr_nm);
                 }
-                isChoose = true;
-                DlrApi.getDlrListByToken(AlterCarInfoActivity.this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
-                    @Override
-                    public void onItemDataCallBack(List<GetDlrListByTokenResp> resp) {
-                        mDlrList = resp;
-                        dlrItems = new ArrayList<String>();
-                        for (GetDlrListByTokenResp item : resp) {
-                            dlrItems.add(item.dlr_nm);
-                        }
-                        mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
-                        management_fee_price = mDlrList.get(mDlrIndex).management_fee;
-                        mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
-                    }
-                });
+                mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
+                management_fee_price = mDlrList.get(mDlrIndex).management_fee;
+                mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
+            });
 
 //                DlrApi.getBrand(AlterCarInfoActivity.this, resp.dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
 //                    @Override
@@ -491,44 +483,39 @@ public class AlterCarInfoActivity extends BaseActivity {
 //                    }
 //                });
 
-                DlrApi.getLoanBank(AlterCarInfoActivity.this, resp.dlr_id, new OnItemDataCallBack<List<GetLoanBankResp>>() {
-                    @Override
-                    public void onItemDataCallBack(List<GetLoanBankResp> resp) {
-                        mLoanBankList = resp;
-                        bankItems = new ArrayList<String>();
-                        for (GetLoanBankResp item : resp) {
-                            bankItems.add(item.name);
-                        }
-                        mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
-                    }
-                });
-                DlrApi.getProductType(AlterCarInfoActivity.this, resp.bank_id, resp.dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
-                    @Override
-                    public void onItemDataCallBack(GetproductResp resp) {
-                        if (resp == null) {
-                            return;
-                        }
-                        if (resp.product_list == null && resp.product_list.isEmpty()) {
-                            return;
-                        }
-                        if (resp.support_area == null && resp.support_area.isEmpty()) {
-                            return;
-                        }
-                        mProductList = resp.product_list;
-                        productTypeItems = new ArrayList<String>();
-                        cityJson = resp.support_area.toString();
-                        for (GetproductResp.ProductListBean item : resp.product_list) {
-                            productTypeItems.add(item.name);
-                        }
-                        if (isCanSelectIndex(productTypeItems, productTypeTv.getText().toString())) {
-                            mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
-                        } else {
-                            productTypeTv.setText("");
-                            Toast.makeText(AlterCarInfoActivity.this, "产品类型需重新选择", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getLoanBank(resp.dlr_id), resp12 -> {
+//                DlrApi.getLoanBank(AlterCarInfoActivity.this, resp.dlr_id, resp12 -> {
+                mLoanBankList = resp12;
+                bankItems = new ArrayList<String>();
+                for (GetLoanBankResp item : resp12) {
+                    bankItems.add(item.name);
+                }
+                mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
+            });
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getProductType(resp.bank_id, resp.dlr_id, cartype), resp13 -> {
+//                DlrApi.getProductType(AlterCarInfoActivity.this, resp.bank_id, resp.dlr_id, cartype, resp13 -> {
+                if (resp13 == null) {
+                    return;
+                }
+                if (resp13.product_list == null && resp13.product_list.isEmpty()) {
+                    return;
+                }
+                if (resp13.support_area == null && resp13.support_area.isEmpty()) {
+                    return;
+                }
+                mProductList = resp13.product_list;
+                productTypeItems = new ArrayList<String>();
+                cityJson = resp13.support_area.toString();
+                for (GetproductResp.ProductListBean item : resp13.product_list) {
+                    productTypeItems.add(item.name);
+                }
+                if (isCanSelectIndex(productTypeItems, productTypeTv.getText().toString())) {
+                    mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
+                } else {
+                    productTypeTv.setText("");
+                    Toast.makeText(AlterCarInfoActivity.this, "产品类型需重新选择", Toast.LENGTH_LONG).show();
+                }
+            });
         });
         //选择经销商
         carInfoDlrLin.setOnClickListener(v ->
@@ -756,13 +743,12 @@ public class AlterCarInfoActivity extends BaseActivity {
                     req.msrp = guidePriceTv.getText().toString();
                     req.reason = carInfoAlterTv.getText().toString();
 
-                    OrderApi.submitAlterInfo(AlterCarInfoActivity.this, req, new OnCodeAndMsgCallBack() {
-                        @Override
-                        public void callBack(int code, String msg) {
-                            if (code > -1) {
-                                Toast.makeText(AlterCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
-                                finish();
-                            }
+
+                    ApiUtil.requestUrl4CodeAndMsg(AlterCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req),(code, msg) -> {
+//                    OrderApi.submitAlterInfo(AlterCarInfoActivity.this, req, (code, msg) -> {
+                        if (code > -1) {
+                            Toast.makeText(AlterCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
+                            finish();
                         }
                     });
                 }
@@ -851,31 +837,28 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
-            DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
-                //DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
-                @Override
-                public void onItemDataCallBack(GetproductResp resp) {
-                    if (resp == null) {
-                        return;
-                    }
-                    cityJson = resp.support_area.toString();
-                    mProductList = resp.product_list;
-
-                    productTypeItems = new ArrayList<String>();
-
-                    for (GetproductResp.ProductListBean product_list : resp.product_list) {
-                        productTypeItems.add(product_list.name);
-                    }
-                    mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
-                    WheelViewUtil.showWheelView(productTypeItems, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
-                        @Override
-                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                            mProductTypeIndex = selectedIndex;
-                            loanPeriodsTv.setText(null);
-                            mLoanPeriodsIndex = 0;
-                        }
-                    });
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getProductType(mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype), resp -> {
+//            DlrApi.getProductType(AlterCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, resp -> {
+                if (resp == null) {
+                    return;
                 }
+                cityJson = resp.support_area.toString();
+                mProductList = resp.product_list;
+
+                productTypeItems = new ArrayList<String>();
+
+                for (GetproductResp.ProductListBean product_list : resp.product_list) {
+                    productTypeItems.add(product_list.name);
+                }
+                mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
+                WheelViewUtil.showWheelView(productTypeItems, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+                    @Override
+                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                        mProductTypeIndex = selectedIndex;
+                        loanPeriodsTv.setText(null);
+                        mLoanPeriodsIndex = 0;
+                    }
+                });
             });
 
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
@@ -908,8 +891,8 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getLoanBank(AlterCarInfoActivity.this, dlr_id, resp -> {
-                //  DlrApi.getLoanBank(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getLoanBank(dlr_id), resp -> {
+//            DlrApi.getLoanBank(AlterCarInfoActivity.this, dlr_id, resp -> {
                 mLoanBankList = resp;//银行列表
                 bankItems = new ArrayList<String>();
                 for (GetLoanBankResp getLoanBankResp : resp) {
@@ -951,7 +934,8 @@ public class AlterCarInfoActivity extends BaseActivity {
     private void selectModel() {
         if (!TextUtils.isEmpty(trixTv.getText())) {
             modelItems = new ArrayList<String>();
-            DlrApi.getModel(AlterCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, "二手车", resp -> {
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getModel(mTrixList.get(mTrixIndex).trix_id, "二手车"), resp -> {
+//            DlrApi.getModel(AlterCarInfoActivity.this, mTrixList.get(mTrixIndex).trix_id, "二手车", resp -> {
                 if (resp != null && !resp.isEmpty()) {
                     mModelList = resp;
                     modelItems = new ArrayList<String>();
@@ -1000,7 +984,8 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void selectTrix() {
         if (!TextUtils.isEmpty(brandTv.getText()) && !TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getTrix(AlterCarInfoActivity.this, mBrandList.get(mBrandIndex).brand_id, resp -> {
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getTrix(mBrandList.get(mBrandIndex).brand_id), resp -> {
+//            DlrApi.getTrix(AlterCarInfoActivity.this, mBrandList.get(mBrandIndex).brand_id, resp -> {
                 if (resp != null && !resp.isEmpty()) {
                     mTrixList = resp;
                     trixItems = new ArrayList<String>();
@@ -1036,32 +1021,30 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void selectBrand() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getBrand(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, new OnItemDataCallBack<List<GetBrandResp>>() {
-                @Override
-                public void onItemDataCallBack(List<GetBrandResp> resp) {
-                    if (resp != null && !resp.isEmpty()) {
-                        mBrandList = resp;
-                        brandItems = new ArrayList<String>();
-                        for (GetBrandResp item : resp) {
-                            brandItems.add(item.brand_name);
-                        }
-                        WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
-                            mBrandIndex = selectedIndex;
-                            mTrixList.clear();
-                            mTrixIndex = 0;
-                            trixTv.setText("");
-
-                            mModelList.clear();
-                            mModelIndex = 0;
-                            modelTv.setText("");
-
-                            mGuidePrice = 0;
-                            guidePriceTv.setText("");
-
-                            clearExceptCarInfo();
-
-                        });
+            ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getBrand(mDlrList.get(mDlrIndex).dlr_id), resp -> {
+//            DlrApi.getBrand(AlterCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+                if (resp != null && !resp.isEmpty()) {
+                    mBrandList = resp;
+                    brandItems = new ArrayList<String>();
+                    for (GetBrandResp item : resp) {
+                        brandItems.add(item.brand_name);
                     }
+                    WheelViewUtil.showWheelView(brandItems, mBrandIndex, carInfoBrandLin, brandTv, "请选择品牌", (clickedView, selectedIndex) -> {
+                        mBrandIndex = selectedIndex;
+                        mTrixList.clear();
+                        mTrixIndex = 0;
+                        trixTv.setText("");
+
+                        mModelList.clear();
+                        mModelIndex = 0;
+                        modelTv.setText("");
+
+                        mGuidePrice = 0;
+                        guidePriceTv.setText("");
+
+                        clearExceptCarInfo();
+
+                    });
                 }
             });
         } else {
@@ -1082,7 +1065,8 @@ public class AlterCarInfoActivity extends BaseActivity {
     }
 
     private void selectDlrStore() {
-        DlrApi.getDlrListByToken(AlterCarInfoActivity.this, resp -> {
+        ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getDlrService().getDlrListByToken(), resp -> {
+//        DlrApi.getDlrListByToken(AlterCarInfoActivity.this, resp -> {
             if (resp != null && !resp.isEmpty()) {
                 mDlrList = resp;
                 dlrItems = new ArrayList<String>();

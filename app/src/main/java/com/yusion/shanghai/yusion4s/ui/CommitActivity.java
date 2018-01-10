@@ -11,11 +11,10 @@ import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.upload.ListDealerLabelsResp;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
-import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.UploadLabelListActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 public class CommitActivity extends BaseActivity {
     private Intent mGetIntent;
@@ -65,10 +64,10 @@ public class CommitActivity extends BaseActivity {
         findViewById(R.id.commit_newcar_layout).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.commit_title_tv)).setText("提交成功");
         TextView submitBtn = findViewById(R.id.commit_newcar_btn);
-        submitBtn.setOnClickListener(v ->{
+        submitBtn.setOnClickListener(v -> {
 //            intent.setClass(CommitActivity.this,MainActivity.class);
-            Intent i1 = new Intent(CommitActivity.this,MainActivity.class);
-            i1.putExtra("from_commit",true);
+            Intent i1 = new Intent(CommitActivity.this, MainActivity.class);
+            i1.putExtra("from_commit", true);
             startActivity(i1);
             finish();
         });
@@ -81,20 +80,22 @@ public class CommitActivity extends BaseActivity {
         findViewById(R.id.commit_oldcar_layout).setVisibility(View.GONE);
         findViewById(R.id.commit_newcar_layout).setVisibility(View.GONE);
         findViewById(R.id.commit_create_layout).setVisibility(View.VISIBLE);
-        TextView returnBtn = (TextView) findViewById(R.id.commit_create_btn);
+        TextView returnBtn = findViewById(R.id.commit_create_btn);
         intent.setClass(CommitActivity.this, OrderCreateActivity.class);
-        returnBtn.setOnClickListener(v -> OrderApi.searchClientExist(CommitActivity.this, intent.getStringExtra("id_no"), data -> {
-            if (data.size() == 1 && data.get(0) != null) {
-                checkAuthCreditExist(intent, data.get(0));
-                intent.putExtra("name", data.get(0).clt_nm);
-                intent.putExtra("sfz", data.get(0).id_no);
-                intent.putExtra("mobile", data.get(0).mobile);
-                intent.putExtra("why_come", "create_user");
-                intent.putExtra("enable", true);
-                startActivity(intent);
-                finish();
-            }
-        }));
+        returnBtn.setOnClickListener(v ->
+                ApiUtil.requestUrl4Data(CommitActivity.this, Api.getOrderService().searchClient(intent.getStringExtra("id_no")), data -> {
+//                OrderApi.searchClientExist(CommitActivity.this, intent.getStringExtra("id_no"), data -> {
+                    if (data.size() == 1 && data.get(0) != null) {
+                        checkAuthCreditExist(intent, data.get(0));
+                        intent.putExtra("name", data.get(0).clt_nm);
+                        intent.putExtra("sfz", data.get(0).id_no);
+                        intent.putExtra("mobile", data.get(0).mobile);
+                        intent.putExtra("why_come", "create_user");
+                        intent.putExtra("enable", true);
+                        startActivity(intent);
+                        finish();
+                    }
+                }));
 
     }
 
@@ -104,25 +105,27 @@ public class CommitActivity extends BaseActivity {
         findViewById(R.id.commit_oldcar_layout).setVisibility(View.VISIBLE);
         ((TextView) findViewById(R.id.commit_title_tv)).setText("还差最后一步!");
 
-        TextView submitBtn = (TextView) findViewById(R.id.commit_oldcar_btn);
-        submitBtn.setOnClickListener(v -> UploadApi.listDealerLabels(CommitActivity.this, getIntent().getStringExtra("app_id"), data -> {
-            ListDealerLabelsResp item = null;
-            for (ListDealerLabelsResp listDealerLabelsResp : data) {
-                if (listDealerLabelsResp.value.equals(((Yusion4sApp) getApplication()).getConfigResp().send_hand_base_material)) {
-                    item = listDealerLabelsResp;
-                    break;
-                }
-            }
-            if (item == null) {
-                Toast.makeText(myApp, "没有找到指定影像件标签,请稍后补充上传", Toast.LENGTH_SHORT).show();
-                return;
-            }
-            Intent intent1 = new Intent(CommitActivity.this, UploadLabelListActivity.class);
-            intent1.putExtra("topItem", item);
-            intent1.putExtra("app_id", getIntent().getStringExtra("app_id"));
-            startActivity(intent1);
-            finish();
-        }));
+        TextView submitBtn = findViewById(R.id.commit_oldcar_btn);
+        submitBtn.setOnClickListener(v ->
+                ApiUtil.requestUrl4Data(CommitActivity.this, Api.getUploadService().listDealerLabels(getIntent().getStringExtra("app_id")), data -> {
+//                UploadApi.listDealerLabels(CommitActivity.this, getIntent().getStringExtra("app_id"), data -> {
+                    ListDealerLabelsResp item = null;
+                    for (ListDealerLabelsResp listDealerLabelsResp : data) {
+                        if (listDealerLabelsResp.value.equals(((Yusion4sApp) getApplication()).getConfigResp().send_hand_base_material)) {
+                            item = listDealerLabelsResp;
+                            break;
+                        }
+                    }
+                    if (item == null) {
+                        Toast.makeText(myApp, "没有找到指定影像件标签,请稍后补充上传", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+                    Intent intent1 = new Intent(CommitActivity.this, UploadLabelListActivity.class);
+                    intent1.putExtra("topItem", item);
+                    intent1.putExtra("app_id", getIntent().getStringExtra("app_id"));
+                    startActivity(intent1);
+                    finish();
+                }));
     }
 
     private void checkAuthCreditExist(Intent intent, SearchClientResp item) {

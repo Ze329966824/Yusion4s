@@ -32,7 +32,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/y23"
             android:text="高育良"
-            android:textColor="#FFFFFFFF"
+            android:textColor="#AFB0B5"
             android:textSize="@dimen/y58" />
 
         <ImageView
@@ -54,7 +54,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/y58"
             android:text="17621062314"
-            android:textColor="#FFFFFFFF"
+            android:textColor="#AFB0B5"
             android:textSize="@dimen/y40" />
 
         <TextView
@@ -66,7 +66,7 @@
             android:layout_centerVertical="true"
             android:layout_marginBottom="@dimen/y23"
             android:text="予见汽车  贴心无处不在"
-            android:textColor="#FFFFFFFF"
+            android:textColor="#AFB0B5"
             android:textSize="@dimen/y40" />
 
         <ImageView

@@ -29,18 +29,14 @@ import android.widget.TextView;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
 import com.yusion.shanghai.yusion4s.car_select.adapter.HistoryAdapter;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
@@ -481,14 +477,14 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         replaceSPReq.clt_id = spouse_clt_id;
         Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
         //1.激活配偶登录
-        AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
+        ApiUtil.requestUrl4Data(mContext,Api.getAuthService().replaceSpToP(replaceSPReq),data1 -> {
+//            AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
             if (data1 == null) {
                 return;
             }
             //2.检查配偶信息是否完善
-            AuthApi.CheckInfoComplete(mContext, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
-                @Override
-                public void onItemDataCallBack(CheckInfoCompletedResp data) {
+            ApiUtil.requestUrl4Data(mContext,Api.getAuthService().CheckInfoComplete(spouse_clt_id),data ->{
+//                AuthApi.CheckInfoComplete(mContext, spouse_clt_id, data -> {
                     if (data == null) {
                         return;
                     }
@@ -498,7 +494,8 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         req.clt_id = spouse_clt_id;
                         req.app_id = app_id;
                         //3：重新提报
-                        OrderApi.reSubmit(mContext, req, data2 -> {
+                        ApiUtil.requestUrl4Data(mContext,Api.getOrderService().reSubmit(req),data2 -> {
+//                        OrderApi.reSubmit(mContext, req, data2 -> {
                             if (data2 != null) {
                                 ToastUtil.showImageToast(mContext, "提交成功", R.mipmap.toast_success);
                                 Intent intent = new Intent(mContext, OrderDetailActivity.class);
@@ -515,8 +512,7 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             dialog1.dismiss();
                         });
                     }
-                }
-            });
+                });
         });
     }
 
