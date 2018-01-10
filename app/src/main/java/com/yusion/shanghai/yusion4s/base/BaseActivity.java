@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
@@ -16,7 +17,6 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
-import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.util.List;
@@ -40,7 +40,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         HEIGHT = this.getWindowManager().getDefaultDisplay().getHeight();
         myApp = ((Yusion4sApp) getApplication());
         if (!Settings.isOnline) {
-            ToastUtil.showShort(this,getClass().getSimpleName());
+//            ToastUtil.showShort(this,getClass().getSimpleName());
+            Toast.makeText(this,getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
         }
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
