@@ -37,6 +37,13 @@
         <item name="android:paddingLeft">15dp</item>
         <item name="android:paddingRight">15dp</item>
     </style>
+    <style name="receive_info_item">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:orientation">horizontal</item>
+        <item name="android:layout_marginLeft">@dimen/x43</item>
+        <item name="android:layout_marginRight">@dimen/x43</item>
+    </style>
 
     <style name="apply_info_item_extra">
         <item name="android:layout_width">match_parent</item>
