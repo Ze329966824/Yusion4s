@@ -12,8 +12,10 @@ import android.widget.TextView;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 import java.util.List;
 
@@ -39,67 +41,66 @@ public class ProcessActivity extends BaseActivity {
         create_time = (TextView) findViewById(R.id.creat_time);
         clt_nm = (TextView) findViewById(R.id.clt_nm);
 
-        OrderApi.getOrderProcess(this, getIntent().getStringExtra("app_id"), new OnItemDataCallBack<ProcessResp>() {
-            @Override
-            public void onItemDataCallBack(ProcessResp data) {
-                if (data == null) {
-                    return;
+        ApiUtil.requestUrl4Data(this, Api.getOrderService().getOrderProcess(getIntent().getStringExtra("app_id")),data -> {
+//        OrderApi.getOrderProcess(this, getIntent().getStringExtra("app_id"), data -> {
+            if (data == null) {
+                return;
+            }
+            canceled = data.canceled;
+            list = data.list;
+            clt_nm.setText(data.clt_nm);
+            app_id.setText(data.app_id);
+            create_time.setText(data.create_time);
+
+            for (int i = 0; i < list.size(); i++) {
+                ProcessResp.ListBean current = list.get(i);
+
+                ProcessResp.ListBean before;
+                ProcessResp.ListBean after;
+
+                before = i == 0 ? null : list.get(i - 1);
+
+                after = i == list.size() - 1 ? null : list.get(i + 1);
+
+                View view = addViewEmpty();
+                View topLine = view.findViewById(R.id.top_line);
+                View bottomLine = view.findViewById(R.id.bottom_line);
+                ImageView dianImg = (ImageView) view.findViewById(R.id.st_dian_img);//左边状态点
+
+
+                if (before == null) {
+                    topLine.setVisibility(View.INVISIBLE);
+                } else if (after == null) {
+                    bottomLine.setVisibility(View.INVISIBLE);
                 }
-                canceled = data.canceled;
-                list = data.list;
-                clt_nm.setText(data.clt_nm);
-                app_id.setText(data.app_id);
-                create_time.setText(data.create_time);
-
-                for (int i = 0; i < list.size(); i++) {
-                    ProcessResp.ListBean current = list.get(i);
-
-                    ProcessResp.ListBean before;
-                    ProcessResp.ListBean after;
-
-                    before = i == 0 ? null : list.get(i - 1);
-
-                    after = i == list.size() - 1 ? null : list.get(i + 1);
-
-                    View view = addViewEmpty();
-                    View topLine = view.findViewById(R.id.top_line);
-                    View bottomLine = view.findViewById(R.id.bottom_line);
-                    ImageView dianImg = (ImageView) view.findViewById(R.id.st_dian_img);//左边状态点
-
-
-                    if (before == null) {
-                        topLine.setVisibility(View.INVISIBLE);
-                    } else if (after == null) {
-                        bottomLine.setVisibility(View.INVISIBLE);
+                //设置线条颜色  st是当前 st2是上一个
+                current_st = current.st;
+                if (before != null) {
+                    before_st = before.st;
+                    if (before_st.equals("pass") && !canceled) {
+                        topLine.setBackgroundColor(Color.parseColor("#06b7a3"));//这个是绿色
+                    } else if (canceled) {
+                        topLine.setBackgroundColor(Color.parseColor("#aaaab7"));//这个是灰色
                     }
-                    //设置线条颜色  st是当前 st2是上一个
-                    current_st = current.st;
-                    if (before != null) {
-                        before_st = before.st;
-                        if (before_st.equals("pass") && !canceled) {
-                            topLine.setBackgroundColor(Color.parseColor("#06b7a3"));//这个是绿色
-                        } else if (canceled) {
-                            topLine.setBackgroundColor(Color.parseColor("#aaaab7"));//这个是灰色
-                        }
-                    }//25 shi pass  24 shi wait
-                    if (current_st.equals("pass") && !canceled) {
-                        bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
-                        dianImg.setImageResource(R.mipmap.test25);
-                    } else if (current_st.equals("pass") && canceled) {
-                        bottomLine.setBackgroundColor(Color.parseColor("#aaaab7"));
-                        dianImg.setImageResource(R.mipmap.cancel_pass_icon);
-                    } else if (current_st.equals("wait") && !canceled) {
-                        dianImg.setImageResource(R.mipmap.test24);
-                    } else if (current_st.equals("wait") && canceled) {
-                        dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
-                    } else if (current_st.equals("reject") && !canceled) {
-                        dianImg.setImageResource(R.mipmap.reject_icon);
-                    } else if (current_st.equals("reject") && canceled) {
-                        dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
-                    }
-                    mLl_parent.addView(view);
-                    LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
-                    fill(current, ll_empty);
+                }//25 shi pass  24 shi wait
+                if (current_st.equals("pass") && !canceled) {
+                    bottomLine.setBackgroundColor(Color.parseColor("#06b7a3"));
+                    dianImg.setImageResource(R.mipmap.test25);
+                } else if (current_st.equals("pass") && canceled) {
+                    bottomLine.setBackgroundColor(Color.parseColor("#aaaab7"));
+                    dianImg.setImageResource(R.mipmap.cancel_pass_icon);
+                } else if (current_st.equals("wait") && !canceled) {
+                    dianImg.setImageResource(R.mipmap.test24);
+                } else if (current_st.equals("wait") && canceled) {
+                    dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
+                } else if (current_st.equals("reject") && !canceled) {
+                    dianImg.setImageResource(R.mipmap.reject_icon);
+                } else if (current_st.equals("reject") && canceled) {
+                    dianImg.setImageResource(R.mipmap.cancel_wait_reject_icon);
+                }
+                mLl_parent.addView(view);
+                LinearLayout ll_empty = (LinearLayout) view.findViewById(R.id.ll_empty);
+                fill(current, ll_empty);
 
 //            if (current.asyncProcessTestList.size() > 0) {
 //                for (int j = 0; j < current.asyncProcessTestList.size(); j++) {
@@ -120,7 +121,6 @@ public class ProcessActivity extends BaseActivity {
 //                    ll_empty.addView(fillView);
 //                }
 //            }
-                }
             }
         });
 

@@ -23,6 +23,7 @@ import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
@@ -79,7 +80,8 @@ public class HomeFragment extends BaseFragment {
 
     void firstLogin() {
         if (activity.isFirstLogin) {
-            DlrApi.getDlrListByToken(mContext, resp -> {
+            ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getDlrListByToken(), resp ->{
+//            DlrApi.getDlrListByToken(mContext, resp -> {
                 activity.isFirstLogin = false;
                 if (resp != null && !resp.isEmpty()) {
                     top_dlr.setText(resp.get(0).dlr_nm);

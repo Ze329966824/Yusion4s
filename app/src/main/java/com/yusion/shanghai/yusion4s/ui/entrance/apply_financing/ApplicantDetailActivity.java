@@ -10,8 +10,10 @@ import android.widget.TextView;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 public class ApplicantDetailActivity extends BaseActivity {
     private String clt_id;
@@ -77,52 +79,49 @@ public class ApplicantDetailActivity extends BaseActivity {
         guarantor_lin = (LinearLayout) findViewById(R.id.guarantor_lin);
         guarantor_spouse_lin = (LinearLayout) findViewById(R.id.guarantor_spouse_lin);
 
-
-        OrderApi.getApplicateDetail(this, clt_id, new OnItemDataCallBack<GetApplicateDetailResp>() {
-            @Override
-            public void onItemDataCallBack(GetApplicateDetailResp data) {
-                if (data == null) return;
+        ApiUtil.requestUrl4Data(this, Api.getOrderService().getApplicateDetail(clt_id),data -> {
+//        OrderApi.getApplicateDetail(this, clt_id, data -> {
+            if (data == null) return;
 //                if (TextUtils.isEmpty(data.lender.clt_nm)) {
 //                    client_name.setText("");
 //                } else {
 //                    client_name.setText(data.lender.clt_nm);
 //                }
 
-                setText(client_name, data.lender.clt_nm);
-                setText(client_mobile, data.lender.mobile);
-                setText(client_sfz, data.lender.id_no);
-                setText(client_sex, data.lender.gender);
+            setText(client_name, data.lender.clt_nm);
+            setText(client_mobile, data.lender.mobile);
+            setText(client_sfz, data.lender.id_no);
+            setText(client_sex, data.lender.gender);
 
-                if (data.lender_sp == null) {
-                    clent_spouse_lin.setVisibility(View.GONE);
-                } else {
-                    clent_spouse_lin.setVisibility(View.VISIBLE);
-                    setText(spouse_name, data.lender_sp.clt_nm);
-                    setText(spouse_mobile, data.lender_sp.mobile);
-                    setText(spouse_sfz, data.lender_sp.id_no);
-                    setText(spouse_sex, data.lender_sp.gender);
-                }
-
-                if (data.guarantor == null) {
-                    guarantor_lin.setVisibility(View.GONE);
-                } else {
-                    guarantor_lin.setVisibility(View.VISIBLE);
-                    setText(guarantor_name, data.guarantor.clt_nm);
-                    setText(guarantor_mobile, data.guarantor.mobile);
-                    setText(guarantor_sfz, data.guarantor.id_no);
-                    setText(gurrantor_sex, data.guarantor.gender);
-                }
-                if (data.guarantor_sp == null) {
-                    guarantor_spouse_lin.setVisibility(View.GONE);
-                } else {
-                    guarantor_spouse_lin.setVisibility(View.VISIBLE);
-                    setText(guarantor_spouse_name, data.guarantor_sp.clt_nm);
-                    setText(guarantor_spouse_mobile, data.guarantor_sp.mobile);
-                    setText(guarantor_spouse_sfz, data.guarantor_sp.id_no);
-                    setText(guarantor_spouse_sex, data.guarantor_sp.gender);
-                }
-
+            if (data.lender_sp == null) {
+                clent_spouse_lin.setVisibility(View.GONE);
+            } else {
+                clent_spouse_lin.setVisibility(View.VISIBLE);
+                setText(spouse_name, data.lender_sp.clt_nm);
+                setText(spouse_mobile, data.lender_sp.mobile);
+                setText(spouse_sfz, data.lender_sp.id_no);
+                setText(spouse_sex, data.lender_sp.gender);
             }
+
+            if (data.guarantor == null) {
+                guarantor_lin.setVisibility(View.GONE);
+            } else {
+                guarantor_lin.setVisibility(View.VISIBLE);
+                setText(guarantor_name, data.guarantor.clt_nm);
+                setText(guarantor_mobile, data.guarantor.mobile);
+                setText(guarantor_sfz, data.guarantor.id_no);
+                setText(gurrantor_sex, data.guarantor.gender);
+            }
+            if (data.guarantor_sp == null) {
+                guarantor_spouse_lin.setVisibility(View.GONE);
+            } else {
+                guarantor_spouse_lin.setVisibility(View.VISIBLE);
+                setText(guarantor_spouse_name, data.guarantor_sp.clt_nm);
+                setText(guarantor_spouse_mobile, data.guarantor_sp.mobile);
+                setText(guarantor_spouse_sfz, data.guarantor_sp.id_no);
+                setText(guarantor_spouse_sex, data.guarantor_sp.gender);
+            }
+
         });
     }
 

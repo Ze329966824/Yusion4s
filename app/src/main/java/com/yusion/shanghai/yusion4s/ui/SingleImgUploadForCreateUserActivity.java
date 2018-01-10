@@ -27,9 +27,11 @@ import com.yusion.shanghai.yusion4s.bean.ocr.OcrResp;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
 import com.yusion.shanghai.yusion4s.bean.oss.OSSObjectKeyBean;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
@@ -328,8 +330,8 @@ public class SingleImgUploadForCreateUserActivity extends BaseActivity {
     }
 
     private void search(String idNo) {
-
-        OrderApi.searchClientExist(SingleImgUploadForCreateUserActivity.this, idNo, data -> {
+        ApiUtil.requestUrl4Data(SingleImgUploadForCreateUserActivity.this,  Api.getOrderService().searchClient(idNo), data -> {
+//            OrderApi.searchClientExist(SingleImgUploadForCreateUserActivity.this, idNo, data -> {
             if (data != null && data.size() > 0) {
                 searchResp = data.get(0);
                 if (searchResp.auth_credit.lender.commited.equals("1")) {

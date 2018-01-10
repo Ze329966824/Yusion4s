@@ -22,14 +22,10 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
-import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Constants;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -40,6 +36,7 @@ import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.ui.order.SearchClientActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.ExtraNotUploadServerImgActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.wheel.WheelViewUtil;
@@ -237,36 +234,32 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.product_id = 1;
                     req.vehicle_model_id = 1128954;
                     req.imei = telephonyManager.getDeviceId();
-                    OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
-                        @Override
-                        public void onItemDataCallBack(SubmitOrderResp data) {
-                            if (data == null) {
-                                return;
+                    ApiUtil.requestUrl4Data(mContext, Api.getOrderService().submitOrder(req), data -> {
+//                    OrderApi.submitOrder(mContext, req, data -> {
+                        if (data == null) {
+                            return;
+                        }
+                        Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                        Log.e("TAG", "uploadFileUrlList: " + uploadFileUrlList);
+                        if (uploadFileUrlList.size() > 0) {
+                            for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
+                                urlBean.app_id = data.app_id;
                             }
-                            Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                            Log.e("TAG", "uploadFileUrlList: " + uploadFileUrlList);
-                            if (uploadFileUrlList.size() > 0) {
-                                for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
-                                    urlBean.app_id = data.app_id;
+                            UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+                            uploadFilesUrlReq.files = uploadFileUrlList;
+                            uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
+                            uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
+                            ApiUtil.requestUrl4CodeAndMsg(mContext,Api.getUploadService().uploadFileUrl(uploadFilesUrlReq),true,(code, msg) -> {
+//                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
+                                if (code > -1) {
+                                    Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+                                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
                                 }
-                                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                                uploadFilesUrlReq.files = uploadFileUrlList;
-                                uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
-                                uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
-                                    @Override
-                                    public void callBack(int code, String msg) {
-                                        if (code > -1) {
-                                            Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-                                            EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-                                        }
-                                    }
-                                });
-                            } else {
+                            });
+                        } else {
 //                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
-                                startActivity(new Intent(mContext, MainActivity.class));
+                            startActivity(new Intent(mContext, MainActivity.class));
 
-                            }
                         }
                     });
                 } else if (checkCanSubmit()) {
@@ -276,53 +269,49 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
                     req.imei = telephonyManager.getDeviceId();
-                    OrderApi.submitOrder(mContext, req, new OnItemDataCallBack<SubmitOrderResp>() {
-                        @Override
-                        public void onItemDataCallBack(SubmitOrderResp data) {
-                            if (data == null) {
-                                return;
-                            }
-                            Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
-                            Intent intent = new Intent(mContext, CommitActivity.class);
-                            if (req.vehicle_cond.equals("二手车")) {
-                                intent.putExtra("app_id", data.app_id);
-                                intent.putExtra("why_commit", "old_car");
-                            } else {
-                                intent.putExtra("why_commit", "new_car");
-                            }
+                    ApiUtil.requestUrl4Data(mContext, Api.getOrderService().submitOrder(req), data -> {
+//                        OrderApi.submitOrder(mContext, req, data -> {
+                        if (data == null) {
+                            return;
+                        }
+                        Toast.makeText(mContext, "订单提交成功", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(mContext, CommitActivity.class);
+                        if (req.vehicle_cond.equals("二手车")) {
+                            intent.putExtra("app_id", data.app_id);
+                            intent.putExtra("why_commit", "old_car");
+                        } else {
+                            intent.putExtra("why_commit", "new_car");
+                        }
 
-                            if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
-                                UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
-                                urlBean.label = ((OrderCreateActivity) getActivity()).label;
-                                urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
+                        if (((OrderCreateActivity) getActivity()).cartype.equals("二手车")) {
+                            UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
+                            urlBean.label = ((OrderCreateActivity) getActivity()).label;
+                            urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
+                            urlBean.app_id = data.app_id;
+                            uploadOldCarImgUrlList.add(urlBean);
+                        }
+                        if (uploadFileUrlList.size() > 0) {//有授权书还有二手车截图
+                            for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
                                 urlBean.app_id = data.app_id;
-                                uploadOldCarImgUrlList.add(urlBean);
                             }
-                            if (uploadFileUrlList.size() > 0) {//有授权书还有二手车截图
-                                for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
-                                    urlBean.app_id = data.app_id;
-                                }
-                                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                                uploadFilesUrlReq.files = uploadFileUrlList;
-                                uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
-                                uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, new OnCodeAndMsgCallBack() {
-                                    @Override
-                                    public void callBack(int code, String msg) {
-                                        if (code > -1) {
-                                            Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
+                            UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+                            uploadFilesUrlReq.files = uploadFileUrlList;
+                            uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
+                            uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
+                            ApiUtil.requestUrl4CodeAndMsg(mContext,Api.getUploadService().uploadFileUrl(uploadFilesUrlReq),true,(code, msg) -> {
+//                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
+                                if (code > -1) {
+                                    Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
 
-                                            uploadOldCarImg();
-                                            startActivity(intent);
-                                            createActivity.finish();
-                                        }
-                                    }
-                                });
-                            } else {//没有授权书只有二手册截图
-                                uploadOldCarImg();
-                                startActivity(intent);
-                                createActivity.finish();
-                            }
+                                    uploadOldCarImg();
+                                    startActivity(intent);
+                                    createActivity.finish();
+                                }
+                            });
+                        } else {//没有授权书只有二手册截图
+                            uploadOldCarImg();
+                            startActivity(intent);
+                            createActivity.finish();
                         }
                     });
                 }
@@ -345,12 +334,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
             uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
             uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
-            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
-                @Override
-                public void callBack(int code, String msg) {
-                    Log.e("TAG", uploadFilesUrlReq1.bucket);
-                    Log.e("TAG", uploadFilesUrlReq1.region);
-                }
+            ApiUtil.requestUrl4CodeAndMsg(mContext,Api.getUploadService().uploadFileUrl(uploadFilesUrlReq1),true,(code, msg) -> {
+//            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, (code, msg) -> {
+                Log.e("TAG", uploadFilesUrlReq1.bucket);
+                Log.e("TAG", uploadFilesUrlReq1.region);
             });
         }
     }

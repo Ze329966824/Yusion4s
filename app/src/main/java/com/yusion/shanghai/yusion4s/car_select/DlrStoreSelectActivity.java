@@ -19,8 +19,11 @@ import com.yusion.shanghai.yusion4s.car_select.IndexBar.widget.IndexBar;
 import com.yusion.shanghai.yusion4s.car_select.adapter.DlrAdapter;
 import com.yusion.shanghai.yusion4s.car_select.adapter.DlrStoreAdapter;
 import com.yusion.shanghai.yusion4s.car_select.suspension.SuspensionDecoration;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -213,20 +216,19 @@ public class DlrStoreSelectActivity extends BaseActivity {
 //            trixSuspensionDecoration.setmDatas(trixList);
 //            mDlrStoreAdapter.notifyDataSetChanged();
 //        });
-        DlrApi.getStore(this, brandResp.id, new OnItemDataCallBack<List<GetStoreList>>() {
-            @Override
-            public void onItemDataCallBack(List<GetStoreList> resp) {
-                if (resp == null || resp.size() == 0) {
-                    drawerLayout1.closeDrawer(Gravity.RIGHT);
-                    selectModel(currentBrandResp, null);
-                    return;
-                }
-                trixList.clear();
-                trixList.addAll(resp);
-                drawerLayout1.openDrawer(Gravity.RIGHT);
-                trixSuspensionDecoration.setmDatas(trixList);
-                mDlrStoreAdapter.notifyDataSetChanged();
+
+        ApiUtil.requestUrl4Data(this,Api.getDlrService().getStore(brandResp.id),resp ->{
+//        DlrApi.getStore(this, brandResp.id, resp -> {
+            if (resp == null || resp.size() == 0) {
+                drawerLayout1.closeDrawer(Gravity.RIGHT);
+                selectModel(currentBrandResp, null);
+                return;
             }
+            trixList.clear();
+            trixList.addAll(resp);
+            drawerLayout1.openDrawer(Gravity.RIGHT);
+            trixSuspensionDecoration.setmDatas(trixList);
+            mDlrStoreAdapter.notifyDataSetChanged();
         });
     }
 
@@ -248,18 +250,16 @@ public class DlrStoreSelectActivity extends BaseActivity {
 //            mBrandAdapter.notifyDataSetChanged();
 //        });
 
-        DlrApi.getDlrListByToken(this, new OnItemDataCallBack<List<GetDlrListByTokenResp>>() {
-            @Override
-            public void onItemDataCallBack(List<GetDlrListByTokenResp> resp) {
-                if (resp == null || resp.size() == 0) {
-                    return;
-                }
-                brandList.clear();
-                brandList.addAll(resp);
-                //数据源排序并让其支持悬停 如果不适用indexBar而想选填，则必须手动调用排序的几个方法
-                mIndexBar.setmSourceDatas(brandList).invalidate();
-                mBrandAdapter.notifyDataSetChanged();
+        ApiUtil.requestUrl4Data(this, Api.getDlrService().getDlrListByToken(), resp ->{
+//        DlrApi.getDlrListByToken(this, resp -> {
+            if (resp == null || resp.size() == 0) {
+                return;
             }
+            brandList.clear();
+            brandList.addAll(resp);
+            //数据源排序并让其支持悬停 如果不适用indexBar而想选填，则必须手动调用排序的几个方法
+            mIndexBar.setmSourceDatas(brandList).invalidate();
+            mBrandAdapter.notifyDataSetChanged();
         });
 
     }

@@ -16,12 +16,16 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.login.LoginReq;
 import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.CheckMobileUtil;
 import com.yusion.shanghai.yusion4s.widget.IdentifyingCodeView;
+
+import static android.R.attr.data;
 
 
 public class VerificationCodeActivity extends BaseActivity {
@@ -75,18 +79,17 @@ public class VerificationCodeActivity extends BaseActivity {
                     LoginReq loginReq = new LoginReq();
                     loginReq.mobile = mobileTV.getText().toString();
                     loginReq.verify_code = icv.getTextContent().toString();
-                    AuthApi.yusionLogin(VerificationCodeActivity.this, loginReq, new OnItemDataCallBack<LoginResp>() {
-                        @Override
-                        public void onItemDataCallBack(LoginResp data) {
-                            if (data == null) {
-                                icv.clearAllText();
-                            } else {
-                                Toast.makeText(myApp, "授权成功", Toast.LENGTH_SHORT).show();
-                                Intent intent = new Intent(VerificationCodeActivity.this, CreateUserActivity.class);
-                                intent.putExtra("mobile", mobileTV.getText().toString());
-                                intent.putExtra("token", data.token);
-                                startActivity(intent);
-                            }
+
+                    ApiUtil.requestUrl4Data(VerificationCodeActivity.this, Api.getAuthService().yusionLogin(loginReq),data1 -> {
+//                    AuthApi.yusionLogin(VerificationCodeActivity.this, loginReq, data1 -> {
+                        if (data1 == null) {
+                            icv.clearAllText();
+                        } else {
+                            Toast.makeText(myApp, "授权成功", Toast.LENGTH_SHORT).show();
+                            Intent intent = new Intent(VerificationCodeActivity.this, CreateUserActivity.class);
+                            intent.putExtra("mobile", mobileTV.getText().toString());
+                            intent.putExtra("token", data1.token);
+                            startActivity(intent);
                         }
                     });
                 }
@@ -126,7 +129,8 @@ public class VerificationCodeActivity extends BaseActivity {
                 view.setEnabled(false);
                 timer.start();
 
-                AuthApi.getVCode(VerificationCodeActivity.this, mobileTV.getText().toString(), data -> {
+                ApiUtil.requestUrl4Data(VerificationCodeActivity.this, Api.getAuthService().getVCode(mobileTV.getText().toString()),data ->{
+//                AuthApi.getVCode(VerificationCodeActivity.this, mobileTV.getText().toString(), data -> {
                     if (data == null) {
                         Toast.makeText(myApp, "获取验证码失败", Toast.LENGTH_SHORT).show();
                     } else {
