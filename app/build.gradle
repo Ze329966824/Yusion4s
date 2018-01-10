@@ -74,6 +74,10 @@ android {
             output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", prefix + environment + "-yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
         }
     }
+
+    adbOptions{
+        installOptions '-r','-g'
+    }
 }
 
 static def buildTime() {
