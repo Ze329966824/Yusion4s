@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -295,7 +296,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 urlBean.label = ((OrderCreateActivity) getActivity()).label;
                                 urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
                                 urlBean.app_id = data.app_id;
-                                if (!urlBean.label.equals("") && !urlBean.file_id.equals("") && !urlBean.app_id.equals("")) {
+                                if (!TextUtils.isEmpty(urlBean.label) && !TextUtils.isEmpty(urlBean.file_id) && !TextUtils.isEmpty(urlBean.app_id)) {
                                     uploadOldCarImgUrlList.add(urlBean);
                                 }
                             }
@@ -350,7 +351,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     @Override
                     public void callBack(int code, String msg) {
                         if (code < 0) {
-                            Toast.makeText(mContext,"网络问题,上传二手车截图失败",Toast.LENGTH_LONG).show();
+                            Toast.makeText(mContext, "网络问题,上传二手车截图失败", Toast.LENGTH_LONG).show();
                             return;
                         }
                         Log.e("TAG", uploadFilesUrlReq1.bucket);
