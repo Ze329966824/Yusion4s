@@ -41,19 +41,21 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
         webView.setWebViewClient(new WebViewClient() {
             @Override
             public void onReceivedError(WebView view, WebResourceRequest request, WebResourceError error) {
+                //部分机型回调该方法
                 Log.e("TAG", "onReceivedError() called with: view = [" + view + "], request = [" + request + "], error = [" + error + "]");
-//                if (retryTime > 0) {
-//                    retryTime = retryTime - 1;
-//                    webView.loadUrl(url);
-//                } else {
-//                    bottom_rel.setVisibility(View.GONE);
-//                    ToastUtil.showShort(Car300WebViewActivity.this, "网络繁忙");
-//                }
+                if (retryTime > 0) {
+                    retryTime = retryTime - 1;
+                    webView.loadUrl(url);
+                } else {
+                    bottom_rel.setVisibility(View.GONE);
+                    ToastUtil.showShort(Car300WebViewActivity.this, "网络繁忙");
+                }
             }
 
             @Override
             public void onReceivedError(WebView view, int errorCode, String description, String failingUrl) {
                 super.onReceivedError(view, errorCode, description, failingUrl);
+                //部分机型回调该方法
                 Log.e("TAG", "onReceivedError() called with: view = [" + view + "], errorCode = [" + errorCode + "], description = [" + description + "], failingUrl = [" + failingUrl + "]");
                 if (retryTime > 0) {
                     retryTime = retryTime - 1;
