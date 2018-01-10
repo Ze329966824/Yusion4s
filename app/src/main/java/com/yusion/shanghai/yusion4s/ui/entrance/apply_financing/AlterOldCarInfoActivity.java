@@ -55,6 +55,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AlterOldCarInfoActivity extends BaseActivity {
+    private boolean ishadImg;
     public List<GetproductResp.SupportAreaBean> plateAddrlist = new ArrayList<>();
     //存放二手车的截图
     private List<UploadFilesUrlReq.FileUrlBean> uploadOldCarImgUrlList = new ArrayList<>();
@@ -217,6 +218,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     carInfoAlterTv.setText("");//修改理由
 
                     oldcar_guess_price_tv.setText("");
+                    oldcar_guess_price_tv.setEnabled(false);
                     firstPriceTv.setText("");
                     carLoanPriceTv.setText("");
                     totalLoanPriceTv.setText("");
@@ -673,6 +675,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     btn_reset.setEnabled(true);
                     Log.e("TAGGGGGGGG", "afterTextChanged: test");
                     btn_fast_valuation.setEnabled(true);
+                    oldcar_guess_price_tv.setEnabled(false);
                 }
             }
         });
@@ -1075,6 +1078,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         mManagementPriceIndex = 0;
 
                         oldcar_guess_price_tv.setText("");
+                        oldcar_guess_price_tv.setEnabled(false);
                         //oldcar_dance_tv.setText("");
                         // oldcar_addr_tv.setText("");
                         // oldcar_addrtime_tv.setText("");
@@ -1153,6 +1157,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     mManagementPriceIndex = 0;
 
                     oldcar_guess_price_tv.setText("");
+                    oldcar_guess_price_tv.setEnabled(false);
                     //  oldcar_dance_tv.setText("");
                     //  oldcar_addr_tv.setText("");
                     // oldcar_addrtime_tv.setText("");
@@ -1348,7 +1353,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             Toast.makeText(AlterOldCarInfoActivity.this, "里程数不能为0，请重新输入", Toast.LENGTH_LONG).show();
             oldcar_dance_tv.setText("");
         } else {
-            CheApi.getCheUrl(AlterOldCarInfoActivity.this, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetCheUrlResp>() {
+            ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, CheApi.getCheInfoService().getCheUrl(province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age), new OnItemDataCallBack<GetCheUrlResp>() {
                 @Override
                 public void onItemDataCallBack(GetCheUrlResp data) {
                     if (data != null) {
@@ -1360,6 +1365,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                         ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, CheApi.getCheInfoService().getChePriceAndImage(province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age), true, new OnItemDataCallBack<GetChePriceAndImageResp>() {
                             @Override
                             public void onItemDataCallBack(GetChePriceAndImageResp data) {
+                                ishadImg = true;
                                 if (data != null && data.result != null && data.result.file_info != null) {
                                     SharedPrefsUtil.getInstance(AlterOldCarInfoActivity.this).putValue("priceAndImage", data.toString());
                                     if (data.result != null) {
@@ -1410,9 +1416,12 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                             @Override
                             public void onItemDataCallBack(GetChePriceAndImageResp data) {
                                 if (data == null || data.result == null || data.result.file_info == null) {
+                                    dialog.dismiss();
+                                    ishadImg = false;
                                     PopupDialogUtil.showOneButtonDialog(AlterOldCarInfoActivity.this, "由于网络问题，请手动输入二手车评估价", "好的", new PopupDialogUtil.OnPopupClickListener() {
                                         @Override
-                                        public void onOkClick(Dialog dialog) {
+                                        public void onOkClick(Dialog dialog1) {
+                                            dialog1.dismiss();
                                             oldcar_guess_price_tv.setEnabled(true);
                                             btn_fast_valuation.setEnabled(false);
                                             look_guess_img_btn.setEnabled(false);
@@ -1421,56 +1430,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                 }
                             }
                         });
-                    }
-                }
-            });
-
-            CheApi.getChePriceAndImage(AlterOldCarInfoActivity.this, province_che_300_id, city_che_300_id, brand_id, trix_id, model_id, plate_year, plate_month, mile_age, new OnItemDataCallBack<GetChePriceAndImageResp>() {
-                @Override
-                public void onItemDataCallBack(GetChePriceAndImageResp data) {
-                    if (data == null || data.result == null || data.result.file_info == null) {
-                        return;
-                    }
-                    SharedPrefsUtil.getInstance(AlterOldCarInfoActivity.this).putValue("priceAndImage", data.toString());
-                    if (data.result != null) {
-                        oldcar_guess_price_tv.setText(data.result.price + "");
-                        mGuidePrice = 0;
-                        guidePriceTv.setText("");
-
-                        mLoanBankList.clear();
-                        mLoanBankIndex = 0;
-                        loanBankTv.setText(null);
-
-                        mProductTypeIndex = 0;
-                        productTypeTv.setText(null);
-
-                        billPriceTv.setText("");
-                        plateRegAddrTv.setText("");
-                        loanPeriodsTv.setText("");
-                        mLoanPeriodsIndex = 0;
-                        mManagementPriceIndex = 0;
-
-                        otherPriceTv.setText("");
-                        plateRegAddrTv.setText("");//上牌地选择
-                        loanPeriodsTv.setText("");//还款期限
-                        carInfoAlterTv.setText("");//修改理由
-
-                        firstPriceTv.setText("");
-                        carLoanPriceTv.setText("");
-                        totalLoanPriceTv.setText("");
-                        managementPriceTv.setText("");
-                        otherPriceTv.setText("");
-
-                        if (!TextUtils.isEmpty(oldcar_guess_price_tv.getText())) {
-                            carLoanPriceTv.setEnabled(true);
-                            look_guess_img_btn.setEnabled(true);
-                        }
-                        dialog.dismiss();
-                        guess_img = data.result.img;
-                        bucket = data.result.file_info.bucket;
-                        region = data.result.file_info.region;
-                        file_id = data.result.file_info.file_id;
-                        che_300_label = data.result.file_info.label;
                     }
                 }
             });
@@ -1674,8 +1633,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == 100 && resultCode == Activity.RESULT_OK) {
             String priceAndImage = SharedPrefsUtil.getInstance(AlterOldCarInfoActivity.this).getValue("priceAndImage", "");
-            Dialog dialog = LoadingUtils.createLoadingDialog(AlterOldCarInfoActivity.this);
-            if (priceAndImage == null || priceAndImage.isEmpty()) {
+            if (priceAndImage == null || priceAndImage.isEmpty() && ishadImg) {
                 dialog.show();
             } else {
                 dialog.dismiss();

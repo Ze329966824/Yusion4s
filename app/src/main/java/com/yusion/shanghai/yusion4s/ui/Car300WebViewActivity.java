@@ -1,7 +1,6 @@
 package com.yusion.shanghai.yusion4s.ui;
 
 import android.os.Bundle;
-import android.view.KeyEvent;
 import android.view.View;
 import android.webkit.WebResourceError;
 import android.webkit.WebResourceRequest;
@@ -29,7 +28,6 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_car300_web_view);
         url = getIntent().getStringExtra("cheUrl");
-        //url = "https://m.che300.com/estimate/result/1/1/1/1/1/1-1/1/1/null/";
         webView = (ProgressWebView) findViewById(R.id.webView);
         bottom_rel = findViewById(R.id.bottom_rel);
         WebSettings settings = webView.getSettings();
@@ -49,13 +47,13 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
             }
         });
         titleBar = initTitleBar(this, "车300估值报告");
-        titleBar.setLeftClickListener(v -> {
-            if (webView.canGoBack()) {
-                webView.goBack();
-            } else {
-                onBackPressed();
-            }
-        });
+//        titleBar.setLeftClickListener(v -> {
+//            if (webView.canGoBack()) {
+//                webView.goBack();
+//            } else {
+//                onBackPressed();
+//            }
+//        });
         View car300hint = findViewById(R.id.car300_hint);
         findViewById(R.id.car300_hint_close).setOnClickListener(v -> car300hint.setVisibility(View.GONE));
         findViewById(R.id.car300_confirm).setOnClickListener(v -> {
@@ -64,12 +62,12 @@ public class Car300WebViewActivity extends BaseWebViewActivity {
         });
     }
 
-    @Override
-    public boolean onKeyDown(int keyCode, KeyEvent event) {
-        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
-            webView.goBack();// 返回前一个页面
-            return true;
-        }
-        return super.onKeyDown(keyCode, event);
-    }
+//    @Override
+//    public boolean onKeyDown(int keyCode, KeyEvent event) {
+//        if (keyCode == KeyEvent.KEYCODE_BACK && webView.canGoBack()) {
+//            webView.goBack();// 返回前一个页面
+//            return true;
+//        }
+//        return super.onKeyDown(keyCode, event);
+//    }
 }

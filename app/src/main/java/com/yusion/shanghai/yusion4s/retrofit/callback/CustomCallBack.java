@@ -63,8 +63,9 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         }
 
         Log.e(Api.getTag(call.request()), "responseFor :" + call.request().url().toString());
+        JSONObject jsonObject = null;
         try {
-            JSONObject object = new JSONObject(body.toString());
+            jsonObject = new JSONObject(body.toString());
             Logger.json(body.toString());
         } catch (JSONException e) {
             e.printStackTrace();
@@ -83,9 +84,9 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
                 return;
             }
         }
-        if (body.data == null) {
+        if (body.data == null || jsonObject != null && jsonObject.opt("data").toString().equals("{}")) {
             onEmptyDataResponse();
-        }else {
+        } else {
             onCustomResponse(body.data);
         }
     }
@@ -108,7 +109,7 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         Sentry.capture(t);
     }
 
-    protected void onEmptyDataResponse(){
+    protected void onEmptyDataResponse() {
 
     }
 }
