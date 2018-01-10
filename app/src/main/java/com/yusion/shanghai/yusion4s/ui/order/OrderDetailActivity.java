@@ -749,12 +749,13 @@ public class OrderDetailActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (come_from.equals("searchOrder")) {
-            this.setResult(RESULT_OK);
+        if ("searchOrder".equals(come_from)) {
             setResult(RESULT_OK);
             finish();
-        } else if (come_from.equals("orderitem")) {
+        } else if ("orderitem".equals(come_from)) {
             startActivity(new Intent(this, MainActivity.class));
+        } else {
+            finish();
         }
     }
 

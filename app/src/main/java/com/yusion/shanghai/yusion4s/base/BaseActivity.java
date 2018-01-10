@@ -8,7 +8,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.Toast;
 
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
@@ -40,8 +39,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         HEIGHT = this.getWindowManager().getDefaultDisplay().getHeight();
         myApp = ((Yusion4sApp) getApplication());
         if (!Settings.isOnline) {
-//            ToastUtil.showShort(this,getClass().getSimpleName());
-            Toast.makeText(this,getClass().getSimpleName(),Toast.LENGTH_SHORT).show();
+            //Toast.makeText(this, getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
         }
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
@@ -148,15 +146,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         android.app.ActivityManager activityManager = (android.app.ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         String packageName = getApplicationContext().getPackageName();
 
-        List<android.app.ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
-                .getRunningAppProcesses();
-        if (appProcesses == null)
-            return false;
+        List<android.app.ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null) return false;
 
         for (android.app.ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             // The name of the process that this object is associated with.
-            if (appProcess.processName.equals(packageName)
-                    && appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+            if (appProcess.processName.equals(packageName) && appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                 return true;
             }
         }
