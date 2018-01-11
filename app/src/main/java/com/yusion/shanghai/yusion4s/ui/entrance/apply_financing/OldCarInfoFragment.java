@@ -41,7 +41,6 @@ import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -841,11 +840,8 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void selectCarOldAddr() {
         // TODO: 2018/1/11  
-//        ApiUtil.requestUrl4Data(mContext,Api.getDlrService().getOldCarAddr(),data1 ->{
-
-            DlrApi.getOldCarAddr(mContext, new OnItemDataCallBack<List<GetproductResp.SupportAreaBean>>() {
-            @Override
-            public void onItemDataCallBack(List<GetproductResp.SupportAreaBean> data) {
+        ApiUtil.requestUrl4Data(mContext,Api.getDlrService().getOldCarAddr(),data ->{
+//            DlrApi.getOldCarAddr(mContext, data -> {
                 if (data == null) {
                     return;
                 }
@@ -905,8 +901,7 @@ public class OldCarInfoFragment extends BaseFragment {
                         }
                     }
                 }, oldCarcityJson);
-            }
-        });
+            });
     }
 
 
