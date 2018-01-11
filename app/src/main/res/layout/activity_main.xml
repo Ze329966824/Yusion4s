@@ -43,10 +43,9 @@
             <RadioButton
                 android:id="@+id/main_tab_order"
                 style="@style/tab"
-                android:drawablePadding="1dp"
                 android:drawableTop="@drawable/tab_order_selector"
-                android:paddingTop="9dp"
                 android:text="@string/order" />
+
 
             <RadioButton
                 android:id="@+id/main_tab_mine"

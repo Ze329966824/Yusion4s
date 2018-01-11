@@ -21,7 +21,7 @@ import retrofit2.Retrofit;
 public class CheApi {
     public static Retrofit retrofit = Api.createRetrofit(Yusion4sApp.CONFIG_RESP.Che300Url);
 
-    private static CheInfoService getCheInfoService() {
+    public static CheInfoService getCheInfoService() {
         return retrofit.create(CheInfoService.class);
     }
 
@@ -43,5 +43,4 @@ public class CheApi {
             }
         });
     }
-
 }

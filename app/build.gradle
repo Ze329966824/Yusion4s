@@ -3,7 +3,6 @@ import java.text.SimpleDateFormat
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
 apply plugin: 'com.growingio.android'
-
 apply plugin: 'com.growingio.android'
 
 android {
@@ -105,8 +104,10 @@ dependencies {
     //    compile 'com.squareup.retrofit2:retrofit:2.3.0'
     compile project(path: ':PickerLib')
     compile project(path: ':photoLibrary')
+    compile project(path: ':cptr')
 
     //    compile 'com.orhanobut:logger:2.1.1'
+    //    compile 'com.chanven.lib:cptr:1.1.0'
     compile 'com.android.support:appcompat-v7:26.1.0'
     compile 'com.android.support:design:26.1.0'
     compile 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -115,7 +116,6 @@ dependencies {
     compile 'com.github.bumptech.glide:okhttp3-integration:4.0.0'
     compile 'org.greenrobot:eventbus:3.0.0'
     compile 'com.github.hackware1993:MagicIndicator:1.5.0'
-    compile 'com.chanven.lib:cptr:1.1.0'
     compile 'com.github.ybq:Android-SpinKit:1.1.0'
     compile 'com.squareup.retrofit2:converter-gson:2.3.0'
     compile 'io.sentry:sentry-android:1.5.4'
@@ -129,6 +129,7 @@ dependencies {
     compile 'com.growingio.android:vds-android-agent:1.1.1@aar'
     compile 'com.github.promeg:tinypinyin:1.0.0'
     compile 'com.facebook.rebound:rebound:0.3.8'
+    compile 'com.android.support:support-v4:26.+'
     testCompile 'junit:junit:4.12'
 }
 

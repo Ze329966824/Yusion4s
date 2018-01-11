@@ -58,8 +58,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction()
                 .add(R.id.main_container, mHomeFragment)
-                .add(R.id.main_container, mMineFragment)
                 .add(R.id.main_container, mOrderManagerFragment)
+                .add(R.id.main_container, mMineFragment)
                 .hide(mMineFragment)
                 .hide(mOrderManagerFragment)
                 .commit();

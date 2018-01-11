@@ -166,6 +166,7 @@ public class OrderDetailActivity extends BaseActivity {
     private FloatingActionButton fab;
     private NestedScrollView mScrollView;
     private String app_id;
+    private String come_from;
     private String spouse_clt_id;
     private int status_st;
     private String cartype;
@@ -176,7 +177,6 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout havere_oldcar_applyBillPrice_lin;// 批复交易价
     private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
     private LinearLayout oldcar_info_lin;//二手车的信息
-
 
 
     private LinearLayout title_lin;
@@ -193,6 +193,7 @@ public class OrderDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_detail);
         UBT.bind(this);
+        come_from = getIntent().getStringExtra("come_from");
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
         spouse_clt_id = getIntent().getStringExtra("spouse_clt_id");
@@ -365,12 +366,11 @@ public class OrderDetailActivity extends BaseActivity {
         });
 
 
-        order_detail_schedule_lin.setOnClickListener(v ->{
+        order_detail_schedule_lin.setOnClickListener(v -> {
             Intent intent = new Intent(OrderDetailActivity.this, ProcessActivity.class);
             intent.putExtra("app_id", app_id);
             startActivity(intent);
         });
-
 
 
         orderDetailReplaceBtn.setOnClickListener(v -> {
@@ -478,7 +478,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
-                  } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
+            } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
@@ -488,7 +488,7 @@ public class OrderDetailActivity extends BaseActivity {
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
 //
             } else if (resp.status_st == 6) {//放款中      //有批复的
-                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
                 remark_tv2.setText(comments);
@@ -503,17 +503,15 @@ public class OrderDetailActivity extends BaseActivity {
                 title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
-            }
-            else if (resp.status_st == 3) {//审核失败
-                    title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
+            } else if (resp.status_st == 3) {//审核失败
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("拒绝");
                 remark_tv2.setText(comments);
                 title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
-            }
-            else if (resp.status_st == 9) {
+            } else if (resp.status_st == 9) {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin3);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img3);
                 title_tv.setText("取消");
@@ -521,7 +519,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_tv.setTextColor(Color.parseColor("#FF666666"));
                 remark_tv1.setTextColor(Color.parseColor("#FF666666"));
                 remark_tv2.setTextColor(Color.parseColor("#FF666666"));
-            }else if(resp.status_st == 11){
+            } else if (resp.status_st == 11) {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("完成");
@@ -751,7 +749,14 @@ public class OrderDetailActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+        if ("searchOrder".equals(come_from)) {
+            setResult(RESULT_OK);
+            finish();
+        } else if ("orderitem".equals(come_from)) {
+            startActivity(new Intent(this, MainActivity.class));
+        } else {
+            finish();
+        }
     }
 
     @Override

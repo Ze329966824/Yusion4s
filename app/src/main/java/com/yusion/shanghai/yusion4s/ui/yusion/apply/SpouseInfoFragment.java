@@ -800,22 +800,17 @@ public class SpouseInfoFragment extends DoubleCheckFragment {
                 _FROM_SELF_TYPE_INDEX = selectedIndex;
                 if ("其他".equals(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().busi_type_list_value.get(_FROM_SELF_TYPE_INDEX))) {
                     EditText editText = new EditText(mContext);
-                    new AlertDialog.Builder(mContext)
-                            .setTitle("请输入业务类型")
-                            .setView(editText)
-                            .setCancelable(false)
-                            .setPositiveButton("确定", (dialog, which) -> {
-                                spouse_info_from_self_type_tv.setText(editText.getText());
-                                _FROM_SELF_TYPE_INDEX = 0;
-                                InputMethodUtil.hideInputMethod(mContext);
-                                dialog.dismiss();
-                            })
-                            .setNegativeButton("取消", (dialog, which) -> {
-                                dialog.dismiss();
-                                InputMethodUtil.hideInputMethod(mContext);
-                                _FROM_SELF_TYPE_INDEX = 0;
-                                spouse_info_from_self_type_tv.setText("");
-                            }).
+                    new AlertDialog.Builder(mContext).setTitle("请输入业务类型").setView(editText).setCancelable(false).setPositiveButton("确定", (dialog, which) -> {
+                        spouse_info_from_self_type_tv.setText(editText.getText());
+                        _FROM_SELF_TYPE_INDEX = 0;
+                        InputMethodUtil.hideInputMethod(mContext);
+                        dialog.dismiss();
+                    }).setNegativeButton("取消", (dialog, which) -> {
+                        dialog.dismiss();
+                        InputMethodUtil.hideInputMethod(mContext);
+                        _FROM_SELF_TYPE_INDEX = 0;
+                        spouse_info_from_self_type_tv.setText("");
+                    }).
                             show();
                 }
             });

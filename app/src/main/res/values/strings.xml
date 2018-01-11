@@ -2,6 +2,7 @@
     <string name="app_name">予见门店端</string>
     <string name="order_apply">首页</string>
     <string name="order">申请列表</string>
+    <string name="msg_center">消息中心</string>
     <string name="mine">我的</string>
     <string name="number_1">&#xe901;</string>
     <string name="number_2">&#xe902;</string>
@@ -34,5 +35,8 @@
     <string name="order_item_store">经销商：%1$s</string>
     <string name="commit">提交成功</string>
     <string name="spouse_info">配偶资料</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

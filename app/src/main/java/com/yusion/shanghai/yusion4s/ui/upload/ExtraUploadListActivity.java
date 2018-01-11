@@ -280,7 +280,6 @@ public class ExtraUploadListActivity extends BaseActivity {
     private void delImgs() {
         //要删除的图片的id集合
         List<String> delImgIdList = new ArrayList<>();
-
         //要删除的索引集合
         List<Integer> indexList = new ArrayList<>();
         for (int i = 0; i < imgList.size(); i++) {

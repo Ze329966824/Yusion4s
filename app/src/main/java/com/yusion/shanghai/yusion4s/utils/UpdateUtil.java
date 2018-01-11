@@ -11,9 +11,9 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.yusion.shanghai.yusion4s.R;
 
 import java.io.File;
@@ -68,8 +68,8 @@ public class UpdateUtil {
         private Dialog mDialog;
 
         private TextView content;
-        private RelativeLayout close;
-        private LinearLayout ok;
+        private TextView close;
+        private TextView ok;
         private View mDialogView;
 
         UpdateDialog(Context context, String message, boolean isForce, String url) {
@@ -77,14 +77,15 @@ public class UpdateUtil {
             mUrl = url;
             LayoutInflater inflater = LayoutInflater.from(mContext);
             mDialogView = inflater.inflate(R.layout.dialog_update, null);
+//            mDialogView = inflater.inflate(R.layout.dialog_app_update, null);
 
-            content = (TextView) mDialogView.findViewById(R.id.update_content);
+            content = mDialogView.findViewById(R.id.update_content);
             content.setText(message);
 
-            close = (RelativeLayout) mDialogView.findViewById(R.id.update_close);
+            close =  mDialogView.findViewById(R.id.update_close);
             close.setOnClickListener(this);
 
-            ok = (LinearLayout) mDialogView.findViewById(R.id.update_ok);
+            ok = mDialogView.findViewById(R.id.update_ok);
             ok.setOnClickListener(this);
 
             if (isForce) {

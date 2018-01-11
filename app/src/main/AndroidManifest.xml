@@ -114,19 +114,19 @@
             android:name=".ui.entrance.LoginActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.main.SettingsActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.entrance.WebViewActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.upload.ExtraUploadListActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.yusion.YusionUploadListActivity"
             android:screenOrientation="portrait"
@@ -233,10 +233,10 @@
         <service
             android:name="cn.jpush.android.service.DownloadService"
             android:enabled="true"
-            android:exported="false" />
+            android:exported="false"/>
 
         <!-- Required SDK核心功能 -->
-        <receiver android:name="cn.jpush.android.service.AlarmReceiver" />
+        <receiver android:name="cn.jpush.android.service.AlarmReceiver"/>
         <!-- Required since 3.0.7 -->
         <!-- 新的tag/alias接口结果返回需要开发者配置一个自定的广播 -->
 
@@ -246,13 +246,13 @@
             <intent-filter>
 
                 <!-- Required 用户注册SDK的intent -->
-                <action android:name="cn.jpush.android.intent.REGISTRATION" />
+                <action android:name="cn.jpush.android.intent.REGISTRATION"/>
                 <!-- Required 用户接收SDK消息的intent -->
-                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.MESSAGE_RECEIVED"/>
                 <!-- Required 用户接收SDK通知栏信息的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_RECEIVED"/>
                 <!-- Required 用户打开自定义通知栏的intent -->
-                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED" />
+                <action android:name="cn.jpush.android.intent.NOTIFICATION_OPENED"/>
                 <!-- 接收网络变化 连接/断开 since 1.6.3 -->
                 <action android:name="cn.jpush.android.intent.CONNECTION" />
 
@@ -262,11 +262,11 @@
 
         <meta-data
             android:name="JPUSH_CHANNEL"
-            android:value="developer-default" />
+            android:value="developer-default"/>
         <!-- Required. AppKey copied from Portal -->
         <meta-data
             android:name="JPUSH_APPKEY"
-            android:value="ad30ffe50fd0cc8ea11a0204" />
+            android:value="ad30ffe50fd0cc8ea11a0204"/>
 
         <activity
             android:name=".jpush.JpushDialogActivity"
@@ -296,49 +296,55 @@
             android:value="59b677d4aed179296b001125" />
         <meta-data
             android:name="UMENG_CHANNEL"
-            android:value="Yusion4s" />
+            android:value="Yusion4s"/>
         <meta-data
             android:name="com.amap.api.v2.apikey"
-            android:value="482277ceb70950b5491f864169a5f8b9" />
+            android:value="482277ceb70950b5491f864169a5f8b9"/>
 
-        <service android:name="com.amap.api.location.APSService" />
+        <service android:name="com.amap.api.location.APSService"/>
 
         <activity
             android:name=".ui.entrance.apply_financing.HelperActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.entrance.apply_financing.AlterCarInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.Car300WebViewActivity"
             android:exported="true"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.entrance.AppraisalvalueActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".car_select.CarSelectActivity"
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.entrance.apply_financing.AlterOldCarInfoActivity"
             android:launchMode="singleTask"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan" />
-        <activity android:name=".car_select.DlrStoreSelectActivity"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+        <activity
+            android:name=".car_select.DlrStoreSelectActivity"
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            />
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
+
         <service android:name=".ubt.service.UploadPersonInfoService"/>
+
+        <activity android:name=".ui.SearchOrderActivity"
+                  android:exported="true"
+                  android:screenOrientation="portrait"
+            />
         <activity
             android:name=".ui.order.ProcessActivity"
             android:exported="true"

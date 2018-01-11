@@ -16,7 +16,6 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
-import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import java.util.List;
@@ -40,7 +39,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         HEIGHT = this.getWindowManager().getDefaultDisplay().getHeight();
         myApp = ((Yusion4sApp) getApplication());
         if (!Settings.isOnline) {
-            ToastUtil.showShort(this,getClass().getSimpleName());
+            //Toast.makeText(this, getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
         }
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
@@ -147,15 +146,12 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         android.app.ActivityManager activityManager = (android.app.ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
         String packageName = getApplicationContext().getPackageName();
 
-        List<android.app.ActivityManager.RunningAppProcessInfo> appProcesses = activityManager
-                .getRunningAppProcesses();
-        if (appProcesses == null)
-            return false;
+        List<android.app.ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
+        if (appProcesses == null) return false;
 
         for (android.app.ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
             // The name of the process that this object is associated with.
-            if (appProcess.processName.equals(packageName)
-                    && appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
+            if (appProcess.processName.equals(packageName) && appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
                 return true;
             }
         }

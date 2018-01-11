@@ -8,6 +8,7 @@ import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.telephony.TelephonyManager;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -141,8 +142,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_credit_info, container, false);
     }
 
@@ -296,7 +296,9 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                 urlBean.label = ((OrderCreateActivity) getActivity()).label;
                                 urlBean.file_id = ((OrderCreateActivity) getActivity()).file_id;
                                 urlBean.app_id = data.app_id;
-                                uploadOldCarImgUrlList.add(urlBean);
+                                if (!TextUtils.isEmpty(urlBean.label) && !TextUtils.isEmpty(urlBean.file_id) && !TextUtils.isEmpty(urlBean.app_id)) {
+                                    uploadOldCarImgUrlList.add(urlBean);
+                                }
                             }
                             if (uploadFileUrlList.size() > 0) {//有授权书还有二手车截图
                                 for (UploadFilesUrlReq.FileUrlBean urlBean : uploadFileUrlList) {
@@ -311,7 +313,6 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                                     public void callBack(int code, String msg) {
                                         if (code > -1) {
                                             Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-
                                             uploadOldCarImg();
                                             startActivity(intent);
                                             createActivity.finish();
@@ -345,13 +346,19 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             uploadFilesUrlReq1.bucket = ((OrderCreateActivity) getActivity()).bucket;
             uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
             uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
-            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
-                @Override
-                public void callBack(int code, String msg) {
-                    Log.e("TAG", uploadFilesUrlReq1.bucket);
-                    Log.e("TAG", uploadFilesUrlReq1.region);
-                }
-            });
+            if (uploadOldCarImgUrlList.size() > 0) {
+                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
+                    @Override
+                    public void callBack(int code, String msg) {
+                        if (code < 0) {
+                            Toast.makeText(mContext, "网络问题,上传二手车截图失败", Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                        Log.e("TAG", uploadFilesUrlReq1.bucket);
+                        Log.e("TAG", uploadFilesUrlReq1.region);
+                    }
+                });
+            }
         }
     }
 
@@ -576,18 +583,13 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                 startActivityForResult(intent, Constants.REQUEST_MULTI_DOCUMENT);
                 break;
             case R.id.client_relationship_lin://车主和申请人的关系
-                WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key,
-                        CLIENT_RELATIONSHIP_POSITION_INDEX,
-                        client_relationship_lin,
-                        chooseRelationTv,
-                        "请选择",
-                        new WheelViewUtil.OnSubmitCallBack() {
-                            @Override
-                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                                CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
-                                chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
-                            }
-                        });
+                WheelViewUtil.showWheelView(((Yusion4sApp) getActivity().getApplication()).getConfigResp().owner_applicant_relation_key, CLIENT_RELATIONSHIP_POSITION_INDEX, client_relationship_lin, chooseRelationTv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
+                    @Override
+                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                        CLIENT_RELATIONSHIP_POSITION_INDEX = selectedIndex;
+                        chooseRelationTv.setTextColor(Color.parseColor("#222A36"));
+                    }
+                });
                 break;
             default:
                 break;
