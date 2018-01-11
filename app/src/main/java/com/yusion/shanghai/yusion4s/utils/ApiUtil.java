@@ -28,8 +28,7 @@ public class ApiUtil {
      * @param isSilence           false表示会自动创建dialog并管理生命周期
      * @param onItemDataCallBacks 可变参数列表 第一个callback在调用接口有数据后回调 第二个callback在调用接口返回null时回调
      */
-    public static <T> void requestUrl4Data(Context context, Call<BaseResult<T>> call,
-                                           boolean isSilence, final OnItemDataCallBack<T>... onItemDataCallBacks) {
+    public static <T> void requestUrl4Data(Context context, Call<BaseResult<T>> call, boolean isSilence, final OnItemDataCallBack<T>... onItemDataCallBacks) {
         if (call == null) {
             throw new IllegalArgumentException("必要数据缺失");
         }
@@ -57,8 +56,7 @@ public class ApiUtil {
         });
     }
 
-    public static void requestUrl4CodeAndMsg(Context context, Call<BaseResult> call,
-                                             boolean isSilence, final OnCodeAndMsgCallBack onCodeAndMsgCallBack) {
+    public static void requestUrl4CodeAndMsg(Context context, Call<BaseResult> call, boolean isSilence, final OnCodeAndMsgCallBack onCodeAndMsgCallBack) {
         if (call == null) {
             throw new IllegalArgumentException("必要数据缺失");
         }

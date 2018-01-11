@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.utils;
 import android.content.Context;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.EditText;
 
 /**
  * Created by ice on 17/3/28.
@@ -21,5 +22,13 @@ public class InputMethodUtil {
         if (imm.isActive()) {
             imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
         }
+    }
+    public static void showInputMethod(Context context, EditText editText) {
+        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+        //if (imm.isActive()) {
+        imm.showSoftInput(editText,0);
+            //imm.toggleSoftInput(0,InputMethodManager.HIDE_NOT_ALWAYS);
+
+        //}
     }
 }

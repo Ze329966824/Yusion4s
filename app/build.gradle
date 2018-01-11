@@ -73,18 +73,10 @@ android {
             output.outputFile = new File(projectDir.getAbsolutePath() + "/keystore/apks", prefix + environment + "-yusion4s-" + defaultConfig.versionName + "-" + buildTime() + ".apk")
         }
     }
-//    def oput = new ByteArrayOutputStream()
-//    exec {
-//        print('|||||||||||||')
-//        commandLine 'ls'
-//        args '-al'
-////        standardOutput =  out
-//        //创建文件将outputstream里内容写入到文件中
-//        print("\nstandardOutput = " + standardOutput.toString())
-//        print("\nstandardInput = " + standardInput.toString())
-//        oput = standardOutput
-//        print("\noput = " + oput.toString() + "\n")
-//    }
+
+    adbOptions{
+        installOptions '-r','-g'
+    }
 }
 
 static def buildTime() {

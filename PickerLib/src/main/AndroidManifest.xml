@@ -23,16 +23,18 @@
         <activity
             android:name=".activity.PhotoMediaActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/PickerTheme" />
+            android:theme="@style/PickerTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
         <activity
             android:name=".activity.PhotoPreviewActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"
-            android:theme="@style/PickerTheme" />
-        <activity android:name=".video.AlibabaStandardActivity"
+            android:theme="@style/PickerTheme"
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity
+            android:name=".video.AlibabaStandardActivity"
             android:screenOrientation="portrait"
-            android:windowSoftInputMode="stateHidden|adjustPan"/>
+            android:windowSoftInputMode="stateHidden|adjustPan" />
+        <activity android:name=".video.CustomCameraActivity"></activity>
     </application>
 
 </manifest>
