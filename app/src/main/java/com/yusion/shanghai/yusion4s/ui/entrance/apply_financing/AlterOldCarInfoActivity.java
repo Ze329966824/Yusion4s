@@ -9,6 +9,7 @@ import android.os.Handler;
 import android.os.Message;
 import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.View;
@@ -36,7 +37,6 @@ import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
@@ -499,7 +499,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private void initData() {
         //网络请求11000005
-        ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this,Api.getOrderService().getRawCarInfo(app_id),resp ->{
+        ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getOrderService().getRawCarInfo(app_id), resp -> {
 //        OrderApi.getRawCarInfo(AlterOldCarInfoActivity.this, app_id, resp -> {
             if (resp == null) {
                 return;
@@ -558,13 +558,13 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             plate_year = array[0];
             plate_month = array[1];
 
-                isChangeCarInfoChange = true;
-                isChangeOldCarInfo = true;
-                isChangeOldCarOther = true;
-                isChangeOldCarDance = true;
-                ischangeOldCarguess = true;
+            isChangeCarInfoChange = true;
+            isChangeOldCarInfo = true;
+            isChangeOldCarOther = true;
+            isChangeOldCarDance = true;
+            ischangeOldCarguess = true;
 
-                oldcar_dance_tv.setText(resp.send_hand_mileage);//里程数
+            oldcar_dance_tv.setText(resp.send_hand_mileage);//里程数
 
             oldcar_guess_price_tv.setText(resp.send_hand_valuation);//估值价
             if (!TextUtils.isEmpty(guidePriceTv.getText())) {//市场指导价
@@ -573,60 +573,56 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             look_guess_img_btn.setEnabled(true);
             ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getDlrListByToken(), resp1 -> {
 //                DlrApi.getDlrListByToken(AlterOldCarInfoActivity.this, resp1 -> {
+
                 mDlrList = resp1;
                 dlrItems = new ArrayList<String>();
                 for (GetDlrListByTokenResp item : resp1) {
                     dlrItems.add(item.dlr_nm);
                 }
 
-                        mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
-                        management_fee_price = mDlrList.get(mDlrIndex).management_fee;
-                        Log.e("TAG", "onItemDataCallBack: ");
-                        Log.e("TAG", "onItemDataCallBack: " + managementPriceTv.getText().toString());
-                        mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
+                mDlrIndex = selectIndex(dlrItems, mDlrIndex, dlrTV.getText().toString());
+                management_fee_price = mDlrList.get(mDlrIndex).management_fee;
+                Log.e("TAG", "onItemDataCallBack: ");
+                Log.e("TAG", "onItemDataCallBack: " + managementPriceTv.getText().toString());
+                mManagementPriceIndex = selectIndexInteger(mDlrList.get(mDlrIndex).management_fee, mManagementPriceIndex, Integer.valueOf(managementPriceTv.getText().toString()));
 
-                        isChoose = true;
+                isChoose = true;
 
-                });
+            });
+            ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getLoanBank(resp.dlr_id), resp12 -> {
+//                DlrApi.getLoanBank(AlterOldCarInfoActivity.this, resp.dlr_id, resp12 -> {
+                mLoanBankList = resp12;
+                bankItems = new ArrayList<String>();
+                for (GetLoanBankResp item : resp12) {
+                    bankItems.add(item.name);
+                }
+                mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
+            });
+            ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getProductType(resp.bank_id, resp.dlr_id, cartype), resp13 -> {
+//                DlrApi.getProductType(AlterOldCarInfoActivity.this, resp.bank_id, resp.dlr_id, cartype, resp13 -> {
+                if (resp13 == null) {
+                    return;
+                }
+                if (resp13.product_list == null && resp13.product_list.isEmpty()) {
+                    return;
+                }
+                if (resp13.support_area == null && resp13.support_area.isEmpty()) {
+                    return;
+                }
+                mProductList = resp13.product_list;
+                productTypeItems = new ArrayList<String>();
+                cityJson = resp13.support_area.toString();
+                for (GetproductResp.ProductListBean item : resp13.product_list) {
+                    productTypeItems.add(item.name);
+                }
+                if (isCanSelectIndex(productTypeItems, productTypeTv.getText().toString())) {
+                    mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
+                } else {
+                    productTypeTv.setText("");
+                    Toast.makeText(AlterOldCarInfoActivity.this, "产品类型需重新选择", Toast.LENGTH_LONG).show();
+                }
+            });
 
-                DlrApi.getLoanBank(AlterOldCarInfoActivity.this, resp.dlr_id, new OnItemDataCallBack<List<GetLoanBankResp>>() {
-                    @Override
-                    public void onItemDataCallBack(List<GetLoanBankResp> resp) {
-                        mLoanBankList = resp;
-                        bankItems = new ArrayList<String>();
-                        for (GetLoanBankResp item : resp) {
-                            bankItems.add(item.name);
-                        }
-                        mLoanBankIndex = selectIndex(bankItems, mLoanBankIndex, loanBankTv.getText().toString());
-                    }
-                });
-                DlrApi.getProductType(AlterOldCarInfoActivity.this, resp.bank_id, resp.dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
-                    @Override
-                    public void onItemDataCallBack(GetproductResp resp) {
-                        if (resp == null) {
-                            return;
-                        }
-                        if (resp.product_list == null && resp.product_list.isEmpty()) {
-                            return;
-                        }
-                        if (resp.support_area == null && resp.support_area.isEmpty()) {
-                            return;
-                        }
-                        mProductList = resp.product_list;
-                        productTypeItems = new ArrayList<String>();
-                        cityJson = resp.support_area.toString();
-                        for (GetproductResp.ProductListBean item : resp.product_list) {
-                            productTypeItems.add(item.name);
-                        }
-                        if (isCanSelectIndex(productTypeItems, productTypeTv.getText().toString())) {
-                            mProductTypeIndex = selectIndex(productTypeItems, mProductTypeIndex, productTypeTv.getText().toString());
-                        } else {
-                            productTypeTv.setText("");
-                            Toast.makeText(AlterOldCarInfoActivity.this, "产品类型需重新选择", Toast.LENGTH_LONG).show();
-                        }
-                    }
-                });
-            }
         });
         car_info_lin.setOnClickListener(v -> selectCarInfo());
 
@@ -916,7 +912,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                     req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
 
-                    ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req),(code, msg) -> {
+                    ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req), (code, msg) -> {
 //                        OrderApi.submitAlterInfo(AlterOldCarInfoActivity.this, req, (code, msg) -> {
                         if (code > -1) {
                             Toast.makeText(AlterOldCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
@@ -931,7 +927,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                 uploadFilesUrlReq.files = uploadOldCarImgUrlList;
                                 uploadFilesUrlReq.region = region;
                                 uploadFilesUrlReq.bucket = bucket;
-                                ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this,Api.getUploadService().uploadFileUrl(uploadFilesUrlReq),true,(code1, msg1) -> {
+                                ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, (code1, msg1) -> {
 //                                UploadApi.uploadFileUrl(AlterOldCarInfoActivity.this, uploadFilesUrlReq, (code1, msg1) -> {
 
                                 });
@@ -967,7 +963,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
-            ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this,  Api.getDlrService().getProductType(mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype),resp ->{
+            ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getProductType(mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype), resp -> {
 //                DlrApi.getProductType(AlterOldCarInfoActivity.this, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, resp -> {
                 if (resp == null) {
                     return;
@@ -1002,7 +998,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this,Api.getDlrService().getLoanBank(dlr_id),resp ->{
+            ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getLoanBank(dlr_id), resp -> {
 //            DlrApi.getLoanBank(AlterOldCarInfoActivity.this, dlr_id, resp -> {
                 //DlrApi.getLoanBank(AlterOldCarInfoActivity.this, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                 mLoanBankList = resp;//银行列表
@@ -1044,7 +1040,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
     }
 
     private void selectCarOldAddr() {
-        ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this,Api.getDlrService().getOldCarAddr(),data1 ->{
+        ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getOldCarAddr(), data1 -> {
 //        DlrApi.getOldCarAddr(AlterOldCarInfoActivity.this, data1 -> {
             if (data1 == null) {
                 return;
@@ -1080,19 +1076,19 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     mLoanPeriodsIndex = 0;
                     mManagementPriceIndex = 0;
 
-                        oldcar_guess_price_tv.setText("");
-                        oldcar_guess_price_tv.setEnabled(false);
-                        //oldcar_dance_tv.setText("");
-                        // oldcar_addr_tv.setText("");
-                        // oldcar_addrtime_tv.setText("");
-                        firstPriceTv.setText("");
-                        carLoanPriceTv.setText("");
-                        managementPriceTv.setText("");
-                        totalLoanPriceTv.setText("");
-                        otherPriceTv.setText("");
-                        plateRegAddrTv.setText("");//上牌地选择
-                        loanPeriodsTv.setText("");//还款期限
-                        carInfoAlterTv.setText("");//修改理由
+                    oldcar_guess_price_tv.setText("");
+                    oldcar_guess_price_tv.setEnabled(false);
+                    //oldcar_dance_tv.setText("");
+                    // oldcar_addr_tv.setText("");
+                    // oldcar_addrtime_tv.setText("");
+                    firstPriceTv.setText("");
+                    carLoanPriceTv.setText("");
+                    managementPriceTv.setText("");
+                    totalLoanPriceTv.setText("");
+                    otherPriceTv.setText("");
+                    plateRegAddrTv.setText("");//上牌地选择
+                    loanPeriodsTv.setText("");//还款期限
+                    carInfoAlterTv.setText("");//修改理由
 
 
                     // oldcar_guess_price_tv.setText("");
