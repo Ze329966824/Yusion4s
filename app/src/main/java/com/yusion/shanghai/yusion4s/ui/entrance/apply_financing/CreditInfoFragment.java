@@ -48,7 +48,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
-import static android.R.attr.data;
+import static com.yusion.shanghai.yusion4s.retrofit.Api.getUploadService;
 
 /**
  * Created by aa on 2017/8/9.
@@ -149,47 +149,47 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         UBT.bind(this, view, getClass().getSimpleName());
-        TextView step1 = (TextView) view.findViewById(R.id.step1);
+        TextView step1 = view.findViewById(R.id.step1);
         step1.setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
         step1.setOnClickListener(v -> EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCarInfo));
         ((TextView) view.findViewById(R.id.step2)).setTypeface(Typeface.createFromAsset(mContext.getAssets(), "yj.ttf"));
 
-        submitBtn = (Button) view.findViewById(R.id.credit_info_submit_btn);
-        createUserBtn = (Button) view.findViewById(R.id.credit_info_create_btn);
-        client_info_name = (TextView) view.findViewById(R.id.client_info_name);
-        client_phoneNumber = (TextView) view.findViewById(R.id.client_phoneNumber);
-        client_ID_card = (TextView) view.findViewById(R.id.client_ID_card);
+        submitBtn = view.findViewById(R.id.credit_info_submit_btn);
+        createUserBtn = view.findViewById(R.id.credit_info_create_btn);
+        client_info_name = view.findViewById(R.id.client_info_name);
+        client_phoneNumber = view.findViewById(R.id.client_phoneNumber);
+        client_ID_card = view.findViewById(R.id.client_ID_card);
         // findTv = (TextView) view.findViewById(R.id.tv_find);
 
         //申请人征信
-        client_credit__book_lin = (LinearLayout) view.findViewById(R.id.client_credit__book_lin1);
+        client_credit__book_lin = view.findViewById(R.id.client_credit__book_lin1);
         client_credit__book_lin.setOnClickListener(this);
         //申请人配偶
-        client_spouse_credit__book_lin = (LinearLayout) view.findViewById(R.id.client_spouse_credit__book_lin2);
+        client_spouse_credit__book_lin = view.findViewById(R.id.client_spouse_credit__book_lin2);
         client_spouse_credit__book_lin.setOnClickListener(this);
         //用户详情
-        credit_applicate_detail_lin = (LinearLayout) view.findViewById(R.id.credit_applicate_detail_lin);
+        credit_applicate_detail_lin = view.findViewById(R.id.credit_applicate_detail_lin);
 //        credit_applicate_detail_lin.setOnClickListener(this);
         //担保人授权
-        guarantor_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_credit_book_lin3);
+        guarantor_credit_book_lin = view.findViewById(R.id.guarantor_credit_book_lin3);
         guarantor_credit_book_lin.setOnClickListener(this);
         //担保人配偶
-        guarantor_spouse_credit_book_lin = (LinearLayout) view.findViewById(R.id.guarantor_spouse_credit_book_lin4);
+        guarantor_spouse_credit_book_lin = view.findViewById(R.id.guarantor_spouse_credit_book_lin4);
         guarantor_spouse_credit_book_lin.setOnClickListener(this);
         //车主与申请人关系
-        client_relationship_lin = (LinearLayout) view.findViewById(R.id.client_relationship_lin);
+        client_relationship_lin = view.findViewById(R.id.client_relationship_lin);
         client_relationship_lin.setOnClickListener(this);
-        chooseRelationTv = (TextView) view.findViewById(R.id.choose_relation);
-        mobile_sfz_lin = (LinearLayout) view.findViewById(R.id.mobile_sfz_lin);
+        chooseRelationTv = view.findViewById(R.id.choose_relation);
+        mobile_sfz_lin = view.findViewById(R.id.mobile_sfz_lin);
 
-        autonym_certify_id_back_tv = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv);
-        autonym_certify_id_back_tv1 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv1);
-        autonym_certify_id_back_tv2 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv2);
-        autonym_certify_id_back_tv3 = (TextView) view.findViewById(R.id.autonym_certify_id_back_tv3);
+        autonym_certify_id_back_tv = view.findViewById(R.id.autonym_certify_id_back_tv);
+        autonym_certify_id_back_tv1 = view.findViewById(R.id.autonym_certify_id_back_tv1);
+        autonym_certify_id_back_tv2 = view.findViewById(R.id.autonym_certify_id_back_tv2);
+        autonym_certify_id_back_tv3 = view.findViewById(R.id.autonym_certify_id_back_tv3);
 
-        personal_info_group = (LinearLayout) view.findViewById(R.id.personal_info_group);
-        delete_icon = (ImageView) view.findViewById(R.id.delete_icon);
-        credit_info = (LinearLayout) view.findViewById(R.id.credit_info);
+        personal_info_group = view.findViewById(R.id.personal_info_group);
+        delete_icon = view.findViewById(R.id.delete_icon);
+        credit_info = view.findViewById(R.id.credit_info);
 
         delete_icon.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -236,7 +236,7 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.product_id = 1;
                     req.vehicle_model_id = 1128954;
                     req.imei = telephonyManager.getDeviceId();
-                    ApiUtil.requestUrl4Data(mContext, Api.getOrderService().submitOrder(req), data -> {
+                    ApiUtil.requestUrl4Data(mContext,Api.getOrderService().submitOrder(req),data -> {
 //                    OrderApi.submitOrder(mContext, req, data -> {
                         if (data == null) {
                             return;
@@ -251,8 +251,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             uploadFilesUrlReq.files = uploadFileUrlList;
                             uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
                             uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-                            ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, (code, msg) -> {
-//                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
+                            ApiUtil.requestUrl4CodeAndMsg(mContext, getUploadService().uploadFileUrl(uploadFilesUrlReq),(code, msg) -> {
+//                            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
                                 if (code > -1) {
                                     Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
                                     EventBus.getDefault().post(ApplyFinancingFragmentEvent.reset);
@@ -271,8 +271,8 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                     req.clt_id = lender_clt_id;
                     req.vehicle_owner_lender_relation = chooseRelationTv.getText().toString();
                     req.imei = telephonyManager.getDeviceId();
-                    ApiUtil.requestUrl4Data(mContext, Api.getOrderService().submitOrder(req), data -> {
-//                        OrderApi.submitOrder(mContext, req, data -> {
+                    ApiUtil.requestUrl4Data(mContext,Api.getOrderService().submitOrder(req),data -> {
+//                    OrderApi.submitOrder(mContext, req, data -> {
                         if (data == null) {
                             return;
                         }
@@ -302,11 +302,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             uploadFilesUrlReq.files = uploadFileUrlList;
                             uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(mContext).getValue("region", "");
                             uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(mContext).getValue("bucket", "");
-                            ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, (code, msg) -> {
-//                                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
+                            ApiUtil.requestUrl4CodeAndMsg(mContext ,Api.getUploadService().uploadFileUrl(uploadFilesUrlReq),true,(code, msg) -> {
+//                            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq, (code, msg) -> {
                                 if (code > -1) {
                                     Toast.makeText(mContext, "图片上传成功", Toast.LENGTH_SHORT).show();
-
                                     uploadOldCarImg();
                                     startActivity(intent);
                                     createActivity.finish();
@@ -317,11 +316,10 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
                             startActivity(intent);
                             createActivity.finish();
                         }
-
                     });
                 }
-            }
 
+            }
         });
 
         createUserBtn.setOnClickListener(v -> {
@@ -340,55 +338,44 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
             uploadFilesUrlReq1.region = ((OrderCreateActivity) getActivity()).region;
             uploadFilesUrlReq1.files = uploadOldCarImgUrlList;
             if (uploadOldCarImgUrlList.size() > 0) {
-//                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, new OnCodeAndMsgCallBack() {
-//                    @Override
-//                    public void callBack(int code, String msg) {
-//                        if (code < 0) {
-//                            Toast.makeText(mContext, "网络问题,上传二手车截图失败", Toast.LENGTH_LONG).show();
-//                            return;
-//                        }
-//                        Log.e("TAG", uploadFilesUrlReq1.bucket);
-//                        Log.e("TAG", uploadFilesUrlReq1.region);
-//                    }
-//                });
-                ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq1), true, (code, msg) -> {
+                ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq1),true,(code, msg) -> {
+//                UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, (code, msg) -> {
                     if (code < 0) {
-//                            Toast.makeText(mContext, "网络问题,上传二手车截图失败", Toast.LENGTH_LONG).show();
-//                            return;
-//                        }
-//            UploadApi.uploadFileUrl(mContext, uploadFilesUrlReq1, (code, msg) -> {
-                        Log.e("TAG", uploadFilesUrlReq1.bucket);
-                        Log.e("TAG", uploadFilesUrlReq1.region);
-                    });
-                }
+                        Toast.makeText(mContext, "网络问题,上传二手车截图失败", Toast.LENGTH_LONG).show();
+                        return;
+                    }
+                    Log.e("TAG", uploadFilesUrlReq1.bucket);
+                    Log.e("TAG", uploadFilesUrlReq1.region);
+                });
             }
         }
+    }
 
-        @Override
-        public void onActivityResult ( int requestCode, int resultCode, Intent data){
-            super.onActivityResult(requestCode, resultCode, data);
-            if (resultCode == Activity.RESULT_OK) {
-                if (requestCode == 2000) {//搜索用户所返回的数据
-                    //清空数据
-                    client_credit__book_lin.setVisibility(View.GONE);
-                    client_spouse_credit__book_lin.setVisibility(View.GONE);
-                    guarantor_credit_book_lin.setVisibility(View.GONE);
-                    guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
-                    lenderList.clear();
-                    lenderSpList.clear();
-                    guarantorList.clear();
-                    guarantorSpList.clear();
-                    uploadFileUrlList.clear();
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == 2000) {//搜索用户所返回的数据
+                //清空数据
+                client_credit__book_lin.setVisibility(View.GONE);
+                client_spouse_credit__book_lin.setVisibility(View.GONE);
+                guarantor_credit_book_lin.setVisibility(View.GONE);
+                guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+                lenderList.clear();
+                lenderSpList.clear();
+                guarantorList.clear();
+                guarantorSpList.clear();
+                uploadFileUrlList.clear();
 
-                    credit_info.setVisibility(View.VISIBLE);
-                    personal_info_group.setVisibility(View.VISIBLE);
-                    client_info_name.setText(data.getStringExtra("name"));
-                    client_ID_card.setText(data.getStringExtra("sfz"));
-                    client_phoneNumber.setText(data.getStringExtra("mobile"));
+                credit_info.setVisibility(View.VISIBLE);
+                personal_info_group.setVisibility(View.VISIBLE);
+                client_info_name.setText(data.getStringExtra("name"));
+                client_ID_card.setText(data.getStringExtra("sfz"));
+                client_phoneNumber.setText(data.getStringExtra("mobile"));
 
-                    if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
-                        client_credit__book_lin.setVisibility(View.VISIBLE);
-                        lender_clt_id = data.getStringExtra("lender_clt_id");
+                if (data.getStringExtra("isHasLender").equals("1")) { //不等于空是1 等于空是2 申请人征信授权书
+                    client_credit__book_lin.setVisibility(View.VISIBLE);
+                    lender_clt_id = data.getStringExtra("lender_clt_id");
 //                    if (Integer.valueOf(data.getStringExtra("lender")) > 0) {
 //                        autonym_certify_id_back_tv.setText("已上传");
 //                        autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
@@ -403,16 +390,16 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                            }
 //                        });
 //                    } else {
-                        autonym_certify_id_back_tv.setText("请上传");
-                        autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
+                    autonym_certify_id_back_tv.setText("请上传");
+                    autonym_certify_id_back_tv.setTextColor(getResources().getColor(R.color.please_upload_color));
 //                    }
-                    } else {
-                        client_credit__book_lin.setVisibility(View.GONE);
-                    }
+                } else {
+                    client_credit__book_lin.setVisibility(View.GONE);
+                }
 
-                    if (data.getStringExtra("isHasLender_sp").equals("1")) { //不等于空是1 等于空是2
-                        client_spouse_credit__book_lin.setVisibility(View.VISIBLE);
-                        lender_sp_clt_id = data.getStringExtra("lender_sp_clt_id");
+                if (data.getStringExtra("isHasLender_sp").equals("1")) { //不等于空是1 等于空是2
+                    client_spouse_credit__book_lin.setVisibility(View.VISIBLE);
+                    lender_sp_clt_id = data.getStringExtra("lender_sp_clt_id");
 //                    if (Integer.valueOf(data.getStringExtra("lender_sp")) > 0) {
 //                        autonym_certify_id_back_tv1.setText("已上传");
 //                        autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
@@ -427,16 +414,16 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                            }
 //                        });
 //                    } else {
-                        autonym_certify_id_back_tv1.setText("请上传");
-                        autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
-                        //                }
-                    } else {
-                        client_spouse_credit__book_lin.setVisibility(View.GONE);
-                    }
+                    autonym_certify_id_back_tv1.setText("请上传");
+                    autonym_certify_id_back_tv1.setTextColor(getResources().getColor(R.color.please_upload_color));
+                    //                }
+                } else {
+                    client_spouse_credit__book_lin.setVisibility(View.GONE);
+                }
 
-                    if (data.getStringExtra("isGuarantor").equals("1")) { //不等于空是1 等于空是2
-                        guarantor_credit_book_lin.setVisibility(View.VISIBLE);
-                        guarantor_clt_id = data.getStringExtra("guarantor_clt_id");
+                if (data.getStringExtra("isGuarantor").equals("1")) { //不等于空是1 等于空是2
+                    guarantor_credit_book_lin.setVisibility(View.VISIBLE);
+                    guarantor_clt_id = data.getStringExtra("guarantor_clt_id");
 //                    if (Integer.valueOf(data.getStringExtra("guarantor")) > 0) {
 //                        autonym_certify_id_back_tv2.setText("已上传");
 //                        autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
@@ -452,16 +439,16 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                            }
 //                        });
 //                    } else {
-                        autonym_certify_id_back_tv2.setText("请上传");
-                        autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
-                        //      }
-                    } else {
-                        guarantor_credit_book_lin.setVisibility(View.GONE);
-                    }
+                    autonym_certify_id_back_tv2.setText("请上传");
+                    autonym_certify_id_back_tv2.setTextColor(getResources().getColor(R.color.please_upload_color));
+                    //      }
+                } else {
+                    guarantor_credit_book_lin.setVisibility(View.GONE);
+                }
 
-                    if (data.getStringExtra("isGuarantor_sp").equals("1")) { //不等于空是1 等于空是2
-                        guarantor_spouse_credit_book_lin.setVisibility(View.VISIBLE);
-                        guarantor_sp_clt_id = data.getStringExtra("guarantor_sp_clt_id");
+                if (data.getStringExtra("isGuarantor_sp").equals("1")) { //不等于空是1 等于空是2
+                    guarantor_spouse_credit_book_lin.setVisibility(View.VISIBLE);
+                    guarantor_sp_clt_id = data.getStringExtra("guarantor_sp_clt_id");
 //                    if (Integer.valueOf(data.getStringExtra("guarantor_sp")) > 0) {
 //                        autonym_certify_id_back_tv3.setText("已上传");
 //                        autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
@@ -476,62 +463,61 @@ public class CreditInfoFragment extends BaseFragment implements View.OnClickList
 //                            }
 //                        });
 //                    } else {
-                        autonym_certify_id_back_tv3.setText("请上传");
-                        autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
-                        //  }
-                    } else {
-                        guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
-                    }
+                    autonym_certify_id_back_tv3.setText("请上传");
+                    autonym_certify_id_back_tv3.setTextColor(getResources().getColor(R.color.please_upload_color));
+                    //  }
+                } else {
+                    guarantor_spouse_credit_book_lin.setVisibility(View.GONE);
+                }
 
-                    submitBtn.setEnabled(data.getBooleanExtra("enable", false));
+                submitBtn.setEnabled(data.getBooleanExtra("enable", false));
 
-                } else if (requestCode == Constants.REQUEST_MULTI_DOCUMENT) {
-                    uploadFileUrlList = (List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlList");
+            } else if (requestCode == Constants.REQUEST_MULTI_DOCUMENT) {
+                uploadFileUrlList = (List<UploadFilesUrlReq.FileUrlBean>) data.getSerializableExtra("uploadFileUrlList");
 
-                    switch (data.getStringExtra("role")) {
-                        case Constants.PersonType.LENDER:
-                            lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                            if (lenderList.size() > 0) {
-                                autonym_certify_id_back_tv.setText("已上传");
-                                autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
-                            } else {
-                                autonym_certify_id_back_tv.setText("请上传");
-                                autonym_certify_id_back_tv.setTextColor(Color.parseColor("#d1d1d1"));
-                            }
-                            break;
-                        case Constants.PersonType.LENDER_SP:
-                            lenderSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                            if (lenderSpList.size() > 0) {
-                                autonym_certify_id_back_tv1.setText("已上传");
-                                autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
-                            } else {
-                                autonym_certify_id_back_tv1.setText("请上传");
-                                autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#d1d1d1"));
-                            }
-                            break;
-                        case Constants.PersonType.GUARANTOR:
-                            guarantorList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                            if (guarantorList.size() > 0) {
-                                autonym_certify_id_back_tv2.setText("已上传");
-                                autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
-                            } else {
-                                autonym_certify_id_back_tv2.setText("请上传");
-                                autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#d1d1d1"));
-                            }
-                            break;
-                        case Constants.PersonType.GUARANTOR_SP:
-                            guarantorSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
-                            if (guarantorSpList.size() > 0) {
-                                autonym_certify_id_back_tv3.setText("已上传");
-                                autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
-                            } else {
-                                autonym_certify_id_back_tv3.setText("请上传");
-                                autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
-                            }
-                            break;
-                        default:
-                            break;
-                    }
+                switch (data.getStringExtra("role")) {
+                    case Constants.PersonType.LENDER:
+                        lenderList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+                        if (lenderList.size() > 0) {
+                            autonym_certify_id_back_tv.setText("已上传");
+                            autonym_certify_id_back_tv.setTextColor(Color.parseColor("#06b7a3"));
+                        } else {
+                            autonym_certify_id_back_tv.setText("请上传");
+                            autonym_certify_id_back_tv.setTextColor(Color.parseColor("#d1d1d1"));
+                        }
+                        break;
+                    case Constants.PersonType.LENDER_SP:
+                        lenderSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+                        if (lenderSpList.size() > 0) {
+                            autonym_certify_id_back_tv1.setText("已上传");
+                            autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#06b7a3"));
+                        } else {
+                            autonym_certify_id_back_tv1.setText("请上传");
+                            autonym_certify_id_back_tv1.setTextColor(Color.parseColor("#d1d1d1"));
+                        }
+                        break;
+                    case Constants.PersonType.GUARANTOR:
+                        guarantorList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+                        if (guarantorList.size() > 0) {
+                            autonym_certify_id_back_tv2.setText("已上传");
+                            autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#06b7a3"));
+                        } else {
+                            autonym_certify_id_back_tv2.setText("请上传");
+                            autonym_certify_id_back_tv2.setTextColor(Color.parseColor("#d1d1d1"));
+                        }
+                        break;
+                    case Constants.PersonType.GUARANTOR_SP:
+                        guarantorSpList = (List<UploadImgItemBean>) data.getSerializableExtra("imgList");
+                        if (guarantorSpList.size() > 0) {
+                            autonym_certify_id_back_tv3.setText("已上传");
+                            autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#06b7a3"));
+                        } else {
+                            autonym_certify_id_back_tv3.setText("请上传");
+                            autonym_certify_id_back_tv3.setTextColor(Color.parseColor("#d1d1d1"));
+                        }
+                        break;
+                    default:
+                        break;
                 }
             }
         }

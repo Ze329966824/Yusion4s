@@ -98,13 +98,12 @@ public class UploadLabelListActivity extends BaseActivity {
                 req.file_value = topItem.value;
                 req.label_list_cn.addAll(changedLabelCnList);
                 req.label_list_en.addAll(changedLabelEnList);
-                UploadApi.uploadLog(this, req, (code, msg) -> {
-                ApiUtil.requestUrl4CodeAndMsg(this, Api.getUploadService().uploadLog(req),(code, msg) -> {
+                ApiUtil.requestUrl4CodeAndMsg(this, Api.getUploadService().uploadLog(req), (code, msg) -> {
 //                UploadApi.uploadLog(this, req, (code, msg) -> {
                 });
                 toSubmitMaterial();
             }
-        }else {
+        } else {
             toSubmitMaterial();
         }
 
@@ -117,7 +116,6 @@ public class UploadLabelListActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
-
 
 
     @Override
