@@ -1419,6 +1419,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                             carLoanPriceTv.setEnabled(true);
                                             look_guess_img_btn.setEnabled(true);
                                         }
+
                                         dialog.dismiss();
                                         guess_img = data.result.img;
                                         bucket = data.result.file_info.bucket;
