@@ -8,13 +8,16 @@
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="#ffffff"
         >
 
         <ImageView
+            android:id="@+id/icon_search"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
-            android:layout_marginLeft="12dp"
+            android:layout_centerInParent="true"
+            android:layout_marginLeft="15dp"
             android:paddingBottom="10dp"
             android:paddingTop="10dp"
             android:src="@mipmap/search_history_img"
@@ -24,21 +27,26 @@
             android:id="@+id/history_tv"
             android:layout_width="230dp"
             android:layout_height="wrap_content"
+            android:layout_alignTop="@+id/icon_search"
             android:layout_marginLeft="35dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
+            android:gravity="center_vertical"
+            android:paddingBottom="15dp"
+            android:paddingTop="15dp"
+            android:textColor="#666666"
             android:textSize="14sp"
             tools:text="测试用的"
             />
 
         <ImageView
             android:id="@+id/history_delete_img"
-            android:layout_width="30dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
+            android:layout_centerInParent="true"
             android:layout_marginRight="15dp"
-            android:paddingBottom="10dp"
-            android:paddingTop="10dp"
+            android:paddingBottom="15dp"
+            android:paddingLeft="30dp"
+            android:paddingTop="15dp"
             android:src="@mipmap/history_delete"
             />
 
@@ -46,9 +54,9 @@
 
     <View
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_marginLeft="15dp"
-        android:background="#000000"
+        android:background="#e1e3e6"
         />
 
 </LinearLayout>

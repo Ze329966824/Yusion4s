@@ -47,11 +47,6 @@
                 android:drawableTop="@drawable/tab_order_selector"
                 android:text="@string/order" />
 
-            <RadioButton
-                android:id="@+id/main_tab_msg_center"
-                style="@style/tab"
-                android:drawableTop="@drawable/tab_msg_center_selector"
-                android:text="@string/msg_center" />
 
             <RadioButton
                 android:id="@+id/main_tab_mine"
@@ -62,6 +57,7 @@
         </RadioGroup>
 
         <ImageView
+            android:id="@+id/red_point"
             android:layout_width="@dimen/y35"
             android:layout_height="@dimen/y35"
             android:layout_alignParentRight="true"

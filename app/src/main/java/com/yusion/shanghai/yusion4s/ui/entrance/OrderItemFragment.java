@@ -154,6 +154,7 @@ public class OrderItemFragment extends BaseFragment {
                     if (resp != null) {
                         if (resp.total_page == 0 || resp.total_page == 1) {
                             ptr.setLoadMoreEnable(false);
+                            ptr.loadMoreComplete(false);
                         }
                         for (GetAppListResp.DataBean dataBean : resp.data) {
                             items.add(dataBean);
@@ -182,7 +183,8 @@ public class OrderItemFragment extends BaseFragment {
         ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, vehicle_cond, page), (OnItemDataCallBack<GetAppListResp>) resp -> {
             if (resp != null) {
                 if (resp.total_page == 0 || resp.total_page == 1) {
-                    ptr.setLoadMoreEnable(false);
+                    ptr.setLoadMoreEnable(true);
+                    ptr.loadMoreComplete(false);
                 } else {
                     total_page = resp.total_page;
                 }
@@ -241,6 +243,7 @@ public class OrderItemFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                    intent.putExtra("come_from","orderitem");
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st", item.status_st);
                     if (item.can_switch_sp) {
@@ -411,10 +414,11 @@ public class OrderItemFragment extends BaseFragment {
                                 if (data2 != null) {
                                     ToastUtil.showImageToast(mContext, "提交成功", R.mipmap.toast_success);
                                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                                    intent.putExtra("come_from","orderitem");
                                     intent.putExtra("app_id", data2.app_id);
                                     intent.putExtra("status_st", status_st);
                                     mContext.startActivity(intent);
-                                    finish();
+
                                 }
                             });
                         }

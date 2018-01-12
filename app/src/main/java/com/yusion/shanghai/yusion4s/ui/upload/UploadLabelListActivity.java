@@ -20,6 +20,7 @@ import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -73,9 +74,13 @@ public class UploadLabelListActivity extends BaseActivity {
     private void uploadAndFinish(boolean isShowDialog) {
         //检查是否需要向服务器打log
         shouldUploadLog = false;
+        ArrayList<String> changedLabelEnList = new ArrayList<>();
+        ArrayList<String> changedLabelCnList = new ArrayList<>();
         for (ListDealerLabelsResp.LabelListBean labelListBean : topItem.label_list) {
             if (labelListBean.has_change) {
                 shouldUploadLog = true;
+                changedLabelCnList.add(labelListBean.name);
+                changedLabelEnList.add(labelListBean.value);
             }
         }
         if (shouldUploadLog) {
@@ -91,12 +96,14 @@ public class UploadLabelListActivity extends BaseActivity {
                 req.app_id = app_id;
                 req.file_name = topItem.name;
                 req.file_value = topItem.value;
-                ApiUtil.requestUrl4CodeAndMsg(this, Api.getUploadService().uploadLog(req),(code, msg) -> {
+                req.label_list_cn.addAll(changedLabelCnList);
+                req.label_list_en.addAll(changedLabelEnList);
+                ApiUtil.requestUrl4CodeAndMsg(this, Api.getUploadService().uploadLog(req), (code, msg) -> {
 //                UploadApi.uploadLog(this, req, (code, msg) -> {
                 });
                 toSubmitMaterial();
             }
-        }else {
+        } else {
             toSubmitMaterial();
         }
 
@@ -109,7 +116,6 @@ public class UploadLabelListActivity extends BaseActivity {
         startActivity(intent);
         finish();
     }
-
 
 
     @Override

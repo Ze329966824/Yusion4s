@@ -6,6 +6,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
 
 import com.facebook.rebound.SimpleSpringListener;
@@ -14,9 +15,11 @@ import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.msg_center.GetMsgStatus;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragmentEvent;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
@@ -38,6 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton mineRb;
     public Boolean isFirstLogin = true;
     private SpringSystem springSystem;
+    private ImageView red_point;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +53,24 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void init() {
-
+        red_point = findViewById(R.id.red_point);
+        applyOrderRb = findViewById(R.id.main_tab_order_apply);
         applyOrderRb = findViewById(R.id.main_tab_order_apply);
         orderListRb = findViewById(R.id.main_tab_order);
         mineRb = findViewById(R.id.main_tab_mine);
         mHomeFragment = HomeFragment.newInstance();
         mMineFragment = MineFragment.newInstance();
-        mMsgCenterFragment = MsgCenterFragment.newInstance();
         mOrderManagerFragment = OrderManagerFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.beginTransaction().add(R.id.main_container, mHomeFragment).add(R.id.main_container, mOrderManagerFragment).add(R.id.main_container, mMsgCenterFragment).add(R.id.main_container, mMineFragment).hide(mMineFragment).hide(mOrderManagerFragment).hide(mMsgCenterFragment).commit();
+        mFragmentManager.beginTransaction()
+                .add(R.id.main_container, mHomeFragment)
+                .add(R.id.main_container, mOrderManagerFragment)
+                .add(R.id.main_container, mMsgCenterFragment)
+                .add(R.id.main_container, mMineFragment)
+                .hide(mMineFragment)
+                .hide(mOrderManagerFragment)
+                .hide(mMsgCenterFragment)
+                .commit();
         mCurrentFragment = mHomeFragment;
     }
 
@@ -141,7 +153,13 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ConfigApi.getConfigJson(MainActivity.this, null);
 
         ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(), data -> mMineFragment.refresh(data));
-
+        ApiUtil.requestUrl4Data(this, Api.getMsgCenterService().getMessageStatus(), (OnItemDataCallBack<GetMsgStatus>) getMsgStatus -> {
+            if (getMsgStatus.has_new_msg) {
+                red_point.setVisibility(View.VISIBLE);
+            }else {
+                red_point.setVisibility(View.GONE);
+            }
+        });
         // 第一次登陆时  取出列表里第一个门店展示出来 （首页）
         mHomeFragment.firstLogin();
     }

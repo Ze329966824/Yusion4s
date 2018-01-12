@@ -97,8 +97,8 @@ public class Api {
         return retrofit.create(DlrService.class);
     }
 
-    public static DlrService getDlrNum() {
-        return retrofit.create(DlrService.class);
+    public static MsgCenterService getMsgCenterService() {
+        return retrofit.create(MsgCenterService.class);
     }
 
     public static MsgCenterService getMsgCenterService() {
