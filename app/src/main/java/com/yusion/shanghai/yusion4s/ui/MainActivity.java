@@ -58,15 +58,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mMsgCenterFragment = MsgCenterFragment.newInstance();
         mOrderManagerFragment = OrderManagerFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.beginTransaction()
-                .add(R.id.main_container, mHomeFragment)
-                .add(R.id.main_container, mOrderManagerFragment)
-                .add(R.id.main_container, mMsgCenterFragment)
-                .add(R.id.main_container, mMineFragment)
-                .hide(mMineFragment)
-                .hide(mOrderManagerFragment)
-                .hide(mMsgCenterFragment)
-                .commit();
+        mFragmentManager.beginTransaction().add(R.id.main_container, mHomeFragment).add(R.id.main_container, mOrderManagerFragment).add(R.id.main_container, mMsgCenterFragment).add(R.id.main_container, mMineFragment).hide(mMineFragment).hide(mOrderManagerFragment).hide(mMsgCenterFragment).commit();
         mCurrentFragment = mHomeFragment;
     }
 
@@ -98,6 +90,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.main_tab_msg_center:
                 transaction.hide(mCurrentFragment).show(mMsgCenterFragment);
                 mCurrentFragment = mMsgCenterFragment;
+                //// TODO: 2018/1/12 点击影藏
                 break;
             case R.id.main_tab_mine:
                 transaction.hide(mCurrentFragment).show(mMineFragment);
@@ -147,7 +140,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
         ConfigApi.getConfigJson(MainActivity.this, null);
 
-        ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(),data -> mMineFragment.refresh(data));
+        ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(), data -> mMineFragment.refresh(data));
 
         // 第一次登陆时  取出列表里第一个门店展示出来 （首页）
         mHomeFragment.firstLogin();

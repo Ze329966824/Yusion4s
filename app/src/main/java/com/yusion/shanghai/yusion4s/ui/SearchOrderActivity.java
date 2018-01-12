@@ -4,10 +4,10 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.graphics.Rect;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.text.Editable;
@@ -43,12 +43,10 @@ import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoA
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
-import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 import com.yusion.shanghai.yusion4s.widget.NoEmptyEditText;
-import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -97,7 +95,13 @@ public class SearchOrderActivity extends BaseActivity {
         poi_delete_img = findViewById(R.id.poi_delete);
         search_btn = findViewById(R.id.search_btn);
         my_order_rv.setLayoutManager(new LinearLayoutManager(this));
-        my_order_rv.addItemDecoration(new RecyclerViewDivider(this, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(this, 10), ContextCompat.getColor(this, R.color.main_bg)));
+        my_order_rv.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
+                super.getItemOffsets(outRect, view, parent, state);
+                outRect.bottom = 10;
+            }
+        });
         items = new ArrayList<>();
         myOrderListAdapter = new MyOrderListAdapter(this, items);
         //myOrderListAdapter.setVehicle_cond(vehicle_cond);

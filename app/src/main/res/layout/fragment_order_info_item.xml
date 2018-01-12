@@ -1,9 +1,9 @@
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/bg_color"
-              android:orientation="vertical">
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             android:background="@color/bg_color"
+    >
 
     <com.chanven.lib.cptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
                                                 android:id="@+id/my_order_ptr"
@@ -60,4 +60,16 @@
         </LinearLayout>
     </com.chanven.lib.cptr.PtrClassicFrameLayout>
 
-</LinearLayout>
+    <TextView
+        android:id="@+id/msg_count_tv"
+        android:layout_width="100dp"
+        android:layout_height="30dp"
+        android:layout_gravity="center_horizontal"
+        android:background="@drawable/tv_corners"
+        android:gravity="center"
+        android:text="您有新消息"
+        android:visibility="gone"
+        tools:visibility="visible"
+        />
+
+</FrameLayout>
