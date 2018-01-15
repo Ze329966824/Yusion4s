@@ -101,9 +101,6 @@ public class Api {
         return retrofit.create(MsgCenterService.class);
     }
 
-    public static MsgCenterService getMsgCenterService() {
-        return retrofit.create(MsgCenterService.class);
-    }
 
     public static AMapService getMapService() {
         return retrofit.create(AMapService.class);

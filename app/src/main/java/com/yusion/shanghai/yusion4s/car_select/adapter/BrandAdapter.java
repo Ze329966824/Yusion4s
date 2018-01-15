@@ -16,6 +16,7 @@ import com.yusion.shanghai.yusion4s.glide.progress.GlideApp;
 import java.util.List;
 
 
+
 public class BrandAdapter extends RecyclerView.Adapter<BrandAdapter.ViewHolder> {
     protected Context mContext;
     protected List<GetBrandResp> mDatas;
