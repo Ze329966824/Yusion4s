@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
               xmlns:tools="http://schemas.android.com/tools"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
@@ -10,7 +11,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:textSize="@dimen/x48"
+        android:textSize="@dimen/x34"
         tools:text="刚刚"
         />
 
@@ -29,7 +30,7 @@
             android:layout_height="wrap_content"
             android:layout_marginLeft="@dimen/x46"
             android:layout_marginTop="@dimen/x40"
-            android:textSize="@dimen/x63"
+            android:textSize="@dimen/x46"
             tools:text="状态"
             />
 
@@ -61,7 +62,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="客户信息:"
-                android:textSize="@dimen/x43"
+                android:textColor="#555555"
+                android:textSize="@dimen/x40"
                 />
 
             <TextView
@@ -69,6 +71,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/x15"
+                android:textColor="#999999"
                 android:textSize="@dimen/x40"
                 tools:text="我了个去 15678"
                 />
@@ -78,11 +81,12 @@
             style="@style/receive_info_item"
             android:layout_marginTop="@dimen/x35">
 
-            <TextView
-                android:layout_width="wrap_content"
+            <com.yusion.shanghai.yusion4s.widget.SpaceTextView
+                android:layout_width="@dimen/x170"
                 android:layout_height="wrap_content"
-                android:text="经销商:"
-                android:textSize="@dimen/x43"
+                app:text="经销商:"
+                app:textColor="#555555"
+                app:textSize="@dimen/x40"
                 />
 
             <TextView
@@ -90,6 +94,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/x15"
+                android:textColor="#999999"
                 android:textSize="@dimen/x40"
                 tools:text="我了个去 15678"
                 />
@@ -103,7 +108,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="车型信息:"
-                android:textSize="@dimen/x43"
+                android:textColor="#555555"
+                android:textSize="@dimen/x40"
                 />
 
             <TextView
@@ -111,6 +117,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/x15"
+                android:textColor="#999999"
                 android:textSize="@dimen/x40"
                 tools:text="我了个去 15678"/>
 
@@ -125,7 +132,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="贷款总额:"
-                android:textSize="@dimen/x43"
+                android:textColor="#555555"
+                android:textSize="@dimen/x40"
                 />
 
             <TextView
@@ -133,6 +141,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="@dimen/x15"
+                android:textColor="#999999"
                 android:textSize="@dimen/x40"
                 tools:text="我了个去 15678"
                 />
@@ -162,7 +171,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="查看详情"
-                android:textSize="@dimen/x57"
+                android:textColor="#222A36"
+                android:textSize="@dimen/x40"
                 />
 
             <ImageView

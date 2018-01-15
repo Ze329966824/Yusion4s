@@ -32,7 +32,7 @@ public class JpushReceiver extends BroadcastReceiver {
             Sentry.capture(string);
             i.putExtra("jsonObject", string);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
+//            context.startActivity(i);
         }
     }
 }

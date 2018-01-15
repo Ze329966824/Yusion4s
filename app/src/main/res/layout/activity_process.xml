@@ -1,20 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/main_bg"
-    android:orientation="vertical"
-    tools:context="com.yusion.shanghai.yusion4s.ui.order.ApplyProcessActivity">
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/main_bg"
+              android:orientation="vertical"
+              tools:context="com.yusion.shanghai.yusion4s.ui.order.ApplyProcessActivity">
 
     <include
         android:id="@+id/title_bar"
-        layout="@layout/base_titlebar" />
+        layout="@layout/base_titlebar"/>
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="96dp"
+        android:layout_height="wrap_content"
         android:layout_marginTop="15dp"
         android:background="#ffffff"
         android:orientation="vertical"
@@ -31,7 +31,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="订单号:"
                 android:textColor="#222036"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/app_id"
@@ -39,7 +39,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#222036"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -54,7 +54,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="主贷人:"
                 android:textColor="#222036"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/clt_nm"
@@ -62,7 +62,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#222036"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
         </LinearLayout>
 
         <LinearLayout
@@ -77,7 +77,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="创建时间:"
                 android:textColor="#222036"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
 
             <TextView
                 android:id="@+id/creat_time"
@@ -85,14 +85,14 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#222036"
-                android:textSize="14sp" />
+                android:textSize="14sp"/>
         </LinearLayout>
     </LinearLayout>
 
     <View
         android:layout_width="match_parent"
         android:layout_height="15dp"
-        android:background="@color/bg_color" />
+        android:background="@color/bg_color"/>
 
     <ScrollView
         android:layout_width="match_parent"
