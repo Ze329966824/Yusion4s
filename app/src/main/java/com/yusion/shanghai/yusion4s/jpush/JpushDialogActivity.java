@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.view.LayoutInflater;
-import android.view.View;
 import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
@@ -18,8 +16,6 @@ import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
-
-import static com.yusion.shanghai.yusion4s.R.id.btn_cancel;
 
 public class JpushDialogActivity extends BaseActivity {
     private String username = null;
