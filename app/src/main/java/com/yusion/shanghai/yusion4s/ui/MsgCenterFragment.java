@@ -29,6 +29,7 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.msg_center.GetMsgList;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
@@ -81,7 +82,7 @@ public class MsgCenterFragment extends BaseFragment {
             super.handleMessage(msg);
             switch (msg.what) {
                 case 5:
-                    ViewCompat.animate(msg_count_tv).translationY(100).setDuration(1500).start();
+                    ViewCompat.animate(msg_count_tv).translationY(120).setDuration(1000).start();
 //                   msg_count_tv.setVisibility(View.GONE);
 
 //                ViewCompat.animate(msg_count_tv).translationY(0).setDuration(4000).alpha(1).start();
@@ -89,7 +90,7 @@ public class MsgCenterFragment extends BaseFragment {
                     break;
                 case 6:
                     // msg_count_tv.setVisibility(View.GONE);
-                    ViewCompat.animate(msg_count_tv).translationY(0 - msg_count_tv.getHeight()).setDuration(1500).start();
+                    ViewCompat.animate(msg_count_tv).translationY(0 - msg_count_tv.getHeight()).setDuration(1000).start();
             }
         }
     };
@@ -131,7 +132,7 @@ public class MsgCenterFragment extends BaseFragment {
             @Override
             public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
                 super.getItemOffsets(outRect, view, parent, state);
-                outRect.top = 20;
+                outRect.top = (int) getResources().getDimension(R.dimen.y75);
             }
         });
         // rv.addItemDecoration(new RecyclerViewDivider(mContext, LinearLayoutManager.VERTICAL, DensityUtil.dip2px(getActivity(), 10), ContextCompat.getColor(getActivity(), R.color.main_bg)));
@@ -201,6 +202,12 @@ public class MsgCenterFragment extends BaseFragment {
         ApiUtil.requestUrl4Data(mContext, Api.getMsgCenterService().getMessageList(page), (OnItemDataCallBack<GetMsgList>) resp -> {
             //ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, vehicle_cond, page), (OnItemDataCallBack<GetAppListResp>) resp -> {
             if (resp != null) {
+                ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getMsgCenterService().clearRedPoint(), true, new OnCodeAndMsgCallBack() {
+                    @Override
+                    public void callBack(int code, String msg) {
+                        ((MainActivity) getActivity()).red_point.setVisibility(View.GONE);
+                    }
+                });
                 if (resp.total_page == 0 || resp.total_page == 1) {
                     ptr.setLoadMoreEnable(false);
                 } else {
@@ -217,7 +224,7 @@ public class MsgCenterFragment extends BaseFragment {
                             handler.removeMessages(6);
                         }
                         handler.sendEmptyMessageDelayed(5, 0);
-                        handler.sendEmptyMessageDelayed(6, 3000);
+                        handler.sendEmptyMessageDelayed(6, 2500);
                     });
                 }
                 if (resp.msg_list.size() > 0) {
@@ -238,6 +245,7 @@ public class MsgCenterFragment extends BaseFragment {
                     ptr.setVisibility(View.VISIBLE);
                 }
             }
+
         });
     }
 

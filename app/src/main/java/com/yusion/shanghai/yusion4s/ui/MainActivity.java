@@ -41,7 +41,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton mineRb;
     public Boolean isFirstLogin = true;
     private SpringSystem springSystem;
-    private ImageView red_point;
+    public ImageView red_point;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,16 +61,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mHomeFragment = HomeFragment.newInstance();
         mMineFragment = MineFragment.newInstance();
         mOrderManagerFragment = OrderManagerFragment.newInstance();
+        mMsgCenterFragment = MsgCenterFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.beginTransaction()
-                .add(R.id.main_container, mHomeFragment)
-                .add(R.id.main_container, mOrderManagerFragment)
-                .add(R.id.main_container, mMsgCenterFragment)
-                .add(R.id.main_container, mMineFragment)
-                .hide(mMineFragment)
-                .hide(mOrderManagerFragment)
-                .hide(mMsgCenterFragment)
-                .commit();
+        mFragmentManager.beginTransaction().add(R.id.main_container, mHomeFragment).add(R.id.main_container, mOrderManagerFragment).add(R.id.main_container, mMsgCenterFragment).add(R.id.main_container, mMineFragment).hide(mMineFragment).hide(mOrderManagerFragment).hide(mMsgCenterFragment).commit();
         mCurrentFragment = mHomeFragment;
     }
 
@@ -103,6 +96,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 transaction.hide(mCurrentFragment).show(mMsgCenterFragment);
                 mCurrentFragment = mMsgCenterFragment;
                 //// TODO: 2018/1/12 点击影藏
+//                red_point.setVisibility(View.GONE);
                 break;
             case R.id.main_tab_mine:
                 transaction.hide(mCurrentFragment).show(mMineFragment);
@@ -156,7 +150,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ApiUtil.requestUrl4Data(this, Api.getMsgCenterService().getMessageStatus(), (OnItemDataCallBack<GetMsgStatus>) getMsgStatus -> {
             if (getMsgStatus.has_new_msg) {
                 red_point.setVisibility(View.VISIBLE);
-            }else {
+            } else {
                 red_point.setVisibility(View.GONE);
             }
         });

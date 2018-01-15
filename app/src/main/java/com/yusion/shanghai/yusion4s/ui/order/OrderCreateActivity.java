@@ -120,7 +120,7 @@ public class OrderCreateActivity extends BaseActivity {
 
     private void setTitle() {
         if (cartype.equals("二手车")) {
-            initTitleBar(this, "二手车申请");
+                initTitleBar(this, "二手车申请");
         } else {
             initTitleBar(this, "新车申请");
         }

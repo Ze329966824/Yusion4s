@@ -1,14 +1,16 @@
-package com.notrace;
+package com.yusion.shanghai.yusion4s.widget;
 
 import android.content.Context;
-import android.content.res.Resources;
 import android.content.res.TypedArray;
 import android.support.annotation.Nullable;
 import android.text.TextUtils;
 import android.util.AttributeSet;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+
+import com.yusion.shanghai.yusion4s.R;
 
 /**
  * Created by ice on 2018/1/12.
@@ -59,7 +61,7 @@ public class SpaceTextView extends LinearLayout {
     public TextView createTextView(String c) {
         TextView textView = new TextView(getContext());
         textView.setText(c);
-        textView.setTextSize(textSize);
+        textView.setTextSize(TypedValue.COMPLEX_UNIT_PX,textSize);
         textView.setTextColor(textColor);
         return textView;
     }
@@ -67,7 +69,7 @@ public class SpaceTextView extends LinearLayout {
     public View addSpaceView() {
         View view = new View(getContext());
         addView(view);
-        LinearLayout.LayoutParams lp = (LinearLayout.LayoutParams) view.getLayoutParams();
+        LayoutParams lp = (LayoutParams) view.getLayoutParams();
         lp.weight = 1;
         return view;
     }
