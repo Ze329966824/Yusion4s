@@ -5,7 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
+
+import com.yusion.shanghai.yusion4s.utils.AppUtils;
 
 import cn.jpush.android.api.JPushInterface;
 import io.sentry.Sentry;
@@ -23,7 +24,10 @@ public class JpushReceiver extends BroadcastReceiver {
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 int notificationID = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 String content = bundle.getString(JPushInterface.EXTRA_ALERT);
-                JPushInterface.clearNotificationById(context, notificationID);
+                // 如果app在使用 就清掉通知栏推送  如果在后台就不清除
+                if (AppUtils.isAppOnForeground()) {
+                    JPushInterface.clearNotificationById(context, notificationID);
+                }
             }
             Sentry.capture(string);
             i.putExtra("jsonObject", string);

@@ -1,7 +1,6 @@
 package com.yusion.shanghai.yusion4s.base;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -16,9 +15,8 @@ import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
+import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
-
-import java.util.List;
 
 /**
  * Created by ice on 2017/8/3.
@@ -120,7 +118,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     protected void onStop() {
         super.onStop();
-        if (!isAppOnForeground()) {
+        if (!AppUtils.isAppOnForeground()) {
             Yusion4sApp.isForeground = false;
             UBT.addAppEvent(this, "app_pause");
         }
@@ -142,20 +140,4 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
 
-    private boolean isAppOnForeground() {
-        android.app.ActivityManager activityManager = (android.app.ActivityManager) getApplicationContext().getSystemService(Context.ACTIVITY_SERVICE);
-        String packageName = getApplicationContext().getPackageName();
-
-        List<android.app.ActivityManager.RunningAppProcessInfo> appProcesses = activityManager.getRunningAppProcesses();
-        if (appProcesses == null) return false;
-
-        for (android.app.ActivityManager.RunningAppProcessInfo appProcess : appProcesses) {
-            // The name of the process that this object is associated with.
-            if (appProcess.processName.equals(packageName) && appProcess.importance == android.app.ActivityManager.RunningAppProcessInfo.IMPORTANCE_FOREGROUND) {
-                return true;
-            }
-        }
-
-        return false;
-    }
 }
