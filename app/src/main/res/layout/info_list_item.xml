@@ -10,6 +10,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:textSize="@dimen/x48"
         tools:text="刚刚"
         />
 
@@ -59,8 +60,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="客户信息:"
                 android:textSize="@dimen/x43"
-                tools:text="客户信息:"
                 />
 
             <TextView
@@ -80,8 +81,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="经销商:"
                 android:textSize="@dimen/x43"
-                tools:text="经销商:"
                 />
 
             <TextView
@@ -94,15 +95,6 @@
                 />
         </LinearLayout>
 
-        <TextView
-            android:id="@+id/second_sell_tv"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="@dimen/x200"
-            android:text="我了个去"
-            android:textSize="@dimen/x40"
-            />
-
         <LinearLayout
             style="@style/receive_info_item"
             android:layout_marginTop="@dimen/x35">
@@ -110,8 +102,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="车型信息:"
                 android:textSize="@dimen/x43"
-                tools:text="车型信息:"
                 />
 
             <TextView
@@ -132,8 +124,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="贷款总额:"
                 android:textSize="@dimen/x43"
-                tools:text="贷款总额:"
                 />
 
             <TextView
@@ -169,8 +161,8 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:text="查看详情"
                 android:textSize="@dimen/x57"
-                tools:text="查看详情"
                 />
 
             <ImageView

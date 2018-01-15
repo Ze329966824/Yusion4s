@@ -46,35 +46,25 @@ public class Api {
     private static OkHttpClient logClient;
 
     public static Retrofit createRetrofit(String serverUrl) {
-        return new Retrofit.Builder()
-                .baseUrl(serverUrl)
-                .client(logClient)
-                .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
-                        .serializeNulls()//null值也进行序列化并上传至服务器
-                        .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())//null值序列化为""
-                        .create()))
-                .build();
+        return new Retrofit.Builder().baseUrl(serverUrl).client(logClient).addConverterFactory(GsonConverterFactory.create(new GsonBuilder().serializeNulls()//null值也进行序列化并上传至服务器
+                .registerTypeAdapterFactory(new NullStringToEmptyAdapterFactory())//null值序列化为""
+                .create())).build();
     }
 
 
     static {
-        logClient = new OkHttpClient.Builder()
-                .connectTimeout(1, TimeUnit.MINUTES)
-                .writeTimeout(1, TimeUnit.MINUTES)
-                .readTimeout(1, TimeUnit.MINUTES)
-                .addInterceptor(chain -> {
-                    Request request = chain.request();
-                    String token = request.header("authentication");
-                    Request.Builder builder = request.newBuilder().method(request.method(), request.body());
-                    if (TextUtils.isEmpty(token)) {
-                        builder.addHeader("authentication", String.format(Locale.CHINA, "token %s", TextUtils.isEmpty(Yusion4sApp.TOKEN) ? Settings.TEST_TOKEN : Yusion4sApp.TOKEN));
-                    }
-                    Request realRequest = builder.build();
-                    Response response = chain.proceed(realRequest);
-                    logRequestInfo(response.request());
-                    return response;
-                })
-                .build();
+        logClient = new OkHttpClient.Builder().connectTimeout(1, TimeUnit.MINUTES).writeTimeout(1, TimeUnit.MINUTES).readTimeout(1, TimeUnit.MINUTES).addInterceptor(chain -> {
+            Request request = chain.request();
+            String token = request.header("authentication");
+            Request.Builder builder = request.newBuilder().method(request.method(), request.body());
+            if (TextUtils.isEmpty(token)) {
+                builder.addHeader("authentication", String.format(Locale.CHINA, "token %s", TextUtils.isEmpty(Yusion4sApp.TOKEN) ? Settings.TEST_TOKEN : Yusion4sApp.TOKEN));
+            }
+            Request realRequest = builder.build();
+            Response response = chain.proceed(realRequest);
+            logRequestInfo(response.request());
+            return response;
+        }).build();
         retrofit = createRetrofit(Settings.SERVER_URL);
 
     }
@@ -105,6 +95,10 @@ public class Api {
 
     public static DlrService getDlrService() {
         return retrofit.create(DlrService.class);
+    }
+
+    public static MsgCenterService getMsgCenterService() {
+        return retrofit.create(MsgCenterService.class);
     }
 
     public static MsgCenterService getMsgCenterService() {

@@ -32,6 +32,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
 
     private HomeFragment mHomeFragment; //申请融资
     private OrderManagerFragment mOrderManagerFragment;     //申请
+    private MsgCenterFragment mMsgCenterFragment;           //消息中心
     private MineFragment mMineFragment;                     //我的
     private Fragment mCurrentFragment;                      //当前的
     private FragmentManager mFragmentManager;
@@ -64,9 +65,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFragmentManager.beginTransaction()
                 .add(R.id.main_container, mHomeFragment)
                 .add(R.id.main_container, mOrderManagerFragment)
+                .add(R.id.main_container, mMsgCenterFragment)
                 .add(R.id.main_container, mMineFragment)
                 .hide(mMineFragment)
                 .hide(mOrderManagerFragment)
+                .hide(mMsgCenterFragment)
                 .commit();
         mCurrentFragment = mHomeFragment;
     }
@@ -95,6 +98,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             case R.id.main_tab_order:
                 transaction.hide(mCurrentFragment).show(mOrderManagerFragment);
                 mCurrentFragment = mOrderManagerFragment;
+                break;
+            case R.id.main_tab_msg_center:
+                transaction.hide(mCurrentFragment).show(mMsgCenterFragment);
+                mCurrentFragment = mMsgCenterFragment;
+                //// TODO: 2018/1/12 点击影藏
                 break;
             case R.id.main_tab_mine:
                 transaction.hide(mCurrentFragment).show(mMineFragment);
