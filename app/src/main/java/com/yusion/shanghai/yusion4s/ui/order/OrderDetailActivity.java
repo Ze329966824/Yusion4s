@@ -194,7 +194,7 @@ public class OrderDetailActivity extends BaseActivity {
         come_from = getIntent().getStringExtra("come_from");
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
-        spouse_clt_id = getIntent().getStringExtra("spouse_clt_id");
+//        spouse_clt_id = getIntent().getStringExtra("spouse_clt_id");
         //cartype = getIntent().getStringExtra("car_type");
         initView();
         // initTitleBar(this, "申请详情");
@@ -445,6 +445,7 @@ public class OrderDetailActivity extends BaseActivity {
             if (resp == null) {
                 return;
             }
+            spouse_clt_id = resp.origin_app.spouse_clt_id;
             cartype = resp.vehicle_cond;
             comments = resp.uw_detail.comments;
             if (cartype.equals("新车")) {

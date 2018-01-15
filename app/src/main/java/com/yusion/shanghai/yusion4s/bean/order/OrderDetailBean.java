@@ -334,6 +334,7 @@ public class OrderDetailBean {
          * app_id : 11000105
          */
 
+        public String spouse_clt_id;
         public String brand;
         public String trix;
         public String model_name;
