@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
@@ -54,6 +55,21 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
 //        UBT.bind(this);
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+            getWindow().setStatusBarColor(Color.TRANSPARENT);
+        }
+        else {
+            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+        }
+
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+//        ((ViewGroup) findViewById(android.R.id.content)).getChildAt(0).setFitsSystemWindows(true);
     }
 
     public TitleBar initTitleBar(final Activity activity, String title) {
@@ -159,10 +175,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
     public void initPopupWindow() {
         Window win = this.getWindow();
-        win.getDecorView().setPadding(0, 0, 0, 0);
         WindowManager.LayoutParams lp = win.getAttributes();
-        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
         lp.gravity = Gravity.TOP;//设置对话框置顶显示
 
 
@@ -266,7 +280,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 //        mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
 
         contentView.postDelayed(() -> {
-            mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
+//            mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, (int) getResources().getDimension(R.dimen.y50));
+            mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0,0);
 
         }, 1000);
 
