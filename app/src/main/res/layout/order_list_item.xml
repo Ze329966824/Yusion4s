@@ -304,7 +304,7 @@
 
         <RelativeLayout
             android:id="@+id/order_list_item_two_btn_lin"
-            tools:visibility="visible"
+            tools:visibility="gone"
             android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_height="@dimen/y86"
@@ -343,18 +343,31 @@
 
         </RelativeLayout>
         <RelativeLayout
-            tools:visibility="gone"
+            tools:visibility="visible"
             android:id="@+id/order_list_item_one_btn_lin"
             android:layout_width="wrap_content"
             android:layout_gravity="center_vertical"
             android:layout_height="@dimen/y86"
             android:visibility="visible">
 
+            <TextView
+                android:id="@+id/order_list_item_check_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x43"
+                android:background="@drawable/shape_text"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x26"
+                android:paddingRight="@dimen/x26"
+                android:text="查看资料"
+                android:textColor="#FF06B7A3"
+                android:textSize="@dimen/y40" />
 
 
             <TextView
+                android:layout_toLeftOf="@+id/order_list_item_check_tv"
                 android:id="@+id/order_list_item_replace_tv"
-                android:layout_alignParentRight="true"
                 android:layout_width="144.23dp"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/x29"
