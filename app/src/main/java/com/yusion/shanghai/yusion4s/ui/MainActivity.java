@@ -14,6 +14,7 @@ import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.msg_center.GetMsgStatus;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
@@ -144,6 +145,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        Yusion4sApp.isLogin = true;
         ConfigApi.getConfigJson(MainActivity.this, null);
 
         ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(), data -> mMineFragment.refresh(data));

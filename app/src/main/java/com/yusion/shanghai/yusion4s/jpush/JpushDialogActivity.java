@@ -15,9 +15,10 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
@@ -29,7 +30,8 @@ import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-public class JpushDialogActivity extends BaseActivity implements View.OnTouchListener {
+
+public class JpushDialogActivity extends BaseActivity {
     private String username = null;
     private String mobile = null;
     private String title = null;
@@ -40,7 +42,6 @@ public class JpushDialogActivity extends BaseActivity implements View.OnTouchLis
     private String stringExtra = null;
     private String order_state = null;
     private View contentView;
-    private View rootview;
     private PopupWindow mPopWindow;
     private SoundPool soundPool;
 
@@ -51,6 +52,7 @@ public class JpushDialogActivity extends BaseActivity implements View.OnTouchLis
             "app_st": "SubmitApplication_Submit_PASS",
             "app_id": 可为空,
             "category": "login",*/
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,11 +68,98 @@ public class JpushDialogActivity extends BaseActivity implements View.OnTouchLis
     }
 
     private void init() {
-        contentView = LayoutInflater.from(JpushDialogActivity.this).inflate(R.layout.popuplayout, null);
+        Window win = this.getWindow();
+        win.getDecorView().setPadding(0, 0, 0, 0);
+        WindowManager.LayoutParams lp = win.getAttributes();
+        lp.width = WindowManager.LayoutParams.MATCH_PARENT;
+        lp.height = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        lp.gravity = Gravity.TOP;//设置对话框置顶显示
+        win.setAttributes(lp);
+
+        contentView = LayoutInflater.from(JpushDialogActivity.this).inflate(R.layout.layout_msg_push, null);
         soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
         //加载deep 音频文件
         soundPool.load(this, R.raw.push_sound, 1);
-        contentView.setOnTouchListener(this);
+        contentView.setOnTouchListener(new View.OnTouchListener() {
+            int lastX = 0;
+            int lastY = 0;
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                DisplayMetrics dm = getResources().getDisplayMetrics();
+                int screenWidth = dm.widthPixels;
+                int screenHeight = dm.heightPixels;
+
+                switch (event.getAction()) {
+                    case MotionEvent.ACTION_DOWN:
+                        lastX = (int) event.getRawX();//获取触摸事件触摸位置的原始X坐标
+                        lastY = (int) event.getRawY();
+
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        //event.getRawX();获得移动的位置
+                        int dx = (int) event.getRawX() - lastX;
+                        int dy = (int) event.getRawY() - lastY;
+                        float scaleY = v.getScaleY();
+                        int height = v.getHeight();
+                        int width = v.getWidth();
+
+                        if (Math.abs(dy) > Math.abs(dx)) {
+
+                            mPopWindow.dismiss();
+                            v.scrollTo(0, 0);
+                            v.setAlpha(1);
+                            finish();
+
+                        } else {
+
+                            v.scrollBy(-dx, 0);
+
+                            float abs_x = Math.abs(v.getScrollX());
+//                                Log.e("TAG", "onTouch: " + abs_x); //0 -> 600+
+                            v.setAlpha(1.0f - 1.0f / width * abs_x);
+
+                        }
+
+
+                        lastX = (int) event.getRawX();
+                        lastY = (int) event.getRawY();
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        int i = screenWidth / 2;
+                        ObjectAnimator animator = ObjectAnimator.ofFloat(v, "alpha", v.getAlpha(), 1.0f);
+                        final int scrollX = v.getScrollX();
+                        animator.addUpdateListener(animation -> {
+                            float fraction = animation.getAnimatedFraction();
+                            v.setScrollX((int) (scrollX * (1.0f - fraction)));
+                            Log.e("TAG", "onAnimationUpdate: " + fraction);
+                        });
+                        animator.start();
+
+                        if (Math.abs(v.getScrollX()) > i) {
+                            v.setAlpha(0);
+                            v.postDelayed(() -> {
+                                mPopWindow.dismiss();
+                                v.scrollTo(0, 0);
+                                v.setAlpha(1);
+                                finish();
+                            }, 1);
+                        } else {
+                            v.scrollTo(0, 0);
+                            v.setAlpha(1);
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+
+                return true;
+            }
+        });
+
     }
 
 
@@ -97,6 +186,7 @@ public class JpushDialogActivity extends BaseActivity implements View.OnTouchLis
 
 
     void popJpushDialog() {
+        Log.e("TAG", "popJpushDialog: isLogin = " + Yusion4sApp.isLogin);
         if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
                 case "login"://抢登
@@ -155,6 +245,7 @@ public class JpushDialogActivity extends BaseActivity implements View.OnTouchLis
                 case "test":
 
                     showPopupWindow();
+                    break;
 
                 default:
                     new AlertDialog.Builder(JpushDialogActivity.this)
@@ -173,105 +264,28 @@ public class JpushDialogActivity extends BaseActivity implements View.OnTouchLis
         }
     }
 
-    private void showPopupWindow() {
+    @Override
+    public void showPopupWindow() {
 
         contentView.setVisibility(View.VISIBLE);
-        mPopWindow = new PopupWindow(contentView,
-                ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
+        mPopWindow = new PopupWindow(contentView, ActionBar.LayoutParams.WRAP_CONTENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
         mPopWindow.setContentView(contentView);
         mPopWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
         mPopWindow.setFocusable(false);
         mPopWindow.setOutsideTouchable(false);
 
+
         //显示PopupWindow
-        rootview = LayoutInflater.from(JpushDialogActivity.this).inflate(R.layout.activity_main, null);
-        mPopWindow.showAtLocation(rootview, Gravity.TOP, 0, 0);
+//        mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
 
+        contentView.postDelayed(() -> {
+            mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
 
-//播放deep
+        }, 1000);
+
+        //播放deep
         soundPool.play(1, 1, 1, 0, 0, 1);
-        contentView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Toast.makeText(JpushDialogActivity.this, "点击了一下", Toast.LENGTH_SHORT).show();
-            }
-        });
 
-    }
-
-    @Override
-    public boolean onTouch(View v, MotionEvent event) {
-        int lastX = 0, lastY = 0;
-
-        DisplayMetrics dm = getResources().getDisplayMetrics();
-        int screenWidth = dm.widthPixels;
-        int screenHeight = dm.heightPixels;
-
-        switch (event.getAction()) {
-            case MotionEvent.ACTION_DOWN:
-                lastX = (int) event.getRawX();//获取触摸事件触摸位置的原始X坐标
-                lastY = (int) event.getRawY();
-
-            case MotionEvent.ACTION_MOVE:
-                //event.getRawX();获得移动的位置
-                int dx = (int) event.getRawX() - lastX;
-                int dy = (int) event.getRawY() - lastY;
-                float scaleY = v.getScaleY();
-                int height = v.getHeight();
-                int width = v.getWidth();
-
-                if (Math.abs(dy) > Math.abs(dx)) {
-
-                    mPopWindow.dismiss();
-                    v.scrollTo(0, 0);
-                    v.setAlpha(1);
-
-                } else {
-
-                    v.scrollBy(-dx, 0);
-
-                    float abs_x = Math.abs(v.getScrollX());
-//                                Log.e("TAG", "onTouch: " + abs_x); //0 -> 600+
-                    v.setAlpha(1.0f - 1.0f / width * abs_x);
-
-                }
-
-
-                lastX = (int) event.getRawX();
-                lastY = (int) event.getRawY();
-                break;
-            case MotionEvent.ACTION_UP:
-                int i = screenWidth / 2;
-                ObjectAnimator animator = ObjectAnimator.ofFloat(v, "alpha", v.getAlpha(), 1.0f);
-                final int scrollX = v.getScrollX();
-                animator.addUpdateListener(animation -> {
-                    float fraction = animation.getAnimatedFraction();
-                    v.setScrollX((int) (scrollX * (1.0f - fraction)));
-                    Log.e("TAG", "onAnimationUpdate: " + fraction);
-                });
-                animator.start();
-
-                if (Math.abs(v.getScrollX()) > i) {
-                    v.setAlpha(0);
-                    v.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            mPopWindow.dismiss();
-                            v.scrollTo(0, 0);
-                            v.setAlpha(1);
-                        }
-                    }, 1);
-                } else {
-                    v.scrollTo(0, 0);
-                    v.setAlpha(1);
-                }
-                break;
-
-            default:
-                break;
-        }
-
-        return true;
     }
 
 

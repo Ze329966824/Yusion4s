@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.yusion.shanghai.yusion4s.base.ActivityManager;
+import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 
 import cn.jpush.android.api.JPushInterface;
@@ -32,7 +34,11 @@ public class JpushReceiver extends BroadcastReceiver {
             Sentry.capture(string);
             i.putExtra("jsonObject", string);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            context.startActivity(i);
+//            context.startActivity(i);
+
+            BaseActivity activity = (BaseActivity) ActivityManager.getActivity();
+            activity.initPopupWindow();
+            activity.showPopupWindow();
         }
     }
 }
