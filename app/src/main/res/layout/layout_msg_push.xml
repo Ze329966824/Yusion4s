@@ -27,6 +27,7 @@
                 android:layout_gravity="center"
                 android:src="@mipmap/msg_push_icon" />
 
+
             <TextView
                 android:id="@+id/msg_push_st"
                 android:includeFontPadding="false"
