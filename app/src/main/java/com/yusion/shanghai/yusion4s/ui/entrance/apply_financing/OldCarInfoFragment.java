@@ -39,8 +39,8 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
-import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
+import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -297,15 +297,17 @@ public class OldCarInfoFragment extends BaseFragment {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
-//                Log.e("TAG", "writeOtherPrice: 1");
-                ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), data -> {
-//                DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), data -> {
-                    Log.e("TAG", "onItemDataCallBack: 2 " + data);
-                    if (!TextUtils.isEmpty(data)) {
-                        otherLimit = data;
-                        Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
-                        toast.setGravity(Gravity.CENTER, 0, 0);
-                        toast.show();
+                Log.e("TAG", "writeOtherPrice: 1");
+                DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
+                    @Override
+                    public void onItemDataCallBack(String data) {
+                        Log.e("TAG", "onItemDataCallBack: 2 " + data);
+                        if (!TextUtils.isEmpty(data)) {
+                            otherLimit = data;
+                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+                            toast.setGravity(Gravity.CENTER, 0, 0);
+                            toast.show();
+                        }
                     }
                 });
             }
@@ -779,27 +781,31 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
-            ApiUtil.requestUrl4Data(mContext,  Api.getDlrService().getProductType(mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype),resp ->{
-//                DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, resp -> {
-                if (resp == null) {
-                    return;
-                }
-                cityJson = resp.support_area.toString();
-                mProductList = resp.product_list;
+            DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
 
-                List<String> items = new ArrayList<String>();
-
-                for (GetproductResp.ProductListBean product_list : resp.product_list) {
-                    items.add(product_list.name);
-                }
-                WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
-                    @Override
-                    public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                        mProductTypeIndex = selectedIndex;
-                        loanPeriodsTv.setText(null);
-                        mLoanPeriodsIndex = 0;
+                // DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
+                @Override
+                public void onItemDataCallBack(GetproductResp resp) {
+                    if (resp == null) {
+                        return;
                     }
-                });
+                    cityJson = resp.support_area.toString();
+                    mProductList = resp.product_list;
+
+                    List<String> items = new ArrayList<String>();
+
+                    for (GetproductResp.ProductListBean product_list : resp.product_list) {
+                        items.add(product_list.name);
+                    }
+                    WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+                        @Override
+                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                            mProductTypeIndex = selectedIndex;
+                            loanPeriodsTv.setText(null);
+                            mLoanPeriodsIndex = 0;
+                        }
+                    });
+                }
             });
 
         } else if (TextUtils.isEmpty(dlrTV.getText())) {
@@ -815,8 +821,8 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            ApiUtil.requestUrl4Data(mContext,Api.getDlrService().getLoanBank(dlr_id),resp ->{
-//            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
+            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
+                //DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
                 mLoanBankList = resp;//银行列表
                 List<String> items = new ArrayList<String>();
                 for (GetLoanBankResp getLoanBankResp : resp) {
@@ -839,9 +845,9 @@ public class OldCarInfoFragment extends BaseFragment {
     }
 
     private void selectCarOldAddr() {
-        // TODO: 2018/1/11  
-        ApiUtil.requestUrl4Data(mContext,Api.getDlrService().getOldCarAddr(),data ->{
-//            DlrApi.getOldCarAddr(mContext, data -> {
+        DlrApi.getOldCarAddr(mContext, new OnItemDataCallBack<List<GetproductResp.SupportAreaBean>>() {
+            @Override
+            public void onItemDataCallBack(List<GetproductResp.SupportAreaBean> data) {
                 if (data == null) {
                     return;
                 }
@@ -901,7 +907,8 @@ public class OldCarInfoFragment extends BaseFragment {
                         }
                     }
                 }, oldCarcityJson);
-            });
+            }
+        });
     }
 
 

@@ -411,7 +411,6 @@ public class OrderItemFragment extends BaseFragment {
                                     intent.putExtra("app_id", data2.app_id);
                                     intent.putExtra("status_st", status_st);
                                     mContext.startActivity(intent);
-
                                 }
                             });
                         }

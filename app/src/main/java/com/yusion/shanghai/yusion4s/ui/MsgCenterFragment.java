@@ -59,6 +59,7 @@ public class MsgCenterFragment extends BaseFragment {
     private int current_page = 1;
     private int total_page;
     private TextView msg_count_tv;
+    private boolean isFirstShow = true;
 
     public void setVehicle_cond(String vehicle_cond) {
         this.vehicle_cond = vehicle_cond;
@@ -94,24 +95,6 @@ public class MsgCenterFragment extends BaseFragment {
             }
         }
     };
-//
-//    public static MsgCenterFragment newInstance(String s) {
-//        Bundle args = new Bundle();
-//        args.putString("st", s);
-//        MsgCenterFragment fragment = new MsgCenterFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-//
-//    public static MsgCenterFragment newInstance(String s, String vehicle_cond) {
-//        Bundle args = new Bundle();
-//        args.putString("st", s);
-//        args.putString("vehicle_cond", vehicle_cond);
-//        MsgCenterFragment fragment = new MsgCenterFragment();
-//        fragment.setArguments(args);
-//        return fragment;
-//    }
-
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -142,7 +125,7 @@ public class MsgCenterFragment extends BaseFragment {
         adapter = new RecyclerAdapterWithHF(myOrderListAdapter);
         rv.setAdapter(adapter);
         ptr = view.findViewById(R.id.my_order_ptr);
-        ptr.autoRefresh(true);
+//        ptr.autoRefresh(true);
 
         ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
@@ -182,16 +165,12 @@ public class MsgCenterFragment extends BaseFragment {
         });
     }
 
-//    @Override
-//    public void onResume() {
-//        super.onResume();
-//        refresh();
-//    }
-
     @Override
     public void onHiddenChanged(boolean hidden) {
+        // 如果是true 则是当前影藏 如果是false 则当前显示
         super.onHiddenChanged(hidden);
         if (!hidden) {
+            rv.scrollToPosition(0);
             refresh();
             ptr.autoRefresh(true);
         }
