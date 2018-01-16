@@ -49,8 +49,6 @@ import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
-
 
 public class OrderItemFragment extends BaseFragment {
 
@@ -359,7 +357,6 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(i1);
                 }
 
-//                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
             });
             vh.upload.setOnClickListener(v -> {
                 Intent i2 = new Intent(mContext, SubmitMaterialActivity.class);
@@ -373,15 +370,11 @@ public class OrderItemFragment extends BaseFragment {
                     checkAndReplace(item.app_id, item.spouse_clt_id, item.status_st);
 
                 });
-
-//
-//                Intent intent = new Intent(mContext, OrderDetailActivity.class);
-//                intent.putExtra("app_id", item.app_id);
-//                intent.putExtra("status_st", item.status_st);
-//                intent.putExtra("spouse_clt_id",item.spouse_clt_id);
-////                Log.e("TAG", "spouse_clt_id:"+item.spouse_clt_id);
-//                mContext.startActivity(intent);
-
+            });
+            vh.check.setOnClickListener(v -> {
+                Intent i3 = new Intent(mContext, SubmitMaterialActivity.class);
+                i3.putExtra("app_id", item.app_id);
+                mContext.startActivity(i3);
             });
 
         }
@@ -390,7 +383,7 @@ public class OrderItemFragment extends BaseFragment {
 
             ReplaceSPReq replaceSPReq = new ReplaceSPReq();
             replaceSPReq.clt_id = spouse_clt_id;
-            Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
+//            Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
             //1.激活配偶登录
             ApiUtil.requestUrl4Data(mContext,Api.getAuthService().replaceSpToP(replaceSPReq),data1 -> {
 //                AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
@@ -463,6 +456,7 @@ public class OrderItemFragment extends BaseFragment {
             public TextView change;
             public TextView upload;
             public TextView replace;
+            public TextView check;
             public ImageView car_icon;
             public RelativeLayout oneBtnlibn;
             public RelativeLayout twoBtnlibn;
@@ -483,6 +477,7 @@ public class OrderItemFragment extends BaseFragment {
                 change = itemView.findViewById(R.id.order_list_item_change_tv);
                 upload = itemView.findViewById(R.id.order_list_item_upload_tv);
                 replace = itemView.findViewById(R.id.order_list_item_replace_tv);
+                check = itemView.findViewById(R.id.order_list_item_check_tv);
                 car_icon = itemView.findViewById(R.id.order_list_item_car_icon);
                 oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
                 twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
