@@ -101,14 +101,13 @@ public class ToastUtil {
      * 自定义toast的位置
      *
      * @param context
-
      * @param message
      * @param duration short是2  long是3.5
      * @param gravity
      * @param xoffset
      * @param yoffset
      */
-    public static void customToastGravity(Context context, CharSequence message,int gravity, int xoffset, int yoffset) {
+    public static void customToastGravity(Context context, CharSequence message, int gravity, int xoffset, int yoffset) {
         if (isShow) {
             if (mToast == null) {
                 mToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
@@ -139,11 +138,13 @@ public class ToastUtil {
         //Toast的初始化
         //Toast toastStart = new Toast(context);
         if (isShow) {
-            if (mToast == null) {
-                mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-            } else {
-                mToast.setText(message);
-            }
+//            if (mToast == null) {
+//                mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+//            } else {
+//                mToast.setText(message);
+//            }
+            mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+            mToast.setText(message);
         }
         //获取屏幕高度
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
