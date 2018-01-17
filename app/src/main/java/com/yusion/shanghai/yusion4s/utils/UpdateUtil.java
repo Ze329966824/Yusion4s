@@ -11,6 +11,7 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,7 +69,7 @@ public class UpdateUtil {
         private Dialog mDialog;
 
         private TextView content;
-        private TextView close;
+        private RelativeLayout close;
         private TextView ok;
         private View mDialogView;
 
