@@ -37,6 +37,7 @@ public class GetAppListResp {
          */
 
 
+        public Boolean is_view;
         public Boolean can_switch_sp;
         public String spouse_clt_id;
         public String vehicle_price;

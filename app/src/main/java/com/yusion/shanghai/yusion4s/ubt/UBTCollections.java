@@ -35,7 +35,7 @@ public class UBTCollections {
         pageNameMaps.put(LaunchActivity.class.getSimpleName(), new Pair<>("launch", "启动页面"));
         pageNameMaps.put(CarInfoFragment.class.getSimpleName(), new Pair<>("carinfo", "提交订单-车辆信息页面"));
         pageNameMaps.put(CreditInfoFragment.class.getSimpleName(), new Pair<>("creditinfo", "提交订单-征信信息页面"));
-        pageNameMaps.put(LoginActivity.class.getSimpleName(), new Pair<>("login", "登陆页面"));
+        pageNameMaps.put(LoginActivity.class.getSimpleName(), new Pair<>("login", "登录页面"));
         pageNameMaps.put(WebViewActivity.class.getSimpleName(), new Pair<>("webview", "H5页面"));
 //        pageNameMaps.put(AgreeMentActivity.class.getSimpleName(), new Pair<>("agreement", "协议页面"));
         pageNameMaps.put(MainActivity.class.getSimpleName(), new Pair<>("home_order_mine", "首页-订单-我的页面"));
