@@ -49,8 +49,6 @@ import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.yusion.shanghai.yusion4s.R.id.order_list_item_check_tv;
-
 
 public class OrderItemFragment extends BaseFragment {
 
@@ -397,6 +395,11 @@ public class OrderItemFragment extends BaseFragment {
 
                 });
             });
+            vh.checkRe.setOnClickListener(v -> {
+                Intent i3 = new Intent(mContext, SubmitMaterialActivity.class);
+                i3.putExtra("app_id", item.app_id);
+                mContext.startActivity(i3);
+            });
             vh.check.setOnClickListener(v -> {
                 Intent i3 = new Intent(mContext, SubmitMaterialActivity.class);
                 i3.putExtra("app_id", item.app_id);
@@ -482,6 +485,7 @@ public class OrderItemFragment extends BaseFragment {
             public TextView change;
             public TextView upload;
             public TextView replace;
+            public TextView checkRe;
             public TextView check;
             public ImageView car_icon;
             public RelativeLayout twoBtnRelin;
@@ -504,7 +508,9 @@ public class OrderItemFragment extends BaseFragment {
                 change = itemView.findViewById(R.id.order_list_item_change_tv);
                 upload = itemView.findViewById(R.id.order_list_item_upload_tv);
                 replace = itemView.findViewById(R.id.order_list_item_replace_tv);
-                check = itemView.findViewById(order_list_item_check_tv);
+                checkRe = itemView.findViewById(R.id.order_list_item_check_tv);
+
+                check = itemView.findViewById(R.id.order_list_item_one_btn_tv);
                 car_icon = itemView.findViewById(R.id.order_list_item_car_icon);
                 twoBtnRelin = itemView.findViewById(R.id.order_list_item_two_btn_hasre_lin);
                 twoBtnlin = itemView.findViewById(R.id.order_list_item_two_btn_lin);
