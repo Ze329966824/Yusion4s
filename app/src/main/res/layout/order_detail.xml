@@ -444,7 +444,7 @@
             android:layout_width="@dimen/x389"
             android:layout_height="44dp"
             android:gravity="center"
-            android:text="修改资料"
+            android:text="查看资料"
             android:background="#FFFFFFFF"
             android:textColor="#FF666666" />
 

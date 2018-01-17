@@ -31,6 +31,7 @@ import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
 
+import static com.yusion.shanghai.yusion4s.R.id.order_detail_check_tv;
 import static com.yusion.shanghai.yusion4s.R.id.order_detail_replace_tv;
 
 
@@ -162,6 +163,7 @@ public class OrderDetailActivity extends BaseActivity {
 
     private LinearLayout order_detail_replace_layout;            //更换配偶作为主贷人layout
     private TextView orderDetailReplaceBtn;                     //更换配偶作为主贷人
+    private TextView orderDetailCheckBtn;                     //更换配偶作为主贷人
 
     private FloatingActionButton fab;
     private NestedScrollView mScrollView;
@@ -350,20 +352,21 @@ public class OrderDetailActivity extends BaseActivity {
         orderDetailChangeBtn = findViewById(R.id.order_detail_change_tv);
         orderDetailUploadBtn = findViewById(R.id.order_detail_upload_tv);
         orderDetailReplaceBtn = findViewById(order_detail_replace_tv);
+        orderDetailCheckBtn = findViewById(order_detail_check_tv);
 
         havere_financeLin = findViewById(R.id.order_detail_havere_lin);
 
-
-        orderDetailChangeBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
-            intent.putExtra("app_id", app_id);
-            startActivity(intent);
-        });
-        orderDetailUploadBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
-            intent.putExtra("app_id", app_id);
-            startActivity(intent);
-        });
+//
+//        orderDetailChangeBtn.setOnClickListener(v -> {
+//            Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
+//            intent.putExtra("app_id", app_id);
+//            startActivity(intent);
+//        });
+//        orderDetailUploadBtn.setOnClickListener(v -> {
+//            Intent intent = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
+//            intent.putExtra("app_id", app_id);
+//            startActivity(intent);
+//        });
 
 
         order_detail_schedule_lin.setOnClickListener(v -> {
@@ -381,6 +384,13 @@ public class OrderDetailActivity extends BaseActivity {
 
             });
 
+        });
+
+        orderDetailCheckBtn.setOnClickListener(v ->{
+            Intent i2 = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
+            i2.putExtra("car_type", cartype);
+            i2.putExtra("app_id", app_id);
+            startActivity(i2);
         });
 
     }

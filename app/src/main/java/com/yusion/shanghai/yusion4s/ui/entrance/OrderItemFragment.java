@@ -49,6 +49,8 @@ import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.yusion.shanghai.yusion4s.R.id.order_list_item_check_tv;
+
 
 public class OrderItemFragment extends BaseFragment {
 
@@ -283,12 +285,19 @@ public class OrderItemFragment extends BaseFragment {
                 vh.oneBtnlibn.setVisibility(View.VISIBLE);
                 vh.twoBtnlibn.setVisibility(View.GONE);
             } else {
+
+
                 vh.twoBtnlibn.setVisibility(View.VISIBLE);
                 vh.oneBtnlibn.setVisibility(View.GONE);
                 if (item.modify_permission) {
                     vh.change.setVisibility(View.VISIBLE);
                 } else {
                     vh.change.setVisibility(View.GONE);
+                    if (item.status_st == 9 || item.status_st == 11){
+                        vh.upload.setText("查看资料");
+                        vh.upload.setTextColor(Color.parseColor("#FF666666"));
+                        vh.upload.setBackgroundResource(R.drawable.shape_text_gray);
+                    }
                 }
             }
 
@@ -476,7 +485,7 @@ public class OrderItemFragment extends BaseFragment {
                 change = itemView.findViewById(R.id.order_list_item_change_tv);
                 upload = itemView.findViewById(R.id.order_list_item_upload_tv);
                 replace = itemView.findViewById(R.id.order_list_item_replace_tv);
-                check = itemView.findViewById(R.id.order_list_item_check_tv);
+                check = itemView.findViewById(order_list_item_check_tv);
                 car_icon = itemView.findViewById(R.id.order_list_item_car_icon);
                 oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
                 twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
