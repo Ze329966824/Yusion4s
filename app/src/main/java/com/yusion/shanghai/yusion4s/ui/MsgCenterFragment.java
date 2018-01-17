@@ -167,7 +167,7 @@ public class MsgCenterFragment extends BaseFragment {
 
     @Override
     public void onHiddenChanged(boolean hidden) {
-        //// TODO: 2018/1/16  如果是true 则是当前影藏 如果是false 则当前显示
+        // 如果是true 则是当前影藏 如果是false 则当前显示
         super.onHiddenChanged(hidden);
         if (!hidden) {
             rv.scrollToPosition(0);
