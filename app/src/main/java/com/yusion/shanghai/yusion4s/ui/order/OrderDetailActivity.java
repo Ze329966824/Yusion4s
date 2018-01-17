@@ -240,21 +240,21 @@ public class OrderDetailActivity extends BaseActivity {
         fab = findViewById(R.id.fab);
         mScrollView = findViewById(R.id.scrollView_four);
         fab.setOnClickListener(v -> mScrollView.smoothScrollTo(0, 0));
-        waitLin = findViewById(R.id.order_detail_status_wait_layout);
-        cancelRel = findViewById(R.id.order_detail_status_cancel_layout);
-        passRel = findViewById(R.id.order_detail_status_pass_layout);
-        rejectRel = findViewById(R.id.order_detail_status_reject_layout);
+//        waitLin = findViewById(R.id.order_detail_status_wait_layout);
+//        cancelRel = findViewById(R.id.order_detail_status_cancel_layout);
+//        passRel = findViewById(R.id.order_detail_status_pass_layout);
+//        rejectRel = findViewById(R.id.order_detail_status_reject_layout);
         nore_financeLin = findViewById(R.id.order_detail_finance_lin);
 
-        waitReason = findViewById(R.id.order_detail_status_wait_reason);
-        wait_title = findViewById(R.id.order_detail_status_wait);
-        pass_title = findViewById(R.id.order_detail_status_pass);
-        reject_title = findViewById(R.id.order_detail_status_reject);
-        cancel_title = findViewById(R.id.order_detail_status_cancel);
-
-        cancelReason = findViewById(R.id.order_detail_status_cancel_reason);
-        passReason = findViewById(R.id.order_detail_status_pass_reason);
-        rejectReason = findViewById(R.id.order_detail_status_reject_reason);
+//        waitReason = findViewById(R.id.order_detail_status_wait_reason);
+//        wait_title = findViewById(R.id.order_detail_status_wait);
+//        pass_title = findViewById(R.id.order_detail_status_pass);
+//        reject_title = findViewById(R.id.order_detail_status_reject);
+//        cancel_title = findViewById(R.id.order_detail_status_cancel);
+//
+//        cancelReason = findViewById(R.id.order_detail_status_cancel_reason);
+//        passReason = findViewById(R.id.order_detail_status_pass_reason);
+//        rejectReason = findViewById(R.id.order_detail_status_reject_reason);
 
         applyBillPriceTv = findViewById(R.id.order_detail_finance_bill_price_tv);
         applyFirstPriceTv = findViewById(R.id.order_detail_finance_first_price_tv);
