@@ -1046,15 +1046,14 @@ public class AlterOldCarInfoActivity extends BaseActivity {
             }
             oldCarcityJson = data1.toString();
             plateAddrlist = data1;
-            WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
+            WheelViewUtil.showCityWheelView("xxx", false, oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
+                // WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
                 @Override
                 public void onCitySubmitCallBack(View clickedView, String city) {
                     btn_reset.setEnabled(true);
-                    Log.e("TAGGGGGGGG", "afterTextChanged: test1");
                     btn_fast_valuation.setEnabled(false);
                     look_guess_img_btn.setEnabled(false);
                     if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText()) && !TextUtils.isEmpty(car_info_tv.getText())) {
-                        //if (!TextUtils.isEmpty(oldcar_addrtime_tv.getText()) && !TextUtils.isEmpty(oldcar_dance_tv.getText())) {
                         btn_fast_valuation.setEnabled(true);
                     }
                     mGuidePrice = 0;
@@ -1077,9 +1076,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
                     oldcar_guess_price_tv.setText("");
                     oldcar_guess_price_tv.setEnabled(false);
-                    //oldcar_dance_tv.setText("");
-                    // oldcar_addr_tv.setText("");
-                    // oldcar_addrtime_tv.setText("");
                     firstPriceTv.setText("");
                     carLoanPriceTv.setText("");
                     managementPriceTv.setText("");
@@ -1399,6 +1395,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                                             carLoanPriceTv.setEnabled(true);
                                             look_guess_img_btn.setEnabled(true);
                                         }
+
                                         dialog.dismiss();
                                         guess_img = data.result.img;
                                         bucket = data.result.file_info.bucket;

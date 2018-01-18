@@ -1,28 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical">
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools"
+                                             android:layout_width="match_parent"
+                                             android:layout_height="match_parent"
+                                             android:focusableInTouchMode="true"
+                                             android:orientation="vertical">
 
     <View
         android:layout_width="368dp"
         android:layout_height="0.5dp"
         android:background="@color/separate_line_color"
         app:layout_constraintBottom_toTopOf="@+id/flow_diagram"
-        app:layout_constraintLeft_toLeftOf="parent" />
+        app:layout_constraintLeft_toLeftOf="parent"/>
 
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
+        android:layout_marginTop="-194dp"
         android:background="@color/separate_line_color"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/flow_diagram"
-        android:layout_marginTop="-194dp"
-        app:layout_constraintHorizontal_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/flow_diagram"/>
 
     <ScrollView
         android:layout_width="0dp"
@@ -58,7 +58,7 @@
                         android:layout_marginLeft="@dimen/x43"
                         android:layout_marginStart="@dimen/x43"
                         android:layout_marginTop="@dimen/y52"
-                        android:background="@drawable/fill_vertical_line" />
+                        android:background="@drawable/fill_vertical_line"/>
 
 
                     <TextView
@@ -69,14 +69,14 @@
                         android:layout_marginTop="@dimen/y52"
                         android:text="经销商信息"
                         android:textColor="#666666"
-                        android:textSize="@dimen/y35" />
+                        android:textSize="@dimen/y35"/>
 
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/separate_line_height"
-                    android:background="@color/separate_line_color" />
+                    android:background="@color/separate_line_color"/>
 
                 <LinearLayout
                     android:id="@+id/car_info_dlr_lin"
@@ -84,12 +84,12 @@
 
                     <TextView
                         style="@style/apply_info_title"
-                        android:text="经销商" />
+                        android:text="经销商"/>
 
                     <TextView
                         android:id="@+id/car_info_dlr_tv"
                         style="@style/apply_info_content"
-                        android:hint="请选择" />
+                        android:hint="请选择"/>
 
                     <!--<include layout="@layout/jiantou_lay" />-->
                     <FrameLayout
@@ -101,7 +101,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="left|center_vertical"
-                            android:src="@mipmap/select_arrow" />
+                            android:src="@mipmap/select_arrow"/>
                     </FrameLayout>
                 </LinearLayout>
 
@@ -120,12 +120,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="" />
+                            android:text=""/>
 
                         <TextView
                             android:id="@+id/car_info_dlr_tv2"
                             style="@style/apply_info_content_extra"
-                            android:hint="" />
+                            android:hint=""/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -137,7 +137,7 @@
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
                                 android:src="@mipmap/select_arrow"
-                                android:visibility="invisible" />
+                                android:visibility="invisible"/>
                         </FrameLayout>
                     </LinearLayout>
                 </LinearLayout>
@@ -146,7 +146,7 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/separate_line_height"
-                android:background="@color/separate_line_color" />
+                android:background="@color/separate_line_color"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -166,7 +166,7 @@
                         android:layout_marginLeft="@dimen/x43"
                         android:layout_marginStart="@dimen/x43"
                         android:layout_marginTop="@dimen/y52"
-                        android:background="@drawable/fill_vertical_line" />
+                        android:background="@drawable/fill_vertical_line"/>
 
 
                     <TextView
@@ -176,7 +176,7 @@
                         android:layout_marginTop="@dimen/y52"
                         android:text="车辆信息"
                         android:textColor="#666666"
-                        android:textSize="@dimen/y35" />
+                        android:textSize="@dimen/y35"/>
 
                 </LinearLayout>
 
@@ -194,7 +194,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout
                         android:id="@+id/car_info_lin"
@@ -202,14 +202,14 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="车型选择" />
+                            android:text="车型选择"/>
 
                         <TextView
                             android:id="@+id/car_info_tv"
                             style="@style/apply_info_content"
                             android:hint="请选择"
                             android:maxLines="2"
-                            android:singleLine="false" />
+                            android:singleLine="false"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -220,7 +220,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
                     </LinearLayout>
 
@@ -228,7 +228,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout
                         android:id="@+id/car_info_brand_lin"
@@ -237,12 +237,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="品牌" />
+                            android:text="品牌"/>
 
                         <TextView
                             android:id="@+id/car_info_brand_tv"
                             style="@style/apply_info_content"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -253,7 +253,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
                     </LinearLayout>
 
@@ -262,7 +262,7 @@
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color"
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:id="@+id/car_info_trix_lin"
@@ -271,12 +271,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="车系" />
+                            android:text="车系"/>
 
                         <TextView
                             android:id="@+id/car_info_trix_tv"
                             style="@style/apply_info_content"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -287,7 +287,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
                     </LinearLayout>
 
@@ -297,7 +297,7 @@
                         android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color"
 
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
 
                     <LinearLayout
                         android:id="@+id/car_info_model_lin"
@@ -306,12 +306,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="车型" />
+                            android:text="车型"/>
 
                         <TextView
                             android:id="@+id/car_info_model_tv"
                             style="@style/apply_info_content"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -322,7 +322,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
                     </LinearLayout>
 
@@ -332,32 +332,32 @@
                         android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color"
 
-                        android:visibility="gone" />
+                        android:visibility="gone"/>
 
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="颜色" />
+                            android:text="颜色"/>
 
                         <EditText
                             android:id="@+id/car_info_color_tv"
                             style="@style/apply_info_content"
                             android:layout_marginRight="35dp"
-                            android:hint="请输入" />
+                            android:hint="请输入"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="0.5dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y30"
-                        android:background="@color/bg_color" />
+                        android:background="@color/bg_color"/>
 
 
                     <LinearLayout
@@ -374,12 +374,12 @@
 
                             <TextView
                                 style="@style/apply_info_title"
-                                android:text="原上牌地" />
+                                android:text="原上牌地"/>
 
                             <TextView
                                 android:id="@+id/oldcar_addr_tv"
                                 style="@style/apply_info_content"
-                                android:hint="请选择" />
+                                android:hint="请选择"/>
 
                             <FrameLayout
                                 android:layout_width="20dp"
@@ -390,14 +390,14 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="left|center_vertical"
-                                    android:src="@mipmap/select_arrow" />
+                                    android:src="@mipmap/select_arrow"/>
                             </FrameLayout>
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
-                            android:background="@color/separate_line_color" />
+                            android:background="@color/separate_line_color"/>
 
                         <LinearLayout
                             android:id="@+id/oldcar_addrtime_lin"
@@ -405,12 +405,12 @@
 
                             <TextView
                                 style="@style/apply_info_title"
-                                android:text="原上牌时间" />
+                                android:text="原上牌时间"/>
 
                             <TextView
                                 android:id="@+id/oldcar_addrtime_tv"
                                 style="@style/apply_info_content"
-                                android:hint="请选择" />
+                                android:hint="请选择"/>
 
                             <FrameLayout
                                 android:layout_width="20dp"
@@ -421,7 +421,7 @@
                                     android:layout_width="wrap_content"
                                     android:layout_height="wrap_content"
                                     android:layout_gravity="left|center_vertical"
-                                    android:src="@mipmap/select_arrow" />
+                                    android:src="@mipmap/select_arrow"/>
                             </FrameLayout>
 
                         </LinearLayout>
@@ -429,7 +429,7 @@
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
-                            android:background="@color/separate_line_color" />
+                            android:background="@color/separate_line_color"/>
 
                         <LinearLayout style="@style/apply_info_item">
 
@@ -440,7 +440,7 @@
                                 android:maxLines="1"
                                 android:text="里程数(万公里)"
                                 android:textColor="#222A36"
-                                android:textSize="14.5sp" />
+                                android:textSize="14.5sp"/>
 
                             <EditText
                                 android:id="@+id/oldcar_dance_tv"
@@ -448,19 +448,19 @@
                                 android:layout_marginRight="35dp"
                                 android:hint="请输入"
                                 android:maxLength="5"
-                                android:numeric="decimal" />
+                                android:numeric="decimal"/>
 
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
-                            android:background="@color/separate_line_color" />
+                            android:background="@color/separate_line_color"/>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/y30"
-                            android:background="@color/bg_color" />
+                            android:background="@color/bg_color"/>
 
                     </LinearLayout>
 
@@ -468,20 +468,20 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
                             android:id="@+id/textView6"
                             style="@style/apply_info_title"
-                            android:text="市场指导价(元)" />
+                            android:text="市场指导价(元)"/>
 
                         <TextView
                             android:id="@+id/car_info_guide_price_tv"
                             style="@style/apply_info_content"
                             android:layout_marginRight="35dp"
-                            android:maxLength="9" />
+                            android:maxLength="9"/>
 
                     </LinearLayout>
 
@@ -489,7 +489,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout
                         android:id="@+id/oldcar_guess_and_jiaoyi_lin"
@@ -506,7 +506,7 @@
 
                             <TextView
                                 style="@style/apply_info_title"
-                                android:text="二手车评估价(元)" />
+                                android:text="二手车评估价(元)"/>
 
                             <EditText
                                 android:id="@+id/oldcar_guess_price_tv"
@@ -515,14 +515,14 @@
                                 android:enabled="false"
                                 android:hint="请输入"
                                 android:inputType="number"
-                                android:maxLength="9" />
+                                android:maxLength="9"/>
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
                             android:layout_marginLeft="15dp"
-                            android:background="@color/separate_line_color" />
+                            android:background="@color/separate_line_color"/>
 
                         <LinearLayout
                             android:id="@+id/oldcar_business_price_lin"
@@ -531,7 +531,7 @@
 
                             <TextView
                                 style="@style/apply_info_title"
-                                android:text="车辆交易价(元)" />
+                                android:text="车辆交易价(元)"/>
 
                             <EditText
                                 android:id="@+id/oldcar_business_price_tv"
@@ -540,14 +540,14 @@
                                 android:enabled="false"
                                 android:hint="请输入"
                                 android:inputType="number"
-                                android:maxLength="9" />
+                                android:maxLength="9"/>
                         </LinearLayout>
 
                         <View
                             android:layout_width="match_parent"
                             android:layout_height="@dimen/separate_line_height"
                             android:layout_marginLeft="15dp"
-                            android:background="@color/separate_line_color" />
+                            android:background="@color/separate_line_color"/>
                     </LinearLayout>
 
                     <LinearLayout
@@ -556,7 +556,7 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="车辆开票价(元)" />
+                            android:text="车辆开票价(元)"/>
 
                         <EditText
                             android:id="@+id/car_info_bill_price_tv"
@@ -564,7 +564,7 @@
                             android:layout_marginRight="35dp"
                             android:enabled="false"
                             android:hint="请输入"
-                            android:inputType="number" />
+                            android:inputType="number"/>
 
                     </LinearLayout>
 
@@ -574,14 +574,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
 
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="车辆贷款额(元)" />
+                            android:text="车辆贷款额(元)"/>
 
                         <EditText
                             android:id="@+id/car_info_car_loan_price_tv"
@@ -590,7 +590,7 @@
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
-                            android:maxLength="9" />
+                            android:maxLength="9"/>
 
                     </LinearLayout>
 
@@ -598,13 +598,13 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="车辆首付款(元)" />
+                            android:text="车辆首付款(元)"/>
 
                         <EditText
                             android:id="@+id/car_info_first_price_tv"
@@ -613,7 +613,7 @@
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
-                            android:maxLength="9" />
+                            android:maxLength="9"/>
 
                     </LinearLayout>
 
@@ -621,7 +621,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout
                         android:id="@+id/car_info_management_price_lin"
@@ -629,13 +629,13 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="是否贷档案管理费" />
+                            android:text="是否贷档案管理费"/>
 
                         <TextView
                             android:id="@+id/car_info_management_price_tv"
                             style="@style/apply_info_content"
                             android:layout_marginRight="3dp"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -646,7 +646,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
 
                     </LinearLayout>
@@ -655,18 +655,14 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
-                            android:layout_width="110dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
+                            style="@style/apply_info_title"
                             android:text="其他费用(元)"
-                            android:textColor="#222A36"
-                            android:textSize="14.5sp" />
+                            />
 
                         <EditText
                             android:id="@+id/car_info_other_price_tv"
@@ -675,7 +671,7 @@
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
-                            android:maxLength="4" />
+                            android:maxLength="4"/>
 
                     </LinearLayout>
 
@@ -683,36 +679,36 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="总贷款额(元)" />
+                            android:text="总贷款额(元)"/>
 
                         <TextView
                             android:id="@+id/car_info_total_loan_price_tv"
                             style="@style/apply_info_content"
                             android:layout_marginRight="35dp"
-                            android:maxLength="9" />
+                            android:maxLength="9"/>
 
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="10dp"
-                        android:background="@color/bg_color" />
+                        android:background="@color/bg_color"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
                     <LinearLayout
                         android:id="@+id/car_info_loan_bank_lin"
@@ -720,12 +716,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="贷款银行" />
+                            android:text="贷款银行"/>
 
                         <TextView
                             android:id="@+id/car_info_loan_bank_tv"
                             style="@style/apply_info_content"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -736,7 +732,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
 
                     </LinearLayout>
@@ -745,7 +741,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
 
                     <LinearLayout
@@ -754,12 +750,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="产品类型" />
+                            android:text="产品类型"/>
 
                         <TextView
                             android:id="@+id/car_info_product_type_tv"
                             style="@style/apply_info_content"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -770,7 +766,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
 
                     </LinearLayout>
@@ -782,12 +778,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="还款期限" />
+                            android:text="还款期限"/>
 
                         <TextView
                             android:id="@+id/car_info_loan_periods_tv"
                             style="@style/apply_info_content"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -798,25 +794,25 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
                     </LinearLayout>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y30"
-                        android:background="@color/bg_color" />
+                        android:background="@color/bg_color"/>
 
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
 
 
                     <LinearLayout
@@ -825,12 +821,12 @@
 
                         <TextView
                             style="@style/apply_info_title"
-                            android:text="上牌地/预计上牌地" />
+                            android:text="上牌地/预计上牌地"/>
 
                         <TextView
                             android:id="@+id/car_info_plate_reg_addr_tv"
                             style="@style/apply_info_content"
-                            android:hint="请选择" />
+                            android:hint="请选择"/>
 
                         <FrameLayout
                             android:layout_width="20dp"
@@ -841,7 +837,7 @@
                                 android:layout_width="wrap_content"
                                 android:layout_height="wrap_content"
                                 android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow" />
+                                android:src="@mipmap/select_arrow"/>
                         </FrameLayout>
                     </LinearLayout>
 
@@ -849,7 +845,7 @@
                     <View
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/separate_line_height"
-                        android:background="@color/separate_line_color" />
+                        android:background="@color/separate_line_color"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -868,7 +864,7 @@
                 android:gravity="center"
                 android:text="下一步"
                 android:textColor="@color/white"
-                android:textSize="@dimen/y52" />
+                android:textSize="@dimen/y52"/>
         </LinearLayout>
     </ScrollView>
 
@@ -895,7 +891,7 @@
             android:text="@string/all_right"
             android:textColor="@color/white"
             app:layout_constraintRight_toLeftOf="@+id/step_separate_line"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
 
         <View
@@ -906,7 +902,7 @@
             android:background="@drawable/step_gradient_line_style1"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toTopOf="@+id/step1" />
+            app:layout_constraintTop_toTopOf="@+id/step1"/>
 
         <TextView
             android:id="@+id/step2"
@@ -919,7 +915,7 @@
             android:text="@string/number_2"
             android:textColor="@color/white"
             app:layout_constraintLeft_toRightOf="@+id/step_separate_line"
-            app:layout_constraintTop_toTopOf="@+id/step1" />
+            app:layout_constraintTop_toTopOf="@+id/step1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -930,7 +926,7 @@
             android:textSize="11.5sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/step1"
-            app:layout_constraintRight_toRightOf="@+id/step1" />
+            app:layout_constraintRight_toRightOf="@+id/step1"/>
 
         <TextView
             android:layout_width="wrap_content"
@@ -941,7 +937,7 @@
             android:textSize="11.5sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="@+id/step2"
-            app:layout_constraintRight_toRightOf="@+id/step2" />
+            app:layout_constraintRight_toRightOf="@+id/step2"/>
 
 
     </android.support.constraint.ConstraintLayout>

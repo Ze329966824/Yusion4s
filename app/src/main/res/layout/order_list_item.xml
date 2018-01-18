@@ -34,11 +34,10 @@
             android:orientation="vertical">
 
             <RelativeLayout
-                android:layout_marginTop="@dimen/y35"
-
                 android:layout_width="match_parent"
+
                 android:layout_height="wrap_content"
-                >
+                android:layout_marginTop="@dimen/y35">
 
                 <TextView
                     android:id="@+id/order_list_item_name_tv"
@@ -74,8 +73,7 @@
             <RelativeLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="@dimen/y17"
-               >
+                android:layout_marginTop="@dimen/y17">
 
                 <TextView
                     android:id="@+id/order_list_item_door_tv"
@@ -102,10 +100,10 @@
 
 
     <View
-        android:layout_marginTop="@dimen/y43"
         android:layout_width="match_parent"
         android:layout_height="0.5dp"
         android:layout_marginLeft="15dp"
+        android:layout_marginTop="@dimen/y43"
         android:background="@color/main_driver" />
 
     <LinearLayout
@@ -305,15 +303,15 @@
 
         <RelativeLayout
             android:id="@+id/order_list_item_two_btn_lin"
-            tools:visibility="visible"
             android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_height="@dimen/y86"
-            android:visibility="visible">
+            android:layout_gravity="center_vertical"
+            android:visibility="visible"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/order_list_item_upload_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/x216"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/x43"
@@ -327,7 +325,7 @@
 
             <TextView
                 android:id="@+id/order_list_item_change_tv"
-                android:layout_width="wrap_content"
+                android:layout_width="@dimen/x216"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/x29"
                 android:layout_toLeftOf="@id/order_list_item_upload_tv"
@@ -343,32 +341,70 @@
 
 
         </RelativeLayout>
+
         <RelativeLayout
-            tools:visibility="gone"
-            android:id="@+id/order_list_item_one_btn_lin"
+            android:id="@+id/order_list_item_two_btn_hasre_lin"
             android:layout_width="wrap_content"
-            android:layout_gravity="center_vertical"
             android:layout_height="@dimen/y86"
-            android:visibility="visible">
-
-
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/order_list_item_replace_tv"
-                android:layout_alignParentRight="true"
-                android:layout_width="144.23dp"
+
+                android:layout_width="@dimen/x432"
                 android:layout_height="match_parent"
-                android:layout_marginRight="@dimen/x29"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x43"
                 android:background="@drawable/shape_text"
                 android:gravity="center"
-                android:paddingLeft="@dimen/x26"
-                android:paddingRight="@dimen/x26"
                 android:text="更换配偶作为主贷人"
                 android:textColor="#FF06B7A3"
                 android:textSize="@dimen/y40" />
 
+            <TextView
+                android:id="@+id/order_list_item_check_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/x29"
+                android:layout_toLeftOf="@+id/order_list_item_replace_tv"
+                android:background="@drawable/shape_text_gray"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x26"
+                android:paddingRight="@dimen/x26"
+                android:text="查看资料"
+                android:textColor="#FF666666"
+                android:textSize="@dimen/y40" />
+
 
         </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/order_list_item_one_btn_lin"
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/y86"
+            android:layout_gravity="center_vertical"
+            android:visibility="gone"
+            tools:visibility="visible">
+
+            <TextView
+                android:id="@+id/order_list_item_one_btn_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginRight="@dimen/x43"
+                android:background="@drawable/shape_text_gray"
+                android:gravity="center"
+                android:paddingLeft="@dimen/x26"
+                android:paddingRight="@dimen/x26"
+                android:text="查看资料"
+                android:textColor="#FF666666"
+                android:textSize="@dimen/y40" />
+
+
+        </RelativeLayout>
+
         <ImageView
             android:id="@+id/order_list_item_btns_img"
             android:layout_width="wrap_content"

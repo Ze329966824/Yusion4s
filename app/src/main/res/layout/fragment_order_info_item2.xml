@@ -52,14 +52,14 @@
                         android:layout_width="115dp"
                         android:layout_height="115dp"
                         android:layout_gravity="center_horizontal"
-                        android:src="@mipmap/icon_noapply"/>
+                        android:src="@mipmap/msg_icon"/>
 
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="25dp"
                         android:gravity="center_horizontal"
-                        android:text="还没有申请"
+                        android:text="您还没有消息哦"
                         android:textColor="#999999"
                         android:textSize="17.5sp"/>
                 </LinearLayout>

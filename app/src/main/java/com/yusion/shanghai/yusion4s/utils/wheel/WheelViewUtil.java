@@ -298,9 +298,8 @@ public class WheelViewUtil {
 
     public static String currentCityJson = "";
 
-    public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
+    public static void showCityWheelView(String tag, boolean showThirdCity, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
         clickedView.setEnabled(false);
-        //// TODO: 2017/12/26
         if (mCityWheelViewUtil == null) {
             mCityWheelViewUtil = new CityWheelViewUtil();
         }
@@ -313,7 +312,12 @@ public class WheelViewUtil {
             imm.hideSoftInputFromWindow(clickedView.getApplicationWindowToken(), 0);
         }
 
-        View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.city_wheel_view_layout, null);
+        View wheelViewLayout;
+        if (showThirdCity) {
+            wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.city_wheel_view_layout, null);
+        } else {
+            wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.no_third_city_wheel_view_layout, null);
+        }
 
         TextView textTitle = (TextView) wheelViewLayout.findViewById(R.id.select_title);
         textTitle.setText(title);
@@ -324,7 +328,6 @@ public class WheelViewUtil {
         Button okBtn = (Button) wheelViewLayout.findViewById(R.id.select_ok);
         Button cancelBtn = (Button) wheelViewLayout.findViewById(R.id.select_cancel);
 
-//        if (mProvinceList == null) {
         if (TextUtils.isEmpty(cityJson)) {
             mProvinceList = initProvinceData(context);
         } else {
@@ -339,70 +342,63 @@ public class WheelViewUtil {
                 return;
             }
         }
-//        }
 
         wv_province.setOffset(DEFAULT_OFFSET);
         wv_city.setOffset(DEFAULT_OFFSET);
-        wv_district.setOffset(DEFAULT_OFFSET);
+
         wv_province.setItems(mProvinceList);
         wv_province.setSelection(cityObj.mProvinceIndex);
         List<CityModel> cityList = mProvinceList.get(cityObj.mProvinceIndex).cityList;
         wv_city.setItems(cityList);
         wv_city.setSelection(cityObj.mCityIndex);
         List<DistrictModel> districtList = cityList.get(cityObj.mCityIndex).districtList;
-        wv_district.setItems(districtList);
-        wv_district.setSelection(cityObj.mDistrictIndex);
-        wv_province.setOnSelectedListener(new WheelView.OnSelectedListener() {
-            @Override
-            public void onSelected(int selectedIndex, String item) {
-                cityObj.mProvinceIndex = selectedIndex - DEFAULT_OFFSET;
-                wv_city.setItems(mProvinceList.get(cityObj.mProvinceIndex).cityList);
-                wv_city.setSelection(0);
-            }
+        if (wv_district != null) {
+            wv_district.setOffset(DEFAULT_OFFSET);
+            wv_district.setItems(districtList);
+            wv_district.setSelection(cityObj.mDistrictIndex);
+            wv_district.setOnSelectedListener((selectedIndex, item) -> cityObj.mDistrictIndex = selectedIndex - DEFAULT_OFFSET);
+        }
+
+        wv_province.setOnSelectedListener((selectedIndex, item) -> {
+            cityObj.mProvinceIndex = selectedIndex - DEFAULT_OFFSET;
+            wv_city.setItems(mProvinceList.get(cityObj.mProvinceIndex).cityList);
+            wv_city.setSelection(0);
         });
-        wv_city.setOnSelectedListener(new WheelView.OnSelectedListener() {
-            @Override
-            public void onSelected(int selectedIndex, String item) {
-                cityObj.mCityIndex = selectedIndex - DEFAULT_OFFSET;
+        wv_city.setOnSelectedListener((selectedIndex, item) -> {
+            cityObj.mCityIndex = selectedIndex - DEFAULT_OFFSET;
+            if (wv_district != null) {
                 wv_district.setItems(mProvinceList.get(cityObj.mProvinceIndex).cityList.get(cityObj.mCityIndex).districtList);
                 wv_district.setSelection(0);
             }
         });
-        wv_district.setOnSelectedListener(new WheelView.OnSelectedListener() {
-            @Override
-            public void onSelected(int selectedIndex, String item) {
-                cityObj.mDistrictIndex = selectedIndex - DEFAULT_OFFSET;
-            }
-        });
 
-        okBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String province = mProvinceList.get(cityObj.mProvinceIndex).name;
-                String city = mProvinceList.get(cityObj.mProvinceIndex).cityList.get(cityObj.mCityIndex).name;
+        okBtn.setOnClickListener(v -> {
+            String province = mProvinceList.get(cityObj.mProvinceIndex).name;
+            String city = mProvinceList.get(cityObj.mProvinceIndex).cityList.get(cityObj.mCityIndex).name;
+            String result;
+            if (showThirdCity) {
                 String district = mProvinceList.get(cityObj.mProvinceIndex).cityList.get(cityObj.mCityIndex).districtList.get(cityObj.mDistrictIndex).name;
-                String result = province + "/" + city + "/" + district;
-                showView.setText(result);
-                if (onCitySubmitCallBack != null) {
-                    onCitySubmitCallBack.onCitySubmitCallBack(clickedView, result);
-                }
-                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
-                    mWheelViewDialog.dismiss();
-                    mWheelViewDialog = null;
-                }
-                clickedView.setEnabled(true);
+                result = province + "/" + city + "/" + district;
+            } else {
+                result = province + "/" + city;
             }
+            showView.setText(result);
+            if (onCitySubmitCallBack != null) {
+                onCitySubmitCallBack.onCitySubmitCallBack(clickedView, result);
+            }
+            if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                mWheelViewDialog.dismiss();
+                mWheelViewDialog = null;
+            }
+            clickedView.setEnabled(true);
         });
 
-        cancelBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
-                    mWheelViewDialog.dismiss();
-                    mWheelViewDialog = null;
-                }
-                clickedView.setEnabled(true);
+        cancelBtn.setOnClickListener(v -> {
+            if (mWheelViewDialog != null && mWheelViewDialog.isShowing()) {
+                mWheelViewDialog.dismiss();
+                mWheelViewDialog = null;
             }
+            clickedView.setEnabled(true);
         });
 
         mWheelViewDialog = new Dialog(context, R.style.MyDialogStyle);
@@ -413,6 +409,10 @@ public class WheelViewUtil {
         mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mWheelViewDialog.setOnCancelListener(dialog -> clickedView.setEnabled(true));
         mWheelViewDialog.show();
+    }
+
+    public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
+        showCityWheelView(tag, true, clickedView, showView, title, onCitySubmitCallBack, cityJson);
     }
 
     private static List<ProvinceModel> initProvinceData(String cityJson) {

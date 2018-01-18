@@ -94,7 +94,11 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mCurrentFragment = mOrderManagerFragment;
                 break;
             case R.id.main_tab_msg_center:
-                transaction.hide(mCurrentFragment).show(mMsgCenterFragment);
+                if (!mCurrentFragment.equals(mMsgCenterFragment)) {
+                    transaction.hide(mCurrentFragment).show(mMsgCenterFragment);
+                } else {
+                    transaction.show(mCurrentFragment);
+                }
                 mCurrentFragment = mMsgCenterFragment;
                 //// TODO: 2018/1/12 点击影藏
 //                red_point.setVisibility(View.GONE);
@@ -147,8 +151,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onResume();
         Yusion4sApp.isLogin = true;
         ConfigApi.getConfigJson(MainActivity.this, null);
-
         ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(), data -> mMineFragment.refresh(data));
+        //// TODO: 2018/1/16  如果收到推送，则直接显示小红点
+
         ApiUtil.requestUrl4Data(this, Api.getMsgCenterService().getMessageStatus(), (OnItemDataCallBack<GetMsgStatus>) getMsgStatus -> {
             if (getMsgStatus.has_new_msg) {
                 red_point.setVisibility(View.VISIBLE);

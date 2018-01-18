@@ -135,7 +135,6 @@
                         android:id="@+id/upload_label_list_tab_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="7.5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="18dp"
                         android:text="经销商信息"
@@ -145,6 +144,7 @@
                 </LinearLayout>
 
                 <View
+                    android:layout_marginTop="3.5dp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/separate_line_height"
                     android:background="@color/separate_line_color"/>

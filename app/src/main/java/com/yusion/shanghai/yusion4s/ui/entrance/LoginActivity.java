@@ -63,7 +63,7 @@ public class LoginActivity extends BaseActivity {
                 return true;
             });
             loginBtn.setOnTouchListener((v, event) -> {
-                int offset = 300;
+                int offset = (int) getResources().getDimension(R.dimen.y150);
                 if (event.getAction() == MotionEvent.ACTION_UP) {
                     if (event.getRawY() > v.getBottom() + offset) {
                         mLoginAccountTV.setText("19999999999");
