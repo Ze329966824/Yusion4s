@@ -67,6 +67,7 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         try {
             jsonObject = new JSONObject(body.toString());
             Logger.json(body.toString());
+            Log.e("TAG", "onResponse: "+"....");
         } catch (JSONException e) {
             e.printStackTrace();
         }
