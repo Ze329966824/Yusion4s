@@ -67,13 +67,11 @@ public class WheelViewUtil {
         void OndateSubmitCallBack(View clickedView, String date);
     }
 
-    private static <T> void showWheelView(final List<T> list, int selectedIndex, final TextView showView,
-                                          final String title, final OnSubmitCallBack onSubmitCallBack) {
+    private static <T> void showWheelView(final List<T> list, int selectedIndex, final TextView showView, final String title, final OnSubmitCallBack onSubmitCallBack) {
         showWheelView(list, selectedIndex, showView, showView, title, onSubmitCallBack);
     }
 
-    public static <T> void showWheelView(final List<T> list, int selectedIndex, final View clickedView, final TextView showView,
-                                         final String title, final OnSubmitCallBack onSubmitCallBack) {
+    public static <T> void showWheelView(final List<T> list, int selectedIndex, final View clickedView, final TextView showView, final String title, final OnSubmitCallBack onSubmitCallBack) {
         clickedView.setEnabled(false);
 
         Context context = clickedView.getContext();
@@ -299,6 +297,7 @@ public class WheelViewUtil {
     public static String currentCityJson = "";
 
     public static void showCityWheelView(String tag, final View clickedView, final TextView showView, String title, final OnCitySubmitCallBack onCitySubmitCallBack, String cityJson) {
+        Log.e("TAG", "begin_showCityWheelView: " + System.currentTimeMillis());
         clickedView.setEnabled(false);
         //// TODO: 2017/12/26
         if (mCityWheelViewUtil == null) {
@@ -307,11 +306,12 @@ public class WheelViewUtil {
         final CityWheelViewUtil.CityObj cityObj = mCityWheelViewUtil.getCityObjByTag(tag);
 
         Context context = clickedView.getContext();
-        InputMethodUtil.hideInputMethod(context, clickedView);
-        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
-        if (imm.isActive()) {
-            imm.hideSoftInputFromWindow(clickedView.getApplicationWindowToken(), 0);
-        }
+
+//        InputMethodUtil.hideInputMethod(context, clickedView);
+//        InputMethodManager imm = (InputMethodManager) context.getSystemService(Context.INPUT_METHOD_SERVICE);
+//        if (imm.isActive()) {
+//            imm.hideSoftInputFromWindow(clickedView.getApplicationWindowToken(), 0);
+//        }
 
         View wheelViewLayout = LayoutInflater.from(context).inflate(R.layout.city_wheel_view_layout, null);
 
@@ -321,10 +321,10 @@ public class WheelViewUtil {
         final WheelView wv_province = (WheelView) wheelViewLayout.findViewById(R.id.wv_province);
         final WheelView wv_city = (WheelView) wheelViewLayout.findViewById(R.id.wv_city);
         final WheelView wv_district = (WheelView) wheelViewLayout.findViewById(R.id.wv_district);
+
         Button okBtn = (Button) wheelViewLayout.findViewById(R.id.select_ok);
         Button cancelBtn = (Button) wheelViewLayout.findViewById(R.id.select_cancel);
 
-//        if (mProvinceList == null) {
         if (TextUtils.isEmpty(cityJson)) {
             mProvinceList = initProvinceData(context);
         } else {
@@ -339,7 +339,6 @@ public class WheelViewUtil {
                 return;
             }
         }
-//        }
 
         wv_province.setOffset(DEFAULT_OFFSET);
         wv_city.setOffset(DEFAULT_OFFSET);
@@ -352,6 +351,7 @@ public class WheelViewUtil {
         List<DistrictModel> districtList = cityList.get(cityObj.mCityIndex).districtList;
         wv_district.setItems(districtList);
         wv_district.setSelection(cityObj.mDistrictIndex);
+        Log.e("TAG", "zhongjianshowCityWheelView: " + System.currentTimeMillis());
         wv_province.setOnSelectedListener(new WheelView.OnSelectedListener() {
             @Override
             public void onSelected(int selectedIndex, String item) {
@@ -413,6 +413,7 @@ public class WheelViewUtil {
         mWheelViewDialog.getWindow().setLayout(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
         mWheelViewDialog.setOnCancelListener(dialog -> clickedView.setEnabled(true));
         mWheelViewDialog.show();
+        Log.e("TAG", "ending_showCityWheelView:" + System.currentTimeMillis());
     }
 
     private static List<ProvinceModel> initProvinceData(String cityJson) {

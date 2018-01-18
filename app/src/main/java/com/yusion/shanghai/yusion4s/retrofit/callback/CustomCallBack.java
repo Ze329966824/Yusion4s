@@ -63,15 +63,21 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         }
 
         Log.e(Api.getTag(call.request()), "responseFor :" + call.request().url().toString());
+
         JSONObject jsonObject = null;
         try {
-            jsonObject = new JSONObject(body.toString());
-            Logger.json(body.toString());
+            if (Float.valueOf(response.headers().get("Content-Length")) < 50 << 10) {
+                jsonObject = new JSONObject(body.toString());
+                Logger.json(body.toString());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.w(Api.getTag(call.request()), "onResponse: " + body);
-
+        if (Float.valueOf(response.headers().get("Content-Length")) > 50 << 10) {
+            Log.e(Api.getTag(call.request()), "返回数据大于50kb 不打印log （" + call.request().url().toString() + "）");
+        } else {
+            Log.w(Api.getTag(call.request()), "onResponse: " + body);
+        }
         if (body.code < 0) {
             if (Settings.isOnline) {
                 Toast.makeText(context, body.msg, Toast.LENGTH_LONG).show();
