@@ -11,7 +11,6 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -69,7 +68,7 @@ public class UpdateUtil {
         private Dialog mDialog;
 
         private TextView content;
-        private RelativeLayout close;
+        private TextView close;
         private TextView ok;
         private View mDialogView;
 
@@ -77,8 +76,8 @@ public class UpdateUtil {
             mContext = context;
             mUrl = url;
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            mDialogView = inflater.inflate(R.layout.dialog_update, null);
-//            mDialogView = inflater.inflate(R.layout.dialog_app_update, null);
+//            mDialogView = inflater.inflate(R.layout.dialog_update, null);
+            mDialogView = inflater.inflate(R.layout.dialog_app_update, null);
 
             content = mDialogView.findViewById(R.id.update_content);
             content.setText(message);
