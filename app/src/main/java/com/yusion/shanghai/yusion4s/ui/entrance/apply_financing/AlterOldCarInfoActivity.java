@@ -1041,7 +1041,6 @@ public class AlterOldCarInfoActivity extends BaseActivity {
 
     private void selectCarOldAddr() {
         ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getOldCarAddr(), data1 -> {
-//        DlrApi.getOldCarAddr(AlterOldCarInfoActivity.this, data1 -> {
             if (data1 == null) {
                 return;
             }
