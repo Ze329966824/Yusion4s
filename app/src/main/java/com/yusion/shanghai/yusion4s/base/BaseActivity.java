@@ -217,7 +217,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                         int height = v.getHeight();
                         int width = v.getWidth();
 
-                        if (Math.abs(dy) > Math.abs(dx)) {
+                        if (Math.abs(dy) > (height /2)) {
 
                             mPopWindow.dismiss();
                             v.scrollTo(0, 0);

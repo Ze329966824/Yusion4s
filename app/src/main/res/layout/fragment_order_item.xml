@@ -1,22 +1,22 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              xmlns:tools="http://schemas.android.com/tools"
-              android:layout_width="match_parent"
-              android:layout_height="match_parent"
-              android:background="@color/bg_color"
-              android:orientation="vertical">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/bg_color"
+    android:orientation="vertical">
 
     <com.chanven.lib.cptr.PtrClassicFrameLayout xmlns:cube_ptr="http://schemas.android.com/apk/res-auto"
-                                                android:id="@+id/my_order_ptr"
-                                                android:layout_width="match_parent"
-                                                android:layout_height="match_parent"
-                                                android:background="@color/bg_color"
-                                                android:visibility="visible"
-                                                cube_ptr:ptr_duration_to_close="1000"
-                                                cube_ptr:ptr_duration_to_close_header="200"
-                                                cube_ptr:ptr_keep_header_when_refresh="true"
-                                                cube_ptr:ptr_pull_to_fresh="false"
-                                                cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
-                                                cube_ptr:ptr_resistance="1.7">
+        android:id="@+id/my_order_ptr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/bg_color"
+        android:visibility="visible"
+        cube_ptr:ptr_duration_to_close="1000"
+        cube_ptr:ptr_duration_to_close_header="200"
+        cube_ptr:ptr_keep_header_when_refresh="true"
+        cube_ptr:ptr_pull_to_fresh="false"
+        cube_ptr:ptr_ratio_of_header_height_to_refresh="1.2"
+        cube_ptr:ptr_resistance="1.7">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"
-                tools:visibility="gone"/>
+                tools:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/my_order_llyt"
@@ -45,7 +45,7 @@
                     android:layout_width="115dp"
                     android:layout_height="115dp"
                     android:layout_gravity="center_horizontal"
-                    android:src="@mipmap/icon_noapply"/>
+                    android:src="@mipmap/icon_noapply" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -54,7 +54,7 @@
                     android:gravity="center_horizontal"
                     android:text="还没有申请"
                     android:textColor="#999999"
-                    android:textSize="17.5sp"/>
+                    android:textSize="17.5sp" />
             </LinearLayout>
 
         </LinearLayout>
