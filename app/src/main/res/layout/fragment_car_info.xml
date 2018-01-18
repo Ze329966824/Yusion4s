@@ -434,13 +434,9 @@
                         <LinearLayout style="@style/apply_info_item">
 
                             <TextView
-                                android:layout_width="110dp"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:maxLines="1"
+                                style="@style/apply_info_title"
                                 android:text="里程数(万公里)"
-                                android:textColor="#222A36"
-                                android:textSize="14.5sp" />
+                               />
 
                             <EditText
                                 android:id="@+id/oldcar_dance_tv"
@@ -660,13 +656,8 @@
                     <LinearLayout style="@style/apply_info_item">
 
                         <TextView
-                            android:layout_width="110dp"
-                            android:layout_height="match_parent"
-                            android:gravity="center_vertical"
-                            android:maxLines="1"
-                            android:text="其他费用(元)"
-                            android:textColor="#222A36"
-                            android:textSize="14.5sp" />
+                            style="@style/apply_info_title"
+                            android:text="其他费用(元)" />
 
                         <EditText
                             android:id="@+id/car_info_other_price_tv"
