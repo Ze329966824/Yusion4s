@@ -853,7 +853,7 @@ public class OldCarInfoFragment extends BaseFragment {
                 }
                 plateAddrlist = data;
                 oldCarcityJson = data.toString();
-                WheelViewUtil.showCityWheelView("xxx", oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
+                WheelViewUtil.showCityWheelView("xxx", false, oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
                     @Override
                     public void onCitySubmitCallBack(View clickedView, String city) {
                         btn_reset.setEnabled(true);
