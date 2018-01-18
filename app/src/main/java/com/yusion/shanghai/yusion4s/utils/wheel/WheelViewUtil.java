@@ -375,8 +375,13 @@ public class WheelViewUtil {
         okBtn.setOnClickListener(v -> {
             String province = mProvinceList.get(cityObj.mProvinceIndex).name;
             String city = mProvinceList.get(cityObj.mProvinceIndex).cityList.get(cityObj.mCityIndex).name;
-            String district = mProvinceList.get(cityObj.mProvinceIndex).cityList.get(cityObj.mCityIndex).districtList.get(cityObj.mDistrictIndex).name;
-            String result = province + "/" + city + "/" + district;
+            String result;
+            if (showThirdCity) {
+                String district = mProvinceList.get(cityObj.mProvinceIndex).cityList.get(cityObj.mCityIndex).districtList.get(cityObj.mDistrictIndex).name;
+                result = province + "/" + city + "/" + district;
+            } else {
+                result = province + "/" + city;
+            }
             showView.setText(result);
             if (onCitySubmitCallBack != null) {
                 onCitySubmitCallBack.onCitySubmitCallBack(clickedView, result);

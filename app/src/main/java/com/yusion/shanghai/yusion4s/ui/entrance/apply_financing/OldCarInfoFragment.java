@@ -39,6 +39,7 @@ import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
@@ -782,8 +783,6 @@ public class OldCarInfoFragment extends BaseFragment {
     private void selectProductType() {
         if (!TextUtils.isEmpty(loanBankTv.getText())) {
             DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
-
-                // DlrApi.getProductType(mContext, mLoanBankList.get(mLoanBankIndex).bank_id, mDlrList.get(mDlrIndex).dlr_id, cartype, new OnItemDataCallBack<GetproductResp>() {
                 @Override
                 public void onItemDataCallBack(GetproductResp resp) {
                     if (resp == null) {
@@ -845,12 +844,14 @@ public class OldCarInfoFragment extends BaseFragment {
     }
 
     private void selectCarOldAddr() {
-        DlrApi.getOldCarAddr(mContext, new OnItemDataCallBack<List<GetproductResp.SupportAreaBean>>() {
+        Log.e("TAG", "selectCarOldAddr: " + System.currentTimeMillis());
+        ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOldCarAddr(), new OnItemDataCallBack<List<GetproductResp.SupportAreaBean>>() {
             @Override
             public void onItemDataCallBack(List<GetproductResp.SupportAreaBean> data) {
                 if (data == null) {
                     return;
                 }
+                Log.e("TAG2", "selectCarOldAddr: " + System.currentTimeMillis());
                 plateAddrlist = data;
                 oldCarcityJson = data.toString();
                 WheelViewUtil.showCityWheelView("xxx", false, oldcar_addr_lin, oldcar_addr_tv, "原上牌地", new WheelViewUtil.OnCitySubmitCallBack() {
@@ -883,9 +884,6 @@ public class OldCarInfoFragment extends BaseFragment {
                         mManagementPriceIndex = 0;
 
                         oldcar_guess_price_tv.setText("");
-                        //oldcar_dance_tv.setText("");
-                        // oldcar_addr_tv.setText("");
-                        // oldcar_addrtime_tv.setText("");
                         firstPriceTv.setText("");
                         carLoanPriceTv.setText("");
                         managementPriceTv.setText("");
