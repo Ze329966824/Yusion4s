@@ -91,18 +91,26 @@
                         style="@style/apply_info_content"
                         android:hint="请选择"/>
 
-                    <!--<include layout="@layout/jiantou_lay" />-->
-                    <FrameLayout
-                        android:layout_width="20dp"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp">
+                        android:layout_marginLeft="@dimen/x28"
+                        android:src="@mipmap/select_arrow"
+                        />
 
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:src="@mipmap/select_arrow"/>
-                    </FrameLayout>
+                    <!--<include layout="@layout/jiantou_lay"/>-->
+                    <!--<FrameLayout-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="match_parent"-->
+                    <!--android:layout_marginLeft="15dp"-->
+                    <!--&gt;-->
+
+                    <!--<ImageView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:layout_gravity="center_vertical"-->
+                    <!--android:src="@mipmap/select_arrow"/>-->
+                    <!--</FrameLayout>-->
                 </LinearLayout>
 
                 <LinearLayout
@@ -211,17 +219,12 @@
                             android:maxLines="2"
                             android:singleLine="false"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
                     </LinearLayout>
 
                     <View
@@ -229,110 +232,6 @@
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color"/>
-
-                    <LinearLayout
-                        android:id="@+id/car_info_brand_lin"
-                        style="@style/apply_info_item"
-                        android:visibility="gone">
-
-                        <TextView
-                            style="@style/apply_info_title"
-                            android:text="品牌"/>
-
-                        <TextView
-                            android:id="@+id/car_info_brand_tv"
-                            style="@style/apply_info_content"
-                            android:hint="请选择"/>
-
-                        <FrameLayout
-                            android:layout_width="20dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color"
-                        android:visibility="gone"/>
-
-                    <LinearLayout
-                        android:id="@+id/car_info_trix_lin"
-                        style="@style/apply_info_item"
-                        android:visibility="gone">
-
-                        <TextView
-                            style="@style/apply_info_title"
-                            android:text="车系"/>
-
-                        <TextView
-                            android:id="@+id/car_info_trix_tv"
-                            style="@style/apply_info_content"
-                            android:hint="请选择"/>
-
-                        <FrameLayout
-                            android:layout_width="20dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color"
-
-                        android:visibility="gone"/>
-
-                    <LinearLayout
-                        android:id="@+id/car_info_model_lin"
-                        style="@style/apply_info_item"
-                        android:visibility="gone">
-
-                        <TextView
-                            style="@style/apply_info_title"
-                            android:text="车型"/>
-
-                        <TextView
-                            android:id="@+id/car_info_model_tv"
-                            style="@style/apply_info_content"
-                            android:hint="请选择"/>
-
-                        <FrameLayout
-                            android:layout_width="20dp"
-                            android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
-                    </LinearLayout>
-
-                    <View
-                        android:layout_width="match_parent"
-                        android:layout_height="@dimen/separate_line_height"
-                        android:layout_marginLeft="15dp"
-                        android:background="@color/separate_line_color"
-
-                        android:visibility="gone"/>
 
                     <LinearLayout style="@style/apply_info_item">
 
@@ -343,7 +242,7 @@
                         <EditText
                             android:id="@+id/car_info_color_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:hint="请输入"/>
 
                     </LinearLayout>
@@ -358,112 +257,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="@dimen/y30"
                         android:background="@color/bg_color"/>
-
-
-                    <LinearLayout
-                        android:id="@+id/oldcar_info_lin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <LinearLayout
-                            android:id="@+id/oldcar_addr_lin"
-                            style="@style/apply_info_item">
-
-                            <TextView
-                                style="@style/apply_info_title"
-                                android:text="原上牌地"/>
-
-                            <TextView
-                                android:id="@+id/oldcar_addr_tv"
-                                style="@style/apply_info_content"
-                                android:hint="请选择"/>
-
-                            <FrameLayout
-                                android:layout_width="20dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="15dp">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="left|center_vertical"
-                                    android:src="@mipmap/select_arrow"/>
-                            </FrameLayout>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/separate_line_height"
-                            android:background="@color/separate_line_color"/>
-
-                        <LinearLayout
-                            android:id="@+id/oldcar_addrtime_lin"
-                            style="@style/apply_info_item">
-
-                            <TextView
-                                style="@style/apply_info_title"
-                                android:text="原上牌时间"/>
-
-                            <TextView
-                                android:id="@+id/oldcar_addrtime_tv"
-                                style="@style/apply_info_content"
-                                android:hint="请选择"/>
-
-                            <FrameLayout
-                                android:layout_width="20dp"
-                                android:layout_height="match_parent"
-                                android:layout_marginLeft="15dp">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="left|center_vertical"
-                                    android:src="@mipmap/select_arrow"/>
-                            </FrameLayout>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/separate_line_height"
-                            android:background="@color/separate_line_color"/>
-
-                        <LinearLayout style="@style/apply_info_item">
-
-                            <TextView
-                                android:layout_width="110dp"
-                                android:layout_height="match_parent"
-                                android:gravity="center_vertical"
-                                android:maxLines="1"
-                                android:text="里程数(万公里)"
-                                android:textColor="#222A36"
-                                android:textSize="14.5sp"/>
-
-                            <EditText
-                                android:id="@+id/oldcar_dance_tv"
-                                style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
-                                android:hint="请输入"
-                                android:maxLength="5"
-                                android:numeric="decimal"/>
-
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/separate_line_height"
-                            android:background="@color/separate_line_color"/>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/y30"
-                            android:background="@color/bg_color"/>
-
-                    </LinearLayout>
-
 
                     <View
                         android:layout_width="match_parent"
@@ -480,7 +273,7 @@
                         <TextView
                             android:id="@+id/car_info_guide_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                             android:layout_marginRight="@dimen/x49"
                             android:maxLength="9"/>
 
                     </LinearLayout>
@@ -490,65 +283,6 @@
                         android:layout_height="@dimen/separate_line_height"
                         android:layout_marginLeft="15dp"
                         android:background="@color/separate_line_color"/>
-
-                    <LinearLayout
-                        android:id="@+id/oldcar_guess_and_jiaoyi_lin"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical"
-                        android:visibility="gone"
-                        tools:visibility="visible">
-
-                        <LinearLayout
-                            android:id="@+id/oldcar_guess_price_lin"
-                            style="@style/apply_info_item"
-                            tools:visibility="visible">
-
-                            <TextView
-                                style="@style/apply_info_title"
-                                android:text="二手车评估价(元)"/>
-
-                            <EditText
-                                android:id="@+id/oldcar_guess_price_tv"
-                                style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
-                                android:enabled="false"
-                                android:hint="请输入"
-                                android:inputType="number"
-                                android:maxLength="9"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/separate_line_height"
-                            android:layout_marginLeft="15dp"
-                            android:background="@color/separate_line_color"/>
-
-                        <LinearLayout
-                            android:id="@+id/oldcar_business_price_lin"
-                            style="@style/apply_info_item"
-                            tools:visibility="visible">
-
-                            <TextView
-                                style="@style/apply_info_title"
-                                android:text="车辆交易价(元)"/>
-
-                            <EditText
-                                android:id="@+id/oldcar_business_price_tv"
-                                style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
-                                android:enabled="false"
-                                android:hint="请输入"
-                                android:inputType="number"
-                                android:maxLength="9"/>
-                        </LinearLayout>
-
-                        <View
-                            android:layout_width="match_parent"
-                            android:layout_height="@dimen/separate_line_height"
-                            android:layout_marginLeft="15dp"
-                            android:background="@color/separate_line_color"/>
-                    </LinearLayout>
 
                     <LinearLayout
                         android:id="@+id/personal_info_detail_home_address_lin"
@@ -561,7 +295,7 @@
                         <EditText
                             android:id="@+id/car_info_bill_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"/>
@@ -586,7 +320,7 @@
                         <EditText
                             android:id="@+id/car_info_car_loan_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                             android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
@@ -609,7 +343,7 @@
                         <EditText
                             android:id="@+id/car_info_first_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                             android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
@@ -634,20 +368,14 @@
                         <TextView
                             android:id="@+id/car_info_management_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="3dp"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
 
                     </LinearLayout>
 
@@ -667,7 +395,7 @@
                         <EditText
                             android:id="@+id/car_info_other_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                             android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
@@ -690,7 +418,7 @@
                         <TextView
                             android:id="@+id/car_info_total_loan_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                             android:layout_marginRight="@dimen/x49"
                             android:maxLength="9"/>
 
                     </LinearLayout>
@@ -723,17 +451,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
 
                     </LinearLayout>
 
@@ -757,17 +480,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
 
                     </LinearLayout>
 
@@ -785,17 +503,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
                     </LinearLayout>
 
                     <View
@@ -828,17 +541,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
                     </LinearLayout>
 
 
