@@ -79,7 +79,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 Toast.makeText(this, "再按一下退出", Toast.LENGTH_SHORT).show();
                 lasttime = System.currentTimeMillis();
             } else {
-                System.exit(0);
+                AppUtils.exit();
             }
             return true;
         }
