@@ -36,7 +36,6 @@ import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -266,9 +265,7 @@ public class CarInfoFragment extends BaseFragment {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
-//                Log.e("TAG", "writeOtherPrice: 1");
-                ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), data -> {
-//                    DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), data -> {
+                ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), true, data -> {
                     Log.e("TAG", "onItemDataCallBack: 2 " + data);
                     if (!TextUtils.isEmpty(data)) {
                         otherLimit = data;
@@ -616,7 +613,7 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            ApiUtil.requestUrl4Data(mContext,Api.getDlrService().getLoanBank(dlr_id),resp ->{
+            ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getLoanBank(dlr_id), resp -> {
 //            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
                 mLoanBankList = resp;//银行列表
                 List<String> items = new ArrayList<String>();
