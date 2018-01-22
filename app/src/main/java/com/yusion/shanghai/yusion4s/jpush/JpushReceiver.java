@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
@@ -36,9 +37,11 @@ public class JpushReceiver extends BroadcastReceiver {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(i);
 
-            BaseActivity activity = (BaseActivity) ActivityManager.getActivity();
-            activity.initPopupWindow();
-            activity.showPopupWindow();
+            if (Yusion4sApp.isLogin) {
+                BaseActivity activity = (BaseActivity) ActivityManager.getActivity();
+                activity.initPopupWindow();
+                activity.showPopupWindow();
+            }
         }
     }
 }
