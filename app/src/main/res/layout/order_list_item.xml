@@ -306,11 +306,11 @@
             android:layout_height="@dimen/y86"
             android:layout_gravity="center_vertical"
             android:visibility="visible"
-            tools:visibility="gone">
+            tools:visibility="visible">
 
             <TextView
                 android:id="@+id/order_list_item_upload_tv"
-                android:layout_width="@dimen/x216"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_alignParentRight="true"
                 android:layout_marginRight="@dimen/x43"
@@ -324,7 +324,7 @@
 
             <TextView
                 android:id="@+id/order_list_item_change_tv"
-                android:layout_width="@dimen/x216"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:layout_marginRight="@dimen/x29"
                 android:layout_toLeftOf="@id/order_list_item_upload_tv"
@@ -385,7 +385,7 @@
             android:layout_height="@dimen/y86"
             android:layout_gravity="center_vertical"
             android:visibility="gone"
-            tools:visibility="visible">
+            tools:visibility="gone">
 
             <TextView
                 android:id="@+id/order_list_item_one_btn_tv"
