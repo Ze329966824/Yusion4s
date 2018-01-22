@@ -344,7 +344,10 @@ public class ExtraUploadListActivity extends BaseActivity {
             return;
         }
         Intent it = new Intent(Intent.ACTION_VIEW);
-        Uri uri = Uri.parse(url);
+//        Uri uri = Uri.parse(url.split("\\?")[0]);
+        //有的机型系统播放器不支持https请求
+        Uri uri = Uri.parse(url.replaceFirst("https","http"));
+//        Uri uri = Uri.parse("http://yusiontech-test.oss-cn-hangzhou.aliyuncs.com/TEST/1515399717486_1515399717529.mp4");
         it.setDataAndType(uri, "video/mp4");
         startActivity(it);
     }

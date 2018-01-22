@@ -8,7 +8,6 @@ public class DateUtil {
 
     public static long getDateMinute(long nowtime, long afterTime) {
         return (nowtime - afterTime) / 1000 / 60;
-
     }
 
     public static long getDateHour(long nowTime, long afterTime) {

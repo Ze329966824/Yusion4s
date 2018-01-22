@@ -619,7 +619,7 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             upload = (TextView) itemView.findViewById(R.id.order_list_item_upload_tv);
             replace = (TextView) itemView.findViewById(R.id.order_list_item_replace_tv);
             car_icon = (ImageView) itemView.findViewById(R.id.order_list_item_car_icon);
-            oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
+            oneBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_hasre_lin);
             twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
         }
     }

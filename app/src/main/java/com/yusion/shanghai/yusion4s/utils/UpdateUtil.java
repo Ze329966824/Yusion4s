@@ -76,8 +76,8 @@ public class UpdateUtil {
             mContext = context;
             mUrl = url;
             LayoutInflater inflater = LayoutInflater.from(mContext);
-            mDialogView = inflater.inflate(R.layout.dialog_update, null);
-//            mDialogView = inflater.inflate(R.layout.dialog_app_update, null);
+//            mDialogView = inflater.inflate(R.layout.dialog_update, null);
+            mDialogView = inflater.inflate(R.layout.dialog_app_update, null);
 
             content = mDialogView.findViewById(R.id.update_content);
             content.setText(message);

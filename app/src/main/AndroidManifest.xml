@@ -326,6 +326,7 @@
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
         <activity
             android:name=".ui.entrance.apply_financing.AlterOldCarInfoActivity"
@@ -337,6 +338,7 @@
             android:exported="true"
             android:launchMode="singleInstance"
             android:screenOrientation="portrait"
+            android:excludeFromRecents="true"
             android:windowSoftInputMode="stateHidden|adjustPan"/>
 
         <service android:name=".ubt.service.UploadPersonInfoService"/>

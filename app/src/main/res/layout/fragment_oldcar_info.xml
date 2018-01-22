@@ -135,7 +135,6 @@
                         android:id="@+id/upload_label_list_tab_name_tv"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginBottom="7.5dp"
                         android:layout_marginLeft="5dp"
                         android:layout_marginTop="18dp"
                         android:text="经销商信息"
@@ -145,6 +144,7 @@
                 </LinearLayout>
 
                 <View
+                    android:layout_marginTop="3.5dp"
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/separate_line_height"
                     android:background="@color/separate_line_color"/>
@@ -162,17 +162,12 @@
                         style="@style/apply_info_content"
                         android:hint="请选择"/>
 
-                    <FrameLayout
-                        android:layout_width="20dp"
+                    <ImageView
+                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_marginLeft="15dp">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="left|center_vertical"
-                            android:src="@mipmap/select_arrow"/>
-                    </FrameLayout>
+                        android:layout_marginLeft="@dimen/x28"
+                        android:src="@mipmap/select_arrow"
+                        />
                 </LinearLayout>
 
                 <LinearLayout
@@ -282,17 +277,12 @@
                             android:maxLines="2"
                             android:singleLine="false"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
                     </LinearLayout>
 
                     <View
@@ -432,17 +422,12 @@
                                 style="@style/apply_info_content"
                                 android:hint="请选择"/>
 
-                            <FrameLayout
-                                android:layout_width="20dp"
+                            <ImageView
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="15dp">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="left|center_vertical"
-                                    android:src="@mipmap/select_arrow"/>
-                            </FrameLayout>
+                                android:layout_marginLeft="@dimen/x28"
+                                android:src="@mipmap/select_arrow"
+                                />
                         </LinearLayout>
 
                         <View
@@ -464,17 +449,12 @@
                                 style="@style/apply_info_content"
                                 android:hint="请选择"/>
 
-                            <FrameLayout
-                                android:layout_width="20dp"
+                            <ImageView
+                                android:layout_width="wrap_content"
                                 android:layout_height="match_parent"
-                                android:layout_marginLeft="15dp">
-
-                                <ImageView
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:layout_gravity="left|center_vertical"
-                                    android:src="@mipmap/select_arrow"/>
-                            </FrameLayout>
+                                android:layout_marginLeft="@dimen/x28"
+                                android:src="@mipmap/select_arrow"
+                                />
 
                         </LinearLayout>
 
@@ -498,7 +478,7 @@
                             <EditText
                                 android:id="@+id/oldcar_dance_tv"
                                 style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
+                                android:layout_marginRight="@dimen/x49"
                                 android:hint="请输入"
                                 android:maxLength="5"
                                 android:numeric="decimal"/>
@@ -567,7 +547,7 @@
                             <EditText
                                 android:id="@+id/oldcar_guess_tv"
                                 style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
+                                android:layout_marginRight="@dimen/x49"
                                 android:enabled="false"
                                 android:hint="请先估价"
                                 android:inputType="number"/>
@@ -621,7 +601,7 @@
                         <EditText
                             android:id="@+id/car_info_color_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:hint="请输入"/>
 
                     </LinearLayout>
@@ -655,7 +635,7 @@
                         <TextView
                             android:id="@+id/car_info_guide_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:maxLength="9"/>
 
                     </LinearLayout>
@@ -681,7 +661,7 @@
                             <EditText
                                 android:id="@+id/oldcar_guess_price_tv"
                                 style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
+                                android:layout_marginRight="@dimen/x49"
                                 android:enabled="false"
                                 android:hint="请输入"
                                 android:inputType="number"
@@ -706,7 +686,7 @@
                             <EditText
                                 android:id="@+id/oldcar_business_price_tv"
                                 style="@style/apply_info_content"
-                                android:layout_marginRight="35dp"
+                                android:layout_marginRight="@dimen/x49"
                                 android:enabled="false"
                                 android:hint="请输入"
                                 android:inputType="number"
@@ -732,7 +712,7 @@
                         <EditText
                             android:id="@+id/car_info_bill_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"/>
@@ -759,7 +739,7 @@
 
                             android:id="@+id/car_info_car_loan_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
@@ -782,7 +762,7 @@
                         <EditText
                             android:id="@+id/car_info_first_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
@@ -807,20 +787,14 @@
                         <TextView
                             android:id="@+id/car_info_management_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="3dp"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
 
                     </LinearLayout>
 
@@ -844,7 +818,7 @@
                         <EditText
                             android:id="@+id/car_info_other_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:enabled="false"
                             android:hint="请输入"
                             android:inputType="number"
@@ -867,7 +841,7 @@
                         <TextView
                             android:id="@+id/car_info_total_loan_price_tv"
                             style="@style/apply_info_content"
-                            android:layout_marginRight="35dp"
+                            android:layout_marginRight="@dimen/x49"
                             android:maxLength="9"/>
 
                     </LinearLayout>
@@ -900,17 +874,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
 
                     </LinearLayout>
 
@@ -934,17 +903,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
 
                     </LinearLayout>
 
@@ -962,17 +926,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
                     </LinearLayout>
 
                     <View
@@ -1005,17 +964,12 @@
                             style="@style/apply_info_content"
                             android:hint="请选择"/>
 
-                        <FrameLayout
-                            android:layout_width="20dp"
+                        <ImageView
+                            android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:layout_marginLeft="15dp">
-
-                            <ImageView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity="left|center_vertical"
-                                android:src="@mipmap/select_arrow"/>
-                        </FrameLayout>
+                            android:layout_marginLeft="@dimen/x28"
+                            android:src="@mipmap/select_arrow"
+                            />
                     </LinearLayout>
 
 
@@ -1033,7 +987,7 @@
                 android:layout_marginBottom="20dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginLeft="15dp"
-                android:layout_marginRight="35dp"
+                android:layout_marginRight="@dimen/x49"
                 android:layout_marginStart="15dp"
                 android:layout_marginTop="20dp"
                 android:background="@drawable/submit_button"
