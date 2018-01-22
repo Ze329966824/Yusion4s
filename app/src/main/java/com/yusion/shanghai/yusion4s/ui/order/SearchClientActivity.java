@@ -20,11 +20,14 @@ import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
+import com.yusion.shanghai.yusion4s.ui.CommitActivity;
 import com.yusion.shanghai.yusion4s.ui.yusion.apply.CreateUserActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
@@ -64,11 +67,10 @@ public class SearchClientActivity extends BaseActivity {
                     if (key.equals("")) {
                         Toast.makeText(SearchClientActivity.this, "搜索内容不能为空", Toast.LENGTH_LONG).show();
                     } else {
-                        OrderApi.searchClientExist(SearchClientActivity.this, key, new OnItemDataCallBack<List<SearchClientResp>>() {
-                            @Override
-                            public void onItemDataCallBack(List<SearchClientResp> data) {
+                        ApiUtil.requestUrl4Data(SearchClientActivity.this, Api.getOrderService().searchClient(key), data -> {
+//                            OrderApi.searchClientExist(SearchClientActivity.this, key, data -> {
                                 if (data.size() != 0) {
-                                    Log.e("TAG", " searchClientExist : "+data.size());
+                                    Log.e("TAG", " searchClientExist : "+ data.size());
                                     items.clear();
                                     rv_client_info.setVisibility(View.VISIBLE);
                                     search_no_result_lin.setVisibility(View.GONE);
@@ -78,8 +80,7 @@ public class SearchClientActivity extends BaseActivity {
                                     search_no_result_lin.setVisibility(View.VISIBLE);
                                     rv_client_info.setVisibility(View.GONE);
                                 }
-                            }
-                        });
+                            });
                     }
                 }
             }

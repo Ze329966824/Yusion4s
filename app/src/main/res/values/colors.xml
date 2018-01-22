@@ -6,7 +6,7 @@
     <color name="separate_line_color">#e1e3e6</color>
     <color name="system_color">#06b7a3</color>
     <color name="title_bar_text_color">#FFFFFF</color>
-    <color name="hint_text_color">#d1d1d1</color>
+    <color name="hint_text_color">#FFD1D1D1</color>
     <color name="apply_step_style_1_color">#06B7A3</color>
     <color name="apply_step_style_2_color">#FFC723</color>
     <color name="apply_step_style_3_color">#DADBDD</color>

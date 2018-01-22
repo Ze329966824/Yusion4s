@@ -96,6 +96,7 @@ public class SubmitMaterialActivity extends BaseActivity {
             ListDealerLabelsResp item = mItems.get(position);
             holder.name.setText(item.name);
             holder.icon.setVisibility(View.GONE);
+            holder.status.setVisibility(View.VISIBLE);
             setLabelStatus(holder, item);
             holder.itemView.setOnClickListener(mOnItemClick == null ? null : (View.OnClickListener) v -> mOnItemClick.onItemClick(v, item));
         }
@@ -114,6 +115,7 @@ public class SubmitMaterialActivity extends BaseActivity {
                 }
                 if (labelListBean.has_error > 0) {
                     holder.icon.setVisibility(View.VISIBLE);
+                    holder.status.setVisibility(View.GONE);
                 }
             }
             holder.status.setText("");
@@ -128,9 +130,6 @@ public class SubmitMaterialActivity extends BaseActivity {
             if (!hasEmptyImgForOneItem) {
                 holder.status.setText("已上传");
                 holder.status.setTextColor(mContext.getResources().getColor(R.color.system_color));
-            }
-            if (holder.icon.getVisibility() == View.VISIBLE) {
-                holder.status.setVisibility(View.GONE);
             }
         }
 

@@ -27,10 +27,11 @@ import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnVoidCallBack;
 import com.yusion.shanghai.yusion4s.ui.upload.ExtraPreviewActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.GlideUtil;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
 import com.yusion.shanghai.yusion4s.utils.OssUtil;
@@ -146,7 +147,8 @@ public class YusionUploadListActivity extends BaseActivity {
                 req.clt_id = clt_id;
                 req.id.addAll(delImgIdList);
                 if (delImgIdList.size() > 0) {
-                    UploadApi.delImgs(YusionUploadListActivity.this, req, (code, msg) -> {
+                    ApiUtil.requestUrl4CodeAndMsg(YusionUploadListActivity.this, Api.getUploadService().delImgs(req), (code, msg) -> {
+//                        UploadApi.delImgs(YusionUploadListActivity.this, req, (code, msg) -> {
                         if (code == 0) {
 
                             int offset = 0;
@@ -232,7 +234,8 @@ public class YusionUploadListActivity extends BaseActivity {
             ListImgsReq req = new ListImgsReq();
             req.label = type;
             req.clt_id = clt_id;
-            UploadApi.listImgs(this, req, resp -> {
+            ApiUtil.requestUrl4Data(this, Api.getUploadService().listImgs(req),resp -> {
+//                UploadApi.listImgs(this, req, resp -> {
                 if (resp.has_err) {
                     errorLin.setVisibility(View.VISIBLE);
                     errorTv.setText("您提交的资料有误：" + resp.error);
@@ -363,16 +366,14 @@ public class YusionUploadListActivity extends BaseActivity {
         uploadFilesUrlReq.files = uploadFileUrlBeanList;
         uploadFilesUrlReq.region = SharedPrefsUtil.getInstance(this).getValue("region", "");
         uploadFilesUrlReq.bucket = SharedPrefsUtil.getInstance(this).getValue("bucket", "");
-        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, new OnItemDataCallBack<List<String>>() {
-            @Override
-            public void onItemDataCallBack(List<String> data) {
-                for (int i = 0; i < lists.size(); i++) {
-                    lists.get(i).id = data.get(i);
-                }
-                mUploadFileDialog.dismiss();
-                onSuccessCallBack.callBack();
-                Toast.makeText(YusionUploadListActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
+        ApiUtil.requestUrl4Data(this, Api.getUploadService().uploadFileUrlWithIdsResp(uploadFilesUrlReq),true,data -> {
+//        UploadApi.uploadFileUrl(this, uploadFilesUrlReq, data -> {
+            for (int i = 0; i < lists.size(); i++) {
+                lists.get(i).id = data.get(i);
             }
+            mUploadFileDialog.dismiss();
+            onSuccessCallBack.callBack();
+            Toast.makeText(YusionUploadListActivity.this, "上传成功", Toast.LENGTH_SHORT).show();
         });
     }
 

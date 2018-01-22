@@ -36,7 +36,6 @@ import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -202,15 +201,6 @@ public class CarInfoFragment extends BaseFragment {
     @BindView(id = R.id.car_info_dlr_tv2, widgetName = "ar_info_dlr_tv2")
     private TextView distributorTv;
 
-    @BindView(id = R.id.car_info_brand_tv, widgetName = "car_info_brand_tv")
-    private TextView brandTv;
-
-    @BindView(id = R.id.car_info_trix_tv, widgetName = "car_info_trix_tv")
-    private TextView trixTv;
-
-    @BindView(id = R.id.car_info_model_tv, widgetName = "car_info_model_tv")
-    private TextView modelTv;
-
     @BindView(id = R.id.car_info_management_price_tv, widgetName = "car_info_management_price_tv")
     private TextView managementPriceTv;
 
@@ -266,17 +256,15 @@ public class CarInfoFragment extends BaseFragment {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
-                Log.e("TAG", "writeOtherPrice: 1");
-                DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
-                    @Override
-                    public void onItemDataCallBack(String data) {
-                        Log.e("TAG", "onItemDataCallBack: 2 " + data);
-                        if (!TextUtils.isEmpty(data)) {
-                            otherLimit = data;
-                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        }
+//                Log.e("TAG", "writeOtherPrice: 1");
+                ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), data -> {
+//                    DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), data -> {
+                    Log.e("TAG", "onItemDataCallBack: 2 " + data);
+                    if (!TextUtils.isEmpty(data)) {
+                        otherLimit = data;
+                        Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }
                 });
             }
@@ -355,10 +343,7 @@ public class CarInfoFragment extends BaseFragment {
         plateRegAddrLin = view.findViewById(R.id.car_info_plate_reg_addr_lin);
         plateRegAddrTv = view.findViewById(R.id.car_info_plate_reg_addr_tv);//选择上牌地
         dlrTV = view.findViewById(R.id.car_info_dlr_tv);
-        brandTv = view.findViewById(R.id.car_info_brand_tv);
-        trixTv = view.findViewById(R.id.car_info_trix_tv);
         guidePriceTv = view.findViewById(R.id.car_info_guide_price_tv);
-        modelTv = view.findViewById(R.id.car_info_model_tv);
         loanPeriodsTv = view.findViewById(R.id.car_info_loan_periods_tv);
         carInfoLoanPeriodsLin = view.findViewById(R.id.car_info_loan_periods_lin);
         managementPriceTv = view.findViewById(R.id.car_info_management_price_tv);
@@ -618,8 +603,8 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
-
+            ApiUtil.requestUrl4Data(mContext,Api.getDlrService().getLoanBank(dlr_id),resp ->{
+//            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
                 mLoanBankList = resp;//银行列表
                 List<String> items = new ArrayList<String>();
                 for (GetLoanBankResp getLoanBankResp : resp) {
@@ -701,15 +686,12 @@ public class CarInfoFragment extends BaseFragment {
 
         mBrandList.clear();
         mBrandIndex = 0;
-        brandTv.setText("");//厂商指导价
 
         mTrixList.clear();
         mTrixIndex = 0;
-        trixTv.setText("");//选择车型
 
         mModelList.clear();
         mModelIndex = 0;
-        modelTv.setText("");
 
         mGuidePrice = 0;
         guidePriceTv.setText("");

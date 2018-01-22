@@ -5,18 +5,24 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
 import com.facebook.rebound.SpringConfig;
 import com.facebook.rebound.SpringSystem;
 import com.yusion.shanghai.yusion4s.R;
+import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
+import com.yusion.shanghai.yusion4s.bean.msg_center.GetMsgStatus;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.OrderManagerFragmentEvent;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
@@ -38,6 +44,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     private RadioButton mineRb;
     public Boolean isFirstLogin = true;
     private SpringSystem springSystem;
+    public ImageView red_point;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,25 +56,34 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     }
 
     private void init() {
-
+        red_point = findViewById(R.id.red_point);
+        applyOrderRb = findViewById(R.id.main_tab_order_apply);
         applyOrderRb = findViewById(R.id.main_tab_order_apply);
         orderListRb = findViewById(R.id.main_tab_order);
         mineRb = findViewById(R.id.main_tab_mine);
         mHomeFragment = HomeFragment.newInstance();
         mMineFragment = MineFragment.newInstance();
-        mMsgCenterFragment = MsgCenterFragment.newInstance();
         mOrderManagerFragment = OrderManagerFragment.newInstance();
+        mMsgCenterFragment = MsgCenterFragment.newInstance();
         mFragmentManager = getSupportFragmentManager();
-        mFragmentManager.beginTransaction()
-                .add(R.id.main_container, mHomeFragment)
-                .add(R.id.main_container, mOrderManagerFragment)
-                .add(R.id.main_container, mMsgCenterFragment)
-                .add(R.id.main_container, mMineFragment)
-                .hide(mMineFragment)
-                .hide(mOrderManagerFragment)
-                .hide(mMsgCenterFragment)
-                .commit();
+        mFragmentManager.beginTransaction().add(R.id.main_container, mHomeFragment).add(R.id.main_container, mOrderManagerFragment).add(R.id.main_container, mMsgCenterFragment).add(R.id.main_container, mMineFragment).hide(mMineFragment).hide(mOrderManagerFragment).hide(mMsgCenterFragment).commit();
         mCurrentFragment = mHomeFragment;
+    }
+
+    private long lasttime;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis() - lasttime > 2000) {
+                Toast.makeText(this, "再按一下退出", Toast.LENGTH_SHORT).show();
+                lasttime = System.currentTimeMillis();
+            } else {
+                AppUtils.exit();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override
@@ -96,8 +112,14 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 mCurrentFragment = mOrderManagerFragment;
                 break;
             case R.id.main_tab_msg_center:
-                transaction.hide(mCurrentFragment).show(mMsgCenterFragment);
+                if (!mCurrentFragment.equals(mMsgCenterFragment)) {
+                    transaction.hide(mCurrentFragment).show(mMsgCenterFragment);
+                } else {
+                    transaction.show(mCurrentFragment);
+                }
                 mCurrentFragment = mMsgCenterFragment;
+                //// TODO: 2018/1/12 点击影藏
+//                red_point.setVisibility(View.GONE);
                 break;
             case R.id.main_tab_mine:
                 transaction.hide(mCurrentFragment).show(mMineFragment);
@@ -107,8 +129,8 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 break;
         }
         transaction.commit();
-        animateViewDirection(v, 0.8f, 1f, 100, 1);
-//        animateViewDirection(v, 0.8f, 1f, 20, 5);
+//        animateViewDirection(v, 0.8f, 1f, 100, 1);
+        animateViewDirection(v, 0.8f, 1f, 20, 5);
     }
 
     /**
@@ -145,10 +167,18 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     @Override
     protected void onResume() {
         super.onResume();
+        Yusion4sApp.isLogin = true;
         ConfigApi.getConfigJson(MainActivity.this, null);
+        ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(), data -> mMineFragment.refresh(data));
+        //// TODO: 2018/1/16  如果收到推送，则直接显示小红点
 
-        ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(),data -> mMineFragment.refresh(data));
-
+        ApiUtil.requestUrl4Data(this, Api.getMsgCenterService().getMessageStatus(), (OnItemDataCallBack<GetMsgStatus>) getMsgStatus -> {
+            if (getMsgStatus.has_new_msg) {
+                red_point.setVisibility(View.VISIBLE);
+            } else {
+                red_point.setVisibility(View.GONE);
+            }
+        });
         // 第一次登陆时  取出列表里第一个门店展示出来 （首页）
         mHomeFragment.firstLogin();
     }

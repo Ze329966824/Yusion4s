@@ -43,6 +43,12 @@ public class ActivityManager {
         return list.get(list.size() - 2).getClass().getSimpleName();
     }
 
+    public static Activity getActivity() {
+
+        Log.e("TAG", "getActivity: size = "+list.size());
+        return list.get(list.size() -1);
+    }
+
     public static void finish() {
         for (AppCompatActivity activity : list) {
             list.remove(activity);

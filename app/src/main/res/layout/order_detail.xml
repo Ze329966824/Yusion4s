@@ -12,219 +12,6 @@
         android:id="@+id/title_bar"
         layout="@layout/base_titlebar" />
 
-
-    <LinearLayout
-        android:id="@+id/lln"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/title_bar"
-        android:orientation="vertical"
-        android:paddingBottom="10dp"
-        android:visibility="gone">
-
-        <!--审核中-->
-        <LinearLayout
-            android:orientation="vertical"
-            android:id="@+id/order_detail_status_wait_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            tools:visibility="visible"
-            android:visibility="visible">
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:id="@+id/order_detail_status_wait"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="征信审核中"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
-
-            <View
-                android:id="@+id/order_detail_status_wait_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_below="@id/order_detail_status_wait"
-                android:background="@color/main_driver" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/order_detail_status_wait_line"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/order_detail_audit" />
-
-                <TextView
-                    android:id="@+id/order_detail_status_wait_reason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    tools:text="征信审核中备注……"
-                    android:textColor="#FFA400"
-                    android:textSize="13.5sp" />
-            </LinearLayout>
-        </LinearLayout>
-
-        <!--审核通过-->
-        <RelativeLayout
-            android:id="@+id/order_detail_status_pass_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:id="@+id/order_detail_status_pass"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="征信通过"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
-
-            <View
-                android:id="@+id/order_detail_status_pass_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_below="@id/order_detail_status_pass"
-                android:background="@color/main_driver" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/order_detail_status_pass_line"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/order_detail_pass" />
-
-                <TextView
-                    android:id="@+id/order_detail_status_pass_reason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:padding="15dp"
-                    android:text="征信通过备注……"
-                    android:textColor="#06B7A3"
-                    android:textSize="13.5sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <!--审核拒绝-->
-        <RelativeLayout
-            android:id="@+id/order_detail_status_reject_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:visibility="gone"
-            tools:visibility="visible">
-
-            <TextView
-                android:id="@+id/order_detail_status_reject"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="征信审核拒绝"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
-
-            <View
-                android:id="@+id/order_detail_status_reject_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_below="@id/order_detail_status_reject"
-                android:background="@color/main_driver" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/order_detail_status_reject_line"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/icon_rejected" />
-
-                <TextView
-                    android:id="@+id/order_detail_status_reject_reason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/order_detail_status_reject_line"
-                    android:padding="15dp"
-                    android:text="征信拒绝备注……"
-                    android:textColor="#FF3F00"
-                    android:textSize="13.5sp" />
-            </LinearLayout>
-        </RelativeLayout>
-
-        <!--取消-->
-        <RelativeLayout
-            android:id="@+id/order_detail_status_cancel_layout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/white"
-            android:visibility="gone"
-            tools:visibility="gone">
-
-            <TextView
-                android:id="@+id/order_detail_status_cancel"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="15dp"
-                android:text="已取消"
-                android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
-
-            <View
-                android:id="@+id/order_detail_status_cancel_line"
-                android:layout_width="match_parent"
-                android:layout_height="0.5dp"
-                android:layout_below="@id/order_detail_status_cancel"
-                android:background="@color/main_driver" />
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/order_detail_status_cancel_line"
-                android:orientation="horizontal">
-
-                <ImageView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginLeft="15dp"
-                    android:src="@mipmap/order_detail_cancel" />
-
-                <TextView
-                    android:id="@+id/order_detail_status_cancel_reason"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/order_detail_status_cancel_line"
-                    android:padding="15dp"
-                    android:text="取消备注……"
-                    android:textColor="#999999"
-                    android:textSize="13.5sp" />
-            </LinearLayout>
-        </RelativeLayout>
-    </LinearLayout>
-
-
     <!--复用-->
     <LinearLayout
         android:id="@+id/title_lin"
@@ -370,7 +157,7 @@
 
         android:elevation="2dp"
         android:orientation="horizontal"
-        tools:visibility="visible"
+        tools:visibility="gone"
         android:visibility="gone">
 
         <Button
@@ -389,39 +176,7 @@
             android:textColor="@color/white"
             android:textSize="16sp" />
 
-        <Button
-            android:id="@+id/order_detail_look"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_order_sign"
-            android:gravity="center"
-            android:text="查看合同"
-            android:textColor="@color/white"
-            android:textSize="16sp"
-            android:visibility="gone" />
 
-        <Button
-            android:id="@+id/order_detail_cancle"
-            android:layout_width="match_parent"
-            android:layout_height="44dp"
-            android:layout_gravity="center"
-            android:layout_marginBottom="10dp"
-            android:layout_marginLeft="15dp"
-            android:layout_marginRight="15dp"
-            android:layout_marginTop="10dp"
-            android:layout_weight="1"
-            android:background="@drawable/btn_order_cancle"
-            android:gravity="center"
-            android:text="取消"
-            android:textColor="@color/text_light_grey"
-            android:textSize="16sp"
-            android:visibility="gone" />
     </LinearLayout>
 
 
@@ -434,6 +189,7 @@
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal"
+        tools:visibility="gone"
         android:visibility="gone">
 
 
@@ -467,15 +223,25 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:elevation="2dp"
-        tools:visibility="gone"
+        tools:visibility="visible"
         android:orientation="horizontal"
         android:visibility="gone">
+        <TextView
+            android:id="@+id/order_detail_check_tv"
+            android:layout_width="@dimen/x389"
+            android:layout_height="44dp"
+            android:gravity="center"
+            android:text="查看资料"
+            android:background="#FFFFFFFF"
+            android:textColor="#FF666666" />
 
 
 
         <TextView
             android:id="@+id/order_detail_replace_tv"
-            android:layout_width="0dp"
+            android:visibility="gone"
+            tools:visibility="visible"
+            android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_weight="1"
             android:background="#FF06B7A3"

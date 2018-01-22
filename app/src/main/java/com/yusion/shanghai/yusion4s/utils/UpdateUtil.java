@@ -11,9 +11,9 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.yusion.shanghai.yusion4s.R;
 
 import java.io.File;
@@ -88,9 +88,9 @@ public class UpdateUtil {
             ok = mDialogView.findViewById(R.id.update_ok);
             ok.setOnClickListener(this);
 
-//            if (isForce) {
-//                close.setVisibility(View.GONE);
-//            }
+            if (isForce) {
+                close.setVisibility(View.GONE);
+            }
 
             mDialog = new Dialog(mContext, R.style.MyDialogStyle);
             mDialog.setContentView(mDialogView, new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT));
@@ -119,6 +119,7 @@ public class UpdateUtil {
                 toWebUpdate();
             }
         }
+
 
         private void toWebUpdate() {
             Intent intent =new Intent();

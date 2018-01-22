@@ -51,6 +51,7 @@ public class OrderDetailBean {
      * dlr_dfim_mobile : 15982172250
      * app_id : 11000105
      */
+    public String comments;
     public String aid_dlr_nm;
     public String client_status_code;
     public boolean is_modify;
@@ -334,6 +335,7 @@ public class OrderDetailBean {
          * app_id : 11000105
          */
 
+        public String spouse_clt_id;
         public String brand;
         public String trix;
         public String model_name;

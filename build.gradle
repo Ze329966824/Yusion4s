@@ -3,8 +3,8 @@
 buildscript {
 
     ext {
-        VersionName = "V1.5.9"
-        VersionCode = 36
+        VersionName = "V1.7.0"
+        VersionCode = 38
         isOnline = false
         forAppium = false
 
@@ -21,7 +21,6 @@ buildscript {
         classpath 'me.tatarka:gradle-retrolambda:3.5.0'
         classpath 'com.github.dcendents:android-maven-gradle-plugin:1.4.1'
 
-        classpath 'com.android.tools.build:gradle:1.5.0'
         classpath 'com.growingio.android:vds-gradle-plugin:1.1.1'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files

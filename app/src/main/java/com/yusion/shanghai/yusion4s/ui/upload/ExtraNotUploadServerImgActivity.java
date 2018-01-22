@@ -32,7 +32,6 @@ import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadImgItemBean;
 import com.yusion.shanghai.yusion4s.glide.StatusImageRel;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
@@ -288,7 +287,8 @@ public class ExtraNotUploadServerImgActivity extends BaseActivity {
         req.clt_id = clt_id;
         req.id.addAll(delImgIdList);//delImgIdList 删除id的集合
         if (delImgIdList.size() > 0) {
-            UploadApi.delImgs(ExtraNotUploadServerImgActivity.this, req, (code, msg) -> {
+            ApiUtil.requestUrl4CodeAndMsg(ExtraNotUploadServerImgActivity.this, Api.getUploadService().delImgs(req), (code, msg) -> {
+//            UploadApi.delImgs(ExtraNotUploadServerImgActivity.this, req, (code, msg) -> {
                 if (code == 0) {
                     Toast.makeText(myApp, "删除成功", Toast.LENGTH_SHORT).show();
                     onImgCountChange(imgList.size() > 0);

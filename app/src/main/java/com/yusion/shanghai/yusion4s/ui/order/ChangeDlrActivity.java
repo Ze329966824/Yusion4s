@@ -16,7 +16,10 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetDlrListByTokenResp;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
+import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 import java.util.ArrayList;
 
@@ -86,7 +89,8 @@ public class ChangeDlrActivity extends AppCompatActivity {
     private void showDlr() {
         dlrItems = new ArrayList<>();
         dlrItemNums = new ArrayList<>();
-        DlrApi.getDlrListByToken(this, resp -> {
+        ApiUtil.requestUrl4Data(this, Api.getDlrService().getDlrListByToken(), resp ->{
+//        DlrApi.getDlrListByToken(this, resp -> {
             if (resp != null && !resp.isEmpty()) {
                 for (GetDlrListByTokenResp item : resp) {
                     dlrItems.add(item.dlr_nm);

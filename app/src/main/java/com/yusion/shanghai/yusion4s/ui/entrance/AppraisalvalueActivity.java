@@ -13,9 +13,8 @@ import com.shizhefei.view.largeimage.LargeImageView;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.upload.ListImgsReq;
-import com.yusion.shanghai.yusion4s.bean.upload.ListImgsResp;
-import com.yusion.shanghai.yusion4s.retrofit.api.UploadApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.Base64Util;
 
 import java.io.File;
@@ -90,20 +89,18 @@ public class AppraisalvalueActivity extends BaseActivity {
             Log.e("TAG", req.clt_id + req.app_id + req.role + req.label);
 
 
-            UploadApi.listImgs(this, req, new OnItemDataCallBack<ListImgsResp>() {
-                @Override
-                public void onItemDataCallBack(ListImgsResp data) {
-                    if (data.list.isEmpty() || data.list.size() < 0) {
-                        Toast.makeText(AppraisalvalueActivity.this, "并没有图片", Toast.LENGTH_SHORT).show();
-                        return;
-                    }
-                    try {
-                        url = new URL(data.list.get(0).raw_url);
-                        finalUrl = url;
-                        setUrl();
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    }
+            ApiUtil.requestUrl4Data(this, Api.getUploadService().listImgs(req),data -> {
+//            UploadApi.listImgs(this, req, data -> {
+                if (data.list.isEmpty() || data.list.size() < 0) {
+                    Toast.makeText(AppraisalvalueActivity.this, "并没有图片", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                try {
+                    url = new URL(data.list.get(0).raw_url);
+                    finalUrl = url;
+                    setUrl();
+                } catch (MalformedURLException e) {
+                    e.printStackTrace();
                 }
             });
         }

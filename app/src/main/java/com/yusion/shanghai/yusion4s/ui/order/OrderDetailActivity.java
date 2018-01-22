@@ -18,20 +18,21 @@ import android.widget.TextView;
 
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.upload.SubmitMaterialActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.ToastUtil;
+
+import static com.yusion.shanghai.yusion4s.R.id.order_detail_check_tv;
+import static com.yusion.shanghai.yusion4s.R.id.order_detail_replace_tv;
 
 
 /**
@@ -151,21 +152,23 @@ public class OrderDetailActivity extends BaseActivity {
     private TextView cancel_title;      //取消标题
 
 
-    private LinearLayout order_detail_sign_layout;              //一个按钮的layout
+    private LinearLayout onebtn_layout;              //一个按钮的layout
     @BindView(id = R.id.order_detail_sign, widgetName = "order_detail_sign", onClick = "submitMaterial")
     private Button orderDetailSignBtn;                          //提交资料(一个按钮)
 
-    private LinearLayout order_detail_change_layout;            //两个按钮的layout
+    private LinearLayout twobtn_layout;            //两个按钮的layout
     private TextView orderDetailChangeBtn;                      //修改资料(两个按钮)
     private TextView orderDetailUploadBtn;                      //提交资料(两个按钮)
 
 
     private LinearLayout order_detail_replace_layout;            //更换配偶作为主贷人layout
     private TextView orderDetailReplaceBtn;                     //更换配偶作为主贷人
+    private TextView orderDetailCheckBtn;                     //更换配偶作为主贷人
 
     private FloatingActionButton fab;
     private NestedScrollView mScrollView;
     private String app_id;
+    private String come_from;
     private String spouse_clt_id;
     private int status_st;
     private String cartype;
@@ -176,7 +179,6 @@ public class OrderDetailActivity extends BaseActivity {
     private LinearLayout havere_oldcar_applyBillPrice_lin;// 批复交易价
     private LinearLayout newcar_zhidaoAnd_billPrice_lin;//新车的指导价和开票价
     private LinearLayout oldcar_info_lin;//二手车的信息
-
 
 
     private LinearLayout title_lin;
@@ -193,9 +195,10 @@ public class OrderDetailActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.order_detail);
         UBT.bind(this);
+        come_from = getIntent().getStringExtra("come_from");
         app_id = getIntent().getStringExtra("app_id");
         status_st = getIntent().getIntExtra("status_st", 0);
-        spouse_clt_id = getIntent().getStringExtra("spouse_clt_id");
+//        spouse_clt_id = getIntent().getStringExtra("spouse_clt_id");
         //cartype = getIntent().getStringExtra("car_type");
         initView();
         // initTitleBar(this, "申请详情");
@@ -209,168 +212,168 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void initView() {
-        title_lin = (LinearLayout) findViewById(R.id.title_lin);
-        title_img = (ImageView) findViewById(R.id.title_img);
-        title_tv = (TextView) findViewById(R.id.title_tv);
-        remark_tv1 = (TextView) findViewById(R.id.remark_tv1);
-        remark_tv2 = (TextView) findViewById(R.id.remark_tv2);
-        order_detail_schedule_lin = (LinearLayout) findViewById(R.id.order_detail_schedule_lin);
-        OldcarbusnesspriceTv = (TextView) findViewById(R.id.order_detail_busnessprice_tv);
-        beforebusnesspriceTv = (TextView) findViewById(R.id.oldcar_before_busnessprice_tv);
-        beforeguesspriceTv = (TextView) findViewById(R.id.oldcar_before_guessprice_tv);
-        OldcarGuesspriceTv = (TextView) findViewById(R.id.order_detail_guessprice_tv);
-        beforedistancevTv = (TextView) findViewById(R.id.oldcar_before_distance_tv);
-        OldcardistancevTv = (TextView) findViewById(R.id.order_detail_distance_tv);
-        OldcartimeTv = (TextView) findViewById(R.id.order_detail_addrtime_tv);
-        beforeOldcartimeTv = (TextView) findViewById(R.id.oldcar_before_addrtime_tv);
-        beforeOldcarAddrTV = (TextView) findViewById(R.id.oldcar_before_addr_tv);
-        OldcarAddrTV = (TextView) findViewById(R.id.order_detail_addr_tv);
-        havere_applyBuinessPriceTv = (TextView) findViewById(R.id.order_detail_havere_oldcar_apply_bill_price_tv);
-        havere_replyBuinessPriceTv = (TextView) findViewById(R.id.order_detail_havere_oldcar_reply_bill_price_tv);
-        oldcar_business_price_lin = (LinearLayout) findViewById(R.id.oldcar_business_price_lin);
-        order_detail_finance_bill_price_lin = (LinearLayout) findViewById(R.id.order_detail_finance_bill_price_lin);
-        havere_applyBillPrice_lin = (LinearLayout) findViewById(R.id.havere_applyBillPrice_lin);
-        havere_oldcar_applyBillPrice_lin = (LinearLayout) findViewById(R.id.havere_oldcar_applyBillPrice_lin);
-        newcar_zhidaoAnd_billPrice_lin = (LinearLayout) findViewById(R.id.newcar_zhidaoAnd_billPrice_lin);
-        oldcar_info_lin = (LinearLayout) findViewById(R.id.oldcar_info_lin);
+        title_lin = findViewById(R.id.title_lin);
+        title_img = findViewById(R.id.title_img);
+        title_tv = findViewById(R.id.title_tv);
+        remark_tv1 = findViewById(R.id.remark_tv1);
+        remark_tv2 = findViewById(R.id.remark_tv2);
+        order_detail_schedule_lin = findViewById(R.id.order_detail_schedule_lin);
+        OldcarbusnesspriceTv = findViewById(R.id.order_detail_busnessprice_tv);
+        beforebusnesspriceTv = findViewById(R.id.oldcar_before_busnessprice_tv);
+        beforeguesspriceTv = findViewById(R.id.oldcar_before_guessprice_tv);
+        OldcarGuesspriceTv = findViewById(R.id.order_detail_guessprice_tv);
+        beforedistancevTv = findViewById(R.id.oldcar_before_distance_tv);
+        OldcardistancevTv = findViewById(R.id.order_detail_distance_tv);
+        OldcartimeTv = findViewById(R.id.order_detail_addrtime_tv);
+        beforeOldcartimeTv = findViewById(R.id.oldcar_before_addrtime_tv);
+        beforeOldcarAddrTV = findViewById(R.id.oldcar_before_addr_tv);
+        OldcarAddrTV = findViewById(R.id.order_detail_addr_tv);
+        havere_applyBuinessPriceTv = findViewById(R.id.order_detail_havere_oldcar_apply_bill_price_tv);
+        havere_replyBuinessPriceTv = findViewById(R.id.order_detail_havere_oldcar_reply_bill_price_tv);
+        oldcar_business_price_lin = findViewById(R.id.oldcar_business_price_lin);
+        order_detail_finance_bill_price_lin = findViewById(R.id.order_detail_finance_bill_price_lin);
+        havere_applyBillPrice_lin = findViewById(R.id.havere_applyBillPrice_lin);
+        havere_oldcar_applyBillPrice_lin = findViewById(R.id.havere_oldcar_applyBillPrice_lin);
+        newcar_zhidaoAnd_billPrice_lin = findViewById(R.id.newcar_zhidaoAnd_billPrice_lin);
+        oldcar_info_lin = findViewById(R.id.oldcar_info_lin);
 
-        fab = (FloatingActionButton) findViewById(R.id.fab);
-        mScrollView = (NestedScrollView) findViewById(R.id.scrollView_four);
+        fab = findViewById(R.id.fab);
+        mScrollView = findViewById(R.id.scrollView_four);
         fab.setOnClickListener(v -> mScrollView.smoothScrollTo(0, 0));
-        waitLin = (LinearLayout) findViewById(R.id.order_detail_status_wait_layout);
-        cancelRel = (RelativeLayout) findViewById(R.id.order_detail_status_cancel_layout);
-        passRel = (RelativeLayout) findViewById(R.id.order_detail_status_pass_layout);
-        rejectRel = (RelativeLayout) findViewById(R.id.order_detail_status_reject_layout);
-        nore_financeLin = (LinearLayout) findViewById(R.id.order_detail_finance_lin);
+//        waitLin = findViewById(R.id.order_detail_status_wait_layout);
+//        cancelRel = findViewById(R.id.order_detail_status_cancel_layout);
+//        passRel = findViewById(R.id.order_detail_status_pass_layout);
+//        rejectRel = findViewById(R.id.order_detail_status_reject_layout);
+        nore_financeLin = findViewById(R.id.order_detail_finance_lin);
 
-        waitReason = (TextView) findViewById(R.id.order_detail_status_wait_reason);
-        wait_title = (TextView) findViewById(R.id.order_detail_status_wait);
-        pass_title = (TextView) findViewById(R.id.order_detail_status_pass);
-        reject_title = (TextView) findViewById(R.id.order_detail_status_reject);
-        cancel_title = (TextView) findViewById(R.id.order_detail_status_cancel);
+//        waitReason = findViewById(R.id.order_detail_status_wait_reason);
+//        wait_title = findViewById(R.id.order_detail_status_wait);
+//        pass_title = findViewById(R.id.order_detail_status_pass);
+//        reject_title = findViewById(R.id.order_detail_status_reject);
+//        cancel_title = findViewById(R.id.order_detail_status_cancel);
+//
+//        cancelReason = findViewById(R.id.order_detail_status_cancel_reason);
+//        passReason = findViewById(R.id.order_detail_status_pass_reason);
+//        rejectReason = findViewById(R.id.order_detail_status_reject_reason);
 
-        cancelReason = (TextView) findViewById(R.id.order_detail_status_cancel_reason);
-        passReason = (TextView) findViewById(R.id.order_detail_status_pass_reason);
-        rejectReason = (TextView) findViewById(R.id.order_detail_status_reject_reason);
-
-        applyBillPriceTv = (TextView) findViewById(R.id.order_detail_finance_bill_price_tv);
-        applyFirstPriceTv = (TextView) findViewById(R.id.order_detail_finance_first_price_tv);
-        applyLoanPriceTv = (TextView) findViewById(R.id.order_detail_finance_loan_price_tv);
-        applyManagementPriceTv = (TextView) findViewById(R.id.order_detail_finance_management_price_tv);
-        applyOtherPriceTv = (TextView) findViewById(R.id.order_detail_finance_other_price_tv);
-        applyTotalLoanPriceTv = (TextView) findViewById(R.id.order_detail_finance_total_loan_price_tv);
-        applyLoanBankTv = (TextView) findViewById(R.id.order_detail_finance_loan_bank_tv);
-        applyProductTypeTv = (TextView) findViewById(R.id.order_detail_finance_product_type_tv);
-        applyPeriodsTv = (TextView) findViewById(R.id.order_detail_finance_periods_tv);
-        applyBusinessTv = (TextView) findViewById(R.id.oldcar_business_price_tv);
+        applyBillPriceTv = findViewById(R.id.order_detail_finance_bill_price_tv);
+        applyFirstPriceTv = findViewById(R.id.order_detail_finance_first_price_tv);
+        applyLoanPriceTv = findViewById(R.id.order_detail_finance_loan_price_tv);
+        applyManagementPriceTv = findViewById(R.id.order_detail_finance_management_price_tv);
+        applyOtherPriceTv = findViewById(R.id.order_detail_finance_other_price_tv);
+        applyTotalLoanPriceTv = findViewById(R.id.order_detail_finance_total_loan_price_tv);
+        applyLoanBankTv = findViewById(R.id.order_detail_finance_loan_bank_tv);
+        applyProductTypeTv = findViewById(R.id.order_detail_finance_product_type_tv);
+        applyPeriodsTv = findViewById(R.id.order_detail_finance_periods_tv);
+        applyBusinessTv = findViewById(R.id.oldcar_business_price_tv);
 
 
-        orderInfoTitleLin = (LinearLayout) findViewById(R.id.order_detail_order_info_title);
-        dlrNameTv = (TextView) findViewById(R.id.order_detail_dlr_name_tv);
-        beforeDlrNameTv = (TextView) findViewById(R.id.order_detail_before_dlr_name_tv);
-        brandTv = (TextView) findViewById(R.id.order_detail_brand_tv);
-        beforeBrandTv = (TextView) findViewById(R.id.order_detail_before_brand_tv);
-        trixTv = (TextView) findViewById(R.id.order_detail_trix_tv);
-        beforeTrixTv = (TextView) findViewById(R.id.order_detail_before_trix_tv);
-        modelTv = (TextView) findViewById(R.id.order_detail_model_tv);
-        beforeModelTv = (TextView) findViewById(R.id.order_detail_before_model_tv);
-        colorTv = (TextView) findViewById(R.id.order_detail_color_tv);
-        beforeColorTv = (TextView) findViewById(R.id.order_detail_before_color_tv);
-        condTv = (TextView) findViewById(R.id.order_detail_vehicle_cond_tv);
-        beforeCondTv = (TextView) findViewById(R.id.order_detail_before_vehicle_cond_tv);
-        guidePriceTv = (TextView) findViewById(R.id.order_detail_guide_price_tv);
-        beforeGuidePriceTv = (TextView) findViewById(R.id.order_detail_before_guide_price_tv);
-        billPriceTv = (TextView) findViewById(R.id.order_detail_vehicle_price_tv);
-        beforeBillPriceTv = (TextView) findViewById(R.id.order_detail_before_vehicle_price_tv);
+        orderInfoTitleLin = findViewById(R.id.order_detail_order_info_title);
+        dlrNameTv = findViewById(R.id.order_detail_dlr_name_tv);
+        beforeDlrNameTv = findViewById(R.id.order_detail_before_dlr_name_tv);
+        brandTv = findViewById(R.id.order_detail_brand_tv);
+        beforeBrandTv = findViewById(R.id.order_detail_before_brand_tv);
+        trixTv = findViewById(R.id.order_detail_trix_tv);
+        beforeTrixTv = findViewById(R.id.order_detail_before_trix_tv);
+        modelTv = findViewById(R.id.order_detail_model_tv);
+        beforeModelTv = findViewById(R.id.order_detail_before_model_tv);
+        colorTv = findViewById(R.id.order_detail_color_tv);
+        beforeColorTv = findViewById(R.id.order_detail_before_color_tv);
+        condTv = findViewById(R.id.order_detail_vehicle_cond_tv);
+        beforeCondTv = findViewById(R.id.order_detail_before_vehicle_cond_tv);
+        guidePriceTv = findViewById(R.id.order_detail_guide_price_tv);
+        beforeGuidePriceTv = findViewById(R.id.order_detail_before_guide_price_tv);
+        billPriceTv = findViewById(R.id.order_detail_vehicle_price_tv);
+        beforeBillPriceTv = findViewById(R.id.order_detail_before_vehicle_price_tv);
         //贷款额
-        loanAmtTv = (TextView) findViewById(R.id.order_detail_vehicle_loan_amt_tv);
-        beforeLoanAmtTv = (TextView) findViewById(R.id.order_detail_before_vehicle_loan_amt_tv);
-        downPaymentTv = (TextView) findViewById(R.id.order_detail_vehicle_down_payment_tv);
-        beforeDownPaymentTv = (TextView) findViewById(R.id.order_detail_before_vehicle_down_payment_tv);
-        managementFeeTv = (TextView) findViewById(R.id.order_detail_management_fee_tv);
-        beforeManagementFeeTv = (TextView) findViewById(R.id.order_detail_before_management_fee_tv);
-        otherFeeTv = (TextView) findViewById(R.id.order_detail_other_fee_tv);
-        beforeOtherFeeTv = (TextView) findViewById(R.id.order_detail_before_other_fee_tv);
+        loanAmtTv = findViewById(R.id.order_detail_vehicle_loan_amt_tv);
+        beforeLoanAmtTv = findViewById(R.id.order_detail_before_vehicle_loan_amt_tv);
+        downPaymentTv = findViewById(R.id.order_detail_vehicle_down_payment_tv);
+        beforeDownPaymentTv = findViewById(R.id.order_detail_before_vehicle_down_payment_tv);
+        managementFeeTv = findViewById(R.id.order_detail_management_fee_tv);
+        beforeManagementFeeTv = findViewById(R.id.order_detail_before_management_fee_tv);
+        otherFeeTv = findViewById(R.id.order_detail_other_fee_tv);
+        beforeOtherFeeTv = findViewById(R.id.order_detail_before_other_fee_tv);
         //总贷款额
-        totalLoanAmtTv = (TextView) findViewById(R.id.order_detail_loan_amt_tv);
-        beforeTotalLoanAmtTv = (TextView) findViewById(R.id.order_detail_before_loan_amt_tv);
-        loanBankTv = (TextView) findViewById(R.id.order_detail_loan_bank_tv);
-        beforeLoanBankTv = (TextView) findViewById(R.id.order_detail_before_loan_bank_tv);
-        productTypeTv = (TextView) findViewById(R.id.order_detail_product_type_tv);
-        beforeProductTypeTv = (TextView) findViewById(R.id.order_detail_before_product_type_tv);
-        nperTv = (TextView) findViewById(R.id.order_detail_nper_tv);
-        beforeNperTv = (TextView) findViewById(R.id.order_detail_before_nper_tv);
-        regAddrTv = (TextView) findViewById(R.id.order_detail_plate_reg_addr_tv);
-        beforeRegAddrTv = (TextView) findViewById(R.id.order_detail_before_plate_reg_addr_tv);
+        totalLoanAmtTv = findViewById(R.id.order_detail_loan_amt_tv);
+        beforeTotalLoanAmtTv = findViewById(R.id.order_detail_before_loan_amt_tv);
+        loanBankTv = findViewById(R.id.order_detail_loan_bank_tv);
+        beforeLoanBankTv = findViewById(R.id.order_detail_before_loan_bank_tv);
+        productTypeTv = findViewById(R.id.order_detail_product_type_tv);
+        beforeProductTypeTv = findViewById(R.id.order_detail_before_product_type_tv);
+        nperTv = findViewById(R.id.order_detail_nper_tv);
+        beforeNperTv = findViewById(R.id.order_detail_before_nper_tv);
+        regAddrTv = findViewById(R.id.order_detail_plate_reg_addr_tv);
+        beforeRegAddrTv = findViewById(R.id.order_detail_before_plate_reg_addr_tv);
 
 
-        salesNameTv = (TextView) findViewById(R.id.order_detail_sales_name_tv);
-        customerIdTv = (TextView) findViewById(R.id.order_detail_customer_id_tv);
-        customerNameTv = (TextView) findViewById(R.id.order_detail_customer_name_tv);
+        salesNameTv = findViewById(R.id.order_detail_sales_name_tv);
+        customerIdTv = findViewById(R.id.order_detail_customer_id_tv);
+        customerNameTv = findViewById(R.id.order_detail_customer_name_tv);
 
 
-        havere_applyFirstPercentTv = (TextView) findViewById(R.id.order_detail_havere_apply_first_percent_tv);
-        havere_replyFirstPercentTv = (TextView) findViewById(R.id.order_detail_havere_reply_first_percent_tv);
-        havere_applyBillPriceTv = (TextView) findViewById(R.id.order_detail_havere_apply_bill_price_tv);
-        havere_replyBillPriceTv = (TextView) findViewById(R.id.order_detail_havere_reply_bill_price_tv);
+        havere_applyFirstPercentTv = findViewById(R.id.order_detail_havere_apply_first_percent_tv);
+        havere_replyFirstPercentTv = findViewById(R.id.order_detail_havere_reply_first_percent_tv);
+        havere_applyBillPriceTv = findViewById(R.id.order_detail_havere_apply_bill_price_tv);
+        havere_replyBillPriceTv = findViewById(R.id.order_detail_havere_reply_bill_price_tv);
 
-        havere_applyFirstPriceTv = (TextView) findViewById(R.id.order_detail_havere_apply_first_price_tv);
-        havere_replyFirstPriceTv = (TextView) findViewById(R.id.order_detail_havere_reply_first_price_tv);
+        havere_applyFirstPriceTv = findViewById(R.id.order_detail_havere_apply_first_price_tv);
+        havere_replyFirstPriceTv = findViewById(R.id.order_detail_havere_reply_first_price_tv);
 
-        havere_applyLoanPriceTv = (TextView) findViewById(R.id.order_detail_havere_apply_loan_price_tv);
-        havere_replyLoanPriceTv = (TextView) findViewById(R.id.order_detail_havere_reply_loan_price_tv);
+        havere_applyLoanPriceTv = findViewById(R.id.order_detail_havere_apply_loan_price_tv);
+        havere_replyLoanPriceTv = findViewById(R.id.order_detail_havere_reply_loan_price_tv);
 
-        havere_applyManagementPriceTv = (TextView) findViewById(R.id.order_detail_havere_apply_management_price_tv);
-        havere_replyManagementPriceTv = (TextView) findViewById(R.id.order_detail_havere_reply_management_price_tv);
+        havere_applyManagementPriceTv = findViewById(R.id.order_detail_havere_apply_management_price_tv);
+        havere_replyManagementPriceTv = findViewById(R.id.order_detail_havere_reply_management_price_tv);
 
-        havere_applyOtherPriceTv = (TextView) findViewById(R.id.order_detail_havere_apply_other_price_tv);
-        havere_replyOtherPriceTv = (TextView) findViewById(R.id.order_detail_havere_reply_other_price_tv);
+        havere_applyOtherPriceTv = findViewById(R.id.order_detail_havere_apply_other_price_tv);
+        havere_replyOtherPriceTv = findViewById(R.id.order_detail_havere_reply_other_price_tv);
 
-        havere_applyBankTv = (TextView) findViewById(R.id.order_detail_havere_apply_bank_tv);
-        havere_replyBankTv = (TextView) findViewById(R.id.order_detail_havere_reply_bank_tv);
+        havere_applyBankTv = findViewById(R.id.order_detail_havere_apply_bank_tv);
+        havere_replyBankTv = findViewById(R.id.order_detail_havere_reply_bank_tv);
 
-        havere_applyRepayDateTv = (TextView) findViewById(R.id.order_detail_havere_apply_repay_date_tv);
-        havere_replyRepayDateTv = (TextView) findViewById(R.id.order_detail_havere_reply_repay_data_tv);
+        havere_applyRepayDateTv = findViewById(R.id.order_detail_havere_apply_repay_date_tv);
+        havere_replyRepayDateTv = findViewById(R.id.order_detail_havere_reply_repay_data_tv);
 
-        havere_applyTotalPriceTv = (TextView) findViewById(R.id.order_detail_havere_apply_total_price_tv);
-        havere_replyTotalPriceTv = (TextView) findViewById(R.id.order_detail_havere_reply_total_price_tv);
+        havere_applyTotalPriceTv = findViewById(R.id.order_detail_havere_apply_total_price_tv);
+        havere_replyTotalPriceTv = findViewById(R.id.order_detail_havere_reply_total_price_tv);
 
-        havere_applyProductTypeTv = (TextView) findViewById(R.id.order_detail_havere_apply_product_type_tv);
-        havere_replyProductTypeTv = (TextView) findViewById(R.id.order_detail_havere_reply_product_type_tv);
+        havere_applyProductTypeTv = findViewById(R.id.order_detail_havere_apply_product_type_tv);
+        havere_replyProductTypeTv = findViewById(R.id.order_detail_havere_reply_product_type_tv);
 
-        havere_applyMonthPriceTv = (TextView) findViewById(R.id.order_detail_havere_apply_month_price_tv);
-        havere_replyMonthPriceTv = (TextView) findViewById(R.id.order_detail_havere_reply_month_price_tv);
+        havere_applyMonthPriceTv = findViewById(R.id.order_detail_havere_apply_month_price_tv);
+        havere_replyMonthPriceTv = findViewById(R.id.order_detail_havere_reply_month_price_tv);
 
-        order_detail_sign_layout = (LinearLayout) findViewById(R.id.order_detail_sign_layout);
-        order_detail_change_layout = (LinearLayout) findViewById(R.id.order_detail_change_layout);
-        order_detail_replace_layout = (LinearLayout) findViewById(R.id.order_detail_replace_layout);
+        onebtn_layout = findViewById(R.id.order_detail_sign_layout);
+        twobtn_layout = findViewById(R.id.order_detail_change_layout);
+        order_detail_replace_layout = findViewById(R.id.order_detail_replace_layout);
 
-        orderDetailSignBtn = (Button) findViewById(R.id.order_detail_sign);
-        orderDetailChangeBtn = (TextView) findViewById(R.id.order_detail_change_tv);
-        orderDetailUploadBtn = (TextView) findViewById(R.id.order_detail_upload_tv);
-        orderDetailReplaceBtn = (TextView) findViewById(R.id.order_detail_replace_tv);
+        orderDetailSignBtn = findViewById(R.id.order_detail_sign);
+        orderDetailChangeBtn = findViewById(R.id.order_detail_change_tv);
+        orderDetailUploadBtn = findViewById(R.id.order_detail_upload_tv);
+        orderDetailReplaceBtn = findViewById(order_detail_replace_tv);
+        orderDetailCheckBtn = findViewById(order_detail_check_tv);
 
-        havere_financeLin = (LinearLayout) findViewById(R.id.order_detail_havere_lin);
+        havere_financeLin = findViewById(R.id.order_detail_havere_lin);
+
+//
+//        orderDetailChangeBtn.setOnClickListener(v -> {
+//            Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
+//            intent.putExtra("app_id", app_id);
+//            startActivity(intent);
+//        });
+//        orderDetailUploadBtn.setOnClickListener(v -> {
+//            Intent intent = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
+//            intent.putExtra("app_id", app_id);
+//            startActivity(intent);
+//        });
 
 
-        orderDetailChangeBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderDetailActivity.this, AlterCarInfoActivity.class);
-            intent.putExtra("app_id", app_id);
-            startActivity(intent);
-        });
-        orderDetailUploadBtn.setOnClickListener(v -> {
-            Intent intent = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
-            intent.putExtra("app_id", app_id);
-            startActivity(intent);
-        });
-
-
-        order_detail_schedule_lin.setOnClickListener(v ->{
+        order_detail_schedule_lin.setOnClickListener(v -> {
             Intent intent = new Intent(OrderDetailActivity.this, ProcessActivity.class);
             intent.putExtra("app_id", app_id);
             startActivity(intent);
         });
-
 
 
         orderDetailReplaceBtn.setOnClickListener(v -> {
@@ -383,6 +386,13 @@ public class OrderDetailActivity extends BaseActivity {
 
         });
 
+        orderDetailCheckBtn.setOnClickListener(v ->{
+            Intent i2 = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
+            i2.putExtra("car_type", cartype);
+            i2.putExtra("app_id", app_id);
+            startActivity(i2);
+        });
+
     }
 
     private void checkAndReplace() {
@@ -391,63 +401,65 @@ public class OrderDetailActivity extends BaseActivity {
         replaceSPReq.clt_id = spouse_clt_id;
         Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
         //1.激活配偶登录
-        AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
+        ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getAuthService().replaceSpToP(replaceSPReq),data1 -> {
+//        AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
             if (data1 == null) {
                 return;
             }
             //2.检查配偶信息是否完善
-            AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
-                @Override
-                public void onItemDataCallBack(CheckInfoCompletedResp data) {
-                    if (data == null) {
-                        return;
-                    }
-                    //完善 - 提交成功
-                    if (data.info_completed) {
-                        ReSubmitReq req = new ReSubmitReq();
-                        req.clt_id = spouse_clt_id;
-                        req.app_id = app_id;
-                        //3：重新提报
-                        OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
-                            if (data2 != null) {
-                                ToastUtil.showImageToast(OrderDetailActivity.this, "提交成功", R.mipmap.toast_success);
-                                app_id = data2.app_id;
-                                Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
-                                intent.putExtra("app_id", app_id);
-                                intent.putExtra("status_st", status_st);
-                                startActivity(intent);
-                                finish();
-                            }
-                        });
-                    }
-                    //未完善
-                    else {
-                        PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
+            ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getAuthService().CheckInfoComplete(spouse_clt_id),data ->{
+//            AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, data -> {
+                if (data == null) {
+                    return;
+                }
+                //完善 - 提交成功
+                if (data.info_completed) {
+                    ReSubmitReq req = new ReSubmitReq();
+                    req.clt_id = spouse_clt_id;
+                    req.app_id = app_id;
+                    //3：重新提报
+                    ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getOrderService().reSubmit(req),data2 -> {
+//                        OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
+                        if (data2 != null) {
+                            ToastUtil.showImageToast(OrderDetailActivity.this, "提交成功", R.mipmap.toast_success);
+                            app_id = data2.app_id;
+                            Intent intent = new Intent(OrderDetailActivity.this, OrderDetailActivity.class);
+                            intent.putExtra("app_id", app_id);
+                            intent.putExtra("status_st", status_st);
+                            startActivity(intent);
+                            finish();
+                        }
+                    });
+                }
+                //未完善
+                else {
+                    PopupDialogUtil.showOneButtonDialog(OrderDetailActivity.this, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
 
-                            PackageManager packageManager = OrderDetailActivity.this.getPackageManager();  // 当前Activity获得packageManager对象
-                            Intent intent = new Intent();
-                            try {
-                                intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
-                            } catch (Exception e) {
-                            }
-                            if (intent != null) {
-                                startActivity(intent);
-                            }
-                            dialog1.dismiss();
-                        });
-                    }
+                        PackageManager packageManager = OrderDetailActivity.this.getPackageManager();  // 当前Activity获得packageManager对象
+                        Intent intent = new Intent();
+                        try {
+                            intent = packageManager.getLaunchIntentForPackage("com.yusion.shanghai.yusion");
+                        } catch (Exception e) {
+                        }
+                        if (intent != null) {
+                            startActivity(intent);
+                        }
+                        dialog1.dismiss();
+                    });
                 }
             });
         });
     }
 
     private void initData() {
-        OrderApi.getAppDetails(this, app_id, resp -> {
+        ApiUtil.requestUrl4Data(this, Api.getOrderService().getAppDetails2(app_id),resp ->{
+//        OrderApi.getAppDetails(this, app_id, resp -> {
             if (resp == null) {
                 return;
             }
+            spouse_clt_id = resp.origin_app.spouse_clt_id;
             cartype = resp.vehicle_cond;
-            comments = resp.uw_detail.comments;
+            comments = resp.comments;
             if (cartype.equals("新车")) {
                 initTitleBar(this, "新车申请详情");
             } else {
@@ -455,21 +467,31 @@ public class OrderDetailActivity extends BaseActivity {
             }
 
             showNeworOldcarinfolayout(cartype);
-            if (spouse_clt_id != null) {
-                order_detail_replace_layout.setVisibility(View.VISIBLE);
-                order_detail_change_layout.setVisibility(View.GONE);
-                order_detail_sign_layout.setVisibility(View.GONE);
-            } else {
-                order_detail_replace_layout.setVisibility(View.GONE);
 
+
+            if (resp.status_st == 9 || resp.status_st == 11){
+                order_detail_replace_layout.setVisibility(View.VISIBLE);
+                if (spouse_clt_id != null) {
+                    orderDetailReplaceBtn.setVisibility(View.VISIBLE);
+                    twobtn_layout.setVisibility(View.GONE);
+                    onebtn_layout.setVisibility(View.GONE);
+                }else {
+                    orderDetailReplaceBtn.setVisibility(View.GONE);
+                }
+            }else {
                 if (resp.modify_permission) {
-                    order_detail_sign_layout.setVisibility(View.GONE);
-                    order_detail_change_layout.setVisibility(View.VISIBLE);
+                    order_detail_replace_layout.setVisibility(View.GONE);
+                    onebtn_layout.setVisibility(View.GONE);
+                    twobtn_layout.setVisibility(View.VISIBLE);
                 } else {
-                    order_detail_sign_layout.setVisibility(View.VISIBLE);
-                    order_detail_change_layout.setVisibility(View.GONE);
+                    order_detail_replace_layout.setVisibility(View.GONE);
+                    onebtn_layout.setVisibility(View.VISIBLE);
+                    twobtn_layout.setVisibility(View.GONE);
                 }
             }
+
+
+
             if (resp.status_st == 2) {//待审核
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
@@ -478,7 +500,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
-                  } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
+            } else if (resp.status_st == 4) {//待确认金融方案 //有批复的
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
@@ -488,14 +510,6 @@ public class OrderDetailActivity extends BaseActivity {
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
 //
             } else if (resp.status_st == 6) {//放款中      //有批复的
-                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
-                title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
-                title_tv.setText("进行中");
-                remark_tv2.setText(comments);
-                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
-                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
-                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
-            } else if (resp.status_st == 11) {//已完成
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
                 title_tv.setText("进行中");
@@ -504,16 +518,24 @@ public class OrderDetailActivity extends BaseActivity {
                 remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
             }
+//            else if (resp.status_st == 11) {//已完成
+//                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin1);
+//                title_img.setBackgroundResource(R.mipmap.order_st_back_img1);
+//                title_tv.setText("进行中");
+//                remark_tv2.setText(comments);
+//                title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
+//                remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
+//                remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
+//            }
             else if (resp.status_st == 3) {//审核失败
-                    title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("拒绝");
                 remark_tv2.setText(comments);
                 title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv1.setTextColor(Color.parseColor("#FFFFFFFF"));
                 remark_tv2.setTextColor(Color.parseColor("#FFFFFFFF"));
-            }
-            else if (resp.status_st == 9) {
+            } else if (resp.status_st == 9) {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin3);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img3);
                 title_tv.setText("取消");
@@ -521,7 +543,7 @@ public class OrderDetailActivity extends BaseActivity {
                 title_tv.setTextColor(Color.parseColor("#FF666666"));
                 remark_tv1.setTextColor(Color.parseColor("#FF666666"));
                 remark_tv2.setTextColor(Color.parseColor("#FF666666"));
-            }else if(resp.status_st == 11){
+            } else if (resp.status_st == 11) {
                 title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
                 title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
                 title_tv.setText("完成");
@@ -751,7 +773,14 @@ public class OrderDetailActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, MainActivity.class));
+        if ("searchOrder".equals(come_from)) {
+            setResult(RESULT_OK);
+            finish();
+        } else if ("orderitem".equals(come_from)) {
+            startActivity(new Intent(this, MainActivity.class));
+        } else {
+            finish();
+        }
     }
 
     @Override

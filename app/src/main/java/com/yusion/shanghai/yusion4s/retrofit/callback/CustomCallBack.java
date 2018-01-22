@@ -63,14 +63,21 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         }
 
         Log.e(Api.getTag(call.request()), "responseFor :" + call.request().url().toString());
+
+        JSONObject jsonObject = null;
         try {
-            JSONObject object = new JSONObject(body.toString());
-            Logger.json(body.toString());
+            if (Float.valueOf(response.headers().get("Content-Length")) < 50 << 10) {
+                jsonObject = new JSONObject(body.toString());
+                Logger.json(body.toString());
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        Log.w(Api.getTag(call.request()), "onResponse: " + body);
-
+        if (Float.valueOf(response.headers().get("Content-Length")) > 50 << 10) {
+            Log.e(Api.getTag(call.request()), "返回数据大于50kb 不打印log （" + call.request().url().toString() + "）");
+        } else {
+            Log.w(Api.getTag(call.request()), "onResponse: " + body);
+        }
         if (body.code < 0) {
             if (Settings.isOnline) {
                 Toast.makeText(context, body.msg, Toast.LENGTH_LONG).show();
@@ -83,12 +90,13 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
                 return;
             }
         }
-        if (body.data == null) {
+        if (body.data == null || jsonObject != null && jsonObject.opt("data").toString().equals("{}")) {
             onEmptyDataResponse();
-        }else {
+        } else {
             onCustomResponse(body.data);
         }
     }
+
 
     @Override
     public void onFailure(Call<BaseResult<T>> call, Throwable t) {
@@ -108,7 +116,7 @@ public abstract class CustomCallBack<T> implements Callback<BaseResult<T>> {
         Sentry.capture(t);
     }
 
-    protected void onEmptyDataResponse(){
+    protected void onEmptyDataResponse() {
 
     }
 }

@@ -10,7 +10,6 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.Nullable;
-import android.support.annotation.UiThread;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,38 +19,22 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-import com.awen.photo.photopick.data.Data;
-import com.chanven.lib.cptr.PtrClassicDefaultHeader;
 import com.chanven.lib.cptr.PtrClassicFrameLayout;
 import com.chanven.lib.cptr.PtrDefaultHandler;
 import com.chanven.lib.cptr.PtrFrameLayout;
-import com.chanven.lib.cptr.PtrUIHandler;
-import com.chanven.lib.cptr.header.MaterialHeader;
-import com.chanven.lib.cptr.header.StoreHouseHeader;
-import com.chanven.lib.cptr.indicator.PtrIndicator;
-import com.chanven.lib.cptr.loadmore.DefaultLoadMoreViewFooter;
-import com.chanven.lib.cptr.loadmore.ILoadMoreViewFactory;
-import com.chanven.lib.cptr.loadmore.OnLoadMoreListener;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseFragment;
-import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
-import com.yusion.shanghai.yusion4s.bean.order.RefreshAppList;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
-import com.yusion.shanghai.yusion4s.glide.RefreshFooter;
-import com.yusion.shanghai.yusion4s.glide.RefreshHeader;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
@@ -65,11 +48,6 @@ import com.yusion.shanghai.yusion4s.widget.RecyclerViewDivider;
 
 import java.util.ArrayList;
 import java.util.List;
-
-import static android.R.attr.data;
-import static cn.jpush.android.a.f;
-import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
-import static org.jcodec.codecs.h264.H264Const.run;
 
 
 public class OrderItemFragment extends BaseFragment {
@@ -161,6 +139,10 @@ public class OrderItemFragment extends BaseFragment {
                 return PtrDefaultHandler.checkContentCanBePulledDown(frame, rv, header);
             }
         });
+//        PtrClassicDefaultHeader header = new PtrClassicDefaultHeader(mContext,"自定义的下拉刷14条信息");
+//
+//        ptr.setHeaderView(header);
+//        ptr.addPtrUIHandler(header);
 
 
         ptr.setLoadMoreEnable(true);
@@ -259,6 +241,7 @@ public class OrderItemFragment extends BaseFragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                    intent.putExtra("come_from", "orderitem");
                     intent.putExtra("app_id", item.app_id);
                     intent.putExtra("status_st", item.status_st);
                     if (item.can_switch_sp) {
@@ -296,18 +279,42 @@ public class OrderItemFragment extends BaseFragment {
             } else {                                     //进行中
                 vh.st.setTextColor(Color.parseColor("#FFFFA400"));
             }
-            if (item.can_switch_sp) {
-                vh.oneBtnlibn.setVisibility(View.VISIBLE);
-                vh.twoBtnlibn.setVisibility(View.GONE);
+
+
+            if (item.is_view) {
+                //只有查看资料
+                if (item.can_switch_sp) {
+                    vh.twoBtnRelin.setVisibility(View.VISIBLE);
+                    vh.twoBtnlin.setVisibility(View.GONE);
+                    vh.oneBtnlin.setVisibility(View.GONE);
+                } else {
+                    vh.oneBtnlin.setVisibility(View.VISIBLE);
+                    vh.twoBtnRelin.setVisibility(View.GONE);
+                    vh.twoBtnlin.setVisibility(View.GONE);
+                }
+
             } else {
-                vh.twoBtnlibn.setVisibility(View.VISIBLE);
-                vh.oneBtnlibn.setVisibility(View.GONE);
+                vh.oneBtnlin.setVisibility(View.GONE);
+                vh.twoBtnlin.setVisibility(View.VISIBLE);
+                vh.twoBtnRelin.setVisibility(View.GONE);
                 if (item.modify_permission) {
                     vh.change.setVisibility(View.VISIBLE);
                 } else {
                     vh.change.setVisibility(View.GONE);
+//                        if (item.status_st == 9 || item.status_st == 11){
+//                            vh.upload.setText("查看资料");
+//                            vh.upload.setTextColor(Color.parseColor("#FF666666"));
+//                            vh.upload.setBackgroundResource(R.drawable.shape_text_gray);
+//                        }
+//                        else {
+//                            vh.upload.setText("上传资料");
+//                            vh.upload.setTextColor(Color.parseColor("#FF06B7A3"));
+//                            vh.upload.setBackgroundResource(R.drawable.shape_text);
+//                        }
+
                 }
             }
+
 
             vh.st.setText(item.status_code);
             vh.periods.setText(item.nper);
@@ -374,7 +381,6 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(i1);
                 }
 
-//                    Toast.makeText(mContext,"修改资料按钮",Toast.LENGTH_SHORT).show();
             });
             vh.upload.setOnClickListener(v -> {
                 Intent i2 = new Intent(mContext, SubmitMaterialActivity.class);
@@ -388,56 +394,59 @@ public class OrderItemFragment extends BaseFragment {
                     checkAndReplace(item.app_id, item.spouse_clt_id, item.status_st);
 
                 });
-
-//
-//                Intent intent = new Intent(mContext, OrderDetailActivity.class);
-//                intent.putExtra("app_id", item.app_id);
-//                intent.putExtra("status_st", item.status_st);
-//                intent.putExtra("spouse_clt_id",item.spouse_clt_id);
-////                Log.e("TAG", "spouse_clt_id:"+item.spouse_clt_id);
-//                mContext.startActivity(intent);
-
+            });
+            vh.checkRe.setOnClickListener(v -> {
+                Intent i3 = new Intent(mContext, SubmitMaterialActivity.class);
+                i3.putExtra("app_id", item.app_id);
+                mContext.startActivity(i3);
+            });
+            vh.check.setOnClickListener(v -> {
+                Intent i3 = new Intent(mContext, SubmitMaterialActivity.class);
+                i3.putExtra("app_id", item.app_id);
+                mContext.startActivity(i3);
             });
 
         }
+
 
         private void checkAndReplace(String app_id, String spouse_clt_id, int status_st) {
 
             ReplaceSPReq replaceSPReq = new ReplaceSPReq();
             replaceSPReq.clt_id = spouse_clt_id;
-            Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
+//            Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
             //1.激活配偶登录
-            AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
+            ApiUtil.requestUrl4Data(mContext, Api.getAuthService().replaceSpToP(replaceSPReq), data1 -> {
+//                AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
                 if (data1 == null) {
                     return;
                 }
                 //2.检查配偶信息是否完善
-                AuthApi.CheckInfoComplete(mContext, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
-                    @Override
-                    public void onItemDataCallBack(CheckInfoCompletedResp data) {
-                        if (data == null) {
-                            return;
-                        }
-                        //完善 - 提交成功
-                        if (data.info_completed) {
-                            ReSubmitReq req = new ReSubmitReq();
-                            req.clt_id = spouse_clt_id;
-                            req.app_id = app_id;
-                            //3：重新提报
-                            OrderApi.reSubmit(mContext, req, data2 -> {
-                                if (data2 != null) {
-                                    ToastUtil.showImageToast(mContext, "提交成功", R.mipmap.toast_success);
-                                    Intent intent = new Intent(mContext, OrderDetailActivity.class);
-                                    intent.putExtra("app_id", data2.app_id);
-                                    intent.putExtra("status_st", status_st);
-                                    mContext.startActivity(intent);
-                                    finish();
-                                }
-                            });
-                        }
-                        //未完善
-                        else {
-                            PopupDialogUtil.showOneButtonDialog(mContext, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
+                ApiUtil.requestUrl4Data(mContext, Api.getAuthService().CheckInfoComplete(spouse_clt_id), data22 -> {
+//                    AuthApi.CheckInfoComplete(mContext, spouse_clt_id, data22 -> {
+                    if (data22 == null) {
+                        return;
+                    }
+                    //完善 - 提交成功
+                    if (data22.info_completed) {
+                        ReSubmitReq req = new ReSubmitReq();
+                        req.clt_id = spouse_clt_id;
+                        req.app_id = app_id;
+                        //3：重新提报
+                        ApiUtil.requestUrl4Data(mContext, Api.getOrderService().reSubmit(req), data2 -> {
+//                          OrderApi.reSubmit(mContext, req, data2 -> {
+                            if (data2 != null) {
+                                ToastUtil.showImageToast(mContext, "提交成功", R.mipmap.toast_success);
+                                Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                                intent.putExtra("come_from", "orderitem");
+                                intent.putExtra("app_id", data2.app_id);
+                                intent.putExtra("status_st", status_st);
+                                mContext.startActivity(intent);
+                            }
+                        });
+                    }
+                    //未完善
+                    else {
+                        PopupDialogUtil.showOneButtonDialog(mContext, R.layout.popup_dialog_one_hastitle_button, dialog1 -> {
 //                                PackageManager packageManager = mContext.getPackageManager();  // 当前Activity获得packageManager对象
 //                                Intent intent = new Intent();
 //                                try {
@@ -447,9 +456,8 @@ public class OrderItemFragment extends BaseFragment {
 //                                if (intent != null) {
 //                                    mContext.startActivity(intent);
 //                                }
-                                dialog1.dismiss();
-                            });
-                        }
+                            dialog1.dismiss();
+                        });
                     }
                 });
             });
@@ -477,9 +485,12 @@ public class OrderItemFragment extends BaseFragment {
             public TextView change;
             public TextView upload;
             public TextView replace;
+            public TextView checkRe;
+            public TextView check;
             public ImageView car_icon;
-            public RelativeLayout oneBtnlibn;
-            public RelativeLayout twoBtnlibn;
+            public RelativeLayout twoBtnRelin;
+            public RelativeLayout twoBtnlin;
+            public RelativeLayout oneBtnlin;
 
             public VH(View itemView) {
                 super(itemView);
@@ -497,9 +508,13 @@ public class OrderItemFragment extends BaseFragment {
                 change = itemView.findViewById(R.id.order_list_item_change_tv);
                 upload = itemView.findViewById(R.id.order_list_item_upload_tv);
                 replace = itemView.findViewById(R.id.order_list_item_replace_tv);
+                checkRe = itemView.findViewById(R.id.order_list_item_check_tv);
+
+                check = itemView.findViewById(R.id.order_list_item_one_btn_tv);
                 car_icon = itemView.findViewById(R.id.order_list_item_car_icon);
-                oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
-                twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
+                twoBtnRelin = itemView.findViewById(R.id.order_list_item_two_btn_hasre_lin);
+                twoBtnlin = itemView.findViewById(R.id.order_list_item_two_btn_lin);
+                oneBtnlin = itemView.findViewById(R.id.order_list_item_one_btn_lin);
             }
         }
 

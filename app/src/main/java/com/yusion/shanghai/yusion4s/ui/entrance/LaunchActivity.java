@@ -10,7 +10,6 @@ import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ui.MainActivity;
@@ -32,9 +31,9 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.activity_launch);
 
         if (Settings.isOnline) {
-            checkVersion();
+           // checkVersion();
         } else {
-            checkServerUrl();
+            //checkServerUrl();
         }
     }
 
@@ -87,7 +86,8 @@ public class LaunchActivity extends BaseActivity {
         if (!Settings.isOnline) {
             Toast.makeText(myApp, "当前服务器地址:\n" + Settings.SERVER_URL, Toast.LENGTH_SHORT).show();
         }
-        AuthApi.checkToken(this, data -> {
+        ApiUtil.requestUrl4Data(this, Api.getAuthService().checkToken(),data ->{
+//        AuthApi.checkToken(this, data -> {
             if (data.valid) {
                 onTokenValid();
             } else {

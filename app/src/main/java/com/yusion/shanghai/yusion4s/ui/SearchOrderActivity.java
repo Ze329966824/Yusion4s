@@ -34,14 +34,11 @@ import com.chanven.lib.cptr.PtrFrameLayout;
 import com.chanven.lib.cptr.recyclerview.RecyclerAdapterWithHF;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.bean.auth.CheckInfoCompletedResp;
 import com.yusion.shanghai.yusion4s.bean.auth.ReplaceSPReq;
 import com.yusion.shanghai.yusion4s.bean.order.GetAppListResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
 import com.yusion.shanghai.yusion4s.car_select.adapter.HistoryAdapter;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterOldCarInfoActivity;
@@ -61,6 +58,7 @@ import static com.yusion.shanghai.yusion4s.base.ActivityManager.finish;
 
 
 public class SearchOrderActivity extends BaseActivity {
+
     private PtrClassicFrameLayout my_search_order_ptr;
     private RecyclerView my_order_rv;
     private LinearLayout my_search_order_llyt;
@@ -100,6 +98,7 @@ public class SearchOrderActivity extends BaseActivity {
         my_order_rv = findViewById(R.id.my_order_rv);
         my_search_order_llyt = findViewById(R.id.my_search_order_llyt);
         search_et = findViewById(R.id.search_et);
+        search_et.setHintTextColor(Color.parseColor("#d1d1d1"));
         poi_delete_img = findViewById(R.id.poi_delete);
         search_btn = findViewById(R.id.search_btn);
         my_order_rv.setLayoutManager(new LinearLayoutManager(this));
@@ -113,12 +112,11 @@ public class SearchOrderActivity extends BaseActivity {
         });
         items = new ArrayList<>();
         myOrderListAdapter = new MyOrderListAdapter(this, items);
-        //myOrderListAdapter.setVehicle_cond(vehicle_cond);
         adapter = new RecyclerAdapterWithHF(myOrderListAdapter);
         my_order_rv.setAdapter(adapter);
 
         mDates = new ArrayList<>();
-        Log.e("TAG", mDates.size() + "");
+
         hisRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         historyAdapter = new HistoryAdapter(this, mDates, search_et);
         historyAdapter.setOnItemClickListener(new HistoryAdapter.onItemCLickListener() {
@@ -126,6 +124,7 @@ public class SearchOrderActivity extends BaseActivity {
             public void onItemClick(View v, List<String> mdates) {
                 if (mdates.size() < 0 || mdates.isEmpty()) {
                     //隐藏
+                    history = "";
                     history_lin.setVisibility(View.GONE);
                 }
             }
@@ -139,10 +138,8 @@ public class SearchOrderActivity extends BaseActivity {
             }
         });
 
-//        String sss = SharedPrefsUtil.getInstance(this).getValue("history", "");
-
         hisRecyclerView.setAdapter(historyAdapter);
-        Log.e("TAG", mDates.size() + "");
+
         history = SharedPrefsUtil.getInstance(this).getValue("history", "");
 
         String[] ssss = history.split("#");
@@ -154,6 +151,9 @@ public class SearchOrderActivity extends BaseActivity {
         }
         historyAdapter.notifyDataSetChanged();
 
+        if (mDates.size() > 0) {
+            showSearchHistory();
+        }
 
         my_search_order_ptr.setPtrHandler(new PtrDefaultHandler() {
             @Override
@@ -167,9 +167,9 @@ public class SearchOrderActivity extends BaseActivity {
         });
         lajitong.setOnClickListener(v -> {
             SharedPrefsUtil.getInstance(this).putValue("history", "");
-//            mDates = new ArrayList<String>();
+            history = "";
+
             mDates.clear();
-            Log.e("TAG", "initView: " + mDates);
             historyAdapter.notifyDataSetChanged();
             history_lin.setVisibility(View.GONE);
         });
@@ -238,12 +238,13 @@ public class SearchOrderActivity extends BaseActivity {
             }
         });
         poi_delete_img.setOnClickListener(v -> {
-            InputMethodUtil.showInputMethod(this);
+            InputMethodUtil.showInputMethod(this,search_et);
             search_et.setText("");
             search_et.setCursorVisible(true);
             my_search_order_llyt.setVisibility(View.GONE);
             my_search_order_ptr.setVisibility(View.GONE);
             my_order_rv.setVisibility(View.GONE);
+            Log.e("click poi delete img", "initView: " + mDates.size());
             if (mDates.size() > 0) {
                 history_lin.setVisibility(View.VISIBLE);
             }
@@ -263,9 +264,12 @@ public class SearchOrderActivity extends BaseActivity {
     }
 
     private void saveSearchHistory() {
+        //李#
         history_lin.setVisibility(View.GONE);
         String ss[] = history.split("#");
-        if (ss.length > 0 && ss[0] != null) {
+        Log.e("TAG", "saveSearchHistory: " + ss[0].toString());
+        // && ss[0] != null
+        if (ss.length > 0) {
             int k = 0;
             for (int i = 0; i < ss.length; i++) {
                 if (ss[i].equals(search_et.getText().toString())) {
@@ -278,17 +282,15 @@ public class SearchOrderActivity extends BaseActivity {
             if (k == ss.length) {
                 history = search_et.getText().toString() + "#" + history;
                 mDates.add(search_et.getText().toString());
-                Log.e("TAG7777", "initView: " + mDates.get(0));
                 historyAdapter.notifyDataSetChanged();
             }
         } else {
             history = search_et.getText().toString() + "#";
             mDates.add(search_et.getText().toString());
-            Log.e("TAG6666", "initView: " + mDates.get(0));
             historyAdapter.notifyDataSetChanged();
         }
-        Log.e("TAG", "initView: " + history);
         SharedPrefsUtil.getInstance(this).putValue("history", history);
+        Log.e("savehistory", "saveSearchHistory: " + mDates.size());
     }
 
     @Override
@@ -299,11 +301,13 @@ public class SearchOrderActivity extends BaseActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        // my_search_order_ptr.setEnabled(false);
+
         //显示搜索历史
-        if (mDates.size() > 0) {
-            showSearchHistory();
-        }
+//        if (mDates.size() > 0) {
+//            if (huilai) {
+//                showSearchHistory();
+//            }
+//        }
     }
 
     public void showSearchHistory() {
@@ -314,7 +318,6 @@ public class SearchOrderActivity extends BaseActivity {
     }
 
     public void refresh() {
-
         if (TextUtils.isEmpty(search_et.getText())) {
             ToastUtil.showLong(this, "请输入用户姓名");
         } else {
@@ -328,7 +331,6 @@ public class SearchOrderActivity extends BaseActivity {
                     } else {
                         total_page = resp.total_page;
                     }
-                    saveSearchHistory();
                     my_search_order_ptr.setVisibility(View.VISIBLE);
                     my_order_rv.setVisibility(View.VISIBLE);
                     my_search_order_llyt.setVisibility(View.GONE);
@@ -336,10 +338,7 @@ public class SearchOrderActivity extends BaseActivity {
                     items.addAll(resp.data);
                     adapter.notifyDataSetChanged();
                     my_search_order_ptr.refreshComplete();
-
                     my_search_order_ptr.setLoadMoreEnable(true);
-
-
                 } else {
                     my_search_order_ptr.refreshComplete();
                     history_lin.setVisibility(View.GONE);
@@ -347,12 +346,24 @@ public class SearchOrderActivity extends BaseActivity {
                     my_search_order_llyt.setVisibility(View.VISIBLE);
                     my_search_order_ptr.setVisibility(View.VISIBLE);
                 }
+                saveSearchHistory();
             });
         }
 
     }
 
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 100 && resultCode == RESULT_OK) {
+            history_lin.setVisibility(View.GONE);
+            my_search_order_ptr.setVisibility(View.VISIBLE);
+            my_order_rv.setVisibility(View.VISIBLE);
+            my_search_order_llyt.setVisibility(View.VISIBLE);
+        }
+    }
 }
+
 
 class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
     private LayoutInflater mLayoutInflater;
@@ -369,6 +380,7 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         mContext = context;
         mItems = Items;
         mLayoutInflater = LayoutInflater.from(mContext);
+
     }
 
     @Override
@@ -378,7 +390,6 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        Log.e("TAG", "onBindViewHolder: " + vehicle_cond);
         VH vh = (VH) holder;
         GetAppListResp.DataBean item = mItems.get(position);
 
@@ -386,12 +397,14 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(mContext, OrderDetailActivity.class);
+                intent.putExtra("come_from", "searchOrder");
                 intent.putExtra("app_id", item.app_id);
                 intent.putExtra("status_st", item.status_st);
                 if (item.can_switch_sp) {
                     intent.putExtra("spouse_clt_id", item.spouse_clt_id);
                 }
-                mContext.startActivity(intent);
+                ((Activity) mContext).startActivityForResult(intent, 100);
+                // mContext.startActivity(intent);
             }
         });
         if (item.vehicle_cond.equals("二手车")) {
@@ -411,6 +424,7 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                 Intent intent = new Intent(Intent.ACTION_DIAL, Uri.parse("tel:" + item.mobile));
                 intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                 mContext.startActivity(intent);
+
             }
         });
         if (item.status_st == 1 || item.status_st == 2 || item.status_st == 0) {//待审核2
@@ -524,14 +538,14 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
         replaceSPReq.clt_id = spouse_clt_id;
         Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
         //1.激活配偶登录
-        AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
+        ApiUtil.requestUrl4Data(mContext,Api.getAuthService().replaceSpToP(replaceSPReq),data1 -> {
+//            AuthApi.replaceSpToP(mContext, replaceSPReq, data1 -> {
             if (data1 == null) {
                 return;
             }
             //2.检查配偶信息是否完善
-            AuthApi.CheckInfoComplete(mContext, spouse_clt_id, new OnItemDataCallBack<CheckInfoCompletedResp>() {
-                @Override
-                public void onItemDataCallBack(CheckInfoCompletedResp data) {
+            ApiUtil.requestUrl4Data(mContext,Api.getAuthService().CheckInfoComplete(spouse_clt_id),data ->{
+//                AuthApi.CheckInfoComplete(mContext, spouse_clt_id, data -> {
                     if (data == null) {
                         return;
                     }
@@ -541,7 +555,8 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                         req.clt_id = spouse_clt_id;
                         req.app_id = app_id;
                         //3：重新提报
-                        OrderApi.reSubmit(mContext, req, data2 -> {
+                        ApiUtil.requestUrl4Data(mContext,Api.getOrderService().reSubmit(req),data2 -> {
+//                        OrderApi.reSubmit(mContext, req, data2 -> {
                             if (data2 != null) {
                                 ToastUtil.showImageToast(mContext, "提交成功", R.mipmap.toast_success);
                                 Intent intent = new Intent(mContext, OrderDetailActivity.class);
@@ -558,8 +573,7 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
                             dialog1.dismiss();
                         });
                     }
-                }
-            });
+                });
         });
     }
 
@@ -605,7 +619,7 @@ class MyOrderListAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
             upload = (TextView) itemView.findViewById(R.id.order_list_item_upload_tv);
             replace = (TextView) itemView.findViewById(R.id.order_list_item_replace_tv);
             car_icon = (ImageView) itemView.findViewById(R.id.order_list_item_car_icon);
-            oneBtnlibn = itemView.findViewById(R.id.order_list_item_one_btn_lin);
+            oneBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_hasre_lin);
             twoBtnlibn = itemView.findViewById(R.id.order_list_item_two_btn_lin);
         }
     }

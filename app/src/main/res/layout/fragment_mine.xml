@@ -8,18 +8,18 @@
     <RelativeLayout
         android:id="@+id/mine_fragment_info_lin"
         android:layout_width="match_parent"
-        android:layout_height="277dp"
+        android:layout_height="@dimen/y847"
         android:background="#FF2D2F3B"
         android:gravity="center_horizontal"
         android:orientation="vertical"
         tools:visibility="visible">
 
         <ImageView
-            android:layout_width="101.92dp"
-            android:layout_height="101.92dp"
+            android:layout_width="@dimen/x305"
+            android:layout_height="@dimen/y305"
             android:layout_above="@+id/mine_name_tv"
             android:layout_centerHorizontal="true"
-            android:layout_marginBottom="8.5dp"
+            android:layout_marginBottom="@dimen/y12"
             android:alpha="0.6"
             android:src="@mipmap/mine_head_pic" />
 
@@ -30,10 +30,10 @@
             android:layout_above="@+id/mine_mobile_tv"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="7.5dp"
+            android:layout_marginBottom="@dimen/y23"
             android:text="高育良"
-            android:textColor="#FFFFFFFF"
-            android:textSize="19.23sp" />
+            android:textColor="#AFB0B5"
+            android:textSize="@dimen/y58" />
 
         <ImageView
             android:id="@+id/mine_role_img"
@@ -52,10 +52,10 @@
             android:layout_above="@+id/mine_desc_tv"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="9.5dp"
+            android:layout_marginBottom="@dimen/y58"
             android:text="17621062314"
-            android:textColor="#FFFFFFFF"
-            android:textSize="13.46sp" />
+            android:textColor="#AFB0B5"
+            android:textSize="@dimen/y40" />
 
         <TextView
             android:id="@+id/mine_desc_tv"
@@ -64,11 +64,10 @@
             android:layout_above="@+id/mine_line_img"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="5dp"
+            android:layout_marginBottom="@dimen/y23"
             android:text="予见汽车  贴心无处不在"
-            android:textColor="#FFFFFFFF"
-
-            android:textSize="13.46sp" />
+            android:textColor="#AFB0B5"
+            android:textSize="@dimen/y40" />
 
         <ImageView
             android:id="@+id/mine_line_img"
@@ -77,14 +76,9 @@
             android:layout_alignParentBottom="true"
             android:layout_centerHorizontal="true"
             android:layout_centerVertical="true"
-            android:layout_marginBottom="20dp"
+            android:layout_marginBottom="@dimen/y66"
             android:src="@mipmap/mine_line" />
     </RelativeLayout>
-
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="@color/separate_line_color" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -130,7 +124,6 @@
                 android:src="@mipmap/right_arrow" />
         </LinearLayout>
 
-        <include layout="@layout/include_line" />
 
         <LinearLayout
             android:id="@+id/mine_fragment_calculator_tv"
@@ -174,7 +167,7 @@
         <LinearLayout
             android:id="@+id/mine_fragment_helper_tv"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="@dimen/y138"
             android:background="#fff"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -192,7 +185,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="小助手"
                 android:textColor="@color/text_normal"
-                android:textSize="16sp" />
+                android:textSize="@dimen/y43" />
 
             <Space
                 android:layout_width="0dp"
@@ -212,7 +205,7 @@
 
             android:id="@+id/mine_fragment_about_tv"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="@dimen/y138"
             android:background="#fff"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -231,7 +224,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="关于予见汽车"
                 android:textColor="@color/text_normal"
-                android:textSize="16sp" />
+                android:textSize="@dimen/y43" />
 
             <Space
                 android:layout_width="0dp"
@@ -247,10 +240,17 @@
 
         <include layout="@layout/include_line" />
 
+        <View
+            android:background="@color/main_bg"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/y29"/>
+
+        <include layout="@layout/include_line" />
+
         <LinearLayout
             android:id="@+id/mine_fragment_setting_tv"
             android:layout_width="match_parent"
-            android:layout_height="55dp"
+            android:layout_height="@dimen/y138"
             android:background="#fff"
             android:gravity="center_vertical"
             android:orientation="horizontal"
@@ -269,7 +269,7 @@
                 android:layout_marginLeft="20dp"
                 android:text="@string/main_setting"
                 android:textColor="@color/text_normal"
-                android:textSize="16sp" />
+                android:textSize="@dimen/y43" />
 
             <Space
                 android:layout_width="0dp"

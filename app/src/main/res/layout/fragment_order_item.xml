@@ -28,7 +28,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:visibility="visible"
-                tools:visibility="gone"/>
+                tools:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/my_order_llyt"

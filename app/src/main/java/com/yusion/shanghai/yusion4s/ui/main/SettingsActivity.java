@@ -13,10 +13,11 @@ import com.pgyersdk.update.PgyUpdateManager;
 import com.yusion.shanghai.yusion4s.BuildConfig;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
-import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ui.entrance.WebViewActivity;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
@@ -84,7 +85,8 @@ public class SettingsActivity extends BaseActivity implements View.OnClickListen
     private void checkServerUrl() {
         if (Settings.isOnline) {
             //product：调用oss接口更新
-            AuthApi.update(this, "yusion4s", data -> {
+            ApiUtil.requestUrl4Data(this, Api.getAuthService().update("yusion4s"), data -> {
+//                AuthApi.update(this, "yusion4s", data -> {
                 if (data != null) {
                     int result = splitVersion(versionCode.substring(1)).compareTo(splitVersion(data.version));
                     if (result < 0) {

@@ -26,7 +26,7 @@ import com.pbq.pickerlib.entity.PhotoVideoDir;
 import com.pbq.pickerlib.luban.Luban;
 import com.pbq.pickerlib.luban.OnCompressListener;
 import com.pbq.pickerlib.util.PhoneInfoUtil;
-import com.pbq.pickerlib.video.AlibabaStandardActivity;
+import com.pbq.pickerlib.video.CustomCameraActivity;
 import com.pbq.pickerlib.view.ImageFolderPopWindow;
 
 import java.io.File;
@@ -425,7 +425,7 @@ public class PhotoMediaActivity extends AppCompatActivity {
 //        intent.putExtra(MediaStore.EXTRA_OUTPUT, Uri.fromFile(cameraFile));
 //        intent.putExtra(MediaStore.EXTRA_VIDEO_QUALITY, 1);
 //        startActivityForResult(intent, REQUEST_CODE_CAMERA);
-        startActivityForResult(new Intent(this, AlibabaStandardActivity.class), REQUEST_TAKE_VIDEO);
+        startActivityForResult(new Intent(this, CustomCameraActivity.class), REQUEST_TAKE_VIDEO);
     }
 
     @Override
@@ -514,8 +514,8 @@ public class PhotoMediaActivity extends AppCompatActivity {
             }
         }
         if (requestCode == REQUEST_TAKE_VIDEO) {
-            ArrayList<String> videos = (ArrayList<String>) data.getSerializableExtra("videos");
-            cameraFile = new File(videos.get(0));
+            String video_path = data.getStringExtra("video_path");
+            cameraFile = new File(video_path);
 
             if (!dirMap.containsKey(cameraFile.getParentFile().getPath())) {
                 File parentDirFile = cameraFile.getParentFile();
