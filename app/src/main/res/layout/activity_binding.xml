@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="#fff"
     android:orientation="vertical"
     tools:context="com.yusion.shanghai.yusion4s.ui.entrance.BindingActivity">
 
@@ -32,11 +33,8 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_vertical"
                 android:background="@null"
-                android:digits="0123456789"
                 android:gravity="center_vertical"
-                android:hint="请输入手机号"
-                android:inputType="number"
-                android:maxLength="11"
+                android:hint="请输入账号"
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
                 android:textColor="@color/textColor"
@@ -64,12 +62,8 @@
                 android:id="@+id/bindling_code_edt"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginRight="105dp"
                 android:background="@null"
-                android:digits="0123456789"
-                android:hint="请输入验证码"
-                android:inputType="number"
-                android:maxLength="4"
+                android:hint="请输入密码"
                 android:paddingBottom="15dp"
                 android:paddingLeft="5dp"
                 android:paddingRight="15dp"
@@ -79,17 +73,7 @@
                 android:textSize="15sp" />
 
 
-            <Button
-                android:id="@+id/bindling_code_btn"
-                style="?android:attr/borderlessButtonStyle"
-                android:layout_width="90dp"
-                android:layout_height="35dp"
-                android:layout_marginLeft="-95dp"
-                android:background="@drawable/submit_button"
-                android:onClick="onClick"
-                android:text="获取验证码"
-                android:textColor="#FFF"
-                android:textSize="12sp" />
+
         </LinearLayout>
 
         <Button
@@ -102,7 +86,7 @@
             android:layout_marginTop="20dp"
             android:background="@drawable/submit_button"
             android:onClick="onClick"
-            android:text="绑定手机"
+            android:text="绑定账号"
             android:textColor="#FFF"
             android:textSize="19sp" />
     </LinearLayout>

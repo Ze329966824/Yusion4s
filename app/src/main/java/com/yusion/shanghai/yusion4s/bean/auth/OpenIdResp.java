@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 public class OpenIdResp {
     public String token;
+    public String username;
 
     @Override
     public String toString() {

@@ -360,8 +360,7 @@
         <activity
             android:name=".ui.entrance.BindingActivity"
             android:exported="true"
-            android:launchMode="singleInstance"
-            android:theme="@style/JpushDialogStyle" />
+            android:launchMode="singleInstance" />
     </application>
 
 </manifest>

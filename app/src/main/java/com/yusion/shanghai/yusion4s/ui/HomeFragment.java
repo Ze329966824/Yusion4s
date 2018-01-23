@@ -21,9 +21,7 @@ import com.yusion.shanghai.yusion4s.base.BaseFragment;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
 import com.yusion.shanghai.yusion4s.settings.Constants;
-import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.AlterCarInfoActivity;
 import com.yusion.shanghai.yusion4s.ui.order.ChangeDlrActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderCreateActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
@@ -94,6 +92,7 @@ public class HomeFragment extends BaseFragment {
 
     //刷新首页订单数量
     void refresh(String id) {
+
         ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getDlrNum(id), dlrNumResp -> {
             ptr.refreshComplete();
             if (dlrNumResp != null) {

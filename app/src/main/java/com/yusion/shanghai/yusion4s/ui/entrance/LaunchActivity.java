@@ -31,9 +31,9 @@ public class LaunchActivity extends BaseActivity {
         setContentView(R.layout.activity_launch);
 
         if (Settings.isOnline) {
-           // checkVersion();
+            checkVersion();
         } else {
-            //checkServerUrl();
+            checkServerUrl();
         }
     }
 

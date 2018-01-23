@@ -24,7 +24,6 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
-import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
 
 import org.json.JSONException;
@@ -186,7 +185,6 @@ public class JpushDialogActivity extends BaseActivity {
 
 
     void popJpushDialog() {
-        Log.e("TAG", "popJpushDialog: isLogin = " + Yusion4sApp.isLogin);
         if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
                 case "login"://抢登
@@ -196,56 +194,57 @@ public class JpushDialogActivity extends BaseActivity {
                         finish();
                     });
                     break;
-                case "application":
-                    switch (order_state) {
-                        case "pass":
-                            JpushApproveDialog approvePassDialog = new JpushApproveDialog(this, title, content, R.layout.dialog_approval_pass);
-                            approvePassDialog.setYesOnclickListener(() -> {
-                                approvePassDialog.dismiss();
-                                Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
-                                intent.putExtra("app_id", app_id);
-                                startActivity(intent);
-                                finish();
-                            });
-                            approvePassDialog.setNoOnclickListener(() -> {
-                                approvePassDialog.dismiss();
-                                finish();
-                            });
-                            approvePassDialog.show();
-                            break;
-                        case "refuse":
-                            JpushApproveDialog approveRefuseDialog = new JpushApproveDialog(this, title, content, R.layout.dialog_approval_refuse);
-                            approveRefuseDialog.setYesOnclickListener(() -> {
-                                approveRefuseDialog.dismiss();
-                                Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
-                                intent.putExtra("app_id", app_id);
-                                startActivity(intent);
-                                finish();
-                            });
-                            approveRefuseDialog.setNoOnclickListener(() -> {
-                                approveRefuseDialog.dismiss();
-                                finish();
-                            });
-                            approveRefuseDialog.show();
-                            break;
-                        default:
-                            new AlertDialog.Builder(JpushDialogActivity.this)
-                                    .setCancelable(false)
-                                    .setTitle(title)
-                                    .setMessage(content)
-                                    .setPositiveButton("知道啦", (dialog, which) -> {
-                                        dialog.dismiss();
-                                        finish();
-                                    })
-                                    .show();
-                            break;
-                    }
 
-                    break;
-                case "test":
-
-                    showPopupWindow();
-                    break;
+//                case "application":
+//                    switch (order_state) {
+//                        case "pass":
+//                            JpushApproveDialog approvePassDialog = new JpushApproveDialog(this, title, content, R.layout.dialog_approval_pass);
+//                            approvePassDialog.setYesOnclickListener(() -> {
+//                                approvePassDialog.dismiss();
+//                                Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
+//                                intent.putExtra("app_id", app_id);
+//                                startActivity(intent);
+//                                finish();
+//                            });
+//                            approvePassDialog.setNoOnclickListener(() -> {
+//                                approvePassDialog.dismiss();
+//                                finish();
+//                            });
+//                            approvePassDialog.show();
+//                            break;
+//                        case "refuse":
+//                            JpushApproveDialog approveRefuseDialog = new JpushApproveDialog(this, title, content, R.layout.dialog_approval_refuse);
+//                            approveRefuseDialog.setYesOnclickListener(() -> {
+//                                approveRefuseDialog.dismiss();
+//                                Intent intent = new Intent(JpushDialogActivity.this, OrderDetailActivity.class);
+//                                intent.putExtra("app_id", app_id);
+//                                startActivity(intent);
+//                                finish();
+//                            });
+//                            approveRefuseDialog.setNoOnclickListener(() -> {
+//                                approveRefuseDialog.dismiss();
+//                                finish();
+//                            });
+//                            approveRefuseDialog.show();
+//                            break;
+//                        default:
+//                            new AlertDialog.Builder(JpushDialogActivity.this)
+//                                    .setCancelable(false)
+//                                    .setTitle(title)
+//                                    .setMessage(content)
+//                                    .setPositiveButton("知道啦", (dialog, which) -> {
+//                                        dialog.dismiss();
+//                                        finish();
+//                                    })
+//                                    .show();
+//                            break;
+//                    }
+//
+//                    break;
+//                case "test":
+//
+//                    showPopupWindow();
+//                    break;
 
                 default:
                     new AlertDialog.Builder(JpushDialogActivity.this)

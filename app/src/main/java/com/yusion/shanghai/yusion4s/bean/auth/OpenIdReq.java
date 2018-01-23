@@ -8,6 +8,7 @@ import com.google.gson.Gson;
 
 public class OpenIdReq {
     public String source;
+    public String dtype;
     public String open_id;
 
     @Override

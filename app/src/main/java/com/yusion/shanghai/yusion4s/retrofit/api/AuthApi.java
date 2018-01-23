@@ -4,7 +4,6 @@ import android.app.Dialog;
 import android.content.Context;
 import android.widget.Toast;
 
-import com.yusion.shanghai.yusion4s.base.BaseResult;
 import com.yusion.shanghai.yusion4s.bean.auth.AccessTokenResp;
 import com.yusion.shanghai.yusion4s.bean.auth.BindingReq;
 import com.yusion.shanghai.yusion4s.bean.auth.BindingResp;
@@ -21,8 +20,6 @@ import com.yusion.shanghai.yusion4s.bean.login.LoginResp;
 import com.yusion.shanghai.yusion4s.bean.token.CheckTokenResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.callback.CustomCodeAndMsgCallBack;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.utils.LoadingUtils;
@@ -137,8 +134,8 @@ public class AuthApi {
         });
     }
 
-    public static void checkOpenID(Context context, String mobile, String source, final OnItemDataCallBack<Integer>onItemDataCallBack){
-        Api.getAuthService().checkOpenID(mobile,source).enqueue(new CustomCallBack<Integer>(context) {
+    public static void checkOpenID(Context context, String mobile, String source,String dtype, final OnItemDataCallBack<Integer>onItemDataCallBack){
+        Api.getAuthService().checkOpenID(mobile,source,dtype).enqueue(new CustomCallBack<Integer>(context) {
             @Override
             public void onCustomResponse(Integer data) {
                 onItemDataCallBack.onItemDataCallBack(data);

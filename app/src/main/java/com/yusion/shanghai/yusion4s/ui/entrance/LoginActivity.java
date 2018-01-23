@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
 import android.view.MotionEvent;
-import android.view.View;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,6 +37,8 @@ public class LoginActivity extends BaseActivity {
     private Button loginBtn;
     private TelephonyManager telephonyManager;
     private boolean isShowPassword = false;
+    private String mtoken;
+    private String username;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,6 +74,14 @@ public class LoginActivity extends BaseActivity {
         api.sendReq(req);
     }
 
+    private void wxLoginSuccess() {
+        if (Yusion4sApp.TOKEN != null) {
+            Yusion4sApp.ACCOUNT = username;
+            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.ACCOUNT);
+            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
+            startActivity(new Intent(LoginActivity.this, MainActivity.class));
+        }
+    }
     //测试账号
     private void setTestAccount() {
         if (!Settings.isOnline) {
@@ -164,6 +173,22 @@ public class LoginActivity extends BaseActivity {
 
         //清除存在sp的dlrid和订单状态数
         removeDlrNums();
+
+        //由于 onNewIntent在onResume之前，所以在onNewIntent里存的token被清除了  所以要在这里存token
+        if (mtoken != null) {
+            Yusion4sApp.TOKEN = mtoken;
+            SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
+            mtoken = null;
+            wxLoginSuccess();
+        }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        mtoken = intent.getStringExtra("token");
+        username = intent.getStringExtra("username");
+
+        Yusion4sApp.TOKEN = mtoken;
     }
 
     private void removeDlrNums() {

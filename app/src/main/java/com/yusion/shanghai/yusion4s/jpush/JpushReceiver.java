@@ -5,11 +5,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
 import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import cn.jpush.android.api.JPushInterface;
 import io.sentry.Sentry;
@@ -37,11 +41,39 @@ public class JpushReceiver extends BroadcastReceiver {
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(i);
 
-            if (Yusion4sApp.isLogin) {
-                BaseActivity activity = (BaseActivity) ActivityManager.getActivity();
-                activity.initPopupWindow();
-                activity.showPopupWindow();
-            }
+                JSONObject jo = null;
+                try {
+                    jo = new JSONObject(string);
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+
+                String category = jo.optString("category");
+                String username = jo.optString("username");
+            Log.e("TAG", "push: ACCOUNT: " +Yusion4sApp.ACCOUNT);
+            Log.e("TAG", "push: isLogin: " +Yusion4sApp.isLogin);
+                if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
+                    switch (category) {
+                        case "login"://抢登
+                                        context.startActivity(i);
+                            break;
+
+                        case "application":
+                            BaseActivity activity = (BaseActivity) ActivityManager.getActivity();
+                            activity. title = jo.optString("title");
+                            activity. content = jo.optString("content");
+                            activity. app_id = jo.optString("app_id");
+                            activity.initPopupWindow();
+                            activity.showPopupWindow();
+                            break;
+                        default:
+                            break;
+                      }
+                }
+
+
+
+
         }
     }
 }

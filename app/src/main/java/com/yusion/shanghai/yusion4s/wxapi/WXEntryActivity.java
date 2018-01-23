@@ -14,13 +14,12 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.auth.AccessTokenResp;
 import com.yusion.shanghai.yusion4s.bean.auth.OpenIdReq;
+import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.AuthApi;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ui.entrance.BindingActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LoginActivity;
-
-
-import okhttp3.OkHttpClient;
+import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 
 /**
@@ -28,10 +27,9 @@ import okhttp3.OkHttpClient;
  */
 
 public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler {
-    public static final String APP_ID = "wxf2c47c30395cfb84";
-    public static final String APP_SECRET = "1ec792a6c092d7803672c5fe8e99cfd4";
+    public static final String APP_ID = "wxd581c152982fefe4";
+    public static final String APP_SECRET = "969ff909a4c88b80af1761554deb00db";
     public static final String GRANT_TYPE = "authorization_code";
-    private final OkHttpClient client = new OkHttpClient();
     private OpenIdReq req;
     private String unionid;
     // IWXAPI 是第三方app和微信通信的openapi接口
@@ -95,29 +93,32 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
     private void thirdLogin(String access_token, String openid) {
         req.open_id = openid;
         req.source = "wechat";
-        AuthApi.thirdLogin(WXEntryActivity.this, req, data -> {
-            if (data != null) {
-                // 返回token 正常登陆
-                Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
-                Log.e("TAG", " unionid1 = " + unionid);
+        req.dtype = "2";
+        ApiUtil.requestUrl4Data(WXEntryActivity.this, Api.getAuthService().openId(req), data -> {
+            Log.e("TAG", " data = " + data);
+            Toast.makeText(WXEntryActivity.this, "登录成功", Toast.LENGTH_SHORT).show();
 
-                Intent intent = new Intent(WXEntryActivity.this, LoginActivity.class);
-                intent.putExtra("token", data.token);
+            // 返回token 正常登陆
+
+            Intent intent = new Intent(WXEntryActivity.this, LoginActivity.class);
+            intent.putExtra("token", data.token);
+            intent.putExtra("username", data.username);
+            startActivity(intent);
+            finish();
+
+
+        }, data -> {
+            // data为空  通过 access_token, openID 获得用户个人微信资料(unionid等  再跳转到BindingActivity绑定手机号)
+            AuthApi.getWXUserInfo(WXEntryActivity.this, access_token, openid, data1 -> {
+                unionid = data1.unionid;
+                Intent intent = new Intent(WXEntryActivity.this, BindingActivity.class);
+                intent.putExtra("source", "wechat");
+                intent.putExtra("open_id", req.open_id);
+                intent.putExtra("unionid", unionid);
+                Log.e("TAG", " unionid2 = " + unionid);
                 startActivity(intent);
                 finish();
-            } else {
-                // data为空  通过 access_token, openID 获得用户个人微信资料(unionid等  再跳转到BindingActivity绑定手机号)
-                AuthApi.getWXUserInfo(WXEntryActivity.this, access_token, openid, data1 -> {
-                    unionid = data1.unionid;
-                    Intent intent = new Intent(WXEntryActivity.this, BindingActivity.class);
-                    intent.putExtra("source", "wechat");
-                    intent.putExtra("open_id", req.open_id);
-                    intent.putExtra("unionid", unionid);
-                    Log.e("TAG", " unionid2 = " + unionid);
-                    startActivity(intent);
-                    finish();
-                });
-            }
+            });
 
         });
     }
@@ -128,15 +129,15 @@ public class WXEntryActivity extends BaseActivity implements IWXAPIEventHandler 
         });
     }
 
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        finish();
-    }
+//    @Override
+//    public void onBackPressed() {
+//        super.onBackPressed();
+//        finish();
+//    }
 
-    @Override
-    public void onVisibleBehindCanceled() {
-        super.onVisibleBehindCanceled();
-        finish();
-    }
+//    @Override
+//    public void onVisibleBehindCanceled() {
+//        super.onVisibleBehindCanceled();
+//        finish();
+//    }
 }

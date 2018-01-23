@@ -56,7 +56,7 @@ public interface AuthService {
     Call<BaseResult<OpenIdResp>> openId(@Body OpenIdReq req);
 
     @GET("/api/auth/auth_open_id/")
-    Call<BaseResult<Integer>>   checkOpenID(@Query("mobile") String mobile,@Query("source") String source);
+    Call<BaseResult<Integer>>   checkOpenID(@Query("mobile") String mobile,@Query("source") String source,@Query("dtype") String dtype);
 
     @POST("/api/auth/auth_user_login/")
     Call<BaseResult<BindingResp>> binding(@Body BindingReq req);
