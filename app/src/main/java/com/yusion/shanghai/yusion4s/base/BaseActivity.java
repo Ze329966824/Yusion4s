@@ -28,14 +28,17 @@ import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
+import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
+import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
+import org.greenrobot.eventbus.EventBus;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -56,6 +59,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     public String title;
     public String content;
     public String app_id;
+    public String vehicle_cond;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -212,7 +216,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         TextView msgTv = contentView.findViewById(R.id.msg_push_order_message);
 
         titleTv.setText(title);
-        typeTv.setText("新车");
+        typeTv.setText(vehicle_cond);
         msgTv.setText(content);
         soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
         //加载deep 音频文件
@@ -346,6 +350,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         contentView.postDelayed(() -> {
 //            mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, (int) getResources().getDimension(R.dimen.y50));
             mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
+            if (ActivityManager.getActivity() instanceof MainActivity){
+                EventBus.getDefault().post(MainActivityEvent.showReadicon);
+            }
             timer.start();
         }, 1000);
 

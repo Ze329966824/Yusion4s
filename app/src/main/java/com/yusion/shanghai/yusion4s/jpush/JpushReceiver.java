@@ -63,6 +63,7 @@ public class JpushReceiver extends BroadcastReceiver {
                             activity. title = jo.optString("title");
                             activity. content = jo.optString("content");
                             activity. app_id = jo.optString("app_id");
+                            activity. vehicle_cond = jo.optString("vehicle_cond");
                             activity.initPopupWindow();
                             activity.showPopupWindow();
                             break;

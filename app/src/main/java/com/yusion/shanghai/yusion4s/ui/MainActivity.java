@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -173,6 +172,12 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         ApiUtil.requestUrl4Data(this, Api.getAuthService().checkUserInfo(), data -> mMineFragment.refresh(data));
         //// TODO: 2018/1/16  如果收到推送，则直接显示小红点
 
+        controlReadIcon();
+        // 第一次登陆时  取出列表里第一个门店展示出来 （首页）
+        mHomeFragment.firstLogin();
+    }
+
+    private void controlReadIcon() {
         ApiUtil.requestUrl4Data(this, Api.getMsgCenterService().getMessageStatus(), (OnItemDataCallBack<GetMsgStatus>) getMsgStatus -> {
             if (getMsgStatus.has_new_msg) {
                 red_point.setVisibility(View.VISIBLE);
@@ -180,8 +185,6 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                 red_point.setVisibility(View.GONE);
             }
         });
-        // 第一次登陆时  取出列表里第一个门店展示出来 （首页）
-        mHomeFragment.firstLogin();
     }
 
     @Override
@@ -192,6 +195,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
             changeFragment(MainActivityEvent.showOrderManager);
         }
     }
+
 
     @Subscribe
     public void changeFragment(MainActivityEvent event) {
@@ -207,6 +211,9 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
                     EventBus.getDefault().post(OrderManagerFragmentEvent.showFragment);
                     break;
                 }
+            case showReadicon:
+                controlReadIcon();
+                break;
             default:
                 break;
         }
