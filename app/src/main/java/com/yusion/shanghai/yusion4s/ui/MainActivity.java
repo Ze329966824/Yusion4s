@@ -5,9 +5,11 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RadioButton;
+import android.widget.Toast;
 
 import com.facebook.rebound.SimpleSpringListener;
 import com.facebook.rebound.Spring;
@@ -66,6 +68,22 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         mFragmentManager = getSupportFragmentManager();
         mFragmentManager.beginTransaction().add(R.id.main_container, mHomeFragment).add(R.id.main_container, mOrderManagerFragment).add(R.id.main_container, mMsgCenterFragment).add(R.id.main_container, mMineFragment).hide(mMineFragment).hide(mOrderManagerFragment).hide(mMsgCenterFragment).commit();
         mCurrentFragment = mHomeFragment;
+    }
+
+    private long lasttime;
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if (System.currentTimeMillis() - lasttime > 2000) {
+                Toast.makeText(this, "再按一下退出", Toast.LENGTH_SHORT).show();
+                lasttime = System.currentTimeMillis();
+            } else {
+                System.exit(0);
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     @Override

@@ -30,9 +30,9 @@ public class LaunchActivity extends BaseActivity {
 
 
         if (Settings.isOnline) {
-            checkVersion();
+           // checkVersion();
         } else {
-            checkServerUrl();
+            //checkServerUrl();
         }
     }
 
