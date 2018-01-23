@@ -29,6 +29,15 @@
         <item name="android:windowAnimationStyle">@android:style/Animation.Dialog</item>
         <item name="android:backgroundDimEnabled">true</item>
     </style>
+    <!-- 防止欢迎页白屏或者黑屏，设置图片 -->
+    <style name="SplashTheme" parent="AppTheme">
+        <item name="android:windowBackground">@mipmap/launch_bg</item>
+        <item name="android:windowFullscreen">true</item>
+        <item name="windowNoTitle">true</item>
+        <!--<item name="android:windowIsTranslucent">false</item>-->
+        <!--<item name="android:windowDisablePreview">true</item>-->
+    </style>
+
 
     <style name="dialogAnimationStyle" parent="android:Animation">
         <item name="@android:windowEnterAnimation">@anim/dialog_enter</item>
@@ -243,7 +252,7 @@
         <!-- 指定消失的动画xml -->
     </style>
 
-    <attr name="indexBarTextSize" format="dimension" />
+    <attr name="indexBarTextSize" format="dimension"/>
 
     <declare-styleable name="IndexBar">
         <attr name="indexBarTextSize"/>

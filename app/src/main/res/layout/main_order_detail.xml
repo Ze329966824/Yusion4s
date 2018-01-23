@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:orientation="vertical">
 
 
     <!--金融方案[只有申请没有批复]-->
@@ -15,7 +15,7 @@
         android:orientation="vertical"
         android:paddingBottom="20dp"
         android:visibility="visible"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/order_detail_finance_title_info"
@@ -24,13 +24,13 @@
             android:padding="15dp"
             android:text="金融方案申请信息"
             android:textColor="@color/text_normal"
-            android:textSize="13.5sp" />
+            android:textSize="@dimen/y43"/>
 
         <View
             android:id="@+id/order_detail_finance_title_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/main_driver" />
+            android:background="@color/main_driver"/>
 
         <LinearLayout
             android:id="@+id/order_detail_finance_bill_price_lin"
@@ -48,7 +48,7 @@
                 android:gravity="left"
                 android:text="车辆开票价"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_bill_price_tv"
@@ -58,7 +58,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -77,7 +77,7 @@
                 android:gravity="left"
                 android:text="车辆交易价"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/oldcar_business_price_tv"
@@ -87,7 +87,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -105,7 +105,7 @@
                 android:gravity="left"
                 android:text="车辆首付款"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_first_price_tv"
@@ -115,7 +115,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -133,7 +133,7 @@
                 android:gravity="left"
                 android:text="车辆贷款金额"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_loan_price_tv"
@@ -143,7 +143,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -161,7 +161,7 @@
                 android:gravity="left"
                 android:text="档案管理费"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_management_price_tv"
@@ -171,7 +171,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -189,7 +189,7 @@
                 android:gravity="left"
                 android:text="其他费用"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_other_price_tv"
@@ -199,7 +199,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -217,7 +217,7 @@
                 android:gravity="left"
                 android:text="总贷款额"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_total_loan_price_tv"
@@ -227,7 +227,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -245,7 +245,7 @@
                 android:gravity="left"
                 android:text="贷款银行"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_loan_bank_tv"
@@ -255,7 +255,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -273,7 +273,7 @@
                 android:gravity="left"
                 android:text="产品类型"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_product_type_tv"
@@ -283,7 +283,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -301,7 +301,7 @@
                 android:gravity="left"
                 android:text="还款期限"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_finance_periods_tv"
@@ -311,7 +311,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -324,7 +324,7 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:visibility="visible"
-        tools:visibility="gone">
+        tools:visibility="visible">
 
         <TextView
             android:id="@+id/order_detail_havere_title_info"
@@ -333,13 +333,13 @@
             android:padding="15dp"
             android:text="金融方案"
             android:textColor="@color/text_normal"
-            android:textSize="13.5sp" />
+            android:textSize="@dimen/y43"/>
 
         <View
             android:id="@+id/order_detail_havere_title_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/main_driver" />
+            android:background="@color/main_driver"/>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -357,7 +357,7 @@
                 android:layout_weight="1"
                 android:gravity="center_vertical"
                 android:text="名称"
-                android:textSize="11.5sp" />
+                android:textSize="@dimen/y35"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_header_apply_info_tv"
@@ -366,7 +366,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="申请信息"
-                android:textSize="11.5sp" />
+                android:textSize="@dimen/y35"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_header_reply_info_tv"
@@ -375,7 +375,7 @@
                 android:layout_weight="1"
                 android:gravity="right|center_vertical"
                 android:text="批复信息"
-                android:textSize="11.5sp" />
+                android:textSize="@dimen/y35"/>
 
         </LinearLayout>
 
@@ -397,7 +397,7 @@
                 android:paddingTop="10dp"
                 android:text="车辆开票价"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_bill_price_tv"
@@ -405,7 +405,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_bill_price_tv"
@@ -414,7 +414,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -435,7 +435,7 @@
                 android:paddingTop="10dp"
                 android:text="车辆交易价"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_oldcar_apply_bill_price_tv"
@@ -443,7 +443,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_oldcar_reply_bill_price_tv"
@@ -452,7 +452,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -472,7 +472,7 @@
                 android:paddingTop="10dp"
                 android:text="车辆首付款"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_first_price_tv"
@@ -480,7 +480,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_first_price_tv"
@@ -489,7 +489,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -511,7 +511,7 @@
                 android:paddingTop="10dp"
                 android:text="首付比例"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_first_percent_tv"
@@ -519,7 +519,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_first_percent_tv"
@@ -528,7 +528,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -548,7 +548,7 @@
                 android:paddingTop="10dp"
                 android:text="车辆贷款金额"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_loan_price_tv"
@@ -556,7 +556,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_loan_price_tv"
@@ -565,7 +565,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -585,7 +585,7 @@
                 android:paddingTop="10dp"
                 android:text="档案管理费"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_management_price_tv"
@@ -593,7 +593,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_management_price_tv"
@@ -602,7 +602,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -622,7 +622,7 @@
                 android:paddingTop="10dp"
                 android:text="其他费用"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_other_price_tv"
@@ -630,7 +630,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_other_price_tv"
@@ -639,7 +639,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -659,7 +659,7 @@
                 android:paddingTop="10dp"
                 android:text="总贷款额"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_total_price_tv"
@@ -667,7 +667,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_total_price_tv"
@@ -676,7 +676,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -696,7 +696,7 @@
                 android:paddingTop="10dp"
                 android:text="贷款银行"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_bank_tv"
@@ -704,7 +704,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_bank_tv"
@@ -713,7 +713,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -734,7 +734,7 @@
                 android:paddingTop="10dp"
                 android:text="产品类型"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_product_type_tv"
@@ -742,7 +742,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_product_type_tv"
@@ -751,7 +751,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -771,7 +771,7 @@
                 android:paddingTop="10dp"
                 android:text="月供"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_month_price_tv"
@@ -779,7 +779,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_month_price_tv"
@@ -788,7 +788,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
 
@@ -809,7 +809,7 @@
                 android:paddingTop="10dp"
                 android:text="还款期限"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_apply_repay_date_tv"
@@ -817,7 +817,7 @@
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:gravity="center"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_havere_reply_repay_data_tv"
@@ -826,7 +826,7 @@
                 android:layout_weight="1"
                 android:gravity="center|right"
                 android:textColor="@color/text_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
 
@@ -850,12 +850,12 @@
             android:padding="15dp"
             android:text="订单信息"
             android:textColor="@color/text_normal"
-            android:textSize="13.5sp" />
+            android:textSize="@dimen/y43"/>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/main_driver" />
+            android:background="@color/main_driver"/>
 
         <LinearLayout
             android:id="@+id/order_detail_order_info_title"
@@ -864,36 +864,38 @@
 
             android:layout_marginTop="9dp"
             android:background="#F7F7F7">
+
             <LinearLayout
-                android:layout_marginLeft="15dp"
-                android:layout_marginRight="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_marginLeft="15dp"
+                android:layout_marginRight="15dp"
                 android:orientation="horizontal"
                 >
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center_vertical"
-                android:text="名称"
-                android:textSize="11.5sp" />
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="center"
-                android:text="修改前"
-                android:textSize="11.5sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center_vertical"
+                    android:text="名称"
+                    android:textSize="@dimen/y35"/>
 
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="1"
-                android:gravity="right|center_vertical"
-                android:text="修改后"
-                android:textSize="11.5sp" />
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="center"
+                    android:text="修改前"
+                    android:textSize="@dimen/y35"/>
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:gravity="right|center_vertical"
+                    android:text="修改后"
+                    android:textSize="@dimen/y35"/>
             </LinearLayout>
 
         </LinearLayout>
@@ -913,7 +915,7 @@
                 android:gravity="left"
                 android:text="经销商"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_dlr_name_tv"
@@ -922,12 +924,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="上海予见信息科技有限公司" />
+                android:textSize="@dimen/y40"
+                tools:text="上海予见信息科技有限公司"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_dlr_name_tv"
@@ -936,8 +938,8 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="上海予见信息科技有限公司" />
+                android:textSize="@dimen/y40"
+                tools:text="上海予见信息科技有限公司"/>
         </LinearLayout>
 
         <LinearLayout
@@ -955,7 +957,7 @@
                 android:gravity="left"
                 android:text="品牌"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_brand_tv"
@@ -964,12 +966,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_brand_tv"
@@ -979,7 +981,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -997,7 +999,7 @@
                 android:gravity="left"
                 android:text="车系"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_trix_tv"
@@ -1006,12 +1008,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_trix_tv"
@@ -1021,7 +1023,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1039,7 +1041,7 @@
                 android:gravity="left"
                 android:text="车型"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_model_tv"
@@ -1048,12 +1050,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_model_tv"
@@ -1063,7 +1065,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1081,7 +1083,7 @@
                 android:gravity="left"
                 android:text="颜色"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_color_tv"
@@ -1090,12 +1092,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_color_tv"
@@ -1105,7 +1107,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1124,7 +1126,7 @@
                 android:gravity="left"
                 android:text="业务类型"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_vehicle_cond_tv"
@@ -1133,12 +1135,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_vehicle_cond_tv"
@@ -1148,7 +1150,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1156,7 +1158,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -1173,7 +1174,7 @@
                     android:gravity="left"
                     android:text="原上牌地"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
 
                 <TextView
                     android:id="@+id/oldcar_before_addr_tv"
@@ -1182,12 +1183,12 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp"
-                    tools:text="@string/order_detail_plan_reply_total" />
+                    android:textSize="@dimen/y40"
+                    tools:text="@string/order_detail_plan_reply_total"/>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/order_detail_addr_tv"
@@ -1197,7 +1198,7 @@
                     android:gravity="right"
                     android:text="@string/order_detail_plan_reply_total"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
             </LinearLayout>
 
             <LinearLayout
@@ -1215,7 +1216,7 @@
                     android:gravity="left"
                     android:text="原上牌时间"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
 
                 <TextView
                     android:id="@+id/oldcar_before_addrtime_tv"
@@ -1224,12 +1225,12 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp"
-                    tools:text="@string/order_detail_plan_reply_total" />
+                    android:textSize="@dimen/y40"
+                    tools:text="@string/order_detail_plan_reply_total"/>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/order_detail_addrtime_tv"
@@ -1239,7 +1240,7 @@
                     android:gravity="right"
                     android:text="@string/order_detail_plan_reply_total"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
             </LinearLayout>
 
             <LinearLayout
@@ -1257,7 +1258,7 @@
                     android:gravity="left"
                     android:text="里程数"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
 
                 <TextView
                     android:id="@+id/oldcar_before_distance_tv"
@@ -1266,12 +1267,12 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp"
-                    tools:text="@string/order_detail_plan_reply_total" />
+                    android:textSize="@dimen/y40"
+                    tools:text="@string/order_detail_plan_reply_total"/>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/order_detail_distance_tv"
@@ -1281,7 +1282,7 @@
                     android:gravity="right"
                     android:text="@string/order_detail_plan_reply_total"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
             </LinearLayout>
 
             <LinearLayout
@@ -1299,7 +1300,7 @@
                     android:gravity="left"
                     android:text="二手车评估价"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
 
                 <TextView
                     android:id="@+id/oldcar_before_guessprice_tv"
@@ -1308,12 +1309,12 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp"
-                    tools:text="@string/order_detail_plan_reply_total" />
+                    android:textSize="@dimen/y40"
+                    tools:text="@string/order_detail_plan_reply_total"/>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/order_detail_guessprice_tv"
@@ -1323,7 +1324,7 @@
                     android:gravity="right"
                     android:text="@string/order_detail_plan_reply_total"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
             </LinearLayout>
 
             <LinearLayout
@@ -1341,7 +1342,7 @@
                     android:gravity="left"
                     android:text="车辆交易价"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
 
                 <TextView
                     android:id="@+id/oldcar_before_busnessprice_tv"
@@ -1350,12 +1351,12 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp"
-                    tools:text="@string/order_detail_plan_reply_total" />
+                    android:textSize="@dimen/y40"
+                    tools:text="@string/order_detail_plan_reply_total"/>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/order_detail_busnessprice_tv"
@@ -1365,7 +1366,7 @@
                     android:gravity="right"
                     android:text="@string/order_detail_plan_reply_total"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -1391,7 +1392,7 @@
                     android:gravity="left"
                     android:text="市场指导价"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
 
                 <TextView
                     android:id="@+id/order_detail_before_guide_price_tv"
@@ -1400,12 +1401,12 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp"
-                    tools:text="@string/order_detail_plan_reply_total" />
+                    android:textSize="@dimen/y40"
+                    tools:text="@string/order_detail_plan_reply_total"/>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/order_detail_guide_price_tv"
@@ -1415,7 +1416,7 @@
                     android:gravity="right"
                     android:text="@string/order_detail_plan_reply_total"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
             </LinearLayout>
 
             <LinearLayout
@@ -1433,7 +1434,7 @@
                     android:gravity="left"
                     android:text="车辆开票价"
                     android:textColor="@color/text_light_grey"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
 
                 <TextView
                     android:id="@+id/order_detail_before_vehicle_price_tv"
@@ -1442,12 +1443,12 @@
                     android:layout_weight="1"
                     android:gravity="right"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp"
-                    tools:text="@string/order_detail_plan_reply_total" />
+                    android:textSize="@dimen/y40"
+                    tools:text="@string/order_detail_plan_reply_total"/>
 
                 <Space
                     android:layout_width="10dp"
-                    android:layout_height="match_parent" />
+                    android:layout_height="match_parent"/>
 
                 <TextView
                     android:id="@+id/order_detail_vehicle_price_tv"
@@ -1457,7 +1458,7 @@
                     android:gravity="right"
                     android:text="@string/order_detail_plan_reply_total"
                     android:textColor="@color/text_normal"
-                    android:textSize="13.5sp" />
+                    android:textSize="@dimen/y40"/>
             </LinearLayout>
         </LinearLayout>
 
@@ -1476,7 +1477,7 @@
                 android:gravity="left"
                 android:text="车辆贷款额"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_vehicle_loan_amt_tv"
@@ -1485,12 +1486,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_vehicle_loan_amt_tv"
@@ -1500,7 +1501,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1518,7 +1519,7 @@
                 android:gravity="left"
                 android:text="车辆首付款"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_vehicle_down_payment_tv"
@@ -1527,12 +1528,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_vehicle_down_payment_tv"
@@ -1542,7 +1543,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1560,7 +1561,7 @@
                 android:gravity="left"
                 android:text="档案管理费"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_management_fee_tv"
@@ -1569,12 +1570,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_management_fee_tv"
@@ -1584,7 +1585,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1602,7 +1603,7 @@
                 android:gravity="left"
                 android:text="其他费用"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_other_fee_tv"
@@ -1611,12 +1612,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_other_fee_tv"
@@ -1626,7 +1627,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1644,7 +1645,7 @@
                 android:gravity="left"
                 android:text="总贷款额"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_loan_amt_tv"
@@ -1653,12 +1654,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_loan_amt_tv"
@@ -1668,7 +1669,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1686,7 +1687,7 @@
                 android:gravity="left"
                 android:text="贷款银行"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_loan_bank_tv"
@@ -1695,12 +1696,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_loan_bank_tv"
@@ -1710,7 +1711,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1728,7 +1729,7 @@
                 android:gravity="left"
                 android:text="产品类型"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_product_type_tv"
@@ -1737,12 +1738,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_product_type_tv"
@@ -1752,7 +1753,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1771,7 +1772,7 @@
                 android:gravity="left"
                 android:text="还款期限"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_nper_tv"
@@ -1780,12 +1781,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_nper_tv"
@@ -1795,7 +1796,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
         <LinearLayout
@@ -1813,7 +1814,7 @@
                 android:gravity="left"
                 android:text="上牌地/预计上牌地"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_before_plate_reg_addr_tv"
@@ -1822,12 +1823,12 @@
                 android:layout_weight="1"
                 android:gravity="right"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp"
-                tools:text="@string/order_detail_plan_reply_total" />
+                android:textSize="@dimen/y40"
+                tools:text="@string/order_detail_plan_reply_total"/>
 
             <Space
                 android:layout_width="10dp"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"/>
 
             <TextView
                 android:id="@+id/order_detail_plate_reg_addr_tv"
@@ -1837,7 +1838,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_plan_reply_total"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
 
     </LinearLayout>
@@ -1859,13 +1860,13 @@
             android:padding="15dp"
             android:text="报单人员信息"
             android:textColor="@color/text_normal"
-            android:textSize="13.5sp" />
+            android:textSize="@dimen/y43"/>
 
         <View
             android:id="@+id/order_detail_sale_info_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/main_driver" />
+            android:background="@color/main_driver"/>
 
         <RelativeLayout
             android:id="@+id/order_detail_sales_mobile_rel"
@@ -1882,7 +1883,7 @@
                 android:layout_marginTop="15dp"
                 android:text="姓名"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <ImageView
                 android:id="@+id/order_detail_sales_mobile_img"
@@ -1890,7 +1891,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_item_phone" />
+                android:src="@mipmap/icon_item_phone"/>
 
             <TextView
                 android:id="@+id/order_detail_sales_name_tv"
@@ -1901,7 +1902,7 @@
                 android:layout_toLeftOf="@id/order_detail_sales_mobile_img"
                 android:text="@string/order_detail_sale_name"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
         </RelativeLayout>
 
@@ -1918,7 +1919,6 @@
         android:background="@color/white"
         android:orientation="vertical"
         android:visibility="visible"
-
         >
 
         <TextView
@@ -1928,13 +1928,13 @@
             android:padding="15dp"
             android:text="客户信息"
             android:textColor="@color/text_normal"
-            android:textSize="13.5sp" />
+            android:textSize="@dimen/y43"/>
 
         <View
             android:id="@+id/order_detail_customer_info_line"
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/main_driver" />
+            android:background="@color/main_driver"/>
 
         <RelativeLayout
             android:id="@+id/order_detail_customer_mobile_rel"
@@ -1951,7 +1951,7 @@
                 android:layout_marginTop="15dp"
                 android:text="姓名"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <ImageView
                 android:id="@+id/order_detail_customer_mobile_img"
@@ -1959,7 +1959,7 @@
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
                 android:layout_centerVertical="true"
-                android:src="@mipmap/icon_item_phone" />
+                android:src="@mipmap/icon_item_phone"/>
 
             <TextView
                 android:id="@+id/order_detail_customer_name_tv"
@@ -1970,7 +1970,7 @@
                 android:layout_toLeftOf="@id/order_detail_customer_mobile_img"
                 android:text="@string/order_detail_customer_name"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
         </RelativeLayout>
 
@@ -1989,7 +1989,7 @@
                 android:gravity="left"
                 android:text="身份证号"
                 android:textColor="@color/text_light_grey"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
 
             <TextView
                 android:id="@+id/order_detail_customer_id_tv"
@@ -1999,7 +1999,7 @@
                 android:gravity="right"
                 android:text="@string/order_detail_customer_card"
                 android:textColor="@color/text_normal"
-                android:textSize="13.5sp" />
+                android:textSize="@dimen/y40"/>
         </LinearLayout>
     </LinearLayout>
 </LinearLayout>

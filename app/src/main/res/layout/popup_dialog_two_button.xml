@@ -17,7 +17,7 @@
             android:gravity="center"
             android:text="是否退出？"
             android:textColor="#FF222A36"
-            android:textSize="17dp" />
+            android:textSize="@dimen/x46" />
 
         <View
             android:layout_width="match_parent"
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:gravity="center"
                 android:text="否"
-                android:textSize="17dp"
+                android:textSize="@dimen/x46"
                 android:textColor="#FF06B7A3" />
 
             <TextView
@@ -46,7 +46,7 @@
                 android:layout_weight="1"
                 android:background="#FF06B7A3"
                 android:gravity="center"
-                android:textSize="17dp"
+                android:textSize="@dimen/x46"
                 android:text="是"
                 android:textColor="#FFFFFFFF" />
         </LinearLayout>

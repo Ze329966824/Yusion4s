@@ -30,6 +30,7 @@ public class LaunchActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_launch);
 
+
         if (Settings.isOnline) {
             checkVersion();
         } else {
@@ -89,7 +90,7 @@ public class LaunchActivity extends BaseActivity {
         ApiUtil.requestUrl4Data(this, Api.getAuthService().checkToken(),data ->{
 //        AuthApi.checkToken(this, data -> {
             if (data.valid) {
-                onTokenValid();
+               onTokenValid();
             } else {
                 onTokenInvalid();
             }
