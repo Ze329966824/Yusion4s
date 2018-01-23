@@ -346,13 +346,10 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
-//                Log.e("TAG", "writeOtherPrice: 1");
-                ApiUtil.requestUrl4Data(AlterOldCarInfoActivity.this, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), data -> {
-//                    DlrApi.getOtherFeeLimit(AlterOldCarInfoActivity.this, carLoanPriceTv.getText().toString(), data -> {
-                    Log.e("TAG", "onItemDataCallBack: 2 " + data);
+                ApiUtil.requestUrl4Data(this, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), true, data -> {
                     if (!TextUtils.isEmpty(data)) {
                         otherLimit = data;
-                        Toast toast = Toast.makeText(AlterOldCarInfoActivity.this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+                        Toast toast = Toast.makeText(this, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
                         toast.setGravity(Gravity.CENTER, 0, 0);
                         toast.show();
                     }

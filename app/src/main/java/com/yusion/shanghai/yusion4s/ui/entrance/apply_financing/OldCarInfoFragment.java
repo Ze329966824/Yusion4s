@@ -298,17 +298,12 @@ public class OldCarInfoFragment extends BaseFragment {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
-                Log.e("TAG", "writeOtherPrice: 1");
-                DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), new OnItemDataCallBack<String>() {
-                    @Override
-                    public void onItemDataCallBack(String data) {
-                        Log.e("TAG", "onItemDataCallBack: 2 " + data);
-                        if (!TextUtils.isEmpty(data)) {
-                            otherLimit = data;
-                            Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
-                            toast.setGravity(Gravity.CENTER, 0, 0);
-                            toast.show();
-                        }
+                ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), true, data -> {
+                    if (!TextUtils.isEmpty(data)) {
+                        otherLimit = data;
+                        Toast toast = Toast.makeText(mContext, "其他费用可输入最大金额为" + otherLimit, Toast.LENGTH_SHORT);
+                        toast.setGravity(Gravity.CENTER, 0, 0);
+                        toast.show();
                     }
                 });
             }
