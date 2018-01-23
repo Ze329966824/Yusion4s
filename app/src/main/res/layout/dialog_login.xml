@@ -19,7 +19,7 @@
             android:layout_marginRight="25dp"
             android:text="是否退出？"
             android:textColor="#FF222A36"
-            android:textSize="17dp" />
+            android:textSize="@dimen/x46" />
 
 
 
@@ -36,7 +36,7 @@
                 android:layout_weight="1"
                 android:background="#FF06B7A3"
                 android:gravity="center"
-                android:textSize="17dp"
+                android:textSize="@dimen/x46"
                 android:text="知道了"
                 android:textColor="#FFFFFFFF" />
         </LinearLayout>

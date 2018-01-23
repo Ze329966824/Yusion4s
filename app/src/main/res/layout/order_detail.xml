@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/main_bg"
-    android:focusableInTouchMode="true"
-    android:orientation="vertical">
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@color/main_bg"
+                android:focusableInTouchMode="true"
+                android:orientation="vertical">
 
     <include
         android:id="@+id/title_bar"
-        layout="@layout/base_titlebar" />
+        layout="@layout/base_titlebar"/>
 
     <!--复用-->
     <LinearLayout
@@ -33,7 +33,7 @@
             <ImageView
                 android:id="@+id/title_img"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content" />
+                android:layout_height="wrap_content"/>
 
             <TextView
                 android:id="@+id/title_tv"
@@ -42,7 +42,7 @@
                 android:layout_marginLeft="10dp"
                 android:text="拒绝"
                 android:textColor="#FF222A36"
-                android:textSize="17dp" />
+                android:textSize="@dimen/y52"/>
 
         </LinearLayout>
 
@@ -59,7 +59,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="备注："
-                android:textSize="12dp" />
+                android:textSize="@dimen/y35"/>
 
             <TextView
                 android:id="@+id/remark_tv2"
@@ -68,8 +68,8 @@
                 android:layout_marginLeft="3dp"
                 android:ellipsize="end"
                 android:maxLines="2"
-                android:textSize="12dp"
-                tools:text="我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小" />
+                android:textSize="@dimen/y35"
+                tools:text="我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小白兔我是一只小"/>
 
         </LinearLayout>
 
@@ -77,44 +77,43 @@
 
 
     <LinearLayout
-        android:gravity="center_vertical"
-        android:layout_below="@+id/title_lin"
         android:id="@+id/order_detail_schedule_lin"
-        style="@style/apply_info_item">
+        style="@style/apply_info_item"
+        android:layout_below="@+id/title_lin"
+        android:gravity="center_vertical">
 
         <TextView
             style="@style/apply_info_title"
             android:gravity="center_vertical"
-            android:text="订单进度" />
+            android:text="订单进度"
+            android:textSize="@dimen/y43"/>
 
         <Space
-            style="@style/apply_info_content" />
+            style="@style/apply_info_content"/>
 
-        <FrameLayout
-            android:layout_width="20dp"
+        <ImageView
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
-            android:layout_marginLeft="15dp">
-
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="left|center_vertical"
-                android:src="@mipmap/select_arrow" />
-        </FrameLayout>
+            android:layout_marginLeft="@dimen/x28"
+            android:src="@mipmap/select_arrow"
+            />
     </LinearLayout>
+
     <View
-        android:layout_below="@+id/order_detail_schedule_lin"
         android:id="@+id/order_detail_separate1"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separate_line_height"
+        android:layout_below="@+id/order_detail_schedule_lin"
         android:layout_marginBottom="10dp"
-        android:background="@color/separate_line_color" />
+        android:background="@color/separate_line_color"/>
+
     <View
-        android:layout_below="@+id/order_detail_separate1"
         android:id="@+id/order_detail_separate2"
         android:layout_width="match_parent"
         android:layout_height="@dimen/separate_line_height"
-        android:background="@color/separate_line_color" />
+        android:layout_below="@+id/order_detail_separate1"
+        android:background="@color/separate_line_color"/>
+
     <android.support.design.widget.CoordinatorLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -126,7 +125,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/lln">
 
-            <include layout="@layout/main_order_detail" />
+            <include layout="@layout/main_order_detail"/>
         </android.support.v4.widget.NestedScrollView>
 
         <android.support.design.widget.FloatingActionButton
@@ -145,7 +144,7 @@
             app:layout_anchor="@id/scrollView_four"
             app:layout_anchorGravity="bottom|right|end"
             app:layout_behavior="com.yusion.shanghai.yusion4s.widget.behavior.CustomBehavior"
-            app:rippleColor="@color/transparent" />
+            app:rippleColor="@color/transparent"/>
     </android.support.design.widget.CoordinatorLayout>
 
 
@@ -157,8 +156,8 @@
 
         android:elevation="2dp"
         android:orientation="horizontal"
-        tools:visibility="gone"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="gone">
 
         <Button
             android:id="@+id/order_detail_sign"
@@ -174,11 +173,10 @@
             android:gravity="center"
             android:text="提交资料"
             android:textColor="@color/white"
-            android:textSize="16sp" />
+            android:textSize="16sp"/>
 
 
     </LinearLayout>
-
 
 
     <LinearLayout
@@ -189,8 +187,8 @@
         android:background="@color/white"
         android:elevation="2dp"
         android:orientation="horizontal"
-        tools:visibility="gone"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="gone">
 
 
         <TextView
@@ -200,18 +198,19 @@
             android:layout_weight="1"
             android:gravity="center"
             android:text="修改资料"
-            android:textColor="#FF06B7A3" />
+            android:textColor="#FF06B7A3"
+            android:textSize="@dimen/y46"/>
 
         <TextView
             android:id="@+id/order_detail_upload_tv"
             android:layout_width="0dp"
             android:layout_height="44dp"
             android:layout_weight="1"
-
             android:background="#FF06B7A3"
             android:gravity="center"
             android:text="提交资料"
-            android:textColor="#FFFFFFFF" />
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/y46"/>
 
 
     </LinearLayout>
@@ -223,31 +222,33 @@
         android:layout_alignParentBottom="true"
         android:background="@color/white"
         android:elevation="2dp"
-        tools:visibility="visible"
         android:orientation="horizontal"
-        android:visibility="gone">
+        android:visibility="gone"
+        tools:visibility="visible">
+
         <TextView
             android:id="@+id/order_detail_check_tv"
             android:layout_width="@dimen/x389"
             android:layout_height="44dp"
+            android:background="#FFFFFFFF"
             android:gravity="center"
             android:text="查看资料"
-            android:background="#FFFFFFFF"
-            android:textColor="#FF666666" />
-
+            android:textColor="#FF666666"
+            android:textSize="@dimen/y46"/>
 
 
         <TextView
             android:id="@+id/order_detail_replace_tv"
-            android:visibility="gone"
-            tools:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:layout_weight="1"
             android:background="#FF06B7A3"
             android:gravity="center"
             android:text="更换配偶作为主贷人"
-            android:textColor="#FFFFFFFF" />
+            android:textColor="#FFFFFFFF"
+            android:textSize="@dimen/y46"
+            android:visibility="gone"
+            tools:visibility="visible"/>
 
 
     </LinearLayout>

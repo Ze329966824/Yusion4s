@@ -4,10 +4,10 @@
                 android:layout_height="match_parent"
                 android:background="#fff">
 
-    <ImageView xmlns:android="http://schemas.android.com/apk/res/android"
-               android:layout_width="match_parent"
-               android:layout_height="match_parent"
-               android:background="@mipmap/launch_bg"
-               android:layout_centerInParent="true"
-        />
+    <!--<ImageView xmlns:android="http://schemas.android.com/apk/res/android"-->
+               <!--android:layout_width="match_parent"-->
+               <!--android:layout_height="match_parent"-->
+               <!--android:background="@mipmap/launch_bg"-->
+               <!--android:layout_centerInParent="true"-->
+        <!--/>-->
 </RelativeLayout>

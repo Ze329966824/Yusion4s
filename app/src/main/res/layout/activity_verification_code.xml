@@ -32,7 +32,7 @@
         android:inputType="number"
         android:maxLength="11"
         android:textColor="#ffa400"
-        android:textSize="17sp"
+        android:textSize="@dimen/x46"
         tools:text="13800000000" />
 
     <Button

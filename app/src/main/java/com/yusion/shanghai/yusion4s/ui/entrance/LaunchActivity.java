@@ -1,6 +1,7 @@
 package com.yusion.shanghai.yusion4s.ui.entrance;
 
 import android.app.AlertDialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.widget.Toast;
@@ -11,6 +12,7 @@ import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.ConfigApi;
 import com.yusion.shanghai.yusion4s.settings.Settings;
+import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.utils.PopupDialogUtil;
@@ -30,9 +32,9 @@ public class LaunchActivity extends BaseActivity {
 
 
         if (Settings.isOnline) {
-           // checkVersion();
+            checkVersion();
         } else {
-            //checkServerUrl();
+            checkServerUrl();
         }
     }
 
@@ -88,21 +90,21 @@ public class LaunchActivity extends BaseActivity {
         ApiUtil.requestUrl4Data(this, Api.getAuthService().checkToken(),data ->{
 //        AuthApi.checkToken(this, data -> {
             if (data.valid) {
-              //  onTokenValid();
+               onTokenValid();
             } else {
-               // onTokenInvalid();
+                onTokenInvalid();
             }
         });
     }
 
     private void onTokenInvalid() {
-        //startActivity(new Intent(this, LoginActivity.class));
+        startActivity(new Intent(this, LoginActivity.class));
         finish();
     }
 
 
     private void onTokenValid() {
-        //startActivity(new Intent(this, MainActivity.class));
+        startActivity(new Intent(this, MainActivity.class));
         finish();
     }
 

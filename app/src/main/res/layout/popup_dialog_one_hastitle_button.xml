@@ -23,7 +23,7 @@ android:orientation="vertical">
             android:gravity="center"
             android:text="客户信息未完善！"
             android:textColor="#FF222A36"
-            android:textSize="17dp" />
+            android:textSize="@dimen/x46" />
 
         <TextView
             android:id="@+id/pop_dialog_title_tv"
@@ -56,7 +56,7 @@ android:orientation="vertical">
             android:gravity="center"
             android:text="好的"
             android:textColor="#FFFFFFFF"
-            android:textSize="17dp" />
+            android:textSize="@dimen/x46" />
     </LinearLayout>
 </LinearLayout>
 </LinearLayout>

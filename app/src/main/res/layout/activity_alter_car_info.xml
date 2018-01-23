@@ -854,7 +854,7 @@
                 android:gravity="center"
                 android:text="提交申请"
                 android:textColor="@color/white"
-                android:textSize="17sp"/>
+                android:textSize="@dimen/x46"/>
         </LinearLayout>
     </ScrollView>
 

@@ -603,7 +603,7 @@ public class CarInfoFragment extends BaseFragment {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            ApiUtil.requestUrl4Data(mContext,Api.getDlrService().getLoanBank(dlr_id),resp ->{
+            ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getLoanBank(dlr_id), resp -> {
 //            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
                 mLoanBankList = resp;//银行列表
                 List<String> items = new ArrayList<String>();

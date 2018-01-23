@@ -1581,7 +1581,7 @@
                 android:gravity="center"
                 android:text="下一步"
                 android:textColor="@color/white"
-                android:textSize="17sp"
+                android:textSize="@dimen/x46"
                 tools:enabled="false" />
         </LinearLayout>
     </ScrollView>

@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/upload_list_template"
-    android:layout_width="match_parent"
-    android:layout_height="405dp"
-    android:layout_alignParentBottom="true"
-    android:background="@color/white"
-    android:orientation="vertical"
-    android:visibility="gone"
-    tools:visibility="visible">
+              xmlns:tools="http://schemas.android.com/tools"
+              android:id="@+id/upload_list_template"
+              android:layout_width="match_parent"
+              android:layout_height="405dp"
+              android:layout_alignParentBottom="true"
+              android:background="@color/white"
+              android:orientation="vertical"
+              android:visibility="gone"
+              tools:visibility="visible">
 
     <View
         android:layout_width="match_parent"
         android:layout_height="10dp"
-        android:background="#f5f5f5" />
+        android:background="#f5f5f5"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -35,7 +35,7 @@
                 android:gravity="center_vertical"
                 android:textColor="#666666"
                 android:textSize="14.5dp"
-                tools:text="测试字段" />
+                tools:text="测试字段"/>
 
             <!--<Space-->
             <!--android:layout_width="0dp"-->
@@ -47,13 +47,13 @@
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
                 android:paddingLeft="10dp"
-                android:src="@mipmap/arrow_down" />
+                android:src="@mipmap/arrow_down"/>
         </LinearLayout>
 
         <View
             android:layout_width="match_parent"
             android:layout_height="0.5dp"
-            android:background="@color/separate_line_color" />
+            android:background="@color/separate_line_color"/>
 
         <TextView
             android:id="@+id/upload_list_template_content"
@@ -63,7 +63,7 @@
             android:paddingTop="11.5dp"
             android:text="有效居住材料\n拍摄时确保居住材料边框完整，字体清晰，亮度均匀"
             android:textColor="#999999"
-            android:textSize="11.5sp" />
+            android:textSize="11.5sp"/>
 
         <RelativeLayout
             android:id="@+id/upload_list_template_img_group"
@@ -78,7 +78,7 @@
                 android:layout_height="match_parent"
                 android:layout_centerInParent="true"
                 android:scaleType="centerInside"
-                tools:src="@mipmap/launch_bg" />
+                tools:src="@mipmap/launch_bg"/>
 
             <ImageView
                 android:id="@+id/upload_list_template_video_look"
@@ -87,7 +87,7 @@
                 android:layout_centerInParent="true"
                 android:src="@mipmap/play_video"
                 android:visibility="gone"
-                tools:visibility="visible" />
+                tools:visibility="visible"/>
 
             <Button
                 android:id="@+id/upload_list_template_img_look"
@@ -96,25 +96,25 @@
                 android:layout_alignBottom="@+id/upload_list_template_imgs_size"
                 android:layout_centerHorizontal="true"
                 android:background="@drawable/fill_9906b7a3"
-                android:text="查看样张"
                 android:clickable="false"
+                android:text="查看样张"
                 android:textColor="#fff"
-                android:textSize="15.5sp"
+                android:textSize="@dimen/y40"
                 android:visibility="gone"
-                tools:visibility="visible" />
+                tools:visibility="visible"/>
 
             <TextView
                 android:id="@+id/upload_list_template_imgs_size"
-                android:gravity="center"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
                 android:layout_alignParentLeft="true"
                 android:layout_margin="15dp"
                 android:background="@drawable/fill_circle_20000000"
+                android:gravity="center"
                 android:textColor="@color/white"
                 android:textSize="13.5sp"
-                tools:text="2" />
+                tools:text="2"/>
         </RelativeLayout>
     </LinearLayout>
 

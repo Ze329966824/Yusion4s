@@ -572,7 +572,7 @@
                 android:gravity="center"
                 android:text="下一步"
                 android:textColor="@color/white"
-                android:textSize="@dimen/y52"/>
+                android:textSize="@dimen/y46"/>
         </LinearLayout>
     </ScrollView>
 
