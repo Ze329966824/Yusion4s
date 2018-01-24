@@ -361,8 +361,9 @@
             android:theme="@style/JpushDialogStyle" />
         <activity
             android:name=".ui.entrance.BindingActivity"
-            android:exported="true"
-            android:launchMode="singleInstance" />
+            android:launchMode="singleTask"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="stateHidden|adjustPan"/>
     </application>
 
 </manifest>

@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.MotionEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
@@ -79,6 +80,7 @@ public class LoginActivity extends BaseActivity {
             Yusion4sApp.ACCOUNT = username;
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.ACCOUNT);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
+            Log.e("TAG", "wxLoginSuccess: "+Yusion4sApp.ACCOUNT);
             startActivity(new Intent(LoginActivity.this, MainActivity.class));
         }
     }
@@ -179,6 +181,8 @@ public class LoginActivity extends BaseActivity {
             Yusion4sApp.TOKEN = mtoken;
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("token", Yusion4sApp.TOKEN);
             mtoken = null;
+            Log.e("TAG", "onResume: "+Yusion4sApp.ACCOUNT);
+
             wxLoginSuccess();
         }
     }
@@ -187,8 +191,10 @@ public class LoginActivity extends BaseActivity {
     protected void onNewIntent(Intent intent) {
         mtoken = intent.getStringExtra("token");
         username = intent.getStringExtra("username");
-
         Yusion4sApp.TOKEN = mtoken;
+        Log.e("TAG", "onNewIntent: "+username);
+        Log.e("TAG", "onNewIntent: "+Yusion4sApp.ACCOUNT);
+
     }
 
     private void removeDlrNums() {

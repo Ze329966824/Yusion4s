@@ -325,7 +325,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onFinish() {
-            mPopWindow.dismiss();
+            if (mPopWindow != null && mPopWindow.isShowing()) {
+                mPopWindow.dismiss();
+            }
 
         }
     };

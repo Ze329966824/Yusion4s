@@ -180,6 +180,7 @@ public class HomeFragment extends BaseFragment {
             Intent i1 = new Intent(mContext, OrderCreateActivity.class);
             i1.putExtra("car_type", "新车");
             startActivity(i1);
+//            Log.e("TAG", "onReceive: "+ Yusion4sApp.ACCOUNT);
         });
         //二手车
         view.findViewById(R.id.apply_financing_cteate_oldcar_btn).setOnClickListener(v -> {
