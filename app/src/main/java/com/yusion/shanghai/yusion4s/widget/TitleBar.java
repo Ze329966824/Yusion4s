@@ -14,8 +14,8 @@ import android.widget.TextView;
 import com.yusion.shanghai.yusion4s.utils.DensityUtil;
 
 public class TitleBar extends ViewGroup {
-
-    private static final int DEFAULT_MAIN_TEXT_SIZE = 18;
+    
+    private static final int DEFAULT_MAIN_TEXT_SIZE = 16;
     private static final int DEFAULT_SUB_TEXT_SIZE = 12;
     private static final int DEFAULT_ACTION_TEXT_SIZE = 15;
     private static final int DEFAULT_TITLE_BAR_HEIGHT = 50;
@@ -36,10 +36,12 @@ public class TitleBar extends ViewGroup {
     private int mActionPadding;
     private int mOutPadding;
     private int mHeight;
+
     public TitleBar(Context context) {
         super(context);
         init(context);
     }
+
     public TitleBar(Context context, AttributeSet attrs) {
         super(context, attrs);
         init(context);
@@ -319,13 +321,9 @@ public class TitleBar extends ViewGroup {
         measureChild(mLeftTextTv, widthMeasureSpec, heightMeasureSpec);
         measureChild(mRightTextTv, widthMeasureSpec, heightMeasureSpec);
         if (mLeftTextTv.getMeasuredWidth() > mRightTextTv.getMeasuredWidth()) {
-            mCenterLayout.measure(
-                    MeasureSpec.makeMeasureSpec(mScreenWidth - 2 * mLeftTextTv.getMeasuredWidth(), MeasureSpec.EXACTLY)
-                    , heightMeasureSpec);
+            mCenterLayout.measure(MeasureSpec.makeMeasureSpec(mScreenWidth - 2 * mLeftTextTv.getMeasuredWidth(), MeasureSpec.EXACTLY), heightMeasureSpec);
         } else {
-            mCenterLayout.measure(
-                    MeasureSpec.makeMeasureSpec(mScreenWidth - 2 * mRightTextTv.getMeasuredWidth(), MeasureSpec.EXACTLY)
-                    , heightMeasureSpec);
+            mCenterLayout.measure(MeasureSpec.makeMeasureSpec(mScreenWidth - 2 * mRightTextTv.getMeasuredWidth(), MeasureSpec.EXACTLY), heightMeasureSpec);
         }
         measureChild(mDividerView, widthMeasureSpec, heightMeasureSpec);
         setMeasuredDimension(MeasureSpec.getSize(widthMeasureSpec), height);
@@ -334,14 +332,11 @@ public class TitleBar extends ViewGroup {
     @Override
     protected void onLayout(boolean changed, int l, int t, int r, int b) {
         mLeftTextTv.layout(0, mStatusBarHeight, mLeftTextTv.getMeasuredWidth(), mLeftTextTv.getMeasuredHeight() + mStatusBarHeight);
-        mRightTextTv.layout(mScreenWidth - mRightTextTv.getMeasuredWidth(), mStatusBarHeight,
-                mScreenWidth, mRightTextTv.getMeasuredHeight() + mStatusBarHeight);
+        mRightTextTv.layout(mScreenWidth - mRightTextTv.getMeasuredWidth(), mStatusBarHeight, mScreenWidth, mRightTextTv.getMeasuredHeight() + mStatusBarHeight);
         if (mLeftTextTv.getMeasuredWidth() > mRightTextTv.getMeasuredWidth()) {
-            mCenterLayout.layout(mLeftTextTv.getMeasuredWidth(), mStatusBarHeight,
-                    mScreenWidth - mLeftTextTv.getMeasuredWidth(), getMeasuredHeight());
+            mCenterLayout.layout(mLeftTextTv.getMeasuredWidth(), mStatusBarHeight, mScreenWidth - mLeftTextTv.getMeasuredWidth(), getMeasuredHeight());
         } else {
-            mCenterLayout.layout(mRightTextTv.getMeasuredWidth(), mStatusBarHeight,
-                    mScreenWidth - mRightTextTv.getMeasuredWidth(), getMeasuredHeight());
+            mCenterLayout.layout(mRightTextTv.getMeasuredWidth(), mStatusBarHeight, mScreenWidth - mRightTextTv.getMeasuredWidth(), getMeasuredHeight());
         }
         mDividerView.layout(0, getMeasuredHeight() - mDividerView.getMeasuredHeight(), getMeasuredWidth(), getMeasuredHeight());
     }
