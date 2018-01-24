@@ -3,6 +3,7 @@ package com.yusion.shanghai.yusion4s.ui.order;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -13,8 +14,6 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
-import com.yusion.shanghai.yusion4s.retrofit.api.OrderApi;
-import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
 
 import java.util.List;
@@ -35,13 +34,14 @@ public class ProcessActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process);
         initTitleBar(this, "订单进度");
+        Log.e("TAG-----------", "onCreate: " + initTitleBar(this, "sss").getMeasuredHeight());
         mContext = this;
         mLl_parent = (LinearLayout) findViewById(R.id.ll_parent);
         app_id = (TextView) findViewById(R.id.app_id);
         create_time = (TextView) findViewById(R.id.creat_time);
         clt_nm = (TextView) findViewById(R.id.clt_nm);
 
-        ApiUtil.requestUrl4Data(this, Api.getOrderService().getOrderProcess(getIntent().getStringExtra("app_id")),data -> {
+        ApiUtil.requestUrl4Data(this, Api.getOrderService().getOrderProcess(getIntent().getStringExtra("app_id")), data -> {
 //        OrderApi.getOrderProcess(this, getIntent().getStringExtra("app_id"), data -> {
             if (data == null) {
                 return;
@@ -341,4 +341,5 @@ public class ProcessActivity extends BaseActivity {
         View view = inflater.inflate(R.layout.testjj, null);
         return view;
     }
+
 }
