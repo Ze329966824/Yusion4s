@@ -1766,7 +1766,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/separate_line_height"
-                    android:layout_marginLeft="15dp"
                     android:background="@color/separate_line_color" />
 
                 <LinearLayout style="@style/apply_info_item">
@@ -1782,7 +1781,10 @@
                         android:hint="请输入" />
 
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
                 <!--婚姻材料-->
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -1814,7 +1816,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/separate_line_height"
-                    android:layout_marginLeft="15dp"
                     android:background="@color/separate_line_color" />
 
                 <LinearLayout
@@ -1843,6 +1844,10 @@
                             android:src="@mipmap/mine_arrow_right" />
                     </FrameLayout>
                 </LinearLayout>
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
             </LinearLayout>
 
             <!--丧偶-->
@@ -1883,7 +1888,6 @@
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="@dimen/separate_line_height"
-                    android:layout_marginLeft="15dp"
                     android:background="@color/separate_line_color" />
 
                 <LinearLayout style="@style/apply_info_item">
@@ -1899,7 +1903,10 @@
                         android:hint="请输入" />
 
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
                 <!--婚姻材料-->
 
                 <LinearLayout
@@ -1928,7 +1935,10 @@
                         android:textSize="11.5sp" />
 
                 </LinearLayout>
-
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="@dimen/separate_line_height"
+                    android:background="@color/separate_line_color" />
                 <LinearLayout
                     android:id="@+id/spouse_info_register_addr_lin"
                     style="@style/apply_info_item">

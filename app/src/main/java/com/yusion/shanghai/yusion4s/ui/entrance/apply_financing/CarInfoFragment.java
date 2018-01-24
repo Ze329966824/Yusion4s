@@ -256,9 +256,7 @@ public class CarInfoFragment extends BaseFragment {
                 otherPriceTv.setEnabled(false);
             } else {
                 otherLimit = "";
-//                Log.e("TAG", "writeOtherPrice: 1");
-                ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()),  data -> {
-//                    DlrApi.getOtherFeeLimit(mContext, carLoanPriceTv.getText().toString(), data -> {
+                ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getOtherFeeLimit(carLoanPriceTv.getText().toString()), true, data -> {
                     Log.e("TAG", "onItemDataCallBack: 2 " + data);
                     if (!TextUtils.isEmpty(data)) {
                         otherLimit = data;

@@ -7,6 +7,7 @@ import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
@@ -20,26 +21,45 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 
+import com.tencent.mm.opensdk.openapi.IWXAPI;
+import com.tencent.mm.opensdk.openapi.WXAPIFactory;
 import com.umeng.analytics.MobclickAgent;
 import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.Yusion4sApp;
+import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
+import com.yusion.shanghai.yusion4s.ui.MainActivity;
 import com.yusion.shanghai.yusion4s.ui.entrance.LaunchActivity;
 import com.yusion.shanghai.yusion4s.ui.main.SettingsActivity;
+import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
+
+import org.greenrobot.eventbus.EventBus;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 
 /**
  * Created by ice on 2017/8/3.
  */
 
 public class BaseActivity extends AppCompatActivity implements View.OnClickListener {
-
+    public static final String WX_APP_ID = "wxd581c152982fefe4";
+    public IWXAPI api;
     protected Yusion4sApp myApp;
     public int WIDTH;
     public int HEIGHT;
+    public String pushStr;
+
+
+    public String title;
+    public String content;
+    public String app_id;
+    public String vehicle_cond;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -52,6 +72,9 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         if (!Settings.isOnline) {
             //Toast.makeText(this, getClass().getSimpleName(), Toast.LENGTH_SHORT).show();
         }
+
+        api = WXAPIFactory.createWXAPI(this, WX_APP_ID, false);
+        api.registerApp(WX_APP_ID);
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
 //        UBT.bind(this);
@@ -188,12 +211,22 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
 
         contentView = LayoutInflater.from(this).inflate(R.layout.layout_msg_push, null);
+        TextView titleTv = contentView.findViewById(R.id.msg_push_title);
+        TextView typeTv = contentView.findViewById(R.id.msg_push_car_type);
+        TextView msgTv = contentView.findViewById(R.id.msg_push_order_message);
+
+        titleTv.setText(title);
+        typeTv.setText(vehicle_cond);
+        msgTv.setText(content);
         soundPool = new SoundPool(10, AudioManager.STREAM_SYSTEM, 5);
         //加载deep 音频文件
         soundPool.load(this, R.raw.push_sound, 1);
+        Log.e("TAG", "initPopupWindow: " + app_id);
         contentView.setOnTouchListener(new View.OnTouchListener() {
             int lastX = 0;
             int lastY = 0;
+            double x = 0;
+            double y = 0;
 
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -204,6 +237,8 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
                 switch (event.getAction()) {
                     case MotionEvent.ACTION_DOWN:
+                        x = event.getX();
+                        y = event.getY();
                         lastX = (int) event.getRawX();//获取触摸事件触摸位置的原始X坐标
                         lastY = (int) event.getRawY();
 
@@ -216,9 +251,10 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                         int height = v.getHeight();
                         int width = v.getWidth();
 
-                        if (Math.abs(dy) > (height /2)) {
+                        if (Math.abs(dy) > (height / 2)) {
 
                             mPopWindow.dismiss();
+                            timer.onFinish();
                             v.scrollTo(0, 0);
                             v.setAlpha(1);
 
@@ -235,9 +271,20 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
                         lastX = (int) event.getRawX();
                         lastY = (int) event.getRawY();
-                        break;
+                        return true;
                     case MotionEvent.ACTION_UP:
-                        int i = screenWidth / 2;
+                        double sqrt = Math.sqrt(Math.abs((x - event.getX()) * (x - event.getX()) + (y - event.getY()) * (y - event.getY())));
+                        if ( sqrt < 10){
+                            Intent i = new Intent(BaseActivity.this, OrderDetailActivity.class);
+                            i.putExtra("app_id", app_id);
+                            startActivity(i);
+                            mPopWindow.dismiss();
+                            timer.onFinish();
+                        }
+
+
+
+                        int i = screenWidth / 3;
                         ObjectAnimator animator = ObjectAnimator.ofFloat(v, "alpha", v.getAlpha(), 1.0f);
                         final int scrollX = v.getScrollX();
                         animator.addUpdateListener(animation -> {
@@ -251,6 +298,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                             v.setAlpha(0);
                             v.postDelayed(() -> {
                                 mPopWindow.dismiss();
+                                timer.onFinish();
                                 v.scrollTo(0, 0);
                                 v.setAlpha(1);
                             }, 1);
@@ -264,44 +312,64 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                         break;
                 }
 
-                return true;
+                return false;
             }
         });
 
     }
+    CountDownTimer timer = new CountDownTimer(5000, 10) {
 
+        @Override
+        public void onTick(long millisUntilFinished) {
+        }
+
+        @Override
+        public void onFinish() {
+            mPopWindow.dismiss();
+
+        }
+    };
     public void showPopupWindow() {
-//        int oldSystemUiVisibility = getWindow().getDecorView().getSystemUiVisibility();
-//        getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_FULLSCREEN);
+
+
+
+        if (mPopWindow != null && mPopWindow.isShowing()) {
+            mPopWindow.dismiss();
+            timer.onFinish();
+        }
         contentView.setVisibility(View.VISIBLE);
         mPopWindow = new PopupWindow(contentView, ActionBar.LayoutParams.MATCH_PARENT, ActionBar.LayoutParams.WRAP_CONTENT, true);
         mPopWindow.setContentView(contentView);
         mPopWindow.setAnimationStyle(R.style.mypopwindow_anim_style);
         mPopWindow.setFocusable(false);
-//        mPopWindow.setClippingEnabled(false);
-//        mPopWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
-//            @Override
-//            public void onDismiss() {
-//                getWindow().getDecorView().setSystemUiVisibility(oldSystemUiVisibility);
-//
-//            }
-//        });
+
         mPopWindow.setHeight(getResources().getDimensionPixelOffset(R.dimen.y400));
         mPopWindow.setOutsideTouchable(false);
 
 
-        //显示PopupWindow
-//        mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
-
         contentView.postDelayed(() -> {
 //            mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, (int) getResources().getDimension(R.dimen.y50));
             mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
-
+            if (ActivityManager.getActivity() instanceof MainActivity){
+                EventBus.getDefault().post(MainActivityEvent.showReadicon);
+            }
+            timer.start();
         }, 1000);
+
 
         //播放deep
         soundPool.play(1, 1, 1, 0, 0, 1);
 
     }
 
+
+    private void initJpush() throws JSONException {
+
+        JSONObject jo = new JSONObject(pushStr);
+        title = jo.optString("title");
+        content = jo.optString("content");
+        app_id = jo.optString("app_id");
+
+
+    }
 }

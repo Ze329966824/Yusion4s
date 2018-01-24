@@ -1,6 +1,8 @@
 package com.yusion.shanghai.yusion4s.utils;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.annotation.DrawableRes;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,144 +13,76 @@ import android.widget.Toast;
 
 import com.yusion.shanghai.yusion4s.R;
 
+import java.lang.reflect.Field;
+
 
 public class ToastUtil {
-    private static boolean isShow = true;//默认显示
-    private static Toast mToast = null;//全局唯一的toast
+    private static Toast mToast = null;
 
-    //用于显示带图片的toast
-    private static TextView mTextView;
-    private static ImageView mImageView;
-
-    /**
-     * 控制不应该被实例化
-     */
     private ToastUtil() {
-        throw new UnsupportedOperationException("不能被实例化");
     }
 
-    /**
-     * 全局控制是否显示toast
-     *
-     * @param isShowToast
-     */
-    public static void controlShow(boolean isShowToast) {
-        isShow = isShowToast;
-    }
-
-    /**
-     * 取消toast的显示
-     */
-    public void cancleToast() {
-        if (isShow && mToast != null) {
-            mToast.cancel();
-        }
-    }
-
-    /**
-     * 短时间显示toast
-     *
-     * @param context
-     * @param message
-     */
     public static void showShort(Context context, CharSequence message) {
-        if (isShow) {
-            if (mToast == null) {
-                mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-            } else {
-                mToast.setText(message);
-            }
-            mToast.show();
-        }
+        show(context, message, Toast.LENGTH_SHORT);
     }
 
-    /**
-     * 长时间显示toast
-     *
-     * @param context
-     * @param message
-     */
     public static void showLong(Context context, CharSequence message) {
-        if (isShow) {
-            if (mToast == null) {
-                mToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-            } else {
-                mToast.setText(message);
-            }
-            mToast.show();
-        }
+        show(context, message, Toast.LENGTH_LONG);
     }
 
-    /**
-     * 自定义显示toast时间
-     *
-     * @param context
-     * @param message
-     * @param duration
-     */
+    @SuppressLint("ShowToast")
     public static void show(Context context, CharSequence message, int duration) {
-        if (isShow) {
-            if (mToast == null) {
-                mToast = Toast.makeText(context, message, duration);
-            } else {
-                mToast.setText(message);
-            }
-            mToast.show();
-        }
-    }
-
-    /**
-     * 自定义toast的位置
-     *
-     * @param context
-     * @param message
-     * @param duration short是2  long是3.5
-     * @param gravity
-     * @param xoffset
-     * @param yoffset
-     */
-    public static void customToastGravity(Context context, CharSequence message, int gravity, int xoffset, int yoffset) {
-        if (isShow) {
-            if (mToast == null) {
-                mToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
-            } else {
-                mToast.setText(message);
-            }
-            mToast.setGravity(gravity, xoffset, yoffset);
-            mToast.show();
-        }
-    }
-
-    /**
-     * 带图片显示的toast
-     *
-     * @param context
-     * @param message
-     * @param mipmpid
-     */
-    public static void showImageToast(Context context, CharSequence message, int mipmpid) {
-        //加载Toast布局
-        View toastView = LayoutInflater.from(context).inflate(R.layout.toast_replace, null);
-        //初始化布局控件
-        mTextView = toastView.findViewById(R.id.toast_success_tv);
-        mImageView = toastView.findViewById(R.id.toast_success_img);
-        //为控件设置属性
-        mTextView.setText(message);
-        mImageView.setImageResource(mipmpid);
-        //Toast的初始化
-        //Toast toastStart = new Toast(context);
-        if (isShow) {
-//            if (mToast == null) {
-//                mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
-//            } else {
-//                mToast.setText(message);
-//            }
-            mToast = Toast.makeText(context, message, Toast.LENGTH_SHORT);
+        if (mToast == null || context != getToastContext(mToast)) {
+            mToast = Toast.makeText(context, message, duration);
+        } else {
             mToast.setText(message);
         }
-        //获取屏幕高度
+        mToast.show();
+    }
+
+    private static Context getToastContext(Toast toast) {
+        Context context = null;
+        Field mContext = null;
+        try {
+            mContext = toast.getClass().getDeclaredField("mContext");
+            mContext.setAccessible(true);
+            context = (Context) mContext.get(mToast);
+        } catch (NoSuchFieldException e) {
+            e.printStackTrace();
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+        }
+        return context;
+    }
+
+    /**
+     * short是2  long是3.5
+     */
+    @SuppressLint("ShowToast")
+    public static void customToastGravity(Context context, CharSequence message, int gravity, int xoffset, int yoffset) {
+        if (mToast == null || context != getToastContext(mToast)) {
+            mToast = Toast.makeText(context, message, Toast.LENGTH_LONG);
+        } else {
+            mToast.setText(message);
+        }
+        mToast.setGravity(gravity, xoffset, yoffset);
+        mToast.show();
+    }
+
+    @SuppressLint("ShowToast")
+    public static void showImageToast(Context context, CharSequence message, @DrawableRes int mipmpid) {
+        View toastView = LayoutInflater.from(context).inflate(R.layout.toast_replace, null);
+        TextView mTextView = toastView.findViewById(R.id.toast_success_tv);
+        ImageView mImageView = toastView.findViewById(R.id.toast_success_img);
+        mTextView.setText(message);
+        mImageView.setImageResource(mipmpid);
+
+        if (mToast == null || context != getToastContext(mToast)) {
+            mToast = new Toast(context);
+        }
+
         WindowManager wm = (WindowManager) context.getSystemService(Context.WINDOW_SERVICE);
-        int height = wm.getDefaultDisplay().getHeight();
+        int height = wm != null ? wm.getDefaultDisplay().getHeight() : 0;
         //Toast的Y坐标是屏幕高度的1/3，不会出现不适配的问题
         mToast.setGravity(Gravity.TOP, 0, height / 3);
         mToast.setDuration(Toast.LENGTH_LONG);

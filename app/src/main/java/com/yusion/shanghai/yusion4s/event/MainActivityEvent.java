@@ -5,10 +5,16 @@ package com.yusion.shanghai.yusion4s.event;
  */
 
 public enum  MainActivityEvent {
-    showOrderManager(-1);
+
+    showOrderManager(-1),showReadicon;
 
     public int position;
 
+
+
+    MainActivityEvent(){
+
+    }
     MainActivityEvent(int position) {
         this.position = position;
     }

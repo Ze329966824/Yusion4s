@@ -33,4 +33,5 @@ public class Settings {
     public static String SERVER_URL = isOnline ? "http://api.yusiontech.com:8000/" : ALPHA_SERVER_URL;
     public static String OSS_SERVER_URL = isOnline ? "http://oss.yusiontech.com:9100" : ALPHA_OSS_SERVER_URL;
     public static String TEST_TOKEN = "94332209404d79860339284100000000";
+    public static String WX_SERVER_URL = "https://api.weixin.qq.com/";
 }

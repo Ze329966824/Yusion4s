@@ -186,7 +186,6 @@ public class JpushDialogActivity extends BaseActivity {
 
 
     void popJpushDialog() {
-        Log.e("TAG", "popJpushDialog: isLogin = " + Yusion4sApp.isLogin);
         if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
             switch (category) {
                 case "login"://抢登
@@ -196,6 +195,7 @@ public class JpushDialogActivity extends BaseActivity {
                         finish();
                     });
                     break;
+
                 case "application":
                     switch (order_state) {
                         case "pass":
@@ -242,10 +242,7 @@ public class JpushDialogActivity extends BaseActivity {
                     }
 
                     break;
-                case "test":
 
-                    showPopupWindow();
-                    break;
 
                 default:
                     new AlertDialog.Builder(JpushDialogActivity.this)

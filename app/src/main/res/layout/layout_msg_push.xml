@@ -42,13 +42,13 @@
 
 
                 <TextView
-                    android:id="@+id/msg_push_st"
+                    android:id="@+id/msg_push_title"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:layout_marginLeft="@dimen/x20"
                     android:includeFontPadding="false"
-                    android:text="审批拒绝"
+                    tools:text="审批拒绝"
                     android:textSize="@dimen/y46" />
 
                 <Space
@@ -62,7 +62,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
                     android:includeFontPadding="false"
-                    android:text="新车"
+                    tools:text="新车"
                     android:textColor="#FF06B7A3"
                     android:textSize="@dimen/y37" />
             </LinearLayout>
@@ -82,7 +82,7 @@
                     android:layout_height="wrap_content"
                     android:ellipsize="end"
                     android:singleLine="true"
-                    android:text="张小予  90,000.00元   2017 奥迪A3 噼里啪啦噼里啪啦"
+                    tools:text="张小予  90,000.00元   2017 奥迪A3 噼里啪啦噼里啪啦"
                     android:textColor="#FF222A36"
                     android:textSize="@dimen/y43" />
             </LinearLayout>
