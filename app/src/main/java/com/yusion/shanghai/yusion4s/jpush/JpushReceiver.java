@@ -26,53 +26,55 @@ public class JpushReceiver extends BroadcastReceiver {
         if (bundle != null) {
             Intent i = new Intent(context, JpushDialogActivity.class);
             String string = bundle.getString(JPushInterface.EXTRA_EXTRA);
+            Log.e("TAG", "onReceive: 推送 = "+string);
             if (TextUtils.isEmpty(string)) {
                 return;
             } else if (JPushInterface.ACTION_NOTIFICATION_RECEIVED.equals(intent.getAction())) {
                 int notificationID = bundle.getInt(JPushInterface.EXTRA_NOTIFICATION_ID);
                 String content = bundle.getString(JPushInterface.EXTRA_ALERT);
                 // 如果app在使用 就清掉通知栏推送  如果在后台就不清除
-                if (AppUtils.isAppOnForeground()) {
+
                     JPushInterface.clearNotificationById(context, notificationID);
-                }
+
             }
             Sentry.capture(string);
             i.putExtra("jsonObject", string);
             i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 //            context.startActivity(i);
 
-                JSONObject jo = null;
-                try {
-                    jo = new JSONObject(string);
-                } catch (JSONException e) {
-                    e.printStackTrace();
-                }
+            JSONObject jo = null;
+            try {
+                jo = new JSONObject(string);
+            } catch (JSONException e) {
+                e.printStackTrace();
+            }
 
-                String category = jo.optString("category");
-                String username = jo.optString("username");
-            Log.e("TAG", "push: ACCOUNT: " +Yusion4sApp.ACCOUNT);
-            Log.e("TAG", "push: isLogin: " +Yusion4sApp.isLogin);
-                if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
-                    switch (category) {
-                        case "login"://抢登
-                                        context.startActivity(i);
-                            break;
+            String category = jo.optString("category");
+            String username = jo.optString("username");
+            if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
+                switch (category) {
+                    case "login"://抢登
+                        context.startActivity(i);
+                        break;
 
-                        case "application":
+                    case "application":
+                        if (AppUtils.isAppOnForeground()) {
+
                             BaseActivity activity = (BaseActivity) ActivityManager.getActivity();
-                            activity. title = jo.optString("title");
-                            activity. content = jo.optString("content");
-                            activity. app_id = jo.optString("app_id");
-                            activity. vehicle_cond = jo.optString("vehicle_cond");
+                            activity.title = jo.optString("title");
+                            activity.content = jo.optString("content");
+                            activity.app_id = jo.optString("app_id");
+                            activity.vehicle_cond = jo.optString("vehicle_cond");
                             activity.initPopupWindow();
                             activity.showPopupWindow();
-                            break;
-                        default:
-                            break;
-                      }
+                        } else {
+                            context.startActivity(i);
+                        }
+                        break;
+                    default:
+                        break;
                 }
-
-
+            }
 
 
         }
