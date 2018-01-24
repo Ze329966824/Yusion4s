@@ -64,7 +64,7 @@ public class Yusion4sApp extends MultiDexApplication {
     @Override
     public void onCreate() {
         super.onCreate();
-
+        initData();
         Logger.addLogAdapter(new AndroidLogAdapter());
 
         CrashHandler crashHandler = CrashHandler.getInstance();
@@ -74,7 +74,7 @@ public class Yusion4sApp extends MultiDexApplication {
         GrowingIO.startWithConfiguration(this, new Configuration().useID().trackAllFragments());
 //        .setChannel("XXX应用商店"));
 
-        initData();
+
 
 
         PgyCrashManager.register(this);
@@ -106,10 +106,13 @@ public class Yusion4sApp extends MultiDexApplication {
         myApplication = this;
         TOKEN = SharedPrefsUtil.getInstance(this).getValue("token", "");
         ACCOUNT = SharedPrefsUtil.getInstance(this).getValue("account", "");
+        if (!Settings.isOnline){
         String cacheUrl = SharedPrefsUtil.getInstance(this).getValue("SERVER_URL", "");
         if (!TextUtils.isEmpty(cacheUrl)) {
             Settings.SERVER_URL = cacheUrl;
         }
+        }
+
     }
 
     private void initInstabug() {

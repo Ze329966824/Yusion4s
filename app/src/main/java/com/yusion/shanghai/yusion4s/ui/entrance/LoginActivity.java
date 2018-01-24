@@ -78,6 +78,10 @@ public class LoginActivity extends BaseActivity {
     private void wxLoginSuccess() {
         if (Yusion4sApp.TOKEN != null) {
             Yusion4sApp.ACCOUNT = username;
+            if (TextUtils.isEmpty(Yusion4sApp.ACCOUNT)){
+                Toast.makeText(myApp, "微信返回的账号为空", Toast.LENGTH_SHORT).show();
+                return;
+            }
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("mobile", Yusion4sApp.ACCOUNT);
             SharedPrefsUtil.getInstance(LoginActivity.this).putValue("account", Yusion4sApp.ACCOUNT);
             Log.e("TAG", "wxLoginSuccess: "+Yusion4sApp.ACCOUNT);

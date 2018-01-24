@@ -51,6 +51,8 @@ public class OrderDetailBean {
      * dlr_dfim_mobile : 15982172250
      * app_id : 11000105
      */
+    public boolean is_view;
+    public boolean can_switch_sp;
     public String comments;
     public String aid_dlr_nm;
     public String client_status_code;

@@ -386,7 +386,7 @@ public class OrderDetailActivity extends BaseActivity {
 
         });
 
-        orderDetailCheckBtn.setOnClickListener(v ->{
+        orderDetailCheckBtn.setOnClickListener(v -> {
             Intent i2 = new Intent(OrderDetailActivity.this, SubmitMaterialActivity.class);
             i2.putExtra("car_type", cartype);
             i2.putExtra("app_id", app_id);
@@ -401,13 +401,13 @@ public class OrderDetailActivity extends BaseActivity {
         replaceSPReq.clt_id = spouse_clt_id;
         Log.e("TAG", "spouse_clt_id = " + spouse_clt_id);
         //1.激活配偶登录
-        ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getAuthService().replaceSpToP(replaceSPReq),data1 -> {
+        ApiUtil.requestUrl4Data(OrderDetailActivity.this, Api.getAuthService().replaceSpToP(replaceSPReq), data1 -> {
 //        AuthApi.replaceSpToP(OrderDetailActivity.this, replaceSPReq, data1 -> {
             if (data1 == null) {
                 return;
             }
             //2.检查配偶信息是否完善
-            ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getAuthService().CheckInfoComplete(spouse_clt_id),data ->{
+            ApiUtil.requestUrl4Data(OrderDetailActivity.this, Api.getAuthService().CheckInfoComplete(spouse_clt_id), data -> {
 //            AuthApi.CheckInfoComplete(OrderDetailActivity.this, spouse_clt_id, data -> {
                 if (data == null) {
                     return;
@@ -418,7 +418,7 @@ public class OrderDetailActivity extends BaseActivity {
                     req.clt_id = spouse_clt_id;
                     req.app_id = app_id;
                     //3：重新提报
-                    ApiUtil.requestUrl4Data(OrderDetailActivity.this,Api.getOrderService().reSubmit(req),data2 -> {
+                    ApiUtil.requestUrl4Data(OrderDetailActivity.this, Api.getOrderService().reSubmit(req), data2 -> {
 //                        OrderApi.reSubmit(OrderDetailActivity.this, req, data2 -> {
                         if (data2 != null) {
                             ToastUtil.showImageToast(OrderDetailActivity.this, "提交成功", R.mipmap.toast_success);
@@ -452,7 +452,7 @@ public class OrderDetailActivity extends BaseActivity {
     }
 
     private void initData() {
-        ApiUtil.requestUrl4Data(this, Api.getOrderService().getAppDetails2(app_id),resp ->{
+        ApiUtil.requestUrl4Data(this, Api.getOrderService().getAppDetails2(app_id), resp -> {
 //        OrderApi.getAppDetails(this, app_id, resp -> {
             if (resp == null) {
                 return;
@@ -469,27 +469,47 @@ public class OrderDetailActivity extends BaseActivity {
             showNeworOldcarinfolayout(cartype);
 
 
-            if (resp.status_st == 9 || resp.status_st == 11){
-                order_detail_replace_layout.setVisibility(View.VISIBLE);
-                if (spouse_clt_id != null) {
-                    orderDetailReplaceBtn.setVisibility(View.VISIBLE);
+            if (resp.is_view) {
+                if (resp.can_switch_sp) {
+                    onebtn_layout.setVisibility(View.GONE);
+                    order_detail_replace_layout.setVisibility(View.VISIBLE);
                     twobtn_layout.setVisibility(View.GONE);
-                    onebtn_layout.setVisibility(View.GONE);
-                }else {
-                    orderDetailReplaceBtn.setVisibility(View.GONE);
-                }
-            }else {
-                if (resp.modify_permission) {
-                    order_detail_replace_layout.setVisibility(View.GONE);
-                    onebtn_layout.setVisibility(View.GONE);
-                    twobtn_layout.setVisibility(View.VISIBLE);
                 } else {
-                    order_detail_replace_layout.setVisibility(View.GONE);
                     onebtn_layout.setVisibility(View.VISIBLE);
+                    order_detail_replace_layout.setVisibility(View.GONE);
                     twobtn_layout.setVisibility(View.GONE);
+                }
+            } else {
+                onebtn_layout.setVisibility(View.GONE);
+                order_detail_replace_layout.setVisibility(View.GONE);
+                twobtn_layout.setVisibility(View.VISIBLE);
+                if (resp.modify_permission) {
+                    orderDetailChangeBtn.setVisibility(View.VISIBLE);
+                } else {
+                    orderDetailChangeBtn.setVisibility(View.GONE);
                 }
             }
 
+//            if (resp.status_st == 9 || resp.status_st == 11){
+//                order_detail_replace_layout.setVisibility(View.VISIBLE);
+//                if (spouse_clt_id != null) {
+//                    orderDetailReplaceBtn.setVisibility(View.VISIBLE);
+//                    twobtn_layout.setVisibility(View.GONE);
+//                    onebtn_layout.setVisibility(View.GONE);
+//                }else {
+//                    orderDetailReplaceBtn.setVisibility(View.GONE);
+//                }
+//            }else {
+//                if (resp.modify_permission) {
+//                    order_detail_replace_layout.setVisibility(View.GONE);
+//                    onebtn_layout.setVisibility(View.GONE);
+//                    twobtn_layout.setVisibility(View.VISIBLE);
+//                } else {
+//                    order_detail_replace_layout.setVisibility(View.GONE);
+//                    onebtn_layout.setVisibility(View.VISIBLE);
+//                    twobtn_layout.setVisibility(View.GONE);
+//                }
+//            }
 
 
             if (resp.status_st == 2) {//待审核

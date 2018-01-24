@@ -13,6 +13,7 @@ import com.yusion.shanghai.yusion4s.base.ActivityManager;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.ui.order.OrderDetailActivity;
 import com.yusion.shanghai.yusion4s.utils.AppUtils;
+import com.yusion.shanghai.yusion4s.utils.SharedPrefsUtil;
 
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -67,7 +68,8 @@ public class JpushReceiver extends BroadcastReceiver {
             String username = jo.optString("username");
             Log.e("TAG", "onReceive: "+Yusion4sApp.ACCOUNT);
             Log.e("TAG", "onReceive: "+Yusion4sApp.isLogin);
-            if (Yusion4sApp.isLogin && username.equals(Yusion4sApp.ACCOUNT)) {
+            String account = SharedPrefsUtil.getInstance(context).getValue("account", "");
+            if (Yusion4sApp.isLogin && username.equals(account)) {
                 switch (category) {
                     case "login"://抢登
                         context.startActivity(i);

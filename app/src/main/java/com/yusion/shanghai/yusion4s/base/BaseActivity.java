@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.annotation.Nullable;
@@ -274,14 +275,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
                         return true;
                     case MotionEvent.ACTION_UP:
                         double sqrt = Math.sqrt(Math.abs((x - event.getX()) * (x - event.getX()) + (y - event.getY()) * (y - event.getY())));
-                        if ( sqrt < 10){
+                        if (sqrt < 10) {
                             Intent i = new Intent(BaseActivity.this, OrderDetailActivity.class);
                             i.putExtra("app_id", app_id);
                             startActivity(i);
                             mPopWindow.dismiss();
                             timer.onFinish();
                         }
-
 
 
                         int i = screenWidth / 3;
@@ -317,6 +317,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
         });
 
     }
+
     CountDownTimer timer = new CountDownTimer(5000, 10) {
 
         @Override
@@ -325,14 +326,14 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         @Override
         public void onFinish() {
-            if (mPopWindow != null && mPopWindow.isShowing()) {
+            if (mPopWindow != null && mPopWindow.isShowing() && !isFinishing()) {
                 mPopWindow.dismiss();
             }
 
         }
     };
-    public void showPopupWindow() {
 
+    public void showPopupWindow() {
 
 
         if (mPopWindow != null && mPopWindow.isShowing()) {
@@ -351,8 +352,16 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         contentView.postDelayed(() -> {
 //            mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, (int) getResources().getDimension(R.dimen.y50));
+            if (isFinishing()) {
+                return;
+            }
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
+                if (isDestroyed()) {
+                    return;
+                }
+            }
             mPopWindow.showAtLocation(getWindow().getDecorView(), Gravity.TOP, 0, 0);
-            if (ActivityManager.getActivity() instanceof MainActivity){
+            if (ActivityManager.getActivity() instanceof MainActivity) {
                 EventBus.getDefault().post(MainActivityEvent.showReadicon);
             }
             timer.start();
