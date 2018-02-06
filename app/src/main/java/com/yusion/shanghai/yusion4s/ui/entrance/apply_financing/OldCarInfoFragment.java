@@ -33,6 +33,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.CheckAmountReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetChePriceAndImageResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetCheUrlResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
@@ -42,6 +43,7 @@ import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
 import com.yusion.shanghai.yusion4s.retrofit.api.DlrApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -761,7 +763,27 @@ public class OldCarInfoFragment extends BaseFragment {
                     req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                     req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
                     req.plate_reg_addr = plateRegAddrTv.getText().toString();
-                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+
+                    CheckAmountReq checkAmountReq = new CheckAmountReq();
+                    checkAmountReq.vehicle_price = billPriceTv.getText().toString();
+                    checkAmountReq.vehicle_down_payment = firstPriceTv.getText().toString();
+                    checkAmountReq.vehicle_loan_amt = carLoanPriceTv.getText().toString();
+                    checkAmountReq.loan_amt = totalLoanPriceTv.getText().toString();
+                    checkAmountReq.vehicle_model_id = submit_model_id;
+                    checkAmountReq.vehicle_cond = cartype;
+                    checkAmountReq.plate_reg_addr = plateRegAddrTv.getText().toString();
+                    checkAmountReq.product_id = mProductList.get(mProductTypeIndex).product_id;
+                    checkAmountReq.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
+                    checkAmountReq.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
+                    ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getOrderService().checkAmount(checkAmountReq), new OnCodeAndMsgCallBack() {
+                        @Override
+                        public void callBack(int code, String msg) {
+                            if (code > -1) {
+                                EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+                            }
+                        }
+                    });
+                    // EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
 
                 }
             }

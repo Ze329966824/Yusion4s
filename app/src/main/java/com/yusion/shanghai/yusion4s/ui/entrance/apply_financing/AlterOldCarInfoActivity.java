@@ -30,6 +30,7 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.CheckAmountReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetChePriceAndImageResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetCheUrlResp;
 import com.yusion.shanghai.yusion4s.bean.upload.UploadFilesUrlReq;
@@ -37,6 +38,7 @@ import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
 import com.yusion.shanghai.yusion4s.retrofit.api.CheApi;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
@@ -909,29 +911,67 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     req.send_hand_mileage = oldcar_dance_tv.getText().toString();
                     req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
 
-                    ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req), (code, msg) -> {
-//                        OrderApi.submitAlterInfo(AlterOldCarInfoActivity.this, req, (code, msg) -> {
-                        if (code > -1) {
-                            Toast.makeText(AlterOldCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
-                            if (guess_img != null) {
-                                UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
-                                urlBean.app_id = app_id;
-                                urlBean.clt_id = clt_id;
-                                urlBean.label = che_300_label;
-                                urlBean.file_id = file_id;
-                                uploadOldCarImgUrlList.add(urlBean);
-                                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
-                                uploadFilesUrlReq.files = uploadOldCarImgUrlList;
-                                uploadFilesUrlReq.region = region;
-                                uploadFilesUrlReq.bucket = bucket;
-                                ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, (code1, msg1) -> {
-//                                UploadApi.uploadFileUrl(AlterOldCarInfoActivity.this, uploadFilesUrlReq, (code1, msg1) -> {
+                    CheckAmountReq checkAmountReq = new CheckAmountReq();
+                    checkAmountReq.vehicle_price = billPriceTv.getText().toString();
+                    checkAmountReq.vehicle_down_payment = firstPriceTv.getText().toString();
+                    checkAmountReq.vehicle_loan_amt = carLoanPriceTv.getText().toString();
+                    checkAmountReq.loan_amt = totalLoanPriceTv.getText().toString();
+                    checkAmountReq.vehicle_model_id = submit_model_id;
+                    checkAmountReq.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
+                    checkAmountReq.vehicle_cond = cartype;
+                    checkAmountReq.plate_reg_addr = plateRegAddrTv.getText().toString();
+                    checkAmountReq.product_id = mProductList.get(mProductTypeIndex).product_id;
+                    checkAmountReq.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
 
+                    ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getOrderService().checkAmount(checkAmountReq), new OnCodeAndMsgCallBack() {
+                        @Override
+                        public void callBack(int code1, String msg1) {
+                            if (code1 > -1) {
+                                ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req), (code, msg) -> {
+                                    if (code > -1) {
+                                        Toast.makeText(AlterOldCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
+                                        if (guess_img != null) {
+                                            UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
+                                            urlBean.app_id = app_id;
+                                            urlBean.clt_id = clt_id;
+                                            urlBean.label = che_300_label;
+                                            urlBean.file_id = file_id;
+                                            uploadOldCarImgUrlList.add(urlBean);
+                                            UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+                                            uploadFilesUrlReq.files = uploadOldCarImgUrlList;
+                                            uploadFilesUrlReq.region = region;
+                                            uploadFilesUrlReq.bucket = bucket;
+                                            ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, (code2, msg2) -> {
+                                            });
+                                        }
+                                        finish();
+                                    }
                                 });
                             }
-                            finish();
                         }
                     });
+
+//                    ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req), (code, msg) -> {
+//                        if (code > -1) {
+//                            Toast.makeText(AlterOldCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
+//                            if (guess_img != null) {
+//                                UploadFilesUrlReq.FileUrlBean urlBean = new UploadFilesUrlReq.FileUrlBean();
+//                                urlBean.app_id = app_id;
+//                                urlBean.clt_id = clt_id;
+//                                urlBean.label = che_300_label;
+//                                urlBean.file_id = file_id;
+//                                uploadOldCarImgUrlList.add(urlBean);
+//                                UploadFilesUrlReq uploadFilesUrlReq = new UploadFilesUrlReq();
+//                                uploadFilesUrlReq.files = uploadOldCarImgUrlList;
+//                                uploadFilesUrlReq.region = region;
+//                                uploadFilesUrlReq.bucket = bucket;
+//                                ApiUtil.requestUrl4CodeAndMsg(AlterOldCarInfoActivity.this, Api.getUploadService().uploadFileUrl(uploadFilesUrlReq), true, (code1, msg1) -> {
+//                                });
+//                            }
+//                            finish();
+//                        }
+//                    });
+
                 }
             }
         });

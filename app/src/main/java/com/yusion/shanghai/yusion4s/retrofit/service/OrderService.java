@@ -7,6 +7,7 @@ import com.yusion.shanghai.yusion4s.bean.order.GetFinancePlanDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.OrderDetailBean;
 import com.yusion.shanghai.yusion4s.bean.order.ProcessResp;
 import com.yusion.shanghai.yusion4s.bean.order.SearchClientResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.CheckAmountReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.GetApplicateDetailResp;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.ReSubmitResp;
@@ -26,6 +27,9 @@ import retrofit2.http.Query;
  */
 
 public interface OrderService {
+    //http://api.alpha.yusiontech.com:8000/api/application/app_amount_check/
+
+
     @POST("/api/application/submit_app/")
     Call<BaseResult<SubmitOrderResp>> submitOrder(@Body SubmitOrderReq req);
 
@@ -41,7 +45,7 @@ public interface OrderService {
 
     //新·获取订单列表
     @GET("/api/application/get_app_list/")
-    Call<BaseResult<GetAppListResp>> getAppList(@Query("st") String st,@Query("vehicle_cond") String vehicle_cond, @Query("page") int page);
+    Call<BaseResult<GetAppListResp>> getAppList(@Query("st") String st, @Query("vehicle_cond") String vehicle_cond, @Query("page") int page);
 
     //获取搜索列表
     @GET("/api/application/get_app_list/")
@@ -74,4 +78,8 @@ public interface OrderService {
     //获取订单进度
     @GET("/api/application/app_progress")
     Call<BaseResult<ProcessResp>> getOrderProcess(@Query("app_id") String app_id);
+
+    //检查数据是否正确
+    @POST("/api/application/app_amount_check/")
+    Call<BaseResult> checkAmount(@Body CheckAmountReq req);
 }
