@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.util.Log;
 import android.view.KeyEvent;
 import android.view.View;
 import android.widget.ImageView;
@@ -192,6 +193,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
         super.onNewIntent(intent);
         //  从 commitActivity返回时 触发  跳转到 申请列表
         if (intent.getBooleanExtra("from_commit", false)) {
+            MainActivityEvent.showOrderManager.position = -1;
             changeFragment(MainActivityEvent.showOrderManager);
         }
     }
@@ -201,6 +203,7 @@ public class MainActivity extends BaseActivity implements View.OnClickListener {
     public void changeFragment(MainActivityEvent event) {
         switch (event) {
             case showOrderManager:
+                Log.e("TAG", "mainactivity: "+event.position);
                 orderListRb.performClick();
                 if (event.position == -1) {
                     break;
