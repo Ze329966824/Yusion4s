@@ -10,7 +10,6 @@ import com.yusion.shanghai.yusion4s.R;
 import com.yusion.shanghai.yusion4s.base.BaseActivity;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
-import com.yusion.shanghai.yusion4s.event.MainActivityEvent;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CarInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.CreditInfoFragment;
 import com.yusion.shanghai.yusion4s.ui.entrance.apply_financing.OldCarInfoFragment;
@@ -174,7 +173,7 @@ public class OrderCreateActivity extends BaseActivity {
 //                        .hide(mCarInfoFragment)
                         .commit();
                 mCurrentFragment = mCarInfoFragment;
-                EventBus.getDefault().post(MainActivityEvent.showOrderManager);
+//                EventBus.getDefault().post(MainActivityEvent.showOrderManager);
                 break;
             default:
                 break;
