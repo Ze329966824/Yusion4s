@@ -70,7 +70,7 @@ public class OrderItemFragment extends BaseFragment {
         this.vehicle_cond = vehicle_cond;
         if (myOrderListAdapter != null) {
             myOrderListAdapter.setVehicle_cond(vehicle_cond);
-            myOrderListAdapter.notifyDataSetChanged();
+//            myOrderListAdapter.notifyDataSetChanged();
         }
     }
 
@@ -148,7 +148,7 @@ public class OrderItemFragment extends BaseFragment {
         ptr.setLoadMoreEnable(true);
         ptr.setOnLoadMoreListener(() -> {
             if (page < total_page) {
-                ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, vehicle_cond, ++page), (OnItemDataCallBack<GetAppListResp>) resp -> {
+                ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, OrderManagerFragment.currentCond, ++page), (OnItemDataCallBack<GetAppListResp>) resp -> {
                     if (resp != null) {
                         if (resp.total_page == 0 || resp.total_page == 1) {
                             ptr.setLoadMoreEnable(false);
@@ -178,7 +178,7 @@ public class OrderItemFragment extends BaseFragment {
 
     public void refresh() {
         page = 1;
-        ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st, vehicle_cond, page), (OnItemDataCallBack<GetAppListResp>) resp -> {
+        ApiUtil.requestUrl4Data(mContext, Api.getOrderService().getAppList(st,  OrderManagerFragment.currentCond, page), (OnItemDataCallBack<GetAppListResp>) resp -> {
             if (resp != null) {
                 if (resp.total_page == 0 || resp.total_page == 1) {
                     ptr.setLoadMoreEnable(true);
@@ -251,7 +251,7 @@ public class OrderItemFragment extends BaseFragment {
                     mContext.startActivity(intent);
                 }
             });
-            if (vehicle_cond.equals("二手车")) {
+            if ( OrderManagerFragment.currentCond.equals("二手车")) {
                 vh.car_icon.setImageResource(R.mipmap.old_car_icon);
             } else {
                 vh.car_icon.setImageResource(R.mipmap.new_car_icon);
