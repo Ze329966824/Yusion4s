@@ -53,6 +53,7 @@ public class OrderManagerFragment extends BaseFragment {
     private ArrayList<OrderItemFragment> mFragments;
     private OrderItemFragment fragment;
     private ImageView btn_test;
+    public static String currentCond = "新车";
 
     public static OrderManagerFragment newInstance() {
 
@@ -90,7 +91,7 @@ public class OrderManagerFragment extends BaseFragment {
         super.onViewCreated(view, savedInstanceState);
 //        initTitleBar(view, "申请");
         //setBackHide();
-
+        currentCond = "新车";
         viewPager = (ViewPager) view.findViewById(R.id.view_pager);
         btn_test = view.findViewById(R.id.btn_test);
 
@@ -177,21 +178,27 @@ public class OrderManagerFragment extends BaseFragment {
     }
 
     private void onSelectOldCar() {
+        currentCond = "二手车";
+        Log.e("TAG222", "二手车: " + mFragments.size());
         for (OrderItemFragment fragment : mFragments) {
             fragment.setVehicle_cond("二手车");
             if (fragment.isResumed()) {
                 fragment.refresh();
             }
         }
+        Log.e("TAG222", "二手车: done");
     }
 
     private void onSelectNewCar() {
+        currentCond = "新车";
+        Log.e("TAG222", "新车: " + mFragments.size());
         for (OrderItemFragment fragment : mFragments) {
             fragment.setVehicle_cond("新车");
             if (fragment.isResumed()) {
                 fragment.refresh();
             }
         }
+        Log.e("TAG222", "新车: done");
     }
 
     private class OrderFragmentPagerAdapter extends FragmentPagerAdapter {
