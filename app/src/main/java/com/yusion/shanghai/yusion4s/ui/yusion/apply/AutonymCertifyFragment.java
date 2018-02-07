@@ -216,7 +216,7 @@ public class AutonymCertifyFragment extends DoubleCheckFragment {
         autonym_certify_driving_license_rel_lin.setOnClickListener(v -> {
             WheelViewUtil.showWheelView(((Yusion4sApp) createUserActivity.getApplication()).getConfigResp().drv_lic_relationship_list_key, _DIR_REL_INDEX, autonym_certify_driving_license_rel_lin, autonym_certify_driving_license_rel_tv, "请选择", new WheelViewUtil.OnSubmitCallBack() {
                 @Override
-                public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                public void onSubmitCallBack(View clickedView   , int selectedIndex) {
                     _DIR_REL_INDEX = selectedIndex;
                 }
             });

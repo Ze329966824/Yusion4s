@@ -564,8 +564,8 @@ public class OrderDetailActivity extends BaseActivity {
                 remark_tv1.setTextColor(Color.parseColor("#FF666666"));
                 remark_tv2.setTextColor(Color.parseColor("#FF666666"));
             } else if (resp.status_st == 11) {
-                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin2);
-                title_img.setBackgroundResource(R.mipmap.order_st_back_img2);
+                title_lin.setBackgroundResource(R.mipmap.order_st_back_lin4);
+                title_img.setBackgroundResource(R.mipmap.order_st_back_img4);
                 title_tv.setText("完成");
                 remark_tv2.setText(comments);
                 title_tv.setTextColor(Color.parseColor("#FFFFFFFF"));
