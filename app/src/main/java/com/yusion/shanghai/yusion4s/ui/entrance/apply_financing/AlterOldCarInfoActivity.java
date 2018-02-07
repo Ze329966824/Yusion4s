@@ -912,7 +912,7 @@ public class AlterOldCarInfoActivity extends BaseActivity {
                     req.send_hand_valuation = oldcar_guess_price_tv.getText().toString();
 
                     CheckAmountReq checkAmountReq = new CheckAmountReq();
-                    checkAmountReq.vehicle_price = billPriceTv.getText().toString();
+                    checkAmountReq.vehicle_price = oldcar_guess_price_tv.getText().toString();
                     checkAmountReq.vehicle_down_payment = firstPriceTv.getText().toString();
                     checkAmountReq.vehicle_loan_amt = carLoanPriceTv.getText().toString();
                     checkAmountReq.loan_amt = totalLoanPriceTv.getText().toString();
