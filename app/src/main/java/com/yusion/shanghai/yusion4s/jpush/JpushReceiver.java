@@ -66,9 +66,10 @@ public class JpushReceiver extends BroadcastReceiver {
 
             String category = jo.optString("category");
             String username = jo.optString("username");
-            Log.e("TAG", "onReceive: "+Yusion4sApp.ACCOUNT);
-            Log.e("TAG", "onReceive: "+Yusion4sApp.isLogin);
+
             String account = SharedPrefsUtil.getInstance(context).getValue("account", "");
+            Log.e("TAG", "onReceive: account : "+account);
+            Log.e("TAG", "onReceive: username:"+username);
             if (Yusion4sApp.isLogin && username.equals(account)) {
                 switch (category) {
                     case "login"://抢登

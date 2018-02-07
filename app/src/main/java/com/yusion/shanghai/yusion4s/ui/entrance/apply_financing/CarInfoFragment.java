@@ -31,11 +31,13 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetModelResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.CheckAmountReq;
 import com.yusion.shanghai.yusion4s.bean.order.submit.SubmitOrderReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.event.ApplyFinancingFragmentEvent;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.retrofit.callback.OnItemDataCallBack;
 import com.yusion.shanghai.yusion4s.settings.Settings;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
@@ -538,7 +540,26 @@ public class CarInfoFragment extends BaseFragment {
                         req.vehicle_cond = cartype;
                         req.vehicle_price = billPriceTv.getText().toString();
                         req.plate_reg_addr = plateRegAddrTv.getText().toString();
-                        EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+
+                        CheckAmountReq checkAmountReq = new CheckAmountReq();
+                        checkAmountReq.vehicle_price = billPriceTv.getText().toString();
+                        checkAmountReq.vehicle_down_payment = firstPriceTv.getText().toString();
+                        checkAmountReq.vehicle_loan_amt = carLoanPriceTv.getText().toString();
+                        checkAmountReq.loan_amt = totalLoanPriceTv.getText().toString();
+                        checkAmountReq.vehicle_model_id = model_id;
+                        checkAmountReq.vehicle_cond = cartype;
+                        checkAmountReq.plate_reg_addr = plateRegAddrTv.getText().toString();
+                        checkAmountReq.product_id = mProductList.get(mProductTypeIndex).product_id;
+                        checkAmountReq.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
+
+                        ApiUtil.requestUrl4CodeAndMsg(mContext, Api.getOrderService().checkAmount(checkAmountReq), new OnCodeAndMsgCallBack() {
+                            @Override
+                            public void callBack(int code, String msg) {
+                                if (code > -1) {
+                                    EventBus.getDefault().post(ApplyFinancingFragmentEvent.showCreditInfo);
+                                }
+                            }
+                        });
                     }
                 }
             }

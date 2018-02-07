@@ -19,8 +19,6 @@ import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.Window;
-import android.view.WindowManager;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
@@ -40,8 +38,6 @@ import com.yusion.shanghai.yusion4s.utils.AppUtils;
 import com.yusion.shanghai.yusion4s.widget.TitleBar;
 
 import org.greenrobot.eventbus.EventBus;
-import org.json.JSONException;
-import org.json.JSONObject;
 
 
 /**
@@ -79,18 +75,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 //        PgyCrashManager.register(this);
         //UBT.bind(BaseActivity.this);
 //        UBT.bind(this);
-
-//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-//            Window window = getWindow();
-//            window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-//            window.getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
-//                    | View.SYSTEM_UI_FLAG_LAYOUT_STABLE);
-//            window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-//            window.setStatusBarColor(Color.TRANSPARENT);
-//        } else {
-//            getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS | WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
-//        }
-
     }
 
 
@@ -101,7 +85,7 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     public TitleBar initTitleBar(final Activity activity, String title) {
-        TitleBar titleBar = (TitleBar) activity.findViewById(R.id.title_bar);
+        TitleBar titleBar = activity.findViewById(R.id.title_bar);
         titleBar.setLeftClickListener(view -> onBackPressed());
         titleBar.setImmersive(false);
         titleBar.setTitle(title);
@@ -202,13 +186,13 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
 
     public void initPopupWindow() {
-        Window win = this.getWindow();
-        WindowManager.LayoutParams lp = win.getAttributes();
-
-        lp.gravity = Gravity.TOP;//设置对话框置顶显示
-
-
-        win.setAttributes(lp);
+//        Window win = this.getWindow();
+//        WindowManager.LayoutParams lp = win.getAttributes();
+//
+//        lp.gravity = Gravity.TOP;//设置对话框置顶显示
+//
+//
+//        win.setAttributes(lp);
 
 
         contentView = LayoutInflater.from(this).inflate(R.layout.layout_msg_push, null);
@@ -334,8 +318,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
     };
 
     public void showPopupWindow() {
-
-
         if (mPopWindow != null && mPopWindow.isShowing()) {
             mPopWindow.dismiss();
             timer.onFinish();
@@ -370,17 +352,6 @@ public class BaseActivity extends AppCompatActivity implements View.OnClickListe
 
         //播放deep
         soundPool.play(1, 1, 1, 0, 0, 1);
-
-    }
-
-
-    private void initJpush() throws JSONException {
-
-        JSONObject jo = new JSONObject(pushStr);
-        title = jo.optString("title");
-        content = jo.optString("content");
-        app_id = jo.optString("app_id");
-
 
     }
 }

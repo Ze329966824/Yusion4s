@@ -28,9 +28,11 @@ import com.yusion.shanghai.yusion4s.bean.dlr.GetRawCarInfoResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetStoreList;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetTrixResp;
 import com.yusion.shanghai.yusion4s.bean.dlr.GetproductResp;
+import com.yusion.shanghai.yusion4s.bean.order.submit.CheckAmountReq;
 import com.yusion.shanghai.yusion4s.car_select.CarSelectActivity;
 import com.yusion.shanghai.yusion4s.car_select.DlrStoreSelectActivity;
 import com.yusion.shanghai.yusion4s.retrofit.Api;
+import com.yusion.shanghai.yusion4s.retrofit.callback.OnCodeAndMsgCallBack;
 import com.yusion.shanghai.yusion4s.ubt.UBT;
 import com.yusion.shanghai.yusion4s.ubt.annotate.BindView;
 import com.yusion.shanghai.yusion4s.utils.ApiUtil;
@@ -382,7 +384,7 @@ public class AlterCarInfoActivity extends BaseActivity {
 
     private void initData() {
         //网络请求11000005
-        ApiUtil.requestUrl4Data(AlterCarInfoActivity.this,Api.getOrderService().getRawCarInfo(app_id),resp ->{
+        ApiUtil.requestUrl4Data(AlterCarInfoActivity.this, Api.getOrderService().getRawCarInfo(app_id), resp -> {
 //        OrderApi.getRawCarInfo(AlterCarInfoActivity.this, app_id, resp -> {
             if (resp == null) {
                 return;
@@ -517,32 +519,19 @@ public class AlterCarInfoActivity extends BaseActivity {
         //选择经销商
         carInfoDlrLin.setOnClickListener(v ->
                 //  selectDlrStore()
-                selectDlrStore2()
-        );
-        car_info_lin.setOnClickListener(v ->
-                selectCarInfo()
-        );
+                selectDlrStore2());
+        car_info_lin.setOnClickListener(v -> selectCarInfo());
 //选择品牌
-        carInfoBrandLin.setOnClickListener(v ->
-                selectBrand()
-        );
+        carInfoBrandLin.setOnClickListener(v -> selectBrand());
 
 //选择车系
-        carInfoTrixLin.setOnClickListener(v ->
-                selectTrix()
-        );
+        carInfoTrixLin.setOnClickListener(v -> selectTrix());
         //选择车型
-        carInfoModelLin.setOnClickListener(v ->
-                selectModel()
-        );
+        carInfoModelLin.setOnClickListener(v -> selectModel());
         //选择银行列表
-        carInfoLoanBankLin.setOnClickListener(v ->
-                selectBank()
-        );
+        carInfoLoanBankLin.setOnClickListener(v -> selectBank());
 //选择产品类型
-        carInfoProductTypeLin.setOnClickListener(v ->
-                selectProductType()
-        );
+        carInfoProductTypeLin.setOnClickListener(v -> selectProductType());
         //选择上牌地
         plateRegAddrLin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -740,14 +729,36 @@ public class AlterCarInfoActivity extends BaseActivity {
                     req.msrp = guidePriceTv.getText().toString();
                     req.reason = carInfoAlterTv.getText().toString();
 
+                    CheckAmountReq checkAmountReq = new CheckAmountReq();
+                    checkAmountReq.vehicle_price = billPriceTv.getText().toString();
+                    checkAmountReq.vehicle_down_payment = firstPriceTv.getText().toString();
+                    checkAmountReq.vehicle_loan_amt = carLoanPriceTv.getText().toString();
+                    checkAmountReq.loan_amt = totalLoanPriceTv.getText().toString();
+                    checkAmountReq.vehicle_model_id = model_id;
+                    checkAmountReq.vehicle_cond = cartype;
+                    checkAmountReq.plate_reg_addr = plateRegAddrTv.getText().toString();
+                    checkAmountReq.product_id = mProductList.get(mProductTypeIndex).product_id;
+                    checkAmountReq.bank_id = mLoanBankList.get(mLoanBankIndex).bank_id;
 
-                    ApiUtil.requestUrl4CodeAndMsg(AlterCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req),(code, msg) -> {
-//                    OrderApi.submitAlterInfo(AlterCarInfoActivity.this, req, (code, msg) -> {
-                        if (code > -1) {
-                            Toast.makeText(AlterCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
-                            finish();
+                    ApiUtil.requestUrl4CodeAndMsg(AlterCarInfoActivity.this, Api.getOrderService().checkAmount(checkAmountReq), new OnCodeAndMsgCallBack() {
+                        @Override
+                        public void callBack(int code1, String msg1) {
+                            if (code1 > -1) {
+                                ApiUtil.requestUrl4CodeAndMsg(AlterCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req), (code, msg) -> {
+                                    if (code > -1) {
+                                        Toast.makeText(AlterCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
+                                        finish();
+                                    }
+                                });
+                            }
                         }
                     });
+//                    ApiUtil.requestUrl4CodeAndMsg(AlterCarInfoActivity.this, Api.getOrderService().submitAlterInfo(req), (code, msg) -> {
+//                        if (code > -1) {
+//                            Toast.makeText(AlterCarInfoActivity.this, "订单修改成功", Toast.LENGTH_SHORT).show();
+//                            finish();
+//                        }
+//                    });
                 }
             }
         });

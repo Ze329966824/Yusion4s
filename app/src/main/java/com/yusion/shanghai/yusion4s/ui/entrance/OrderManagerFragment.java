@@ -227,6 +227,7 @@ public class OrderManagerFragment extends BaseFragment {
         Log.e("TAG", "changeFragment: " + event);
         switch (event) {
             case showFragment:
+                Log.e("TAG", "ordermanager: "+event.position);
                 viewPager.setCurrentItem(event.position);
                 break;
             default:
