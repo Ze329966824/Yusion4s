@@ -247,7 +247,7 @@
             android:text="更换配偶作为主贷人"
             android:textColor="#FFFFFFFF"
             android:textSize="@dimen/y46"
-            android:visibility="gone"
+            android:visibility="visible"
             tools:visibility="visible"/>
 
 
