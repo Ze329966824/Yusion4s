@@ -3,7 +3,6 @@ package com.yusion.shanghai.yusion4s.ui.order;
 import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
@@ -34,7 +33,7 @@ public class ProcessActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_process);
         initTitleBar(this, "订单进度");
-        Log.e("TAG-----------", "onCreate: " + initTitleBar(this, "sss").getMeasuredHeight());
+//        Log.e("TAG-----------", "onCreate: " + initTitleBar(this, "sss").getMeasuredHeight());
         mContext = this;
         mLl_parent = (LinearLayout) findViewById(R.id.ll_parent);
         app_id = (TextView) findViewById(R.id.app_id);
