@@ -693,7 +693,6 @@ public class AlterCarInfoActivity extends BaseActivity {
                     GetRawCarInfoResp req = new GetRawCarInfoResp();
                     req.vehicle_owner_lender_relation = vehicle_owner_lender_relation;
                     req.vehicle_cond = cartype;
-
                     req.gps_fee = "0";
                     req.id_no = id_no;
                     req.clt_id = clt_id;

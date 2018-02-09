@@ -191,9 +191,9 @@ public class OldCarInfoFragment extends BaseFragment {
                     mGuidePrice = 0;
                     guidePriceTv.setText("");
 
-                    mLoanBankList.clear();
-                    mLoanBankIndex = 0;
-                    loanBankTv.setText(null);
+//                    mLoanBankList.clear();
+//                    mLoanBankIndex = 0;
+//                    loanBankTv.setText(null);
 
                     mProductTypeIndex = 0;
                     productTypeTv.setText(null);
@@ -462,12 +462,12 @@ public class OldCarInfoFragment extends BaseFragment {
             }
         });
 
-        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                clickLoanPeriods();
-            }
-        });
+//        carInfoLoanPeriodsLin.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                clickLoanPeriods();
+//            }
+//        });
 
         oldcar_dance_tv.addTextChangedListener(new TextWatcher() {
             @Override
@@ -575,9 +575,9 @@ public class OldCarInfoFragment extends BaseFragment {
                 mGuidePrice = 0;
                 guidePriceTv.setText("");
 
-                mLoanBankList.clear();
-                mLoanBankIndex = 0;
-                loanBankTv.setText(null);
+//                mLoanBankList.clear();
+//                mLoanBankIndex = 0;
+//                loanBankTv.setText(null);
 
                 mProductTypeIndex = 0;
                 productTypeTv.setText(null);
@@ -813,14 +813,23 @@ public class OldCarInfoFragment extends BaseFragment {
                     for (GetproductResp.ProductListBean product_list : resp.product_list) {
                         items.add(product_list.name);
                     }
-                    WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
-                        @Override
-                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
-                            mProductTypeIndex = selectedIndex;
-                            loanPeriodsTv.setText(null);
-                            mLoanPeriodsIndex = 0;
-                        }
-                    });
+                    Log.e("TAG", "onItemDataCallBack: " + items);
+
+                        WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+                            @Override
+                            public void onSubmitCallBack(View clickedView, int selectedIndex) {
+                                mProductTypeIndex = selectedIndex;
+                            }
+                        });
+
+//                    WheelViewUtil.showWheelView(items, mProductTypeIndex, carInfoProductTypeLin, productTypeTv, "请选择产品类型", new WheelViewUtil.OnSubmitCallBack() {
+//                        @Override
+//                        public void onSubmitCallBack(View clickedView, int selectedIndex) {
+//                            mProductTypeIndex = selectedIndex;
+//                            loanPeriodsTv.setText(null);
+//                            mLoanPeriodsIndex = 0;
+//                        }
+//                    });
                 }
             });
 
@@ -837,22 +846,41 @@ public class OldCarInfoFragment extends BaseFragment {
 
     private void selectBank() {
         if (!TextUtils.isEmpty(dlrTV.getText())) {
-            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
-                //DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
-                mLoanBankList = resp;//银行列表
-                List<String> items = new ArrayList<String>();
-                for (GetLoanBankResp getLoanBankResp : resp) {
-                    items.add(getLoanBankResp.name);
+            ApiUtil.requestUrl4Data(mContext, Api.getDlrService().getLoanBank(dlr_id), new OnItemDataCallBack<List<GetLoanBankResp>>() {
+                @Override
+                public void onItemDataCallBack(List<GetLoanBankResp> resp) {
+                    mLoanBankList = resp;//银行列表
+                    Log.e("TAG", "onItemDataCallBack: " + mLoanBankList);
+                    List<String> items = new ArrayList<String>();
+                    for (GetLoanBankResp getLoanBankResp : resp) {
+                        items.add(getLoanBankResp.name);
+                    }
+                    WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> {
+                        mLoanBankIndex = selectedIndex;
+                        Log.e("TAG", "onItemDataCallBack: " + mLoanBankIndex);
+                        mProductTypeIndex = 0;
+                        productTypeTv.setText(null);
+                        mLoanPeriodsIndex = 0;
+                        loanPeriodsTv.setText(null);
+                    });
                 }
-                WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> {
-                    mLoanBankIndex = selectedIndex;
-                    mProductTypeIndex = 0;
-                    productTypeTv.setText(null);
-                    mLoanPeriodsIndex = 0;
-                    loanPeriodsTv.setText(null);
-                });
-
             });
+//            DlrApi.getLoanBank(mContext, dlr_id, resp -> {
+//                //DlrApi.getLoanBank(mContext, mDlrList.get(mDlrIndex).dlr_id, resp -> {
+//                mLoanBankList = resp;//银行列表
+//                List<String> items = new ArrayList<String>();
+//                for (GetLoanBankResp getLoanBankResp : resp) {
+//                    items.add(getLoanBankResp.name);
+//                }
+//                WheelViewUtil.showWheelView(items, mLoanBankIndex, carInfoLoanBankLin, loanBankTv, "请选择贷款银行", (clickedView, selectedIndex) -> {
+//                    mLoanBankIndex = selectedIndex;
+//                    mProductTypeIndex = 0;
+//                    productTypeTv.setText(null);
+//                    mLoanPeriodsIndex = 0;
+//                    loanPeriodsTv.setText(null);
+//                });
+//
+//            });
         } else {
             Toast toast = Toast.makeText(mContext, "请您先完成经销商选择", Toast.LENGTH_LONG);
             toast.setGravity(Gravity.CENTER, 0, 0);
@@ -885,9 +913,9 @@ public class OldCarInfoFragment extends BaseFragment {
                         mGuidePrice = 0;
                         guidePriceTv.setText("");
 
-                        mLoanBankList.clear();
-                        mLoanBankIndex = 0;
-                        loanBankTv.setText(null);
+//                        mLoanBankList.clear();
+//                        mLoanBankIndex = 0;
+//                        loanBankTv.setText(null);
 
                         mProductTypeIndex = 0;
                         productTypeTv.setText(null);
@@ -1397,17 +1425,18 @@ public class OldCarInfoFragment extends BaseFragment {
 
         car_info_tv.setText("");
         isRestCarinfo = true;
+
         mBrandList.clear();
         mBrandIndex = 0;
-        brandTv.setText("");
+      //  brandTv.setText("");
 
         mTrixList.clear();
         mTrixIndex = 0;
-        trixTv.setText("");
+        //trixTv.setText("");
 
         mModelList.clear();
         mModelIndex = 0;
-        modelTv.setText("");
+        //modelTv.setText("");
 
         mGuidePrice = 0;
         guidePriceTv.setText("");
@@ -1438,6 +1467,8 @@ public class OldCarInfoFragment extends BaseFragment {
         look_guess_img_btn.setEnabled(false);
         btn_reset.setEnabled(false);
         btn_fast_valuation.setEnabled(false);
+
+
     }
 
     private void selectDlrStore2() {
